@@ -6333,3 +6333,11 @@ Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|bfmeGoVIX|g,ab222ea7ae0c88f
 Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|BfmeThingVIY::bfmeGoVIY|g,d9456a6456baa29060b11b4c,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p004a,w-57bf5c94ca56,2026-10-25
 Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|bfmeGoVIX|g,ab222ea7ae0c88f302f6a22b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p004b,w-a473eaa5c011,2026-10-25
 Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|BfmeThingVIY::bfmeGoVIY|g,d9456a6456baa29060b11b4c,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p004b,w-a473eaa5c011,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::walk|p,96086fad4f2418322b2bd2c7,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020a,w-f0d34af4eae2,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::walk|n,dce5e63a05ab892e88d898b6,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020a,w-f0d34af4eae2,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::walk|v,1c32f142217bbc153b8fc5ff,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020a,w-f0d34af4eae2,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::scan|p,c1ea05d7f2588087db7dbd99,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020a,w-f0d34af4eae2,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::walk|p,c46a8656a7a74c05912479c9,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020b,w-79c2a1ca3eb4,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::walk|n,dce5e63a05ab892e88d898b6,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020b,w-79c2a1ca3eb4,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::walk|v,1c32f142217bbc153b8fc5ff,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020b,w-79c2a1ca3eb4,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp|local|Rva007FA2C0::scan|p,67aa38040003185e0c73dbce,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p020b,w-79c2a1ca3eb4,2026-10-25

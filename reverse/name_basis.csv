@@ -2081,3 +2081,5 @@ local,DiscreteCircle::generateEdgePairs::x,DiscreteCircle::generateEdgePairs::xO
 local,DiscreteCircle::generateEdgePairs::y,DiscreteCircle::generateEdgePairs::yOffset,inferred,agree:nl-ce2338f03b0b,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
 local,bfmeGoVIX::g,bfmeGoVIX::txn,inferred,agree:nl-ab222ea7ae0c,Code/GameEngine/Source/Common/BfmeConv1380.cpp,0x006568F0
 local,BfmeThingVIY::bfmeGoVIY::g,BfmeThingVIY::bfmeGoVIY::txn,inferred,agree:nl-d9456a6456ba,Code/GameEngine/Source/Common/BfmeConv1380.cpp,0x0065E270
+local,Rva007FA2C0::walk::n,Rva007FA2C0::walk::remaining,inferred,agree:nl-dce5e63a05ab,Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp,0x00666790
+local,Rva007FA2C0::walk::v,Rva007FA2C0::walk::expiry,inferred,agree:nl-1c32f142217b,Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp,0x00666790
