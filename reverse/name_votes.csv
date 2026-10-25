@@ -6306,3 +6306,4 @@ Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t0,1e0c64400a
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t1,72124ef1e7eb77df90342c17,gpt-6.1-sol,codex5-20261025-065346-8,w-2d32e7a71cf1,2026-10-25
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t2,c1bd09df46608b29c6e924a9,gpt-6.1-sol,codex5-20261025-065346-8,w-2d32e7a71cf1,2026-10-25
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t3,075a31c6ec359b0a50bf9ea3,gpt-6.1-sol,codex5-20261025-065346-8,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp|local|InGameNotificationBoxMovieClip::RenderMessage|w,b74dce2abf1093080a05486e,gpt-6.1-sol,codex5-20261025-065346-9,w-2d32e7a71cf1,2026-10-25
