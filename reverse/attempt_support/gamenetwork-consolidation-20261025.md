@@ -140,3 +140,28 @@ mentions are provenance, historical census, or unrelated LivingWorld names.
 UDP's merge hook also reports two shadow identity findings for its retained
 htonl/htons import aliases (unreferenced directives). All 11 rows and 24 named
 imports pass; no new alias or baseline exemption was added.
+
+## Applied PingThread subset
+
+The refreshed planner, current routing and merge trial approve the seed plus
+stlport_deque_pod20_initmap and Rva00550083Ctor. The normal merge tool absorbs
+the two fragments, repoints four rows (268 bytes), and preserves all five TU
+rows (502 bytes). ./build.sh verifies 5/5, four string literals and three named
+imports; declared-unmatched and EH pass with zero missing objects. The SDK
+owner regenerates the seed report with its unchanged eight-name classification;
+its new STL includes add three static closure findings, retained as reported.
+GetProcAddress and placement-new rejected donors remain unchanged, with verdicts
+recorded and their scopes/RVAs released.
+
+The six-TU batch now removes ten net source files and repoints 19 matched rows
+(1,110 bytes), preserving 32 affected TU rows (2,046 bytes). These are existing
+matched bytes, not new recovery. Current in-memory routing approves all moved
+rows, including 0x0054FD6F whose committed source column was already stale; only
+source-column repoints emitted by the merge tool are committed. The complete outgoing range from 91fe970939 through
+f14b826293 plus this staged merge was audited against freshly fetched upstream
+4e835ab16a. No active tools, hooks, workflows, includes or root build scripts
+reference the deleted paths; current ledger/report paths are repaired. Remaining
+mentions are fragment provenance, historical census and attempt evidence. The
+Microsoft queue consumer still selects the new PingThread.cpp row. Accepted
+file/RVA claims stay held until a confirmed push; publication cooldowns have
+held the preceding commits locally so far.

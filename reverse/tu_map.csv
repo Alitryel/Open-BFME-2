@@ -42167,10 +42167,10 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0054F99E,234,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FA88,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp
 0x0054FA88,36,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FAAC,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_destroy_pod.cpp
 0x0054FAAC,40,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FAD4,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_ptr_o1.cpp
-0x0054FAD4,152,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FB6C,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_pod20_initmap.cpp
+0x0054FAD4,152,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FB6C,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp
 0x0054FB6C,12,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FC14,Code/GameEngine/Source/Common/Rva0054FD83Destroy.cpp
 0x0054FC14,70,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FC5A,Code/GameEngine/Source/Common/Rva0054FC14Cleanup.cpp
-0x0054FC5A,75,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FCA5,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_pod20_initmap.cpp
+0x0054FC5A,75,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FCA5,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp
 0x0054FCA5,202,code-unledgered,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FD6F,
 0x0054FD6F,20,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FD83,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_noexc_bodies.cpp
 0x0054FD83,33,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054F965..0x0054FDA4,Code/GameEngine/Source/Common/Rva0054FD83Destroy.cpp
@@ -42186,7 +42186,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0054FFA0,5,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x0054FFA5,Code/GameEngine/Source/Common/NarrowStringRecordCopyBFME2.cpp
 0x0054FFA5,156,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x00550041,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Rva006609D0Destructor_Rva0054ffa5.cpp
 0x00550041,66,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x00550083,Code/Libraries/Source/WWVegas/WWLib/Rva0055011A00550041.cpp
-0x00550083,21,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x00550098,Code/Libraries/Source/WWVegas/WWLib/Rva00550083Ctor.cpp
+0x00550083,21,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x00550098,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp
 0x00550098,130,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x0055011A,Code/Libraries/Source/WWVegas/WWLib/StlportNarrowRecord0054FEF1DequeAux.cpp
 0x0055011A,157,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x005501B7,Code/Libraries/Source/WWVegas/WWLib/Rva0055011ACtor.cpp
 0x005501B7,28,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp,approved,C,C=0x0054FEF1..0x005501D3,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Rva006609D0Destructor_Rva0054ffa5.cpp
