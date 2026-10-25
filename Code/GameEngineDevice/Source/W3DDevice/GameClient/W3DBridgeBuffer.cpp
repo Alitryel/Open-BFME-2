@@ -136,6 +136,8 @@ public:
 	De5d2Mid *m_mid;
 };
 
+class CameraClass;
+
 class W3DBridge
 {
 public:
@@ -167,7 +169,7 @@ private:
 private:
 	unsigned char m_padBC[0x104 - 0xBC];
 public:
-	unsigned char m_visible;
+	bool m_visible;
 private:
 	unsigned char m_pad105[0x114 - 0x105];
 protected:
@@ -176,6 +178,8 @@ public:
 	~W3DBridge();
 public:
 	void clearBridge(void);
+public:
+	bool cullBridge(CameraClass *camera);
 };
 
 class W3DBridgeBuffer
