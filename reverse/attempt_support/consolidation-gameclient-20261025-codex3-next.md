@@ -308,3 +308,60 @@ DrawStaticImage/m_staticImages failure for these two donors. Other private
 views and protected/mixed donors remain rejected. Local report:
 build/display-session2-dry2.txt. This prerequisite moves no path; fetched
 origin and the prior complete six-move consumer audit remains current.
+
+## Display merge and last path audit
+
+The supported merge retains five matched rows in Display.cpp and removes
+DisplaySetDisplayMode.cpp and DisplaySetHeight.cpp. Fresh destination build
+verifies 5/5 with eight floats; frozen check and check_csv pass. The staged
+map contains only three source-column repoints, preserving route evidence.
+Rejected donor claims and the previously landed seed RVA claims are released.
+
+The preceding eleven-commit batch landed through d9f789c76e. Its push hook
+verified 55/55 rows across seven sources, four exact EH records, one data row,
+strings/floats and ten converged data addresses. GitHub rejected the initial
+pack upload; the publisher's own serialized retry succeeded. No bypass was
+used. All accepted file claims for those landed merges have been released.
+
+Fetched origin/master=a57891e839. The only pending source-path changes are the
+two Display absorptions; prior six pending moves are now published. Searched
+both old full paths, basenames and stems across active tools, hooks, workflows,
+Code/includes, root build/configuration files, docs and registries. Remaining
+matches are historical link_status, source provenance/placeholder comments,
+and different still-live W3DDisplaySetDisplayMode paths matched by substring.
+There is no old-source header/name-basis key or active build/include consumer
+to repoint. Original EA/history references are preserved. Local audit evidence:
+build/display-session2-final-audit.txt. Audit scope is d9f789c76e..HEAD plus the
+staged merge; no other locally outgoing move remains.
+
+## Session result and handoff
+
+Five retail TUs consolidated: RadiusDecal, GUI/GameWindowGlobal,
+MessageStream/MetaEvent, GUI/GameWindowTransitionsStyles, and Display. Ten
+actual fragments removed; thirteen body rows moved, with 31 distinct original
+and moved rows preserved across the verified destination snapshots (upstream
+later added unrelated GameWindowGlobal rows). Nine prerequisite commits were
+verified separately. This is file consolidation, +0 newly authored C++ bytes,
+not a fresh linking or image-ownership measurement.
+
+Final progress.py origin/master reports BYTE-MATCHED 7,978,500 (100.00%),
+authored C++ 7,249,368 (90.86%), LINKING 7,343,016 (97.74%), LINKED 7,598,950
+(95.24%), all deltas zero. Link figures remain the 2026-10-25 09:42 census at
+d2636bb381. No maintainer-only runner or ownership recorder was started.
+
+Scoped queue was refreshed with tu_skeleton --queue --under
+Code/GameEngine/Source/GameClient/ --limit 20. Previously recorded private-view,
+mixed/protected-register and header-owner/Wine probe blockers remain. The
+Rva0035DB3F constructor composition attempt was reverted and logged; standalone
+71-byte equivalence does not establish a safe composed merge. New queue entries
+from upstream routing, including Keyboard and ControlBarResizer, were not
+investigated this pass and are eligible for a fresh next session. No assertion
+that all scoped work is blocked is made. Read the prior handoff before repeating
+unchanged Drawable/Snow/header-consumer or naming-history trials.
+
+If this final merge is deferred by the shared push slot, the runner publishes
+it. Keep exactly the Display destination and two removed donor file claims
+until that publication is confirmed, then release them and settle/release
+0x0025C262, 0x0025C378, 0x0025C391, 0x0025C3AA and 0x0025D33B. Earlier accepted
+claims and all rejected/abandoned work are released. Initial untracked gen_asm
+and reverse/zh_sweep files are preserved. No unfinished source edit remains.
