@@ -26,7 +26,7 @@ namespace _STL {
 
 template<class T,class A>class _Vector_base{public:T*_M_start;T*_M_finish;_STLP_alloc_proxy<T*,T,A>_M_end;__declspec(noinline) _Vector_base(const A&a):_M_start(0),_M_finish(0),_M_end(a,0){}~_Vector_base(){if(_M_start)Rva00030830FreeAllocation(_M_start);}};
 template<class T,class A=allocator<T> >class vector:public _Vector_base<T,A>{public:
-vector(const A&a=A()):_Vector_base<T,A>(a){}~vector(){}
+vector(const A&alloc=A()):_Vector_base<T,A>(alloc){}~vector(){}
 unsigned int size()const{return _M_finish-_M_start;}T&operator[](unsigned int n){return _M_start[n];}
 // Out-of-line definition: the rowed vector<Coord3D> resize at 0x000CA2F3.
 void resize(unsigned int n,T value);
