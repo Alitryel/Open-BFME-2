@@ -288,6 +288,35 @@ class RepointTests(unittest.TestCase):
         self.assertEqual((out, n), (b"INPUT += Code/T.cpp\n", 1))
 
 
+class MergeDiagnosticsTests(unittest.TestCase):
+    def test_rejected_seed_keeps_trial_errors_without_applying_a_merge(self):
+        tu, donor = "Code/T.cpp", "Code/A.cpp"
+        texts = {tu: "seed", donor: "donor"}
+        don = {tu: [{"target_rva": "0x1000"}],
+               donor: [{"target_rva": "0x1010"}]}
+
+        class Verifier:
+            fd = SimpleNamespace(MANAGED=re.compile(r"(?!)"))
+            errors = ["fixture.cpp(1) : error C2065: 'missing' : undeclared identifier"]
+            all_errors = errors
+
+            def matched(self, text, rows):
+                if text in texts.values():
+                    return {r["target_rva"] for r in rows}
+                return None
+
+        report = {"accepted": [], "rejected": {}}
+        with patch.object(T, "Verifier", return_value=Verifier()), \
+                patch.object(T, "compose", return_value="composed"), \
+                patch.object(T, "apply") as apply:
+            out = T._merge(tu, [], don, report, False, texts=texts)
+        self.assertTrue(out["blocked"].startswith("no verified merge of two or more donors"))
+        self.assertEqual(out["accepted"], [])
+        self.assertEqual(set(out["rejected"]), {tu, donor})
+        self.assertTrue(all("C2065" in reason for reason in out["rejected"].values()))
+        apply.assert_not_called()
+
+
 class ClaimTests(unittest.TestCase):
     def test_the_scope_is_the_tu_every_donor_and_every_moved_row(self):
         don = {"Code/T.cpp": [{"target_rva": "0x00001000"}],

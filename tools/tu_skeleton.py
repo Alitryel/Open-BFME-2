@@ -720,18 +720,23 @@ def _merge(tu, sk, don, report, dry_run, texts=None, applier=None):
     if tu in good:   # an existing file at the TU path is always the seed
         orders = [[tu] + [f for f in o if f != tu] for o in orders]
     best, seed_error = None, None
+    rejected_seed = None
     for flags in flag_sets[:3]:
         for o in orders:
             acc, rej = greedy(o, flags)
             score = sum(len(base[f]) for f in acc)
             if (tu in good and tu not in acc):
                 seed_error = seed_error or rej.get(tu) or "the seed does not verify under the merged flags"
+                # Keep the most productive failed trial's diagnostics even
+                # though it cannot be considered for applying a merge.
+                if rejected_seed is None or score > rejected_seed[0]:
+                    rejected_seed = (score, rej)
                 continue
             if best is None or score > best[0]:
                 best = (score, acc, rej, flags)
     report["rejected"].update({f: "no baseline match" for f in don if f not in good})
     if not best or len(best[1]) < 2 and not (len(best[1]) == 1 and best[1][0] != tu):
-        report["rejected"].update(best[2] if best else {})
+        report["rejected"].update(best[2] if best else rejected_seed[1] if rejected_seed else {})
         report["blocked"] = "no verified merge of two or more donors" + \
             (f"; the seed itself fails under every merged flag set: {seed_error[:300]}" if seed_error and not best else "")
         return report
