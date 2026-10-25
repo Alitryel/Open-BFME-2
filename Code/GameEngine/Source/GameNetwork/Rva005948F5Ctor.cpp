@@ -1,28 +1,20 @@
-// cl: /DNDEBUG /MD /EHsc
-// ??0UDP@@QAE@XZ @0x005948F5 (35B): UDP default ctor for 0x20-byte heap object; caller 0x00595089 news 0x20 then calls; writes +0x00=-1 +0x0C=2 +0x0E=0 +0x10=0 +0x1C=10000 +0x04=0 +0x08=0; no vptr; neighbours ConstZeroGetters and UDPDrainDestructor.
-class UDP
-{
-public:
-	UDP();
-private:
-	int m_00;
-	int m_04;
-	unsigned short m_08;
-	char _pad0A[2];
-	unsigned short m_0C;
-	unsigned short m_0E;
-	int m_10;
-	int m_14;
-	int m_18;
-	int m_1C;
-};
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+// stlport
+// UDP ctor 0x005948F5 (35B). Retail stores agree with the already-verified
+// udp.cpp header view: fd +0x00, myIP +0x04, myPort +0x08, addr +0x0C,
+// and m_lastError +0x1C. Reuse that TU's declarations for consolidation.
+#define Matrix4x4 Matrix4
+#include "PreRTS.h"
+#include "Common/GameEngine.h"
+#include "GameNetwork/udp.h"
+
 UDP::UDP()
 {
-	m_00 = -1;
-	m_0C = 2;
-	m_0E = 0;
-	m_10 = 0;
-	m_1C = 10000;
-	m_04 = 0;
-	m_08 = 0;
+    fd = -1;
+    addr.sin_family = 2;
+    addr.sin_port = 0;
+    addr.sin_addr.s_addr = 0;
+    m_lastError = 10000;
+    myIP = 0;
+    myPort = 0;
 }

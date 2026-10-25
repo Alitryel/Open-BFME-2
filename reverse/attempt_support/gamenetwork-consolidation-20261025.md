@@ -165,3 +165,22 @@ mentions are fragment provenance, historical census and attempt evidence. The
 Microsoft queue consumer still selects the new PingThread.cpp row. Accepted
 file/RVA claims stay held until a confirmed push; publication cooldowns have
 held the preceding commits locally so far.
+
+## First batch published; UDP constructor prerequisite
+
+The seven-commit batch landed through fe5ad4e7b3 after rebasing onto upstream
+4e835ab16a. The push gate passed 59/59 rows across seven sources, 28 named
+imports, literal checks, converged data and four exact EH rows, with no missing
+objects. Accepted scope claims and remaining seed RVA claims were released
+following the confirmed push, then release --landed returned zero outstanding.
+The pre-push batch audit above remains valid after that rebase: upstream added
+no consumer of the deleted paths.
+
+Rva005948F5Ctor.cpp now uses the same include/compiler environment and UDP
+header as the verified udp.cpp. Retail's seven stores correspond to fd, addr,
+m_lastError, myIP and myPort at their existing offsets; removing its private
+class declaration keeps its 35 bytes exact. Declared-unmatched and EH pass;
+the owning SDK scan finds zero local Microsoft declarations, so no report row
+is added. This is a separate prerequisite for a further normal UDP merge, not
+new recovered bytes. There are no unpublished path changes at this prerequisite
+commit (origin/master..HEAD was empty after fetching).
