@@ -389,9 +389,9 @@ def test_dump_pass_moved_zero_recovered_bytes():
 
 
 def test_readme_headline_is_a_recovered_figure():
-    """The badge makes three claims -- rebuilt from source, game code in C++ and
+    """The badge makes three claims -- rebuilt from source, game code in C++* and
     linking -- and none may exceed what progress.py prints for it
-    (BYTE-MATCHED, GAME CODE C++ and LINKING).
+    (BYTE-MATCHED, GAME CODE C++* and LINKING).
 
     A README that lags is fine (contributors land continuously, the census is
     daily) and a README that flatters is not.
@@ -404,11 +404,11 @@ def test_readme_headline_is_a_recovered_figure():
         # "not measured" (no census yet) is 0%: the badge may not claim more.
         return float(line.split("(")[1].split("%")[0]) if "(" in line else 0.0
 
-    tool = {"rebuilt": figure("BYTE-MATCHED "), "cpp": figure("GAME CODE C++ "), "linking": figure("LINKING ")}
+    tool = {"rebuilt": figure("BYTE-MATCHED "), "cpp": figure("GAME CODE C++* "), "linking": figure("LINKING ")}
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "docs/progress.svg" in readme, "README no longer shows the progress badge"
     svg = (ROOT / "docs/progress.svg").read_text(encoding="utf-8")
-    title = re.search(r"<title[^>]*>BFME 2: ([\d.]+)% rebuilt from source, ([\d.]+)% game code in C\+\+, "
+    title = re.search(r"<title[^>]*>BFME 2: ([\d.]+)% rebuilt from source, ([\d.]+)% game code in C\+\+\*, "
                       r"(?:([\d.]+)% linking|linking not measured)</title>", svg)
     assert title, "the badge's title no longer states its three figures"
     badge = {"rebuilt": float(title.group(1)), "cpp": float(title.group(2)), "linking": float(title.group(3) or 0)}

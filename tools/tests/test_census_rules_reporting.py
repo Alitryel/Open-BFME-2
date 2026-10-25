@@ -2,6 +2,8 @@
 progress: progress.py compares like for like through the re-baseline row,
 the README card and Discord post show "accounting changed" instead of an arrow,
 and the chart breaks its Linking line at the re-baseline."""
+import re
+import string
 import sys
 from pathlib import Path
 
@@ -64,7 +66,7 @@ def test_headline_prints_a_rule_change_not_a_loss(monkeypatch, capsys):
     progress.print_headline(0, 2000, split, split, LEGACY_B, STRICT, HISTORY)
     out = capsys.readouterr().out
     line = next(l for l in out.splitlines() if l.startswith("LINKING"))
-    assert "+10 bytes" in line and "+1.00 pp" in line and "RULES CHANGED 2026-10-01" in line
+    assert "+10 bytes" in line and "+1.00 pp" in line and "accounting changed 2026-10-01" in line
     assert "-65" not in line  # 160 -> 95 raw would read as a 65-byte loss
     assert f"({link_census.RULES})" in line
 
@@ -98,6 +100,62 @@ def test_chart_breaks_the_linking_line_at_the_rule_change():
                {"date": "2026-10-02", "total": "100", "byte_matched": "11"}]
     chart = progress_site._chart(history, HISTORY)
     assert chart.count("<polyline") == 3  # byte-matched + one Linking line per rules
-    assert f"census rules changed majority-0 -&gt; {link_census.RULES}" in chart or \
-        f"census rules changed majority-0 -> {link_census.RULES}" in chart
+    assert f"census accounting changed majority-0 -&gt; {link_census.RULES}" in chart or \
+        f"census accounting changed majority-0 -> {link_census.RULES}" in chart
     assert "16.50% under majority-0" in chart
+
+
+def change_labels(chart):
+    """[(x, anchor, text)] of the chart's "... changed" labels."""
+    return [(float(x), anchor or "start", text) for x, anchor, text in
+            re.findall(r'<text x="([\d.]+)"(?: text-anchor="(\w+)")? y="\d+" class="axis">([^<]*changed)</text>', chart)]
+
+
+def test_chart_keeps_a_change_label_on_the_latest_date_inside_the_plot():
+    # The accounting changes on the chart's last day (x = 1100 - 8): its label
+    # sits left of the break, never past the 1100-wide viewport. 1.2 em a
+    # character bounds every glyph the label uses (the widest, W, is 0.94 em).
+    history = [{"date": "2026-10-01", "total": "100", "byte_matched": "10"},
+               {"date": "2026-10-02", "total": "100", "byte_matched": "11"}]
+    labels = change_labels(progress_site._chart(history, HISTORY + [inclusive_row()]))
+    assert [text for *_, text in labels] == ["accounting changed", "accounting changed"]
+    x, anchor, text = labels[-1]
+    assert x == 1092 - 4 and anchor == "end" and x - 1.2 * 12 * len(text) >= 40
+    # Earlier in the chart the same label starts beside its break.
+    history.append({"date": "2026-10-20", "total": "100", "byte_matched": "12"})
+    x, anchor, text = change_labels(progress_site._chart(history, HISTORY + [inclusive_row()]))[-1]
+    assert anchor == "start" and x + 1.2 * 12 * len(text) <= 1092
+
+
+def test_inline_chart_declares_the_measured_stack():
+    # Embedded in the page, the chart would inherit the body's font; it names
+    # FONT_STACK (kerning off) itself, so text_width's bound holds where its
+    # labels are placed, and the page body uses the same stack, no Noto.
+    history = [{"date": "2026-10-01", "total": "100", "byte_matched": "10"},
+               {"date": "2026-10-02", "total": "100", "byte_matched": "11"}]
+    chart = progress_site._chart(history, HISTORY + [inclusive_row()])
+    fields = {name: "" for _, name, _, _ in string.Formatter().parse(progress_site.PAGE) if name}
+    page = progress_site.PAGE.format(**{**fields, "chart": chart, "font": progress_site.FONT})
+    inline = re.search(r'<svg [^>]*class="chart"[^>]*>', page).group(0)
+    assert f'font-family="{progress.FONT_STACK}" {progress.NO_KERN}' in inline
+    assert f"font:14px/1.5 {progress.FONT_STACK}}}" in page and "Noto" not in page
+    # The README copy keeps the declaration inside its frame too.
+    assert f'font-family="{progress.FONT_STACK}" {progress.NO_KERN}' in progress_site.chart_svg(chart)
+
+
+
+
+def inclusive_row():
+    return dict(STRICT, date="2026-10-02 03:00", link_coverage_rules=progress.LINK_COVERAGE_RULES,
+                linked_game_executable="990", game_executable="1000")
+
+
+def test_chart_breaks_at_upstream_inclusive_accounting_transition():
+    history = [{"date": "2026-10-01", "total": "100", "byte_matched": "10"},
+               {"date": "2026-10-02", "total": "100", "byte_matched": "11"}]
+    rows = HISTORY + [inclusive_row(), dict(inclusive_row(), date="2026-10-02 05:00")]
+    chart = progress_site._chart(history, rows)
+    assert chart.count("<polyline") == 4
+    assert chart.count("accounting changed</text>") == 2
+    assert "linking 99.00%" in chart
+    assert progress.LINK_COVERAGE_RULES in chart

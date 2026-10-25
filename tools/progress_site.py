@@ -317,7 +317,7 @@ def render(out, svg_dir=None):
         own_w=f"{_pct(progress.decompiled(split), total):.3f}",
         commit=html.escape(commit[0]), commit_date=commit[1], subject=html.escape(commit[2][:90]),
         census=html.escape(census_note), tabs=tab_buttons, tiles="\n".join(tiles), chart=chart, data=data,
-        linked_c=LINKED, own_c=OWN, other_c=OTHER)
+        linked_c=LINKED, own_c=OWN, other_c=OTHER, font=FONT)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page, encoding="utf-8", newline="\n")
     if svg_dir is not None:
@@ -339,7 +339,7 @@ SVG_STYLE = """  <style>
       .axis {{ fill: #59636e; }} .rest {{ fill: #d0d7de; }} .edge {{ stroke: #ffffff; }}
     }}
   </style>"""
-FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif"
+FONT = progress.FONT_STACK
 DOTS = (f'<pattern id="dots" width="5" height="5" patternUnits="userSpaceOnUse">'
         f'<rect width="5" height="5" fill="{LINKED}"/><circle cx="2.5" cy="2.5" r="1.1" fill="{OTHER}"/></pattern>')
 
@@ -352,7 +352,7 @@ def _frame(width, height, title, legend, body, label):
             f'viewBox="0 0 {width} {height}" role="img" aria-label="{html.escape(label)}">\n'
             + SVG_STYLE.format() + f'\n  <defs>{DOTS}</defs>\n'
             f'  <rect class="card" x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" rx="12"/>\n'
-            f'  <g font-family="{FONT}">\n'
+            f'  <g font-family="{FONT}" {progress.NO_KERN}>\n'
             f'    <text x="28" y="29" class="muted" font-size="13" font-weight="600" letter-spacing="1.3">{title}</text>\n'
             f'    {key}\n{body}\n  </g>\n</svg>\n')
 
@@ -475,10 +475,13 @@ def _chart(history, census_rows):
             before = segments[index - 1][0]
             was = f", {100 * int(opener['linked_authored_prev_rule']) / int(opener['game_code']):.2f}% under {before}" \
                 if tail else ""
+            text = "accounting changed"
+            place = (f'x="{x + 4:.1f}"' if x + 4 + progress.text_width(text, 12) <= W - R
+                     else f'x="{x - 4:.1f}" text-anchor="end"')
             marks += (f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{T}" y2="{H - B}" class="grid" stroke-dasharray="4 4">'
-                      f'<title>{opener["date"][:10]}: census rules changed {before} -> {rules} '
+                      f'<title>{opener["date"][:10]}: census accounting changed {before} -> {rules} '
                       f'({linking(opener):.2f}% under {rules}{was}, same objects): not progress</title></line>'
-                      f'<text x="{x + 4:.1f}" y="{T + 12}" class="axis">accounting changed</text>')
+                      f'<text {place} y="{T + 12}" class="axis">{text}</text>')
             if tail:
                 marks += (f'<circle cx="{tail[0]:.1f}" cy="{tail[1]:.1f}" r="4" fill="none" stroke="{LINKED}">'
                           f'<title>{opener["date"][:10]}: linking under {before}{was}</title></circle>')
@@ -490,7 +493,8 @@ def _chart(history, census_rows):
                    f'{100 * int(r["byte_matched"]) / int(r["total"]):.2f}%</title></circle>'
                    for d, r, (x, y) in ((d, r, px(d, 100 * int(r["byte_matched"]) / int(r["total"])))
                                         for d, r in zip(days, history)))
-    return (f'<svg viewBox="0 0 {W} {H}" class="chart" role="img" aria-label="progress over time">{grid}{months}'
+    return (f'<svg viewBox="0 0 {W} {H}" class="chart" role="img" aria-label="progress over time" '
+            f'font-family="{FONT}" {progress.NO_KERN}>{grid}{months}'
             f'<polygon points="{area}" fill="{OWN}" opacity="0.14"/>'
             f'<polyline points="{line}" fill="none" stroke="{OWN}" stroke-width="2.5" stroke-linejoin="round"/>'
             f'{dots}{tips}</svg>')
@@ -502,7 +506,7 @@ PAGE = """<!doctype html>
 <style>
 :root{{--bg:#0d1117;--panel:#161b22;--line:#30363d;--text:#e6edf3;--muted:#8b949e;--rest:#30363d;--track:#21262d}}
 @media (prefers-color-scheme: light){{:root{{--bg:#ffffff;--panel:#f6f8fa;--line:#d0d7de;--text:#1f2328;--muted:#59636e;--rest:#d0d7de;--track:#eaeef2}}}}
-*{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif}}
+*{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 {font}}}
 main{{max-width:960px;margin:0 auto;padding:22px 20px 36px}} a{{color:inherit}}
 nav{{color:var(--muted);font-size:13px;margin-bottom:14px}} nav a{{text-decoration:none}}
 h1{{font-size:28px;line-height:1.25;margin:0;font-weight:700;letter-spacing:-.2px}}

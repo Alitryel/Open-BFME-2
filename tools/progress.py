@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Report how much of game.dat we can rebuild from what the repository holds.
 
-BYTE-MATCHED, GAME CODE C++ and LINKING print first: the three numbers on the
+BYTE-MATCHED, GAME CODE C++* and LINKING print first: the three numbers on the
 README card and in the daily Discord post (tools/readme_progress.py), computed
 the same way. BYTE-MATCHED ("rebuilt from source") is everything that rebuilds
 to game.dat's exact bytes (authored and generated C++, vendored source,
@@ -501,6 +501,66 @@ def real_code_denominator(text_start, text_size):
     return padding_split(build.read_target_bytes(text_start, text_size))
 
 
+# Text widths for the README card and the progress site's SVGs, which declare
+# FONT_STACK and nothing else: every face in it was measured. GLYPH_EM is each
+# character's advance in thousandths of an em, rounded up: the widest of the
+# five faces the SVGs draw with (weights 400, 600 and 700), read from the hmtx
+# tables by a struct-only reader (2048 units an em):
+#   Segoe UI 5.72          segoeui.ttf  704eada12961a27fd271f7d3b09e2066520e758390c1776744eff430fee30f6e
+#   Segoe UI Semibold 5.72 seguisb.ttf  6c3fd894b19950b10c34bf64069ef821eaf2f58f959146306fee5b367472e501
+#   Segoe UI Bold 5.72     segoeuib.ttf b169e636719880976a97e94e3b1cb3dbe5f4a38eabc037bf9f2a9165154c3ad2
+#   Arial 7.06             arial.ttf    b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a
+#   Arial Bold 7.06        arialbd.ttf  e8f4e3baf6cc35fed6fcce3a540e8b39e8f6cda1d22a28f2ec8f526fef7a43f5
+# (Windows 11's copies; Arial has no 600, so 600 renders Arial Bold.) Arial's
+# metric-compatible substitutes (Liberation Sans, Arimo) share its advances.
+# Dropped from the stack: -apple-system, BlinkMacSystemFont and Helvetica (no
+# upstream font file to measure; macOS and iOS ship Arial), and Noto Sans
+# 2.008 (NotoSans-Regular.ttf b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee3
+# 3309eb4948d232d5), which is wider than both (I 0.339 em, | 0.551 em) and has
+# no ▲ ▼ → ≈, so those would come from an unnamed fallback. The generic
+# sans-serif is gone too. A viewer with neither face nor a substitute sees the
+# user agent's default font, which no table bounds.
+FONT_STACK = "'Segoe UI',Arial"
+GLYPH_CHARS = (" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`"
+               "abcdefghijklmnopqrstuvwxyz{|}~·▲▼–—→×≈")
+GLYPH_EM = dict(zip(GLYPH_CHARS, map(int, """
+    278 334 494 593 576 890 850 293 370 370 456 708 278 405 278 444 576 576 576 576 577 576 576 576 576 576
+    334 334 708 708 708 611 1016 723 723 723 738 667 611 778 767 317 557 723 611 958 791 778 667 778 723 667
+    611 724 667 1005 667 667 611 370 437 370 708 557 334 557 621 557 620 557 384 620 611 285 285 560 285 917
+    611 612 621 620 398 557 390 611 557 798 557 557 500 390 327 390 708 334 990 990 557 1000 1000 708 709
+    """.split()), strict=True))
+# Every SVG text context turns kerning off (NO_KERN), but a renderer may ignore
+# that, so text_width also adds KERN_EM: per adjacent pair of GLYPH_CHARS, the
+# largest positive kerning over the same five faces, in thousandths of an em,
+# rounded up, from the kern table (horizontal format 0 subtables, summed) and
+# from GPOS PairPos formats 1 and 2 (first and second xAdvance) in every
+# lookup of every 'kern' feature, read by the same struct-only reader; a
+# renderer applies one table or the other, so each face counts the larger.
+# The only other lookups under 'kern' are Arabic chained contexts whose inputs
+# hold none of these glyphs. Pairs that only tighten are absent (0). A per-pair
+# table rather than one worst-case allowance per gap: the worst pair, (j in
+# Segoe UI (233 units, 0.114 em), would widen every gap of every line by 20%.
+KERN_EM = {entry[:2]: int(entry[2:]) for entry in """
+    (j114 A,34 A;34 AJ46 AZ30 C?12 EA15 EJ34 ET9 EV5 EW21 EX21 FT13 Ff9 K,30 K;30 K?12 KJ44 KT5 KV20 KW20
+    KX25 KY20 KZ21 Kx15 LA30 LJ49 LZ29 PG5 PW20 R;41 RJ28 TT21 TV29 TW21 TY21 V?8 VT21 WT20 X,34 X.29 X;41
+    XJ47 XT21 YT21 ZJ41 ZT21 [j114 cJ35 f)69 f*21 f:41 f;41 f?33 f]69 fb16 fh9 fk5 fl5 ft20 fv21 fw21 fx9
+    fy21 f}41 gj23 jj18 k,41 k.41 k:41 k;41 kz8 qj50 r:41 r;41 rf25 rh3 ri4 rm3 rn3 rs7 rt29 ru3 rv41 rw41
+    rx29 ry41 rz21 tx15 y"15 y'21 y?1 yf8 yt3 {j100
+    """.split()}
+NO_KERN = 'text-rendering="optimizeSpeed" kerning="0" style="font-kerning:none;font-feature-settings:\'kern\' 0"'
+
+
+def text_width(text, size):
+    """An upper bound on `text`'s width in px at `size` in FONT_STACK, at any
+    weight the SVGs use, kerned or not (GLYPH_EM plus KERN_EM per adjacent
+    pair); a character with no measured advance is an error, not a guess."""
+    unknown = sorted(set(text) - GLYPH_EM.keys())
+    if unknown:
+        raise ValueError(f"No measured glyph advance for {unknown!r}: add it to GLYPH_EM")
+    kern = sum(KERN_EM.get(text[i:i + 2], 0) for i in range(len(text) - 1))
+    return size * (sum(GLYPH_EM[char] for char in text) + kern) / 1000
+
+
 def percent(count, total):
     return 100.0 * count / total if total else 0.0
 
@@ -872,12 +932,12 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
                       census_change(old_census, new_census, field, over_field, list(census_rows) or
                                     [old_census, new_census], denominator))
             if change is None:
-                delta = (f"delta n/a (census rules changed: {census_rules(old_census)} -> "
+                delta = (f"delta n/a (census accounting changed: {census_rules(old_census)} -> "
                          f"{census_rules(new_census)}, no like-for-like figure)")
             else:
                 delta = f"delta {change['bytes']:+,} bytes, {change['pp']:+.2f} pp"
                 for row, before, after, at_before, at_after in change["rule_changes"]:
-                    delta += (f" within rules; RULES CHANGED {row['date'][:10]} ({before} -> {after}: "
+                    delta += (f" within rules; accounting changed {row['date'][:10]} ({before} -> {after}: "
                               f"{at_before:.2f}% -> {at_after:.2f}% on the same objects, not progress)")
         print(_line(label, now[0], now[1], delta, f"{note}, census {new_census['date']} at {new_census['commit']}"
                     f" ({census_rules(new_census)})"))

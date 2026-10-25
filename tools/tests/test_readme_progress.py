@@ -1,5 +1,7 @@
 """README card and daily Discord post; no network requests."""
+import html
 import io
+import re
 import json
 import sys
 from pathlib import Path
@@ -9,6 +11,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import readme_progress as daily
+import progress
 
 UP = "▲"
 
@@ -298,15 +301,15 @@ def test_strict_line_sits_beside_linking_never_instead(tmp_path, monkeypatch):
     assert daily.PUBLISHED is False
     assert "**Linking: 10.00%**" in lines and lines[-3:] == [line, "", readme]
     svg = daily.render(current)
-    assert line in svg and daily.CURRENT_LINE not in svg and ">10.00%<" in svg and 'height="406"' in svg
+    assert line in svg and daily.CURRENT_LINE not in svg and ">10.00%<" in svg and 'height="404"' in svg
     # from the first published bundle a second line says where the current measurement is
     monkeypatch.setattr(daily, "PUBLISHED", True)
     lines = daily.announcement(current, None)["embeds"][0]["description"].split("\n")
     assert lines[-4:] == [line, daily.CURRENT_LINE, "", readme]
     assert "published link-cycle bundle" in daily.CURRENT_LINE and "cycle_artifacts.py fetch --latest" in daily.CURRENT_LINE
     svg = daily.render(current)
-    assert line in svg and daily.CURRENT_LINE in svg and ">10.00%<" in svg and 'height="424"' in svg
-    assert 'height="384"' in daily.render(sample())
+    assert line in svg and daily.CURRENT_LINE in svg and ">10.00%<" in svg and 'height="422"' in svg
+    assert 'height="382"' in daily.render(sample())
 
 
 def test_strict_line_flags_a_receipt_that_is_not_authoritative(tmp_path):
@@ -374,3 +377,220 @@ def test_malformed_receipts_never_stop_main(tmp_path, monkeypatch, text):
     daily.main()
     assert json.loads(path.read_text())["message_id"] == "7"
     assert "Strict link check unavailable" in (tmp_path / "docs/progress.svg").read_text(encoding="utf-8")
+
+
+def real_size(**changes):
+    """A state with the tree's real magnitudes, so the card's longest lines are tested."""
+    return {"total": 7_978_500, "authored": 7_240_075, "vendored": 457_218, "generated": 267_831, "library": 1_286,
+            "data": 4_104, "assembly": 7_986, "linked": 7_355_718, "linked_authored": 6_898_514,
+            "linked_game_code": 7_520_010, "declared_names": 558_118,
+            "readable_names": 381_236, "census": {"date": "2026-10-24 06:00", "rules": "retail-truth-4"},
+            "cpp_rules": progress.GAME_CPP_RULES,
+            "strict": {"date": "2026-10-10", "commit": "d093315a52", "authoritative": True, "self_strict": 2_340_800,
+                       "closed_strict": 1_129_757, "text": 8_096_994}, **changes}
+
+
+# Advance widths, in font units (2048 an em), of the card's characters, read
+# from the hmtx tables of Windows 11's segoeui.ttf, seguisb.ttf, segoeuib.ttf
+# (Segoe UI 5.72) and arial.ttf, arialbd.ttf (Arial 7.06), sha256 as recorded
+# beside progress.GLYPH_EM: a record separate from GLYPH_EM (the wrapper's own
+# estimate), so the card is checked against the fonts it names.
+MEASURED_CHARS = (" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`"
+                  "abcdefghijklmnopqrstuvwxyz{|}~\u00b7\u25b2\u25bc\u2013\u2014\u2192\u00d7\u2248")
+MEASURED = {face: dict(zip(MEASURED_CHARS, map(int, units.split()), strict=True)) for face, units in (
+    ("Segoe UI", (
+        "561 582 803 1210 1104 1676 1639 471 618 618 854 1401 444 819 444 798 1104 1104 1104 1104 1104 1104 "
+        "1104 1104 1104 1104 444 444 1401 1401 1401 918 1956 1321 1174 1268 1436 1036 1000 1405 1454 545 731 "
+        "1188 964 1839 1532 1544 1147 1544 1225 1088 1073 1407 1272 1913 1208 1132 1168 618 776 618 1401 850 "
+        "549 1042 1204 946 1206 1071 641 1206 1159 496 496 1018 496 1764 1159 1200 1204 1206 712 869 694 1159 "
+        "981 1480 940 991 926 618 490 618 1401 444 1764 1764 1024 2048 1767 1401 1403")),
+    ("Arial", (
+        "569 569 727 1139 1139 1821 1366 391 682 682 797 1196 569 682 569 569 1139 1139 1139 1139 1139 1139 "
+        "1139 1139 1139 1139 569 569 1196 1196 1196 1139 2079 1366 1366 1479 1479 1366 1251 1593 1479 569 "
+        "1024 1366 1139 1706 1479 1593 1366 1593 1479 1366 1251 1479 1366 1933 1366 1366 1251 569 569 569 961 "
+        "1139 682 1139 1139 1024 1139 1139 569 1139 1139 455 455 1024 455 1706 1139 1139 1139 1139 682 1024 "
+        "569 1139 1024 1479 1024 1024 1024 684 532 684 1196 682 2027 2027 1139 2048 2048 1196 1124")),
+    ("Segoe UI Semibold", (
+        "563 622 896 1211 1137 1721 1465 529 680 680 889 1422 494 823 494 847 1137 824 1137 1137 1180 1137 "
+        "1143 1098 1137 1143 494 494 1422 1422 1422 909 1955 1375 1237 1272 1469 1060 1029 1428 1506 597 812 "
+        "1251 1001 1893 1571 1548 1197 1548 1275 1115 1130 1440 1314 1978 1268 1182 1202 680 829 680 1422 850 "
+        "591 1069 1234 963 1234 1088 706 1234 1192 535 535 1075 535 1814 1195 1223 1234 1234 758 883 740 1195 "
+        "1039 1549 1026 1041 951 680 570 680 1422 494 1764 1764 1024 2048 1767 1422 1424")),
+    ("Segoe UI Bold", (
+        "565 670 1010 1213 1178 1776 1740 600 756 756 932 1448 555 828 555 908 1178 1178 1178 1178 1178 1178 "
+        "1178 1178 1178 1178 555 555 1448 1448 1448 897 1954 1440 1313 1278 1510 1090 1065 1456 1569 649 912 "
+        "1329 1047 1960 1618 1553 1258 1553 1337 1148 1200 1481 1366 2058 1342 1243 1243 756 893 756 1448 850 "
+        "643 1102 1270 983 1268 1108 785 1268 1233 582 582 1145 582 1876 1239 1252 1270 1268 815 901 797 1239 "
+        "1110 1633 1131 1102 981 756 668 756 1448 555 1764 1764 1024 2048 1767 1448 1450")),
+    ("Arial Bold", (
+        "569 682 971 1139 1139 1821 1479 487 682 682 797 1196 569 682 569 569 1139 1139 1139 1139 1139 1139 "
+        "1139 1139 1139 1139 682 682 1196 1196 1196 1251 1997 1479 1479 1479 1479 1366 1251 1593 1479 569 "
+        "1139 1479 1251 1706 1479 1593 1366 1593 1479 1366 1251 1479 1366 1933 1366 1366 1251 682 569 682 "
+        "1196 1139 682 1139 1251 1139 1251 1139 682 1251 1251 569 569 1139 569 1821 1251 1251 1251 1251 797 "
+        "1139 682 1251 1139 1593 1139 1139 1024 797 573 797 1196 682 2027 2027 1139 2048 2048 1196 1124")),
+)}
+REGULAR, SEMIBOLD, BOLD = ("Segoe UI", "Arial"), ("Segoe UI Semibold", "Arial Bold"), ("Segoe UI Bold", "Arial Bold")
+# Positive kerning, in font units, of some pairs, from the same files: the
+# larger of the kern table and GPOS PairPos under 'kern' (Segoe UI Regular's
+# GPOS omits the bracket pairs its kern table widens; Arial kerns none of
+# these). A record separate from progress.KERN_EM.
+KERN_UNITS = {
+    "(j": {"Segoe UI": 233, "Segoe UI Semibold": 214, "Segoe UI Bold": 190},
+    "[j": {"Segoe UI": 233, "Segoe UI Semibold": 205, "Segoe UI Bold": 170},
+    "{j": {"Segoe UI": 203, "Segoe UI Semibold": 184, "Segoe UI Bold": 160},
+    "f)": {"Segoe UI": 141, "Segoe UI Semibold": 113, "Segoe UI Bold": 78},
+    "qj": {"Segoe UI": 102, "Segoe UI Semibold": 97, "Segoe UI Bold": 90},
+    "LJ": {"Segoe UI": 100, "Segoe UI Semibold": 81, "Segoe UI Bold": 57},
+    "rv": {"Segoe UI": 82, "Segoe UI Semibold": 82, "Segoe UI Bold": 82},
+}
+
+
+def measured(text, size, faces):
+    """The widest of `faces`' widths of the rendered `text` at `size` px,
+    kerned where KERN_UNITS records the pair."""
+    text = html.unescape(text)
+    return max(size * (sum(MEASURED[face][char] for char in text)
+                       + sum(KERN_UNITS.get(text[i:i + 2], {}).get(face, 0) for i in range(len(text) - 1))) / 2048
+               for face in faces)
+
+
+@pytest.mark.parametrize("pair", sorted(KERN_UNITS))
+def test_text_width_bounds_kerned_pairs(pair):
+    # A renderer that ignores font-kerning="none" widens these pairs; the
+    # bound still holds in every face, alone and inside a longer run.
+    for face in MEASURED:
+        assert progress.text_width(pair, 2048) >= measured(pair, 2048, (face,)), (pair, face)
+    assert progress.text_width(pair, 1000) == sum(progress.GLYPH_EM[c] for c in pair) + progress.KERN_EM[pair]
+    run = f"x{pair}{pair}x"
+    assert progress.text_width(run, 1000) == sum(progress.GLYPH_EM[c] for c in run) + 2 * progress.KERN_EM[pair]
+
+
+def test_kerning_breaks_advances_alone_for_paren_j():
+    # Segoe UI Bold kerns (j by +190 units (kern and GPOS): 0.746 em, past
+    # the advances alone (0.655 em); Semibold (+214) is over too.
+    advances = sum(progress.GLYPH_EM[c] for c in "(j") / 1000
+    assert measured("(j", 1, ("Segoe UI Bold",)) > advances and measured("(j", 1, ("Segoe UI Semibold",)) > advances
+    assert progress.text_width("(j", 1) >= measured("(j", 1, MEASURED)
+    assert progress.text_width("j(", 1) == advances  # pairs are ordered
+    assert all(value > 0 for value in progress.KERN_EM.values()) and set("".join(progress.KERN_EM)) <= set(MEASURED_CHARS)
+
+
+def test_glyph_estimate_bounds_every_measured_advance():
+    # The wrapper's estimate is at least every measured face's advance, at
+    # every weight the SVGs use, for every character it knows, and covers
+    # every character measured; text_width adds no allowance on top.
+    assert set(progress.GLYPH_EM) == set(MEASURED_CHARS)
+    for face in MEASURED:
+        assert all(progress.GLYPH_EM[char] / 1000 >= units / 2048 for char, units in MEASURED[face].items()), face
+    assert progress.text_width("I|*", 1000) == sum(progress.GLYPH_EM[char] for char in "I|*")
+    assert measured("0123456789", 12.5, REGULAR) == pytest.approx(10 * 12.5 * 1139 / 2048)  # Arial digits, 0.556 em
+    assert measured("W", 12.5, REGULAR) == pytest.approx(12.5 * 1933 / 2048)  # 0.94 em
+    with pytest.raises(ValueError, match="No measured glyph advance"):
+        progress.text_width("\u4e2d", 12.5)
+
+
+# The measured faces of each family the SVGs may name.
+FAMILIES = {"Segoe UI": ("Segoe UI", "Segoe UI Semibold", "Segoe UI Bold"), "Arial": ("Arial", "Arial Bold")}
+# Noto Sans 2.008 Regular (notofonts/noto-fonts hinted/ttf, 1000 units an em),
+# which an earlier stack named: wider than the bound it was given.
+NOTO_SANS = {"I": 339, "*": 551, "|": 551}
+
+
+def test_svgs_name_only_measured_faces():
+    # Every family in the stack has a measured face at each weight, no generic
+    # family closes it, and every SVG generator declares that stack and no other.
+    families = [name.strip().strip("'\"") for name in progress.FONT_STACK.split(",")]
+    assert families == list(FAMILIES) and set(MEASURED) == {face for faces in FAMILIES.values() for face in faces}
+    tools = Path(progress.__file__).resolve().parent
+    for name in ("readme_progress.py", "progress_v2.py", "progress_site.py"):
+        source = (tools / name).read_text(encoding="utf-8")
+        declared = re.findall(r'font-family="([^"]*)"', source)
+        assert declared and set(declared) <= {"{progress.FONT_STACK}", "{FONT}"}, (name, declared)
+        # ... and turns kerning off wherever it names the stack.
+        assert source.count("{progress.NO_KERN}") == len(declared), name
+    assert f'font-family="{progress.FONT_STACK}" {progress.NO_KERN}' in daily.render(real_size())
+    assert 'style="font-kerning:none;' in progress.NO_KERN and 'text-rendering="optimizeSpeed"' in progress.NO_KERN
+    # The stack dropped Noto Sans because its advances exceed what the old
+    # table allowed; the new table still does not bound them, so it stays out.
+    assert any(units / 1000 > progress.GLYPH_EM[char] / 1000 for char, units in NOTO_SANS.items())
+
+
+
+
+def inclusive_size(**changes):
+    return real_size(linked_game_executable=7_300_000, game_executable=7_515_906,
+                     link_coverage_rules=progress.LINK_COVERAGE_RULES, **changes)
+
+
+OTHER_RULES = {"census": {"date": "2026-10-23 06:00", "rules": "retail-truth-3"}}
+
+
+@pytest.mark.parametrize("now,before,notes", [
+    (real_size(), real_size(), ["legacy authored-only accounting"]),
+    (inclusive_size(), inclusive_size(), ["of executable game code in link-clean units"]),
+    (inclusive_size(), real_size(), ["generated linked code now counted"]),
+    (real_size(), inclusive_size(), ["census accounting changed to authored-only"]),
+    (real_size(), real_size(**OTHER_RULES), ["census accounting changed to retail-truth-4 (91.74% under retail-truth-3)"]),
+    (inclusive_size(), inclusive_size(**OTHER_RULES), ["census accounting changed to retail-truth-4 (97.13% under retail-truth-3)"]),
+    (inclusive_size(), {k: v for k, v in real_size(**OTHER_RULES).items() if k != "cpp_rules"},
+     ["generated linked code now counted"]),
+], ids=["legacy", "inclusive", "accounting", "reverse-accounting", "legacy-rules", "inclusive-rules", "both-bars"])
+def test_card_lines_fit_the_card(now, before, notes):
+    svg = daily.render(now, {**before, "message_id": "1"})
+    lines = re.findall(r'<text x="28" y="(\d+)" class="muted" font-size="12.5">([^<]*)</text>', svg)
+    assert lines and all(measured(text, 12.5, REGULAR) <= 824 for _, text in lines), [t for _, t in lines]
+    ys = [int(y) for y, _ in lines]
+    assert ys == sorted(ys) and len(set(ys)) == len(ys)
+    assert ys[-1] < int(re.search(r'height="(\d+)"', svg).group(1)) - 6
+    rows = re.findall(r'class="strong" font-size="15" font-weight="600">([^<]*)(?:<tspan[^>]*>([^<]*)</tspan>)?</text>'
+                      r'\s*<text x="852" y="\d+" class="strong" font-size="20" font-weight="700" text-anchor="end">'
+                      r'([^<]*)</text>', svg)
+    assert [label for label, _, _ in rows] == [label for _, label, _ in daily.ROWS]
+    for label, tag, number in rows:
+        used = measured(label, 15, SEMIBOLD) + (10 + measured(tag, 13, SEMIBOLD) if tag else 0)
+        assert used + 20 + measured(number, 20, BOLD) <= 824, (label, tag, number)
+    joined = " ".join(text for _, text in lines)
+    for note in notes:
+        assert note in joined, (note, joined)
+    assert f"* {progress.GAME_CPP_ANNOTATION}" in [text for _, text in lines]
+    assert (("Game code in C++*", "accounting changed") in [row[:2] for row in rows]) == ("cpp_rules" not in before)
+
+
+def test_rule_note_tells_an_absent_figure_from_invalid_saved_data():
+    rules = {"census": {"date": "2026-10-24 06:00", "rules": "retail-truth-4"}}
+    current = {**sample(), **rules}
+    old_rules = {"census": {"date": "2026-10-23 06:00", "rules": "retail-truth-3"}}
+    absent = previous(linked_authored=None, linked_game_code=None, **old_rules)
+    text = daily.announcement(current, absent)["embeds"][0]["description"]
+    assert ("census accounting changed to retail-truth-4 (was retail-truth-3; the last post saved no Linking figure)"
+            in text)
+    text = daily.announcement(current, previous(**old_rules))["embeds"][0]["description"]
+    assert "census accounting changed to retail-truth-4 (10.00% under retail-truth-3)" in text
+    for bad in ({"linked_authored": "9"}, {"linked_authored": 100}, {"linked_game_code": 5},
+                {"linked_authored": None}, {"linked_game_code": None}):
+        with pytest.raises(ValueError, match="saved"):
+            daily.rule_note(previous(**old_rules, **bad), ("retail-truth-3", "retail-truth-4"))
+        for draw in (daily.announcement, daily.render):
+            with pytest.raises((ValueError, TypeError)):
+                draw(current, previous(**old_rules, **bad))
+
+
+@pytest.mark.parametrize("bad", [
+    {"linked_game_executable": "9"}, {"game_executable": None}, {"linked_game_executable": None},
+    {"linked_game_executable": -1}, {"linked_game_executable": 8_000_000}, {"game_executable": False},
+    {"link_coverage_rules": ""}, {"game_executable": 8_000_000},
+])
+def test_invalid_inclusive_saved_linking_raises(bad):
+    saved = inclusive_size()
+    saved.update(bad)
+    for change in (("retail-truth-3", "retail-truth-4"), ("authored-only", progress.LINK_COVERAGE_RULES)):
+        with pytest.raises(ValueError, match="saved"):
+            daily.rule_note(saved, change)
+    with pytest.raises(ValueError, match="saved"):
+        daily.saved_linking(saved)
+
+
+def test_saved_linking_uses_upstream_inclusive_fields():
+    assert daily.saved_linking(inclusive_size()) == (7_300_000, 7_515_906)
+    assert daily.saved_linking(real_size()) == (6_898_514, 7_520_010)
+    assert daily.saved_linking({}) is None

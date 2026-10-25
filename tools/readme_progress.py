@@ -49,7 +49,6 @@ import json
 import os
 import re
 import sys
-import textwrap
 from datetime import datetime, timezone
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -74,6 +73,9 @@ CARD_FILL = {"matched": "#2ea043", "cpp": "#388bfd", "linked": "#d29922", "names
 BLOCK = {"matched": "\U0001f7e9", "cpp": "\U0001f7e6", "linked": "\U0001f7e8", "names": "\U0001f7ea"}
 REST_BLOCK = "⬛"
 WIDTH = 10
+# Muted card text wraps within the measured 824 px between its margins.
+TEXT_WIDTH, TEXT_PX = 824, 12.5
+LINE_STEP = 16
 UP, DOWN, DOT = "▲", "▼", "·"
 
 
@@ -208,6 +210,51 @@ def cpp_accounting_changed(previous, current):
                 and previous.get("cpp_rules") != current["cpp_rules"])
 
 
+def detail_text(current, previous, key, value, denominator, what):
+    """The line under a bar: what the bytes are, then why it cannot be
+    compared with the last post when that is so (changes)."""
+    return detail(current, key, value, denominator, what) + "".join(note for _, note in changes(previous, current, key))
+
+
+def footnote(key):
+    """The line under the bar's detail that its starred label refers to, if any."""
+    return f"* {progress.GAME_CPP_ANNOTATION}" if key == "cpp" else None
+
+
+def wrap(text, width=TEXT_WIDTH, separators=("; ", ": ", ", ", " ")):
+    """Card lines at most `width` px wide (progress.text_width), broken after a `;`
+    clause where one fits, else after a `:` or `,`, else between words; a
+    single word wider than `width` stays whole."""
+    if progress.text_width(text, TEXT_PX) <= width or not separators:
+        return [text]
+    separator, rest = separators[0], separators[1:]
+    parts = text.split(separator)
+    pieces = [part + separator.rstrip() for part in parts[:-1]] + parts[-1:]
+    lines = []
+    for piece in pieces:
+        if lines and progress.text_width(lines[-1] + " " + piece, TEXT_PX) <= width:
+            lines[-1] += " " + piece
+        else:
+            lines += wrap(piece, width, rest)
+    return lines
+
+
+def changes(previous, current, key):
+    """Why the bar's percentage cannot be compared with the last post's:
+    [(what changed, note)], empty when it can."""
+    if not previous or current is None:
+        return []
+    out = []
+    if key == "matched" and "assembly" not in previous and "assembly" in current:
+        out.append(("accounting", "; reviewed assembly now counted, not new recovery"))
+    if key == "cpp" and cpp_accounting_changed(previous, current):
+        out.append(("accounting", ""))
+    rules = rules_changed(previous, current) if key == "linked" else None
+    if rules:
+        out.append(("accounting", rule_note(previous, rules)))
+    return out
+
+
 def delta_since(previous, key, value, denominator, current=None):
     """The change in the bar's percentage since the last post, in points,
     measured from the figures that post saved; None when that post has no
@@ -240,50 +287,39 @@ def arrow(delta):
 
 def render(current, previous=None):
     rows = measures(current)
-    strict = strict_lines(current)
-    offset = 0
-    body = []
-    for index, (key, label, what) in enumerate(ROWS):
+    strict = [piece for line in strict_lines(current) for piece in wrap(line)]
+    body, y = [], 64
+    for key, label, what in ROWS:
         value, denominator = rows[key]
-        y = 64 + 74 * index + offset
         moved = ""
         if value is None:
             number, width, text = "not measured", 0, "not measured yet"
         else:
             percent = progress.percent(value, denominator)
-            number, width, text = f"{percent:.2f}%", 824 * percent / 100, detail(current, key, value, denominator, what)
+            number, width = f"{percent:.2f}%", 824 * percent / 100
+            text = detail_text(current, previous, key, value, denominator, what)
             delta = delta_since(previous, key, value, denominator, current)
-            changed = rules_changed(previous, current) if key == "linked" else None
-            if changed:
-                moved = '<tspan class="muted" dx="10" font-size="13" font-weight="600">accounting changed</tspan>'
-                text += rule_note(previous, changed)
-            elif key == "cpp" and cpp_accounting_changed(previous, current):
-                moved = '<tspan class="muted" dx="10" font-size="13">accounting changed</tspan>'
-            elif key == "matched" and previous and "assembly" not in previous and "assembly" in current:
-                moved = '<tspan class="muted" dx="10" font-size="13">accounting changed</tspan>'
-                text += "; reviewed assembly now counted, not new recovery"
+            found = changes(previous, current, key)
+            if found:
+                moved = f'<tspan class="muted" dx="10" font-size="13" font-weight="600">accounting changed</tspan>'
             elif delta is not None:
                 moved = (f'<tspan class="{"up" if delta > 0 else "down" if delta < 0 else "muted"}" dx="10" font-size="13" '
                          f'font-weight="600">{arrow(delta)}</tspan>')
-        detail_lines = textwrap.wrap(text, width=110, break_long_words=False, break_on_hyphens=False) or ['']
+        lines = wrap(text) + (wrap(footnote(key)) if footnote(key) else [])
         body.append(f'''    <text x="28" y="{y}" class="strong" font-size="15" font-weight="600">{label}{moved}</text>
     <text x="852" y="{y}" class="strong" font-size="20" font-weight="700" text-anchor="end">{number}</text>
     <rect class="track" x="28" y="{y + 10}" width="824" height="14" rx="7"/>
     <rect x="28" y="{y + 10}" width="{width:.2f}" height="14" rx="7" fill="{CARD_FILL[key]}"/>
-    <text x="28" y="{y + 44}" class="muted" font-size="12.5">{detail_lines[0]}</text>
-''')
-        for n, line in enumerate(detail_lines[1:], 1):
-            body.append(f'    <text x="28" y="{y + 44 + 17*n}" class="muted" font-size="12.5">{line}</text>\n')
-        offset += 17 * (len(detail_lines) - 1)
-        if key == "cpp":
-            body.append(f'    <text x="28" y="{y + 61 + 17*(len(detail_lines)-1)}" class="muted" font-size="12.5">* {progress.GAME_CPP_ANNOTATION}</text>\n')
-            offset += 18
-    height = 70 + 74 * len(ROWS) + offset + (22 + 18 * (len(strict) - 1) if strict else 0)
+''' + "".join(f'''    <text x="28" y="{y + 44 + LINE_STEP * n}" class="muted" font-size="{TEXT_PX}">{line}</text>
+''' for n, line in enumerate(lines)))
+        y += 74 + LINE_STEP * (len(lines) - 1)  # a wrapped line grows its row
     for n, line in enumerate(strict):
-        body.append(f'''    <text x="28" y="{64 + 74 * len(ROWS) + offset - 4 + 18 * n}" class="muted" font-size="12.5">{line}</text>
+        body.append(f'''    <text x="28" y="{y - 4 + 18 * n}" class="muted" font-size="{TEXT_PX}">{line}</text>
 ''')
-    (matched, total), (cpp, game), (linked, linked_game) = rows["matched"], rows["cpp"], rows["linked"]
-    linking = f"{progress.percent(linked, linked_game):.2f}% linking" if linked is not None else "linking not measured"
+    height = y + 6 + (22 + 18 * (len(strict) - 1) if strict else 0)
+    (matched, total), (cpp, game), (linked, linked_over) = rows["matched"], rows["cpp"], rows["linked"]
+    linking = (f"{progress.percent(linked, linked_over):.2f}% linking"
+               if linked is not None else "linking not measured")
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="880" height="{height}" viewBox="0 0 880 {height}" role="img" aria-labelledby="title desc">
   <title id="title">{TITLE}: {progress.percent(matched, total):.2f}% rebuilt from source, {progress.percent(cpp, game):.2f}% game code in C++*, {linking}</title>
   <desc id="desc">{matched:,} of {total:,} code bytes rebuild to the original's exact bytes; {cpp:,} of {game:,} executable game-code bytes are represented. {progress.GAME_CPP_ANNOTATION}</desc>
@@ -296,7 +332,7 @@ def render(current, previous=None):
     }}
   </style>
   <rect class="card" x="0.5" y="0.5" width="879" height="{height - 1}" rx="12"/>
-  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif">
+  <g font-family="{progress.FONT_STACK}" {progress.NO_KERN}>
     <text x="28" y="30" class="muted" font-size="13" font-weight="600" letter-spacing="1.3">{TITLE} {DOT} REBUILD PROGRESS</text>
 {"".join(body)}  </g>
 </svg>
@@ -304,16 +340,35 @@ def render(current, previous=None):
 
 
 def rule_note(previous, changed):
-    """`; census rules changed: 16.10% under majority-0` (the last post's figure)."""
+    """`; census accounting changed to retail-truth-4 (16.10% under majority-0),
+    not a change in progress` (the last post's figure)."""
     before, after = changed
-    if before == 'authored-only' and after == progress.LINK_COVERAGE_RULES:
-        return '; generated linked code now counted'
-    try:
-        was, was_over = measures(previous)["linked"]
-    except (KeyError, ValueError):
-        was = None
-    shown = f"{progress.percent(was, was_over):.2f}% under {before}" if was is not None else f"was {before}"
+    saved = saved_linking(previous)
+    if before == "authored-only" and after == progress.LINK_COVERAGE_RULES:
+        return "; generated linked code now counted"
+    shown = (f"{progress.percent(*saved):.2f}% under {before}" if saved
+             else f"was {before}; the last post saved no Linking figure")
     return f"; census accounting changed to {after} ({shown}), not a change in progress"
+
+
+def saved_linking(previous):
+    """Saved Linking bytes and denominator; absent is optional, malformed raises."""
+    inclusive = any(key in previous for key in
+                    ("linked_game_executable", "game_executable", "link_coverage_rules"))
+    if inclusive:
+        if not previous.get("link_coverage_rules"):
+            raise ValueError("Invalid saved Linking coverage rules")
+        linked, over = (previous.get(key) for key in ("linked_game_executable", "game_executable"))
+    else:
+        linked, over = (previous.get(key) for key in ("linked_authored", "linked_game_code"))
+    if linked is None and over is None and not inclusive:
+        return None
+    if not all(type(value) is int for value in (linked, over)) or not 0 <= linked <= over:
+        raise ValueError(f"Invalid saved Linking figure: {linked!r} over {over!r}")
+    total = previous.get("total")
+    if total is not None and (type(total) is not int or over > total):
+        raise ValueError(f"Invalid saved Linking denominator: {over!r} of {total!r}")
+    return linked, over
 
 
 def blocks(value, total, block, width=WIDTH):

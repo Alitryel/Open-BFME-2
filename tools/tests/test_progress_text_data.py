@@ -63,6 +63,10 @@ def test_data_union_clipping_padding_and_function_totals(monkeypatch):
     assert progress.rebuildable(after) == 17
     assert progress.decompiled(after) == progress.decompiled(before) == 4
     assert progress.game_code(after, 31) == progress.game_code(before, 31)
+    # Data is never executable code: the Game code in C++* denominator drops
+    # by it, the game's own code (the census's stored game_code) does not.
+    assert progress.game_executable(after, 31) == progress.game_code(after, 31) - 13
+    assert progress.game_executable(before, 31) == progress.game_code(before, 31)
     filtered = progress.real_split(matched, notes, 0x1000, 32,
                                    keep=lambda *a: True, text_data=data)
     assert filtered['data'] == 0  # function-name filters cannot credit data
@@ -83,5 +87,5 @@ def test_keyboard_table_counts_4094_without_becoming_function_code(monkeypatch):
     assert progress.decompiled(split) == split['authored'] == 0
     current = dict(split, total=4094, linked_authored=None, linked_game_code=None)
     assert readme_progress.measures(current)['matched'] == (4094, 4094)
-    assert readme_progress.measures(current)['cpp'] == (0, 0)
+    assert readme_progress.measures(current)['cpp'] == (0, 0)  # data is never code C++ could cover
     assert readme_progress.blocks(0, 0, readme_progress.BLOCK['cpp']) == readme_progress.REST_BLOCK * 10

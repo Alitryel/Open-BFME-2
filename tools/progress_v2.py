@@ -10,7 +10,8 @@ v2 shows what each is made of and puts a counter beside each headline:
                        (the old "Rebuilt from source" bar, exactly: the parts sum to it)
                        dumps (MASM `db`, __emit, naked lifts) are shown on their own and
                        were never in the bar
-  game code in C++     the authored lane split by what its names rest on: EA name
+  authored C++ by name, of all code
+                       the authored lane split by what its names rest on: EA name
                        evidence (BFME1: ea_evidence.csv agrees with the row's
                        Class::method), a readable name, or an address-derived name
   link cycle           BFME2: placed at retail RVA / placed + self-strict / closed-strict
@@ -245,7 +246,7 @@ def report(point, prev=None):
         add(f"  {label:<28} {point[key]:>10,} B {pct(point[key], total):6.2f}%{delta(point[key], prev, key)}")
     add(f"  {'dumps (not in the bar)':<28} {point['dump']:>10,} B {pct(point['dump'], total):6.2f}%"
         f"  <- MASM db / __emit / naked lifts")
-    add("GAME CODE C++ by name evidence (authored lane)")
+    add("AUTHORED C++ BY NAME, of all code (the authored lane by name evidence)")
     ev = point["cpp_evidence"]
     add(f"  {'EA name evidence':<28} " + (f"{ev:>10,} B {pct(ev, total):6.2f}%" if ev is not None
                                          else "       n/a  (no name-evidence file in this repo)"))
@@ -307,7 +308,7 @@ def svg(point):
                 f'not counted</text>')
     y += 74
     ev = point["cpp_evidence"]
-    rows.append(f'<text x="28" y="{y}" class="strong" font-size="15" font-weight="600">Authored C++, by name'
+    rows.append(f'<text x="28" y="{y}" class="strong" font-size="15" font-weight="600">Authored C++ by name, of all code'
                 f'</text><text x="852" y="{y}" class="strong" font-size="18" font-weight="700" text-anchor="end">'
                 f'{pct(point["authored"], total):.2f}%</text>'
                 f'<rect class="track" x="28" y="{y + 10}" width="{width}" height="14"/>'
@@ -350,7 +351,7 @@ def svg(point):
     }}
   </style>
   <rect class="card" x="0.5" y="0.5" width="879" height="{height - 1}" rx="12"/>
-  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif">
+  <g font-family="{progress.FONT_STACK}" {progress.NO_KERN}>
     <text x="28" y="30" class="muted" font-size="13" font-weight="600" letter-spacing="1.3">{TITLE} · {RULES.upper()} · WHAT THE BARS ARE MADE OF</text>
     {body}
   </g>
