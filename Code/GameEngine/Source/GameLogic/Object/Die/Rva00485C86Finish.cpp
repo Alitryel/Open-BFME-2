@@ -82,8 +82,8 @@ struct CreateObjectDieModuleDataView
 	char m_pad00[0x38];
 	ObjectCreationList *m_ocl;
 	char m_pad3C[4];
-	AsciiString *m_begin40;
-	AsciiString *m_end44;
+	AsciiString *m_requiredUpgradesBegin;
+	AsciiString *m_requiredUpgradesEnd;
 };
 
 // `this` is the DieModuleInterface subobject at +0x10 (slot 0 of the die-module table
@@ -101,8 +101,8 @@ void CreateObjectDie::onDie(const DamageInfo *damageInfo)
 		return;
 	Object *obj = *(Object **)((char *)this - 8);
 	CreateObjectDieModuleDataView *data = *(CreateObjectDieModuleDataView **)((char *)this - 0x0C);
-	AsciiString *cur = data->m_begin40;
-	while (cur != data->m_end44)
+	AsciiString *cur = data->m_requiredUpgradesBegin;
+	while (cur != data->m_requiredUpgradesEnd)
 	{
 		const UpgradeTemplate *upgradeTemplate = TheUpgradeCenter->findUpgrade(*cur);
 		if (upgradeTemplate)

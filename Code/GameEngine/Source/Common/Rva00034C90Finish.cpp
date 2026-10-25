@@ -40,7 +40,7 @@ class Rva00034C90Block
 {
 public:
 	unsigned m_prevSize;
-	unsigned m_head04;
+	unsigned m_sizeAndFlags;
 	Rva00034C90Block *m_prev;
 	Rva00034C90Block *m_next0C;
 };
@@ -95,16 +95,16 @@ void Rva00034C90::consolidate()
 				{
 					next = block->m_next0C;
 					Rva00034C90Block *neighbor;
-					block->m_head04 &= 0x7ffffffbU;
-					unsigned base = block->m_head04 & 0x7ffffff8U;
+					block->m_sizeAndFlags &= 0x7ffffffbU;
+					unsigned base = block->m_sizeAndFlags & 0x7ffffff8U;
 					neighbor = (Rva00034C90Block *)((char *)block + base);
 					unsigned head = *(unsigned *)((char *)neighbor + 4) & 0x7ffffff8U;
-					if ((block->m_head04 & 1) == 0)
+					if ((block->m_sizeAndFlags & 1) == 0)
 					{
 						unsigned prevSize = block->m_prevSize;
 						base += prevSize;
 						block = (Rva00034C90Block *)((char *)block - prevSize);
-						block->m_head04 = base | 1;
+						block->m_sizeAndFlags = base | 1;
 						neighbor->m_prevSize = base;
 						block->m_prev->m_next0C = block->m_next0C;
 						block->m_next0C->m_prev = block->m_prev;
@@ -119,7 +119,7 @@ void Rva00034C90::consolidate()
 						neighbor->m_prev->m_next0C = neighbor->m_next0C;
 						neighbor->m_next0C->m_prev = neighbor->m_prev;
 						base += head;
-						block->m_head04 = base | 1;
+						block->m_sizeAndFlags = base | 1;
 						*(unsigned *)((char *)block + base) = base;
 					}
 					Rva00034C90Block *cur = m_cur440;
@@ -136,7 +136,7 @@ void Rva00034C90::consolidate()
 						m_cur440 = block;
 						block->m_next0C = block;
 						block->m_prev = block;
-						block->m_head04 = base | 1;
+						block->m_sizeAndFlags = base | 1;
 						*(unsigned *)((char *)block + base) = base;
 					}
 					block = next;

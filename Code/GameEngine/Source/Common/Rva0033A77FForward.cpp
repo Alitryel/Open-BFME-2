@@ -22,10 +22,10 @@ public:
 
 private:
 	char unknown00[0xA0];
-	GeometryInfo mA0;
+	GeometryInfo m_geometryInfo;
 };
 
 void Rva0033A77F::rva0033A77F(int pointOut, int from, int trace, int preference, int seed)
 {
-	mA0.getBestContactPoint((Coord3D *)pointOut, (const Coord3D *)from, (const char *)trace, preference, seed, false);
+	m_geometryInfo.getBestContactPoint((Coord3D *)pointOut, (const Coord3D *)from, (const char *)trace, preference, seed, false);
 }

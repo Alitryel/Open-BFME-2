@@ -233,7 +233,7 @@ private:
 	float m_00;
 	float m_04;
 	float m_08;
-	float m_0C;
+	float m_bottom;
 };
 
 float Rva001338A0::rva001338A0() const
@@ -246,7 +246,7 @@ float Rva001338A0::rva001338A0() const
 // left/top/right/bottom rectangle; the class is not established).
 float Rva001338A0::rva001338B0() const
 {
-	return m_0C - m_04;
+	return m_bottom - m_04;
 }
 
 // --- 0x000FA927 (8B) / 0x000FA92F (6B): clear and read the shared dirty

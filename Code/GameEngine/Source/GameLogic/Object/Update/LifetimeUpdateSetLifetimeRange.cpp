@@ -147,7 +147,7 @@ class Rva003A4BFDEntry
 {
 public:
 	unsigned char m_pad00[0x08];
-	ObjectID m_id08;
+	ObjectID m_sourceID;
 };
 
 class Rva003A4BFDModule
@@ -206,7 +206,7 @@ UpdateSleepTime LifetimeUpdate::update()
 		return UPDATE_SLEEP_NONE;
 	if (data->m_creditKiller)
 	{
-		Object *killer = TheGameLogic->findObjectByID(me->m_module254->getEntry() ? me->m_module254->getEntry()->m_id08 : INVALID_OBJECT_ID);
+		Object *killer = TheGameLogic->findObjectByID(me->m_module254->getEntry() ? me->m_module254->getEntry()->m_sourceID : INVALID_OBJECT_ID);
 		if (killer)
 			reinterpret_cast<Rva00294D61 *>(killer)->report(me, 1);
 	}

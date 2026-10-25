@@ -40,7 +40,7 @@ extern LivingWorldManager *TheLivingWorldManager;
 struct Rva003EFDF5Inner
 {
 	char m_pad[0x2C];
-	unsigned char m_2C;
+	unsigned char m_enabled;
 };
 
 class Rva003EFDF5Host
@@ -61,7 +61,7 @@ void Rva003EFDF5Host::rva003EFDF5(void *enabled)
 	unsigned char enabledByte = (unsigned char)(unsigned int)enabled;
 	Rva003EFDF5Inner *inner = m_198;
 	m_1A2 = enabledByte;
-	inner->m_2C = enabledByte;
+	inner->m_enabled = enabledByte;
 	if (enabledByte == 0)
 		(*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->m_B0->rva0020EA22(m_12C);
 	LivingWorldRegionEffectsManager *obj = TheLivingWorldManager->m_268;

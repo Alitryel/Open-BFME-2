@@ -169,13 +169,13 @@ public:
 struct Rva00373B70Template
 {
 	char pad00[0x114];
-	unsigned int kindOf114;
+	unsigned int m_kindOf;
 };
 
 class Object
 {
 public:
-	unsigned int isKindOf6D() const { return m_template->kindOf114 & 0x2000; }
+	unsigned int isKindOf6D() const { return m_template->m_kindOf & 0x2000; }
 	char pad00[4];
 	const Rva00373B70Template *m_template;
 	char pad08[0x74 - 0x08];
