@@ -50,7 +50,7 @@ int __cdecl Rva002886C2(Object *obj, void *userData)
 
 void ScriptActions::Rva003C1E8CSet(const AsciiString &team, int experience)
 {
-	Team *t = TheScriptEngine->getTeamNamed(team, false);
-	if (t != 0)
-		t->rva0039DD12(Rva002886C2, (void *)experience);
+	Team *targetTeam = TheScriptEngine->getTeamNamed(team, false);
+	if (targetTeam != 0)
+		targetTeam->rva0039DD12(Rva002886C2, (void *)experience);
 }
