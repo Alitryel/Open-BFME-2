@@ -17,7 +17,7 @@ extern "C" {
 void __identifier("??_GRva00672460@@UAEPAXI@Z")();
 void __identifier("?Get_First_Collected_Object_Internal@CullSystemClass@@IAEPAVCullableClass@@XZ")();
 void __identifier("?setValue@Rva00806400Owner@@QAEXHPAX@Z")();
-void __identifier("?addSlot@Rva008063B0Owner@@QAEXHH@Z")();
+void __identifier("?addSlot@FeslStateMachine@@QAEXHH@Z")();
 void __identifier("?release@Rva00806400Owner@@QAEXPAX@Z")();
 }
 extern "C" void *g_bfmeV1187[5] =
@@ -25,7 +25,7 @@ extern "C" void *g_bfmeV1187[5] =
 	(void *)&__identifier("??_GRva00672460@@UAEPAXI@Z"),
 	(void *)&__identifier("?Get_First_Collected_Object_Internal@CullSystemClass@@IAEPAVCullableClass@@XZ"),
 	(void *)&__identifier("?setValue@Rva00806400Owner@@QAEXHPAX@Z"),
-	(void *)&__identifier("?addSlot@Rva008063B0Owner@@QAEXHH@Z"),
+	(void *)&__identifier("?addSlot@FeslStateMachine@@QAEXHH@Z"),
 	(void *)&__identifier("?release@Rva00806400Owner@@QAEXPAX@Z"),
 };
 

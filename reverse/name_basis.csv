@@ -2163,3 +2163,7 @@ param,bfmeAnchorCompareRange::b,bfmeAnchorCompareRange::right,inferred,agree:nl-
 local,Rva0007B459MatrixArrayTransform::transform_inplace::x,Rva0007B459MatrixArrayTransform::transform_inplace::transformedX,inferred,agree:nl-9e8676ffa4e0,Code/Libraries/Source/WWVegas/WWMath/Rva0007B459MatrixArrayTransform.cpp,0x0007B459
 local,Rva0007B459MatrixArrayTransform::transform_inplace::y,Rva0007B459MatrixArrayTransform::transform_inplace::transformedY,inferred,agree:nl-535c31dcf775,Code/Libraries/Source/WWVegas/WWMath/Rva0007B459MatrixArrayTransform.cpp,0x0007B459
 local,Rva0007B459MatrixArrayTransform::transform_inplace::z,Rva0007B459MatrixArrayTransform::transform_inplace::transformedZ,inferred,agree:nl-9fbd32d5a6fc,Code/Libraries/Source/WWVegas/WWMath/Rva0007B459MatrixArrayTransform.cpp,0x0007B459
+class,Rva008063B0Owner,FeslStateMachine,inferred,agree:nl-09aec132acde,Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp,
+carry,Rva008063B0Owner::addSlot::slot,FeslStateMachine::addSlot::slot,inferred,scope renamed by Rename Rva008063B0Owner to FeslStateMachine (inferred),Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp,0x006723E0
+class,Rva00338E52Envelope,OpacityEnvelope,inferred,agree:nl-409e8c82896c,Code/GameEngine/Source/Common/System/INI_Rva00338E52ParseEnvelope.cpp,
+class,Rva0027F4F8Entry,WaterHandleEntry,inferred,agree:nl-7265b55a3160,Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp,

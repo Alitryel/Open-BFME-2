@@ -21,7 +21,7 @@ public:
 	static void Rva00338E52_ParseEnvelope(INI *ini, void *instance, void *store, const void *userData);
 };
 
-struct Rva00338E52Envelope
+struct OpacityEnvelope
 {
 	float m_initialOpacity;		// +0x00
 	float m_peakOpacity;		// +0x04
@@ -47,7 +47,7 @@ extern "C" int __cdecl strcmp(const char *a, const char *b);
 // ?Rva00338E52_ParseEnvelope@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva00338E52_ParseEnvelope(INI *ini, void *instance, void *store, const void *userData)
 {
-	Rva00338E52Envelope *env = (Rva00338E52Envelope *)store;
+	OpacityEnvelope *env = (OpacityEnvelope *)store;
 	env->m_unknown0C = 0;
 	env->m_unknown24 = 0;
 

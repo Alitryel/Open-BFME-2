@@ -1,4 +1,4 @@
-// ?addSlot@Rva008063B0Owner@@QAEXHH@Z
+// ?addSlot@FeslStateMachine@@QAEXHH@Z
 struct Rva008063B0Diag {
 	virtual void s0(); virtual void s1(); virtual void s2();
 	virtual void report(const char* message, const char* file, int line);
@@ -6,13 +6,13 @@ struct Rva008063B0Diag {
 struct Rva007EB810Diag;
 Rva007EB810Diag *__cdecl Rva007EB810Get();
 struct Rva008063B0Slot { int m_a; int m_b; };
-struct Rva008063B0Owner {
+struct FeslStateMachine {
 	int m_0;
 	int m_4;
 	Rva008063B0Slot m_slots[8];
 	void addSlot(int a, int b);
 };
-void Rva008063B0Owner::addSlot(int a, int b)
+void FeslStateMachine::addSlot(int a, int b)
 {
 	for (Rva008063B0Slot* slot = m_slots; slot < m_slots + 8; ++slot) {
 		if (slot->m_a == 0) {
