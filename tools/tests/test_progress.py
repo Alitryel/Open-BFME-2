@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """Focused tests for tools/progress.py; stdlib only."""
+import csv
 import importlib.util
+import io
 import re
 import subprocess
 import sys
 import tempfile
+from contextlib import contextmanager, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 TOOL = ROOT / "tools" / "progress.py"
-COMMIT = "b08e5e856efced6d08c539153f5e229912f23b4f"
 
 sys.path.insert(0, str(ROOT / "tools"))
 spec = importlib.util.spec_from_file_location("progress", TOOL)
@@ -20,6 +22,81 @@ spec.loader.exec_module(progress)
 
 def row(name, rva, size, source):
     return {(name, f"0x{rva:X}"): (size, source)}
+
+
+@contextmanager
+def committed_progress_history():
+    """Real Git inputs with a tiny controlled baseline, independent of repo history."""
+    start = 0x1000
+    image = b"\x90\x90\x90\xc3" * 3 + b"\xcc" * 4
+    with tempfile.TemporaryDirectory() as directory:
+        repo = Path(directory)
+
+        def git(*args):
+            return subprocess.run(
+                ["git", *args], cwd=repo, check=True,
+                capture_output=True, text=True,
+            ).stdout.strip()
+
+        git("init", "-q")
+        sources = {
+            "Code/clean.cpp": "void clean() {}\n",
+            "Code/raw.cpp": "// _raw\n__declspec(naked) void raw() {\n"
+                            " __asm {\n  nop\n  nop\n  nop\n  ret\n }\n}\n",
+            "Code/gen_asm/raw.asm": "_raw PROC\n db 090h, 090h, 090h, 0C3h\n_raw ENDP\n",
+            "Code/gen_asm/more.asm": "_more PROC\n db 090h, 090h, 090h, 0C3h\n_more ENDP\n",
+            "Code/more.cpp": "void more() {}\n",
+        }
+        for name, text in sources.items():
+            source = repo / name
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_text(text, encoding="utf-8")
+        ledger = repo / progress.FUNCTIONS
+        ledger.parent.mkdir(parents=True)
+
+        def commit(rows, message):
+            with ledger.open("w", encoding="utf-8", newline="") as stream:
+                writer = csv.writer(stream)
+                writer.writerow(("name", "target_rva", "target_size", "source", "status", "notes"))
+                for name, rva, size, source, notes in rows:
+                    writer.writerow((name, f"0x{rva:X}", size, source, "matched", notes))
+            git("add", "--", progress.FUNCTIONS, *sources)
+            git("-c", "user.name=Progress Test", "-c", "user.email=progress@example.invalid",
+                "commit", "-qm", message)
+            return git("rev-parse", "HEAD")
+
+        clean = ("_clean", start, 4, "Code/clean.cpp", "")
+        naked = ("_raw", start + 4, 4, "Code/raw.cpp", "")
+        asm = ("_raw", start + 4, 4, "Code/gen_asm/raw.asm", "gen-dump;")
+        alias = ("_alias", start + 4, 4, "Code/gen_asm/raw.asm", "gen-dump;")
+        more_dump = ("_more", start + 8, 4, "Code/gen_asm/more.asm", "gen-dump;")
+        more_cpp = ("_more", start + 8, 4, "Code/more.cpp", "")
+        refs = {
+            "naked": commit([clean, naked], "naked implementation"),
+            "repointed": commit([clean, asm, alias], "repoint same bytes and add overlapping row"),
+            "dumped": commit([clean, asm, alias, more_dump], "claim another dump body"),
+            "recovered": commit([clean, asm, alias, more_cpp], "replace that dump with source"),
+        }
+
+        def reader(rva, size):
+            assert start <= rva <= rva + size <= start + len(image)
+            return image[rva - start:rva - start + size]
+
+        # Only image I/O is synthetic. Git, row parsing, classifiers, interval
+        # accounting and reporting all run normally against the committed inputs.
+        with patch.object(progress, "ROOT", repo), \
+                patch.object(progress, "retail_text", return_value=(start, len(image))), \
+                patch.object(progress, "_text_image", return_value=(start, image)), \
+                patch.object(progress.build, "read_target_bytes", side_effect=reader), \
+                patch.object(progress, "data_denominator", return_value=0):
+            yield refs
+
+
+def progress_output(*args):
+    output = io.StringIO()
+    with patch.object(sys, "argv", [str(TOOL), *args]), redirect_stdout(output):
+        progress.main()
+    return output.getvalue()
 
 
 def test_compiled_sdk_source_is_cpp_with_vendored_provenance():
@@ -243,38 +320,38 @@ def test_live_naked_and_clean_rows_are_distinguished():
           f"{len(clean)} clean")
 
 
-def test_b08_is_zero_byte_progress():
-    start, size = progress.retail_text()
-    before_rows = progress.matched_at(f"{COMMIT}^")
-    after_rows = progress.matched_at(COMMIT)
-    before = progress.coverage(
-        before_rows, start, size, progress.naked_cpp_rows_at(before_rows, f"{COMMIT}^"))
-    after = progress.coverage(
-        after_rows, start, size, progress.naked_cpp_rows_at(after_rows, COMMIT))
-    assert before == after, (before, after)
-
-    proc = subprocess.run(
-        [sys.executable, str(TOOL), f"{COMMIT}^..{COMMIT}"],
-        cwd=ROOT, capture_output=True, text=True, check=True)
+def test_naked_repoint_is_zero_byte_progress():
+    with committed_progress_history() as refs:
+        start, size = progress.retail_text()
+        before_rows = progress.matched_at(refs["naked"])
+        after_rows = progress.matched_at(refs["repointed"])
+        before = progress.coverage(
+            before_rows, start, size, progress.naked_cpp_rows_at(before_rows, refs["naked"]))
+        after = progress.coverage(
+            after_rows, start, size, progress.naked_cpp_rows_at(after_rows, refs["repointed"]))
+        assert len(after_rows) > len(before_rows)
+        assert before == after, (before, after)
+        assert after["cpp"] == 4 and after["asm_only"] == 4 and after["exact"] == 8, after
+        output = progress_output(f"{refs['naked']}..{refs['repointed']}")
     # Every delta the scorecard prints must be zero, on whichever views exist.
     # Pinning the line count instead broke the moment the real-code view added
     # six more of them, which is a report gaining detail, not progress moving.
-    deltas = proc.stdout.count("delta ")
-    assert deltas and proc.stdout.count("delta +0 bytes, +0.00 pp") == deltas, proc.stdout
-    assert "matched rows" not in proc.stdout, proc.stdout
-    print(f"PASS b08 reports zero byte progress on all {deltas} reported lanes")
+    deltas = output.count("delta ")
+    assert deltas and output.count("delta +0 bytes, +0.00 pp") == deltas, output
+    assert "matched rows" not in output, output
+    print(f"PASS naked repoint reports zero byte progress on all {deltas} reported lanes")
 
 
 def test_details_are_opt_in():
-    plain = subprocess.run(
-        [sys.executable, str(TOOL), f"{COMMIT}^..{COMMIT}"],
-        cwd=ROOT, capture_output=True, text=True, check=True).stdout
-    detailed = subprocess.run(
-        [sys.executable, str(TOOL), "--details", f"{COMMIT}^..{COMMIT}"],
-        cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    with committed_progress_history() as refs:
+        compare = f"{refs['naked']}..{refs['repointed']}"
+        plain = progress_output(compare)
+        detailed = progress_output("--details", compare)
     assert "ledger details" not in plain
     assert "ledger details" in detailed and "distinct RVAs" in detailed
     assert "ASM-backed rows:" in detailed and "ASM-bearing files:" in detailed
+    assert re.search(r"matched rows:\s+2\s+->\s+3\b", detailed), detailed
+    assert re.search(r"distinct RVAs:\s+2\s+->\s+2\b", detailed), detailed
     print("PASS ledger diagnostics require --details")
 
 
@@ -376,25 +453,23 @@ def test_gamespy_sdk_c_is_vendored_but_the_cpp_beside_it_is_not():
 
 
 def test_dump_pass_moved_zero_recovered_bytes():
-    """The metric must not be movable by a script.
-
-    The stage 1-4 dump pass claimed 4.57 MB of retail as MASM `db` bodies. If
-    that can raise the recovered figure by one byte, the figure is worthless,
-    so the whole pass is pinned here as a zero.
-    """
-    start, size = progress.retail_text()
-    before_ref, after_ref = "03b2ecc83", "6fe7ee982"
-    figures = []
-    for ref in (before_ref, after_ref):
-        rows = progress.matched_at(ref)
-        figures.append(progress.source_split(
-            rows, progress.notes_at(ref), start, size,
-            progress.naked_cpp_rows_at(rows, ref)))
-    before, after = figures
-    assert before["recovered"] == after["recovered"], (before, after)
-    assert after["dump"] - before["dump"] > 4_000_000, (before, after)
-    print(f"PASS dump pass added {after['dump'] - before['dump']:,} scaffold bytes "
-          f"and 0 recovered bytes")
+    """New dump coverage must not gain source credit; a clean conversion must."""
+    with committed_progress_history() as refs:
+        start, size = progress.retail_text()
+        figures, exact = [], []
+        for state in ("repointed", "dumped", "recovered"):
+            ref = refs[state]
+            rows = progress.matched_at(ref)
+            naked = progress.naked_cpp_rows_at(rows, ref)
+            figures.append(progress.real_split(rows, progress.notes_at(ref), start, size, naked))
+            exact.append(progress.coverage(rows, start, size, naked)["exact"])
+        before, dumped, recovered = figures
+        assert progress.decompiled(before) == progress.decompiled(dumped) == 4, figures
+        assert dumped["dump"] - before["dump"] == 4, figures
+        assert exact == [8, 12, 12], exact
+        assert progress.decompiled(recovered) - progress.decompiled(dumped) == 4, figures
+        assert dumped["dump"] - recovered["dump"] == 4, figures
+    print("PASS dumps add exact coverage only; clean source gains recovered credit")
 
 
 def test_readme_headline_is_a_recovered_figure():
@@ -472,7 +547,7 @@ def main():
     test_signature_prefix_does_not_match_another_method()
     test_c_naked_signature_matches_decorated_row()
     test_live_naked_and_clean_rows_are_distinguished()
-    test_b08_is_zero_byte_progress()
+    test_naked_repoint_is_zero_byte_progress()
     test_details_are_opt_in()
     test_source_lanes_partition_claims_and_exclude_dumps()
     test_zero_hour_reference_source_is_not_authored()
