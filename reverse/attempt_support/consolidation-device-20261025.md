@@ -243,6 +243,35 @@ local commit is a published receipt.
   unchanged. Ghost's byte/vector-view blockers and Shadow's lack of a verified
   two-donor merge are unchanged and were not repeatedly rebuilt.
 
+### Fresh scoped queue recheck
+
+The planner snapshot and scoped queue were regenerated on 2026-10-25 and passed
+`name_lane.py consolidate --check`. The queue still has no clean unheld donor
+set. `Win32BIGFileSystem.cpp` routes outside this pilot prefix and Shrub is
+HELD, so neither was taken. Current merge trials found no accepted in-scope
+batch: WaterTracks has no accepted donors and `Rva000FF50DSaveTracks.cpp` has
+no baseline match; BufferManager accepts no donors; Bridge accepts none, with
+`W3DBridgeGetModelVertices.cpp` failing at `m_start` (missing `;`),
+`W3DBridgeLoad.cpp` failing at the missing `W3DBridge::MeshClass` declaration,
+`W3DBridgeBufferAddBridge.cpp` failing because `W3DBridgeBuffer::addBridge` is
+undeclared, and `W3DBridgeBufferLoadBridges.cpp` failing because
+`W3DBridgeBuffer::loadBridges` is undeclared. Ghost accepts none; its rejected
+donors still hit `_STL::__false_type` redefinition and duplicate `_STL::vector`
+template definitions. Prop's rejected React donor still hits a `Coord3D`
+redefinition, and TreeDraw's rejected module-name donor calls missing
+`W3DTreeDraw::getModuleNameKey`.
+
+The updated Laser trial accepts three donors under this prefix plus two WW3D2
+donors under `Code/Libraries/`; it rejects the vector destructor donor for no
+baseline match and refuses protected-register donors. GameFont accepts its
+existing seed plus two `Code/Libraries/` donors. These cross-area batches were
+left unapplied. In-scope split trials for the Prop destructor, both Tree module
+data donors, BufferManager re-acquire, and both Font donors were whole donors
+with no residual. BufferManager Slots carved only `0x00115ECB` and `0x001163E7`
+(2/2 matched); six other rows had duplicate definitions, and the merge verifier
+still accepted no donor. All dry runs were read-only; no claims or source edits
+were made for these candidates.
+
 Final scoped queue receipt: `build/device-queue-after-init.txt`. The session ends
 with verified consolidation tasks complete, not an assertion that the scope has
 no remaining work. The BFME 1 reference update/freshness handoff above remains
