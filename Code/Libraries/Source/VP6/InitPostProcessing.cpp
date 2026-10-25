@@ -21,12 +21,13 @@ const unsigned int * g_bfmeScaleTableUV;
 extern const void *g_bfmeScaleTableV1;
 // g_bfmeScaleTableV1: the V1 scale table pointer (VA 0xe22ce4, zero-filled .bss), set here.
 const void * g_bfmeScaleTableV1;
-// g_bfmeDeringModifiers: the dering modifier table (VA 0xe22be0, zero-filled),
-// a copy of the V1 table made here.
-int g_bfmeDeringModifiers[64] = { 0 };
-// g_bfmeFilterLimit: the loop-filter limit table pointer (VA 0x00E22CE0,
-// zero-filled .bss); InitPostProcessing stores the version's table in it.
-int *g_bfmeFilterLimit;
+// Storage view: the 64 native modifier dwords begin at VA E22BE0.
+// Their end at E22CE0 is also the active loop-limit pointer slot. Keeping
+// that slot in the same allocation preserves this observable adjacency.
+// The first 64 cells remain the modifier table; cell 64 holds pointer bits.
+// This view does not establish the original C++ aggregate type.
+int g_bfmeDeringModifiers[65] = { 0 };
+#define g_bfmeFilterLimit (*(int **)(g_bfmeDeringModifiers + 64))
 // g_bfmeDeblockLimit: the deblock limit table pointer (VA 0x00E22CEC, zero-filled .bss);
 // InitPostProcessing stores the version's table in it.
 int *g_bfmeDeblockLimit;

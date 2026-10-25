@@ -14,7 +14,8 @@
 
 extern const unsigned char g_bfmeClampTable[];		// retail 0x00E23100 (zero point)
 // g_bfmeFilterLimit is defined in InitPostProcessing.cpp, which sets it.
-extern int * g_bfmeFilterLimit;
+extern int g_bfmeDeringModifiers[65];
+#define g_bfmeFilterLimit (*(int **)(g_bfmeDeringModifiers + 64))
 
 // g_bfmeClampTable: matched DIR32 references place this at VA 0x00E23100
 // (RVA 0x00A23100), in .data's zero-filled tail. This 0x200-byte storage

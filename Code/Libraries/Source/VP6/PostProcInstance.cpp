@@ -39,7 +39,8 @@ struct Rva009AF530Context;
 struct Rva009ACC40State;
 extern "C" int *__cdecl SetupBoundingValueArray_Generic(Rva009AF490Context *, int); // 0x001BFE80
 extern "C" int *__cdecl SetupDeblockValueArray_Generic(Rva009ACBA0Context *, int); // 0x001BD590
-extern int *g_bfmeFilterLimit;   // 0x00E22CE0 loop-filter limit table pointer
+extern int g_bfmeDeringModifiers[65];
+#define g_bfmeFilterLimit (*(int **)(g_bfmeDeringModifiers + 64))
 extern int *g_bfmeDeblockLimit;       // 0x00E22CEC deblock limit table pointer
 // The deblock and bounding value-array builders are slots 1 (VA 0x00E22F80)
 // and 2 (VA 0x00E22F84) of the codec dispatch table at VA 0x00E22F7C that

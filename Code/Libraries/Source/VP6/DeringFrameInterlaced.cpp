@@ -58,7 +58,8 @@ extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 #define g_slotDeringStrong g_bfmeCodecDispatch.strongDering
 #define g_slotDeringWeak g_bfmeCodecDispatch.weakDering
 extern void *g_bfmeSlotB44;
-extern int g_bfmeDeringModifiers[64];
+// Only the first 64 cells are modifiers; cell 64 is the adjacent pointer.
+extern int g_bfmeDeringModifiers[65];
 
 // The quantiser tables, read from BFME 2 .data 0x00DB7828 and 0x00DB7928.
 int g_bfmeDeringScaleV2[64] =

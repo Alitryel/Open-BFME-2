@@ -1,0 +1,1 @@
+data_check --enforce: six sources; zero findings; actual exit 0

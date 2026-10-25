@@ -54,7 +54,8 @@ extern BfmeCodecDispatchTable g_bfmeCodecDispatch;
 #define g_slotDeringStrong (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[24])
 #define g_slotDeringWeak (*(Rva009B2A50Dering *)&g_bfmeCodecDispatch.slot[16])
 extern void *g_bfmeSlotB44;
-extern int g_bfmeDeringModifiers[64];
+// Only the first 64 cells are modifiers; cell 64 is the adjacent pointer.
+extern int g_bfmeDeringModifiers[65];
 extern int g_bfmeDeringScaleV2[64];
 extern int g_bfmeDeringScaleV5[64];
 

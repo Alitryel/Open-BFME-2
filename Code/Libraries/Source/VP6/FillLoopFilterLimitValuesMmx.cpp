@@ -7,7 +7,8 @@
 // table (pointer at retail 0x00E22CE0) for the SIMD filters: the low 16 bits
 // of entry i are written four times at 0x00E229E0 + 8i. The data ledger
 // names both globals today.
-extern int *g_bfmeFilterLimit;
+extern int g_bfmeDeringModifiers[65];
+#define g_bfmeFilterLimit (*(int **)(g_bfmeDeringModifiers + 64))
 
 // The expanded table this routine fills: 256 16-bit entries (four per limit),
 // .bss VA 0x00E229E0; the next referenced datum starts 0x200 bytes later.
