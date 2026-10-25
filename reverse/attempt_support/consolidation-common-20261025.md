@@ -101,3 +101,17 @@ staged move, covering all six deleted paths. The new validator-path references
 are merged provenance and the maintainer's census snapshot. No active tools,
 hooks, workflows, includes, build inputs or registries require repair; earlier
 historical and distinct stem-prefix references retain their prior classification.
+
+## Dict.cpp
+
+The current plan approved `DictSetReal.cpp` alongside the existing Dict.cpp.
+Both the dry run and claimed merge accepted both sources without rejection:
+two matched rows preserved and one source removed. `DictPairClear.cpp` remains
+mixed (seven foreign rows) and was not split. The normal build passed 2/2;
+the declared-unmatched check passed. The existing TU map only changed the
+setReal source column, alongside the corresponding function row.
+
+Fetched origin and audited all seven pending deleted paths from `91fe970939`
+through the staged Dict move. The new old-path hits are the merged provenance
+comment and the maintainer's census snapshot. No active path consumer needs
+repair, and all earlier audit classifications still hold.
