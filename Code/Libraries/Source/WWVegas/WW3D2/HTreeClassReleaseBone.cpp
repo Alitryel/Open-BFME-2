@@ -1,4 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
+// stlport
 //
 // ?Release_Bone@HTreeClass@@QAEXH@Z, retail 0x001661F0, 70 bytes.
 //
@@ -17,27 +18,24 @@
 // The copy helper 0x00161350 is rowed as STLport's random-access __copy over
 // 36-byte BfmePod36 records (int distance); declared only, so the call keeps
 // that name. The element and tag take those spellings here.
+#include <iterator>
 namespace _STL {
-struct random_access_iterator_tag;
 template <class _RandomAccessIter, class _OutputIter, class _Distance>
 _OutputIter __copy(_RandomAccessIter __first, _RandomAccessIter __last, _OutputIter __result,
 	const random_access_iterator_tag &, _Distance *);
 }
-namespace _STL { struct random_access_iterator_tag {}; }
 struct BfmePod36 { int Index; unsigned char m_pad[32]; };
 typedef BfmePod36 BfmeRva00161350Elem;
 class HTreeClass {
     char m_pad0[28];
-    BfmeRva00161350Elem *Begin;
-    BfmeRva00161350Elem *End;
-    BfmeRva00161350Elem *Capacity;
+    unsigned int OwnedSequence1C[3];
 public:
     void Release_Bone(int boneindex);
 };
 void HTreeClass::Release_Bone(int boneindex)
 {
-    BfmeRva00161350Elem *p = Begin;
-    BfmeRva00161350Elem *end = End;
+    BfmeRva00161350Elem *p = reinterpret_cast<BfmeRva00161350Elem *>(OwnedSequence1C[0]);
+    BfmeRva00161350Elem *end = reinterpret_cast<BfmeRva00161350Elem *>(OwnedSequence1C[1]);
     if (p == end)
         return;
     do {
@@ -47,11 +45,11 @@ void HTreeClass::Release_Bone(int boneindex)
     } while (p != end);
     return;
 found:
-    BfmeRva00161350Elem *finish = *(BfmeRva00161350Elem * volatile *)&End;
+    BfmeRva00161350Elem *finish = *(BfmeRva00161350Elem * volatile *)&OwnedSequence1C[1];
     BfmeRva00161350Elem *next = p + 1;
     if (next != finish) {
         _STL::random_access_iterator_tag tag;
         _STL::__copy(next, finish, p, tag, (int *)0);
     }
-    --End;
+    OwnedSequence1C[1] -= sizeof(BfmeRva00161350Elem);
 }
