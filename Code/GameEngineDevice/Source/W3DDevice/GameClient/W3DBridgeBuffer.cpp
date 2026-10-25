@@ -194,6 +194,7 @@ class W3DBridgeBuffer
 {
 public:
 	void rva000DD878(int dummy);
+	void allocateBridgeBuffers(void);
 private:
 	void *m_vertexBridge;
 private:

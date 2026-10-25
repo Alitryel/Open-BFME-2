@@ -35,7 +35,7 @@ private:
 	BfmeDynamicNativeVB *m_vertexBridge;
 	DX8IndexBufferClass *m_indexBridge;
 	int m_08;
-	int m_0C;
+	int m_c;
 };
 
 void W3DBridgeBuffer::allocateBridgeBuffers()
@@ -45,5 +45,5 @@ void W3DBridgeBuffer::allocateBridgeBuffers()
 	m_vertexBridge = new BfmeDynamicNativeVB(0x152, 0x1F44, 1, 0);
 	m_indexBridge = new DX8IndexBufferClass(0x3E84, DX8IndexBufferClass::USAGE_DYNAMIC);
 	m_08 = 0;
-	m_0C = 0;
+	m_c = 0;
 }
