@@ -16,7 +16,6 @@
 
 #include "unicode_string.h"
 
-#define BFME_VSLOT(n) virtual void slot##n();
 
 class GameWindow;
 struct RGBColor;
@@ -29,16 +28,16 @@ void GadgetProgressBarSetProgress( GameWindow *g, int progress );
 class NetworkInterface
 {
 public:
-	BFME_VSLOT(0) BFME_VSLOT(1) BFME_VSLOT(2) BFME_VSLOT(3)
-	BFME_VSLOT(4) BFME_VSLOT(5) BFME_VSLOT(6) BFME_VSLOT(7)
-	BFME_VSLOT(8)
+	virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
+	virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();
+	virtual void slot8();
 	virtual void liteupdate( int mode );              // +0x24
 	virtual void update( int mode );                  // +0x28
-	BFME_VSLOT(11) BFME_VSLOT(12) BFME_VSLOT(13)
-	BFME_VSLOT(14) BFME_VSLOT(15) BFME_VSLOT(16) BFME_VSLOT(17)
-	BFME_VSLOT(18) BFME_VSLOT(19) BFME_VSLOT(20) BFME_VSLOT(21)
-	BFME_VSLOT(22) BFME_VSLOT(23) BFME_VSLOT(24) BFME_VSLOT(25)
-	BFME_VSLOT(26) BFME_VSLOT(27)
+	virtual void slot11(); virtual void slot12(); virtual void slot13();
+	virtual void slot14(); virtual void slot15(); virtual void slot16(); virtual void slot17();
+	virtual void slot18(); virtual void slot19(); virtual void slot20(); virtual void slot21();
+	virtual void slot22(); virtual void slot23(); virtual void slot24(); virtual void slot25();
+	virtual void slot26(); virtual void slot27();
 	virtual void updateLoadProgress( int percent );   // +0x70
 };
 
@@ -46,8 +45,8 @@ public:
 class GameInfo
 {
 public:
-	BFME_VSLOT(0) BFME_VSLOT(1) BFME_VSLOT(2) BFME_VSLOT(3)
-	BFME_VSLOT(4)
+	virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
+	virtual void slot4();
 	virtual int getLocalSlotNum();
 };
 
@@ -65,12 +64,12 @@ public:
 class GameEngine
 {
 public:
-	BFME_VSLOT(0) BFME_VSLOT(1) BFME_VSLOT(2) BFME_VSLOT(3) BFME_VSLOT(4)
-	BFME_VSLOT(5) BFME_VSLOT(6) BFME_VSLOT(7) BFME_VSLOT(8) BFME_VSLOT(9)
-	BFME_VSLOT(10) BFME_VSLOT(11) BFME_VSLOT(12) BFME_VSLOT(13) BFME_VSLOT(14)
-	BFME_VSLOT(15)
-	BFME_VSLOT(16) BFME_VSLOT(17) BFME_VSLOT(18) BFME_VSLOT(19)
-	BFME_VSLOT(20) BFME_VSLOT(21) BFME_VSLOT(22)
+	virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4();
+	virtual void slot5(); virtual void slot6(); virtual void slot7(); virtual void slot8(); virtual void slot9();
+	virtual void slot10(); virtual void slot11(); virtual void slot12(); virtual void slot13(); virtual void slot14();
+	virtual void slot15();
+	virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
+	virtual void slot20(); virtual void slot21(); virtual void slot22();
 	virtual void serviceWindowsOS();  // BFME 2 +0x5C
 };
 
@@ -78,8 +77,8 @@ public:
 class GameWindowManager
 {
 public:
-	BFME_VSLOT(0) BFME_VSLOT(1) BFME_VSLOT(2) BFME_VSLOT(3) BFME_VSLOT(4)
-	BFME_VSLOT(5) BFME_VSLOT(6) BFME_VSLOT(7) BFME_VSLOT(8) BFME_VSLOT(9)
+	virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4();
+	virtual void slot5(); virtual void slot6(); virtual void slot7(); virtual void slot8(); virtual void slot9();
 	virtual void update();  // BFME 2 +0x28
 };
 
@@ -87,8 +86,8 @@ public:
 class BfmeAptWindowManager
 {
 public:
-	BFME_VSLOT(0) BFME_VSLOT(1) BFME_VSLOT(2) BFME_VSLOT(3) BFME_VSLOT(4)
-	BFME_VSLOT(5) BFME_VSLOT(6) BFME_VSLOT(7) BFME_VSLOT(8) BFME_VSLOT(9)
+	virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4();
+	virtual void slot5(); virtual void slot6(); virtual void slot7(); virtual void slot8(); virtual void slot9();
 	virtual void update();  // BFME 2 +0x28
 };
 
@@ -96,14 +95,13 @@ public:
 class Display
 {
 public:
-	BFME_VSLOT(0) BFME_VSLOT(1) BFME_VSLOT(2) BFME_VSLOT(3) BFME_VSLOT(4)
-	BFME_VSLOT(5) BFME_VSLOT(6) BFME_VSLOT(7) BFME_VSLOT(8) BFME_VSLOT(9)
+	virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4();
+	virtual void slot5(); virtual void slot6(); virtual void slot7(); virtual void slot8(); virtual void slot9();
 	virtual void update();  // BFME 2 +0x28
-	BFME_VSLOT(11)
+	virtual void slot11();
 	virtual void draw();    // BFME 2 +0x30
 };
 
-#undef BFME_VSLOT
 
 extern NetworkInterface *TheNetwork;
 extern GameInfo *TheGameInfo;
