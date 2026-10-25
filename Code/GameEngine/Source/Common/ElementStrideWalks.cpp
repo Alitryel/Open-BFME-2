@@ -31,24 +31,33 @@ Elem36 *rva00161150CopyWalk(Elem36 *first, Elem36 *last, Elem36 *dest)
 //
 // Same shape as the Elem36 walk above: bounded-by-end-pointer walk handing
 // each 28-byte slot to the helper at 0x006896F0 (rowed 66-byte pair
-// construct body; pinned here under an address-derived name). Both cursors
-// advance by the retail step 0x1c; the returned value is the advanced dest
-// cursor. Element identity is not recovered -- Elem28 is a stride-sized
-// stand-in in the ElementStrideWalks donor's own convention.
+// construct body). Both cursors advance by the retail step 0x1c; the returned
+// value is the advanced dest cursor. Element identity is not recovered --
+// Elem28 is a stride-sized stand-in in the ElementStrideWalks donor's own
+// convention.
+//
+// The callee is the ledger's rowed `_STL::_Construct<Rva001D28F0Element>`
+// (0x006896F0, 66 B): the walk's retail REL32 at 0x00689762 lands on that
+// address, and the address-derived gen006896F0 spelling had no definition to
+// link. The 28-byte stand-in only has to spell the rowed instantiation's
+// mangled name; the pointer casts are no-ops, so the walk's bytes do not move.
 
 struct Elem28
 {
 	char m_bytes[28];
 };
 
-void gen006896F0(Elem28 *slot, const Elem28 *source);
+struct Rva001D28F0Element
+{
+	char m_bytes[28];
+};
 
 Elem28 *rva00689750CopyWalk(Elem28 *first, Elem28 *last, Elem28 *dest)
 {
 	Elem28 *cursor = dest;
 	for ( ; first != last; ++first)
 	{
-		gen006896F0(cursor, first);
+		_STL::_Construct((Rva001D28F0Element *)cursor, *(const Rva001D28F0Element *)first);
 		++cursor;
 	}
 	return cursor;
