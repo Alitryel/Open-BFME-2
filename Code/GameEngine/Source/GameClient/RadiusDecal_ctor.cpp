@@ -8,10 +8,12 @@
 // matched 17 bytes there): null template/shadow, empty true, extra dword at
 // +0x0C zeroed. Retail zeroes the extra through xmm0 (SSE float store).
 
+struct RadiusDecalShadow;
+
 class RadiusDecal
 {
 	int m_decalTemplate; // +0x00
-	void *m_shadow; // +0x04
+	RadiusDecalShadow *m_shadow; // +0x04, same holder view as RadiusDecal.cpp
 	bool m_empty; // +0x08
 	float m_extra; // +0x0C
 

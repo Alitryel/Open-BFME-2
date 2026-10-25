@@ -16,6 +16,7 @@ class RadiusDecal
 	int m_decalTemplate; // +0x00
 	RadiusDecalShadow *m_shadow; // +0x04
 	bool m_empty; // +0x08
+	float m_extra; // +0x0C, initialized by the retail constructor at 0x00330DA4
 
 public:
 	void setPosition(const Coord3D &pos);
