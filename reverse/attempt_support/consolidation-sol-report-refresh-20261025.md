@@ -48,3 +48,19 @@ braced initializers and their semicolons in one declaration, without treating
 functions as declarations. WaterTracks file/constructor/init claims released.
 
 No files consolidated or identity keys retired by this report refresh.
+
+## BIG lookup-result donor repaired
+
+`Code/Libraries/Source/WWVegas/WWLib/Rva00603CA3Finish.cpp` no longer declares
+unused STL map aliases, a comparator, or receiver data fields. Its caller only
+needs the existing lookup member, so it now uses the minimal public class view
+also used by Rva00603C5F.cpp. No receiver layout was inferred or changed.
+
+Acceptance: `./build.sh` passes its sole 95-byte row at 0x00603CA3; the frozen-file
+check passes. The normal Win32BIGFileSystem.cpp merge dry run improves from five
+accepted donors / 11 matched rows to six donors / 12 rows, with no rejected clean
+donors. Scratch reports: build/sol-big-before.txt and build/sol-big-after.txt.
+Luna can apply that six-donor merge through tu_skeleton. Mixed/protected donors
+remain outside that acceptance scope. This prerequisite commit removes no files
+and retires no identity debt. No source paths move in the outgoing batch, so the
+consumer audit requires no path updates.
