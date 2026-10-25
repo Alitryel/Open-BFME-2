@@ -37,15 +37,61 @@ class GameSlot
 {
 public:
 	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
+	Bool isHuman() const;
+public:
+	void saveOffOriginalInfo();
+private:
+	void *m_vtable;
+private:
+	Int m_state;
+private:
+	Bool m_isAccepted;
+private:
+	Bool m_hasMap;
+private:
+	Bool m_isMuted;
+private:
+	char m_pad0B[1];
+private:
+	Int m_color;
+private:
+	Int m_startPos;
+private:
+	Int m_bfme14;
+private:
+	Int m_playerTemplate;
+private:
+	Int m_teamNumber;
+private:
+	Int m_bfme20;
+private:
+	Int m_origColor;
+private:
+	Int m_origStartPos;
+private:
+	Int m_origPlayerTemplate;
+public:
+	void setPlayerTemplate(Int playerTemplate);
 };
 
 class GameInfo
 {
 public:
 	void clearSlotList();
+	void enterGame();
+	void endGame();
+	Bool isPlayerPreorder(Int index);
+	void markPlayerAsPreorder(Int index);
 
 private:
-	char m_pad[0x18];
+	// The existing TU verifies the preorder mask at +0x08 and the game
+	// state flags at +0x10/+0x11. The slot array remains at +0x18.
+	char m_pad[0x08];
+	Int m_preorderMask;
+	char m_pad0C[4];
+	Bool m_inGame;
+	Bool m_inProgress;
+	char m_pad12[6];
 	GameSlot *m_slot[MAX_SLOTS];
 };
 
