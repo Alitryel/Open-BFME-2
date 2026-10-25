@@ -30,4 +30,20 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 
 
 struct Rva00332106PointerTarget;
+// Retail's list-base ctor for this instantiation (pinned 0x0029FB3B) takes its
+// sentinel node from the freelist pool at VA 0x00DA60E8 through rowed
+// FreelistPool::pop 0x002393E2, not STLport's node allocator (the same pool
+// stlport_pod_list_bodies.cpp's erase returns nodes to).
+class FreelistPool { public: void *pop(); int m_00; void *m_04; void *m_head; };
+extern FreelistPool g_freelistPool;
+namespace _STL {
+template <> inline _List_base<Rva00332106PointerTarget *, allocator<Rva00332106PointerTarget *> >::_List_base(const allocator<Rva00332106PointerTarget *> &a)
+    : _M_node(_Node_allocator_type(a), (_Node *)0)
+{
+	_Node *node = (_Node *)g_freelistPool.pop();
+	node->_M_next = node;
+	node->_M_prev = node;
+	_M_node._M_data = node;
+}
+}
 template class _STL::list<Rva00332106PointerTarget*>;
