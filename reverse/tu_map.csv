@@ -53119,7 +53119,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006C9970,95,code,,,-,,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp
 0x006C9E00,154,code,,,-,,Code/Libraries/Source/WWVegas/WWDownload/CftpUseNonBlockingMode.cpp
 0x006C9EA0,45,code,,,-,,Code/GameEngine/Source/Common/Bfme/Rva00885980.cpp
-0x006C9ED0,109,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP S=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP N=Code/Libraries/Source/WWVegas/WWDownload/Cftp.cpp,Code/Libraries/Source/WWVegas/WWDownload/ftp_zero_stuff.cpp
+0x006C9ED0,109,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP S=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP N=Code/Libraries/Source/WWVegas/WWDownload/Cftp.cpp,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP
 0x006C9F40,73,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,C,C=0x006C9ED0..0x006C9F90,Code/GameEngine/Source/Common/SmallGaps/resolveHostAddress.cpp
 0x006C9F90,165,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP S=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP N=Code/Libraries/Source/WWVegas/WWDownload/Cftp.cpp,Code/Libraries/Source/WWVegas/WWDownload/CftpAsyncGetHostByName.cpp
 0x006CA040,59,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP S=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP N=Code/Libraries/Source/WWVegas/WWDownload/Cftp.cpp,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP
@@ -53130,7 +53130,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006CA470,21,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,C,C=0x006CA250..0x006CA490,Code/GameEngine/Source/Common/Bfme/Rva00885980.cpp
 0x006CA490,12,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP S=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP N=Code/Libraries/Source/WWVegas/WWDownload/Cftp.cpp,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP
 0x006CA4E0,93,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,C,C=0x006CA490..0x006CA540,Code/GameEngine/Source/Common/Bfme/Rva008859D0.cpp
-0x006CA540,154,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,C,C=0x006CA490..0x006CA5E0,Code/Libraries/Source/WWVegas/WWDownload/FTPPrepareDirectories.cpp
+0x006CA540,154,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,C,C=0x006CA490..0x006CA5E0,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP
 0x006CA5E0,18,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP S=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP N=Code/Libraries/Source/WWVegas/WWDownload/Cftp.cpp,Code/Libraries/Source/WWVegas/WWDownload/ftp_constructor.cpp
 0x006CA600,81,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,C,C=0x006CA5E0..0x006CA660,Code/GameEngine/Source/Common/Bfme/Cftp.cpp
 0x006CA660,562,code,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP S=Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP N=Code/Libraries/Source/WWVegas/WWDownload/Cftp.cpp,Code/Libraries/Source/WWVegas/WWDownload/CftpConnectToServer.cpp
