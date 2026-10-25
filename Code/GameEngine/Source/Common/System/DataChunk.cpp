@@ -27,6 +27,7 @@ public:
 
 	void read( ChunkInputStream &s);
 	unsigned int allocateID( const AsciiString& name );
+	AsciiString getName(unsigned int id);
 
 	Mapping *m_list;			// +0x00
 	int m_listLength;			// +0x04
@@ -45,6 +46,13 @@ public:
 	unsigned int getChunkDataSizeLeft();
 	bool atEndOfFile();
 	void clearChunkStack();
+	float readReal();
+	unsigned char readByte();
+	void readArrayOfBytes(char *buffer, int length);
+	AsciiString getChunkLabel();
+
+protected:
+	void decrementDataLeft(int size);
 
 private:
 	ChunkInputStream *m_file;
