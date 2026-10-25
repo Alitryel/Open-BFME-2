@@ -611,10 +611,11 @@ private: \
 // glue's placement operator new routes straight to global operator new there.
 // getClassMemoryPool bodies still exist in retail as dead code (pulled in by
 // vtables); TUs that must emit them (module_pool_glue_bulk.cpp) define
-// ZH_EMIT_POOL_GLUE to keep the ZH pool call, which drags getClassMemoryPool
-// into the object file.
+// ZH_EMIT_POOL_GLUE to keep a getClassMemoryPool call, which drags it into the
+// object file. The block itself still comes from global operator new: retail
+// has no MemoryPool::allocateBlockImplementation for the call to bind to.
 #ifdef ZH_EMIT_POOL_GLUE
-#define MP_GLUE_ALLOCATE(ARGCLASS) ARGCLASS::getClassMemoryPool()->allocateBlockImplementation(PASS_LITERALSTRING_ARG1)
+#define MP_GLUE_ALLOCATE(ARGCLASS) (ARGCLASS::getClassMemoryPool(), ::operator new(s))
 #else
 #define MP_GLUE_ALLOCATE(ARGCLASS) ::operator new(s)
 #endif
@@ -767,14 +768,12 @@ protected:
 	
 public: 
 
+	// BFME 2 frees pooled objects through global delete: retail's call sites run
+	// the virtual destructor (vtable slot 0, flag 0) and hand the pointer it
+	// returns to operator delete (0x0002FD60), never ZH's MemoryPool::freeBlock.
 	void deleteInstance() 
 	{	
-		if (this)
-		{
-			MemoryPool *pool = this->getObjectMemoryPool(); // save this, since the dtor will nuke our vtbl
-			this->~MemoryPoolObject();	// it's virtual, so the right one will be called.
-			pool->freeBlock((void *)this); 
-		}
+		::delete this;
 	} 
 };
 
