@@ -87,3 +87,27 @@ accepted RVA claims if settlement reports zero. A cooldown-held batch is for
 the runner to publish, never a reason to call publish alone. Existing
 name_agreed/name_votes edits are preserved in the named reassessment stash
 and restored after publication; older preparation backups remain intact.
+
+## Confirmed publication and final checks
+
+Merge `584f3a434d` and its six latest prerequisite commits are confirmed on
+origin/master. The push gate passed 39 code rows across three sources, four
+exact EH rows, ten string literals plus five empty-string references and twelve
+float literals, with no new pins or baseline growth. All seven accepted file
+claims were released after confirmation. `release --landed` settled zero;
+explicit release cleared fifteen remaining file/RVA claims (the other accepted
+RVA claims were already absent). Rejected claims were released earlier.
+
+The normal hook reports the existing shadow Vector3 copy-constructor
+`??0Vector3@@QAE@ABV0@@Z` divergence. Reading its COFF body from both historical
+seed objects and the current merged object proves identical 23-byte code and
+no relocations; exact bytes and paths are in the JSON. No identity-debt
+retirement is claimed.
+
+Final scoped planner refresh and snapshot check passed. Its queue is FTP
+(three remaining donors), HTree (three), TARGA (one) and Thread (one), with the
+prerequisites above. No unchanged failed build was repeated. The user restricts
+application to normal merges; the newly available split lane was not used.
+`progress.py origin/master` passed: BYTE-MATCHED 100.00%, LINKING 97.74%,
+LINKED 95.24%, all deltas zero. Six fewer source files, preserved matched rows
+and separately verified prerequisites are this session's consolidation result.
