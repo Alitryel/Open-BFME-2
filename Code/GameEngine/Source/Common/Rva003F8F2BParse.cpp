@@ -138,7 +138,7 @@ void LivingWorldTutorial::LogicTurn::ParseINI(INI *ini, Rva003F9004 *outer)
 		INIException exc(3, "Invalid data in LogicTurn::ParseINI");
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F2576ThrowInfoAnchor); __assume(0);
 	}
-	Rva003F7EC7 *p = new Rva003F7EC7((outer->m_04?outer->m_04:outer->m_04));
-	ini->initFromINI(p, g_00C37468);
-	outer->rva003F9004((const ModuleData *)p);
+	Rva003F7EC7 *logicTurn = new Rva003F7EC7((outer->m_04?outer->m_04:outer->m_04));
+	ini->initFromINI(logicTurn, g_00C37468);
+	outer->rva003F9004((const ModuleData *)logicTurn);
 }
