@@ -2108,3 +2108,4 @@ local,Rva004E52DC::rva004E52DC::n,Rva004E52DC::rva004E52DC::node,inferred,agree:
 param,shrubPosition::p,shrubPosition::position,inferred,agree:nl-33d96f618922,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp,
 local,shrubPosition::r,shrubPosition::pos,inferred,agree:nl-94fd89b7bfe0,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp,
 local,Rva0023D229::Set::p,Rva0023D229::Set::frame,inferred,agree:nl-b769f3e5e76a,Code/GameEngine/Source/Common/Rva0023D229Set.cpp,0x0023D229
+local,Rva0023D229::rva0023D24C::p,Rva0023D229::rva0023D24C::frame,inferred,agree:nl-8be3b675248e,Code/GameEngine/Source/Common/Rva0023D229Set.cpp,0x0023D24C
