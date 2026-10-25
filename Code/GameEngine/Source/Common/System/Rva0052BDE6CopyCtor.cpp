@@ -37,4 +37,7 @@ Rva0052BDE6::Rva0052BDE6(const Rva0052BDE6 &other)
 
 // Retail's data references in this unit's matched rows land on globals defined
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?g_00C61DB4@@3QBQBXB=??_7TracerFXNugget@@6B@")
+// This existing structural copy view names the same12B native MoveArmy record.
+// Keep its ABI bridge explicit; EmptyBase/manual-vptr type reconciliation is
+// deferred, not claimed solved by following the corrected real Snapshot table.
+#pragma comment(linker, "/alternatename:?g_00C61DB4@@3QBQBXB=??_7Rva004E1B00@@6B@")
