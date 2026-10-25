@@ -7,12 +7,7 @@
 // creation frame minus the logic frame; ControlBar::updateContextOCLTimer
 // (0x0053E2B6) calls it on the object's OCLUpdate module.
 // Evidence: caller 0x0053E310; prev ModuleNameGetters next OCLUpdatePoolKey; same TheGameLogic shape as ObjectRva002900E0.
-class GameLogic
-{
-public:
-	char m_pad[0x40];
-	int m_frame;
-};
+#include "GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 enum NameKeyType
@@ -35,5 +30,5 @@ unsigned int OCLUpdate::getRemainingFrames() const
 {
 	int t = m_20;
 	GameLogic *gameLogic = TheGameLogic;
-	return t - gameLogic->m_frame;
+	return t - gameLogic->getFrame();
 }
