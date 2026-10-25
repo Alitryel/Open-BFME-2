@@ -1495,6 +1495,15 @@ PUBLISHER_PUBLISH = ("import sys\nsys.path.insert(0, sys.argv[1])\nimport publis
                      "pc.release_notes = lambda manifest: " + repr(BUILDER_ATTESTATION + "\n\n") + " + notes(manifest)\n"
                      "sys.exit(pc.main(sys.argv[2:]))\n")
 
+# The ownership release takes publish_cycle's guarded lifecycle: a pre-existing tag or release
+# is refused (`gh release create --target` would reuse a planted tag at another commit), the
+# draft's asset digests are verified before publishing, and the published release must be
+# immutable, by a PUBLISHER, with its tag peeling to the commit and exactly these assets.
+PUBLISHER_OWNERSHIP_RELEASE = ("import sys\nsys.path.insert(0, sys.argv[1])\nimport publish_cycle as pc\n"
+                               "repo, tag, commit, title, notes, *files = sys.argv[2:]\n"
+                               "try:\n    pc.publish_assets(files, repo, tag, commit, title, notes)\n"
+                               "except (pc.PublishError, pc.ca.Problem) as e:\n    sys.exit(f'ownership release refused: {e}')\n")
+
 
 PUBLISHER_OWNERSHIP = """import sys, json
 sys.path.insert(0, sys.argv[1])
@@ -2186,12 +2195,11 @@ class ActionsRun:
     def publish_ownership(self, cycle_tag, report):
         tag = "ownership-" + cycle_tag.replace("/", "-")
         stamp = self.wait_and_stamp("nightly ownership release")
-        argv = [self.executables()["gh"], "release", "create", tag, "--repo", self.args.repo, "--target", self.commit,
-                "--prerelease", "--latest=false", "--title", tag,
-                "--notes", BUILDER_ATTESTATION + "\nSigned ownership evidence for " + cycle_tag,
-                self.work / "image_ownership.json", self.work / "image_ownership_history.csv", report]
+        argv = self.checker(PUBLISHER_OWNERSHIP_RELEASE, self.args.repo, tag, self.commit, tag,
+                            BUILDER_ATTESTATION + "\n\nSigned ownership evidence for " + cycle_tag,
+                            self.work / "image_ownership.json", self.work / "image_ownership_history.csv", report)
         try:
-            self.run("ownership-release", argv, token=True, guarded=False, cwd=self.work / "native-cwd")
+            self.run("ownership-release", argv, token=True)
         finally:
             stamp()
 

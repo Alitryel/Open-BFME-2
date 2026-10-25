@@ -51,3 +51,6 @@ reverse/data_rows.csv text eol=lf merge=union
 reverse/name_basis.csv text eol=lf merge=union
 reverse/name_agreed.csv text eol=lf merge=union
 reverse/name_votes.csv text eol=lf merge=union
+# image_ownership_history.csv (tools/image_ownership.py): append-only signed rows, checked
+# against the committed bytes; LF from birth like the other ledgers, never union-merged.
+reverse/image_ownership_history.csv text eol=lf

@@ -711,6 +711,104 @@ def test_a_release_published_but_not_immutable_is_reported_and_left_alone(bundle
     assert not release["draft"] and "api DELETE" not in gh.verbs()   # published stays published
 
 
+# ---------------------------------------------------------------- publish_assets (the nightly ownership release)
+
+OWN_TAG = "ownership-link-cycle-abc-20261025T000000Z-def"
+
+
+@pytest.fixture
+def assets(tmp_path):
+    d = tmp_path / "assets"
+    d.mkdir()
+    for name, data in (("image_ownership.json", b'{"verified": true}\n'), ("image_ownership_history.csv", b"row\n"),
+                       ("relayout.json", b"{}\n")):
+        (d / name).write_bytes(data)
+    return sorted(d.iterdir())
+
+
+def test_publish_assets_drafts_verifies_digests_then_publishes_immutably(assets):
+    gh = FakeGitHub()
+    got = pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh, out=sys.stderr)
+    verbs = gh.verbs()
+    order = [verbs.index(v) for v in ("release create", "release upload", "release download", "release edit")]
+    assert order == sorted(order), verbs
+    create = next(c for c in gh.calls if c[:2] == ["release", "create"])
+    assert "--draft" in create and create[create.index("--target") + 1] == cf.COMMIT
+    (release,) = gh.releases
+    assert not release["draft"] and release["immutable"] and gh.tags[OWN_TAG] == cf.COMMIT
+    assert {a["name"]: a["data"] for a in release["assets"]} == {f.name: f.read_bytes() for f in assets}
+    assert got["release_id"] == release["id"]
+
+
+@pytest.mark.parametrize("held", ["tag", "annotated-tag", "release", "draft"])
+def test_publish_assets_refuses_a_pre_existing_tag_or_release(assets, held):
+    """The attack: a workflow on another branch with contents:write pre-creates the tag at
+    another commit; `gh release create --target` would reuse it without a word."""
+    gh = FakeGitHub()
+    if held in ("tag", "annotated-tag"):
+        gh.tags[OWN_TAG] = cf.OTHER
+        if held == "annotated-tag":
+            gh.annotated[cf.OTHER] = cf.OTHER
+    else:
+        gh.add_release(OWN_TAG, {"image_ownership.json": b"{}"}, draft=held == "draft", target=cf.OTHER,
+                       published_at="2026-10-11T00:00:00Z")
+    before = json.dumps(gh.releases, default=str), dict(gh.tags)
+    with pytest.raises(pc.PublishError, match="never overwritten"):
+        pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
+    assert not [c for c in gh.calls if c[0] == "release"]
+    assert (json.dumps(gh.releases, default=str), dict(gh.tags)) == before
+
+
+@pytest.mark.parametrize("fault", ["stranger", "mutable", "unknown-commit", "duplicate-name"])
+def test_publish_assets_refuses_before_creating_anything(assets, fault):
+    gh = FakeGitHub(user=STRANGER if fault == "stranger" else None, immutable=fault != "mutable",
+                    commits=(cf.OTHER,) if fault == "unknown-commit" else (cf.COMMIT, cf.OTHER))
+    files = assets + [assets[0]] if fault == "duplicate-name" else assets
+    with pytest.raises(pc.PublishError):
+        pc.publish_assets(files, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
+    assert not [c for c in gh.calls if c[0] == "release"] and gh.releases == []
+
+
+def test_publish_assets_deletes_a_draft_whose_upload_does_not_verify(assets):
+    gh = FakeGitHub()
+    gh.corrupt_upload = "image_ownership_history.csv"
+    with pytest.raises(pc.PublishError, match="does not hash"):
+        pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
+    assert "release edit" not in gh.verbs() and gh.releases == [] and gh.tags == {}
+
+
+def test_publish_assets_checks_the_release_api_digests_before_publishing(assets):
+    gh = FakeGitHub()
+    upload = gh._upload
+
+    def misreported(rest):
+        out = upload(rest)
+        gh._find(rest[0])["assets"][0]["digest"] = "sha256:" + "0" * 64
+        return out
+    gh._upload = misreported
+    with pytest.raises(pc.PublishError, match="asset digests"):
+        pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
+    assert "release edit" not in gh.verbs() and gh.releases == []
+
+
+@pytest.mark.parametrize("after", ["mutable", "retagged"])
+def test_publish_assets_inspects_the_published_release(assets, after):
+    gh = FakeGitHub()
+    edit = gh._edit
+
+    def then(rest):
+        if after == "mutable":
+            gh.immutable_enabled = False
+        out = edit(rest)
+        if after == "retagged":
+            gh.tags[OWN_TAG] = cf.OTHER
+        return out
+    gh._edit = then
+    with pytest.raises(pc.PublishError, match="NOT IMMUTABLE" if after == "mutable" else "points at"):
+        pc.publish_assets(assets, REPO, OWN_TAG, cf.COMMIT, OWN_TAG, "notes", gh=gh)
+    assert "api DELETE" not in gh.verbs()                            # published stays published
+
+
 def test_dry_run_checks_read_only_and_prints_members_manifest_and_commands(bundle, capsys):
     gh = FakeGitHub()
     got = pc.publish(bundle, REPO, gh=gh, dry_run=True)

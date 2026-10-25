@@ -17,13 +17,25 @@ Trigger: daily at 05:17 UTC and `workflow_dispatch` (optional `dry_run`), on
 
 | Job | Runner | Token, secrets | Does | Estimate | Timeout |
 |---|---|---|---|---|---|
-| `boot` | windows-latest | `contents: read`, none | checkout + BFME 1 submodule, `check_csv`, `link_check.py --fetch-index`, full `build.py`, `boot_image.py link --overlay Code/ --relayout --own-data --out build/boot/nightly --tag relayout`, `image_ownership.py report`, `--actions handoff-boot` | 45–90 min | 180 min |
-| `cycle` | windows-latest | `contents: read`, none | `link_cycle.py --snapshot <sha> --build` (cold compile in its own export), `publish_cycle.py validate`, `closure_report.py graph`, `publish_cycle.py bundle --first`, `--actions handoff-cycle` | 1.5–4 h | 330 min |
-| `publish` | windows-latest | `contents: write`, environment `nightly-publish` | `--actions validate`, write key, `--actions sign`, delete key (`always()`), `--actions publish`, `--actions history` | 40–80 min | 120 min |
+| `boot` | windows-2025 | `contents: read`, none | checkout + BFME 1 submodule, `check_csv`, full `build.py` (cold: no `link_check.py --fetch-index`, which only adds a compile cache; nothing here reads the census index), `boot_image.py link --overlay Code/ --relayout --own-data --out build/boot/nightly --tag relayout`, `image_ownership.py report`, `--actions handoff-boot` | 45–90 min | 180 min |
+| `cycle` | windows-2025 | `contents: read`, none | `link_cycle.py --snapshot <sha> --build` (cold compile in its own export), `publish_cycle.py validate`, `closure_report.py graph`, `publish_cycle.py bundle --first`, `--actions handoff-cycle` | 1.5–4 h | 330 min (the `link_cycle.py` step: 300) |
+| `publish` | windows-2025 | `contents: write`, environment `nightly-publish` | `--actions validate`, write key, `--actions sign`, delete key (`always()`), `--actions publish`, `--actions history` | 40–80 min | 120 min |
 
 `boot` and `cycle` run in parallel: the boot image overlays `Code/` and reads no
 cycle output. No `boot_smoke.py` or `game_smoke.py`: hosted runners have no game
 install.
+
+All three jobs use the same toolchain: `runs-on: windows-2025`, Python
+`3.13.15`, and `pip -c .github/nightly-constraints.txt`. That file pins
+capstone, pefile, numpy, pytest and unicorn to the versions the
+byte-verification host resolves today. Every action is pinned to a full commit
+SHA, with its release in a comment. Change a pin on purpose, in its own
+commit.
+
+Each build job uploads its logs with `if: always()`, so a failed run still
+leaves them: `nightly-boot-logs-<attempt>` (`build/boot/nightly/*.json`,
+`*.log`) and `nightly-cycle-logs-<attempt>` (the snapshot's
+`build/link_cycle/*.log` and `receipt.json`).
 
 Estimates come from receipts, not from a hosted run of this workflow (none has
 run yet):
@@ -46,8 +58,24 @@ run yet):
   five-minute cooldowns between the three GitHub writes.
 
 A single job would run the build, cycle and boot one after another for 2.5–5.5 h,
-which is too close to GitHub's 6-hour limit. If the cycle job nears 330 min,
-split its compile from its links. That would hand `build/match` across jobs.
+which is too close to GitHub's 6-hour limit. The `link_cycle.py` step stops
+at 300 min, leaving the job 30 min to upload its logs.
+
+Fallback if the cycle keeps nearing 300 min: split it into two jobs.
+
+1. `cycle-compile` exports the snapshot and runs the compile phase only
+   (`build.py`'s strict compile of every unit, as `link_cycle.py --build` does
+   first). It hands over `build/match` through the same data-only allowlist
+   (`handoff_allowed`: objects and `.deps.json`).
+2. `cycle-link` (`needs: cycle-compile`) re-exports the snapshot from its own
+   git, installs the handed-over objects into fresh directories, and runs
+   `link_cycle.py` with the objects current, so it does not recompile. It then
+   validates, writes the closure report and bundles as today.
+
+Each job gets its own 6-hour budget. The publisher's checks are unchanged
+because the receipt still binds the tree manifest and every object's currency.
+`link_cycle.py` has no compile-only or link-only switch yet: adding one is the
+first step of the split, a `tools/` change with a `Verifier-Change` trailer.
 
 ## Trust boundaries
 
@@ -81,6 +109,21 @@ split its compile from its links. That would hand `build/match` across jobs.
 - **Link, image and ownership figures stay builder-attested.** Nobody re-links
   them. Both releases and the boot report's `measurement_attestation` say so.
   The signed row's `report_sha256` binds the report.
+- **The ownership release is guarded like the cycle bundle**
+  (`publish_cycle.publish_assets`, run from `PUBLISHER_OWNERSHIP_RELEASE`). A
+  plain `gh release create --target` would silently reuse a tag that already
+  exists, which a workflow on another branch with `contents: write` could plant
+  at another commit. So it is refused unless:
+  - the token's account is in `PUBLISHERS`;
+  - the repository enforces immutable releases;
+  - no release (draft or published) and no git tag of that name exists yet;
+  - the commit is on the repository.
+  It then creates a draft, uploads the assets, and checks each asset's size, a
+  fresh download's SHA-256 and the release API's digests. It checks again that
+  no other release or tag has appeared, then publishes. The published release
+  must be an immutable prerelease, authored by a `PUBLISHER`, with its tag
+  (peeled) at the commit and exactly these assets. A failure before publishing
+  deletes only this run's draft. A published release is never deleted.
 - **Secrets are scoped to steps.**
   - `BFME_OWNERSHIP_SIGNING_KEY` exists only in the step that writes the key
     file (`RUNNER_TEMP\nightly-secrets`, icacls: this account only, the key
@@ -128,8 +171,9 @@ Why this route:
 
 1. **Immutable releases**: Settings > General > Releases > enable. Without it,
    `publish_cycle.py publish` refuses.
-2. **Environment** `nightly-publish` (Settings > Environments). Set deployment
-   branches and tags to `master` only. Optionally add yourself as a required
+2. **Environment** `nightly-publish` (Settings > Environments). Under
+   Deployment branches and tags choose **Selected branches and tags** and add
+   the one rule `master` (branch). Optionally add yourself as a required
    reviewer.
 3. **Signing key**, generated offline:
    `ssh-keygen -t ed25519 -N "" -C bfme2-nightly -f ownership_ed25519`.
@@ -151,17 +195,43 @@ Why this route:
    - A dedicated bot account limits what a leaked token can do. Adding one
      means a reviewed `tools/cycle_artifacts.py` change with a
      `Verifier-Change` trailer.
+   - **Expiry and rotation.** Fine-grained tokens expire; GitHub emails the
+     owner about a week before. Pick an expiry (at most a year) and put a
+     reminder a week ahead. To rotate, generate the new token with the same
+     settings, replace the `BFME_RELEASE_TOKEN` secret, run a dry run (it
+     checks the token against `PUBLISHERS` and reads the immutable-release
+     setting), then revoke the old token. An expired token fails the
+     `previous` fetch or the publish step before anything is created; the row
+     is then signed but not published, so re-run after rotating.
    - The workflow does not use `GITHUB_TOKEN` for releases. That token cannot
      read `GET /user` or the immutable-release setting. Also, any workflow with
      `contents: write` on any branch could author a `github-actions[bot]`
      release.
 5. **Push to master**: the history push is made as `github-actions[bot]` with
-   the job's `GITHUB_TOKEN`. If a branch ruleset blocks it, allow GitHub Actions
-   to bypass it for this push, or accept that the row stays in the release.
-6. **Retire the local tasks** after the first green hosted run: disable
+   the job's `GITHUB_TOKEN`, the same way `readme-progress.yml` pushes. The
+   only branch ruleset today, "Protect master", blocks force pushes and
+   deletion and has no bypass actors. A rebased fast-forward push passes it,
+   so no bypass is needed. If a rule is added that blocks a direct push
+   (required pull requests or status checks), `github-actions[bot]` cannot be
+   added as a bypass actor: the bypass list takes roles, teams, deploy keys and
+   installed GitHub Apps, and the Actions token is none of these. Then either
+   install a dedicated GitHub App, put it on the bypass list and push with its
+   installation token, or accept that the row stays in the ownership release.
+   `readme-progress.yml` would break the same way.
+6. **Tag rulesets**: none exist today. If you add one that restricts tag
+   creation, it must still let the release token's account create
+   `link-cycle/*` and `ownership-*` tags; `gh release` creates them when it
+   publishes. A rule that blocks tag updates and deletions is compatible, and
+   immutable releases already lock published tags.
+7. **Retire the local tasks** after the first green hosted run: disable
    `BFME-Nightly-Builder` and `BFME-Nightly-Publisher` in Task Scheduler.
 
 ## First manual run
+
+Finish setup steps 1–4 first. A dry run still writes the signing key and the
+pin, checks that `BFME_RELEASE_TOKEN` is set, and calls GitHub with that token
+(`previous` fetch, `publish_cycle.py publish --dry-run`). Without the
+environment, its secrets and its variable, a dry run fails at the key step.
 
 1. Run a dry run: Actions > Nightly measurement > Run workflow, branch
    `master`, `dry_run` checked. Or from the command line:

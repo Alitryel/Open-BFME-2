@@ -605,8 +605,9 @@ def component_notes(manifest):
     return lines
 
 
-def verify_remote(gh, repo, tag, bundle, files):
-    """Every asset uploaded at the bundle's size, and a fresh download hashes to the bundle."""
+def verify_remote(gh, repo, tag, bundle, files, check=True):
+    """Every asset uploaded at the bundle's size, and a fresh download hashes to the bundle;
+    the download must then validate as a bundle unless CHECK is false (the hashes alone)."""
     info = gh.json(view_cmd(tag, repo)) or {}
     assets = {a.get("name"): a for a in info.get("assets") or ()}
     want = {f.name: f for f in files}
@@ -624,7 +625,8 @@ def verify_remote(gh, repo, tag, bundle, files):
             if not got.is_file() or ca.sha256_file(got) != ca.sha256_file(path):
                 raise PublishError(f"asset {name}: the download does not hash to the bundle's file")
         try:
-            ca.validate(d)
+            if check:
+                ca.validate(d)
         except ca.BundleError as e:
             raise PublishError(f"the downloaded assets do not validate: {e}") from None
 
@@ -789,7 +791,7 @@ def publish(bundle, repo, *, dry_run=False, gh=None, out=None, root=ROOT, allow_
         shutil.rmtree(notes_dir, ignore_errors=True)
 
 
-def _publish(gh, repo, tag, commit, title, notes, bundle, files, out):
+def _publish(gh, repo, tag, commit, title, notes, bundle, files, out, check=True):
     release_id, done, published = None, [], False
 
     def run(args):
@@ -807,10 +809,12 @@ def _publish(gh, repo, tag, commit, title, notes, bundle, files, out):
             raise PublishError(f"the draft targets {info.get('targetCommitish')!r}, not the measured commit {commit}")
         run(upload_cmd(tag, repo, files))
         done.append("verify")
-        verify_remote(gh, repo, tag, bundle, files)
+        verify_remote(gh, repo, tag, bundle, files, check)
         same = releases_of(gh, repo, tag)
         if [r.get("id") for r in same] != [release_id]:
             raise PublishError(f"other releases claim {tag}: {[r.get('id') for r in same]}")
+        if not same_assets(same[0], files):
+            raise PublishError(f"the draft's asset digests (release API) are not the files': {asset_digests(same[0])}")
         if any(r.get("ref") == f"refs/tags/{tag}" for r in gh.json(refs_cmd(repo, tag)) or []):
             raise PublishError(f"the git tag {tag} appeared while the draft was prepared")
         try:
@@ -844,6 +848,47 @@ def _publish(gh, repo, tag, commit, title, notes, bundle, files, out):
     print(f"publish_cycle: published {tag} on {repo} (release {release_id}: prerelease, immutable, not Latest)",
           file=out)
     return {"tag": tag, "dry_run": False, "release_id": release_id, "commands": done}
+
+
+def publish_assets(files, repo, tag, commit, title, notes_text, *, gh=None, out=None):
+    """Publish FILES as a prerelease TAG at COMMIT through the same lifecycle as a bundle:
+    refused unless this account is a PUBLISHER, the repository enforces immutable releases,
+    no release or git tag of TAG exists (`gh release create --target` would silently reuse a
+    pre-existing tag at another commit) and COMMIT is on REPO; then draft, upload, verify every
+    asset digest, un-draft, and inspect the published release (immutable, by a PUBLISHER, the
+    tag peeling to COMMIT, exactly these assets). PublishError when refused."""
+    out = out or sys.stdout
+    files = [Path(f) for f in files]
+    names = [f.name for f in files]
+    if not files or len(set(names)) != len(names) or not all(f.is_file() for f in files):
+        raise PublishError(f"the assets must be distinct existing files: {names}")
+    gh = gh or ca.Gh()
+    me = gh.json(user_cmd()) or {}
+    if not ca.publisher_ok(me):
+        raise PublishError(f"this gh account, {me.get('login')!r} (id {me.get('id')!r}), is not a designated "
+                           f"publisher ({ca.publishers_text()}): consumers would refuse its release")
+    if (gh.json(immutable_cmd(repo)) or {}).get("enabled") is not True:
+        raise PublishError(f"{repo} does not enforce immutable releases: refused")
+    held = releases_of(gh, repo, tag)
+    if held:
+        raise PublishError(f"release(s) {[r.get('id') for r in held]} already hold {tag} on {repo}: never overwritten")
+    refs = [r for r in gh.json(refs_cmd(repo, tag)) or [] if r.get("ref") == f"refs/tags/{tag}"]
+    if refs:
+        raise PublishError(f"the git tag {tag} already exists on {repo} "
+                           f"({(refs[0].get('object') or {}).get('sha', '?')[:12]}): never overwritten")
+    try:
+        remote = (gh.json(commit_cmd(repo, commit)) or {}).get("sha")
+    except ca.GhError as e:
+        raise PublishError(f"{commit[:12]} is not on {repo} ({e.err.strip()[:200]})") from None
+    if remote != commit:
+        raise PublishError(f"{repo} resolves {commit[:12]} to {remote!r}")
+    notes_dir = Path(tempfile.mkdtemp(prefix="publish_cycle-notes-"))
+    try:
+        notes = notes_dir / "notes.md"
+        notes.write_text(notes_text, encoding="utf-8", newline="\n")
+        return _publish(gh, repo, tag, commit, title, notes, None, files, out, check=False)
+    finally:
+        shutil.rmtree(notes_dir, ignore_errors=True)
 
 
 # ---------------------------------------------------------------- CLI

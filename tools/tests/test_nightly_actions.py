@@ -262,8 +262,37 @@ def test_publish_order_cooldowns_and_token_scope(tmp_path, monkeypatch, previous
     assert bundle[bundle.index("--snapshot-root") + 1] == str(r.snapshot())   # a changed tree refuses
     assert nm.PUBLISHER_PUBLISH in rec.calls[4]["argv"] and "--dry-run" not in rec.calls[4]["argv"]
     release = rec.calls[5]["argv"]
-    assert release[3] == "ownership-link-cycle-abc-20261025T000000Z-def" and "--target" in release
+    assert nm.PUBLISHER_OWNERSHIP_RELEASE in release and rec.calls[5]["guarded"]
+    i = release.index(nm.PUBLISHER_OWNERSHIP_RELEASE) + 2
+    assert release[i:i + 3] == ["example/repo", "ownership-link-cycle-abc-20261025T000000Z-def", COMMIT]
+    assert "gh" not in release and "release" not in release   # never a bare `gh release create --target`
     assert len(waits) == 2 and json.loads((r.work / "push_clock.json").read_text())["last_write"]
+
+
+def test_the_ownership_release_child_takes_the_guarded_lifecycle(tmp_path, monkeypatch, capsys):
+    """The child nightly_measure starts, run in-process against publish_cycle's fake GitHub:
+    a planted tag at another commit is refused before anything is created."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import cycle_artifacts as ca
+    import cycle_fixture as cf
+    from test_cycle_artifacts import FakeGitHub
+    tag = "ownership-link-cycle-abc-20261025T000000Z-def"
+    files = [str(write(tmp_path / n, n.encode())) for n in ("image_ownership.json", "image_ownership_history.csv",
+                                                             "relayout.json")]
+    for planted in (True, False):
+        gh = FakeGitHub()
+        if planted:
+            gh.tags[tag] = cf.OTHER
+        monkeypatch.setattr(ca, "Gh", lambda gh=gh: gh)
+        monkeypatch.setattr(sys, "argv", ["-c", str(TOOLS), "Open-BFME/Open-BFME-2", tag, cf.COMMIT, tag, "n", *files])
+        if planted:
+            with pytest.raises(SystemExit, match="ownership release refused: the git tag .* already exists"):
+                exec(nm.PUBLISHER_OWNERSHIP_RELEASE, {})
+            assert not [c for c in gh.calls if c[0] == "release"] and gh.tags[tag] == cf.OTHER
+        else:
+            exec(nm.PUBLISHER_OWNERSHIP_RELEASE, {})
+            (release,) = gh.releases
+            assert release["immutable"] and not release["draft"] and gh.tags[tag] == cf.COMMIT
 
 
 def test_no_publish_is_a_dry_run_without_a_github_write(tmp_path, monkeypatch):
@@ -404,13 +433,13 @@ def test_build_jobs_hold_no_secret_and_publish_nothing(workflow):
     for name in ("boot", "cycle"):
         job = workflow["jobs"][name]
         text = job_text(job)
-        assert job["runs-on"] == "windows-latest" and job["permissions"] == {"contents": "read"}
+        assert job["runs-on"] == "windows-2025" and job["permissions"] == {"contents": "read"}
         assert "environment" not in job and "secrets." not in text and "github.token" not in text
         assert "boot_smoke" not in text and "game_smoke" not in text
         assert all(s.get("with", {}).get("persist-credentials") is False
                    for s in job["steps"] if str(s.get("uses", "")).startswith("actions/checkout"))
     boot = job_text(workflow["jobs"]["boot"])
-    assert "--fetch-index" in boot and "tools/build.py" in boot and "--relayout" in boot and "--own-data" in boot
+    assert "--fetch-index" not in boot and "tools/build.py" in boot and "--relayout" in boot and "--own-data" in boot
     assert "image_ownership.py report" in boot and "--actions handoff-boot" in boot
     cycle = job_text(workflow["jobs"]["cycle"])
     assert "link_cycle.py --snapshot" in cycle and "--actions handoff-cycle" in cycle
@@ -419,7 +448,7 @@ def test_build_jobs_hold_no_secret_and_publish_nothing(workflow):
 def test_publish_job_is_the_only_secret_holder_and_deletes_the_key(workflow):
     job = workflow["jobs"]["publish"]
     assert set(job["needs"]) == {"boot", "cycle"} and job["environment"] == "nightly-publish"
-    assert job["permissions"] == {"contents": "write"} and job["runs-on"] == "windows-latest"
+    assert job["permissions"] == {"contents": "write"} and job["runs-on"] == "windows-2025"
     steps = job["steps"]
     names = [s.get("name", s.get("uses", "")) for s in steps]
     run = [s.get("run", "") for s in steps]
@@ -439,6 +468,41 @@ def test_publish_job_is_the_only_secret_holder_and_deletes_the_key(workflow):
     checkout = next(s for s in steps if str(s.get("uses", "")).startswith("actions/checkout"))
     assert checkout["with"]["persist-credentials"] is False and checkout["with"]["ref"] == "${{ github.sha }}"
     assert "--no-verify" not in job_text(job)
+
+
+def test_every_action_is_pinned_to_a_full_commit_sha_with_its_version():
+    import re
+    uses = re.findall(r"^\s*(?:- )?uses: (\S+)(.*)$", WORKFLOW.read_text(encoding="utf-8"), re.M)
+    assert uses
+    for ref, comment in uses:
+        assert re.fullmatch(r"[\w.-]+/[\w.-]+@[0-9a-f]{40}", ref), ref
+        assert re.fullmatch(r"\s+# v\d+\.\d+\.\d+", comment), (ref, comment)
+
+
+def test_all_jobs_resolve_one_exact_toolchain(workflow):
+    constraints = REPO / workflow["env"]["CONSTRAINTS"]
+    pins = dict(line.split("==") for line in constraints.read_text(encoding="utf-8").splitlines()
+                if line and not line.startswith("#"))
+    assert {"capstone", "pefile"} <= set(pins)
+    for name, job in workflow["jobs"].items():
+        assert job["runs-on"] == "windows-2025", name
+        steps = job["steps"]
+        python = [s["with"]["python-version"] for s in steps if "setup-python" in str(s.get("uses", ""))]
+        assert len(python) == 1 and python[0].count(".") == 2, (name, python)
+        installs = [s["run"] for s in steps if "pip install" in s.get("run", "")]
+        assert installs and all("-c ${{ env.CONSTRAINTS }}" in r or "-c $env:CONSTRAINTS" in r for r in installs)
+
+
+def test_build_jobs_upload_their_logs_even_when_they_fail(workflow):
+    for name, wanted in (("boot", ["build/boot/nightly/*.json", "build/boot/nightly/*.log"]),
+                         ("cycle", ["${{ runner.temp }}/lcs/*/build/link_cycle/*.log",
+                                    "${{ runner.temp }}/lcs/*/build/link_cycle/receipt.json"])):
+        logs = [s for s in workflow["jobs"][name]["steps"]
+                if s.get("if") == "always()" and "upload-artifact" in str(s.get("uses", ""))]
+        assert len(logs) == 1 and logs[0]["with"]["path"].splitlines() == wanted, name
+    cycle = workflow["jobs"]["cycle"]
+    step = next(s for s in cycle["steps"] if "link_cycle.py --snapshot" in s.get("run", ""))
+    assert step["timeout-minutes"] < cycle["timeout-minutes"]
 
 
 def test_the_workflow_runs_the_stages_this_tool_defines(workflow):
