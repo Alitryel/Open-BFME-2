@@ -4,6 +4,7 @@
 // STL 3-arg copy_backward wrapper forwarding to rowed __copy_backward_ptrs at 0x002177B0
 // with false_type temp at ebp-1. Evidence: ebp frame plus push ecx plus lea eax ebp-1
 // plus 3 ptr args plus call 0x002177B0 plus add esp 0x10; caller at 0x00217F30.
+#include <stl/_algobase.h>
 #include "ascii_string.h"
 
 class MixFileCreator
@@ -21,17 +22,23 @@ public:
 	};
 };
 
+// GameFont.cpp includes the allocator shim's <stl/_algobase.h>, which
+// defines copy_backward and marks __copy_backward_aux/_ptrs __forceinline.
+// Retail keeps the stock STLport shape here (aux inlined, ptrs called), so
+// this pointer pair is spelled as an explicit specialization of the shim's
+// template with the aux step written out.
 namespace _STL
 {
-	struct __false_type {};
-	template <class _BidIt1, class _BidIt2>
-	_BidIt2 __copy_backward_ptrs(_BidIt1 first, _BidIt1 last, _BidIt2 result, const __false_type &);
-	template <class _BidIt1, class _BidIt2>
-	_BidIt2 copy_backward(_BidIt1 first, _BidIt1 last, _BidIt2 result)
+	// The worker is its own rowed body (0x002177B0): declared, not inlined.
+	template <>
+	MixFileCreator::FileInfoStruct *__copy_backward_ptrs<MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *>(
+		MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, const __false_type &);
+
+	template <>
+	MixFileCreator::FileInfoStruct *copy_backward<MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *>(
+		MixFileCreator::FileInfoStruct *first, MixFileCreator::FileInfoStruct *last, MixFileCreator::FileInfoStruct *result)
 	{
 		__false_type t;
 		return __copy_backward_ptrs(first, last, result, t);
 	}
 }
-
-template MixFileCreator::FileInfoStruct *_STL::copy_backward<MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *>(MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *, MixFileCreator::FileInfoStruct *);
