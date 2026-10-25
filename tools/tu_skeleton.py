@@ -105,6 +105,23 @@ def parent_of(row, dtors=None):
 
 
 # ---------------------------------------------------------------- chunking
+def initialised(head):
+    """True when `head` (the text before a `{`) is an object's declarator with an
+    initialiser: an `=` at parenthesis depth 0 that is not part of `operator=`,
+    `==`, `!=`, `<=`, `>=`, and not a default argument inside `(...)`."""
+    h = re.sub(r"__declspec\s*\([^)]*\)", " ", head)
+    h = re.sub(r"\boperator\s*[^\s(]+", " operator_ ", h)
+    depth = 0
+    for i, ch in enumerate(h):
+        if ch in "([<":
+            depth += 1
+        elif ch in ")]>":
+            depth -= 1
+        elif ch == "=" and depth <= 0 and h[i - 1:i] not in "=!<>" and h[i + 1:i + 2] != "=":
+            return True
+    return False
+
+
 def chunks(text):
     """Top-level items as (kind, text); comments stay with the item after them.
 
@@ -164,7 +181,10 @@ def chunks(text):
                 head = body.split("{")[0]
                 aggregate = re.match(r"^(template\s*<[^>]*>\s*)?(typedef\s+)?(class|struct|enum|union)\b", body) \
                     and not re.search(r"\)\s*(const)?\s*$", head.strip())
-                if not aggregate:
+                # a brace-initialised object (`const char *Names[] = {...};`) ends at its `;`,
+                # like an aggregate: splitting it at the `}` left a lone `;` as the next item
+                data = initialised(head)
+                if not aggregate and not data:
                     out.append(("def" if not re.match(r"^(namespace|extern\s+\"C\")", body) else "decl",
                                 text[start:i + 1]))
                     start, code = i + 1, False
@@ -863,9 +883,8 @@ def header_end(text):
 
 def is_data_head(head):
     """A `{`-initialised object (`static const int t[] = {`), not a function body."""
-    h = re.sub(r"__declspec\s*\([^)]*\)", " ", norm(head))
-    return "=" in h and not re.search(r"\)\s*(?:const\s*)?$", h.split("=")[0].strip()) \
-        and not re.match(r"^(?:template\s*<[^>]*>\s*)?(?:typedef\s+)?(?:class|struct|enum|union)\b", h)
+    h = norm(head)
+    return initialised(h) and not re.match(r"^(?:template\s*<[^>]*>\s*)?(?:typedef\s+)?(?:class|struct|enum|union)\b", h)
 
 
 def def_spans(text):

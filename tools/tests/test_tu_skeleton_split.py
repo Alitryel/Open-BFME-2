@@ -205,10 +205,12 @@ class DataPlacementTests(unittest.TestCase):
         sp = T.def_spans(DATA)
         return sp, {T.head_names(c)[1] if k != "macro" and T.head_names(c) else c: i for i, (_, _, c, k) in enumerate(sp)}
 
-    def test_brace_initialised_data_is_data_not_a_body(self):
+    def test_brace_initialised_data_is_a_datum_not_a_body(self):
         sp, _ = self.spans()
-        self.assertIn("data", [k for _, _, _, k in sp])
-        self.assertTrue(any(k == "data" and "table[]" in c for _, _, c, k in sp))
+        self.assertFalse(any("table[]" in c for _, _, c, _ in sp))          # not a body span at all
+        self.assertIn("table", [d[3] for d in T.data_decls(DATA)])          # a file-scope object definition
+        kinds = [k for k, _ in T.chunks(DATA)]
+        self.assertNotIn(";", [c.strip() for _, c in T.chunks(DATA)])       # no stray semicolon item
 
     def test_an_external_datum_used_on_both_sides_stays_and_the_donor_declares_it_extern(self):
         sp, ix = self.spans()
@@ -258,8 +260,8 @@ class DataPlacementTests(unittest.TestCase):
         i = next(i for i, (_, _, c, k) in enumerate(sp) if "A::a" in c)
         self.assertIn("namespace", T.carve(text, {i}).refused)
         decls = T.data_decls(DATA)
-        self.assertEqual([d[3] for d in decls], ["g_counter", "s_calls", "TheFoo", "kLimit", "g_hook"])
-        self.assertEqual([d[4] for d in decls], [False, True, False, True, False])
+        self.assertEqual([d[3] for d in decls], ["g_counter", "s_calls", "TheFoo", "kLimit", "table", "g_hook"])
+        self.assertEqual([d[4] for d in decls], [False, True, False, True, True, False])
 
     def test_header_lines_are_never_part_of_a_span_and_a_macro_takes_its_comment(self):
         text = "// cl: /MD\nvoid F::f() { }\n// ?get@Rva1ByteField@@QBEEXZ @0x1 7B.\nBFME_X(Rva1ByteField, 0x2)\n"

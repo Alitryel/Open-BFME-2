@@ -121,6 +121,27 @@ class IncludeOrderTests(unittest.TestCase):
                                 "/Ireference/open-bfme-1/game/WWLib"])
 
 
+class BraceInitialisedDataTests(unittest.TestCase):
+    def test_operator_equals_and_default_arguments_are_still_bodies(self):
+        text = ("Transition &Transition::operator=(const Transition &o) { return *this; }\n"
+                "bool Foo::operator==(const Foo &o) const { return true; }\n"
+                "void f(int x = 0) { }\n"
+                "int t[] = { 1 };\n")
+        self.assertEqual([k for k, _ in T.chunks(text)], ["def", "def", "def", "decl"])
+        self.assertTrue(T.initialised("int t[] = "))
+        self.assertFalse(T.initialised("void f(int x = 0) "))
+        self.assertFalse(T.initialised("Transition &Transition::operator=(const Transition &o) "))
+
+    def test_an_initialised_array_is_one_declaration_item(self):
+        text = 'const char *TheDrawableIconNames[] = {\n\t"a",\n\t"b",\n};\nenum DrawableIconType { X = 0 };\nint f() { return 0; }\n'
+        items = T.chunks(text)
+        self.assertEqual([k for k, _ in items], ["decl", "decl", "def"])
+        self.assertTrue(items[0][1].strip().endswith("};"))
+        out = T.compose("Seed.cpp", [], ["Seed.cpp"], {"Seed.cpp": text}, [], "first")
+        self.assertNotIn("\n;\n", out)
+        self.assertIn("TheDrawableIconNames[] = {", out)
+
+
 class ComposePreprocessorTests(unittest.TestCase):
     def test_conditionals_are_not_deduplicated_across_donors(self):
         texts = {"Seed.cpp": "#ifndef FALSE\n#define FALSE 0\n#endif\nint seed() { return 1; }\n",
