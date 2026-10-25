@@ -58,7 +58,6 @@ private:
 	unsigned char m_pad[ 0x40 ];
 	UnsignedInt m_frame;
 };
-#define TheGameLogic (*(FlammableGameLogic **)&TheGameLogic)
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/FlammableUpdateModuleDataCtorThunk.cpp
@@ -92,7 +91,7 @@ UpdateSleepTime FlammableUpdate::calcSleepTime()
 {
 	if (flammableField40(this))
 		return UPDATE_SLEEP_NONE;
-	UnsignedInt now = TheGameLogic->getFrame();
+	UnsignedInt now = ((FlammableGameLogic *)TheGameLogic)->getFrame();
 	if (m_status == FS_AFLAME && m_aflameEndFrame != 0 && m_aflameEndFrame > now)
 	{
 		UnsignedInt soonest = m_aflameEndFrame;
