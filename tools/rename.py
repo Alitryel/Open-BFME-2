@@ -244,6 +244,11 @@ LOCK = "reverse/.add_match.lock"
 NAME_BASIS_HEADER = "kind,old,new,basis,evidence,source,rva"
 GENERATED = name_metric.GENERATED
 SEARCH_ROOTS = ("Code", "reference/shims")
+# The one donor gitlink whose explicitly quoted headers may prove a class's
+# ancestry: reference/open-bfme-1, at the commit both the superproject's HEAD
+# and index record. No other gitlink and no fallback path is trusted.
+DONOR_GITLINK = "reference/open-bfme-1"
+GIT_TIMEOUT = 30
 HEADER_SUFFIXES = (".h", ".hpp", ".hh", ".hxx", ".inl", ".inc")
 SOURCE_SUFFIXES = (".cpp", ".c")
 # Files keyed by name that the verifier freeze forbids editing: a renamed debt
@@ -3858,9 +3863,163 @@ def optimized(flags):
     return bool(levels) and levels[-1] != "d"
 
 
+def _git_bytes(root, *args):
+    """stdout of a read-only git command in `root`, or None when it fails or
+    times out. A caller treats None as no evidence (fail closed)."""
+    try:
+        result = subprocess.run(["git", "--no-replace-objects", "-C", str(root), *args], capture_output=True,
+                                timeout=GIT_TIMEOUT)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return result.stdout if result.returncode == 0 else None
+
+
+def _git_path(text):
+    return text.decode("utf-8", "surrogateescape")
+
+
+def _tree_entry(root, revision, rel):
+    """(mode, type, sha) of the one tree entry at exactly `rel`, or None."""
+    out = _git_bytes(root, "--literal-pathspecs", "ls-tree", "-z", revision, "--", rel)
+    if out is None:
+        return None
+    entries = [entry for entry in out.split(b"\0") if entry]
+    if len(entries) != 1:
+        return None
+    meta, sep, path = entries[0].partition(b"\t")
+    fields = meta.split()
+    if not sep or _git_path(path) != rel or len(fields) != 3:
+        return None
+    return tuple(_git_path(field) for field in fields)
+
+
+def _index_entry(root, rel):
+    """(mode, sha) of the one stage-0 index entry at exactly `rel`, or None."""
+    out = _git_bytes(root, "--literal-pathspecs", "ls-files", "-s", "-z", "--", rel)
+    if out is None:
+        return None
+    entries = [entry for entry in out.split(b"\0") if entry]
+    if len(entries) != 1:
+        return None
+    meta, sep, path = entries[0].partition(b"\t")
+    fields = meta.split()
+    if not sep or _git_path(path) != rel or len(fields) != 3 or fields[2] != b"0":
+        return None
+    return _git_path(fields[0]), _git_path(fields[1])
+
+
+def donor_pin(ctx):
+    """The commit both HEAD and the index record for DONOR_GITLINK, or None.
+    A missing entry, a mode that is not a gitlink, an unmerged index or two
+    different pins is no evidence, so no donor header is trusted."""
+    key = "_donor_pin"
+    if key in ctx._cache:
+        return ctx._cache[key]
+    ctx._cache[key] = None
+    head = _tree_entry(ctx.root, "HEAD", DONOR_GITLINK)
+    index = _index_entry(ctx.root, DONOR_GITLINK)
+    if head is None or index is None:
+        return None
+    mode, kind, sha = head
+    index_mode, index_sha = index
+    if mode != "160000" or kind != "commit" or index_mode != "160000":
+        return None
+    if sha != index_sha or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", sha):
+        return None
+    ctx._cache[key] = sha
+    return sha
+
+
+def _safe_component_path(root, rel):
+    """`root/rel` when every component is a real directory or the final real
+    file, with no symlink anywhere and nothing resolving outside `root`;
+    otherwise None."""
+    base = Path(root)
+    top = base.resolve()
+    current = base
+    for part in rel.split("/"):
+        if part in ("", "."):
+            continue
+        if part == "..":
+            return None
+        current = current / part
+        if current.is_symlink():
+            return None
+    try:
+        current.resolve().relative_to(top)
+    except (OSError, ValueError):
+        return None
+    return current
+
+
+def _pinned_donor_checkout(ctx):
+    """The donor submodule path when its checkout is exactly the HEAD/index pin
+    and has no tracked modifications; otherwise None."""
+    key = "_donor_checkout"
+    if key in ctx._cache:
+        return ctx._cache[key]
+    ctx._cache[key] = None
+    pin = donor_pin(ctx)
+    if pin is None:
+        return None
+    sub = _safe_component_path(ctx.root, DONOR_GITLINK)
+    if sub is None or sub.is_symlink() or not sub.is_dir():
+        return None
+    head = _git_bytes(sub, "rev-parse", "--verify", "HEAD^{commit}")
+    if head is None or _git_path(head).strip() != pin:
+        return None
+    status = _git_bytes(sub, "status", "--porcelain", "--untracked-files=no",
+                        "--ignore-submodules=none")
+    if status is None or status.strip():
+        return None
+    ctx._cache[key] = sub
+    return sub
+
+
+def trusted_donor_header(ctx, includer, include):
+    """The repository path of an explicitly quoted `include` written by
+    `includer` when it resolves, relative to that actual includer, to a
+    committed regular file inside DONOR_GITLINK at the pinned commit, with an
+    unchanged worktree. None for a mismatched or uncommitted pin, a dirty
+    checkout, an untracked substitution, a symlink escape or a relative
+    include that leaves the donor (no nested cross-repository recursion)."""
+    if not include or "\0" in include or "\\" in include or include.startswith("/"):
+        return None
+    target = posixpath.normpath(posixpath.join(posixpath.dirname(includer), include))
+    if not target.startswith(DONOR_GITLINK + "/"):
+        return None
+    sub = _pinned_donor_checkout(ctx)
+    if sub is None:
+        return None
+    header_rel = target[len(DONOR_GITLINK) + 1:]
+    if not header_rel or header_rel.startswith("../") or "/../" in header_rel:
+        return None
+    work = _safe_component_path(sub, header_rel)
+    if work is None or work.is_symlink() or not work.is_file():
+        return None
+    entry = _tree_entry(sub, donor_pin(ctx), header_rel)
+    if entry is None:
+        return None
+    mode, kind, sha = entry
+    if mode not in ("100644", "100755") or kind != "blob":
+        return None
+    blob = _git_bytes(sub, "cat-file", "blob", sha)
+    if blob is None:
+        return None
+    try:
+        if work.read_bytes() != blob:
+            return None
+    except OSError:
+        return None
+    return target
+
+
 def header_closure(ctx, rel, limit=400):
     """Tracked headers under SEARCH_ROOTS that `rel` #includes, transitively,
-    resolved by basename (case-insensitive; doubt widens the set)."""
+    resolved by basename (case-insensitive; doubt widens the set). An
+    explicitly quoted include written by `rel` itself, or by a donor header it
+    reached, is also resolved relative to that actual includer when it is a
+    committed header in the pinned BFME1 gitlink."""
     if "_by_base" not in ctx._cache:
         index = {}
         for path in ctx.git("ls-files", "--", *SEARCH_ROOTS).splitlines():
@@ -3869,11 +4028,17 @@ def header_closure(ctx, rel, limit=400):
     index = ctx._cache["_by_base"]
     seen, frontier = set(), [rel]
     while frontier and len(seen) < limit:
-        data = ctx.read(frontier.pop()) or b""
+        current = frontier.pop()
+        data = ctx.read(current) or b""
         text = data.decode("utf-8", "replace")
-        for name in re.findall(r'^[ \t]*#[ \t]*include[ \t]*[<"]([^>"]+)[>"]', text, re.M):
+        for delimiter, name in re.findall(r'^[ \t]*#[ \t]*include[ \t]*([<"])([^>"]+)[>"]', text, re.M):
             for path in index.get(Path(name).name.lower(), []):
                 if path not in seen and path != rel:
+                    seen.add(path)
+                    frontier.append(path)
+            if delimiter == '"' and (current == rel or current.startswith(DONOR_GITLINK + "/")):
+                path = trusted_donor_header(ctx, current, name)
+                if path is not None and path not in seen and path != rel:
                     seen.add(path)
                     frontier.append(path)
     return seen
