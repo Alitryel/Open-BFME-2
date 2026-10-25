@@ -6437,3 +6437,6 @@ Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,
 Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp|class||Rva00595C79Address,5960051d0e89638a53a4aac9,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
 Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,242e91ebd6819460f6f33f5a,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
 Code/GameEngine/Source/Common/Rva005DCE72.cpp|function|0x005DCE72|rva005DCE72,e317d5a82e3e18689e80831a,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp|local|Rva0028D796::rva0028D796|b,51cea0b4273a8f392bde8b78,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,7a5cf81b91c43f93e65aa671,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
+Code/GameEngine/Source/Common/Rva000D3A17.cpp|class||Rva000D3A17Ref,31f065e8507d1243a34e19fd,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
