@@ -7,6 +7,8 @@ Recorded 2026-10-25 from the linking handoff. The census snapshot is
 The initial 50 named units and their blocker categories were checked against the
 committed status. Bytes and difficulty/attempt groupings preserve the handoff's
 reported values; they describe leads rather than verified current failures.
+The additional 35 two-blocker and 290 larger-blocker rows complete all **375**
+census-blocked units, using reconciled game bytes in their tables.
 
 Before selecting a target, read the [obstacle register](linking_obstacles.md),
 resolve its current source after renames/consolidation, check claims and prior
@@ -101,6 +103,60 @@ Point-group ownership evidence:
 [VertexLoc handoff](../reverse/attempt_support/vertexloc-ownership-20261024/readme.md).
 LINK-011 records 157 authored bytes for PolygonTriggerCtor; this checklist retains
 the handoff's 186 matched bytes. Compare the measured scopes when updating it.
+
+## Remaining two-blocker units: all 35 units
+
+These complete the 45 two-blocker units: the initial shortlist contains ten,
+and this table contains the other 35. All 40 one-blocker units appear in the
+initial shortlist. Snapshot: `ef9c691284`, 2026-10-25 18:23 UTC.
+
+The reconciled game-byte contribution is **4,492 bytes**. Two generated unwind
+units contribute **2,885 bytes (64.2%)**; the other 33 contribute **1,607 bytes**.
+Two rows contribute zero after the headline's provenance/padding and coverage
+filters. These use the same unique-byte attribution as the complete headline
+reconciliation below. Recheck current sources and providers before working a row.
+Blocker key: **U** unresolved, **C** COMDAT losers, **S** wrong selected providers.
+Follow-up starts at **Open / current-input verification pending**, with the
+existing LINK-011 preview clearances retained for its two rows.
+
+| Census source | Game bytes | Blockers | Follow-up |
+| --- | ---: | --- | --- |
+| `Code/gen_small/uw_gen_002.cpp` | 1,647 | 2 (U=2) | Open |
+| `Code/gen_small/uw_gen_008.cpp` | 1,238 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/GameClient/System/FXParticleSystem/T1Base005F3750Ctor.cpp` | 184 | 2 (U=1, C=1) | Open |
+| `Code/GameEngine/Source/Common/MultiplayerSettingsCtor.cpp` | 159 | 2 (U=2) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/HRawLoadW3D_Unresolved.cpp` | 149 | 2 (C=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/Rva00056da2Finish.cpp` | 136 | 2 (C=1, S=1) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShaderManagerScreenBWFilterInit.cpp` | 101 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/GameWindowManager_registerTabList.cpp` | 73 | 2 (C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/Rva003ADEFBCopy.cpp` | 67 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/Common/EmotionSystem.cpp` | 59 | 2 (U=2) | LINK-011: preview cleared; census pending |
+| `Code/Libraries/Source/WWVegas/WW3D2/Rva007B73C0.cpp` | 59 | 2 (C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00054EBE.cpp` | 47 | 2 (C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva000E0225.cpp` | 47 | 2 (C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/Bfme/Rva00739C70Cleanup.cpp` | 43 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/Common/SpecialPowerStore.cpp` | 37 | 2 (U=2) | LINK-011: preview cleared; census pending |
+| `Code/GameEngine/Source/Common/PoolDeleteDeletingDtors01.cpp` | 35 | 2 (C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/Rva006F84C0DeletingDtor.cpp` | 35 | 2 (C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv901.cpp` | 33 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/Common/PlayerAITypeSetCtor.cpp` | 33 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/Common/S2DualVptrDerivedCtors.cpp` | 32 | 2 (U=2) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DPropDraw.cpp` | 32 | 2 (C=2) | Open |
+| `Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-cd13.cpp` | 28 | 2 (U=1, C=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva004F6FE1.cpp` | 27 | 2 (C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva005FE3C1.cpp` | 27 | 2 (C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/StaticInit/Rva00C6E31EInitializers.cpp` | 25 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Rva005003C7EqualRange.cpp` | 24 | 2 (C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/BfmeThreeHundredThirtyFour.cpp` | 22 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/Common/System/XferBlockWriter_rva009D86E0_Rva0060CB97.cpp` | 21 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarScheme_trolBarScheme_QAEXPAVControlBarSchemeAnimation_Z.cpp` | 18 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdate.cpp` | 17 | 2 (C=2) | Open |
+| `Code/GameEngine/Source/Common/System/BitFlagsClear.cpp` | 14 | 2 (C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Die/DieModule.cpp` | 13 | 2 (U=2) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/Rva001296F0Destroy.cpp` | 10 | 2 (U=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00502645.cpp` | 0 | 2 (U=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva004FCD6D.cpp` | 0 | 2 (C=1, S=1) | Open |
+| **Total: 35 units** | **4,492** | | |
 
 ## Three or more blockers: all 290 units
 
@@ -447,7 +503,8 @@ diagnostic, with census confirmation pending. It sits outside the 50-unit list.
 
 The committed census contains **85 units with one or two blockers** (40 with
 one, 45 with two). The handoff reports **55,142 matched bytes** for that wider
-set, leaving 35 units / 4,678 reported bytes outside this checklist.
+set. Its remaining 35 units are listed above with **4,492 reconciled game
+bytes**; the handoff's reported-byte subtraction was 4,678.
 The three largest listed targets total **30,381 bytes**, about **60.2%** of the
 listed bytes. Size ranks investigation opportunities; current evidence and
 shared-provider dependencies determine the next repair.
@@ -461,7 +518,7 @@ handoff's reported matched-byte values.
 | Scope | Units | Unlinked game bytes |
 | --- | ---: | ---: |
 | Initial shortlist | 50 | 50,028 |
-| Other one/two-blocker units | 35 | 4,492 |
+| Remaining two-blocker table above | 35 | 4,492 |
 | Three-or-more-blocker table above | 290 | 95,078 |
 | Coverage remainder outside represented rows | - | 14 |
 | **Census total** | **375** | **149,612** |
