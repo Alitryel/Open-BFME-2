@@ -718,6 +718,14 @@ public:
 	bool test(const void *other) const;
 };
 
+// --- 0x002619A0 (14B): the rowed BitFlags<69>::test of the first argument run
+// on the second; the receiver (ecx) is discarded, so the object carrying the
+// flags arrives as the last argument.
+bool Rva002619A0(const void *other, const BitFlags<69> *flags)
+{
+	return flags->test(other);
+}
+
 class Rva002619AE
 {
 public:
