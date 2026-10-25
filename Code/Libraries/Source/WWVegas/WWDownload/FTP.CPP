@@ -5,6 +5,26 @@
 #include <cstdlib>
 #include <ctime>
 #pragma intrinsic(strlen)
+#define MSG_PEEK 2
+#define WSAECONNRESET 10054
+#define WSAENOTCONN 10057
+#define AF_INET 2
+#define SOCK_STREAM 1
+#define FIONBIO 0x8004667e
+#define SOCKET_ERROR (-1)
+#define INADDR_NONE 0xffffffff
+#define WSAEWOULDBLOCK 10035
+#define WSAEINVAL 10022
+#define WSAEALREADY 10037
+#define WSAEISCONN 10056
+#define FD_ZERO(set) (((fd_set *)(set))->fd_count = 0)
+#define FD_SET(socketHandle, set) do { \
+	((fd_set *)(set))->fd_array[((fd_set *)(set))->fd_count++] = \
+		(SOCKET)(socketHandle); \
+} while (0)
+#define FD_ISSET(socketHandle, set) \
+	__WSAFDIsSet((SOCKET)(socketHandle), (fd_set *)(set))
+#pragma intrinsic(memset)
 
 typedef long HRESULT;
 
@@ -121,49 +141,6 @@ struct SockAddr4
 	int d;
 };
 
-class Cftp
-{
-public:
-	virtual ~Cftp();
-	HRESULT RecvReply(const char *reply, int size, int *replyCode);
-	HRESULT DisconnectFromServer();
-	int SendData(char *pData, int iSize);
-	int RecvData(char *pData, int iSize);
-	int SendNewPort(void);
-	HRESULT GetNextFileBlock(LPCSTR, int *);
-	HRESULT LoginToServer(LPCSTR szUserName, LPCSTR szPassword);
-	HRESULT LogoffFromServer(void);
-	HRESULT FindFile(LPCSTR szRemoteFileName, int *piSize);
-	void ZeroStuff(void);
-	// Still address-named Cftp helpers (rows 0x006C9EA0, 0x006CA430, 0x006CA4E0).
-	void d_00885390(void);
-	int d_00885920(void);
-	void d_008859d0(const char *, char *);
-
-private:
-	HRESULT SendCommand(const char *command, int size);
-	void CloseSockets(void);
-
-	int m_iCommandSocket;			// +0x04
-	int m_iDataSocket;			// +0x08
-	sockaddr_in m_CommandSockAddr;		// +0x0C
-	sockaddr_in m_DataSockAddr;		// +0x1C
-	int m_iFilePos;
-	int m_iBytesRead;
-	int m_iFileSize;
-	char m_szRemoteFilePath[128];		// +0x38
-	char m_szRemoteFileName[128];		// +0xB8
-	char m_szLocalFilePath[128];
-	char m_szLocalFileName[128];
-	char m_szServerName[128];
-	char m_szUserName[128];
-	char m_szPassword[128];
-	FILE *m_pfLocalFile;			// +0x3B8
-	int m_iStatus;				// +0x3BC
-	int m_sendNewPortStatus;		// +0x3C0
-	int m_findStart;			// +0x3C4
-};
-
 extern "C" void *memset(void *dst, int val, unsigned n);
 
 // WWDownload FTP.CPP Prepare_Directories body.
@@ -180,6 +157,166 @@ extern "C" __declspec(dllimport) int __cdecl sprintf(
 
 extern "C" __declspec(dllimport) int __stdcall CreateDirectoryA(
 	const char *, void *);
+
+extern "C" __declspec(dllimport) char *__cdecl strstr(const char *string, const char *substring);
+
+extern "C" __declspec(dllimport) int __cdecl _strnicmp(const char *a, const char *b, unsigned int count);
+
+extern "C" __declspec(dllimport) int __cdecl isdigit(int c);
+
+extern "C" __declspec(dllimport) long __cdecl atol(const char *string);
+
+extern "C" int __stdcall recv(int socketHandle, char *buffer, int length, int flags);
+
+// WWDownload FTP.CPP MyIPAddress body.
+
+struct hostent
+{
+	char *h_name;
+	char **h_aliases;
+	short h_addrtype;
+	short h_length;
+	char **h_addr_list;
+};
+
+extern "C" int __stdcall getsockname(
+	int socket, void *name, int *nameLength);
+
+extern "C" int __stdcall gethostname(
+	char *name, int length);
+
+extern "C" struct hostent *__stdcall gethostbyname(
+	const char *name);
+
+extern "C" unsigned long __stdcall inet_addr(
+	const char *address);
+
+typedef unsigned int SOCKET;
+
+struct sockaddr
+{
+	unsigned short sa_family;
+	char sa_data[14];
+};
+
+struct fd_set
+{
+	unsigned int fd_count;
+	SOCKET fd_array[64];
+};
+
+struct timeval
+{
+	long tv_sec;
+	long tv_usec;
+};
+
+extern "C" __declspec(dllimport) char *__cdecl strncpy(
+	char *destination, const char *source, unsigned int count);
+
+extern "C" void *__cdecl memset(void *destination, int value, unsigned int count);
+
+extern "C" unsigned long __stdcall inet_addr(const char *name);
+
+extern "C" unsigned short __stdcall htons(unsigned short port);
+
+extern "C" int __stdcall socket(int addressFamily, int type, int protocol);
+
+extern "C" int __stdcall ioctlsocket(
+	int socketHandle, long command, unsigned long *argument);
+
+extern "C" int __stdcall connect(
+	SOCKET socketHandle, const sockaddr *name, int nameLength);
+
+extern "C" int __stdcall closesocket(int socketHandle);
+
+extern "C" int __stdcall __WSAFDIsSet(SOCKET socketHandle, fd_set *set);
+
+extern "C" int __stdcall select(
+	int nfds, fd_set *readSet, fd_set *writeSet, fd_set *exceptSet,
+	const timeval *timeout);
+
+class Cftp
+{
+public:
+	virtual ~Cftp();
+public:
+	HRESULT RecvReply(const char *reply, int size, int *replyCode);
+public:
+	HRESULT DisconnectFromServer();
+public:
+	int SendData(char *pData, int iSize);
+public:
+	int RecvData(char *pData, int iSize);
+public:
+	int SendNewPort(void);
+public:
+	HRESULT GetNextFileBlock(LPCSTR, int *);
+public:
+	HRESULT LoginToServer(LPCSTR szUserName, LPCSTR szPassword);
+public:
+	HRESULT LogoffFromServer(void);
+public:
+	HRESULT FindFile(LPCSTR szRemoteFileName, int *piSize);
+public:
+	void ZeroStuff(void);
+public:
+	void d_00885390(void);
+public:
+	int d_00885920(void);
+public:
+	void d_008859d0(const char *, char *);
+private:
+	HRESULT SendCommand(const char *command, int size);
+private:
+	void CloseSockets(void);
+private:
+	int m_iCommandSocket;
+private:
+	int m_iDataSocket;
+private:
+	sockaddr_in m_CommandSockAddr;
+private:
+	sockaddr_in m_DataSockAddr;
+private:
+	int m_iFilePos;
+private:
+	int m_iBytesRead;
+private:
+	int m_iFileSize;
+private:
+	char m_szRemoteFilePath[128];
+private:
+	char m_szRemoteFileName[128];
+private:
+	char m_szLocalFilePath[128];
+private:
+	char m_szLocalFileName[128];
+private:
+	char m_szServerName[128];
+private:
+	char m_szUserName[128];
+private:
+	char m_szPassword[128];
+private:
+	FILE *m_pfLocalFile;
+private:
+	int m_iStatus;
+private:
+	int m_sendNewPortStatus;
+private:
+	int m_findStart;
+public:
+	HRESULT ConnectToServer(LPCSTR serverName);
+public:
+	int AsyncGetHostByName(char *name, sockaddr_in &address);
+};
+
+// tu-skeleton: 0x006C9EA0 45B ?d_00885390@Cftp@@QAEXXZ -- matched in Code/GameEngine/Source/Common/Bfme/Rva00885980.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP
+
+// TU Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 
 // tu-skeleton: 0x006C9EA0 45B ?d_00885390@Cftp@@QAEXXZ -- matched in Code/GameEngine/Source/Common/Bfme/Rva00885980.cpp (not merged yet)
 
@@ -941,3 +1078,261 @@ bool Prepare_Directories(const char *rootdir, const char *filename)
 // tu-skeleton: 0x006CA600 81B ??1Cftp@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Bfme/Cftp.cpp (not merged yet)
 
 // tu-skeleton: 0x006CA660 562B ?ConnectToServer@Cftp@@QAEJPBD@Z -- matched in Code/Libraries/Source/WWVegas/WWDownload/CftpConnectToServer.cpp (not merged yet)
+
+// tu-skeleton: 0x006C9F40 73B ?resolveHostAddress@@YGHPBD@Z -- matched in Code/GameEngine/Source/Common/SmallGaps/resolveHostAddress.cpp (not merged yet)
+
+// tu-skeleton: 0x006C9F90 165B ?AsyncGetHostByName@Cftp@@QAEHPADAAUsockaddr_in@@@Z -- matched in Code/Libraries/Source/WWVegas/WWDownload/CftpAsyncGetHostByName.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWDownload/CftpRecvReply.cpp
+
+// Cftp::RecvReply, retail 0x006CA080 (268 bytes).
+// Ported from the Zero Hour reference (Libraries/Source/WWVegas/WWDownload/FTP.CPP).
+// One BFME2 repair: the _DEBUG OutputDebugString pair ("<--" and the line)
+// is unconditional in retail, so the #ifdef is dropped; with /O2 the two
+// calls share one IAT load in edi, matching retail's call-edi pair.
+// recv and WSAGetLastError ride the ILT (plain extern, no dllimport);
+// strstr, _strnicmp, isdigit, atol and OutputDebugStringA go through the
+// IAT (dllimport). m_iCommandSocket sits at +4 (retail displacement).
+// Dedicated TU so CftpAsyncGetHostByName.cpp keeps its matched
+// AsyncGetHostByName (pattern five).
+
+HRESULT Cftp::RecvReply(LPCSTR pReplyBuffer, int iSize, int *piRetCode)
+{
+	// Keep reply constants local: FTP.CPP already declares these values in
+	// its shared enum. Both views use the native command socket at +4.
+	enum {
+		FTP_SUCCEEDED = 0,
+		FTP_TRYING = 0x80040002,
+		FTPREPLY_CONTROLCLOSED = 421
+	};
+	int readval;
+	char *pc = (char *)pReplyBuffer;
+
+	while (1) {
+		readval = recv(m_iCommandSocket, pc, iSize - 1, MSG_PEEK);
+		pc[iSize - 1] = 0;
+		if (readval > 0)
+			pc[readval] = 0;
+
+		if (readval < 0) {
+			if ((WSAGetLastError() == WSAECONNRESET) || ((WSAGetLastError() == WSAENOTCONN)))
+				readval = 0;
+			else {
+				return FTP_TRYING;
+			}
+		}
+
+		if (readval == 0) {
+			*piRetCode = FTPREPLY_CONTROLCLOSED;
+			return FTP_SUCCEEDED;
+		}
+
+		if (readval < 3)
+			return FTP_TRYING;
+
+		char *end = strstr(pc, "\r\n");
+		if (end == 0)
+			return FTP_TRYING;
+
+		recv(m_iCommandSocket, pc, end - pc + strlen("\r\n"), 0);
+		OutputDebugStringA("<--");
+		OutputDebugStringA(pc);
+
+		const char *BOGUS_RESPONSE = "500";
+		if (_strnicmp(pc, BOGUS_RESPONSE, strlen(BOGUS_RESPONSE)) == 0)
+			continue;
+
+		if (isdigit(pc[0]) == 0)
+			continue;
+
+		if (piRetCode)
+			*piRetCode = atol(pc);
+
+		return FTP_SUCCEEDED;
+	}
+}
+
+// ---- from Code/Libraries/Source/WWVegas/WWDownload/MyIPAddress.cpp
+
+unsigned long MyIPAddress(int sockfd)
+{
+	int test = 99;
+	int i;
+	char pBuffer[256];
+	char *pAddr;
+	struct hostent *pHE;
+	unsigned long ip;
+	struct sockaddr_in sin;
+
+	if (sockfd != -1)
+	{
+		i = sizeof(sin);
+		getsockname(sockfd, (struct sockaddr *)&sin, &i);
+
+		ip = sin.sin_addr;
+	}
+	else
+	{
+		if (gethostname(pBuffer, 256) != 0)
+		{
+			return 0x80040001;
+		}
+
+		pHE = gethostbyname(pBuffer);
+
+		if (pHE == 0)
+		{
+			return 0x80040001;
+		}
+
+		ip = 0;
+		i = 0;
+
+		while ((pAddr = pHE->h_addr_list[i++]) != 0)
+		{
+			ip = *((unsigned long *)pAddr);
+
+			if ((ip != 0) && (ip != inet_addr("127.0.0.1")))
+			{
+				break;
+			}
+			else
+			{
+				ip = 0;
+			}
+		}
+	}
+
+	if (ip == 0)
+	{
+		return 0x80040001;
+	}
+
+	return ip;
+}
+
+// tu-skeleton: 0x006CA430 59B ?d_00885920@Cftp@@QAEHXZ -- matched in Code/GameEngine/Source/Common/Bfme/Rva00885920.cpp (not merged yet)
+
+// tu-skeleton: 0x006CA470 21B ?d_00885960@Rva00885980Class@@QAEXXZ -- matched in Code/GameEngine/Source/Common/Bfme/Rva00885980.cpp (not merged yet)
+
+// tu-skeleton: 0x006CA4E0 93B ?d_008859d0@Cftp@@QAEXPBDPAD@Z -- matched in Code/GameEngine/Source/Common/Bfme/Rva008859D0.cpp (not merged yet)
+
+// tu-skeleton: 0x006CA5E0 18B ??0Cftp@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WWDownload/ftp_constructor.cpp (not merged yet)
+
+// tu-skeleton: 0x006CA600 81B ??1Cftp@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Bfme/Cftp.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWDownload/CftpConnectToServer.cpp
+
+// ?ConnectToServer@Cftp@@QAEJPBD@Z
+HRESULT Cftp::ConnectToServer(LPCSTR serverName)
+{
+	enum
+	{
+		FTP_SUCCEEDED = 0,
+		FTP_FAILED = 0x80040001,
+		FTP_TRYING = 0x80040002,
+		FTPSTAT_INIT = 0,
+		FTPSTAT_CONNECTING = 10,
+		FTPSTAT_WAITINGSERVEROK = 15,
+		FTPSTAT_CONNECTED = 20,
+		FTPREPLY_SERVEROK = 220
+	};
+	unsigned long uTemp;
+	char buffer[256];
+	int error;
+
+	strncpy(m_szServerName, serverName, 128);
+
+	if (m_iStatus == FTPSTAT_INIT)
+	{
+		sockaddr_in address;
+		unsigned long serverIP;
+		serverIP = inet_addr(m_szServerName);
+
+		memset(&m_CommandSockAddr, 0, sizeof(m_CommandSockAddr));
+		m_CommandSockAddr.sin_family = AF_INET;
+
+		if (serverIP == INADDR_NONE)
+		{
+			if (((Cftp *)this)->AsyncGetHostByName(m_szServerName, address) == FTP_TRYING)
+				return FTP_TRYING;
+
+			if (address.sin_addr == 0)
+				return FTP_FAILED;
+
+			m_CommandSockAddr = address;
+			serverIP = m_CommandSockAddr.sin_addr;
+		}
+		else
+		{
+			m_CommandSockAddr.sin_addr = serverIP;
+		}
+
+		m_CommandSockAddr.sin_port = htons(21);
+		m_iCommandSocket = socket(AF_INET, SOCK_STREAM, 0);
+		if (m_iCommandSocket < 0)
+			return FTP_FAILED;
+
+		uTemp = 1;
+		if (Use_Non_Blocking_Mode())
+		{
+			if (ioctlsocket(m_iCommandSocket, FIONBIO, &uTemp) == SOCKET_ERROR)
+				return FTP_FAILED;
+		}
+
+		m_iStatus = FTPSTAT_CONNECTING;
+		if (connect(m_iCommandSocket,
+			(const struct sockaddr *)&m_CommandSockAddr,
+			sizeof(m_CommandSockAddr)) == -1)
+		{
+			error = WSAGetLastError();
+			if ((error == WSAEWOULDBLOCK) || (error == WSAEINVAL) ||
+				(error == WSAEALREADY))
+				return FTP_TRYING;
+
+			if (error != WSAEISCONN)
+			{
+				closesocket(m_iCommandSocket);
+				return FTP_FAILED;
+			}
+		}
+	}
+
+	if (m_iStatus == FTPSTAT_CONNECTING)
+	{
+		fd_set writeSet;
+		fd_set exceptionSet;
+		FD_ZERO(&writeSet);
+		FD_ZERO(&exceptionSet);
+		FD_SET(m_iCommandSocket, &writeSet);
+		FD_SET(m_iCommandSocket, &exceptionSet);
+		timeval timeout;
+		timeout.tv_sec = 0;
+		timeout.tv_usec = 0;
+		int result = select(m_iCommandSocket + 1, 0, &writeSet,
+			&exceptionSet, &timeout);
+		if (result == 0)
+			return FTP_TRYING;
+		if (FD_ISSET(m_iCommandSocket, &exceptionSet))
+		{
+			closesocket(m_iCommandSocket);
+			return FTP_FAILED;
+		}
+		if (FD_ISSET(m_iCommandSocket, &writeSet))
+			m_iStatus = FTPSTAT_WAITINGSERVEROK;
+	}
+
+	if (m_iStatus == FTPSTAT_WAITINGSERVEROK)
+	{
+		int replyCode;
+		replyCode = 0;
+		if (((Cftp *)this)->RecvReply(buffer, 256, &replyCode) != FTP_SUCCEEDED)
+			return FTP_TRYING;
+		if (replyCode != FTPREPLY_SERVEROK)
+			return FTP_FAILED;
+		m_iStatus = FTPSTAT_CONNECTED;
+		return FTP_SUCCEEDED;
+	}
+
+	return FTP_FAILED;
+}

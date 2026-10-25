@@ -5912,7 +5912,7 @@ _InitHeaderBuffer,,0x001BCF80,60,Code/Libraries/Source/VP6/BitReader.cpp,matched
 ??R?$less@UGen_p12pod@@@_STL@@QBE_NABUGen_p12pod@@0@Z,,0x0016D540,54,Code/Libraries/Source/WWVegas/WWLib/RvaTreeInsertUniqueGenP12pod00927CF0.cpp,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
 ??M@YA_NABUGen_p12pod@@0@Z,,0x0016CBB0,50,Code/Libraries/Source/WWVegas/WWLib/RvaTreeInsertUniqueGenP12pod00927CF0.cpp,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
 ?AddLogGroup@Debug@@AAEPBDPBD0@Z,,0x000390D0,451,Code/Libraries/Source/WWVegas/WWDebug/Debug_AddLogGroup.cpp,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
-?MyIPAddress@@YAKH@Z,,0x006CA190,178,Code/Libraries/Source/WWVegas/WWDownload/MyIPAddress.cpp,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
+?MyIPAddress@@YAKH@Z,,0x006CA190,178,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
 ?Prepare_Directories@@YA_NPBD0@Z,,0x006CA540,154,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
 ?Create@DebugIONet@@SAPAVDebugIOInterface@@XZ,,0x0003F7B0,96,Code/Libraries/Source/WWVegas/WWDebug/DebugIONet_Create.cpp,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
 ?Create@DebugIOOds@@SAPAVDebugIOInterface@@XZ,,0x0003F3D0,96,Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds_Create.cpp,matched,bfme1 WWLib sweep exact-unique placement; verbatim source import
@@ -5992,7 +5992,7 @@ _Scale1D_2t1_ps,,0x001BA4D0,53,Code/Libraries/Source/VP6/ScaleC.cpp,matched,Clea
 _VP6_EncodeBool2,,0x001BCEB0,47,Code/Libraries/Source/VP6/BoolCoderEnc.cpp,matched,Clean-room spec 001bceb0; VP6_EncodeBool2: cdecl adding the cost-table entry for the bit and probability to the bit counter; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001bceb0.md and retail only
 ?Update@Debug@@UAEXXZ,,0x0003B700,228,Code/Libraries/Source/WWVegas/WWDebug/Debug_Update.cpp,matched,"bfme1 WWDebug sweep exact placement; allocator call pinned to existing _realloc address; spelled virtual: slot 37 of Debug's vftable 0x00BBE810, installed at +0 by Debug's own constructor and destructor; retail never calls it directly"
 ?GetInput@Debug@@UAEHPADHPA_N@Z,,0x00038EE0,266,Code/Libraries/Source/WWVegas/WWDebug/Debug_GetInput.cpp,matched,"bfme1 WWDebug sweep exact placement; allocator call pinned to existing _realloc address; spelled virtual: slot 38 of Debug's vftable 0x00BBE810, installed at +0 by Debug's own constructor and destructor; retail never calls it directly"
-?ConnectToServer@Cftp@@QAEJPBD@Z,,0x006CA660,562,Code/Libraries/Source/WWVegas/WWDownload/CftpConnectToServer.cpp,matched,bfme1 WWDownload sweep exact placement; relocation-pinned FTP helper imports
+?ConnectToServer@Cftp@@QAEJPBD@Z,,0x006CA660,562,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,matched,bfme1 WWDownload sweep exact placement; relocation-pinned FTP helper imports
 ?Set_Render_Target@DX8Wrapper@@SAXPAUIDirect3DSwapChain8@@@Z,,0x00120940,64,Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Set_Render_Target_SwapChain_Thunk.cpp,matched,bfme1 WW3D2 D sweep exact placement
 ?Create_Rva00972880_Prototype@@YAXXZ,,0x00181130,101,Code/Libraries/Source/WWVegas/WW3D2/Rva00972A30AddPrototype.cpp,matched,bfme1 WW3D2 R sweep exact placement
 ?Check@Rva0093C870Owner@@QAEPAVRva0093C4A0Target@@PBGPAGH@Z,,0x00154940,74,Code/Libraries/Source/WWVegas/WW3D2/Rva0093C870ChildCheck.cpp,matched,bfme1 WW3D2 R sweep exact placement; relocation-pinned child check
@@ -6695,7 +6695,7 @@ _piStopReporting,,0x006A75E0,36,Code/GameEngine/Source/GameNetwork/GameSpy/peer/
 ?hasOverrideWindow@RadarWindowOverrideSource@@QBE_NXZ,,0x002D35D6,16,Code/GameEngine/Source/Common/System/RadarWindowOverride.cpp,matched,
 ?AsyncGetHostByName@Cftp@@QAEHPADAAUsockaddr_in@@@Z,,0x006C9F90,165,Code/Libraries/Source/WWVegas/WWDownload/CftpAsyncGetHostByName.cpp,matched,
 ?GetFrameEntry@Debug@@AAEPAUFrameHashEntry@1@IIPBDH@Z,,0x0003A1B0,94,Code/Libraries/Source/WWVegas/WWDebug/Debug_GetFrameEntry.cpp,matched,
-?RecvReply@Cftp@@QAEJPBDHPAH@Z,,0x006CA080,268,Code/Libraries/Source/WWVegas/WWDownload/CftpRecvReply.cpp,matched,
+?RecvReply@Cftp@@QAEJPBDHPAH@Z,,0x006CA080,268,Code/Libraries/Source/WWVegas/WWDownload/FTP.CPP,matched,
 ?Use_Non_Blocking_Mode@@YA_NXZ,,0x006C9E00,154,Code/Libraries/Source/WWVegas/WWDownload/CftpUseNonBlockingMode.cpp,matched,
 ?getNameFromSingleBit@KindOfMaskType@@SAPBDH@Z,,0x00306218,26,Code/GameEngine/Source/GameLogic/ScriptEngine/KindOfGetNameFromSingleBit.cpp,matched,BFME2 218-entry KindOf table at 0xDBBE18; ported from exact BFME1 181-entry body at 0x10C5B0 with array-size bound only
 ?WriteParameter@Parameter@@QAEXAAVDataChunkOutput@@@Z,,0x003B3A38,129,Code/GameEngine/Source/GameLogic/ScriptEngine/Parameter_WriteParameter.cpp,matched,Ported from exact BFME1 Parameter_WriteParameter_Thunk; BFME2 KindOf table 218 entries; pins writeReal ICF writeInt and writeAsciiString
