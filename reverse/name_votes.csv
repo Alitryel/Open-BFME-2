@@ -6170,3 +6170,15 @@ Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|functio
 Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|a,f4fd4c73d8cbb090601c2f55,gpt-6.1-sol,codexb-20261025-063820-10,w-8e883e57d025,2026-10-25
 Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|b,a5b3dce2ced0db871a3f90e1,gpt-6.1-sol,codexb-20261025-063820-10,w-8e883e57d025,2026-10-25
 Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|d,6bf51fef98e36bf3d68dc935,gpt-6.1-sol,codexb-20261025-063820-10,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_int60,77a3993475c781598e5f40fa,gpt-6.1-sol,codex4-20261025-061940-1,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|tmp,abe03cee6087a2622135d24f,gpt-6.1-sol,codex4-20261025-061940-1,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|param|Object::forceEmotion|arg,cfef1ac7e9d5df9ec7a23e94,gpt-6.1-sol,codex4-20261025-061940-1,w-887869184137,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp|param|W3DTerrainBackground::getTriangleIntersection|x,b893a7c35fc6c329984e5766,gpt-6.1-sol,codex4-20261025-061940-2,w-887869184137,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp|param|W3DTerrainBackground::getTriangleIntersection|y,181f3f56cbddb4e96b05ef56,gpt-6.1-sol,codex4-20261025-061940-2,w-887869184137,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp|local|W3DTerrainBackground::getTriangleIntersection|z,67a9486c6489cec84ce6aa0b,gpt-6.1-sol,codex4-20261025-061940-2,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Create/SupplyWarehouseCreateRva004B901D.cpp|local|SupplyWarehouseCreate::rva004B901D|f,097c415e59ef54d662e38286,gpt-6.1-sol,codex4-20261025-061940-3,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva00538383|p,85448f164ef34925f3f393ff,gpt-6.1-sol,codex4-20261025-061940-3,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva005382F4|p,d0ed5ba9a926236593fa7cfe,gpt-6.1-sol,codex4-20261025-061940-3,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::rva002CA9CA|arg,3f1ae7d5a169b09bc588fe7e,gpt-6.1-sol,codex4-20261025-061940-4,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::getProjectileNuggetRadiusIfAlliesAffected|arg,eaceb9b79ae443df05466caf,gpt-6.1-sol,codex4-20261025-061940-4,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|local|Rva002CA9CA::rva002CAC6E|n,797e625d7fd451263a67e952,gpt-6.1-sol,codex4-20261025-061940-4,w-887869184137,2026-10-25
