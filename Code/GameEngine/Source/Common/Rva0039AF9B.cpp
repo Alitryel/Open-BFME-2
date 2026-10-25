@@ -1,15 +1,10 @@
-// cl: /DNDEBUG /MD /O1 /G7 /arch:SSE
+// cl: /DNDEBUG /MD /O1 /G7 /arch:SSE /ICode/GameEngine/Source/Common
 //
 // ?rva0039AF9B@Rva0039AF9B@@QAEMM@Z, retail 0x0039AF9B (45 bytes).
 // Identity: float scale by +0x2C pointee +8 unless game state +0x114 is 3 or
 // +0x4 pointee flag 0x80 at +0x108 is set; callers in Object and behavior
 // units. Layout from retail offsets; TheGameLogic via rowed name.
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x114];
-	int m_i114;
-};
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 struct Rva0039AF9B_P04
 {
@@ -33,7 +28,7 @@ private:
 };
 float Rva0039AF9B::rva0039AF9B(float v)
 {
-	if (TheGameLogic->m_i114 == 3)
+	if (TheGameLogic->m_114 == 3)
 		return v;
 	if ((m_p04->m_b108 & 0x80) == 0)
 		return v * m_p2C->m_f08;
