@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// stlport
 // INI::parseAsciiStringVector (retail 0x002F196, 36 bytes). Shared vector
 // parser behind the AnimationName, RequiredUpgrades, ForbiddenUpgrades and
 // ObjectNames table entries: clears the store through the rowed
@@ -6,26 +7,15 @@
 // add), then reuses the macro-expanding append at 0x002E896 with the same
 // four arguments. Mirrors the BFME1 donor shape (erase plus append reuse).
 
-class AsciiString;
+#include "ascii_string.h"
+#include <vector>
 
+// The rowed out-of-line erase: an explicit specialization declaration keeps
+// the call instead of inlining STLport's in-class body.
 namespace _STL
 {
-template <class T> class allocator
-{
-};
-
-template <class T, typename A = allocator<T> > class vector
-{
-public:
-	typedef T *iterator;
-	iterator erase(iterator first, iterator last);
-	iterator begin() { return m_start; }
-	iterator end() { return m_finish; }
-
-	T *m_start;
-	T *m_finish;
-	T *m_end;
-};
+template <> vector<AsciiString, allocator<AsciiString> >::iterator
+vector<AsciiString, allocator<AsciiString> >::erase(iterator first, iterator last);
 }
 
 class INI
