@@ -182,3 +182,28 @@ hidden by this move, and no header debt or queue retirement is claimed. The
 owning tool's read-only scan was retried; its Wine preprocessing probe still
 drops standard headers, consistent with the previous handoff. Queue and tools
 remain unchanged; this is classification of redundant generated entries.
+
+
+## TextOnFrame initializer prerequisite and publication retry
+
+Reconciled the initializer's private record with the destination's already
+rowed update/reverse view: the +0x10 argument is that view's m_startFrame,
+with the existing +0x14 end frame. Removed its unused NULL guard and used
+bool literals instead of donor-local TRUE/FALSE definitions. No new name
+identity, field offset, callable, flag, pin or hatch is asserted. The complete
+62-byte initializer verifies independently and its frozen-body check passes.
+The supported dry run accepts it with the destination, preserving nine rows.
+
+The five-commit batch passed pre-push verification: 46/46 bodies over four
+sources, four exact EH records, one data row, strings/floats and ten converged
+data addresses. GitHub then rejected its pack with a remote temporary-pack
+rename/storage failure. A concurrent claim fetch replaced FETCH_HEAD before
+the publisher retry, which stopped with Cannot rebase onto multiple branches.
+No rebase is left active; the five commits remain queued after its successful
+initial rebase. Claim fetches and subsequent publication are now serialized.
+
+The MS-header diagnostic confirmed kitchen sink prefix does not preprocess
+with empty diagnostics. It then waited for other index-building threads;
+the read-only diagnostic was interrupted once the failure was established.
+No queue or gate was edited. The prior three-move consumer audit remains
+current for this prerequisite, which introduces no additional path change.

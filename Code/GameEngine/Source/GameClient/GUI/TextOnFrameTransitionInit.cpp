@@ -13,15 +13,6 @@
 typedef int Int;
 typedef bool Bool;
 
-#ifndef NULL
-#define NULL 0
-#endif
-
-#ifndef FALSE
-#define FALSE 0
-#define TRUE 1
-#endif
-
 class GameWindow
 {
 public:
@@ -44,7 +35,8 @@ public:
 	Bool m_isReversed;		// +0x0a
 	unsigned char m_pad0B;		// +0x0b
 	GameWindow *m_win;		// +0x0c
-	Int m_unknown10;		// +0x10, passed to update by retail init
+	Int m_startFrame;		// +0x10, same field as rowed update
+	Int m_endFrame;			// +0x14, same field as rowed update
 };
 
 enum
@@ -62,15 +54,15 @@ void TextOnFrameTransition::init(GameWindow *win)
 	}
 	if (m_win->winIsHidden())
 	{
-		m_isFinished = TRUE;
-		m_isForward = TRUE;
+		m_isFinished = true;
+		m_isForward = true;
 		m_frameLength = 0;
 	}
 	else
 	{
-		m_isForward = FALSE;
-		update(m_unknown10);
-		m_isFinished = FALSE;
-		m_isForward = TRUE;
+		m_isForward = false;
+		update(m_startFrame);
+		m_isFinished = false;
+		m_isForward = true;
 	}
 }
