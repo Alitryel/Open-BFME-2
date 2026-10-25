@@ -82,16 +82,21 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(provenance["source_lanes"]["generated"], 3)
 
     def test_reviewed_assembly_and_embedded_data_are_not_recovered_source(self):
+        reviewed_source = "Code/masm_dumps/reviewed_fixture.asm"
         rows = {
             ("clean", "0x1000"): (2, "Code/clean.cpp"),
-            ("reviewed", "0x1002"): (3, "Code/masm_dumps/RTC_CheckEsp.asm"),
+            ("reviewed", "0x1002"): (3, reviewed_source),
+            ("unreviewed", "0x1008"): (3, "Code/masm_dumps/unreviewed_fixture.asm"),
         }
-        report, provenance = self.measure(
-            rows, b"\x90" * 10,
-            text_data=[(0x1005, 0x1008, "Code/data.asm")],
-        )
+        # Keep synthetic report inputs independent of live assembly retirements.
+        with patch.object(export.progress, "REBUILT_ASM_SOURCES", frozenset({reviewed_source})):
+            report, provenance = self.measure(
+                rows, b"\x90" * 13,
+                text_data=[(0x1005, 0x1008, "Code/data.asm")],
+            )
         self.assertEqual(report["measures"]["matched_code"], 2)
         self.assertEqual(provenance["source_lanes"]["assembly"], 3)
+        self.assertEqual(provenance["source_lanes"]["dump"], 3)
         self.assertEqual(provenance["source_lanes"]["data"], 3)
         self.assertEqual(provenance["unclaimed_code_bytes"], 2)
         self.assertIn("assembly", provenance["excluded_lanes"])
