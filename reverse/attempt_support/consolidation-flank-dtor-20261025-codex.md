@@ -40,3 +40,27 @@ hooks, workflows, include paths, build inputs, registries and fold proofs need
 no repointing. No protected register changed; historical EA paths remain.
 Keep the donor file claim until publication is confirmed, then release it.
 No RVA claim was acquired.
+
+## Route transfer donor prerequisite
+
+The remaining clean donor, Common/AIFlankAttackTacticImp_DoXfer.cpp, now uses
+the destination's existing Rva0015334F route view: next index at +0 and
+vector<Coord3D> at +4. The destination's existing forwarding wrapper already
+passes that route address as AIFlankAttackTacticImp*. Its method-only class
+has no fields. The donor no longer requires a separate virtual-destructor
+and vector layout on that method-only receiver. This reconciles existing
+views; it supplies no new name or complete-class identity evidence.
+
+The original 156-byte DoXfer row verifies independently before and after.
+Declared-unmatched passes. The normal merge dry run now accepts the seed and
+both clean donors, preserving all ten approved rows, with no rejected donors.
+Evidence: build/codex-flank-xfer-{before,after,dryrun}.txt. Xfer's existing
+header_queue.tsv item and its adopt_first prerequisite remain unchanged;
+no header or identity debt was retired. Mixed factory/constructor donors
+remain behind. The Luna-held destination remains unedited.
+
+The second prerequisite adds no source-path changes. The combined outgoing
+range and this staged change therefore contain no moves or removed paths,
+and require no tooling, hook, workflow, include, build-input, registry or
+fold-proof consumer repair. Existing historical EA paths are retained.
+Both Common donor file claims remain held until publication is confirmed.

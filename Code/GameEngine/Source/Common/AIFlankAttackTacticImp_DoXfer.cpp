@@ -83,24 +83,31 @@ public:
 	virtual void v30(void *p);
 };
 
+// The existing destination route is Rva0015334F: next index at +0 and the
+// points vector at +4. Its xfer forwarding wrapper passes this same address
+// to DoXfer; do not require a second set of fields on the method-only owner.
+class Rva0015334F
+{
+public:
+	int m_next;
+	_STL::vector<Coord3D> m_points;
+};
+
 class AIFlankAttackTacticImp
 {
 public:
-	virtual ~AIFlankAttackTacticImp();
 	void DoXfer(Xfer *p);
-private:
-	_STL::vector<Coord3D> m_04;
 };
 
 void AIFlankAttackTacticImp::DoXfer(Xfer *xfer)
 {
 	xfer->v30(this);
-	AIFlankAttackTacticImp *self = this;
-	_STL::vector<Coord3D> *vec = &m_04;
+	Rva0015334F *self = reinterpret_cast<Rva0015334F *>(this);
+	_STL::vector<Coord3D> *vec = &self->m_points;
 	unsigned int count = (unsigned int)(vec->end() - vec->begin());
 	xfer->v30(&count);
 	if (xfer->v02()) {
-		_STL::vector<Coord3D>::iterator end = self->m_04.end();
+		_STL::vector<Coord3D>::iterator end = self->m_points.end();
 		_STL::vector<Coord3D>::iterator it = vec->begin();
 		for (; it != end; ++it)
 			xfer->v24(&(*it));
