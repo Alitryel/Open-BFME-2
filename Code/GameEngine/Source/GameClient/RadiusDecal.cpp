@@ -82,18 +82,22 @@ extern float opacityLogicStepSeconds;
 // +0x0C zeroed. Retail zeroes the extra through xmm0 (SSE float store).
 
 struct RadiusDecalShadow;
+// The opacity caller uses the rowed Shadow::setOpacity API. Position writes
+// use only the observed RadiusDecalShadow prefix, without claiming its full type.
+class Shadow;
 
 class RadiusDecal
 {
 private:
 	int m_decalTemplate;
 private:
-	RadiusDecalShadow *m_shadow;
+	Shadow *m_shadow;
 private:
 	bool m_empty;
 private:
 	float m_extra;
 public:
+	void setOpacity(Real o);
 	void setPosition(const Coord3D &pos);
 public:
 	void Rva00330E15(const Coord3D &pos);
@@ -189,7 +193,7 @@ void RadiusDecal::setPosition(const Coord3D &pos)
 {
 	if (m_shadow)
 	{
-		m_shadow->m_position = pos;
+		((RadiusDecalShadow *)m_shadow)->m_position = pos;
 	}
 }
 
@@ -203,7 +207,7 @@ void RadiusDecal::Rva00330E15(const Coord3D &pos)
 {
 	if (m_shadow)
 	{
-		m_shadow->m_position2 = pos;
+		((RadiusDecalShadow *)m_shadow)->m_position2 = pos;
 	}
 }
 
