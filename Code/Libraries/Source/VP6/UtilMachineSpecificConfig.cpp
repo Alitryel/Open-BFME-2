@@ -8,23 +8,14 @@
 // the WMT, MMX or generic tier. Every slot target and its order follow the
 // spec.
 //
-// Installs the per-CPU-tier "spread table" function-pointer blob for the
-// BFME video/image codec: two 65-slot arrays (offsets 0xA4 and 0x1C4 from
-// this blob, indexed by byte offset 0..0x100 in steps of 4, split 2/9/54
-// between a low-, mid- and tail-range filler) plus twelve individually
-// named slots scattered through the same blob.  Sibling of the plain
-// (non-looping) installer in PostProcMachineSpecificConfig.cpp: same
-// GetProcessorFlags probe and same tier-C / tier-A / generic order,
-// but this one only ever loads its filler set into two big arrays and a
-// dozen named cells, never into the small dispatch table there.
-//
-// g_bfmeTableJX (retail 0x01356B60, pinned elsewhere as a plain int) is
-// array1's first slot; every other field in the blob is reached by a
-// constant byte offset from its address, since nothing else in the blob
-// carries a name yet.
+// g_bfmeTableJX owns a padded storage view of the native IDCT tables at
+// VA E22D40 and E22E60. Their starts are 0x120 bytes apart; each has 65
+// four-byte slots, so the complete view is 0x224 bytes. All stores below
+// stay inside that allocation. This establishes a storage view, not the
+// original global identifier or C++ type.
 
 extern "C" void __cdecl GetProcessorFlags(int *pTierA, int *pTierB, int *pTierC);
-extern int g_bfmeTableJX;
+extern int g_bfmeTableJX[137];
 
 // Individually named blob cells (not part of either 65-slot array); no real
 // identity yet, address-derived names, pinned in reverse/symbols.csv.

@@ -45,9 +45,9 @@ extern unsigned char g_bfmePlaneSelector[];
 // 0x00E22D40) is the spread table UtilMachineSpecificConfig fills, defined in
 // CreatePBInstance.cpp as g_bfmeTableJX.
 extern unsigned char g_bfmeVp6SelectorMap[];
-extern int g_bfmeTableJX;
+extern int g_bfmeTableJX[137];
 #define g_bfmeVp6SelectorMapDw ((const int *)g_bfmeVp6SelectorMap)
-#define g_Vp6IdctTable ((Vp6InverseTransform *)&g_bfmeTableJX)
+#define g_Vp6IdctTable ((Vp6InverseTransform *)g_bfmeTableJX)
 extern "C" unsigned char __cdecl VP6_ReadHuffTokens(PB_INSTANCE *, unsigned char *, int);
 extern "C" unsigned char __cdecl VP6_ReadTokens(PB_INSTANCE *, unsigned char *, int, Vp6BlockContext *, Vp6BlockContext *);
 struct Rva009B4880State;

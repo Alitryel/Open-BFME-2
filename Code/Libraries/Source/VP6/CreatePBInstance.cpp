@@ -42,9 +42,12 @@ struct CodecState;
 
 extern "C" CodecState * __cdecl VP6_CreatePBInstance();
 
-extern int g_bfmeTableJX;
-// g_bfmeTableJX: matched references place it at VA 0xe22d40 (zero-filled .bss).
-int g_bfmeTableJX;
+// Opaque storage view of the two native 65-entry IDCT tables: VA E22D40
+// and E22E60, with the 28-byte gap retained. The final entry occupies
+// E22F60..E22F63, immediately before the separately owned E22F64 slot.
+// The clean-room specs prove these offsets, not an original C++ array type.
+extern int g_bfmeTableJX[137];
+int g_bfmeTableJX[137];
 
 extern "C" int __cdecl VP6_AllocateTmpBuffers(BfmeThingJT *q);
 void bfmeFreeOneJT(void *q);
@@ -98,7 +101,7 @@ extern "C" CodecState * __cdecl VP6_CreatePBInstance()
 	}
 
 	p->m_bfme1a8JX = 0x46;
-	p->m_bfme294JX = &g_bfmeTableJX;
+	p->m_bfme294JX = g_bfmeTableJX;
 
 	memset((char *)p + 0x3a0, 0, 0x16);
 	memset((char *)p + 0x3b6, 0, 0x63 * 4);
