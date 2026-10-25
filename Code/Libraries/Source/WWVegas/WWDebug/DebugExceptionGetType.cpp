@@ -1,22 +1,8 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Oy- /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Oy- /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /ICode/Libraries/Source/WWVegas/WWDebug
 
 #include <string.h>
 
-struct _EXCEPTION_RECORD
-{
-    unsigned long ExceptionCode;
-    unsigned long ExceptionFlags;
-    _EXCEPTION_RECORD *ExceptionRecord;
-    void *ExceptionAddress;
-    unsigned long NumberParameters;
-    unsigned long ExceptionInformation[15];
-};
-
-struct _EXCEPTION_POINTERS
-{
-    _EXCEPTION_RECORD *ExceptionRecord;
-    void *ContextRecord;
-};
+#include "BfmeDebugExceptionView.h"
 
 extern "C" __declspec(dllimport) int __cdecl wsprintfA(
     char *, const char *, ...);
@@ -43,13 +29,6 @@ extern "C" __declspec(dllimport) int __cdecl wsprintfA(
 #define EXCEPTION_PRIV_INSTRUCTION        0xC0000096UL
 #define EXCEPTION_SINGLE_STEP              0x80000004UL
 #define EXCEPTION_STACK_OVERFLOW           0xC00000FDUL
-
-class DebugExceptionhandler
-{
-public:
-    static const char *GetExceptionType(
-        _EXCEPTION_POINTERS *, char *);
-};
 
 const char *DebugExceptionhandler::GetExceptionType(
     _EXCEPTION_POINTERS *exptr, char *explanation)

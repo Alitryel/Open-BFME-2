@@ -72,3 +72,39 @@ stores its existing address global. A complete compatible DrawModule virtual
 prefix and constructor/vtable repair is still needed; a slot-0 virtual or a
 partial emitted table would not establish the retail ABI. No source attempt
 or new hatch was retained for that unchanged blocker.
+
+## Debug exception declaration blockers cleared
+
+The Libraries planner and current approved debug/debug_except.cpp plan identify
+ten clean candidates. Its normal baseline trial accepted seven, rejecting
+LogFPURegisters and LogRegisters because the seed's DebugExceptionhandler and
+exception-pointer/context views did not declare their interfaces. One Common
+record-initializer donor was separately rejected for bytes.
+
+The three exception-reporting donors now use the local
+WWVegas/WWDebug/BfmeDebugExceptionView.h. It combines their existing declarations:
+typed exception/context pointers; FloatSave at +0x1C followed by the previously
+verified SegGs..SegSs register fields at +0x8C..+0xC8; the FPU donor's superset
+of the Debug virtual overloads with width/fill unchanged at +0x9F50/+0x9F54;
+and all three existing handler member declarations, retaining their access.
+The explicit local include directory is retained by normal merge composition
+and resolves from the approved debug/ destination as well as the donors.
+No shared reference header, canonical class contract, pin, name or register was
+changed. No Common source was edited.
+
+`./build.sh` preserves GetExceptionType 1044 bytes, LogFPURegisters 635 bytes
+and LogRegisters 678 bytes: 3/3 bodies, 104 string references and two named
+imports verified. Frozen-file checks and diff checks pass. The normal trial
+now accepts nine files/nine rows/2815 retail bytes. Only the unchanged Common
+Rva0088D8E0RecordInitialize.cpp byte rejection remains. Receipts:
+build/debug-except-sol-before-dry.txt and build/debug-except-sol-after-dry.txt.
+The compatible subset is ready for a mechanical merge with normal claims and
+the complete path audit. Mixed/protected candidates remain untouched.
+
+Retain file scopes for DebugExceptionGetType.cpp,
+DebugExceptionhandler_LogFPURegisters.cpp, DebugExceptionhandler_LogRegisters.cpp
+and BfmeDebugExceptionView.h under Code/Libraries/Source/WWVegas/WWDebug/,
+plus RVAs 0x0003C7A0, 0x0003CD30 and 0x0003DA20, until publication is confirmed.
+This declaration-only prerequisite adds the local header but moves no existing
+source path; the full outgoing Laser/Font/debug batch still has no absorbed
+fragment or renamed consumer to repoint.
