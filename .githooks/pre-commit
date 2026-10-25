@@ -177,9 +177,13 @@ flags_changed=0
 baseline_changed=0
 attempts_changed=0
 data_rows_changed=0
+history_changed=0
 capture staged_out "listing staged files" git diff --cached --name-only --diff-filter=ACMRT
 while IFS= read -r path; do
     case "$path" in
+        # Written only by tools/image_ownership.py record on the publisher seat, which signs
+        # each row; checked below, before the early exit a history-only commit takes.
+        reverse/image_ownership_history.csv) history_changed=1 ;;
         # .c and .asm rows are byte-verified like .cpp: two of the six
         # wrong switch mappings found in 2026-10 sat in .c files this hook
         # never compiled.
@@ -216,6 +220,7 @@ deleted_source=0
 capture deleted_out "listing deleted files" git diff --cached --name-only --no-renames --diff-filter=D
 while IFS= read -r path; do
     case "$path" in
+        reverse/image_ownership_history.csv) history_changed=1 ;;
         reverse/pin_consistency_baseline.csv|reverse/gate_baseline.txt|reverse/eh_baseline.csv) baseline_changed=1 ;;
         reverse/retail_inventory/flag_regions.csv|reverse/flag_overrides.csv) flags_changed=1 ;;
         reverse/functions.csv|reverse/symbols.csv|reverse/deleted_rows.csv|reverse/re_attempts.log) ledger_changed=1 ;;
@@ -251,6 +256,15 @@ while IFS= read -r path; do
     esac
 done < <(grep -E '\.(cpp|c|h|hpp|asm)$' "$added_out" || true)
 rm -f "$added_out"
+
+# The image-ownership history: committed rows never change, and every added row
+# carries the publisher seat's signature from the out-of-repo public-key pin
+# BFME_OWNERSHIP_ALLOWED_SIGNERS (rows cannot re-verify here: their
+# image, map and objects are build outputs no commit holds).
+if [ "$history_changed" -ne 0 ]; then
+    python3 tools/image_ownership.py check-history --staged \
+        || fail "image-ownership history: a committed row changed or an added row is not the publisher's (see above)"
+fi
 
 # Data identity (shadow): staged sources' DIR32 data references against
 # reverse/data_ledger.csv; fails only when reverse/data_check_baseline.txt grew.

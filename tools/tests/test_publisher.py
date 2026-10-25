@@ -12,8 +12,49 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import publisher as pub  # noqa: E402
 import publisher_load as load  # noqa: E402
+import publisher_gate  # noqa: E402
 
 TOOLS = Path(__file__).resolve().parents[1]
+
+
+def test_publisher_gate_rechecks_pushed_history_before_hook(monkeypatch):
+    calls = []
+    monkeypatch.setenv("LANDING_BASE", "base")
+    monkeypatch.setenv("LANDING_TIP", "tip")
+
+    def run(argv, **kwargs):
+        calls.append(argv)
+        return type("Result", (), {"returncode": 1 if len(calls) == 1 else 0})()
+
+    monkeypatch.setattr(publisher_gate.subprocess, "run", run)
+    assert publisher_gate.main([]) == 1
+    assert len(calls) == 1
+    assert calls[0][1:] == ["tools/image_ownership.py", "check-history", "--range", "base", "tip"]
+
+
+def test_publisher_builder_checks_range_even_with_custom_gate(tmp_path, monkeypatch):
+    monkeypatch.setenv("BFME_OWNERSHIP_ALLOWED_SIGNERS", str(tmp_path / "pin"))
+    monkeypatch.setenv("BFME_OWNERSHIP_SIGNING_KEY", str(tmp_path / "private"))
+    builder = pub.Builder(tmp_path / "builder", "test", None)
+    assert builder.env["BFME_OWNERSHIP_ALLOWED_SIGNERS"] == str(tmp_path / "pin")
+    assert "BFME_OWNERSHIP_SIGNING_KEY" not in builder.env
+    (builder.work / "tools").mkdir(parents=True)
+    (builder.work / "tools" / "image_ownership.py").write_text("pinned checker")
+    monkeypatch.setattr(builder, "checkout", lambda job: tmp_path / "bundle")
+    monkeypatch.setattr(pub, "tree_digest", lambda path: "digest")
+    calls = []
+
+    def run(argv, **kwargs):
+        calls.append(argv)
+        return type("Result", (), {"returncode": 1, "stdout": b"unsigned history"})()
+
+    monkeypatch.setattr(pub.subprocess, "run", run)
+    job = dict(base="base", tip="tip", checker="digest", gate="true")
+    assert builder.run(job)[0] == 1
+    assert len(calls) == 1
+    assert calls[0][-4:] == ["check-history", "--range", "base", "tip"]
+
+
 GATE_SH = """#!/bin/bash
 # red when the change adds a file named bad*; names it for the publisher
 bad=$(git diff --name-only "$LANDING_BASE" "$LANDING_TIP" | grep '^bad' || true)

@@ -41,11 +41,15 @@ import argparse
 import bisect
 import collections
 import csv
+import hashlib
 import json
+import os
 import re
+import shutil
 import struct
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -1239,15 +1243,203 @@ def layout(r, overlay=(), status=LINK_STATUS, rows=None):
     return pieces, problems, info, units, refused, names, rows
 
 
+# ---------------------------------------------------------------- provenance
+# What a report was built from, so tools/image_ownership.py can bind a measurement
+# to one commit, one image file, one map and the exact objects the link consumed,
+# and refuse a stale, dirty or moving one. Untracked files count: an untracked .cpp
+# or .h a unit compiled is an input no commit holds.
+PROVENANCE_INPUTS = ("Code", "reference", "vendor", "reverse/functions.csv", "reverse/symbols.csv",
+                     "reverse/data_ledger.csv", "reverse/ghidra_functions.csv")
+BUILD_TOOLS = ("boot_image.py", "boot_relayout.py", "link_cycle.py", "build.py")
+TIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+
+
+def sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def _git(*a):
+    return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True, errors="replace").stdout
+
+
+def _rel(path):
+    try:
+        return Path(path).resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return Path(path).as_posix()
+
+
+def spec_files(specs, status):
+    """The files the overlay specs read besides the tree: the link status
+    (closed / shift-safe) and each rows:FILE."""
+    out = [Path(status)] if any(s in ("closed", "shift-safe") for s in specs) else []
+    return out + [Path(s[len("rows:"):]) for s in specs if s.startswith("rows:")]
+
+
+def snapshot_specs(specs, status, into):
+    """(specs, status, {file: sha256}) reading private copies in `into`: every spec
+    file (spec_files) is read once, before selection, and the overlay selects from
+    that copy, so the digests are of the bytes selected from (None: missing). The
+    link status lies under build/, outside input_state's paths: only this binds it."""
+    digests, copy = {}, {}
+    for k, p in enumerate(spec_files(specs, status)):
+        try:
+            data = p.read_bytes()
+        except FileNotFoundError:
+            digests[_rel(p)] = None
+            continue
+        q = Path(into) / f"spec{k}{p.suffix}"
+        q.write_bytes(data)
+        digests[_rel(p)] = hashlib.sha256(data).hexdigest()
+        copy[str(p)] = q
+    return ([f"rows:{copy.get(str(Path(s[5:])), s[5:])}" if s.startswith("rows:") else s for s in specs],
+            copy.get(str(Path(status)), status), digests)
+
+
+def snapshot_artifacts(exe, into):
+    """(image, map) copied once into the private directory `into`: the image check
+    and provenance read these, so the digests bind exactly the checked bytes even
+    when another build rewrites out/ meanwhile (measure then finds out/ unbound)."""
+    exe, copies = Path(exe), []
+    Path(into).mkdir(parents=True, exist_ok=True)
+    for p in (exe, exe.with_suffix(".map")):
+        q = Path(into) / p.name
+        q.write_bytes(p.read_bytes())
+        copies.append(q)
+    return copies
+
+
+def input_state():
+    """HEAD, and the uncommitted state (tracked edits and untracked files) of every
+    build input and build tool: equal at a build's start and end when nothing moved
+    under it. `status` lists what is not committed."""
+    paths = [*PROVENANCE_INPUTS, *("tools/" + t for t in BUILD_TOOLS)]
+    status = _git("status", "--porcelain", "--untracked-files=all", "--", *paths)
+    diff = _git("diff", "HEAD", "--", *paths)
+    return {"head": _git("rev-parse", "HEAD").strip(), "status": status.splitlines(),
+            "digest": hashlib.sha256((status + "\0" + diff).encode()).hexdigest()}
+
+
+def object_untracked_deps(obj, tracked):
+    """Recorded dependencies of `obj` (its .deps.json) inside the tree, outside
+    build/ (extracted toolchains), that HEAD does not track."""
+    sidecar = build._deps_sidecar(Path(obj))
+    try:
+        deps = json.loads(sidecar.read_text()).get("deps", {})
+    except (OSError, ValueError):
+        return ["<no dependency record>"]
+    out = []
+    for dep in deps:
+        rel = dep.replace("\\", "/")
+        if os.path.isabs(rel):
+            try:
+                rel = Path(rel).resolve().relative_to(ROOT).as_posix()
+            except ValueError:
+                continue                                 # outside the tree: the toolchain
+        if not rel.startswith("build/") and rel not in tracked:
+            out.append(rel)
+    return out
+
+
+def objects_now(entries, tracked=None):
+    """Re-judge objects [[path, sha256, source]] as they are now: changed (the file
+    is not the bytes consumed), not current, untracked dependencies. Current is
+    build.compile_is_current(strict=True), link_census' receipt: source, compile
+    command, every recorded header and the include search inventory unchanged. A
+    prebuilt-library member has no source."""
+    if tracked is None:
+        tracked = set(_git("ls-files", "--recurse-submodules").splitlines())
+    changed, stale, untracked, cache = [], [], [], {}
+    for rel, digest, source in entries:
+        path = Path(rel) if os.path.isabs(rel) else ROOT / rel
+        if not path.exists() or sha256_file(path) != digest:
+            changed.append(rel)
+            continue
+        if Path(source).suffix.lower() == build.LIB_SUFFIX:
+            continue
+        if not build.compile_is_current(ROOT / source, path, strict=True, inventory_cache=cache):
+            stale.append(rel)
+        untracked += [f"{rel}: {d}" for d in object_untracked_deps(path, tracked)]
+    return {"changed": changed, "not_current": stale, "untracked_deps": untracked}
+
+
+def objects_digest(entries):
+    """The digest of an object manifest [[path, sha256, source]] (image_ownership re-derives it)."""
+    h = hashlib.sha256()
+    for rel, digest, source in entries:
+        h.update(f"{rel}\0{digest}\0{source}\n".encode())
+    return h.hexdigest()
+
+
+def objects_state(units):
+    """The objects the units were read from, as consumed: [[path, sha256 of the bytes
+    the overlay read, source]], their digest, objects_now's verdicts on them, and
+    where each unit's bytes lie in them: [[retail rva, size, path, section number,
+    offset]] (image_ownership compares the image with those bytes)."""
+    by_path = {}
+    for u in units:
+        by_path.setdefault(_rel(u.path), (u.obj[2], u.rows[0]["source"]))
+    entries = [[rel, hashlib.sha256(data).hexdigest(), source] for rel, (data, source) in sorted(by_path.items())]
+    now = objects_now(entries)
+    return {"count": len(entries), "digest": objects_digest(entries), "entries": entries,
+            "units": sorted([u.rva, u.size, _rel(u.path), u.sec, u.off] for u in units),
+            "changed": len(now["changed"]), "not_current": len(now["not_current"]),
+            "untracked_deps": len(now["untracked_deps"]),
+            "examples": (now["changed"] + now["not_current"] + now["untracked_deps"])[:20]}
+
+
+def provenance(r, units, exe, rows_csv=None, start=None, specs=(), status=LINK_STATUS, seed=None, spec_digests=None):
+    """The build's commit and input state (at `start` and now: moved means dirty),
+    digests of the retail baseline, every ledger and spec file it read (`spec_digests`:
+    snapshot_specs' digests of the copies selected from; a spec file that differs
+    from them now moved under the build), the build tools, the consumed objects and
+    the linked image and map (`exe`: snapshot_artifacts' copy, the bytes checked)."""
+    tools = hashlib.sha256()
+    for name in BUILD_TOOLS:
+        tools.update(name.encode() + b"\0" + (ROOT / "tools" / name).read_bytes())
+    end = input_state()
+    start = start or end
+
+    def lf_sha(path):                    # LF line ends, as the committed blob: one digest on any checkout
+        p = ROOT / path
+        return hashlib.sha256(p.read_bytes().replace(b"\r\n", b"\n")).hexdigest() if p.exists() else None
+    exe = Path(exe)
+    specs_now = {_rel(p): sha256_file(p) if p.exists() else None for p in spec_files(specs, status)}
+    spec_digests = specs_now if spec_digests is None else spec_digests
+    specs_moved = specs_now != spec_digests
+    out = {"commit": end["head"], "dirty": bool(end["status"]) or start != end or specs_moved,
+           "inputs_moved": start != end or specs_moved, "specs_moved": specs_moved,
+           "dirty_paths": end["status"][:20], "inputs_start": start["digest"], "inputs_end": end["digest"],
+           "built_utc": time.strftime(TIME_FORMAT, time.gmtime()),
+           "retail_sha256": hashlib.sha256(r.data).hexdigest(),
+           "ledger_sha256": lf_sha("reverse/functions.csv"),
+           "inputs_sha256": {p: lf_sha(p) for p in PROVENANCE_INPUTS if p.startswith("reverse/")},
+           "spec_files_sha256": dict(spec_digests),
+           "overlay_specs": list(specs), "seed": seed,
+           "build_tools_sha256": tools.hexdigest(), "objects": objects_state(units),
+           "image_sha256": sha256_file(exe) if exe.exists() else None,
+           "map_sha256": sha256_file(exe.with_suffix(".map")) if exe.with_suffix(".map").exists() else None}
+    if rows_csv is not None and Path(rows_csv).exists():
+        out["rows_csv_sha256"] = sha256_file(rows_csv)
+    return out
+
+
 def build_image(base=0x10000000, out=OUT, tag="boot", overlay=(), status=LINK_STATUS, rows=None):
     """Link (and check) the image; `overlay` specs (or explicit ledger `rows`) put
     authored units in it."""
     # Paths passed to Wine link.exe must remain valid when cwd is changed to out.
     out = out.resolve()
     out.mkdir(parents=True, exist_ok=True)
+    start = input_state()                        # provenance: what moved while this built
+    snap = Path(tempfile.mkdtemp(prefix="boot_image_"))       # the spec files and artifacts as read
+    specs, status_read, spec_digests = snapshot_specs(overlay, status, snap)
     r = Retail()
     t = time.time()
-    pieces, problems, info, units, refused, names, rows = layout(r, overlay, status, rows)
+    pieces, problems, info, units, refused, names, rows = layout(r, specs, status_read, rows)
     ov = None
     if rows is not None:
         ov = overlay_report(r, units, refused, rows, out / (tag + ".overlay.csv"))
@@ -1272,8 +1464,9 @@ def build_image(base=0x10000000, out=OUT, tag="boot", overlay=(), status=LINK_ST
     if ov is not None:
         report["overlay"] = ov
     if rc == 0:
-        publics = read_publics(out / (tag + ".map"), base)
-        counts, bad = check_image(r, pieces, out / (tag + ".exe"), base, publics)
+        exe, mapfile = snapshot_artifacts(out / (tag + ".exe"), snap)
+        publics = read_publics(mapfile, base)
+        counts, bad = check_image(r, pieces, exe, base, publics)
         report.update(check=counts, check_bad=bad)
         report["pieces_map"] = [[p.name, p.start, publics[p.public], p.size] for p in pieces]
         report["authored"] = [[u.rva, u.size, u.rows[0]["name"]] for u in units]
@@ -1281,6 +1474,9 @@ def build_image(base=0x10000000, out=OUT, tag="boot", overlay=(), status=LINK_ST
             ok = not (counts.get("authored-bytes-differ") or counts.get("authored-reloc-bad"))
             ov["verified_bytes"] = ov["bytes"] if ok else 0
             ov["verified_share_of_text"] = ov["share_of_text"] if ok else 0
+        report["provenance"] = provenance(r, units, exe, out / (tag + ".overlay.csv") if ov else None,
+                                          start, overlay, status, spec_digests=spec_digests)
+    shutil.rmtree(snap, ignore_errors=True)
     report["seconds"] = round(time.time() - t, 1)
     (out / (tag + ".json")).write_text(json.dumps(report, indent=1), encoding="utf-8")
     return report
@@ -1313,16 +1509,21 @@ def main(argv=None):
     p.add_argument("--own-data", action="store_true",
                    help="place data the units' objects define in our own sections and bind to it (boot_relayout.py)")
     p.add_argument("--seed", type=int, default=0, help="--relayout: the moved units' shuffle")
+    p.add_argument("--ownership", action="store_true",
+                   help="then print who owns every byte of the image (tools/image_ownership.py; records nothing)")
     args = ap.parse_args(argv)
-    if args.cmd == "link" and (args.relayout or args.own_data):
-        import boot_relayout
-        rep = boot_relayout.build_image(args.base, args.out, args.tag, args.overlay, args.status,
-                                        relayout=args.relayout, own_data=args.own_data, seed=args.seed)
-        print(json.dumps({k: v for k, v in rep.items() if k not in ("pieces_map", "authored", "_layout")}, indent=1))
-        return 0 if image_ok(rep) else 1
     if args.cmd == "link":
-        rep = build_image(args.base, args.out, args.tag, args.overlay, args.status)
-        print(json.dumps({k: v for k, v in rep.items() if k not in ("pieces_map", "authored")}, indent=1))
+        if args.relayout or args.own_data:
+            import boot_relayout
+            rep = boot_relayout.build_image(args.base, args.out, args.tag, args.overlay, args.status,
+                                            relayout=args.relayout, own_data=args.own_data, seed=args.seed)
+        else:
+            rep = build_image(args.base, args.out, args.tag, args.overlay, args.status)
+        print(json.dumps({k: v for k, v in rep.items() if k not in ("pieces_map", "authored", "_layout")}, indent=1))
+        if args.ownership and rep["link_exit"] == 0:
+            import image_ownership
+            receipt = image_ownership.measure(args.out.resolve() / (args.tag + ".json"))
+            print("\n".join(image_ownership.summary_lines(receipt)))
         return 0 if image_ok(rep) else 1
     r = Retail()
     if args.cmd == "relocs":

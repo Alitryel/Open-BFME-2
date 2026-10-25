@@ -152,8 +152,8 @@ COMMITTER = "publisher"
 # what the builder process and the gate may inherit; everything else (tokens,
 # SSH agent, GIT_* overrides, credential helpers) is dropped
 SAFE_ENV = ("PATH", "PATHEXT", "SYSTEMROOT", "SystemRoot", "WINDIR", "COMSPEC", "TEMP", "TMP",
-            "LANG", "LC_ALL", "TZ", "NUMBER_OF_PROCESSORS", "PROCESSOR_ARCHITECTURE", "OS",
-            "MSYSTEM", "PYTHONIOENCODING", "PYTHONUTF8")
+             "LANG", "LC_ALL", "TZ", "NUMBER_OF_PROCESSORS", "PROCESSOR_ARCHITECTURE", "OS",
+            "MSYSTEM", "PYTHONIOENCODING", "PYTHONUTF8", "BFME_OWNERSHIP_ALLOWED_SIGNERS")
 
 
 class Crash(BaseException):
@@ -689,9 +689,14 @@ class Builder:
         env = dict(self.env, LANDING_BASE=job["base"], LANDING_TIP=job["tip"],
                    CHECKER_DIR=bundle.as_posix(), CHECKER_DIGEST=job["checker"])
         try:
-            got = subprocess.run(["bash", "-c", command or job["gate"]], cwd=self.work, env=env,
-                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                 timeout=float(job.get("gate_timeout") or 6 * 3600))
+            verifier = self.work / "tools" / "image_ownership.py"
+            checked = subprocess.run([sys.executable, str(verifier), "check-history", "--range",
+                                      job["base"], job["tip"]], cwd=self.work, env=env,
+                                     stdout=subprocess.PIPE, stderr=subprocess.STDOUT) if verifier.is_file() else None
+            got = checked if checked is not None and checked.returncode else \
+                subprocess.run(["bash", "-c", command or job["gate"]], cwd=self.work, env=env,
+                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                               timeout=float(job.get("gate_timeout") or 6 * 3600))
             code, output = got.returncode, got.stdout or b""
         except subprocess.TimeoutExpired as error:
             code, output = 124, (error.stdout or b"") + b"\n[publisher] gate timed out\n"

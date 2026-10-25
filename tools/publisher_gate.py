@@ -97,6 +97,11 @@ def main(argv=None):
         if not link_gitlink(rel, args.toolchains):
             return 1
     sys.stdout.flush()
+    # Recheck each pushed commit even when its author bypassed local hooks.
+    checked = subprocess.run([sys.executable, "tools/image_ownership.py", "check-history",
+                              "--range", base, tip])
+    if checked.returncode:
+        return checked.returncode
     # "." as the remote: the builder has none, and the hook's remote probes
     # (publish window, destination fetch) must stay inside this clone.
     line = f"refs/heads/master {tip} refs/heads/master {base}\n"

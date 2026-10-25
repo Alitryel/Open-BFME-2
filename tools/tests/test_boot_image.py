@@ -20,6 +20,13 @@ import boot_image  # noqa: E402
 BOOT = ROOT / "build" / "boot"
 
 
+def test_objects_digest_binds_source():
+    entries = [["build/x.obj", "a" * 64, "Code/A.cpp"]]
+    original = boot_image.objects_digest(entries)
+    entries[0][2] = "Code/B.cpp"
+    assert boot_image.objects_digest(entries) != original
+
+
 def block(page, offsets):
     entries = [0x3000 | o for o in offsets]
     if len(entries) % 2:

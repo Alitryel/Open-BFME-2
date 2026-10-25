@@ -63,6 +63,8 @@ PROTECTED = (
     "tools/audit/*",
     "tools/publisher_gate.py", "tools/publisher_hook.py", "tools/publisher_service.py",
     "reverse/publisher_mode",
+    # the image-ownership metric checks signed history with an external key pin
+    "tools/image_ownership.py",
     # the hooks that run all of the above
     ".githooks/*", ".github/workflows/*",
     # debt registers and exemption lists

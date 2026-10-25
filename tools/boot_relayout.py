@@ -45,7 +45,9 @@ import hashlib
 import json
 import pickle
 import random
+import shutil
 import struct
+import tempfile
 import time
 from pathlib import Path
 
@@ -627,6 +629,15 @@ def datum_pieces(r, owned, objs, ctx):
 
 
 # ---------------------------------------------------------------- objects
+def data_owners(owned, live):
+    """[retail start, size, the source whose object the datum's bytes come from, that
+    object, its section number, the datum's offset there] for each owned datum
+    (`owned`: plan_own's {rlo: (size, object path, section, offset, writable)});
+    image_ownership compares the image with those bytes."""
+    source_of = {str(u.path): u.rows[0]["source"] for u in live}
+    return [[rlo, v[0], source_of.get(str(v[1])), bi._rel(v[1]), v[2], v[3]] for rlo, v in sorted(owned.items())]
+
+
 def write_moved(moved, datums, path, names):
     """Objects for the moved units (`.text$r`, int3 before and after each body) and
     the owned data (`.ordata` / `.odata`), with a public at each piece and every
@@ -916,11 +927,14 @@ def build_image(base=0x10000000, out=bi.OUT, tag="boot", overlay=(), status=bi.L
     import link_cycle
     out = Path(out).resolve()                         # link.exe runs in `out`
     out.mkdir(parents=True, exist_ok=True)
+    start = bi.input_state()                     # provenance: what moved while this built
+    snap = Path(tempfile.mkdtemp(prefix="boot_relayout_"))    # the spec files and artifacts as read
+    specs, status_read, spec_digests = bi.snapshot_specs(overlay, status, snap)
     r = bi.Retail()
     t0 = time.time()
     sites, info = bi.all_sites(r)
     lost = tuple(int(x, 16) for x in info["lost_pages"])
-    rows = bi.overlay_rows(overlay, status) if rows is None else rows
+    rows = bi.overlay_rows(specs, status_read) if rows is None else rows
     branches, raw = branch_sweep(r, sites, out)
     objs = objs or link_cycle.Objects([])
     refused_by_check, banned_data, history = [], set(), []
@@ -984,11 +998,13 @@ def build_image(base=0x10000000, out=bi.OUT, tag="boot", overlay=(), status=bi.L
                 "bytes_ours_writable": sum(p.size for p, _, _ in datums if p.name == ".odata"),
                 "data_referenced": len(refd), "bytes_referenced": sum(refd.values()),
                 "bytes_still_retail_by_reason": dict(nb.most_common()),
-                "data_still_retail_by_reason": dict(nd.most_common())}
+                "data_still_retail_by_reason": dict(nd.most_common()),
+                "owners": data_owners(owned, live)}
         if rc:
             break
-        publics = bi.read_publics(out / (tag + ".map"), base)
-        counts, bad, blame = check_semantic(r, scaffold, moved, datums, branches, usites, out / (tag + ".exe"),
+        exe, mapfile = bi.snapshot_artifacts(out / (tag + ".exe"), snap / f"round{rnd}")
+        publics = bi.read_publics(mapfile, base)
+        counts, bad, blame = check_semantic(r, scaffold, moved, datums, branches, usites, exe,
                                             base, publics, ctx.get("biased_refs"))
         report.update(check=counts, check_bad=bad)
         report["check_blame"] = sorted("%s %#x %s" % (k[0], k[1], v) for k, v in blame.items())[:50]
@@ -1011,6 +1027,10 @@ def build_image(base=0x10000000, out=bi.OUT, tag="boot", overlay=(), status=bi.L
     report["rounds"] = history
     ok = bi.image_ok(report) and not report.get("check", {}).get("reloc-bad")
     report["overlay"]["verified_bytes"] = report["overlay"]["bytes"] if ok else 0
+    if not rc:
+        report["provenance"] = bi.provenance(r, live, exe, out / (tag + ".overlay.csv"),
+                                             start, overlay, status, seed, spec_digests)
+    shutil.rmtree(snap, ignore_errors=True)
     report["seconds"] = round(time.time() - t0, 1)
     (out / (tag + ".json")).write_text(json.dumps(report, indent=1), encoding="utf-8")
     if not rc:
