@@ -6,11 +6,32 @@
 // Rva0030D631) and keeps the object's own z under the terrain height.
 #include "ascii_string.h"
 
+class WWMath
+{
+public:
+	static float __fastcall Inv_Sqrt(float val);
+};
+
 class Vector3
 {
 public:
+	Vector3() {}
 	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
 	Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
+	__forceinline float Length2() const { return X * X + Y * Y + Z * Z; }
+	__forceinline void Normalize()
+	{
+		float len2 = Length2();
+		if (len2 != 0.0f) {
+			float oolen = WWMath::Inv_Sqrt(len2);
+			X *= oolen;
+			Y *= oolen;
+			Z *= oolen;
+		}
+	}
+	friend Vector3 operator+(const Vector3 &a, const Vector3 &b) { return Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z); }
+	friend Vector3 operator*(const Vector3 &a, float k) { return Vector3(a.X * k, a.Y * k, a.Z * k); }
+	friend Vector3 operator-(const Vector3 &a, const Vector3 &b) { return Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
 	float X;
 	float Y;
 	float Z;

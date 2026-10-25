@@ -29,13 +29,33 @@ Staged data checks: zero findings; converged data check: no second names or
 unjudged rows. Neither changed source has header-queue, SDK-queue, data-debt
 or code-identity-debt keys. No register key was retired.
 
-Remaining Bridge blockers: loader declaration trial reaches C2146/C2501 at
+Initial Bridge loader blocker: a declaration-only trial reached C2146/C2501 at
 m_start because composition relocates Vector3 after W3DBridge's by-value
 fields. The unused loader declarations were removed; loader source unchanged,
 verdict recorded with re_log.py and its file/RVA claims released. Destructor,
 vertex, load, ctor and refill donors retain their private-view/declaration
 failures; getModelVerticesFixed remains protected-register keyed. Mixed donors
-stay intact. Do not treat the ready allocator pair as closure for the TU.
+stay intact. The loader was subsequently reclaimed and repaired below. Do not
+treat the ready allocator subset as closure for the TU.
+
+## Bridge loader prerequisite verified
+
+The follow-up hypothesis reconciles the two existing Vector3 views instead of
+introducing a header or changing the composer. Both now use the seed's same
+Vector3/WWMath declarations with the loader's existing copy constructor. An
+identical type is emitted at its first occurrence, before W3DBridge's by-value
+fields. The seed also declares the loader's existing nonvirtual loadBridges and
+addBridge signatures, with forward declarations for their pointer arguments.
+No layout, symbol identity, virtual slot, compiler flag or body was changed.
+
+`./build.sh W3DBridgeBuffer.cpp W3DBridgeBufferLoadBridges.cpp` verifies 11/11
+rows and three float literals; frozen-file checks pass; EH reports EXACT 2,
+no baseline exceptions or missing objects. The normal merge dry run now
+accepts seed, allocator and loader together, all 15 rows versus 14 before this
+follow-up. Receipt: build/sol-b5-bridge-vector-build.txt and
+build/sol-b5-bridge-vector-after.txt. This is a demonstrated three-file subset
+for Luna, not an applied merge or confirmed downstream landing. Other Bridge
+donor failures remain, including the AddBridge Region3D header-adoption queue.
 
 ## Other investigated allocation
 
@@ -44,6 +64,38 @@ rejects reactToTransformChange with Coord3D redefinition at Coord3DCtorView.h.
 The react donor deliberately needs the destructor-bearing shared view for
 retail EH. No source or claim was changed for that read-only trial; the
 existing Prop handoff remains applicable. Receipt: build/sol-b5-prop-before.txt.
+
+BufferedFile tooling false reject: the allocated WWLib/bufffile.cpp normal
+merge dry run rejects the seed under every candidate flag set. Ordinary
+`./build.sh .../bufffile.cpp` verifies 10/10 rows; composing only the seed
+with its original flags also verifies 10/10. Reproducing `_merge`'s flag
+selection drops managed `/arch:SSE /G7`, leaving Read (0x0061AE30) and Seek
+(0x0061B000) mismatched, 8/10 rows. The destination is in flag_overrides.csv,
+so Verifier.effective intentionally does not restore region defaults.
+Composing seed plus BufferedFileClassConstructor.cpp with the seed's original
+flags verifies all 11 rows. This isolates a composer flag-selection false
+reject, not a source prerequisite. No tool, flags register or source changed;
+no manual merge applied. Recorded via re_log.py; Read/Seek and automatic seed
+scope claims released. Receipt: build/sol-b5-bufffile-before.txt and
+build/sol-b5-bufffile-build.txt. A tooling owner should preserve overridden
+managed flags in candidate selection and add a regression test separately.
+
+Other allocated plans: DisplayStringManager's two donors live under Common,
+outside this seat's family; retain the existing cross-family handoff.
+Thread's constructor prerequisite is already verified in
+consolidation-sol-thread-20261025.md and ready for Luna; lifecycle/yield remain
+protected-register keyed. HTree's recent storage/split handoff already covers
+its accepted subset; no unchanged prerequisite was repeated. PolygonRenderer
+and LadderDefs are also already ready per the projectile handoff. NAT retains
+cross-family declaration dependencies. No claim or source change was made for
+these read-only plans.
+
+GameInfo normal dry run accepts seven files and 28 rows (including one Common
+donor); no merge applied. Remaining rejects: GameSlotSetState lacks isAI and
+m_connectInfo in the chosen view; GetSlotNum differs in bytes; map-path donor
+has TheGameState declaration ordering; destructor expects m_C8. Mixed and
+protected donors remain. Receipt: build/sol-b5-gameinfo-before.txt. No source
+edit or claim for this read-only investigation.
 
 ## Reference freshness and outgoing audit
 
@@ -60,5 +112,6 @@ Functions, data and identity owners remain unchanged. Provider/consumer code
 and selected COMDATs have no new identity findings. File reduction: zero;
 identity debt retired: zero; recovered C++/retail bytes: zero.
 
-Keep seed, allocator and this handoff file claims plus 0x000DD8B8 until
+Keep seed, allocator, loader and this handoff file claims plus 0x000DD8B8 and
+0x000DFB3C until
 publication is confirmed. Release file scopes and settle landed RVAs afterward.

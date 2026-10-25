@@ -28,6 +28,7 @@ class Vector3
 public:
 	Vector3() {}
 	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+	Vector3(const Vector3 &vec) { X = vec.X; Y = vec.Y; Z = vec.Z; }
 	__forceinline float Length2() const { return X * X + Y * Y + Z * Z; }
 	__forceinline void Normalize()
 	{
@@ -190,11 +191,16 @@ public:
 	void init(Vector3 fromLoc, Vector3 toLoc, AsciiString name);
 };
 
+class W3DTerrainLogic;
+class Dict;
+
 class W3DBridgeBuffer
 {
 public:
 	void rva000DD878(int dummy);
 	void allocateBridgeBuffers(void);
+	void addBridge(Vector3 fromLeft, Vector3 fromRight, AsciiString name, W3DTerrainLogic *pTerrainLogic, Dict *props);
+	void loadBridges(W3DTerrainLogic *pTerrainLogic, bool saveGame);
 private:
 	void *m_vertexBridge;
 private:
