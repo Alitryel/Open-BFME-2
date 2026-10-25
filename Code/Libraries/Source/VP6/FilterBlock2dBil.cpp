@@ -11,7 +11,7 @@
 // dwords per row). The matching second pass then runs on the scratch buffer
 // with (scratch, output, 8, 8, 8, 8, vertical weights).
 
-extern int g_bfmeTableC7E0;
+extern int g_bfmeTableC7E0[11 * 8];
 
 extern "C" void __cdecl FilterBlock2dBil_SecondPass(
 	int *, unsigned short *, int, int, int, int, const int *);
@@ -28,14 +28,13 @@ extern "C" void __cdecl FilterBlock2dBil(
 {
     int sourceDelta = sourcePitch;
     sourceDelta -= 8;
-    int *table = &g_bfmeTableC7E0;
-    table += 2;
+    int *table = g_bfmeTableC7E0;
     int rows = 9;
     const unsigned char *sourcePointer = source;
 
     do
     {
-        for (int column = -2; column <= 5; column++)
+        for (int column = 0; column <= 7; column++)
         {
             table[column] = (sourcePointer[0] * horizontalWeights[0] +
                               sourcePointer[1] * horizontalWeights[1] + 0x40) >> 7;
@@ -48,7 +47,7 @@ extern "C" void __cdecl FilterBlock2dBil(
 	}
 	while (rows != 0);
 
-	FilterBlock2dBil_SecondPass(&g_bfmeTableC7E0, destination, 8, 8, 8, 8, verticalWeights);
+	FilterBlock2dBil_SecondPass(g_bfmeTableC7E0, destination, 8, 8, 8, 8, verticalWeights);
 }
 
 // RVA 0x001B8A40
@@ -61,14 +60,13 @@ extern "C" void __cdecl FilterBlock2dBil_8(
 {
     int sourceDelta = sourcePitch;
     sourceDelta -= 8;
-    int *table = &g_bfmeTableC7E0;
-    table += 2;
+    int *table = g_bfmeTableC7E0;
     int rows = 9;
     const unsigned char *sourcePointer = source;
 
     do
     {
-        for (int column = -2; column <= 5; column++)
+        for (int column = 0; column <= 7; column++)
         {
             table[column] = (sourcePointer[0] * horizontalWeights[0] +
                               sourcePointer[1] * horizontalWeights[1] + 0x40) >> 7;
@@ -81,5 +79,5 @@ extern "C" void __cdecl FilterBlock2dBil_8(
 	}
 	while (rows != 0);
 
-	FilterBlock2dBil_SecondPass_8(&g_bfmeTableC7E0, (unsigned char *)destination, 8, 8, 8, 8, verticalWeights);
+	FilterBlock2dBil_SecondPass_8(g_bfmeTableC7E0, (unsigned char *)destination, 8, 8, 8, 8, verticalWeights);
 }

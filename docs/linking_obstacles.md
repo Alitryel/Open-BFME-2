@@ -634,6 +634,15 @@ authored-byte previews or commit-title gains into a projected headline.
   credit. This scoped
   scaler repair is **cleared in the fixed comparison**; no current census
   headline change is claimed. Native alignment padding remains unowned.
+- **Generic filter scratch repaired / awaiting measurement (2026-10-25,
+  source base `684d224e847`):**
+  [the scratch ownership proof](../reverse/attempt_support/vp6-filter-scratch-link-20261025/readme.md)
+  replaces two four-byte scalar claims with the independently bounded
+  352-byte buffer at DFDA58; its second-pass row is buffer+32, not a second
+  datum. All 5 control bodies (821 bytes), the complete data owner and all
+  6 native DIR32 targets pass. A plain zero-based eight-column loop preserves
+  native pointer induction after the correct array declaration. The 655-byte
+  affected subset is source-verified; new authoritative credit is pending.
 - **Remaining / next check:** shader/filter root-object ownership remains
   open. The [current witnesses](../reverse/attempt_support/vp6-scale-tables-link-20261025/remaining-witnesses.json)
   show InitPostProcessing still closure-blocked through GetProcessorFlags and

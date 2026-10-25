@@ -14,10 +14,10 @@ extern "C" void __cdecl FilterBlock1d_v_wmt(const void *, void *, int, int, int,
 extern "C" void __cdecl FilterBlock2dFirstPass(int, int *, void *, int, int, int, void *); // 0x001B8100
 extern "C" void __cdecl FilterBlock2dSecondPass(int *, void *, int, int, int, int, void *); // 0x001B81C0 FilterBlock2dSecondPass
 
-// Retail 0x00DFDA58: the generic filter's scratch rows (8 dwords per row).
-int g_bfmeTableC7E0;
-// Retail 0x00DFDA78: scratch row 1.
-int g_bfmeTableC800;
+// Retail 0x00DFDA58..0x00DFDBB8: eleven scratch rows, eight dwords each.
+// Row one at 0x00DFDA78 belongs to this same buffer. The independent debug
+// frame counter starts immediately after the complete 352-byte allocation.
+int g_bfmeTableC7E0[11 * 8];
 
 // RVA 0x001D72D0
 extern "C" void __cdecl FilterBlock2d_mmx(const void *source, void *output,
@@ -44,7 +44,7 @@ extern "C" void __cdecl FilterBlock2d_wmt(const unsigned char *source, unsigned 
 extern "C" void __cdecl FilterBlock2d(void *source, void *output,
 	void *pixelsPerLine, void *horizontalTaps, void *verticalTaps)
 {
-	FilterBlock2dFirstPass((char *)source - (char *)pixelsPerLine, &g_bfmeTableC7E0, pixelsPerLine,
+	FilterBlock2dFirstPass((char *)source - (char *)pixelsPerLine, g_bfmeTableC7E0, pixelsPerLine,
 		1, 11, 8, horizontalTaps);
-	FilterBlock2dSecondPass(&g_bfmeTableC800, output, 8, 8, 8, 8, verticalTaps);
+	FilterBlock2dSecondPass(g_bfmeTableC7E0 + 8, output, 8, 8, 8, 8, verticalTaps);
 }
