@@ -98,3 +98,26 @@ initializer outside this seat. That ready subset remains for the mechanical
 seat. No source paths move anywhere in this prerequisite batch; the combined
 outgoing and staged path audit needs no consumer updates. Inherited naming
 vote/agreement edits remain unstaged and untouched.
+
+## Laser SDK prerequisite cleared
+
+`Code/Libraries/Source/WWVegas/WW3D2/RefCountPtrTextureRva000C9A51.cpp` now uses
+`<stdlib.h>` with `/D_CRTIMP=`. Retail calls the existing game `_free` wrapper
+at 0x00030830, not the CRT import; that wrapper is already owned by
+Common/System/GameMemoryFree.cpp. The configuration preserves this direct
+call while taking the prototype from the real header. No alias, pin or new
+allocator name is introduced.
+
+`./build.sh` preserves the complete 30-byte cleanup at 0x000C9A51 and its zero
+import count. Frozen-file checking passes. A fresh SDK scan reports no local
+declarations or analysis error; the owning refresh_queue writer removes only
+this source's old free:abi report row. This supersedes the outstanding Laser
+report blocker above. BIG's sprintf report still remains.
+
+The normal Laser dry run accepts four files / five rows: buildFieldParse,
+xfer/loadPostProcess, this cleanup and the module-data constructor. The two
+range/vector donors have no baseline match and remain untouched. Receipt:
+build/sol-laser-after-sdk.txt. The ready subset is left for Luna. No source
+paths move in this commit or its pending predecessors, so the combined audit
+again requires no path-consumer changes. File reduction and identity retirement
+remain zero for these prerequisite repairs.
