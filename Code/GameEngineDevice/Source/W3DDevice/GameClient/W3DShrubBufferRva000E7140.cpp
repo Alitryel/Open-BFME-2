@@ -28,38 +28,59 @@ struct Rva000E7140Type
     unsigned char reserved20[0x3c];
 };
 
+// The record and type arrays are spelled as W3DShrubBuffer.cpp's own view spells them (opaque element storage);
+// this body reads them through its local element views above.
+class Rva000E9C1DRecord
+{
+public:
+	Rva000E9C1DRecord();
+private:
+	unsigned char m_storage[0xA0];
+};
+
+class Rva000E9C1DType
+{
+public:
+	Rva000E9C1DType();
+	~Rva000E9C1DType();
+private:
+	unsigned char m_storage[0x5C];
+};
+
 class W3DShrubBuffer
 {
 public:
     char rva000E7140(void *key, Vector3 position, const Matrix3D *transform);
 
 private:
-    unsigned char reserved000[0x1958];
-    Rva000E7140Record records[2000];
-    Int count;
-    unsigned char changed;
-    unsigned char reserved4fb5d[0x4fb70 - 0x4fb5d];
-    Rva000E7140Type types[64];
+	Rva000E7140Record &record7140(Int i) { return reinterpret_cast<Rva000E7140Record *>(m_records)[i]; }
+	Rva000E7140Type *types7140() { return reinterpret_cast<Rva000E7140Type *>(m_types); }
+	unsigned char m_pad000[0x1958];
+	Rva000E9C1DRecord m_records[2000];
+	Int m_count;
+	unsigned char m_4fb5c;
+	unsigned char m_pad4fb5d[0x4fb70 - 0x4fb5d];
+	Rva000E9C1DType m_types[64];
 };
 
 char W3DShrubBuffer::rva000E7140(void *key, Vector3 position,
     const Matrix3D *transform)
 {
-    for (Int index = 0; index < count; ++index)
+    for (Int index = 0; index < m_count; ++index)
     {
-        if (records[index].key == key)
+        if (record7140(index).key == key)
         {
-            records[index].position = position;
-            records[index].transform = *transform;
+            record7140(index).position = position;
+            record7140(index).transform = *transform;
 
-            Rva000E7140Type *type = types + records[index].type;
-            records[index].bounds = type->bounds;
-            Real scale = records[index].scale;
-            records[index].bounds.Center *= scale;
-            records[index].bounds.Radius *= records[index].scale;
-            records[index].bounds.Center += records[index].position;
+            Rva000E7140Type *type = types7140() + record7140(index).type;
+            record7140(index).bounds = type->bounds;
+            Real scale = record7140(index).scale;
+            record7140(index).bounds.Center *= scale;
+            record7140(index).bounds.Radius *= record7140(index).scale;
+            record7140(index).bounds.Center += record7140(index).position;
 
-            changed = 1;
+            m_4fb5c = 1;
             return 1;
         }
     }
