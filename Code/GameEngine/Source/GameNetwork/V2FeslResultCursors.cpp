@@ -54,7 +54,7 @@ struct Rva007F2A50Owner
 	int ownerType;
 };
 
-struct Rva007F3870Attribute
+struct FeslAttribute
 {
 	const char *key;
 	const char *value;
@@ -293,7 +293,7 @@ void __stdcall Rva007F2A50( Rva007E8810Message *msg, const Rva007F2A50Owner *own
 
 void __stdcall Rva007F3870( Rva007E8810Message *msg, const char *name,
 	const char *description, int access, int state,
-	const Rva007F3870Attribute *attributes, unsigned int count )
+	const FeslAttribute *attributes, unsigned int count )
 {
 	const char *txn = g_Rva0130A708;
 	unsigned int i;
