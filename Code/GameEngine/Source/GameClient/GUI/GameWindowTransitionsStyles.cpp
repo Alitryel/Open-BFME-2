@@ -18,8 +18,6 @@
 
 typedef int Int;
 
-typedef bool Bool;
-
 typedef float Real;
 
 class GameWindow;
@@ -31,9 +29,9 @@ public:
 	Rva001DBAA4();
 
 	Int m_frameLength;		// +0x04
-	Bool m_isFinished;		// +0x08
-	Bool m_isForward;		// +0x09
-	Bool m_isReversed;		// +0x0a
+	bool m_isFinished;		// +0x08
+	bool m_isForward;		// +0x09
+	bool m_isReversed;		// +0x0a
 	unsigned char m_pad0B;		// +0x0b
 	GameWindow *m_win;		// +0x0c
 };
@@ -60,9 +58,9 @@ public:
 	virtual void draw();
 
 	Int m_frameLength;		// +0x04
-	Bool m_isFinished;		// +0x08
-	Bool m_isForward;		// +0x09
-	Bool m_isReversed;		// +0x0a
+	bool m_isFinished;		// +0x08
+	bool m_isForward;		// +0x09
+	bool m_isReversed;		// +0x0a
 	unsigned char m_pad0B;		// +0x0b
 	GameWindow *m_win;		// +0x0c
 	ICoord2D m_pos;			// +0x10
@@ -90,8 +88,8 @@ public:
 	virtual void draw();
 
 	Int m_frameLength;		// +0x04
-	Bool m_isFinished;		// +0x08
-	Bool m_isForward;		// +0x09
+	bool m_isFinished;		// +0x08
+	bool m_isForward;		// +0x09
 	unsigned char m_pad0a[2];
 	GameWindow *m_win;		// +0x0c
 	ICoord2D m_pos;			// +0x10
@@ -126,12 +124,13 @@ class GameWindow
 {
 public:
 	Int winGetSize(Int *width, Int *height);
+	Int winSetEnabledImage(Int index, const Image *image);
 public:
 	Int winGetScreenPosition(Int *x, Int *y);
 public:
-	Int winHide(Bool hide);
+	Int winHide(bool hide);
 public:
-	Bool winIsHidden(void);
+	bool winIsHidden(void);
 };
 
 class TextOnFrameTransition
@@ -145,9 +144,9 @@ public:
 	virtual void skip(void);
 
 	Int m_frameLength;		// +0x04
-	Bool m_isFinished;		// +0x08
-	Bool m_isForward;		// +0x09
-	Bool m_isReversed;		// +0x0a
+	bool m_isFinished;		// +0x08
+	bool m_isForward;		// +0x09
+	bool m_isReversed;		// +0x0a
 	unsigned char m_pad0B;		// +0x0b
 	GameWindow *m_win;		// +0x0c
 	Int m_startFrame;		// +0x10

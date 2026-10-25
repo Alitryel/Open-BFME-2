@@ -134,3 +134,24 @@ Only historical census/attempt records, source provenance/placeholder comments
 and pattern-reference comments remain. No active consumer or protected-register
 transfer is needed. Local audit: build/gameclient-session2-opacity-metaevent-audit.txt.
 The prior published parser/font audit is unchanged.
+
+
+## Styles initializer compile environment
+
+The seed now spells its existing bool fields and callable signatures directly,
+so a donor-local unsigned-char Bool alias cannot reinterpret those signatures.
+The GameWindow view declares the already-rowed winSetEnabledImage callable
+used by MainMenuScaleUpTransition::init. Its donor keeps its original byte
+fields and uses literal 0/1 in place of private NULL/FALSE/TRUE macros, avoiding
+conditional-definition interactions in the composed translation unit. No layout,
+call identity, compiler flags, pin or hatch changes. Fresh builds verify all
+eight existing bodies and three float literals; frozen-body checks pass.
+The supported dry run now accepts the seed and this donor (eight rows).
+Remaining private-base field vocabulary, FullFade coordinate views, mixed and
+protected donors are still rejected and untouched.
+
+Before the prerequisite publication call, refreshed the complete pending opacity
+and MetaEvent path audit against fetched origin/master. No new path move is in
+this prerequisite. Active tools/hooks/workflows, source includes, build inputs
+and registries have no stale consumers; remaining mentions are historical or
+source provenance/placeholder/pattern comments.

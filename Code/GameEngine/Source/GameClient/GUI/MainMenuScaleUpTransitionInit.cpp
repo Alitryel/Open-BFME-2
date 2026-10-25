@@ -17,15 +17,6 @@
 typedef int Int;
 typedef unsigned char Bool;
 
-#ifndef NULL
-#define NULL 0
-#endif
-
-#ifndef FALSE
-#define FALSE 0
-#define TRUE 1
-#endif
-
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
 class Image;
@@ -164,17 +155,17 @@ void MainMenuScaleUpTransition::init(GameWindow *win)
 		m_win->winGetSize(&m_size.x, &m_size.y);
 		m_win->winGetScreenPosition(&m_pos.x, &m_pos.y);
 	}
-	m_growWin = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("MainMenu.wnd:WinGrowMarker"));
+	m_growWin = TheWindowManager->winGetWindowFromId(0, TheNameKeyGenerator->nameToKey("MainMenu.wnd:WinGrowMarker"));
 	if (!m_growWin)
 		return;
 
 	m_growWin->winGetSize(&m_growSize.x, &m_growSize.y);
 	m_growWin->winGetScreenPosition(&m_growPos.x, &m_growPos.y);
 
-	m_isForward = FALSE;
+	m_isForward = 0;
 	update(m_startFrame);
-	m_isFinished = FALSE;
-	m_isForward = TRUE;
+	m_isFinished = 0;
+	m_isForward = 1;
 	m_incrementPos.x = (m_growPos.x - m_pos.x) / m_endFrame;
 	m_incrementPos.y = (m_growPos.y - m_pos.y) / m_endFrame;
 	m_incrementSize.x = (m_growSize.x - m_size.x) / m_endFrame;
