@@ -2107,3 +2107,4 @@ local,LivingWorld::ZoomInTo::local14,LivingWorld::ZoomInTo::position,inferred,ag
 local,Rva004E52DC::rva004E52DC::n,Rva004E52DC::rva004E52DC::node,inferred,agree:nl-bae5b7a49cb6,Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp,0x004E52DC
 param,shrubPosition::p,shrubPosition::position,inferred,agree:nl-33d96f618922,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp,
 local,shrubPosition::r,shrubPosition::pos,inferred,agree:nl-94fd89b7bfe0,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp,
+local,Rva0023D229::Set::p,Rva0023D229::Set::frame,inferred,agree:nl-b769f3e5e76a,Code/GameEngine/Source/Common/Rva0023D229Set.cpp,0x0023D229

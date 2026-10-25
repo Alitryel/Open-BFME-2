@@ -24,8 +24,8 @@ void Rva0023D229::Set(int index)
 		return;
 	Rva0023D229Global *gameLogic = (*(Rva0023D229Global **)&TheGameLogic);
 	int off = index * 28;
-	void *p = gameLogic->m_frame;
-	*(void **)((char *)this + 460 + off) = p;
+	void *frame = gameLogic->m_frame;
+	*(void **)((char *)this + 460 + off) = frame;
 }
 void Rva0023D229::rva0023D24C(int index)
 {
