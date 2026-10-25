@@ -33,10 +33,10 @@ static bool Rva0028867DCheck(const void *level)
 // absent-from-retail: keeps the static alive with the ESI argument convention.
 // TU-local: the identical global copy in ExperienceLevelSystem.cpp provides the
 // linked definition, so this one stays out of the link entirely.
-static bool Rva0028867DCaller(const void *p)
+static bool Rva0028867DCaller(const void *level)
 {
-	if (p)
-		return Rva0028867DCheck(p);
+	if (level)
+		return Rva0028867DCheck(level);
 	return false;
 }
 
