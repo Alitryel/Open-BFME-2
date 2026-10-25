@@ -55,6 +55,9 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Establish the existing SDK shim's placement-array-new guard before engine
+// GameMemory declarations and STLport's <new> meet in the combined TU.
+#include <windows.h>
 #include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
 // Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E
 // 0x0004554B); it takes the optimization state of the first function that needs it,
