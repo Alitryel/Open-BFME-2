@@ -146,11 +146,18 @@ class PROCESS_INFORMATION(ctypes.Structure):
 def k32():
     k = ctypes.WinDLL("kernel32", use_last_error=True)
     k.WaitForDebugEvent.argtypes = [ctypes.c_void_p, wt.DWORD]
+    k.WaitForDebugEvent.restype = wt.BOOL
     k.ContinueDebugEvent.argtypes = [wt.DWORD, wt.DWORD, wt.DWORD]
+    k.ContinueDebugEvent.restype = wt.BOOL
     k.CloseHandle.argtypes = [wt.HANDLE]
+    k.CloseHandle.restype = wt.BOOL
     k.TerminateProcess.argtypes = [wt.HANDLE, wt.UINT]
+    k.TerminateProcess.restype = wt.BOOL
+    k.WaitForSingleObject.argtypes = [wt.HANDLE, wt.DWORD]
+    k.WaitForSingleObject.restype = wt.DWORD
     k.CreateProcessW.argtypes = [wt.LPCWSTR, wt.LPWSTR, ctypes.c_void_p, ctypes.c_void_p, wt.BOOL, wt.DWORD,
                                  ctypes.c_void_p, wt.LPCWSTR, ctypes.c_void_p, ctypes.c_void_p]
+    k.CreateProcessW.restype = wt.BOOL
     return k
 
 
@@ -513,8 +520,23 @@ def run(launcher, game_dir, args, timeout, version_lie=True, probes=(), focus_rv
         raise SystemExit(f"boot_smoke: CreateProcess failed ({ctypes.get_last_error()})")
     ev = ctypes.create_string_buffer(256)
     procs = {}                                        # pid -> (hProcess, image path, base)
-    res = {"first_chance": [], "first_chance_count": 0, "processes": [], "probes_hit": []}
+    res = {"first_chance": [], "first_chance_count": 0, "processes": [], "probes_hit": [],
+           "debugger_errors": [], "cleanup": {"terminate": [], "exit_events": [], "wait": [],
+                                               "close": [], "uncertain_handles": []}}
     armed, focus, stepping = {}, {}, {}
+    exited, termination_requested = set(), set()
+    continuation_failed = False
+
+    def debugger_error(operation, error):
+        res["debugger_errors"].append({"operation": operation, "error": error})
+        res["outcome"] = "debugger-error"
+
+    def close_handle(handle, label):
+        if handle and handle != (1 << (ctypes.sizeof(wt.HANDLE) * 8)) - 1:
+            if not k.CloseHandle(wt.HANDLE(handle)):
+                res["cleanup"]["uncertain_handles"].append({"label": label, "handle": handle})
+                debugger_error(f"CloseHandle:{label}", ctypes.get_last_error())
+
     if focus_rva is not None:
         res["focus_lie"] = {"rva": hex(focus_rva), "hits": 0, "rewritten": 0}
     u = ctypes.WinDLL("user32")
@@ -537,12 +559,17 @@ def run(launcher, game_dir, args, timeout, version_lie=True, probes=(), focus_rv
                     u.ShowWindowAsync(d["hwnd"], 4)         # SW_SHOWNOACTIVATE: back for the capture, unfocused
                     d["shown"] = round(time.time() - t0, 1)
             if not k.WaitForDebugEvent(ev, int(min(left, 1.0) * 1000)):
+                error = ctypes.get_last_error()
+                if error != 121:
+                    debugger_error("WaitForDebugEvent", error)
+                    break
                 continue
             code, pid, tid = (int.from_bytes(ev.raw[o:o + 4], "little") for o in (0, 4, 8))
             status = DBG_CONTINUE
+            stop_after_continue = False
             game = pid == res.get("pid")
             if code == CREATE_PROCESS:
-                k.CloseHandle(int.from_bytes(ev.raw[16:24], "little"))
+                close_handle(int.from_bytes(ev.raw[16:24], "little"), f"create-process:{pid}")
                 h = int.from_bytes(ev.raw[24:32], "little")
                 buf, n = ctypes.create_unicode_buffer(1024), wt.DWORD(1024)
                 k.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(n))
@@ -554,79 +581,142 @@ def run(launcher, game_dir, args, timeout, version_lie=True, probes=(), focus_rv
                     res.update(pid=pid, image_base=procs[pid][2], started=round(time.time() - t0, 1))
             elif code == LOAD_DLL:
                 h = int.from_bytes(ev.raw[16:24], "little")
-                if h:
-                    k.CloseHandle(h)
+                close_handle(h, f"load-dll:{pid}")
             elif code == EXIT_PROCESS and game:
                 res.update(outcome="exit", exit_code=int.from_bytes(ev.raw[16:20], "little"),
                            seconds=round(time.time() - t0, 1))
-                k.ContinueDebugEvent(pid, tid, DBG_CONTINUE)
-                break
+                stop_after_continue = True
             elif code == EXCEPTION:
                 exc = int.from_bytes(ev.raw[16:20], "little")
                 addr = int.from_bytes(ev.raw[32:40], "little")
                 first = int.from_bytes(ev.raw[168:172], "little")
                 nparam = int.from_bytes(ev.raw[40:44], "little")
                 info = [int.from_bytes(ev.raw[48 + 8 * i:56 + 8 * i], "little") for i in range(min(nparam, 2))]
-                hit = next((a for a in (addr, addr - 1) if a in armed), None) if exc in BREAKPOINTS and game else None
-                at_focus = next((a for a in (addr, addr - 1) if a in focus), None) \
-                    if exc in BREAKPOINTS and game else None
-                stray = (int3_faults and game and hit is None and at_focus is None and exc in BREAKPOINTS
-                         and len(procs.get(pid, ())) > 3)
-                handled = at_focus is not None or (exc in SINGLE_STEP and game and tid in stepping)
-                if at_focus is not None:
-                    res["focus_lie"]["hits"] += 1
-                    res["focus_lie"]["rewritten"] += focus_lie(k, procs[pid][0], tid, at_focus, focus[at_focus])
-                    stepping[tid] = at_focus
-                elif handled:
-                    write_code(k, procs[pid][0], stepping.pop(tid), b"\xCC")
-                elif hit is not None:
-                    clear_probe(k, procs[pid][0], tid, hit, armed.pop(hit))
-                    res["probes_hit"].append(hit - procs[pid][2])
-                elif exc in LOADER_BREAKPOINTS and pid in procs and len(procs[pid]) == 3:
-                    h, path, base = procs[pid]
-                    if game:                            # first, so a failure leaves nothing running
-                        try:
-                            res["appdata_lie"] = install_appdata_lie(k, h, base, path, appdata)
-                        except (RedirectError, OSError, ImportError) as e:
-                            res.update(outcome="profile-redirect-failed", redirect_error=str(e))
-                            for hp, *_ in procs.values():   # killed before the thread is let go
-                                k.TerminateProcess(hp, 1)
-                            k.ContinueDebugEvent(pid, tid, DBG_CONTINUE)
-                            break
-                    procs[pid] += (xp_version_lie(k, h, base, path) if version_lie else [],)
-                    res.setdefault("version_lie", {})[Path(path).name] = procs[pid][3]
-                    if game and probes:
-                        armed.update(set_probes(k, h, base, probes))
-                        res["probes_armed"] = len(armed)
-                    if game and focus_rva is not None:
-                        focus.update(set_probes(k, h, base, [focus_rva]))
-                        res["focus_lie"]["armed"] = bool(focus)
-                if (exc not in BREAKPOINTS and not handled) or stray:
+                if not first and game:
                     status = DBG_NOT_HANDLED
-                    if first and game:
+                    res.update(outcome="crash", code=hex(exc), address=res.get("fault", addr), info=info,
+                               seconds=round(time.time() - t0, 1))
+                    res.setdefault("stack", stack_words(k, procs[pid][0], tid))
+                    stop_after_continue = True
+                else:
+                    hit = next((a for a in (addr, addr - 1) if a in armed), None) if exc in BREAKPOINTS and game else None
+                    at_focus = next((a for a in (addr, addr - 1) if a in focus), None) \
+                        if exc in BREAKPOINTS and game else None
+                    stray = (int3_faults and game and hit is None and at_focus is None and exc in BREAKPOINTS
+                             and len(procs.get(pid, ())) > 3)
+                    handled = at_focus is not None or (exc in SINGLE_STEP and game and tid in stepping)
+                    if at_focus is not None:
+                        res["focus_lie"]["hits"] += 1
+                        res["focus_lie"]["rewritten"] += focus_lie(k, procs[pid][0], tid, at_focus, focus[at_focus])
+                        stepping[tid] = at_focus
+                    elif handled:
+                        write_code(k, procs[pid][0], stepping.pop(tid), b"\xCC")
+                    elif hit is not None:
+                        clear_probe(k, procs[pid][0], tid, hit, armed.pop(hit))
+                        res["probes_hit"].append(hit - procs[pid][2])
+                    elif exc in LOADER_BREAKPOINTS and pid in procs and len(procs[pid]) == 3:
+                        h, path, base = procs[pid]
+                        if game:                            # first, so a failure leaves nothing running
+                            try:
+                                res["appdata_lie"] = install_appdata_lie(k, h, base, path, appdata)
+                            except (RedirectError, OSError, ImportError) as e:
+                                res.update(outcome="profile-redirect-failed", redirect_error=str(e))
+                                for hp, *_ in procs.values():   # killed before the thread is let go
+                                    if not k.TerminateProcess(hp, 1):
+                                        debugger_error("TerminateProcess:profile-redirect", ctypes.get_last_error())
+                                    else:
+                                        termination_requested.add(hp)
+                                if res["outcome"] == "debugger-error":
+                                    continuation_failed = True
+                                    break
+                                if not k.ContinueDebugEvent(pid, tid, DBG_CONTINUE):
+                                    debugger_error("ContinueDebugEvent:profile-redirect", ctypes.get_last_error())
+                                    continuation_failed = True
+                                break
+                        procs[pid] += (xp_version_lie(k, h, base, path) if version_lie else [],)
+                        res.setdefault("version_lie", {})[Path(path).name] = procs[pid][3]
+                        if game and probes:
+                            armed.update(set_probes(k, h, base, probes))
+                            res["probes_armed"] = len(armed)
+                        if game and focus_rva is not None:
+                            focus.update(set_probes(k, h, base, [focus_rva]))
+                            res["focus_lie"]["armed"] = bool(focus)
+                    if (exc not in BREAKPOINTS and not handled) or stray:
+                        status = DBG_NOT_HANDLED
+                    if status == DBG_NOT_HANDLED and first and game:
                         res["first_chance_count"] += 1
                         if exc not in QUIET and len(res["first_chance"]) < 10:
                             res["first_chance"].append([hex(exc), addr, info])
                             if (exc == 0xC0000005 or stray) and "stack" not in res:   # the fault, not the rethrow
                                 res["stack"] = stack_words(k, procs[pid][0], tid)
                                 res["fault"] = addr
-                    elif not first and game:
-                        res.update(outcome="crash", code=hex(exc), address=res.get("fault", addr), info=info,
-                                   seconds=round(time.time() - t0, 1))
-                        res.setdefault("stack", stack_words(k, procs[pid][0], tid))
-                        break
-            k.ContinueDebugEvent(pid, tid, status)
+            if not k.ContinueDebugEvent(pid, tid, status):
+                debugger_error("ContinueDebugEvent", ctypes.get_last_error())
+                continuation_failed = True
+                break
+            if code == EXIT_PROCESS:
+                exited.add(pid)
+            if stop_after_continue or res.get("outcome") == "debugger-error":
+                break
         if res["outcome"] == "timeout":
             res["main_eips"] = sample_eips(k, res["main_thread"])
             res["windows"] = [(t, r) for t, r, _ in windows_of(res["pid"])]
             res["screenshot"] = screenshot(res["pid"])
     finally:
-        for pid, (h, *_rest) in procs.items():
-            k.TerminateProcess(h, 1)
-        for pid, (h, *_rest) in procs.items():      # gone before game.dat is written again
-            k.WaitForSingleObject(wt.HANDLE(h), 30000)
-        k.CloseHandle(pi.hThread)
-        k.CloseHandle(pi.hProcess)
+        cleanup_targets = {pid: h for pid, (h, *_rest) in procs.items() if pid not in exited}
+        if pi.pid not in cleanup_targets:
+            if pi.pid not in exited:
+                cleanup_targets[pi.pid] = pi.hProcess
+        for pid, handle in cleanup_targets.items():
+            terminated = handle in termination_requested
+            if handle not in termination_requested:
+                terminated = bool(k.TerminateProcess(wt.HANDLE(handle), 1))
+                if not terminated:
+                    debugger_error(f"TerminateProcess:{pid}", ctypes.get_last_error())
+            res["cleanup"]["terminate"].append({"pid": pid, "ok": terminated})
+        deadline = time.monotonic() + 5.0
+        pending = set(cleanup_targets)
+        if continuation_failed:
+            debugger_error("cleanup:uncontinued-event", "previous continuation failed or was withheld")
+        else:
+            while pending and time.monotonic() < deadline:
+                remaining = max(1, min(250, int((deadline - time.monotonic()) * 1000)))
+                if not k.WaitForDebugEvent(ev, remaining):
+                    error = ctypes.get_last_error()
+                    if error == 121:
+                        continue
+                    debugger_error("WaitForDebugEvent:cleanup", error)
+                    break
+                code, pid, tid = (int.from_bytes(ev.raw[o:o + 4], "little") for o in (0, 4, 8))
+                if code in (CREATE_PROCESS, LOAD_DLL):
+                    close_handle(int.from_bytes(ev.raw[16:24], "little"), f"cleanup-event:{pid}")
+                if code == CREATE_PROCESS and pid not in pending and pid not in exited:
+                    handle = int.from_bytes(ev.raw[24:32], "little")
+                    cleanup_targets[pid] = handle
+                    pending.add(pid)
+                    if not k.TerminateProcess(wt.HANDLE(handle), 1):
+                        debugger_error(f"TerminateProcess:cleanup-child:{pid}", ctypes.get_last_error())
+                status = DBG_NOT_HANDLED if code == EXCEPTION else DBG_CONTINUE
+                if not k.ContinueDebugEvent(pid, tid, status):
+                    debugger_error("ContinueDebugEvent:cleanup", ctypes.get_last_error())
+                    break
+                if code == EXIT_PROCESS:
+                    exited.add(pid)
+                    pending.discard(pid)
+                    res["cleanup"]["exit_events"].append(pid)
+        if pending:
+            debugger_error("cleanup:missing-exit-events", sorted(pending))
+        remaining = max(0, int((deadline - time.monotonic()) * 1000))
+        result = k.WaitForSingleObject(wt.HANDLE(pi.hProcess), remaining)
+        res["cleanup"]["wait"].append({"pid": pi.pid, "result": result})
+        if result != 0:
+            debugger_error(f"WaitForSingleObject:{pi.pid}", ctypes.get_last_error() if result == 0xFFFFFFFF else result)
+        for label, handle in (("pi-thread", pi.hThread), ("pi-process", pi.hProcess)):
+            if not k.CloseHandle(handle):
+                res["cleanup"]["uncertain_handles"].append({"label": label, "handle": handle})
+                debugger_error(f"CloseHandle:{label}", ctypes.get_last_error())
+            else:
+                res["cleanup"]["close"].append(label)
     return res
 
 
@@ -880,6 +970,8 @@ def smoke(a, rows=None, tag="boot"):
         out["outcome"] = f"crash-at-{row[0] if row else (hex(rva) if rva is not None else 'outside-image')}"
     elif res["outcome"] == "exit":
         out["outcome"] = f"exit-{res['exit_code']:#x}"
+    elif res["outcome"] == "debugger-error":
+        out["outcome"] = "debugger-error"
     else:
         shot = res.get("screenshot")
         titles = [t for t, _ in res.get("windows", [])]
