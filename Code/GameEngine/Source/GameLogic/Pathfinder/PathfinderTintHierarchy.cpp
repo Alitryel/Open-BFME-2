@@ -12,8 +12,8 @@ struct RGBColor00271779 { float red,green,blue; };
 class Rva00271779 {public: void rva00271779(RGBColor00271779,int,int,int,float,float);};
 class Drawable {public: char pad00[0x118];unsigned int flags;};
 class Object;
-struct Rva002EBD99Node {Rva002EBD99Node *next,*prev;Object *obj;};
-struct ContainedObjectList {Rva002EBD99Node *head;};
+struct ContainedObjectListNode {ContainedObjectListNode *next,*prev;Object *obj;};
+struct ContainedObjectList {ContainedObjectListNode *head;};
 struct Rva002EBD99Items {void *opaque;ContainedObjectList *list;};
 class Rva002EBD99Contain {
 public:
@@ -45,7 +45,7 @@ void Rva002EBD99(Object *obj,const RGBColor00271779 *color)
  Rva002EBD99Contain *contain=obj->contain;
  if(contain) {
   Rva002EBD99Items view=contain->items();
-  for(Rva002EBD99Node *node=view.list->head->next;node!=view.list->head;node=node->next) {
+  for(ContainedObjectListNode *node=view.list->head->next;node!=view.list->head;node=node->next) {
    RGBColor00271779 magenta={1.0f,0.0f,1.0f};
    Rva002EBD99(node->obj,&magenta);
   }
