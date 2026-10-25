@@ -6318,3 +6318,14 @@ Code/GameEngine/Source/Common/Rva002D317CCalls.cpp|local|Rva002D317C::rva002D317
 Code/GameEngine/Source/Common/Rva002D317CCalls.cpp|local|Rva002D317C::rva002D317C|ix1,679ee3ece9a5f52db0e9e67d,gpt-6-astra,codexb2-20261025-080131-6,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/Common/Rva002D317CCalls.cpp|local|Rva002D317C::rva002D317C|iy1,c7b52f57fd70fc46935f0a4e,gpt-6-astra,codexb2-20261025-080131-6,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/Common/Rva002D317CCalls.cpp|local|Rva002D317C::rva002D317C|w,2b89ce04d38d30dae3bb042c,gpt-6-astra,codexb2-20261025-080131-6,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva005DCE72.cpp|function|0x005DCE72|rva005DCE72,712f7899e491c2a8e4307c1c,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,eb449021420787f744967a06,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D815|x,389e773b3e1f8e4b4138eaa7,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D815|y,1ef091b8ef6237157acd54a9,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|x,586d11826ad0a196b7873e79,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|y,cd30487bfee2d5e7893305a4,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|c,a78a3fdf0a59f826aabaa95f,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w,65d025533fda68dcf747d49a,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w2,81cdfdcecf112886f578a265,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w3,a43c756134201f6f5a22aa16,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|member|Rva0050B7D2Arg|m_08,cf456329800cf7b812d6a995,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
