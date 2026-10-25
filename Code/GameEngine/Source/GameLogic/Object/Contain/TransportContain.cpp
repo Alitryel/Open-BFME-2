@@ -123,12 +123,34 @@ class TransportContainUpdate : public Rva004640BE { unsigned char m_pad14[0x20 -
 
 class TransportConditionInterface { public: virtual void rva004673C0() = 0; };
 
-class TransportContain : public BehaviorModule, public BehaviorModuleInterface,
+// OpenContain's share of the object: the four interfaces above and its data
+// up to +0xFC (the members themselves are not recovered here).
+class OpenContain : public BehaviorModule, public BehaviorModuleInterface,
 	public TransportContainUpdate, public TransportConditionInterface
 {
 public:
+	V(01) V(02) V(03)
+private:
+	unsigned char m_pad24[0xFC - 0x24];
+};
+
+class ThingTemplate;
+class PayloadContainView;
+
+// Target fact: the constructor 0x00468559 installs the vtable at 0x00C47834
+// on the +0xFC subobject, and its slot 0 is 0x00466FE0 (createPayloadMember,
+// whose body never reads its receiver).
+class TransportPayloadCreator
+{
+public:
+	virtual Object *createPayloadMember(const ThingTemplate *, PayloadContainView *, Object *, const char *, int) = 0;
+};
+
+class TransportContain : public OpenContain, public TransportPayloadCreator
+{
+public:
 #define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
-	V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08) V(09)
+	V(04) V(05) V(06) V(07) V(08) V(09)
 	V10(1) V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
 #undef V10
 	virtual void createPayload();		// slot 29 (0x004670D6)
@@ -136,8 +158,9 @@ public:
 	virtual UpdateSleepTime update();
 	void UpdateUpgradeCreationTriggers();	// 0x00468045
 	virtual void rva004673C0();
+	virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int initial);	// 0x00466FE0
 private:
-	unsigned char m_pad24[0x108 - 0x24];
+	unsigned char m_pad100[0x108 - 0x100];
 	unsigned int m_payloadFrame;		// +0x108
 	bool m_hiddenState;					// +0x10C
 };
@@ -259,10 +282,15 @@ public:
 	void GetAssetList(int value, int context);
 };
 
+class Team;
+struct CreateMask;
+enum ObjectID;
+
 class ThingFactory
 {
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
+	Object *newObject(const ThingTemplate *, Team *, const CreateMask *, ObjectID);	// 0x002D0A23
 };
 
 extern ThingFactory *TheThingFactory;
