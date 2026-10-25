@@ -31,3 +31,20 @@ Expanded audit: locally outgoing commits from 91fe970939 through 664c1d9fbe plus
 The supported merge retains Display.cpp and absorbs Rva0025C3AAVideoRect.cpp: two matched rows, one file removed. Other eligible donors fail on private Display views missing DrawStaticImage/m_staticImages, or mismatched Rva0025C6E2Elem members. Mixed and protected donors were left untouched. Routing was rebuilt in memory; the committed map was not regenerated.
 
 Expanded path audit covers local outgoing 3e23ecd519, 664c1d9fbe, f5cd0417d4 plus the staged Display move. Added the video-rectangle old path/basename/stem to the combined search. Its only remaining mentions are historical census/attempt evidence and generated source provenance; no additional active consumer was found. The function ledger is repointed, protected registers unchanged. Destination build and frozen-body checks are required before commit. The styles hook also reports the pre-existing FullFade alternatename as unreferenced in shadow identity mode; it was retained without adding a hatch.
+
+
+## VideoPlayer merge and cumulative publication audit
+
+The supported merge absorbs six donors into VideoPlayer.cpp (six rows), removing five net source files. The six-row fresh byte build and frozen-body check pass; check_csv remains clean. GameEngineDeletingBaseDerived2 stays separate because the composed SubsystemInterface Bool declaration fails; mixed/protected donors were not changed. Original VideoPlayer origin evidence is ZH/BFME1 EA structure and approved target routing, not a recovered BFME2 literal path. The allocator's existing address-derived name and STLport marker remain intact.
+
+After fetching origin/master=777d0ff0aa, audited the four locally outgoing commits 3e23ecd519..c3fe3cdeea plus staged VideoPlayer moves, together from session base 91fe970939. Combined full-path, basename and stem searches cover all fourteen absorbed paths across active tools, hooks, workflows, source/includes, build inputs and registries. The map diff changes only six source columns. No affected active consumer was found for the VideoPlayer paths. The Bfme5NinetyTwoRandom -> abs_randwc name-basis entry is a different file, and historical donor prose, census and attempt records remain unchanged. Protected registers are unchanged. The complete staged list and outgoing rename status were reviewed; normal hook acceptance remains required.
+
+## Additional consumer blockers
+
+GameWindow dry-run preserves 35 rows from eleven files, but Rva003145B1Dispatch has two inferred parameter name-basis records. Rename landing/check logic resolves those through file-kind history; tu_skeleton's source-column repoint does not supply that history. No merge was applied. Shared repoint/history support needs its own tooling lane.
+
+WOLLoginMenu dry-run accepts two donors / three rows, but Rva005CA53EFinish has a sole ABI MS-header queue item. The owner tool cannot refresh it in this environment (empty preprocessing probe fails). Deleting the donor would hide that item; no merge applied.
+
+GameFont dry-run accepts eighteen files / eighteen rows, but Rva002186EBDtor has the sole Rva0007DF07 header-adoption queue item at that source. Its acceptance command would point to a deleted file. No merge applied; retain canonical-header debt until its owner supports the move or adoption succeeds through its normal path. Logs: build/gamefont-merge-dry-run.txt and build/gamefont-path-audit.txt. The remaining two donors fail a private element member and duplicate STLport declarations.
+
+Blocked Snow and Drawable records above were made on BFME_MODEL=gpt-6.1-sol; their initial log evidence omitted the model suffix. All blocked trials were dry runs without new claims. Accepted merge file/RVA claims remain held while the batch awaits publication.
