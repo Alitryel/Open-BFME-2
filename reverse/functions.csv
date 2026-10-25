@@ -30031,7 +30031,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ?Rva002D2ACAGet@@YAXHPAM000@Z,,0x002D2ACA,114,Code/GameEngine/Source/Common/System/color_ops_float.cpp,matched,float GameGetColorComponents 5 callers reciprocal 0x7BB8F0 unsigned alpha x87 path
 ?Rva002D2B9ADarken@@YAHHH@Z,,0x002D2B9A,120,Code/GameEngine/Source/Common/System/color_ops.cpp,matched,darkens RGB by percent via byte unpack caller 0x00322450
 ?rva0039B2E6@Rva0039B2E6@@QAEXABURva0039B2E6Input@@@Z,,0x0039B2E6,47,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,matched,chain from 0x39AF76 plus rowed 0x39B20C input copy
-?Write@Rva00594C12@@QAEHPBDHKG@Z,,0x00594C12,109,Code/GameEngine/Source/GameNetwork/Rva00594C12Write.cpp,matched,UDP Write donor with retval-minus-1 or-edi-eax via IAT sendto
+?Write@Rva00594C12@@QAEHPBDHKG@Z,,0x00594C12,109,Code/GameEngine/Source/GameNetwork/udp.cpp,matched,UDP Write donor with retval-minus-1 or-edi-eax via IAT sendto
 ?rva0004CA57@Rva0004CA4C@@UAEXXZ,,0x0004CA57,52,Code/GameEngine/Source/Common/Rva002D22CADerived.cpp,matched,derived slot1 init via base init plus 3 registers indices 3 8 5
 ??0Rva0004CA4C@@QAE@XZ,,0x0004CA3A,18,Code/GameEngine/Source/Common/Rva002D22CADerived.cpp,matched,ctor via base ctor plus vtable 7C4C20 unblocks 41DC9
 ?rva00293275@Object@@QAEXVAsciiString@@@Z,,0x00293275,187,Code/GameEngine/Source/GameLogic/Object/ObjectRva00293275.cpp,matched,Object tokenizes upgrades via nextToken findUpgrade grants via 0x28C197 slots
