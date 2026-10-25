@@ -424,3 +424,28 @@ rebased origin/master..HEAD range plus the staged GlobalLanguage move. Search
 across active tools, hooks, workflows and Code/includes found only merge
 provenance or still-live source comments for absorbed paths, with no consumer
 requiring repair. Historical EA paths are preserved.
+
+## RadiusDecal dry-run blocker
+
+RadiusDecal's current plan had four pull donors and three mixed files, but the
+merge dry run accepted none. `GameLogic/Object/Update/RadiusDecal.cpp` and
+`RadiusDecal_rva00330F7D.cpp` each failed with `no baseline match`;
+`RadiusDecal_clear.cpp` failed compilation because the seed view does not declare
+`RadiusDecal::~RadiusDecal` (`C2600: cannot define a compiler-generated special
+member function (must be declared in the class first)`). No files were changed
+or claimed; this needs a Sol prerequisite/reconstruction review before retry.
+
+## WOLLoginMenu accepted donors
+
+The WOLLoginMenu plan had 42 approved rows. Dry run accepted three donors
+unchanged: Rva005CA53EFinish.cpp and the STL list tree erase/cleanup sources,
+for six rows total. `stlport_string_list_pair_cleanup.cpp` failed the byte
+check and remains untouched. The applied merge repointed six function rows and
+five TU-map rows; fresh build verifies 6/6, one string literal, and the frozen
+check finds no unmatched definition.
+
+The final combined path audit covers the five local TU merges after rebase plus
+the staged WOLLoginMenu move. Searched old donor names across active tools,
+hooks, workflows and Code/includes. Remaining hits are merge-provenance comments
+or historical/still-live references; no consumer needs a manual update. Full
+range: origin/master..HEAD plus staged WOLLoginMenu files.
