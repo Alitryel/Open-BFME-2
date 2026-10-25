@@ -32,3 +32,29 @@ No files are removed by this prerequisite. All original EA paths are retained.
 Normal hooks remain required. File/RVA claims stay held until confirmed push;
 then release file:Code/GameEngine/Source/GameNetwork/GameInfo.cpp,
 file:Code/GameEngine/Source/GameNetwork/GameSlotIsPlayerAscii.cpp and 0x003FFEF5.
+
+## closeOpenSlots donor unblocked
+
+The next normal trial reproduced the private-view selection failure: selecting
+closeOpenSlots' GameInfo discarded the seed's preorder fields and methods.
+The seed and this donor now use the existing donor's slot-17 virtual interface,
+with the seed's leading padding reduced by its real vptr size so the verified
++0x08 mask, +0x10/+0x11 flags and +0x18 slot array do not move. GameSlot's
+already-rowed virtual destructor replaces the seed's raw vptr field, retaining
+its +0x04 state and 0x1AC-byte size. External constructor/copy-constructor,
+isOccupied, getSlot and setSlot declarations come from the rowed donor. The
+connection record initializes the same dword/word pair; padding is unwritten.
+These are target ABI facts from the existing rowed sources, not donor layout
+claims. No bodies move, and no pin, name or protected register changes.
+
+`./build.sh` passes all 13 ledger rows across GameInfo.cpp,
+GameInfoCloseOpenSlots.cpp and GameSlotIsPlayerAscii.cpp. Frozen-file checks pass.
+The normal dry-run now accepts all three together, recorded in
+build/gameinfo-sol-close-dry.txt. setSlot still rejects its private field names;
+setMapSize still rejects the duplicate STL iterator operator. No merge is
+applied; this adds another compatible fragment for the mechanical seat.
+
+The complete outgoing range still has no path moves or removed sources, so
+there are no changed path consumers to audit. Also retain
+file:Code/GameEngine/Source/GameNetwork/GameInfoCloseOpenSlots.cpp and
+0x003FFE51 until publication, alongside the earlier claims above.

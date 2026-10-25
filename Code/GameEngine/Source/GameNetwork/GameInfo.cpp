@@ -49,6 +49,28 @@ enum { MAX_SLOTS = 8 };
 class GameInfo
 {
 public:
+	// Vtable 0x008193C8 slot 17 (+0x44); the others are not reconstructed here.
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void slot28() = 0;
+	virtual void slot2c() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	virtual void slot38() = 0;
+	virtual void slot3c() = 0;
+	virtual void slot40() = 0;
+	virtual void closeOpenSlots();
+
+	GameSlot *getSlot(Int slotNum);
+	void setSlot(Int slotNum, GameSlot slotInfo);
 	void clearSlotList();
 	void enterGame();
 	void endGame();
@@ -58,7 +80,7 @@ public:
 private:
 	// The existing TU verifies the preorder mask at +0x08 and the game
 	// state flags at +0x10/+0x11. The slot array remains at +0x18.
-	char m_pad[0x08];
+	char m_pad[0x04];
 	Int m_preorderMask;
 	char m_pad0C[4];
 	Bool m_inGame;
@@ -100,14 +122,16 @@ bool less<int>::operator()(const int &a, const int &b) const
 class GameSlot
 {
 public:
+	GameSlot();
+	GameSlot(const GameSlot &);
+	virtual ~GameSlot();
+	Bool isOccupied() const;
 	void rva003FF5F2(const AsciiString &other);
 	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
 	Bool isHuman() const;
 	Bool isPlayer(AsciiString userName) const;
 public:
 	void saveOffOriginalInfo();
-private:
-	void *m_vtable;
 private:
 	Int m_state;
 private:
@@ -175,6 +199,7 @@ typedef unsigned short WideChar;
 
 struct GameSlotConnectInfo
 {
+	GameSlotConnectInfo() : m_nat(0), m_port(0) {}
 	Int m_nat;
 	unsigned short m_port;
 	unsigned short m_pad;
