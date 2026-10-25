@@ -15,6 +15,7 @@ class EAStringC { void *data; public: EAStringC(); ~EAStringC();
 class AptValue {public: virtual void AddRef(); void toString(EAStringC&)const;};
 class BfmeAptValue006DCD20 {public:void setGCRootCount(unsigned int);};
 class AptString {public:
+ static AptString *Create();
  virtual AptValue*objectMemberLookup(AptValue*const,const EAStringC*const)const;
  static AptValue*sMethod_charCodeAt(AptValue*,int);
  static AptValue*sMethod_slice(AptValue*,int);

@@ -37,15 +37,19 @@ public:
  EAStringC &operator=(const EAStringC &);
  const char *rva00620090() const;
  int rva006d6070(const char *,int);
+ unsigned int rva006D3750() const;
+ int rva006D5EC0();
+ bool rva006D3510(const char *) const;
 private:StringDataC *data;
 };
 
 extern EAStringC::StringDataC g_eaEmptyStringData;
 
+struct ScopedStringText {unsigned char prefix[8];EAStringC text;};
+
 class AptString {
 public:static AptString *Create();
  static AptValue *sMethod_charCodeAt(AptValue *,int);
- char prefix[8]; EAStringC text;
 };
 
 // tu-skeleton: 0x006D6EF0 287B ?Rva006D6EF0Find@@YAPAVAptValue@@PAV1@H@Z -- matched in Code/Libraries/Source/Apt/AptValue/AptStringFindCallback.cpp (not merged yet)
@@ -88,7 +92,7 @@ AptValue *rva006D75A0(void *self,int argc) {
   result.Rva006D4F00Append(character);
  }
  AptString *value=AptString::Create();
- value->text=result;
+ reinterpret_cast<ScopedStringText *>(value)->text=result;
  return (AptValue *)value;
 }
 

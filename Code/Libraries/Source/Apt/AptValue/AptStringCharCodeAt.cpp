@@ -10,7 +10,7 @@
 
 class EAStringC {void *data;public:EAStringC(const char *);~EAStringC();EAStringC &operator=(const EAStringC &);};
 class AptValue;
-class BfmeAptValue006DCD20 {public:int isInteger()const;int isFloat()const;int toInteger()const;BfmeAptValue006DCD20 *checkedString();unsigned char prefix[8];EAStringC text;};
+class BfmeAptValue006DCD20 {public:void setGCRootCount(unsigned int);int isInteger()const;int isFloat()const;int toInteger()const;BfmeAptValue006DCD20 *checkedString();unsigned char prefix[8];EAStringC text;};
 class AptBasePtrStack {public:BfmeAptValue006DCD20 *At(int);};
 struct AptActionInterpreter {AptBasePtrStack stack;};
 extern AptActionInterpreter g_aptDateInterpreter;
