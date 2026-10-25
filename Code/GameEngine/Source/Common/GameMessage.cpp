@@ -34,6 +34,11 @@ public:
 	virtual void gone(void *object);	// slot 0x40
 };
 
+// Use the existing destination header's field names and pointer types; the
+// explicit views below retain this destructor's observed cleanup ABI.
+class GameMessageList;
+class GameMessageArgument;
+
 class GameMessage
 {
 public:
@@ -42,24 +47,24 @@ public:
 private:
 	int m_04;
 	int m_08;
-	Rva0030F4AFListener *m_listener;	// +0x0C
+	GameMessageList *m_list;	// +0x0C
 	void *m_10;
 	void *m_14;
 	bool m_18;
-	Rva0030F4AFNode *m_nodes;		// +0x1C
+	GameMessageArgument *m_argList;		// +0x1C
 };
 
 GameMessage::~GameMessage()
 {
-	if (m_nodes) {
-		Rva0030F4AFNode *node = m_nodes;
+	if (m_argList) {
+		Rva0030F4AFNode *node = reinterpret_cast<Rva0030F4AFNode *>(m_argList);
 		do {
 			Rva0030F4AFNode *next = node->m_next;
 			::operator delete(node->deleteInstance(0));
 			node = next;
 		} while (node);
 	}
-	m_nodes = 0;
-	if (m_listener)
-		m_listener->gone(this);
+	m_argList = 0;
+	if (m_list)
+		reinterpret_cast<Rva0030F4AFListener *>(m_list)->gone(this);
 }
