@@ -55,7 +55,7 @@ void Rva00539281::rva00539281(unsigned char a0, int a1)
 	int count = u13();
 	for (int i = 0; i < count; ++i)
 	{
-		Rva00539281Elem *p = u15(i);
-		p->t14(a0, a1);
+		Rva00539281Elem *element = u15(i);
+		element->t14(a0, a1);
 	}
 }
