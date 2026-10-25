@@ -132,8 +132,9 @@ SHRINK_ONLY = {
 # past its source field) leaves under a source the new tree no longer has, that source
 # held ledger rows in the old tree, none of them stays under it, and every one of them is
 # now under the grown line's source, which the new tree has. code_identity_gate and
-# data_check --staged apply the same rule; repair_queue's verify-removed already accepts
-# the removal as a transfer.
+# data_check --staged apply the same rule. This only excuses the grown line: each removed
+# line is judged on its own source by repair_queue (_debt_follows), so a valid donor
+# sharing the key never excuses removing the line of a source that keeps its code.
 LEDGER = "reverse/functions.csv"
 TRANSFER_KEYED = {"reverse/data_check_baseline.txt", "reverse/code_identity_baseline.tsv"}
 _LEDGERS = {}
@@ -160,7 +161,7 @@ def transferred(old_rev, new_rev, added, removed):
     """The `added` register lines (source<TAB>key) that transfer a `removed` line's key
     from a vanished unit to the unit holding all of its rows (see above)."""
     def split(line):
-        source, _, key = line.strip().partition("	")
+        source, _, key = line.strip().partition("\t")
         return source, key
     gone = {}
     for line in removed:
@@ -171,14 +172,16 @@ def transferred(old_rev, new_rev, added, removed):
     if not candidates:
         return set()
     old, new = ledger_by_source(old_rev), ledger_by_source(new_rev)
-    out = set()
-    for line in candidates:
+    out, spent = set(), set()
+    for line in sorted(candidates):
         dest, key = split(line)
         if not new.get(dest) or not exists(new_rev, dest):
             continue
-        for source in sorted(gone[key] - {dest}):
+        for source in sorted(gone[key] - {dest}):   # each donor line excuses one grown line
             rows = old.get(source)
-            if rows and source not in new and not exists(new_rev, source) and rows <= new[dest]:
+            if ((source, key) not in spent and rows and source not in new
+                    and not exists(new_rev, source) and rows <= new[dest]):
+                spent.add((source, key))
                 out.add(line)
                 break
     return out

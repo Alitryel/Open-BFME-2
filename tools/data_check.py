@@ -548,13 +548,13 @@ def main(argv=None):
         grown = read_baseline(staged.stdout) - read_baseline(old.stdout) if old.returncode == 0 else set()
         if grown:   # a vanished unit's key carried to the unit holding its rows is a move
             import protected_paths
-            moved = protected_paths.transferred("HEAD", ":", {"	".join(k) for k in grown},
-                                                {"	".join(k) for k in read_baseline(old.stdout)
+            moved = protected_paths.transferred("HEAD", ":", {"\t".join(k) for k in grown},
+                                                {"\t".join(k) for k in read_baseline(old.stdout)
                                                  - read_baseline(staged.stdout)})
-            grown = {k for k in grown if "	".join(k) not in moved}
+            grown = {k for k in grown if "\t".join(k) not in moved}
         if grown:   # the baseline is shrink-only even in shadow mode
             for key in sorted(grown):
-                print("data_check: baseline gained", "	".join(key))
+                print("data_check: baseline gained", "\t".join(key))
             return 1
     if args.converged:
         if args.write_baseline:

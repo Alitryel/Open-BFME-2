@@ -187,24 +187,27 @@ class Tree:
 
     def refusal(self, source, rows):
         """Why tools/rename.py's file kind would refuse `source`, or None."""
+        return next(self.refusals(source, rows), None)
+
+    def refusals(self, source, rows):
+        """Every reason tools/rename.py's file kind would refuse `source`, in order."""
         ctx = self.ctx
         if source not in self.tracked:
-            return f"{source} is not tracked"
+            yield f"{source} is not tracked"
         if rename.is_vendored_path(ctx, source):
-            return "vendored or SDK source: its names are upstream's"
+            yield "vendored or SDK source: its names are upstream's"
         if source in self.keyed:
-            return "keyed in a protected path-keyed register (needs a Verifier-Change commit)"
+            yield "keyed in a protected path-keyed register (needs a Verifier-Change commit)"
         if source in self.approved:
-            return "an approved retail TU path in tu_map.csv (canonical)"
+            yield "an approved retail TU path in tu_map.csv (canonical)"
         stem = posixpath.splitext(posixpath.basename(source))[0]
         if source in self.canonical or stem in self.canonical:
-            return "recorded canonical in name_basis.csv"
+            yield "recorded canonical in name_basis.csv"
         if posixpath.basename(source).lower() in self.included:
-            return "#included by another file (phase 1 does not rewrite includes)"
+            yield "#included by another file (phase 1 does not rewrite includes)"
         data = ctx.read(source) or b""
         if "__FILE__" in name_metric.strip(data.decode("utf-8", errors="surrogateescape")):
-            return "expands __FILE__: the path reaches its bytes"
-        return None
+            yield "expands __FILE__: the path reaches its bytes"
 
 
 def owned_rows(ctx):

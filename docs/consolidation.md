@@ -35,7 +35,8 @@ regenerated `tu_map.csv` from this lane.
 2. **Read the plan.** `--plan TU` lists every approved row in retail order and what
    happens to it: `pull` (a clean donor), `mixed` (its file also holds rows of
    another TU), `refused` (deleting the file is not mechanical: vendored,
-   `#include`d by another file, or expanding `__FILE__`), or
+   `#include`d by another file, or expanding `__FILE__`, even when it is also
+   register-keyed, an approved TU path or recorded canonical), or
    a placeholder comment (unmatched; it compiles to nothing and is never credited).
 3. **Dry run.** `--merge TU --dry-run` composes and verifies without writing.
    `accepted` donors merge as they are. Each `rejected` donor carries the compile
@@ -89,9 +90,12 @@ The hooks read a re-keyed line as a transfer: a grown key counts as moved only
 when the identical key leaves under a source the commit deletes, that source's
 ledger rows all move to the new key's source, and that source exists
 (`protected_paths.transferred`, used by `protected_paths.py`,
-`code_identity_gate.py --staged` and `data_check.py --staged`;
-`repair_queue.py verify-removed` already accepts it). Any other re-keying stays
-growth. The merge refuses, writing nothing, when a register would still name a
+`code_identity_gate.py --staged` and `data_check.py --staged`; each donor
+line excuses one grown line). Any other re-keying stays growth. `repair_queue.py
+verify-removed` judges every removed line on its own source: it is a transfer only
+when that source is gone, or all its rows moved to the new key's source. A donor
+sharing the key never excuses removing another source's line; that source still
+goes to its owner verdict. The merge refuses, writing nothing, when a register would still name a
 deleted donor. It prints:
 
 - `trailer:` the exact `Verifier-Change: tu_skeleton --merge carried the

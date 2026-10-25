@@ -1495,21 +1495,52 @@ def _staged_text(path):
     return got.stdout if got.returncode == 0 else ""
 
 
+_LEDGER_SOURCES = {}
+
+
+def _ledger_sources(rev):
+    """{source: {(name, target_rva)}} of the ledger at `rev` ('' = the index), by blob."""
+    blob = _git("rev-parse", f"{rev}:{LEDGER}").stdout.strip()
+    if blob not in _LEDGER_SOURCES:
+        out = {}
+        for r in csv.DictReader(io.StringIO(_git("show", f"{rev}:{LEDGER}").stdout)):
+            if r.get("target_rva"):
+                out.setdefault(r.get("source") or "", set()).add((r.get("name"), r["target_rva"]))
+        _LEDGER_SOURCES[blob] = out
+    return _LEDGER_SOURCES[blob]
+
+
+def _debt_follows(source, dest):
+    """`source`'s debt may move to `dest`: the source is gone, or every ledger row it
+    held has moved to `dest` and none stays. Judged per source: a valid donor sharing
+    the key never excuses another source that keeps its code and rows."""
+    if dest == source or not _debt_present(dest):
+        return False
+    if not _debt_present(source):
+        return True
+    old, new = _ledger_sources(DEBT_BASE).get(source), _ledger_sources(DEBT_TARGET)
+    return bool(old) and not new.get(source) and old <= new.get(dest, set())
+
+
 def _debt_transferred(kind, source, keys, staged):
-    """Only newly added debt under another source is a transfer; old duplicates prove nothing."""
+    """Every key re-added under a destination this source's debt may follow to (see
+    _debt_follows); old duplicates prove nothing."""
     if kind == "header":
         def rows(text):
             return {(r.get("class"), r.get("source")) for r in
                     csv.DictReader(io.StringIO(text), delimiter="\t")}
         old = _git("show", f"{DEBT_BASE}:{HEADER_QUEUE}")
         added = rows(_staged_text(HEADER_QUEUE)) - rows(old.stdout)
-        return all(any(name == key and dest and dest != source and _debt_present(dest)
+        return all(any(name == key and dest and _debt_follows(source, dest)
                        for name, dest in added) for key in keys)
     old = _git("show", f"{DEBT_BASE}:{REGISTERS[kind]}")
     added = set(staged) - register_keys(kind, old.stdout)
-    tails = {key_line(kind, k).split("\t", 1)[1] for k in added
-             if key_source(kind, k) != source and _debt_present(key_source(kind, k))}
-    return all(key_line(kind, k).split("\t", 1)[1] in tails for k in keys)
+    dests = {}
+    for k in added:
+        dest, _, tail = key_line(kind, k).partition("\t")
+        dests.setdefault(tail, set()).add(dest)
+    return all(any(_debt_follows(source, dest) for dest in dests.get(key_line(kind, k).split("\t", 1)[1], ()))
+               for k in keys)
 
 
 def _removed_source_accounted(kind, source, keys, staged, message=""):

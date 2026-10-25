@@ -341,8 +341,9 @@ NOT_REFUSALS = ("an approved retail TU path", "recorded canonical",
 
 
 def refusal(f, rows):
-    why = tree().refusal(f, rows)
-    return None if why is None or why.startswith(NOT_REFUSALS) else why
+    """The first reason absorbing `f` is not mechanical. A NOT_REFUSALS reason is only
+    excused, never taken as acceptance: every other condition is still checked."""
+    return next((why for why in tree().refusals(f, rows) if not why.startswith(NOT_REFUSALS)), None)
 
 
 def skeleton(tu):
