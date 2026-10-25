@@ -4,7 +4,8 @@
 // upright type (or the toppled type while a push-aside model exists), drops its topple and push-aside models (a
 // shrub with none resets the rows that share its key) and leaves the toppling state. BFME2 layout: 2000 records
 // of 0xA0 at +0x1958, count +0x4FB58, changed byte +0x4FB5C.
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#define COORD3D_VIEW_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 typedef int Int;
 
@@ -51,6 +52,25 @@ struct Rva000E7546TypeRecord {
  Coord2D m_shadowA; char at34[0x3C-0x34];
  Coord2D m_shadowB; bool m_ready; char at45[0x5C-0x45];
 };
+// The record and type arrays are spelled as W3DShrubBuffer.cpp's own view spells them (opaque element storage);
+// this body reads them through its local element views above.
+class Rva000E9C1DRecord
+{
+public:
+	Rva000E9C1DRecord();
+private:
+	unsigned char m_storage[0xA0];
+};
+
+class Rva000E9C1DType
+{
+public:
+	Rva000E9C1DType();
+	~Rva000E9C1DType();
+private:
+	unsigned char m_storage[0x5C];
+};
+
 class W3DShrubBuffer
 {
 public:
@@ -59,44 +79,46 @@ public:
 	void rva000E70D9(Int key);
 
 private:
+	Rva000E75F5Tree &tree75F5(Int i) { return reinterpret_cast<Rva000E75F5Tree *>(m_records)[i]; }
+	Rva000E7546TypeRecord &type7546(Int t) { return reinterpret_cast<Rva000E7546TypeRecord *>(m_types)[t]; }
 	unsigned char m_pad0000[0x1958];
-	Rva000E75F5Tree m_trees[2000];
-	Int m_numTrees;
-	unsigned char m_anythingChanged;
- char at4FB5D[0x4FB70-0x4FB5D];
- Rva000E7546TypeRecord m_treeTypes[64];
+	Rva000E9C1DRecord m_records[2000];
+	Int m_count;
+	unsigned char m_4fb5c;
+	unsigned char m_pad4fb5d[0x4FB70 - 0x4FB5D];
+	Rva000E9C1DType m_types[64];
 };
 
 void W3DShrubBuffer::rva000E75F5(Int index)
 {
-	if (index >= m_numTrees)
+	if (index >= m_count)
 		return;
-	if (m_trees[index].m_treeType < 0)
+	if (tree75F5(index).m_treeType < 0)
 		return;
-	if (m_trees[index].m_state == 1) {
-		if (m_trees[index].m_pushAside != 0)
-			m_trees[index].m_treeType = m_trees[index].m_toppledType;
+	if (tree75F5(index).m_state == 1) {
+		if (tree75F5(index).m_pushAside != 0)
+			tree75F5(index).m_treeType = tree75F5(index).m_toppledType;
 	} else {
-		m_trees[index].m_treeType = m_trees[index].m_uprightType;
+		tree75F5(index).m_treeType = tree75F5(index).m_uprightType;
 	}
-	if (m_trees[index].m_topple != 0) {
-		m_trees[index].m_topple->Remove();
-		if (m_trees[index].m_topple != 0) {
-			m_trees[index].m_topple->Release_Ref();
-			m_trees[index].m_topple = 0;
+	if (tree75F5(index).m_topple != 0) {
+		tree75F5(index).m_topple->Remove();
+		if (tree75F5(index).m_topple != 0) {
+			tree75F5(index).m_topple->Release_Ref();
+			tree75F5(index).m_topple = 0;
 		}
 	}
-	if (m_trees[index].m_pushAside != 0) {
-		m_trees[index].m_pushAside->Remove();
-		if (m_trees[index].m_pushAside != 0) {
-			m_trees[index].m_pushAside->Release_Ref();
-			m_trees[index].m_pushAside = 0;
+	if (tree75F5(index).m_pushAside != 0) {
+		tree75F5(index).m_pushAside->Remove();
+		if (tree75F5(index).m_pushAside != 0) {
+			tree75F5(index).m_pushAside->Release_Ref();
+			tree75F5(index).m_pushAside = 0;
 		}
 	} else {
-		rva000E70D9(m_trees[index].m_key);
+		rva000E70D9(tree75F5(index).m_key);
 	}
-	m_trees[index].m_state = 0;
-	m_anythingChanged = true;
+	tree75F5(index).m_state = 0;
+	m_4fb5c = true;
 }
 
 static inline void copyShrubPosition(float *out, const Coord3D *position)
@@ -108,13 +130,13 @@ static inline void copyShrubPosition(float *out, const Coord3D *position)
 // not the donor164B stride; native175 proves all four copied outputs.
 bool W3DShrubBuffer::rva000E7546(Int index, float *outPos, float *outScale, Coord2D *outShadowA, Coord2D *outShadowB)
 {
- if (index < m_numTrees) {
-  Int type = m_trees[index].m_treeType;
-  if (type >= 0 && m_trees[index].m_enabled && m_treeTypes[type].m_valid && m_treeTypes[type].m_ready) {
-   copyShrubPosition(outPos, &m_trees[index].m_position);
-   *outScale = m_trees[index].m_scale * 10.0f;
-   *outShadowA = m_treeTypes[type].m_shadowA;
-   *outShadowB = m_treeTypes[type].m_shadowB;
+ if (index < m_count) {
+  Int type = tree75F5(index).m_treeType;
+  if (type >= 0 && tree75F5(index).m_enabled && type7546(type).m_valid && type7546(type).m_ready) {
+   copyShrubPosition(outPos, &tree75F5(index).m_position);
+   *outScale = tree75F5(index).m_scale * 10.0f;
+   *outShadowA = type7546(type).m_shadowA;
+   *outShadowB = type7546(type).m_shadowB;
    return true;
   }
  }
