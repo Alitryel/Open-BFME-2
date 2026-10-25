@@ -36,3 +36,22 @@ this staged edit. No source moves, renamed paths or source deletions exist in
 that batch. The new quoted include resolves beside LadderDefs and its retail
 TU. Active tools/hooks/workflows, includes, build inputs and registries require
 no repointing. Existing EA paths and provenance are retained.
+
+## Follow-up: findLadder sentinel access
+
+LadderListFindLadder.cpp now reads each sentinel through a pointer reference to
+the existing member's first word. The old minimal pointer view and STLport's
+complete list view have that same storage (vendor/stlport/stl/_list.h,
+_List_base::_M_node); the native head offsets remain local +0, special +4,
+standard +8. Each loop still reloads its sentinel at the original use sites.
+This avoids applying operator-> directly to a complete list after class union.
+No allocation, ABI name, private layout, source ownership or field order changes.
+
+The standalone body remains 151/151 bytes exact. Declared-unmatched and
+diff --check pass. The normal merge dry-run now accepts all five whole files,
+60 rows, with no rejected donor. Receipt: build/sol-ladder-find-build.txt and
+sol-ladder-find-after.txt. Leave the merge and mixed-file splits to Luna; no
+merge is applied here and no source file is removed. The source-only follow-up
+adds no path move or consumer to the publication audit above. The prefix commit
+gate also reports 13 shadow code-identity findings against the register; those
+are retained, and this prerequisite makes no identity retirement claim.

@@ -41,23 +41,27 @@ private:
 	LadderListNode *m_standardLadders;
 };
 
+// Each STLport list stores its sentinel pointer in its first word. Read that
+// same storage whether this fragment uses the minimal pointer view above or
+// consolidation selects LadderDefs.h's complete list members. Retail reloads
+// the sentinel for each loop comparison, so keep the reads at each use.
 const LadderInfo *LadderList::findLadder(const AsciiString &addr, unsigned short port)
 {
-	for (LadderListNode *ladderListNode = m_specialLadders->next; ladderListNode != m_specialLadders; ladderListNode = ladderListNode->next)
+	for (LadderListNode *ladderListNode = reinterpret_cast<LadderListNode *const &>(m_specialLadders)->next; ladderListNode != reinterpret_cast<LadderListNode *const &>(m_specialLadders); ladderListNode = ladderListNode->next)
 	{
 		LadderInfo *li = (LadderInfo *)ladderListNode->value;
 		if (li->address.compare(addr) == 0 && li->port == port)
 			return li;
 	}
 
-	for (LadderListNode *ladderListNode = m_standardLadders->next; ladderListNode != m_standardLadders; ladderListNode = ladderListNode->next)
+	for (LadderListNode *ladderListNode = reinterpret_cast<LadderListNode *const &>(m_standardLadders)->next; ladderListNode != reinterpret_cast<LadderListNode *const &>(m_standardLadders); ladderListNode = ladderListNode->next)
 	{
 		LadderInfo *li = (LadderInfo *)ladderListNode->value;
 		if (li->address.compare(addr) == 0 && li->port == port)
 			return li;
 	}
 
-	for (LadderListNode *ladderListNode = m_localLadders->next; ladderListNode != m_localLadders; ladderListNode = ladderListNode->next)
+	for (LadderListNode *ladderListNode = reinterpret_cast<LadderListNode *const &>(m_localLadders)->next; ladderListNode != reinterpret_cast<LadderListNode *const &>(m_localLadders); ladderListNode = ladderListNode->next)
 	{
 		LadderInfo *li = (LadderInfo *)ladderListNode->value;
 		if (li->address.compare(addr) == 0 && li->port == port)
