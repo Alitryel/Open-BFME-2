@@ -265,7 +265,28 @@ basic_string<char, char_traits<char>, allocator<char> >::append<char *>(char *__
 }
 
 
-template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;
+// Instantiate only the operations owned by this unit. A whole-class
+// instantiation also emits unrelated non-retail comparison/insertion copies.
+template _STL::basic_string<char>::reverse_iterator _STL::basic_string<char>::rbegin();
+template _STL::basic_string<char>::reverse_iterator _STL::basic_string<char>::rend();
+template _STL::basic_string<char> &_STL::basic_string<char>::append<char *>(
+    char *, char *, const _STL::forward_iterator_tag &);
+template void _STL::swap<char *>(char *&, char *&);
+template bool _STL::operator!=<const char *>(
+    const _STL::reverse_iterator<const char *> &,
+    const _STL::reverse_iterator<const char *> &);
+
+// char_traits<char> is already a fully specialized class, so these two
+// static members cannot be retained by explicit template instantiation.
+// Taking their addresses emits their unchanged header bodies.
+typedef char *(__cdecl *BfmeNarrowAssignBody)(char *, size_t, char);
+typedef int (__cdecl *BfmeNarrowCompareBody)(const char *, const char *, size_t);
+// ?bfmeEmitNarrowTraits absent-from-retail
+void bfmeEmitNarrowTraits(BfmeNarrowAssignBody &assign, BfmeNarrowCompareBody &compare)
+{
+    assign = &_STL::char_traits<char>::assign;
+    compare = &_STL::char_traits<char>::compare;
+}
 
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
