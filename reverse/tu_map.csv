@@ -23439,7 +23439,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0032E4E3,56,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032E474..0x0032E51B,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x0032E51B,29,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032E474..0x0032E538,Code/Libraries/Source/WWVegas/WWLib/StlportCopyWrapperPairsFamily.cpp
 0x0032E538,5,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032E474..0x0032E53D,Code/Libraries/Source/WWVegas/WWLib/StlportCopyWrapperPairsFamily.cpp
-0x0032E53D,5,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032E474..0x0032E542,Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp
+0x0032E53D,5,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032E474..0x0032E542,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp
 0x0032E542,434,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Map/SidesList.cpp N=Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,Code/GameEngine/Source/GameLogic/Map/SidesListDataChunks.cpp
 0x0032E6F4,175,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Map/SidesList.cpp N=Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,Code/GameEngine/Source/GameLogic/Map/SidesListCastleBuildLists.cpp
 0x0032E7A3,63,code,Code/GameEngine/Source/GameLogic/Map/SidesList.cpp,approved,C,C=0x0032E6F4..0x0032E7E2,Code/GameEngine/Source/GameLogic/Object/Behavior/DynamicPortalLinkVector.cpp

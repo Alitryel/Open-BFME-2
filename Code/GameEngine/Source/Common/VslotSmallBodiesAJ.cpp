@@ -727,10 +727,6 @@ class Rva0032E53D : public SidesList
 public:
 	void rva0032E53D();
 };
-void Rva0032E53D::rva0032E53D()
-{
-	SidesList::clear();
-}
 
 // 0x0033FCDC: tail jump to StateMachine::setGoalObject.
 class Rva0033FCDC : public StateMachine
