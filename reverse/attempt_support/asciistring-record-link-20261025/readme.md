@@ -50,3 +50,10 @@ Reference basis: pristine STLport4.5.3 already used here; committed BFME1
 0bf534ea7ccde110c456edb9cd2dd5dae823c953 and its tracked October24 verified
 update/reference-lane evidence were reviewed this session. This repair follows
 existing BFME2 isolation/owner-binding evidence; no new donor identity is inferred.
+
+The commit hook's shadow code-identity report flags five bindings in the new
+deferred source (28-byte Construct/insert-overflow and the three allocate-and-copy
+helpers). These are the pre-existing dependency mismatches now located in the
+isolated source, not newly recovered callees. The main source has no such finding.
+The enforced byte/relocation, EH and converged-data checks pass; data shadow
+reports zero findings. Shadow identity debt is not a closed-strict link claim.
