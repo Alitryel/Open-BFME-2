@@ -6347,3 +6347,9 @@ Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientU
 Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp|param|W3DTornadoDraw::rva000D17EF|a,253bebc67e2278d847e7bda8,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p021b,w-50445eff5ea9,2026-10-25
 Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp|param|W3DTornadoDraw::rva000D17EF|b,f22af36bd20d818ff1b09739,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p021b,w-50445eff5ea9,2026-10-25
 Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp|param|W3DTornadoDraw::rva000D17EF|c,f4c1500a7a61a6b5e4c74ba5,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p021b,w-50445eff5ea9,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|class||Rva008063B0Diag,312e0e0890b29c25b8056ea7,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035a,w-f6960bfe75fc,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|class||Rva008063B0Owner,55e96c499bb8b2d00f70cf54,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035a,w-f6960bfe75fc,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|local|Rva008063B0Owner::addSlot|s,77bac0445e862a441ae38869,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035a,w-f6960bfe75fc,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|class||Rva008063B0Slot,2d8dc0309d34dd6435607a28,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035b,w-8c1b65ac9525,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|class||Rva008063B0Owner,55e96c499bb8b2d00f70cf54,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035b,w-8c1b65ac9525,2026-10-25
+Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|local|Rva008063B0Owner::addSlot|s,77bac0445e862a441ae38869,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035b,w-8c1b65ac9525,2026-10-25

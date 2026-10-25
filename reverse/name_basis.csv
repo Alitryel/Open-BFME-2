@@ -2086,3 +2086,4 @@ local,Rva007FA2C0::walk::v,Rva007FA2C0::walk::expiry,inferred,agree:nl-1c32f1422
 param,W3DTornadoDraw::rva000D17EF::a,W3DTornadoDraw::rva000D17EF::oldMtx,inferred,agree:nl-d67f98691909,Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp,0x000D17EF
 param,W3DTornadoDraw::rva000D17EF::b,W3DTornadoDraw::rva000D17EF::oldPos,inferred,agree:nl-5eec3ebf8429,Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp,0x000D17EF
 param,W3DTornadoDraw::rva000D17EF::c,W3DTornadoDraw::rva000D17EF::oldAngle,inferred,agree:nl-0699d5f55bac,Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp,0x000D17EF
+local,Rva008063B0Owner::addSlot::s,Rva008063B0Owner::addSlot::slot,inferred,agree:nl-77bac0445e86,Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp,0x006723E0
