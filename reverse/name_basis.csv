@@ -2047,3 +2047,4 @@ param,Rva002B280C::rva002B280C::a,Rva002B280C::rva002B280C::army,inferred,agree:
 param,q4Notify002CC841::c,q4Notify002CC841::store,inferred,agree:nl-df658b0feb30,Code/GameEngine/Source/GameLogic/Object/Made002CC841Parse.cpp,0x00509780
 param,Rva0028867DCaller::p,Rva0028867DCaller::level,inferred,agree:nl-d0504418acb3,Code/GameEngine/Source/Common/Rva0028867DCheck.cpp,
 param,vector::a,vector::alloc,inferred,agree:nl-ca2eaeb5d4e2,Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp,
+member,Rva004A6EHolder::m_1c,Rva004A6EHolder::m_numberBoxes,inferred,agree:nl-33499af52d52,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,

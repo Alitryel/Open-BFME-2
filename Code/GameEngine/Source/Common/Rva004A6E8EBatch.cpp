@@ -13,28 +13,28 @@ public:
   bool rva004A6EC6(int unused);
 private:
   unsigned char m_pad[0x1c];
-  int m_1c;
+  int m_numberBoxes;
 };
 bool Rva004A6EHolder::rva004A6E8E()
 {
-  if (m_1c == 0) return false;
+  if (m_numberBoxes == 0) return false;
   Rva004A6EObj* obj = (Rva004A6EObj*)((char*)this - 0x3e0);
   BuildListInfo* info = obj->m_04;
-  --m_1c;
+  --m_numberBoxes;
   Rva002716Holder* h = (Rva002716Holder*)info->getDesiredGatherers();
   if (!h) return true;
-  h->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_1c);
+  h->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_numberBoxes);
   return true;
 }
 bool Rva004A6EHolder::rva004A6EC6(int unused)
 {
   (void)unused;
   Rva004A6EObj* obj = (Rva004A6EObj*)((char*)this - 0x3e0);
-  if (obj->m_moduleData && m_1c >= obj->m_moduleData->m_maxBoxes) return false;
+  if (obj->m_moduleData && m_numberBoxes >= obj->m_moduleData->m_maxBoxes) return false;
   BuildListInfo* info6 = obj->m_04;
-  ++m_1c;
+  ++m_numberBoxes;
   Rva002716Holder* h = (Rva002716Holder*)info6->getDesiredGatherers();
   if (!h) return true;
-  h->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_1c);
+  h->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_numberBoxes);
   return true;
 }
