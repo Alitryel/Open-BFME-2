@@ -28,3 +28,25 @@ protected donors remain untouched. Claims for this attempted TU were released.
 Reproduce: `python3 tools/ms_header_audit.py scan
 Code/GameEngine/Source/Common/Win32BIGFileSystem_init.cpp`; then use the normal
 planner, plan, dry run and merge after the prerequisite repair.
+
+## W3DLaserDraw and W3DGameFont
+
+The same prerequisite blocks these candidates without repeating the failing
+audit. Laser's normal three-donor merge byte-matched 3/3 rows (167 bytes)
+before restoration, but its absorbed `RefCountPtrTextureRva000C9A51.cpp` has
+an active `free:abi` header-queue entry. Laser claims were released.
+Font's dry run accepts the existing TU and `Rva00090034SimpleVecDtors.cpp`
+(five rows), but the latter has an active `operator delete [ ]:same` queue
+entry. No actual Font merge or claims were made. Neither report entry was
+deleted, reclassified, nor silently left pointing at a vanished source.
+
+Laser also retains an unmerged xfer donor that fails in `BfmeXfer.h:37`
+(missing `Snapshot`) and a texture-range donor with no baseline match.
+Font retains a private `SimpleDynVecClass` template conflict.
+
+## Shadow identity finding
+
+The normal W3DBridgeBuffer commit hook reports one new shadow finding for
+`?Normalize@Vector3@@QAEXXZ` (definition: divergent). The private method's
+source text was already identical in the pre-merge TU; its source definition
+was not changed by consolidation. No baseline or identity gate was altered.
