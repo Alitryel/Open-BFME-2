@@ -19,11 +19,7 @@
 typedef int Int;
 typedef float Real;
 
-enum ObjectID
-{
-	INVALID_ID = -1
-};
-
+#include "../../../Common/GameLogicObjectLookupView.h"
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 class Vector3
@@ -44,12 +40,6 @@ class Object
 {
 public:
 	Drawable *getDrawable() const;
-};
-
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id );
 };
 
 extern GameLogic *TheGameLogic;
