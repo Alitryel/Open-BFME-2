@@ -1996,3 +1996,4 @@ local,PathfindZoneManager::rva00531720::t,PathfindZoneManager::rva00531720::flag
 local,Rva00539281::rva00539281::p,Rva00539281::rva00539281::element,inferred,agree:nl-e777c04b26a1,Code/GameEngine/Source/Common/Rva00539281.cpp,0x00539281
 local,Rva0057ACEB::Rva0057ACEB::p,Rva0057ACEB::Rva0057ACEB::impl,inferred,agree:nl-4b162284e7a7,Code/GameEngine/Source/Common/Rva0057ACEBCtor.cpp,0x0057ACEB
 local,Rva005B1A07::rva005B1A07::c2,Rva005B1A07::rva005B1A07::currentSize,inferred,agree:nl-00a3f0eac864,Code/GameEngine/Source/Common/Rva005B1A07.cpp,0x005B1A07
+local,Rva003F2A3E::n,Rva003F2A3E::count,inferred,agree:nl-545139459577,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva003F2A11Assign.cpp,0x003F2A3E

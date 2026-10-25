@@ -45,10 +45,10 @@ Rva003F2A11 &Rva003F2A11::rva003F2A11(const Rva003F2A11 &other)
 
 Rva003F2A11 *Rva003F2A3E(Rva003F2A11 *src, Rva003F2A11 *last, Rva003F2A11 *dest)
 {
-	int n = last - src;
-	if (n <= 0)
+	int count = last - src;
+	if (count <= 0)
 		return dest;
-	for (int k = n; k != 0; --k) {
+	for (int k = count; k != 0; --k) {
 		dest->rva003F2A11(*src);
 		++src;
 		++dest;
