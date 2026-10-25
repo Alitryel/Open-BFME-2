@@ -1,4 +1,4 @@
-// cl: /O1 /MD /DNDEBUG
+// cl: /O1 /MD /DNDEBUG /Ireference/shims/bfme2_ascii
 //
 // Zero Hour's MetaEventTranslator::translateGameMessage (GameEngine/Source/
 // GameClient/MessageStream/MetaEvent.cpp), the body just before the rowed
@@ -11,6 +11,10 @@
 // the local player's +0x750 is 2; an auto-repeated key is still consumed
 // unless the +0x18 flag of the object at VA 0x00DFEF18 is set; ZH's
 // fast-forward-replay special case is gone. The mouse half is ZH's.
+
+#include "unicode_string.h"
+
+class MetaMapRec;
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -93,16 +97,22 @@ class MetaMapRec
 public:
 	MetaMapRec *m_next;
 	GameMessage::Type m_meta;
-	MappableKeyType m_key;
-	MappableKeyTransition m_transition;
+	int m_key;
+	int m_transition;
 	Int m_modState;
 	Int m_usableIn;
+	// The rowed allocator at 0x001DB537 initializes this 0x24-byte record.
+	Int m_category;
+	UnicodeString m_description;
+	UnicodeString m_displayName;
 };
 
 class MetaMap
 {
 public:
 	const MetaMapRec *getFirstMetaMapRec() const { return m_metaMaps; }
+protected:
+	MetaMapRec *getMetaMapRec(GameMessage::Type t);
 private:
 	unsigned char m_00[0x0C];
 	MetaMapRec *m_metaMaps;	// +0x0C
