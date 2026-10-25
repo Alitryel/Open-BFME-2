@@ -87,9 +87,9 @@ extern GlobalData *TheWritableGlobalData;
 struct LivingWorldGlobalDataView
 {
 	unsigned char m_pad[0x60];
-	bool m_60;
+	bool m_useShadowVolumes;
 	bool m_61;
-	bool m_62;
+	bool m_useShadowMapping;
 };
 
 class W3DShadowManager;
@@ -185,10 +185,10 @@ void LivingWorld::rva002BF391(bool active)
 	m_18 = active;
 	if (active)
 	{
-		if (((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_62)
+		if (((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_useShadowMapping)
 		{
-			((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_62 = false;
-			((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_60 = true;
+			((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_useShadowMapping = false;
+			((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_useShadowVolumes = true;
 			((LivingWorldShadowManagerView *)TheW3DShadowManager)->m_08 = -1;
 		}
 		GameMessage *msg = ((LivingWorldMessageStreamView *)TheMessageStream)->appendMessage(0x3EC);
@@ -200,13 +200,13 @@ void LivingWorld::rva002BF391(bool active)
 	{
 		slot20(false);
 		int level = ((LivingWorldLODManagerView *)TheGameLODManager)->m_staticLevel;
-		((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_62 =
+		((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_useShadowMapping =
 			((LivingWorldLODManagerView *)TheGameLODManager)->m_staticInfo[level].m_0E;
-		((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_60 =
+		((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_useShadowVolumes =
 			((LivingWorldLODManagerView *)TheGameLODManager)->m_staticInfo[level].m_0C;
 		LivingWorldGlobalDataView *data = (LivingWorldGlobalDataView *)TheWritableGlobalData;
-		if (data->m_62 && data->m_60)
-			data->m_60 = false;
+		if (data->m_useShadowMapping && data->m_useShadowVolumes)
+			data->m_useShadowVolumes = false;
 	}
 	theRadarWindowOverrideSource->rva002D337F();
 	((LivingWorldGameLogicView *)TheGameLogic)->m_125 = (m_18 && !m_19) ? true : false;

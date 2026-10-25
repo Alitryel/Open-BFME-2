@@ -228,12 +228,12 @@ void Rva005C6D4D::rva005C6D9C()
             else
                 scale = 1.0f;
         } else if ((float)elapsed < TheRadialFlashEnd) {
-            float t;
+            float flashProgress;
             if (kFlashStart != 0.0f)
-                t = ((float)elapsed - kFlashStart) / kFlashDuration;
+                flashProgress = ((float)elapsed - kFlashStart) / kFlashDuration;
             else
-                t = 1.0f;
-            scale = (1.0f - t) * (kFlashMaxScale - 1.0f) + 1.0f;
+                flashProgress = 1.0f;
+            scale = (1.0f - flashProgress) * (kFlashMaxScale - 1.0f) + 1.0f;
         } else {
             scale = 1.0f;
         }
@@ -263,16 +263,16 @@ void Rva005C6D4D::rva005C6D9C()
 struct RadialCoord2D : Coord2D {
     __forceinline void Rotate(float angle)
     {
-        float s = (float)sin((double)angle);
-        float c = (float)cos((double)angle);
+        float sinAngle = (float)sin((double)angle);
+        float cosAngle = (float)cos((double)angle);
         __asm {
             fld angle
             fsincos
-            fstp c
-            fstp s
+            fstp cosAngle
+            fstp sinAngle
         }
-        float rotatedX = x * c - y * s;
-        y = x * s + y * c;
+        float rotatedX = x * cosAngle - y * sinAngle;
+        y = x * sinAngle + y * cosAngle;
         x = rotatedX;
     }
     __forceinline void Scale(float scaleFactor) { x *= scaleFactor; y *= scaleFactor; }

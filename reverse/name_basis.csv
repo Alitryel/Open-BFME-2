@@ -2226,3 +2226,8 @@ local,W3DTerrainBackground::getTriangleIntersection::z,W3DTerrainBackground::get
 member,Rva00DFE758::m_134,Rva00DFE758::m_timeOfDay,inferred,agree:nl-7c105501a76a,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,
 param,Rva0045D7E0Notify::a,Rva0045D7E0Notify::assets,inferred,agree:nl-15c3e3f4aef2,Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp,0x0045D7E0
 param,Rva0045D7E0Notify::b,Rva0045D7E0Notify::context,inferred,agree:nl-b79b12715f17,Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp,0x0045D7E0
+local,Rva005C6D4D::rva005C6D9C::t,Rva005C6D4D::rva005C6D9C::flashProgress,inferred,agree:nl-e04eedfc51c4,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,0x005C6D9C
+local,Rotate::s,Rotate::sinAngle,inferred,agree:nl-7b433e8553ec,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
+local,Rotate::c,Rotate::cosAngle,inferred,agree:nl-cd016b040947,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
+member,LivingWorldGlobalDataView::m_60,LivingWorldGlobalDataView::m_useShadowVolumes,inferred,agree:nl-3d6dfce4410f,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp,
+member,LivingWorldGlobalDataView::m_62,LivingWorldGlobalDataView::m_useShadowMapping,inferred,agree:nl-4c3b3a322f30,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp,
