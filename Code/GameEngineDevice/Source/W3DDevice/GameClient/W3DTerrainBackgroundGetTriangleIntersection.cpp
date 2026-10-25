@@ -80,7 +80,7 @@ class W3DTerrainBackground
 public:
 	bool castTriangle(RayCollisionTestClass &raytest,
 		const Vector3 &p0, const Vector3 &p1, const Vector3 &p2);
-	void getTriangleIntersection(Vector3 *heights, int x, int y, int width, int height,
+	void getTriangleIntersection(Vector3 *heights, int startX, int startY, int width, int height,
 		const Vector3 &v0, const Vector3 &v1, const Vector3 &v2);
 
 private:
@@ -94,7 +94,7 @@ private:
 };
 
 // ?getTriangleIntersection@W3DTerrainBackground@@QAEXPAVVector3@@HHHHABV2@11@Z
-void W3DTerrainBackground::getTriangleIntersection(Vector3 *heights, int x, int y, int width, int height,
+void W3DTerrainBackground::getTriangleIntersection(Vector3 *heights, int startX, int startY, int width, int height,
 	const Vector3 &first, const Vector3 &second, const Vector3 &third)
 {
 	int maxX = m_map->m_width - 1;
@@ -108,13 +108,13 @@ void W3DTerrainBackground::getTriangleIntersection(Vector3 *heights, int x, int 
 		int j = 0;
 		if (j <= height) {
 			start.Z = maxZ + 1.0f;
-			int column = x + i;
+			int column = startX + i;
 			end.Z = minZ - 1.0f;
 			do {
 			int cellX = column;
 			if (cellX >= maxX)
 				cellX = maxX;
-			int cellY = y + j;
+			int cellY = startY + j;
 			if (cellY >= maxY)
 				cellY = maxY;
 			int idx = (m_width + 1) * cellY + cellX;
@@ -131,11 +131,11 @@ void W3DTerrainBackground::getTriangleIntersection(Vector3 *heights, int x, int 
 			result.ComputeContactPoint = true;
 			RayCollisionTestClass raytest(ray, &result, 2, false, false);
 			if (castTriangle(raytest, first, second, third)) {
-				float z = raytest.Result->ContactPoint.Z;
+				float intersectionHeight = raytest.Result->ContactPoint.Z;
 				if (m_mode == 2)
-					heights[idx].Y = z;
+					heights[idx].Y = intersectionHeight;
 				else if (m_mode == 1)
-					heights[idx].X = z;
+					heights[idx].X = intersectionHeight;
 			}
 			} while (++j <= height);
 		}

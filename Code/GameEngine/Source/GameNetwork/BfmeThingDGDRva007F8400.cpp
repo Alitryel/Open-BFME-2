@@ -113,7 +113,7 @@ void queueLengthHandler( Rva007E8810Message * value, BfmeThingZI *owner )
 	owner->rva007F7640( value );
 }
 
-void Rva00664A60Handler( Rva007E8810Message * value, BfmeThingZI *owner )
+void enterGameHandler( Rva007E8810Message * value, BfmeThingZI *owner )
 {
 	owner->rva007F7DA0( value );
 }
@@ -247,7 +247,7 @@ void BfmeThingDGD::rva007F8400( unsigned char useInternet, int useLan, void *for
 	m_14->v4( (void *)&bfmeRva0130AAA0TagSlot, (void *)gameHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AA58TagSlot, (void *)playerHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB18TagSlot, (void *)enterGameRequestHandler, this );
-	m_14->v4( (void *)&bfmeRva0130AB30TagSlot, (void *)Rva00664A60Handler, this );
+	m_14->v4( (void *)&bfmeRva0130AB30TagSlot, (void *)enterGameHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB00TagSlot, (void *)queueLengthHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AB24TagSlot, (void *)kickHandler, this );
 	m_14->v4( (void *)&bfmeRva0130AA88TagSlot, (void *)pingHandler, this );
