@@ -439,3 +439,53 @@ consumer requiring a manual change. The Common copy donor carried the shrub
 constructor row, so it was kept out of the preceding TreeBuffer commit and is
 included here with its matching TU ledger move. No identity or data debt was
 retired.
+
+Additional unchanged consolidation trials in this seat (no source or ledger
+changes from these trials):
+
+- `W3DBridgeBuffer.cpp`: dry run accepted no donors. The allocate-buffer donor
+  fails C2039 (`allocateBridgeBuffers` is not a member); the bridge destructor
+  and model-vertex donors fail C2146/C2501 at `m_bridges` and `m_start`; the
+  buffer constructor fails C2600 (compiler-generated constructor not declared);
+  bridge load fails C2143/C2501 at `W3DBridge::MeshClass`; load-buffers fails
+  C2065 (`m_initialized`); add/load bridge donors fail C2039/C2065 for missing
+  members. Two in-prefix mixed split trials were also refused: the constructor
+  split loses matched row `0x0017098D`, and draw-bridges loses `0x0039B780`.
+  `W3DBridgeGetModelVerticesFixed.cpp` remains protected-register keyed.
+- `W3DSnow.cpp`: no donors accepted. The lightning donor fails C2065
+  (`WeatherSetting`); the subbox and render donors fail C2065 (`W3DSnowManager`);
+  reset, blend-phase, and state-transition donors fail C2039 for missing class
+  members. Four paths remain protected-register keyed.
+- `Water/W3DWaterTracks.cpp`: no donors accepted. The Common move/find donors
+  and device init donor fail C2143 (missing `;` before `*`); the render-system
+  constructor fails C2600; the object render donor has C2011 (`RealRange`
+  redefinition); save-tracks fails C2039 (`m_initTimeOffset` missing).
+  Three paths remain protected-register keyed.
+- `FlatHeightMap.cpp`: the dry run accepted the TU and two donors, but apply
+  stopped before changing files because other workers held
+  `Rva000E1D51Forward.cpp` and `FlatHeightMapOnFrameUpdate.cpp`. The partial
+  update donor fails C1001; the on-frame donor fails byte verification. No
+  claim for this candidate remains under this seat.
+- `W3DBibBuffer.cpp`: no donors accepted. The destructor donor fails byte
+  verification, allocation fails C2440 converting `BfmeDynamicNativeVB *` to
+  `DX8VertexBufferClass *`, and the constructor fails C1001.
+- `W3DSmudge.cpp`: no donors accepted. Constructor fails C2065 (`m_probeColor`);
+  release-resource fails C2440 converting `DX8IndexBufferClass *` to
+  `IndexBufferRef *`; reacquire fails byte verification; `copyRect` fails C1001.
+- `W3DDisplayStringManager.cpp`: constructor donor fails C2039 for missing
+  `rva00090381`; Common destructor donor fails C2065 (`m_14`) and C3861.
+- `W3DWaypointBuffer.cpp`: draw donor fails C2143 (missing comma before `&`).
+- `W3DVegetationBufferBase.cpp`: Common binder destructor fails C2677 (`&&`
+  has no applicable global operator for `RefCountPtr<T>`); its other mixed
+  donors are outside this pilot's assigned prefix.
+- `W3DSupplyDraw.cpp`: destructor donor fails byte verification; the pool-key
+  donor remains protected-register keyed; the remaining donor rows are mixed.
+
+The planner and `--check build/consolidation` passed after the TreeBuffer and
+ShrubBuffer merges. Planner source count is 1,020; the two merges in this seat
+removed nine donor files total and preserved their accepted matched rows. The
+Shrub TU hook reported the shadow code-identity finding
+`definition: divergent | ??0Coord3D@@QAE@ABU0@@Z`; it remains outstanding for Sol
+and was not retired. The TreeBuffer and ShrubBuffer commits are locally verified
+and still await publication; keep their merge claims until landing, then run
+`python3 tools/claims.py release --landed`.
