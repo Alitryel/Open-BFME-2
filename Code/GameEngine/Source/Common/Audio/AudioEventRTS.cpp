@@ -148,6 +148,11 @@ public:
 // Evidence: honest address name; __thiscall bool via test jne xor al and virtual call [edx+0xd0]; TheAudio data 0x009FE6E8; caller in FUN_006d9fd9; neighbours Weapon.cpp and BfmeStringTailRecord144 dtor.
 typedef unsigned int AudioHandle;
 
+// Slot declarations shared with the existing filename-prefix and transfer
+// donors. Keep their retail indices: a29 at 0x74, slotD0 at 0xD0,
+// slot134 at 0x134; the remaining slots retain the existing donor padding.
+struct AudioData;
+
 class AudioManager
 {
 public:
@@ -180,7 +185,7 @@ public:
 	virtual void _pad26() = 0;
 	virtual void _pad27() = 0;
 	virtual void _pad28() = 0;
-	virtual void _pad29() = 0;
+	virtual int a29(void *o, int x) = 0;
 	virtual void _pad30() = 0;
 	virtual void _pad31() = 0;
 	virtual void _pad32() = 0;
@@ -204,6 +209,31 @@ public:
 	virtual void _pad50() = 0;
 	virtual void _pad51() = 0;
 	virtual bool slotD0(int v) = 0;
+	virtual void _pad53() = 0;
+	virtual void _pad54() = 0;
+	virtual void _pad55() = 0;
+	virtual void _pad56() = 0;
+	virtual void _pad57() = 0;
+	virtual void _pad58() = 0;
+	virtual void _pad59() = 0;
+	virtual void _pad60() = 0;
+	virtual void _pad61() = 0;
+	virtual void _pad62() = 0;
+	virtual void _pad63() = 0;
+	virtual void _pad64() = 0;
+	virtual void _pad65() = 0;
+	virtual void _pad66() = 0;
+	virtual void _pad67() = 0;
+	virtual void _pad68() = 0;
+	virtual void _pad69() = 0;
+	virtual void _pad70() = 0;
+	virtual void _pad71() = 0;
+	virtual void _pad72() = 0;
+	virtual void _pad73() = 0;
+	virtual void _pad74() = 0;
+	virtual void _pad75() = 0;
+	virtual void _pad76() = 0;
+	virtual AudioData *slot134() = 0;
 };
 
 extern AudioManager *TheAudio;
@@ -231,6 +261,7 @@ class AudioEventRTS
 {
 public:
  void internalXfer(Xfer *xfer, const void *version);
+ static const AsciiString *generateFilenamePrefix(int audioType);
 };
 
 class Rva002D9F9FArg
