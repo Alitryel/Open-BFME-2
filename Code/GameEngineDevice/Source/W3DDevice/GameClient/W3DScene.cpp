@@ -79,24 +79,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "GameClient/ParticleSys.h"
 #include "GameClient/Color.h"
 #include "GameClient/View.h"
-// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E
-// 0x0004554B); it takes the optimization state of the first function that needs it,
-// so this unemitted anchor needs it first, as in hlod.cpp. The private struct is
-// reached by befriending the anchor while hanim.h is first read; layout and names
-// are unchanged.
-struct BfmeWeightInfoVddAnchor;
-#define private private: friend struct BfmeWeightInfoVddAnchor; private
-#include "WW3D2/HAnim.h"
-#undef private
-struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
-#pragma optimize("gsy", on)
-static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
-#pragma optimize("", on)
 #include "W3DDevice/GameClient/HeightMap.h"
 #include "coltest.h" // BFME2 RayCollisionTestClass (reference/shims/bfme2ray): out-of-line ctors as retail calls them
 #include "W3DDevice/GameClient/W3DScene.h"
 #include "W3DDevice/GameClient/W3DDynamicLight.h"
-#include "W3DDevice/GameClient/W3DGranny.h"
 #include "W3DDevice/GameClient/W3DShadow.h"
 #include "W3DDevice/GameClient/W3DStatusCircle.h"
 #include "W3DDevice/GameClient/W3DCustomScene.h"
