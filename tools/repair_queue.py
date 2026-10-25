@@ -422,6 +422,29 @@ def _verification_tree():
     return got.stdout.strip()
 
 
+# CreateProcess caps a Windows command line at 32,767 characters, and a large
+# retirement batch reads far more dependency paths than that (WinError 206).
+_PATHSPEC_BUDGET = 24000
+
+
+def _pathspec_chunks(paths, budget=_PATHSPEC_BUDGET):
+    """Split `paths` into lists whose joined length stays within `budget`."""
+    chunk, size = [], 0
+    for path in paths:
+        if chunk and size + len(path) + 1 > budget:
+            yield chunk
+            chunk, size = [], 0
+        chunk.append(path)
+        size += len(path) + 1
+    if chunk:
+        yield chunk
+
+
+def _diff_differs(run, prefix, paths):
+    """True when `git diff --quiet` over `paths` (in command-line-sized chunks) differs or fails."""
+    return any(run([*prefix, "--", *chunk]).returncode for chunk in _pathspec_chunks(paths))
+
+
 def _verification_problems(tree, sources=()):
     """Bind the ordinary build's working inputs to staged/outgoing blobs, fail closed.
 
@@ -457,8 +480,8 @@ def _verification_problems(tree, sources=()):
                     sub = parent.relative_to(ROOT.resolve()).as_posix()
                     nested.setdefault(sub, []).append(absolute.relative_to(parent).as_posix())
                     break
-    got = _git("diff", "--no-ext-diff", "--quiet", "--ignore-submodules=dirty", tree, "--", *sorted(paths))
-    if got.returncode:
+    if _diff_differs(lambda args: _git(*args), ["diff", "--no-ext-diff", "--quiet", "--ignore-submodules=dirty", tree],
+                     sorted(paths)):
         return ["working inputs differ from staged/outgoing blobs (or git diff failed); stage the fix before retiring debt"]
     for sub, inputs in nested.items():
         import claims
@@ -466,10 +489,10 @@ def _verification_problems(tree, sources=()):
         fields = entry.stdout.split()
         if entry.returncode or len(fields) < 3 or fields[0] != "160000":
             return [f"{sub}: staged/outgoing dependency gitlink unavailable"]
-        got = subprocess.run(["git", "-C", str(ROOT / sub), "diff", "--no-ext-diff", "--quiet",
-                              "--ignore-submodules=dirty", fields[2], "--", *inputs],
-                             capture_output=True, text=True, env=claims._git_env(ROOT / sub))
-        if got.returncode:
+        env = claims._git_env(ROOT / sub)
+        if _diff_differs(lambda args: subprocess.run(args, capture_output=True, text=True, env=env),
+                         ["git", "-C", str(ROOT / sub), "diff", "--no-ext-diff", "--quiet",
+                          "--ignore-submodules=dirty", fields[2]], inputs):
             return [f"{sub}: build inputs differ from staged/outgoing dependency blobs"]
     return []
 

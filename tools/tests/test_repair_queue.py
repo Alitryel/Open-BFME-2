@@ -2510,3 +2510,26 @@ def test_root_from_stdin_uses_cwd_even_when_file_is_a_pseudo_path(tmp_path):
         if env_root is not None:
             os.environ["REPAIR_ROOT"] = env_root
 
+
+def test_verification_diff_chunks_long_pathspecs_below_the_windows_limit():
+    """A 186-source retirement read so many dependency paths that the inputs check
+    hit CreateProcess's 32,767-character cap (WinError 206) and refused every key.
+    Each git diff now gets a pathspec chunk under the budget; any chunk that
+    differs (or fails) still fails closed."""
+    import repair_queue
+    paths = [f"inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/H{i:05}.h"
+             for i in range(3000)]
+    chunks = list(repair_queue._pathspec_chunks(paths))
+    assert len(chunks) > 1 and [p for c in chunks for p in c] == paths
+    assert all(sum(len(p) + 1 for p in c) <= repair_queue._PATHSPEC_BUDGET for c in chunks)
+
+    class Result:
+        def __init__(self, code):
+            self.returncode = code
+
+    seen = []
+    assert not repair_queue._diff_differs(lambda a: seen.append(a) or Result(0), ["git", "diff"], paths)
+    assert len(seen) == len(chunks) and all(a[:3] == ["git", "diff", "--"] for a in seen)
+    calls = iter([0, 1] + [0] * len(chunks))
+    assert repair_queue._diff_differs(lambda a: Result(next(calls)), ["git", "diff"], paths)
+
