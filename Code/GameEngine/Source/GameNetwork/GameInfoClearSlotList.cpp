@@ -24,6 +24,7 @@ enum SlotState
 enum { MAX_SLOTS = 8 };
 
 #include "unicode_string.h"
+#include "ascii_string.h"
 
 
 struct GameSlotConnectInfo
@@ -36,6 +37,7 @@ struct GameSlotConnectInfo
 class GameSlot
 {
 public:
+	void rva003FF5F2(const AsciiString &other);
 	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
 	Bool isHuman() const;
 public:
@@ -72,6 +74,10 @@ private:
 	Int m_origPlayerTemplate;
 public:
 	void setPlayerTemplate(Int playerTemplate);
+private:
+	// Existing TU fields end at +0x30; the AsciiString setter uses +0x1A8.
+	char m_pad30[0x1A8 - 0x30];
+	AsciiString m_name;
 };
 
 class GameInfo

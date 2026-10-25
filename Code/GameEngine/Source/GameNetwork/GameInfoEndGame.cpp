@@ -7,22 +7,28 @@
 typedef bool Bool;
 typedef int Int;
 
+class GameSlot;
+enum { MAX_SLOTS = 8 };
+
 class GameInfo
 {
 public:
+	void clearSlotList();
 	void enterGame();
 	void endGame();
 	Bool isPlayerPreorder(Int index);
 	void markPlayerAsPreorder(Int index);
 
 private:
-	// GameInfo.cpp's verified preorder methods use +0x08. Preserve the
-	// in-game flags at +0x10/+0x11 while making both views agree.
+	// The existing TU verifies the preorder mask at +0x08 and the game
+	// state flags at +0x10/+0x11. The slot array remains at +0x18.
 	char m_pad[0x08];
 	Int m_preorderMask;
 	char m_pad0C[4];
-	Bool m_inGame;      // +0x10
-	Bool m_inProgress;  // +0x11
+	Bool m_inGame;
+	Bool m_inProgress;
+	char m_pad12[6];
+	GameSlot *m_slot[MAX_SLOTS];
 };
 
 // ?enterGame@GameInfo@@QAEXXZ @0x003FF268 (9B): WorldBuilder names it

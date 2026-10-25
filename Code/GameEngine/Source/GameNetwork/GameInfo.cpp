@@ -4,6 +4,10 @@
 #pragma inline_depth(0)
 #pragma inline_depth()
 #include <map>
+#include "ascii_string.h"
+class GameSlot;
+class UnicodeString;
+struct GameSlotConnectInfo;
 
 // GameSlot human test and original-info save-off: the two frameless
 // accessors retail keeps outlined beside isOccupied (0x003FF0FB). BFME1
@@ -41,12 +45,22 @@ enum { MAX_SLOTS = 8 };
 class GameInfo
 {
 public:
+	void clearSlotList();
+	void enterGame();
+	void endGame();
 	Bool isPlayerPreorder(Int index);
 	void markPlayerAsPreorder(Int index);
 
 private:
+	// The existing TU verifies the preorder mask at +0x08 and the game
+	// state flags at +0x10/+0x11. The slot array remains at +0x18.
 	char m_pad[0x08];
-	Int m_preorderMask;   // +0x08
+	Int m_preorderMask;
+	char m_pad0C[4];
+	Bool m_inGame;
+	Bool m_inProgress;
+	char m_pad12[6];
+	GameSlot *m_slot[MAX_SLOTS];
 };
 
 // map<int,int> empty, tree-iterator ++/-- and != are expanded inline here; their
@@ -82,6 +96,8 @@ bool less<int>::operator()(const int &a, const int &b) const
 class GameSlot
 {
 public:
+	void rva003FF5F2(const AsciiString &other);
+	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
 	Bool isHuman() const;
 public:
 	void saveOffOriginalInfo();
@@ -117,6 +133,10 @@ private:
 	Int m_origPlayerTemplate;
 public:
 	void setPlayerTemplate(Int playerTemplate);
+private:
+	// Existing TU fields end at +0x30; the AsciiString setter uses +0x1A8.
+	char m_pad30[0x1A8 - 0x30];
+	AsciiString m_name;
 };
 
 class PlayerTemplateStore

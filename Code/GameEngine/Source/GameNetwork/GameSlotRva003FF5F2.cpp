@@ -6,12 +6,66 @@
 #include "ascii_string.h"
 
 
-class GameSlot {
+typedef int Int;
+typedef bool Bool;
+class UnicodeString;
+struct GameSlotConnectInfo;
+
+enum SlotState
+{
+	SLOT_OPEN = 0,
+	SLOT_CLOSED = 1,
+	SLOT_EASY_AI = 2,
+	SLOT_MED_AI = 3,
+	SLOT_BRUTAL_AI = 4,
+	SLOT_AI_5 = 5,
+	SLOT_PLAYER = 6
+};
+
+class GameSlot
+{
 public:
-    void rva003FF5F2(const AsciiString &other);
+	void rva003FF5F2(const AsciiString &other);
+	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
+	Bool isHuman() const;
+public:
+	void saveOffOriginalInfo();
 private:
-    char _pad[0x1a8];
-    AsciiString m_name;
+	void *m_vtable;
+private:
+	Int m_state;
+private:
+	Bool m_isAccepted;
+private:
+	Bool m_hasMap;
+private:
+	Bool m_isMuted;
+private:
+	char m_pad0B[1];
+private:
+	Int m_color;
+private:
+	Int m_startPos;
+private:
+	Int m_bfme14;
+private:
+	Int m_playerTemplate;
+private:
+	Int m_teamNumber;
+private:
+	Int m_bfme20;
+private:
+	Int m_origColor;
+private:
+	Int m_origStartPos;
+private:
+	Int m_origPlayerTemplate;
+public:
+	void setPlayerTemplate(Int playerTemplate);
+private:
+	// Existing TU fields end at +0x30; the AsciiString setter uses +0x1A8.
+	char m_pad30[0x1A8 - 0x30];
+	AsciiString m_name;
 };
 
 void GameSlot::rva003FF5F2(const AsciiString &other)
