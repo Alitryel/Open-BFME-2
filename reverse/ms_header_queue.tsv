@@ -708,8 +708,6 @@ Code/GameEngine/Source/Common/Rva0043283CDtor.cpp	drop-in candidate	same	1	1	0	0
 Code/GameEngine/Source/Common/Rva004328D8Message.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	timeGetTime:same
 Code/GameEngine/Source/Common/Rva004421E1Dtor.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdlib.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	free:same
 Code/GameEngine/Source/Common/Rva0044C277Wait.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	timeGetTime:same
-Code/GameEngine/Source/Common/Rva0044E9C7Init.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same
-Code/GameEngine/Source/Common/Rva0044EAF3Init.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same
 Code/GameEngine/Source/Common/Rva0045D887BitSet.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same
 Code/GameEngine/Source/Common/Rva004703E0Finish.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdlib.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	free:same
 Code/GameEngine/Source/Common/Rva004A7FC5Slot.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<math.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	ceil:same
@@ -3374,3 +3372,4 @@ Code/GameEngine/Source/GameClient/GlobalLanguage.cpp	conflicting	abi	15	6	7	1	0	
 Code/GameEngine/Source/GameClient/Credits.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp	drop-in candidate	same	3	3	0	0	0	0	0	0	0	0	0	<windows.h>,<stdlib.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	FALSE:same,TRUE:same,atoi:same
 Code/GameEngine/Source/GameClient/MessageStream/MetaEvent.cpp	conflicting	mangle	2	2	0	0	0	0	0	0	0	1	0	<stdlib.h>,<new>	no	yes	hand			abs:same,operator delete:same
+Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same

@@ -32788,8 +32788,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0044E6CD,218,code,,displaced,-,N=Code/GameEngine/Source/Common/System/INI.cpp,Code/GameEngine/Source/Common/System/INI_Rva0044E6CDParseCustomAnim.cpp
 0x0044E7A8,182,code,,,-,,Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp
 0x0044E85E,361,code-unledgered,,,-,,
-0x0044E9C7,300,code,,,-,,Code/GameEngine/Source/Common/Rva0044E9C7Init.cpp
-0x0044EAF3,88,code,,,-,,Code/GameEngine/Source/Common/Rva0044EAF3Init.cpp
+0x0044E9C7,300,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp
+0x0044EAF3,88,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp
 0x0044EB54,378,code,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp,approved,N,N=Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateModuleData.cpp
 0x0044ECCE,199,code,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp,approved,C,C=0x0044EB54..0x0044ED95,Code/GameEngine/Source/Common/Rva0044ECCEDtor.cpp
 0x0044ED95,17,code,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp,approved,N,N=Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdate.cpp,Code/GameEngine/Source/GameLogic/Object/Update/ModuleDataBuildFieldParseChained.cpp

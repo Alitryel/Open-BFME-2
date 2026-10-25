@@ -79,3 +79,39 @@ a manual repoint. `reverse/link_status.csv`, `reverse/re_attempts.log`, source
 provenance comments and attempt evidence retain historical old-path references;
 these were preserved. `reverse/header_queue.tsv` still has the existing OneRing
 Coord3D item, and `reverse/ms_header_queue.tsv` has no entries for these paths.
+
+## SpecialAbilityUpdate merge addendum (2026-10-25)
+
+After rebasing onto current origin/master, the same clean trial was regenerated
+and `tu_skeleton.py` again accepted the seed plus three unchanged donors. The
+merge repointed 25 rows and the `reverse/ms_header_queue.tsv` path key. Build
+passed 26/26 matched rows, all five existing funclet pins, four string literals
+and 13 compiler float references; declared-unmatched, staged TU ownership,
+code-identity (26 rows, 0 new findings), CSV and whitespace checks passed.
+`data_check.py --staged` reports three shadow findings outside the baseline in
+the merged source (`wrong-name` at 0x00A033A0, 0x00A033A8 and 0x009FEFA4).
+They were not retired or treated as cleanup; Sol should reconcile their data
+identity against the original providers. The `SpecialAbilityUpdate.cpp` source
+has an existing ms-header queue row; the merge tool repointed it. No current
+header-queue item was removed.
+
+Rejected clean donors remain for Sol: `SpecialAbilityUpdateModuleData.cpp`
+reports C2039 (`m_customAnimAndDuration` is not a member of
+`SpecialAbilityUpdateModuleData`); `SpecialAbilityUpdateSlot8.cpp` reports
+C2039 (`rva0044EDA6` is not a member of `SpecialAbilityUpdate`);
+`Rva0044EECACheck.cpp` reports C2039 (`m_val20` is not a member of
+`Overridable`); `Rva0044EF5EFinish.cpp` reports C2504 (`BehaviorModule` base
+class undefined); `SpecialAbilityUpdateXfer.cpp` reports C2061 (`Snapshot`
+identifier missing at `BfmeXfer.h(37)`); `SpecialAbilityUpdateRva0044FEB6.cpp`
+and `Rva00451EACMethod.cpp` report C2061 (`CommandSourceType` identifier
+missing); `SpecialAbilityUpdateIsWithinStartAbilityRange.cpp` and
+`SpecialAbilityUpdateInitiateIntent.cpp` report C2143 (missing `;` before `*`)
+and C2501 for `Object::AIUpdate`; and
+`SpecialAbilityUpdateTriggerAbilityEffect.cpp` reports C2143 before `*` and
+C2501 for `Object::Player`. Mixed and protected donors remain untouched.
+
+The final tooling compatibility audit used current `origin/master..HEAD` plus
+staged moves. Across this batch, active tools, hooks, workflows, source/header
+includes, build inputs and registries have no manual path consumers for the
+absorbed donors. `reverse/link_status.csv`, attempt logs/evidence and the
+TU's source provenance comments keep historical original paths by design.
