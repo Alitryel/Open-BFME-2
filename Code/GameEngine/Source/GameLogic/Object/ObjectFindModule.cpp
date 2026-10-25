@@ -60,7 +60,7 @@ class Object
 protected:
 	Module *findModule(NameKeyType key) const;
 public:
-	void setArmorSetFlag(ArmorSetType v);
+	void setArmorSetFlag(ArmorSetType ast);
 	void clearArmorSetFlag(ArmorSetType v);
 	void setSelectable(bool selectable);
 };
@@ -91,11 +91,11 @@ void Object::setSelectable(bool selectable)
 // slot 0x30 with the caller's int arg, else returns void. Evidence: body at
 // +0x254 per Object_attemptHealing, slot 0x30 from retail jmp, callers pass
 // 6/9 with Object this at 0x0049930F 0x004AE07B 0x004B0527 0x00499514.
-void Object::setArmorSetFlag(ArmorSetType v)
+void Object::setArmorSetFlag(ArmorSetType ast)
 {
 	BodyFwd *bodyFwd = m_body;
 	if (bodyFwd != 0)
-		bodyFwd->slot12(v);
+		bodyFwd->slot12(ast);
 }
 
 // ?clearArmorSetFlag@Object@@QAEXW4ArmorSetType@@@Z, retail 0x0028B79C, 18 bytes.

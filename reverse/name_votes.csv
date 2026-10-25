@@ -6373,3 +6373,7 @@ Code/GameEngine/Source/Common/Rva0014CE67Ctor.cpp|param|Rva0014CE67_Prototype::R
 Code/GameEngine/Source/Common/Rva0014CE67Ctor.cpp|param|Rva0014CE67_Prototype::Rva0014CE67_Prototype|arg2,26b252ff50afe193520a01b3,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p051a,w-570fbf278a58,2026-10-25
 Code/GameEngine/Source/Common/Rva0014CE67Ctor.cpp|param|Rva0014CE67_Prototype::Rva0014CE67_Prototype|arg1,3685c5f3b4d4f20968415e42,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p051b,w-e96c2246d7df,2026-10-25
 Code/GameEngine/Source/Common/Rva0014CE67Ctor.cpp|param|Rva0014CE67_Prototype::Rva0014CE67_Prototype|arg2,26b252ff50afe193520a01b3,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p051b,w-e96c2246d7df,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::setArmorSetFlag|v,03244d9b921145aa0baa830b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p057a,w-1cf958189611,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::clearArmorSetFlag|v,0c14695235ae96f93e5b3855,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p057a,w-1cf958189611,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::setArmorSetFlag|v,03244d9b921145aa0baa830b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p057b,w-2f79f038fb19,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::clearArmorSetFlag|v,0c14695235ae96f93e5b3855,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p057b,w-2f79f038fb19,2026-10-25
