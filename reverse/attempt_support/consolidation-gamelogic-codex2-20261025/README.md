@@ -24,6 +24,12 @@ unjudged row. The plain link preview still sees the deleted donors in the
 new census result or a claim that the consolidated TU links. Normal variant
 admission remains part of the commit/push gates.
 
+The commit hook passed, including byte, claim, pin, ledger, EH and enforced
+converged-data checks. Code identity is in shadow mode and reported two
+divergent generated definitions: `_STLP_alloc_proxy` and `allocator`
+`deallocate` for `_List_node<Rva0036ADF9Element>`. No identity baseline was
+changed. These remain shadow diagnostics; the matched bodies passed 9/9.
+
 Fifteen donors remain rejected. Most need private declaration reconciliation
 (missing Object methods/fields, OpenContain/TransportContain bases or receiver
 methods); two have no destination-context baseline match. These diagnostics
@@ -39,6 +45,18 @@ edited and no claim was taken. The existing SidesList.cpp ordinary build
 passed 1/1. See `sideslist-dryrun.json` and the accompanying blocked attempt
 entry. Further work needs an independently verified declaration/include/flag
 prerequisite rather than another unchanged trial.
+
+## GarrisonContain
+
+The complete dry-run found no verified merge from 20 eligible donor files
+and 41 approved rows (12 other files were mixed). All donor frozen-file checks
+passed before the trial. `garrison-dryrun.json` retains each rejection:
+duplicate Coord3D, Xfer and GameLogic definitions; ObjectModule::m_object and
+Team::m_id access conflicts; differing receiver members and STL helpers.
+No source edits or claims were made. Resolve a canonical-header/private-view
+prerequisite in a separately verified commit before repeating this trial.
+The unchanged destination's ordinary build passed 1/1, with string, float and
+import checks. The trial is not a baseline regression.
 
 ## Pending-path compatibility audit
 
