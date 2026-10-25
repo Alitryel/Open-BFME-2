@@ -2112,3 +2112,4 @@ local,Rva0023D229::rva0023D24C::p,Rva0023D229::rva0023D24C::frame,inferred,agree
 local,AIGameTeam::getMasterPlayer::p,AIGameTeam::getMasterPlayer::playerIt,inferred,agree:nl-d6f6fab64a9d,Code/GameEngine/Source/Common/Rva004E93E8Find.cpp,0x004E93E8
 local,Rva00223124::rva00223124::n,Rva00223124::rva00223124::node,inferred,agree:nl-3ccbb3a0bbd7,Code/GameEngine/Source/GameClient/Rva00223124NewNode.cpp,0x00223124
 local,Rva0041FA34::rva0041FA34::n,Rva0041FA34::rva0041FA34::node,inferred,agree:nl-0b074d1980f8,Code/GameEngine/Source/GameClient/Rva0041FA34NewNode.cpp,0x0041FA34
+local,BfmeThingQR::bfmeShowQR::tmp,BfmeThingQR::bfmeShowQR::numberBuffer,inferred,agree:nl-d80da963bba6,Code/GameEngine/Source/Common/BfmeThreeHundredOne.cpp,0x0003B4C0

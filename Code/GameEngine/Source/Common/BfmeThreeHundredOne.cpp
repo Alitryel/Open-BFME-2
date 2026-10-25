@@ -43,9 +43,9 @@ public:
 
 void BfmeThingQR::bfmeShowQR(unsigned short what)
 {
-	char tmp[0x14];
+	char numberBuffer[0x14];
 
 	reinterpret_cast<Debug *>(this)->Debug::AddOutput(m_prefix, strlen(m_prefix));
 
-	bfmeAddQR(_itoa(what, tmp, m_bfmeBase));
+	bfmeAddQR(_itoa(what, numberBuffer, m_bfmeBase));
 }
