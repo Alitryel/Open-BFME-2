@@ -35,6 +35,25 @@ struct Rva000E7A40Type
 	char m_pad24[0x5c - 0x24];
 };
 
+// The record and type arrays are spelled as W3DShrubBuffer.cpp's own view spells them (opaque element storage);
+// this body reads them through its local element views above.
+class Rva000E9C1DRecord
+{
+public:
+	Rva000E9C1DRecord();
+private:
+	unsigned char m_storage[0xA0];
+};
+
+class Rva000E9C1DType
+{
+public:
+	Rva000E9C1DType();
+	~Rva000E9C1DType();
+private:
+	unsigned char m_storage[0x5C];
+};
+
 class W3DShrubBuffer
 {
 public:
@@ -43,24 +62,26 @@ public:
 
 private:
 	char m_pad00[0x1958];
-	Rva000E7A40Tree m_trees[2000];
-	Int m_numTrees;
+	Rva000E9C1DRecord m_records[2000];
+	Int m_count;
 	char m_pad4fb5c[0x4fb70 - 0x4fb5c];
-	Rva000E7A40Type m_treeTypes[64];
+	Rva000E9C1DType m_types[64];
 };
 
 void W3DShrubBuffer::rva000E7A40(Int treeIndex)
 {
+	Rva000E7A40Tree *trees = reinterpret_cast<Rva000E7A40Tree *>(m_records);
+	Rva000E7A40Type *treeTypes = reinterpret_cast<Rva000E7A40Type *>(m_types);
 	char *treeBytes = reinterpret_cast<char *>(this) + treeIndex * 0xa0;
-	Int treeType = m_trees[treeIndex].m_treeType;
-	if (treeIndex >= m_numTrees)
+	Int treeType = trees[treeIndex].m_treeType;
+	if (treeIndex >= m_count)
 		return;
 	if (treeType < 0)
 		return;
 
 	UnsignedInt &sinkFrames = *reinterpret_cast<UnsignedInt *>(treeBytes + 0x19e8);
 	--sinkFrames;
-	Real progress = (Real)sinkFrames / (Real)m_treeTypes[treeType].m_data->m_toppleFrames;
+	Real progress = (Real)sinkFrames / (Real)treeTypes[treeType].m_data->m_toppleFrames;
 
 	RenderObjClass *topple = *reinterpret_cast<RenderObjClass **>(treeBytes + 0x19ec);
 	if (topple)
