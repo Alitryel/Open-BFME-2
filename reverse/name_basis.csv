@@ -2077,3 +2077,5 @@ member,CreateObjectDieModuleDataView::m_begin40,CreateObjectDieModuleDataView::m
 member,CreateObjectDieModuleDataView::m_end44,CreateObjectDieModuleDataView::m_requiredUpgradesEnd,inferred,agree:nl-7bd8369950b0,Code/GameEngine/Source/GameLogic/Object/Die/Rva00485C86Finish.cpp,
 member,Rva003A4BFDEntry::m_id08,Rva003A4BFDEntry::m_sourceID,inferred,agree:nl-1a808b08b050,Code/GameEngine/Source/GameLogic/Object/Update/LifetimeUpdateSetLifetimeRange.cpp,
 member,Rva002A8F24Data::m_874,Rva002A8F24Data::m_expansionRadius,inferred,agree:nl-acaa2c504a3b,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp,
+local,DiscreteCircle::generateEdgePairs::x,DiscreteCircle::generateEdgePairs::xOffset,inferred,agree:nl-9a35be3c8085,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
+local,DiscreteCircle::generateEdgePairs::y,DiscreteCircle::generateEdgePairs::yOffset,inferred,agree:nl-ce2338f03b0b,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF

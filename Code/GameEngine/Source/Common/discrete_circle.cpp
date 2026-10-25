@@ -118,25 +118,25 @@ void DiscreteCircle::drawCircle(ScanlineDrawFunc functionToDrawWith, void *parmT
 void DiscreteCircle::generateEdgePairs(Int xCenter, Int yCenter, Int radius)
 {
 	// Uses Bresenham to generate points.
-	Int x = 0;
-	Int y = radius;
+	Int xOffset = 0;
+	Int yOffset = radius;
 	Int decision = (1 - radius) << 1;
 
-	while (y >= 0) {
+	while (yOffset >= 0) {
 		HorzLine hl;
-		hl.xStart = xCenter - x;
-		hl.xEnd		= xCenter + x;
-		hl.yPos		= yCenter + y;
+		hl.xStart = xCenter - xOffset;
+		hl.xEnd		= xCenter + xOffset;
+		hl.yPos		= yCenter + yOffset;
 		m_edges.push_back(hl);
 		
-		if (decision + y > 0) {
-			--y;
-			decision -= ((y << 1) - 1);
+		if (decision + yOffset > 0) {
+			--yOffset;
+			decision -= ((yOffset << 1) - 1);
 		} 
 
-		if (x > decision) {
-			++x;
-			decision += ((x << 1) + 1);
+		if (xOffset > decision) {
+			++xOffset;
+			decision += ((xOffset << 1) + 1);
 		}
 	}
 }
