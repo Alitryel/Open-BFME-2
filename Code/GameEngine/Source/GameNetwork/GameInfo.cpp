@@ -121,7 +121,9 @@ bool less<int>::operator()(const int &a, const int &b) const
 
 class GameSlot
 {
+	friend class GameInfo;
 public:
+	GameSlot &rva002DBAB9(const GameSlot &other);
 	GameSlot();
 	GameSlot(const GameSlot &);
 	virtual ~GameSlot();

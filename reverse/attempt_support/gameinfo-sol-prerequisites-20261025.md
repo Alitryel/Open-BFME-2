@@ -58,3 +58,21 @@ The complete outgoing range still has no path moves or removed sources, so
 there are no changed path consumers to audit. Also retain
 file:Code/GameEngine/Source/GameNetwork/GameInfoCloseOpenSlots.cpp and
 0x003FFE51 until publication, alongside the earlier claims above.
+
+## setSlot donor unblocked
+
+After the virtual-interface repair, setSlot rejected the seed's GameSlot
+because its body still used word04/flag08/flag09. Its private declarations now
+match the seed, the body uses the seed's existing m_state/m_isAccepted/m_hasMap
+spellings, and GameInfo has friend access to those fields. The external rowed
+rva002DBAB9 assignment declaration is retained. There is no generated wrapper
+or new function, and the by-value object remains 0x1AC bytes with the same
+rowed destructor cleanup.
+
+`./build.sh` passes 15/15 rows across the four participating sources, frozen-file
+checks pass, and build/gameinfo-sol-setslot-dry.txt accepts seed, setSlot,
+closeOpenSlots and the ASCII player donor together. Only setMapSize remains a
+compile rejection among the current eligible donors. This is another standalone
+prerequisite; no fragments have been absorbed yet. Pending path-change audit
+remains empty. Retain file:Code/GameEngine/Source/GameNetwork/GameInfo_setSlot.cpp
+and 0x003FFDFA through publication as well.

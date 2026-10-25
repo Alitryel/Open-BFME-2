@@ -10,50 +10,120 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 
-struct Rva005B5C02Entry {
-	void Use(void *s);
-	unsigned int _pad[0x50];
+typedef int Int;
+typedef bool Bool;
+
+class GameSlot;
+struct GameSlotConnectInfo;
+
+enum SlotState
+{
+	SLOT_OPEN = 0,
+	SLOT_CLOSED = 1,
+	SLOT_EASY_AI = 2,
+	SLOT_MED_AI = 3,
+	SLOT_BRUTAL_AI = 4,
+	SLOT_AI_5 = 5,
+	SLOT_PLAYER = 6
 };
 
-class GameSlot {
+enum { MAX_SLOTS = 8 };
+
+class GameInfo
+{
 public:
-	virtual ~GameSlot();
-	unsigned int word04;
-	unsigned char flag08;
-	unsigned char flag09;
-	unsigned char flag0A;
-	unsigned int word0C;
-	unsigned int word10;
-	unsigned int word14;
-	unsigned int word18;
-	unsigned int word1C;
-	unsigned int word20;
-	unsigned int word24;
-	unsigned int word28;
-	unsigned int word2C;
-	UnicodeString text30;
-	AsciiString text34;
-	unsigned int word38;
-	unsigned int word3C;
-	unsigned int word40;
-	unsigned int word44;
-	unsigned char flag48;
-	unsigned int word4C;
-	unsigned int word50;
-	unsigned int word54;
-	unsigned int word58;
-	unsigned int word5C;
-	unsigned char flag60;
-	Rva005B5C02Entry hero64;
-	unsigned char flag1A4;
-	AsciiString text1A8;
-	GameSlot &rva002DBAB9(const GameSlot &o);
+	// Vtable 0x008193C8 slot 17 (+0x44); the others are not reconstructed here.
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void slot28() = 0;
+	virtual void slot2c() = 0;
+	virtual void slot30() = 0;
+	virtual void slot34() = 0;
+	virtual void slot38() = 0;
+	virtual void slot3c() = 0;
+	virtual void slot40() = 0;
+	virtual void closeOpenSlots();
+
+	GameSlot *getSlot(Int slotNum);
+	void setSlot(Int slotNum, GameSlot slotInfo);
+	void clearSlotList();
+	void enterGame();
+	void endGame();
+	Bool isPlayerPreorder(Int index);
+	void markPlayerAsPreorder(Int index);
+
+private:
+	// The existing TU verifies the preorder mask at +0x08 and the game
+	// state flags at +0x10/+0x11. The slot array remains at +0x18.
+	char m_pad[0x04];
+	Int m_preorderMask;
+	char m_pad0C[4];
+	Bool m_inGame;
+	Bool m_inProgress;
+	char m_pad12[6];
+	GameSlot *m_slot[MAX_SLOTS];
 };
 
-struct GameInfo {
-	char _pad[0x18];
-	GameSlot *m_slot[8];
-	void setSlot(int index, GameSlot elem);
+class GameSlot
+{
+	friend class GameInfo;
+public:
+	GameSlot &rva002DBAB9(const GameSlot &other);
+	GameSlot();
+	GameSlot(const GameSlot &);
+	virtual ~GameSlot();
+	Bool isOccupied() const;
+	void rva003FF5F2(const AsciiString &other);
+	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
+	Bool isHuman() const;
+	Bool isPlayer(AsciiString userName) const;
+public:
+	void saveOffOriginalInfo();
+private:
+	Int m_state;
+private:
+	Bool m_isAccepted;
+private:
+	Bool m_hasMap;
+private:
+	Bool m_isMuted;
+private:
+	char m_pad0B[1];
+private:
+	Int m_color;
+private:
+	Int m_startPos;
+private:
+	Int m_bfme14;
+private:
+	Int m_playerTemplate;
+private:
+	Int m_teamNumber;
+private:
+	Int m_bfme20;
+private:
+	Int m_origColor;
+private:
+	Int m_origStartPos;
+private:
+	Int m_origPlayerTemplate;
+public:
+	void setPlayerTemplate(Int playerTemplate);
+private:
+	// Retail isPlayer(AsciiString) reads the UnicodeString at +0x30;
+	// the existing AsciiString setter still uses the separate +0x1A8 word.
+	// text30 is the offset spelling already used by GameSlotCtor.cpp.
+	UnicodeString text30;
+	char m_pad34[0x1A8 - 0x34];
+	AsciiString m_name;
 };
 
 void GameInfo::setSlot(int index, GameSlot elem)
@@ -64,9 +134,9 @@ void GameInfo::setSlot(int index, GameSlot elem)
 	if (!slot)
 		return;
 	if (index == 0) {
-		elem.flag08 = 1;
-		if (elem.word04 == 6)
-			elem.flag09 = 1;
+		elem.m_isAccepted = 1;
+		if (elem.m_state == 6)
+			elem.m_hasMap = 1;
 	}
 	slot->rva002DBAB9(elem);
 }
