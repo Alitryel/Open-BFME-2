@@ -470,3 +470,7 @@ Sol's prerequisite lane before retrying; the other donor was not applied.
   missing ';' before '*'` and `C2501: 'TheWindowManager': missing
   storage-class or type specifiers`. No source repair was attempted; the other
   donor passed unchanged and was merged separately.
+- `Shell_isAnimFinished.cpp` was rejected into Shell: `C2039: 'isAnimFinished'
+  is not a member of 'Shell'` and `C2065: 'm_60': undeclared identifier`.
+  ShellAudioPredicate.cpp passed unchanged and was merged; no class repair was
+  attempted for the rejected donor.
