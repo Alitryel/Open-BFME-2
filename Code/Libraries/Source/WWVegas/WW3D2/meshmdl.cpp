@@ -17,6 +17,7 @@ class MeshModelClass
 {
 public:
 	bool Needs_Vertex_Normals();
+	void Make_Geometry_Unique();
 	int Get_Flag(int mask) const { return m_flagByte & mask; }
 
 	enum { PRELIT_MASK = 0xE0 };

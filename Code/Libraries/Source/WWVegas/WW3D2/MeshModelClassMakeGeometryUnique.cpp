@@ -10,10 +10,26 @@
 // buffer at +0x48 rather than +0x50, so the reduced model below is laid out by
 // BFME 2's own offsets.  /G7 is the unit's tell.
 
-#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
-#include "refcount.h"
-#include "vector3.h"
-#include "vector4.h"
+#include <new>
+#include <stddef.h>
+
+class Vector3;
+class Vector4;
+
+// The existing shared-buffer body uses only count-at-4 and Delete_This slot 0.
+// Its element classes are template identities here; no element layout is used.
+class RefCountClass
+{
+public:
+    virtual void Delete_This();
+    virtual ~RefCountClass();
+    void Add_Ref() { NumRefs++; }
+    void Release_Ref() { if (--NumRefs == 0) Delete_This(); }
+
+private:
+    int NumRefs;
+};
+
 template <class T> class ShareBufferClass : public RefCountClass
 {
 public:
@@ -25,48 +41,61 @@ protected:
 	int Alignment;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/meshmdl.h
+// Body-specific buffer view: offsets are the existing BFME 2 target facts above.
+struct Rva00172070Buffers
+{
+    unsigned char m_padding00[0x30];
+    ShareBufferClass<Vector3> *m_buffer30;
+    ShareBufferClass<Vector3> *m_buffer34;
+    ShareBufferClass<Vector3> *m_buffer38;
+    ShareBufferClass<Vector3> *m_buffer3C;
+    unsigned char m_padding40[8];
+    ShareBufferClass<Vector4> *m_buffer48;
+};
+
 class MeshModelClass
 {
 public:
-	void Make_Geometry_Unique();
-
-private:
-	unsigned char m_padding00[0x30];
-	ShareBufferClass<Vector3> *m_buffer30;
-	ShareBufferClass<Vector3> *m_buffer34;
-	ShareBufferClass<Vector3> *m_buffer38;
-	ShareBufferClass<Vector3> *m_buffer3C;
-	unsigned char m_padding40[8];
-	ShareBufferClass<Vector4> *m_buffer48;
+    void Make_Geometry_Unique();
 };
 
 void MeshModelClass::Make_Geometry_Unique()
 {
+	Rva00172070Buffers *buffers = reinterpret_cast<Rva00172070Buffers *>(this);
 	ShareBufferClass<Vector3> *buffer30 =
-		NEW_REF(ShareBufferClass<Vector3>, (*m_buffer30));
-	REF_PTR_SET(m_buffer30, buffer30);
-	REF_PTR_RELEASE(buffer30);
+		new ShareBufferClass<Vector3>(*buffers->m_buffer30);
+	{ if (buffer30) buffer30->Add_Ref();
+		if (buffers->m_buffer30) buffers->m_buffer30->Release_Ref();
+		buffers->m_buffer30 = buffer30; }
+	{ if (buffer30) { buffer30->Release_Ref(); buffer30 = NULL; } }
 
 	ShareBufferClass<Vector3> *buffer38 =
-		NEW_REF(ShareBufferClass<Vector3>, (*m_buffer38));
-	REF_PTR_SET(m_buffer38, buffer38);
-	REF_PTR_RELEASE(buffer38);
+		new ShareBufferClass<Vector3>(*buffers->m_buffer38);
+	{ if (buffer38) buffer38->Add_Ref();
+		if (buffers->m_buffer38) buffers->m_buffer38->Release_Ref();
+		buffers->m_buffer38 = buffer38; }
+	{ if (buffer38) { buffer38->Release_Ref(); buffer38 = NULL; } }
 
-	if (m_buffer34 != 0 && m_buffer3C != 0) {
+	if (buffers->m_buffer34 != 0 && buffers->m_buffer3C != 0) {
 		ShareBufferClass<Vector3> *buffer34 =
-			NEW_REF(ShareBufferClass<Vector3>, (*m_buffer34));
-		REF_PTR_SET(m_buffer34, buffer34);
-		REF_PTR_RELEASE(buffer34);
+			new ShareBufferClass<Vector3>(*buffers->m_buffer34);
+		{ if (buffer34) buffer34->Add_Ref();
+		if (buffers->m_buffer34) buffers->m_buffer34->Release_Ref();
+		buffers->m_buffer34 = buffer34; }
+		{ if (buffer34) { buffer34->Release_Ref(); buffer34 = NULL; } }
 
 		ShareBufferClass<Vector3> *buffer3C =
-			NEW_REF(ShareBufferClass<Vector3>, (*m_buffer3C));
-		REF_PTR_SET(m_buffer3C, buffer3C);
-		REF_PTR_RELEASE(buffer3C);
+			new ShareBufferClass<Vector3>(*buffers->m_buffer3C);
+		{ if (buffer3C) buffer3C->Add_Ref();
+		if (buffers->m_buffer3C) buffers->m_buffer3C->Release_Ref();
+		buffers->m_buffer3C = buffer3C; }
+		{ if (buffer3C) { buffer3C->Release_Ref(); buffer3C = NULL; } }
 	}
 
 	ShareBufferClass<Vector4> *buffer48 =
-		NEW_REF(ShareBufferClass<Vector4>, (*m_buffer48));
-	REF_PTR_SET(m_buffer48, buffer48);
-	REF_PTR_RELEASE(buffer48);
+		new ShareBufferClass<Vector4>(*buffers->m_buffer48);
+	{ if (buffer48) buffer48->Add_Ref();
+		if (buffers->m_buffer48) buffers->m_buffer48->Release_Ref();
+		buffers->m_buffer48 = buffer48; }
+	{ if (buffer48) { buffer48->Release_Ref(); buffer48 = NULL; } }
 }
