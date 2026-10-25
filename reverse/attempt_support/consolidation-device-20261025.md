@@ -489,3 +489,32 @@ Shrub TU hook reported the shadow code-identity finding
 and was not retired. The TreeBuffer and ShrubBuffer commits are locally verified
 and still await publication; keep their merge claims until landing, then run
 `python3 tools/claims.py release --landed`.
+
+### Follow-up pilot queue and split review
+
+The scoped planner snapshot and `--check build/consolidation` passed. The
+current TreeBuffer, ShrubBuffer and Snow dry runs accepted no donors; leave the
+following unchanged for Sol's prerequisite lane:
+
+- TreeBuffer reset donor: C2039, `rva000E65B1` is not a member of
+  `Rva000E6AC0`; C2065, `m_dirty` undeclared. Other rows fail on missing
+  `W3DTreeBuffer` members (`rva000EA327`, `rva000EA48D`, `rva000EB0E6`) and
+  fields such as `count`/`m_numTrees`.
+- ShrubBuffer donors fail on absent class members (`rva000E72B3`,
+  `rva000E7734`, `updateTexture`, `addTreeType`, `drawShrubs`, `startMorph`,
+  `rva000E8F9D`, `addShrub`, `DoXfer`); the shrub type constructor also hits
+  C2011, `Coord2D` class type redefinition in `coord2d.h(13)`.
+- Snow donors fail with C2065, `WeatherSetting` undeclared, or missing
+  `W3DSnowManager` members (`reset`, `rva00093B5B`, `target_00094652`).
+
+In-prefix split trials were read-only and rejected: TreeBufferUpdate and the
+Snow render file would lose matched residual rows; the tree type constructor
+and destructor carves into TreeBuffer failed `bytes`; the same carves into
+ShrubBuffer failed C2011 (`Coord2D` redefinition); WaterTracksTestUpdate would
+grow a hatch count through copied `drawEditorLine`/`unbindEditorTrack` helpers
+and `pauseWaves`; BridgeCtor and BridgeBufferDrawBridges would lose matched
+residual rows; W3DTerrainLogic is blocked because its `extern "C"` block defines
+something; SmudgeManagerTestHardwareSupport would lose a matched residual row;
+and W3DDrawModuleDeletingDtors has no definition spelling the ProjectileStream
+row `0x000D144F`. No split was applied. Cross-prefix mixed donors remain outside
+this seat's scope. No identity debt or byte/link improvement is claimed.
