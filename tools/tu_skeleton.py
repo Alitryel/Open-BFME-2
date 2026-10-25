@@ -784,8 +784,10 @@ def identify(rows, spans):
     row's name, else a macro invocation naming its class (or its method, for a
     free function) among the arguments; [] = unidentified."""
     heads = [head_names(c) if k == "def" else None for _, _, c, k in spans]
-    args = [set(re.findall(r"[A-Za-z_]\w*", MACRO_LINE.match(c).group(2))) if k == "macro" else None
-            for _, _, c, k in spans]
+    def macro_args(span):     # the invocation is the span's last line; comment lines above it travel with it
+        m = MACRO_LINE.match(span.rstrip("\n").splitlines()[-1])
+        return set(re.findall(r"[A-Za-z_]\w*", m.group(2))) if m else set()
+    args = [macro_args(c) if k == "macro" else None for _, _, c, k in spans]
     out = {}
     for r in rows:
         cls, meth = row_names(r["name"])

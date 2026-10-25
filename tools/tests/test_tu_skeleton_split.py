@@ -137,6 +137,16 @@ class MacroSweepTests(unittest.TestCase):
         self.assertEqual(spans[2][2].strip(), "BFME_DISP_BYTE_GETTER(Rva0006520BByteField, 0x15E)")
         self.assertNotIn("#define", "".join(c for _, _, c, _ in spans))   # the macro definition is preamble
 
+    def test_a_macro_with_comment_lines_above_it_still_identifies(self):
+        text = ("// cl: /MD\n#define G(NAME, A, B) class NAME { public: int get() const; }; int NAME::get() const { return A; }\n"
+                "// 0x004827EF: the getter behind the chase.\n// Evidence: rowed callers.\n"
+                "G(Rva004827EFByteChase32Field, 0x1C, 0x114)\n")
+        spans = T.def_spans(text)
+        self.assertEqual([k for _, _, _, k in spans], ["macro"])
+        self.assertTrue(spans[0][2].startswith("// 0x004827EF"))
+        ids = T.identify(rows(("?get@Rva004827EFByteChase32Field@@QBEHXZ", "0x004827EF")), spans)
+        self.assertEqual(ids["0x004827EF"], [0])
+
     def test_a_macro_generated_row_is_identified_by_its_class_name_and_carved_alone(self):
         spans = T.def_spans(SWEEP)
         ids = T.identify(rows(("?get@Rva002C8E6EByteField@@QBEEXZ", "0x002C8E6E"),
