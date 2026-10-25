@@ -15,7 +15,7 @@
 #define COORD3D_VIEW_INLINE
 #include "Coord3DCtorView.h"
 typedef int Int;
-struct Rva000E75F5Tree
+struct Rva000E912ATree
 {
 	Coord3D m_position; float m_scale;
 	unsigned char m_pad10[0x40 - 0x10];
@@ -24,30 +24,51 @@ struct Rva000E75F5Tree
 	Int m_key;
 	unsigned char m_pad5c[0xa0 - 0x5c];
 };
+// The record and type arrays are spelled as W3DShrubBuffer.cpp's own view spells them (opaque element storage);
+// this body reads them through its local element views above.
+class Rva000E9C1DRecord
+{
+public:
+	Rva000E9C1DRecord();
+private:
+	unsigned char m_storage[0xA0];
+};
+
+class Rva000E9C1DType
+{
+public:
+	Rva000E9C1DType();
+	~Rva000E9C1DType();
+private:
+	unsigned char m_storage[0x5C];
+};
+
 class W3DShrubBuffer
 {
 public:
 	void rva000E912A(const Coord3D *center, float radius, Int mode);
 	bool rva000E90DB(unsigned int key, Int mode);
+
 private:
+	Rva000E912ATree &tree912A(Int i) { return reinterpret_cast<Rva000E912ATree *>(m_records)[i]; }
 	unsigned char m_pad0000[0x1958];
-	Rva000E75F5Tree m_trees[2000];
-	Int m_numTrees;
+	Rva000E9C1DRecord m_records[2000];
+	Int m_count;
 };
 void W3DShrubBuffer::rva000E912A(const Coord3D *center, float radius, Int mode)
 {
-	for (Int i = 0; i < m_numTrees; ++i)
+	for (Int i = 0; i < m_count; ++i)
 	{
-		if (m_trees[i].m_treeType >= 0)
+		if (tree912A(i).m_treeType >= 0)
 		{
 			Coord3D a(*center);
-			Coord3D b(m_trees[i].m_position);
+			Coord3D b(tree912A(i).m_position);
 			float dx = b.x - a.x;
 			float dy = b.y - a.y;
 			float dz = b.z - a.z;
 			float distSq = dz * dz + dy * dy + dx * dx;
 			if (distSq < radius * radius)
-				rva000E90DB(m_trees[i].m_key, mode);
+				rva000E90DB(tree912A(i).m_key, mode);
 		}
 	}
 }
