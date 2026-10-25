@@ -143,3 +143,40 @@ historical name decisions/census rows and a layout-evidence comment in
 LargeGroupAudioUpdate004AB90A.cpp. No new active consumer or include/build input
 requires a change. All active pin and header-queue consumers were handled in
 the earlier commits; the full pending audit remains valid for this batch.
+
+## SupplyWarehouseDockUpdate blocked trial
+
+Current routing approves thirteen rows, five donor files, four mixed files and
+no refused files. All five frozen-file checks passed; the dry run returned
+`no verified merge of two or more donors` without detailed donor rejections.
+No source, ledger or claims changed. The unchanged destination ordinary build
+passed 3/3, including string, float and import checks; see
+`supplydock-dryrun.txt`. Do not repeat this trial
+without new declaration/include or compiler evidence.
+
+
+## DynamicShroudClearingRangeUpdate
+
+Normal-claim merge accepted the existing destination, destructor/deleting
+wrapper, grid-decal creation and module-data destructor. Three fragments were
+removed, preserving five rows / 267 retail bytes. Ordinary build passed 5/5
+with string, float and import checks; the frozen-file check passed. The three
+rejected donors require RadiusDecal, Object or Snapshot declaration/include
+reconciliation. Five mixed files remain intact. See `shroud-merge.json`.
+
+LargeGroupAudioUpdate's normal gate also reported a shadow ownership diagnostic:
+Rva004ABA81Pair has the registered Coord2D layout fingerprint. Its nine matched
+bodies still passed; no class or ownership register was changed. HordeSiege's
+previously recorded generated-STL identity diagnostics remain in shadow.
+
+The final pending-path audit against fetched origin
+ae10f71a0a767d8b7fe84b51612a99a1ba76d30d covers all eighteen old paths
+(including the rename), with fifteen net files removed across five approved TUs
+and thirty-five matched rows preserved. Reviewed full paths, basenames and
+remaining directory roots in tools, hooks, workflows, build inputs, includes,
+registries and docs. The three additional paths occur only in published census
+snapshots and merged-source provenance comments. There is no new active
+consumer. The earlier pin-fold proof and header queue transfers remain the
+only active consumer fixes. No regenerated TU map or debt register is committed;
+map edits only repoint source columns. Historical names, attempts and EA paths
+remain intact. New destination receipts and normal gates verify the moved code.
