@@ -9,74 +9,10 @@
 // 0x00409C3D takes (0, 0, 0, UnicodeString::TheEmptyString, -1, 0xFF707070,
 // -1), the same arguments CreateAHero's loader 0x0021F47E passes to a fresh
 // 0x140-byte block, so they are its default arguments. reset() is the
-// unrowed 0x003FF50C. Field names past the Zero Hour spellings are offsets.
-#include "ascii_string.h"
-#include "unicode_string.h"
+// rowed 0x003FF50C. Field names past the established GameInfo view are offsets.
+#include "GameInfoSlotView.h"
 
 class Xfer;
-
-class Rva0022CE19SnapshotBase
-{
-public:
-	inline virtual ~Rva0022CE19SnapshotBase() {}
-	// Retail's base table 0x00BBB554 holds __purecall in slots 1-3.
-	virtual void loadPostProcess() = 0;
-	virtual const char *typeName() const = 0;
-	virtual void xfer(Xfer *) = 0;
-};
-
-class CreateAHeroData : public Rva0022CE19SnapshotBase
-{
-	unsigned char fields[0x13C];
-
-public:
-	CreateAHeroData(int a = 0, int b = 0, int c = 0,
-		const UnicodeString &name = UnicodeString::TheEmptyString,
-		int d = -1, int color = 0xFF707070, int e = -1);
-	virtual ~CreateAHeroData();
-	virtual void loadPostProcess();
-	virtual const char *typeName() const;
-	virtual void xfer(Xfer *);
-	CreateAHeroData &operator=(const CreateAHeroData &that);
-};
-
-// The 8-byte connection record at +0x38: a dword address and a word port,
-// zeroed by its constructor; the padding word is never written.
-struct GameSlotConnectInfo
-{
-	GameSlotConnectInfo() : m_ip(0), m_port(0) {}
-	unsigned int m_ip;
-	unsigned short m_port;
-};
-
-class GameSlot : public Rva0022CE19SnapshotBase
-{
-public:
-	GameSlot();
-	// Table 0x00BE7420 slot 2 is the literal getter 0x002296E6, slot 3 the
-	// rowed xfer 0x003FF616.
-	virtual const char *typeName() const { return "GameSlot"; }
-	virtual void xfer(Xfer *);
-	virtual void reset();
-
-protected:
-	virtual void loadPostProcess();
-
-private:
-	unsigned int word04;
-	unsigned char flag08, flag09, flag0A;
-	unsigned int word0C, word10, word14, word18, word1C, word20, word24, word28, word2C;
-	UnicodeString text30;
-	AsciiString text34;
-	GameSlotConnectInfo connect38;
-	unsigned int word40, word44;
-	unsigned char flag48;
-	unsigned int word4C, word50, word54, word58, word5C;
-	unsigned char flag60;
-	CreateAHeroData hero64;
-	unsigned char flag1A4;
-	AsciiString text1A8;
-};
 
 typedef char GameSlotSizeCheck[sizeof(GameSlot) == 0x1AC ? 1 : -1];
 
@@ -94,19 +30,19 @@ GameSlot::GameSlot()
 // assignment 0x00409359, sets the +0x1A4 occupancy byte and empties +0x1A8.
 void GameSlot::reset()
 {
-	word04 = 1;
-	flag08 = false;
-	flag09 = true;
-	flag0A = false;
-	word0C = -1;
-	word10 = -1;
-	word14 = -1;
-	word18 = -2;
-	word1C = -1;
-	word20 = 0;
-	word24 = -1;
-	word28 = -1;
-	word2C = -1;
+	m_state = 1;
+	m_isAccepted = false;
+	m_hasMap = true;
+	m_isMuted = false;
+	m_color = -1;
+	m_startPos = -1;
+	m_bfme14 = -1;
+	m_playerTemplate = -2;
+	m_teamNumber = -1;
+	m_bfme20 = 0;
+	m_origColor = -1;
+	m_origStartPos = -1;
+	m_origPlayerTemplate = -1;
 	text30.clear();
 	text34.clear();
 	connect38 = GameSlotConnectInfo();
@@ -122,7 +58,7 @@ void GameSlot::reset()
 	CreateAHeroData defaultHero;
 	hero64 = defaultHero;
 	flag1A4 = true;
-	text1A8 = AsciiString::TheEmptyString;
+	m_name = AsciiString::TheEmptyString;
 }
 
 // GameSlot table 0x00BE7420 slot 1 (loadPostProcess, the canonical Snapshot

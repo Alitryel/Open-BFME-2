@@ -4,8 +4,7 @@
 #pragma inline_depth(0)
 #pragma inline_depth()
 #include <map>
-#include "ascii_string.h"
-#include "unicode_string.h"
+#include "GameInfoSlotView.h"
 
 class GameSlot;
 
@@ -24,17 +23,6 @@ typedef int Int;
 typedef bool Bool;
 
 typedef unsigned int UnsignedInt;
-
-enum SlotState
-{
-	SLOT_OPEN = 0,
-	SLOT_CLOSED = 1,
-	SLOT_EASY_AI = 2,
-	SLOT_MED_AI = 3,
-	SLOT_BRUTAL_AI = 4,
-	SLOT_AI_5 = 5,
-	SLOT_PLAYER = 6
-};
 
 class Rva003FF1C2
 {
@@ -130,60 +118,6 @@ bool less<int>::operator()(const int &a, const int &b) const
 { return a < b; }
 }
 
-class GameSlot
-{
-	friend class GameInfo;
-public:
-	GameSlot &rva002DBAB9(const GameSlot &other);
-	GameSlot();
-	GameSlot(const GameSlot &);
-	virtual ~GameSlot();
-	Bool isOccupied() const;
-	void rva003FF5F2(const AsciiString &other);
-	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
-	Bool isHuman() const;
-	Bool isPlayer(AsciiString userName) const;
-public:
-	void saveOffOriginalInfo();
-private:
-	Int m_state;
-private:
-	Bool m_isAccepted;
-private:
-	Bool m_hasMap;
-private:
-	Bool m_isMuted;
-private:
-	char m_pad0B[1];
-private:
-	Int m_color;
-private:
-	Int m_startPos;
-private:
-	Int m_bfme14;
-private:
-	Int m_playerTemplate;
-private:
-	Int m_teamNumber;
-private:
-	Int m_bfme20;
-private:
-	Int m_origColor;
-private:
-	Int m_origStartPos;
-private:
-	Int m_origPlayerTemplate;
-public:
-	void setPlayerTemplate(Int playerTemplate);
-private:
-	// Retail isPlayer(AsciiString) reads the UnicodeString at +0x30;
-	// the existing AsciiString setter still uses the separate +0x1A8 word.
-	// text30 is the offset spelling already used by GameSlotCtor.cpp.
-	UnicodeString text30;
-	char m_pad34[0x1A8 - 0x34];
-	AsciiString m_name;
-};
-
 class PlayerTemplateStore
 {
 public:
@@ -209,14 +143,6 @@ extern class GlobalData *TheWritableGlobalData;
 void (GameSlot::*_bfmeInlineAnchor_GameSlotSetPlayerTemplate_0)(Int playerTemplate) = &GameSlot::setPlayerTemplate;
 
 typedef unsigned short WideChar;
-
-struct GameSlotConnectInfo
-{
-	GameSlotConnectInfo() : m_nat(0), m_port(0) {}
-	Int m_nat;
-	unsigned short m_port;
-	unsigned short m_pad;
-};
 
 // ---- from Code/GameEngine/Source/GameNetwork/GameInfo.cpp
 
