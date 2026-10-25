@@ -2191,3 +2191,4 @@ function,?rva001338A0@Rva001338A0@@QBEMXZ,?Width@Rva001338A0@@QBEMXZ,inferred,ag
 function,?rva001338B0@Rva001338A0@@QBEMXZ,?Height@Rva001338A0@@QBEMXZ,inferred,agree:nl-1d2765f62122,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x001338B0
 local,Rva004A6EHolder::rva004A6E8E::h,Rva004A6EHolder::rva004A6E8E::draw,inferred,agree:nl-b3bca436a3ef,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6E8E
 local,Rva004A6EHolder::rva004A6EC6::h,Rva004A6EHolder::rva004A6EC6::draw,inferred,agree:nl-b5696cf49a11,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6EC6
+class,BfmePairVJF,FeslUserId,inferred,agree:nl-7de2bf314597,Code/GameEngine/Source/Common/BfmeConv1384.cpp,
