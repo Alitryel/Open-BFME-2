@@ -19978,7 +19978,6 @@ uw_007919bf,,0x007919BF,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obje
 uw_007919d1,,0x007919D1,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2567
 uw_00791a90,,0x00791A90,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2585
 uw_00791aa2,,0x00791AA2,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2594
-uw_00791ad8,,0x00791AD8,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00791b07,,0x00791B07,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2603
 uw_00791b19,,0x00791B19,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2612
 uw_00791b2b,,0x00791B2B,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2706
@@ -98242,3 +98241,4 @@ __ehhandler$??$_Construct@URva001D28F0Element@@U1@@_STL@@YAXPAURva001D28F0Elemen
 ?Rva004E1BFCParse@@YAXPAVINI@@PAX1PBX@Z,,0x004E1BFC,126,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,Native C6CD50 registration proves four-argument MoveArmy callback; complete126B constructs actual12B Snapshot record and parses48B C61830 table before native566537/5662CC/52C34D/52BDE6 append chain; full invalid-input throw/literal and parent EH contract; retained pre-existing reference bridge documented; no new cast
 __ehhandler$??1Rva004E1B00@@UAE@XZ,,0x00791AEB,10,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,gen-ehstub;parent=??1Rva004E1B00@@UAE@XZ; Actual normal destructor69 parent installs native handler791AEB; complete10B FuncInfo move and CxxFrameHandler jump; final production object EH graph EXACT and actual parent labels retained in evidence; no adjacency inference
 __ehhandler$?Rva004E1BFCParse@@YAXPAVINI@@PAX1PBX@Z,,0x00791B0F,10,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,gen-ehstub;parent=?Rva004E1BFCParse@@YAXPAVINI@@PAX1PBX@Z; Actual verified parser126 installs native handler791B0F; complete10B FuncInfo move and CxxFrameHandler jump; final production parent EH graph EXACT; only independently re-proved same-key tombstone restored
+Unwind@00b91ad8,,0x00791AD8,8,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,gen-funclet;parent=??1Rva004E1B00@@UAE@XZ;object-symbol=$L1333; Actual final production destructor EH graph EXACT binds this compiler cleanup to native791AD8; complete8B body and relocation verified through parent; supported anonymous gen_uw scaffold takeover; no gen_small source edit or adjacency inference
