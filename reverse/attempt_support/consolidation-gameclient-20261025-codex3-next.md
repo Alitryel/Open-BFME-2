@@ -392,3 +392,18 @@ Code/includes, root configuration, docs and registries. Remaining hits are
 source-provenance comments, historical ledger records, or still-live files; no
 active consumer required a manual repair. Audit range is origin/master..HEAD
 plus the staged Keyboard move. Historical EA paths remain intact.
+
+## ControlBarResizer merge
+
+The fresh queue also offered ControlBarResizer. Its current plan had seven
+approved rows; dry run accepted all three donors unchanged, moving eight rows
+including the TU's already-local row set. `./build.sh` verifies 8/8, including
+four float literals, and `find_declared_unmatched.py` reports all definitions
+matched. The merge repointed six function rows and four TU-map rows. The mixed
+FontLibraryInit donor remains untouched.
+
+Updated combined tooling compatibility audit covers origin/master..HEAD and
+the staged ControlBarResizer move, including the earlier Display and Keyboard
+absorptions. Search of active tools, hooks, workflows and Code/includes found no
+path consumers needing a manual repair; remaining hits are source comments,
+provenance and still-live references. Historical EA paths remain intact.
