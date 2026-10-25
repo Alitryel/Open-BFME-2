@@ -6080,3 +6080,11 @@ Code/GameEngine/Source/Common/Rva005D9CE0.cpp|function|0x005D9CE0|rva005D9CE0,88
 Code/GameEngine/Source/Common/Rva005D9CE0.cpp|local|Rva005D9CD5::rva005D9CE0|v,df77a770e0d3caa8f1943102,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p123a,w-22bb68803b4d,2026-10-24
 Code/GameEngine/Source/Common/Rva005D9CE0.cpp|function|0x005D9CE0|rva005D9CE0,88d4b1842cac4c50c2703de0,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p123b,w-44bf5ec57e67,2026-10-24
 Code/GameEngine/Source/Common/Rva005D9CE0.cpp|local|Rva005D9CD5::rva005D9CE0|v,08efbf22014b89e4bafab3f2,deepseek-v4.1-flash-1017-deepinfra-agentic,di25p123b,w-44bf5ec57e67,2026-10-24
+Code/GameEngine/Source/Common/Rva002BFF5A.cpp|function|0x002BFF5A|rva002BFF5A,b07141f08bb3692ee5010567,gpt-6-astra,codexb2-20261025-061132-1,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp|param|Rva004E6A37Ref|r,8be868d1868198992a5b3489,gpt-6-astra,codexb2-20261025-061132-1,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp|local|InGameNotificationBoxMovieClip::RenderMessage|w,b74dce2abf1093080a05486e,gpt-6-astra,codexb2-20261025-061132-1,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp|function|0x005F52C0|rva005F52C0,c9388adebd42f944f52e285c,gpt-6-astra,codexb2-20261025-061132-3,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp|function|0x005F5331|rva005F5331,932bdc853a52ad4b75dee518,gpt-6-astra,codexb2-20261025-061132-3,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Diag,06e7c29a1bf952b9c9929aed,gpt-6-astra,codexb2-20261025-061132-3,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|a,d0276365ad64750ac7de9269,gpt-6-astra,codexb2-20261025-061132-4,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|b,7da5ae322f3334d0f79c0f3d,gpt-6-astra,codexb2-20261025-061132-4,w-d0bdfd8b17e9,2026-10-25
