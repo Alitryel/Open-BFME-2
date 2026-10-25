@@ -10,14 +10,11 @@
 // Dedicated TU so CftpAsyncGetHostByName.cpp keeps its matched
 // AsyncGetHostByName (pattern five).
 
+#include <cstring>
+#pragma intrinsic(strlen)
+
 typedef long HRESULT;
 typedef const char *LPCSTR;
-typedef unsigned int SOCKET;
-
-#define FTP_SUCCEEDED 0
-#define FTP_FAILED 0x80040001
-#define FTP_TRYING 0x80040002
-#define FTPREPLY_CONTROLCLOSED 421
 #define MSG_PEEK 2
 #define WSAECONNRESET 10054
 #define WSAENOTCONN 10057
@@ -27,8 +24,7 @@ extern "C" __declspec(dllimport) int __cdecl _strnicmp(const char *a, const char
 extern "C" __declspec(dllimport) int __cdecl isdigit(int c);
 extern "C" __declspec(dllimport) long __cdecl atol(const char *string);
 extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA(const char *string);
-extern "C" unsigned int __stdcall strlen(const char *string);
-extern "C" int __stdcall recv(SOCKET socketHandle, char *buffer, int length, int flags);
+extern "C" int __stdcall recv(int socketHandle, char *buffer, int length, int flags);
 extern "C" int __stdcall WSAGetLastError(void);
 
 class Cftp
@@ -43,6 +39,13 @@ private:
 
 HRESULT Cftp::RecvReply(LPCSTR pReplyBuffer, int iSize, int *piRetCode)
 {
+	// Keep reply constants local: FTP.CPP already declares these values in
+	// its shared enum. Both views use the native command socket at +4.
+	enum {
+		FTP_SUCCEEDED = 0,
+		FTP_TRYING = 0x80040002,
+		FTPREPLY_CONTROLCLOSED = 421
+	};
 	int readval;
 	char *pc = (char *)pReplyBuffer;
 
