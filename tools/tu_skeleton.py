@@ -1480,9 +1480,46 @@ def repoint_sources_cfg(raw, gone, tu):
     return "".join(out).encode("utf-8"), count
 
 
+def repoint_fold_proofs(raw, gone, tu):
+    """Move exact fold-proof source tokens, preserving pin identities and prose.
+
+    Changed notes still go through normal pin admission, which recompiles the
+    proof source and checks bytes and relocations at its new path.
+    """
+    from pin_admission import FOLD_PROOF_RE
+    rename.ledger_io.lf_terminator(raw, "reverse/symbols.csv")
+    records = rename.ledger_io.split_records(raw)
+    header = rename.ledger_io.fields(records[0][0]) if records else []
+    if "notes" not in header:
+        raise rename.Refusal("reverse/symbols.csv has no 'notes' column")
+    index, gone = header.index("notes"), set(gone)
+    out, count = [records[0][0] + records[0][1]], 0
+    for payload, term in records[1:]:
+        text = payload.decode("utf-8")
+        spans = rename.field_spans(text)
+        if len(spans) > index:
+            start, end = spans[index]
+            field = text[start:end]
+            quoted = field.startswith('"') and field.endswith('"')
+            notes = field[1:-1].replace('""', '"') if quoted else field
+
+            def replace(match):
+                if match.group(1) not in gone:
+                    return match.group(0)
+                return match.group(0)[:match.start(1) - match.start()] + tu
+
+            changed = FOLD_PROOF_RE.sub(replace, notes)
+            if changed != notes:
+                field = '"' + changed.replace('"', '""') + '"' if quoted else changed
+                payload = (text[:start] + field + text[end:]).encode("utf-8")
+                count += 1
+        out.append(payload + term)
+    return b"".join(out), count
+
+
 def repoint_all(root, gone, tu):
-    """Point every path-keyed column (rename.PATH_COLUMNS) and the doxygen
-    INPUT list from the absorbed donors at the TU. Returns {file: records}."""
+    """Point path-keyed columns, fold-proof tokens and doxygen INPUTs at the TU.
+    Returns {file: records}; protected registries retain their normal gates."""
     moved = {}
     for rel, column in rename.PATH_COLUMNS:
         path = Path(root) / rel
@@ -1496,6 +1533,12 @@ def repoint_all(root, gone, tu):
         if total:
             path.write_bytes(raw)
             moved[rel] = total
+    pins = Path(root) / "reverse/symbols.csv"
+    if pins.exists():
+        raw, n = repoint_fold_proofs(pins.read_bytes(), gone, tu)
+        if n:
+            pins.write_bytes(raw)
+            moved["reverse/symbols.csv"] = n
     cfg = Path(root) / rename.SOURCES_CFG
     if cfg.exists():
         raw, n = repoint_sources_cfg(cfg.read_bytes(), set(gone), tu)

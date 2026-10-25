@@ -91,3 +91,79 @@ The owning Microsoft-header audit refreshes the destination and removes
 absorbed entries, retaining fwrite's ABI conflict at the new source path.
 Only source columns change in the committed TU map. Historical evidence and
 source provenance remain intact.
+
+## Publication gate handoff
+
+The publisher rebased the seven pending commits onto origin at 289c748fb3.
+The trusted pre-push debt checker then refused with `cannot read outgoing
+retirement messages`. This is reproducible without a push: feeding
+origin/master's repair_queue.py to `python3 - verify-removed --range
+origin/master HEAD` fails, while `python3 tools/repair_queue.py verify-removed
+--range origin/master HEAD` passes. In Python stdin execution, `__file__` is
+`<stdin>` and the checker's root expression resolves it to `/work`, outside
+this repository. This false reject is recorded for the affected Rva002DA414
+row with re_log.py. No environment override, gate bypass or checker edit was
+applied. Keep accepted file and tooling claims until publication succeeds.
+
+DataChunk's normal commit hook also reports five code-identity shadow
+findings: the Rva003079ED helper's vector swap binding and four BfmeE12
+allocator/vector definitions. They remain shadow debt; this pass claims no
+linking improvement or new coverage.
+
+## MultiplayerSettings: unchanged source, blocked dry run
+
+The current approved plan has eight eligible donors, seven mixed files and
+no protected refusals. Declared-unmatched passes for every eligible donor.
+The ordinary dry run accepts no subset of two or more files. Six donors
+(copy, pair constructor, settings constructor, deleting destructor, red-black
+tree and erase) cannot establish a baseline in the destination environment.
+The seed and StlSweepW5Rva00380DA3 do not compose into a verified merge.
+No source was changed. The representative 0x00380D30 blocked verdict is
+recorded with re_log.py and the destination/body claims are released.
+Scratch diagnostics: build/multiplayer-consolidation-dry-run.txt.
+
+## MessageStream: seed composition blocked
+
+The current plan has seven eligible files, six mixed files and two protected
+refusals. All eligible files pass declared-unmatched (the seed reports nine
+existing unclaimed definitions as a note). Ordinary merge dry run accepts
+no two-file subset. A focused seed-only Verifier check establishes twelve
+distinct matched RVAs before composition; all four composition strategies
+then fail C1004, unexpected end of file, even with no other donor. This is
+a conditional/directive composition prerequisite rather than a lost body.
+No source changed; the 0x0030F50C blocked verdict is recorded and its scope
+and body claims are released. Diagnostics are in
+build/messagestream-seed-composition.txt. The frozen check's fourteen row
+count versus twelve RVAs is existing shared-address coverage, not new work.
+
+
+## XferSave: five fragments consolidated, fold proofs retained
+
+The approved plan has eight eligible donors, twelve mixed files and one
+vendored refusal. Ordinary dry run and claimed merge agree on five accepted
+files. They become the new Common/System/XferSave.cpp: five files removed,
+one added, all fifteen matched rows preserved. ./build.sh passes 15/15 and
+declared-unmatched passes with one existing unclaimed-definition note.
+Only seven source fields change in the committed TU map; it was not regenerated.
+The owning Microsoft-header audit transfers strlen/free debt to the new TU.
+
+Three rejected donors remain unchanged: XferBlockWriter has a byte mismatch,
+XferSaveOpen duplicates vector::begin specializations, and XferSaveBlocks lacks
+the compatible Rva0060CAEANode declarations. Their file and RVA claims are
+released. Accepted destination, donor and row claims remain held for publication.
+Diagnostics: build/xfersave-consolidation-{dry-run,apply}.txt.
+
+The consumer audit found four active fold-proof tokens in symbols.csv pointing
+to absorbed sources. Each proof passes at the new TU, including whole-body and
+relocation evidence. The shared merge repointer now transfers only exact
+fold-proof source tokens in the notes field, preserving pin names, addresses,
+provenance prose and unrelated bytes. Normal pin admission recompiles and
+reverifies changed proofs; it passes for this staged transfer. Pin consistency,
+hatch counters and check_csv also pass. Focused tooling, pin-admission and gate
+exploit tests: 218 passed, 8 skipped, 1 expected failure. No pin or hatch is added.
+
+Immediately before this commit/publish, the combined audit covers outgoing
+289c748fb3608f9c28d8920f18a27f442435fe7e..a325983e0d0563c98f4aad19572f1ffee64b62f1 plus the staged XferSave merge,
+with origin at 80ff5cf1e52d4cd952c16a86aa68a747bcbd4107. It reviews 38 removed paths and
+1115 path/basename/stem hits. No additional active consumer remains.
+Historical evidence, original EA paths and source-provenance comments are kept.

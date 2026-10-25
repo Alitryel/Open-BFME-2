@@ -71,6 +71,32 @@ class EffectiveFlagsTests(unittest.TestCase):
 
 
 class RepointTests(unittest.TestCase):
+    def test_fold_proof_moves_only_exact_source_tokens_in_notes(self):
+        raw = (b'name,address,notes\n'
+               b'"?a@@YAXXZ",0x1000,"fold-proof=Code/A.cpp; from Code/A.cpp, ""EA"""\n'
+               b'?b@@YAXXZ,0x1001,ICF;fold-proof=Code/B.cpp\n'
+               b'?c@@YAXXZ,0x1002,fold-proof=Code/A.cpp.extra\n'
+               b'?d@@YAXXZ,0x1003,not-fold-proof=Code/A.cpp\n'
+               b'?e@@YAXXZ,0x1004,from Code/A.cpp\n'
+               b'fold-proof=Code/A.cpp,0x1005,\n'
+               b'?f@@YAXXZ,0x1006\n')
+        out, count = T.repoint_fold_proofs(raw, ["Code/A.cpp", "Code/B.cpp"], "Code/T.cpp")
+        expected = raw.replace(b'"fold-proof=Code/A.cpp;', b'"fold-proof=Code/T.cpp;')
+        expected = expected.replace(b';fold-proof=Code/B.cpp', b';fold-proof=Code/T.cpp')
+        self.assertEqual((out, count), (expected, 2))
+
+    def test_repoint_all_registers_changed_fold_proofs_without_changing_pins(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "reverse").mkdir()
+            path = root / "reverse/symbols.csv"
+            path.write_bytes(b'name,address,notes\n?a@@YAXXZ,0x1000,fold-proof=Code/A.cpp\n')
+            moved = T.repoint_all(root, ["Code/A.cpp"], "Code/T.cpp")
+            self.assertEqual(moved, {"reverse/symbols.csv": 1})
+            self.assertEqual(path.read_bytes(),
+                             b'name,address,notes\n?a@@YAXXZ,0x1000,fold-proof=Code/T.cpp\n')
+            self.assertEqual(T.repoint_all(root, ["Code/A.cpp"], "Code/T.cpp"), {})
+
     def test_apply_stages_transferred_adoption_debt_without_a_microsoft_queue(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
