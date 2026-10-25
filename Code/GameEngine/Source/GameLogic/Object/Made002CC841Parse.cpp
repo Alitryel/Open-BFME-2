@@ -68,7 +68,7 @@ public:
     char m_pad[0x84];
 };
 
-void q4Notify002CC841(void *ini, Made002CC841 *instance, int c, int d)
+void q4Notify002CC841(void *ini, Made002CC841 *instance, int store, int d)
 {
     MultiIniFieldParse multiFieldParse;
     multiFieldParse.add((const FieldParse *)Rva00507552Get(), 0);
