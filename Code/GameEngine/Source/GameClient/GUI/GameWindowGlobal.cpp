@@ -1,5 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
-// stlport
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/bfme2_ascii
 //
 // Bodies ported from Open-BFME-1's
 // GameEngine/Source/GameClient/GUI/GameWindowGlobal.cpp (donor revision
@@ -10,7 +9,6 @@
 // GameWindowManager::winMakeColor 0x00314C1D (33B). Callee addresses are read
 // off retail's call sites (reverse/symbols.csv). Only the placed bodies are
 // carried; the donor's other definitions are omitted.
-#define Matrix4x4 Matrix4  // BFME renamed it
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -57,16 +55,32 @@
 //-----------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////
 
-// SYSTEM INCLUDES ////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+// These two bodies need only the string ABI and callable declarations below.
+// BFME 2's rowed names preserve virtual winMakeColor and nonvirtual
+// winGetTextSize. No complete GameWindowManager layout or slot is asserted.
+#include "unicode_string.h"
 
-// USER INCLUDES //////////////////////////////////////////////////////////////
-#include "Common/Language.h"
-#include "GameClient/Image.h"
-#include "GameClient/Display.h"
-#include "GameClient/GameWindowManager.h"
-#include "GameClient/GameFont.h"
+typedef int Int;
+typedef int Color;
+typedef unsigned char UnsignedByte;
+class GameFont;
 
+class GameWindowManager
+{
+public:
+    virtual Color winMakeColor(UnsignedByte red, UnsignedByte green,
+        UnsignedByte blue, UnsignedByte alpha);
+    void winGetTextSize(GameFont *font, UnicodeString text,
+        Int *width, Int *height, Int maxWidth);
+};
+
+// Same inline expression as the donor's GameClient/Color.h; the native
+// 33-byte body verifies the packed component order.
+inline Color GameMakeColor(UnsignedByte red, UnsignedByte green,
+    UnsignedByte blue, UnsignedByte alpha)
+{
+    return (alpha << 24) | (red << 16) | (green << 8) | blue;
+}
 
   // end WinFindImage
 
