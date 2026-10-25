@@ -6162,3 +6162,8 @@ Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/Expa
 Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,f5369ff659f1c0e28a966fcb,gpt-6.1-sol,codexb-20261025-063820-1,w-8e883e57d025,2026-10-25
 Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD::FormatCPString|tmp,994990aac7ba2fd841131aca,gpt-6.1-sol,codexb-20261025-063820-2,w-8e883e57d025,2026-10-25
 Code/GameEngine/Source/Common/Rva002B47B1Get.cpp|member|Rva002B47B1Elem|m_cash40,0878ee40e89a8b02d9a16907,gpt-6.1-sol,codexb-20261025-063820-3,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|a,4cb07e81988f0b0305995ed9,gpt-6.1-sol,codexb-20261025-063820-6,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|b,7c59ed30fdba6b62bcc256ea,gpt-6.1-sol,codexb-20261025-063820-6,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|d,b126b05cc4ef44a12607593c,gpt-6.1-sol,codexb-20261025-063820-6,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#5|p,327b5424902cd3c461c177f5,gpt-6.1-sol,codexb-20261025-063820-7,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|function|0x00254D0B|rva00254D0B,f47e8d0299e78d1442d8a531,gpt-6.1-sol,codexb-20261025-063820-8,w-8e883e57d025,2026-10-25
