@@ -17,52 +17,8 @@ extern "C" double __cdecl cos(double);
 
 typedef int Int;
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
-class RadiusDecal {
-public:
-	void setPosition(const Coord3D &pos);
-	void setOpacity(float opacity);
-private:
-	const void *m_template;
-	void *m_decal;
-	unsigned char m_empty;
-	unsigned char m_pad_09[3];
-	float m_unknown0C;
-};
-class Thing;
-class ModuleData;
-class Object;
-class UpdateModule {
-public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	~UpdateModule();
-};
-class DynamicShroudClearingRangeUpdate : public UpdateModule {
-public:
-	void rva0048B256();
-private:
-	const void *m_vtable;
-	const ModuleData *m_moduleData;
-	Object *m_object;
-	const void *m_secondary0C;
-	const void *m_secondary10;
-	unsigned int m_nextCallFrameAndPhase;
-	int m_indexInLogic;
-	int m_reserved1C;
-	int m_state;
-	int m_stateCountDown;
-	int m_totalFrames;
-	unsigned int m_growStartDeadline;
-	unsigned int m_sustainDeadline;
-	unsigned int m_shrinkStartDeadline;
-	unsigned int m_doneForeverFrame;
-	unsigned int m_changeIntervalCountdown;
-	bool m_decalsCreated;
-	unsigned char m_pad_41[3];
-	float m_visionChangePerInterval;
-	float m_nativeClearingRange;
-	float m_currentClearingRange;
-	RadiusDecal m_gridDecal[30];
-};
+#include "DynamicShroudClearingRangeUpdateView.h"
+
 void DynamicShroudClearingRangeUpdate::rva0048B256()
 {
 	const Coord3D *ctr = (const Coord3D *)((char *)m_object + 0x38);

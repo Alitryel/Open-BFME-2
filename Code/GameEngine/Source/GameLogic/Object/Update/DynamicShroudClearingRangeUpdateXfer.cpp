@@ -16,68 +16,7 @@
 // int 0x7C, uint 0x78, bool 0x90, float 0x70). UpdateModule::xfer rides the
 // pinned 0x44DF9F base xfer.
 
-class Thing;
-class ModuleData;
-class Player;
-class Object;
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-typedef int Int;
-typedef unsigned char Bool;
-
-#include "../../../../Include/Common/BfmeXfer.h"
-
-class UpdateModule
-{
-public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	~UpdateModule();
-	void xfer(Xfer *xfer);
-};
-
-class DynamicShroudClearingRangeUpdate : public UpdateModule
-{
-public:
-	void xfer(Xfer *xfer);
-
-private:
-	const void *m_vtable;				// +0x00
-	const ModuleData *m_moduleData;		// +0x04
-	Object *m_object;					// +0x08
-	const void *m_secondary0C;			// +0x0C
-	const void *m_secondary10;			// +0x10
-	unsigned int m_nextCallFrameAndPhase;	// +0x14
-	int m_indexInLogic;					// +0x18
-	int m_reserved1C;					// +0x1C
-	int m_state;						// +0x20
-	int m_stateCountDown;				// +0x24
-	int m_totalFrames;					// +0x28
-	unsigned int m_growStartDeadline;	// +0x2C
-	unsigned int m_sustainDeadline;		// +0x30
-	unsigned int m_shrinkStartDeadline;	// +0x34
-	unsigned int m_doneForeverFrame;	// +0x38
-	unsigned int m_changeIntervalCountdown;	// +0x3C
-	bool m_decalsCreated;				// +0x40
-	unsigned char m_pad_41[3];
-	float m_visionChangePerInterval;	// +0x44
-	float m_nativeClearingRange;		// +0x48
-	float m_currentClearingRange;		// +0x4C
-};
+#include "DynamicShroudClearingRangeUpdateView.h"
 
 // ?xfer@DynamicShroudClearingRangeUpdate@@QAEXPAVXfer@@@Z @0x0048B505
 void DynamicShroudClearingRangeUpdate::xfer(Xfer *xfer)
