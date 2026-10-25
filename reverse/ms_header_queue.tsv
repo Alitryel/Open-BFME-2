@@ -302,7 +302,6 @@ Code/GameEngine/Source/GameNetwork/LANAPIRequestGameJoin.cpp	drop-in candidate	s
 Code/GameEngine/Source/GameNetwork/LANAPISetLocalIP.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<stdlib.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	getenv:same,atoi:same
 Code/GameEngine/Source/GameNetwork/NetCommandListAddMessage.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator new:same,operator delete:same
 Code/GameEngine/Source/GameNetwork/NetCommandMsgCtor.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same,operator delete [ ]:same
-Code/GameEngine/Source/GameNetwork/NetCommandWrapperList_getReadyCommands.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<windows.h>,<new>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same,operator delete:same
 Code/GameEngine/Source/GameNetwork/Rva005922FBRead.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator new:same,operator new [ ]:same
 Code/GameEngine/Source/GameNetwork/Rva00594DC0Convert.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<WinSock2.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	htonl:same,htons:same
 Code/GameEngine/Source/GameNetwork/Rva007EB920Assert.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<stdio.h>,<string.h>	no	no	hand		prove with ./build.sh: byte gate is the authority	sprintf:same,strlen:same

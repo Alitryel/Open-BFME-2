@@ -28,10 +28,7 @@
 ////// NetCommandWrapperList.cpp ////////////////////////////////
 // Bryan Cleveland
 
-#include "BfmeNetWrapperPoolPrefix.h"
-
-#include "GameNetwork/NetCommandWrapperList.h"
-#include "GameNetwork/NetPacket.h"
+#include "BfmeNetCommandWrapperView.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////// NetCommandWrapperListNode ///////////////////////////////////////////////////////////////////
@@ -71,11 +68,7 @@ NetCommandWrapperListNode::~NetCommandWrapperListNode() {
 	}
 }
 
-__declspec(noinline) inline Bool NetCommandWrapperListNode::isComplete() {
-	return m_numChunksPresent == m_numChunks;
-}
-
-// Select-any like NetCommandWrapperList_getReadyCommands.cpp's in-class copy; the anchor keeps the rowed body emitted.
+// The shared declaration remains select-any; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorNetCommandWrapperListNodeIsComplete absent-from-retail
 Bool bfmeAnchorNetCommandWrapperListNodeIsComplete(NetCommandWrapperListNode *netCommandWrapperListNode) { return netCommandWrapperListNode->isComplete(); }
 // A value of 100 means every chunk arrived. Partial transfers are capped at
@@ -94,16 +87,6 @@ Int NetCommandWrapperListNode::getPercentComplete()
     return wrapperPercentMin(99,
         static_cast<int>(static_cast<float>(m_numChunksPresent) /
                          static_cast<float>(m_numChunks) * 100.0f));
-}
-
-// ?getCommandID@NetCommandWrapperListNode@@QAEGXZ present-unmatched
-inline UnsignedShort NetCommandWrapperListNode::getCommandID() {
-	return m_commandID;
-}
-
-// ?getRawDataLength@NetCommandWrapperListNode@@QAEIXZ present-unmatched
-inline UnsignedInt NetCommandWrapperListNode::getRawDataLength() {
-	return m_dataLength;
 }
 
 void NetCommandWrapperListNode::copyChunkData(NetWrapperCommandMsg *msg) {
@@ -129,11 +112,6 @@ void NetCommandWrapperListNode::copyChunkData(NetWrapperCommandMsg *msg) {
 	UnsignedInt offset = msg->getDataOffset();
 	memcpy(m_data + offset, msg->getData(), msg->getDataLength());
 	++m_numChunksPresent;
-}
-
-// ?getRawData@NetCommandWrapperListNode@@QAEPAEXZ present-unmatched
-inline UnsignedByte * NetCommandWrapperListNode::getRawData() {
-	return m_data;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,4 +192,4 @@ void NetCommandWrapperList::processWrapper(NetCommandRef *ref) {
 // getReadyCommands (0x0058C2AD) and removeFromList (0x0058C1A5) live in
 // NetCommandWrapperList_getReadyCommands.cpp: BFME 2's versions need the
 // de-pooled NetCommandRef (command at +0x00, relay at +0x0C) and a global
-// delete, which this unit's Zero Hour headers cannot express.
+// delete. BfmeNetCommandWrapperView.h now shares those declarations with this unit.
