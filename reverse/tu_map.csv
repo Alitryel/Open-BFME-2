@@ -4647,13 +4647,13 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0008FFBE,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGetters4Addr.cpp
 0x0008FFC4,28,code,,,-,,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB08.cpp
 0x00090000,52,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibrary.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp
-0x00090034,33,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x00090055,Code/Libraries/Source/WWVegas/WWLib/Rva00090034SimpleVecDtors.cpp
+0x00090034,33,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x00090055,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp
 0x00090055,51,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x00090088,Code/Libraries/Source/WWVegas/WWLib/wwlib_pod_container_bodies.cpp
-0x00090088,35,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x000900AB,Code/Libraries/Source/WWVegas/WWLib/Rva00090034SimpleVecDtors.cpp
+0x00090088,35,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x000900AB,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp
 0x000900AB,28,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x000900C7,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp
 0x000900C7,28,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x00090125,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp
 0x00090125,37,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x0009014A,Code/Libraries/Source/WWVegas/WWLib/wwlib_pod_container_bodies.cpp
-0x0009014A,51,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x0009017D,Code/Libraries/Source/WWVegas/WWLib/simpledynvec_uint_add.cpp
+0x0009014A,51,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x0009017D,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp
 0x0009017D,191,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x0009023C,
 0x0009023C,106,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,C,C=0x00090000..0x000902A6,
 0x000902A6,186,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibrary.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp
