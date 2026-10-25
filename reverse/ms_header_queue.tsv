@@ -919,7 +919,6 @@ Code/GameEngine/Source/Common/System/AsciiString_skipWhitespace.cpp	drop-in cand
 Code/GameEngine/Source/Common/System/AudioEventRTSCtor.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/Common/System/BitFlags11DisabilityCtors.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same
 Code/GameEngine/Source/Common/System/BitFlags7FactionCtor.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same
-Code/GameEngine/Source/Common/System/DataChunk.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/GameEngine/Source/Common/System/DataChunkTableOfContentsRead.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator new:same
 Code/GameEngine/Source/Common/System/EmotionNuggetTemplateIniParseEmotionType.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	strcmp:same
 Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	OutputDebugStringA:same
@@ -967,7 +966,6 @@ Code/GameEngine/Source/Common/System/Rva002D3389Method.cpp	drop-in candidate	sam
 Code/GameEngine/Source/Common/System/Rva002D387AMethod.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	no	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/GameEngine/Source/Common/System/Rva002D394BMethod.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdlib.h>	no	no	hand		prove with ./build.sh: byte gate is the authority	free:same
 Code/GameEngine/Source/Common/System/Rva0030662AXfer.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	no	hand		prove with ./build.sh: byte gate is the authority	InterlockedIncrement:same
-Code/GameEngine/Source/Common/System/Rva00306C15MemoryChunkRead.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memcpy:same
 Code/GameEngine/Source/Common/System/Rva0031AB1EPrepend.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator new:same
 Code/GameEngine/Source/Common/System/Rva0033962FFinish.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	_strcmpi:same
 Code/GameEngine/Source/Common/System/Rva0033A865.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same
@@ -3222,7 +3220,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/SpellRechargeModifierUpgradeModul
 Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	conflicting	abi	1	0	1	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand	836: Code/GameEngine/Source/GameLogic/Object/Weapon.cpp:82 Common/CRC.h(unknown); Code/GameEngine/Source/GameLogic/Object/Weapon.cpp:83 Common/CRCDebug.h(unknown); Code/GameEngine/Source/GameLogic/Object/Weapon.cpp:84 Common/GameAudio.h(unknown)		stricmp:source
 Code/GameEngine/Source/GameLogic/Object/WeaponSet.cpp	conflicting	abi	1	0	1	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand	807: Code/GameEngine/Source/GameLogic/Object/WeaponSet.cpp:64 GameLogic/WeaponSet.h(unknown); Code/GameEngine/Source/GameLogic/Object/WeaponSet.cpp:66 Common/INI.h(unknown); Code/GameEngine/Source/GameLogic/Object/WeaponSet.cpp:67 Common/Player.h(unknown)		stricmp:source
 Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeAsciiString.cpp	conflicting	abi	1	0	0	0	0	0	1	0	0	0	0	<stdio.h>	no	no	hand			fwrite:abi
-Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeInt.cpp	conflicting	abi	1	0	0	0	0	0	1	0	0	0	0	<stdio.h>	no	no	hand			fwrite:abi
 Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeUnicodeString.cpp	conflicting	abi	1	0	0	0	0	0	1	0	0	0	0	<stdio.h>	no	no	hand			fwrite:abi
 Code/GameEngine/Source/GameLogic/ScriptEngine/ParameterReadParameter.cpp	conflicting	abi	1	0	0	0	0	0	1	0	0	1	0	<fltdefs.h>	yes	yes	hand			ERROR_BASE:abi
 Code/GameEngine/Source/GameLogic/ScriptEngine/Rva00206706Clear.cpp	conflicting	mangle	1	0	0	0	0	1	0	0	0	0	0	<stdlib.h>	no	no	hand			free:mangle
@@ -3419,3 +3416,4 @@ reference/shims/sweep/comdef.h	shim	abi	1	0	0	0	0	0	1	0	0	0	0	<comutil.h>	no	no	
 reference/shims/sweep/winsock2.h	shim	abi	1	0	0	0	1	0	0	0	0	0	0	<windows.h>	yes	no	shim	96: reference/shims/sweep/winsock.h:9 in_addr(unknown); reference/shims/sweep/winsock.h:15 s_addr(unknown); reference/shims/sweep/winsock.h:18 sockaddr(source)		MAKEWORD:unverified
 Code/GameEngine/Source/Common/RTS/ActionManager.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<windows.h>	yes	yes	hand			TRUE:unverified
 Code/GameEngine/Source/Common/RTS/Science.cpp	adapt	unknown	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand	3: reference/shims/bfmealloc/stl/_algobase.h:51 stl/_pair.h(unknown); reference/shims/bfmealloc/stl/_algobase.h:55 stl/_iterator_base.h(unknown); reference/shims/bfmealloc/stl/_algobase.h:573 stl/_algobase.c(unknown)		NULL:same
+Code/GameEngine/Source/Common/System/DataChunk.cpp	conflicting	abi	3	2	0	0	0	0	1	0	0	0	0	<new>,<string.h>,<stdio.h>	no	no	hand			fwrite:abi,operator delete:same,memcpy:same

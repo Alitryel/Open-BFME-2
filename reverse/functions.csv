@@ -6687,7 +6687,7 @@ _piIsPlayerVIP,,0x006A4560,36,Code/GameEngine/Source/GameNetwork/GameSpy/peer/pe
 _piDisconnectTitle,,0x00698810,34,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerDisconnectTitle.c,matched,
 _piStopReporting,,0x006A75E0,36,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerStopReporting.c,matched,
 ?getConditionTemplate@ScriptEngine@@QAEPBVConditionTemplate@@H@Z,,0x00203941,30,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine_getConditionTemplate.cpp,matched,
-?writeInt@DataChunkOutput@@QAEXH@Z,,0x00306CFF,24,Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeInt.cpp,matched,
+?writeInt@DataChunkOutput@@QAEXH@Z,,0x00306CFF,24,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,
 ?Add_Prototype@@YAXPAX@Z,,0x0061EF90,21,Code/GameEngineDevice/Source/W3DDevice/GameClient/Add_Prototype.cpp,matched,
 ?add@MultiIniFieldParse@@QAEXPBUFieldParse@@I@Z,,0x0002BC6E,60,Code/GameEngine/Source/Common/System/INI_MultiIniFieldParse_add.cpp,matched,
 ?parseDurationReal@INI@@SAXPAV1@PAX1PBX@Z,,0x00338B0A,38,Code/GameEngine/Source/Common/System/INI_parseDurationReal.cpp,matched,
@@ -6700,8 +6700,8 @@ _piStopReporting,,0x006A75E0,36,Code/GameEngine/Source/GameNetwork/GameSpy/peer/
 ?getNameFromSingleBit@KindOfMaskType@@SAPBDH@Z,,0x00306218,26,Code/GameEngine/Source/GameLogic/ScriptEngine/KindOfGetNameFromSingleBit.cpp,matched,BFME2 218-entry KindOf table at 0xDBBE18; ported from exact BFME1 181-entry body at 0x10C5B0 with array-size bound only
 ?WriteParameter@Parameter@@QAEXAAVDataChunkOutput@@@Z,,0x003B3A38,129,Code/GameEngine/Source/GameLogic/ScriptEngine/Parameter_WriteParameter.cpp,matched,Ported from exact BFME1 Parameter_WriteParameter_Thunk; BFME2 KindOf table 218 entries; pins writeReal ICF writeInt and writeAsciiString
 ?writeAsciiString@DataChunkOutput@@QAEXABVAsciiString@@@Z,,0x00307033,91,Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeAsciiString.cpp,matched,ZH DataChunk writeAsciiString; BFME string header len at +4 data at +8; /O1 /G7 for mov ax shape
-?writeReal@DataChunkOutput@@QAEXM@Z,,0x00306CFF,24,Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeInt.cpp,matched,ICF-folded with writeInt; int and float both write 4 bytes via fwrite
-?writeByte@DataChunkOutput@@QAEXE@Z,,0x00306D17,24,Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeInt.cpp,matched,ZH DataChunk writeByte; same shape as writeInt with size 1 not 4
+?writeReal@DataChunkOutput@@QAEXM@Z,,0x00306CFF,24,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,ICF-folded with writeInt; int and float both write 4 bytes via fwrite
+?writeByte@DataChunkOutput@@QAEXE@Z,,0x00306D17,24,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,ZH DataChunk writeByte; same shape as writeInt with size 1 not 4
 ?detach@NetCommandNode@@QAEXXZ,,0x0058B8AE,12,Code/GameEngine/Source/GameNetwork/NetCommandList.cpp,matched,NetCommandNode message release; ZH NetCommandRef m_msg/m_next/m_prev; tail-calls NetCommandMsg::detach
 ??0WeaponSetUpgradeModuleData@@QAE@XZ,,0x004B57AA,36,Code/GameEngine/Source/GameLogic/Object/Contain/HealContainModuleDataCtorThunk.cpp,matched,BFME2 HealContainModuleData ctor; OpenContain base pin; bitset128 reset via ledger row
 ??$_Construct@VBuddyRequest@@V1@@_STL@@YAXPAVBuddyRequest@@ABV1@@Z,,0x00550798,24,Code/GameEngine/Source/GameNetwork/GameSpy/BuddyRequestDequePushBackAux.cpp,matched,bfme1 GameSpy sweep exact placement; verbatim source import
@@ -14696,7 +14696,7 @@ __heap_abort,,0x000398A0,80,Code/Libraries/Source/WWVegas/WWDebug/DebugHeapAbort
 ?Set_Creation_Volume@ParticleEmitterDefClass@@UAEXPAVVector3Randomizer@@@Z,,0x001AF800,74,Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp,matched,BSim-located; SAFE_DELETE frees via ::delete (dtor(0) plus global operator delete)
 ?Set_Velocity_Random@ParticleEmitterDefClass@@UAEXPAVVector3Randomizer@@@Z,,0x001AF7B0,74,Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp,matched,BSim-located twin of Set_Creation_Volume; SAFE_DELETE frees via ::delete
 ?Reset@DX8SkinFVFCategoryContainer@@AAEXXZ,,0x001444B0,114,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,BSim-located; texture categories freed via ::delete and index buffer released inside the null check as retail does
-?handle@Q1Forwardee0000871A@@QAEXH@Z,,0x00306D7B,41,Code/GameEngine/Source/Common/Bfme/Q1Forwardee0000871A_handle.cpp,matched,BFME1 donor Q1Forwardee0000871A_handle.cpp paired by BSim; node freed via ::delete (dtor(0) plus global operator delete)
+?handle@Q1Forwardee0000871A@@QAEXH@Z,,0x00306D7B,41,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,BFME1 donor Q1Forwardee0000871A_handle.cpp paired by BSim; node freed via ::delete (dtor(0) plus global operator delete)
 ?initSubsystem@SubsystemInterfaceList@@QAEXPAVSubsystemInterface@@PAXPBD22PAVXfer@@VAsciiString@@@Z,,0x001B5266,261,Code/Libraries/Source/subsystem/SubsystemInterface.cpp,matched,BFME1 donor SubsystemInterface.cpp at /O1 with BFME2's 0x87C-byte INI (shims/ini_bfme2); callees pinned at their retail call sites
 ??$initSubsystem@VSubsystemLegend@@@@YAXAAPAVSubsystemLegend@@VAsciiString@@PAV0@PAVXfer@@PBD44@Z,,0x00229AC8,117,Code/Libraries/Source/subsystem/SubsystemInterface.cpp,matched,GameEngine::init call site pushes the TheSubsystemLegend literal; class SubsystemLegend carried from the BFME1 donor declaration of TheSubsystemLegend
 ??$initSubsystem@VGlobalData@@@@YAXAAPAVGlobalData@@VAsciiString@@PAV0@PAVXfer@@PBD44@Z,,0x00229B3D,117,Code/Libraries/Source/subsystem/SubsystemInterface.cpp,matched,GameEngine::init call site pushes the TheWritableGlobalData literal; class GlobalData carried from the BFME1 donor declaration of TheWritableGlobalData
@@ -37461,7 +37461,7 @@ _GetThisFrameReconPtr,,0x001B6330,11,Code/Libraries/Source/VP6/PbAccessors.cpp,m
 ??_GTeamInQueue@@UAEPAXI@Z,,0x004EF606,28,Code/GameEngine/Source/Common/TeamInQueue.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xC62B78; calls rowed dtor 0x4F05F0
 ??_GRva00575E4E@@UAEPAXI@Z,,0x00576041,28,Code/GameEngine/Source/Common/Rva00575E4EDtor.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xC6E688; calls rowed dtor 0x575E4E
 ??_GRva005C33D2@@UAEPAXI@Z,,0x005C352D,28,Code/GameEngine/Source/Common/RvaDerivedDtorTails.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xC74434; calls rowed dtor 0x5C33D2
-?rva003079ED@Rva003079ED@@QAEXXZ,,0x003079ED,63,Code/Libraries/Source/WWVegas/WWLib/Rva003079EDFinish.cpp,matched,finish from 0.93 bank BfmeE12 swap retails to ICF twin 0x3079C1
+?rva003079ED@Rva003079ED@@QAEXXZ,,0x003079ED,63,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,finish from 0.93 bank BfmeE12 swap retails to ICF twin 0x3079C1
 ?init@DisconnectManager@@QAEXXZ,,0x004D3822,163,Code/GameEngine/Source/GameNetwork/DisconnectManagerO1.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?sendPlayerDestruct@DisconnectManager@@IAEXHPAVConnectionManager@@@Z,,0x004D3AE2,129,Code/GameEngine/Source/GameNetwork/DisconnectManagerO1.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?turnOnScreen@DisconnectManager@@IAEXPAVConnectionManager@@@Z,,0x004D4176,61,Code/GameEngine/Source/GameNetwork/DisconnectManagerO1.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
@@ -38258,7 +38258,7 @@ _Rva008143F0,,0x006802F0,5,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matc
 ?doNamedFireSpecialPowerAtWaypoint@ScriptActions@@QAEXPAVParameter@@ABVAsciiString@@PAX@Z,,0x003C4003,109,Code/GameEngine/Source/Common/Rva003C4003Apply.cpp,matched,leaf sibling of 41BA via getUnitNamed find filtered virtual; member ABI: dispatcher3CA4BE passes ScriptActions receiver in ECX; canonical header owner
 ?rva00463FFB@Rva004638C5@@QAEPAU_Rb_tree_node_base@_STL@@PAURva00463FFBOut@@PBUTreeKey00242F5E@@@Z,,0x00463FFB,134,Code/Libraries/Source/WWVegas/WWLib/Rva00463FFBFinish.cpp,matched,insert_unique via decrement 0x242C0 and _M_insert 0x463F73 signed TreeKey
 ?rva003F055A@Rva003F055A@@QAEXXZ,,0x003F055A,46,Code/GameEngine/Source/Common/System/Rva003F055AScan.cpp,matched,scan range calling 0x4E0845 on entry+0x20 when flag+0x34 zero caller 0x3F104B
-?rva00307A2C@Rva00307A2C@@QAEPAXABVAsciiString@@@Z,,0x00307A2C,39,Code/Libraries/Source/WWVegas/WWLib/Rva00307A2CFind.cpp,matched,linked-list find via StringBase compare row 0x69D6
+?rva00307A2C@Rva00307A2C@@QAEPAXABVAsciiString@@@Z,,0x00307A2C,39,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,linked-list find via StringBase compare row 0x69D6
 ?rva003F20B0@Rva003F20B0@@QAEXXZ,,0x003F20B0,53,Code/GameEngine/Source/Common/System/Rva003F20B0Clear.cpp,matched,finish lane banked 0.99 clear ScienceType vector plus zeroes
 ?rva00577966@Rva00577936@@UAEXXZ,,0x00577966,8,Code/GameEngine/Source/Common/Rva000AD6F4Members.cpp,matched,leaf vslot2 wrapper readjusts this via plus4 forwards to rowed rva005C65F1
 ?Rva007B7090Set@@YAXXZ,,0x007B7090,11,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,gap global store g_00DB6200 g_00BD23B4 between 0x007B707A 0x007B70AB
@@ -41435,7 +41435,7 @@ __Locale_ctype_create,,0x00022360,1316,Code/Libraries/Source/WWVegas/WWLib/stlpo
 ?rva005490AE@Rva005490D2@@QBEHXZ,,0x005490AE,36,Code/GameEngine/Source/GameLogic/AI/AIGroupFormations.cpp,matched,max sibling of 0x5490D2 sum over +0x564; cmovg needs /arch:SSE
 ?addWaypointLink@TerrainLogic@@IAEXHH@Z,,0x0027F009,150,Code/GameEngine/Source/GameLogic/Map/TerrainLogic_parseWaypointData.cpp,matched,ZH addWaypointLink with BFME link count read once per waypoint; cmove needs /arch:SSE
 ?rva0058ADD0@Rva0058ADD0@@QAE_NPAX_N1@Z,,0x0058ADD0,78,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISPecialPower.cpp,matched,coin flip before vslot 6; AISPecialPower.cpp line 94 by retail __FILE__ literal; fcompi needs /arch:SSE
-?slot00@Rva0023DB34@@UAEHPAXH@Z,,0x00306C15,45,Code/GameEngine/Source/Common/System/Rva00306C15MemoryChunkRead.cpp,matched,memory chunk stream read as slot 0 of VA 0xBEDAA8; cmovg needs /arch:SSE
+?slot00@Rva0023DB34@@UAEHPAXH@Z,,0x00306C15,45,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,memory chunk stream read as slot 0 of VA 0xBEDAA8; cmovg needs /arch:SSE
 ?Flash@ChecklistUIItemMovieClip@StrategicHUD@@QAEXXZ,,0x005D4118,41,Code/GameEngine/Source/Common/Rva005D40A6Dtor.cpp,matched,"flash apt call via EmptyString fallback and rowed AptCall caller 0x0057A37D; name per WorldBuilder StrategicHUD::ChecklistUIItemMovieClip::Flash (lead strings); retail evidence: it calls the same ""Flash"" Apt function as the WB twin; its slot forwarder binds the new name"
 ??1Rva005FEA50Base@FXParticleSystem@@UAE@XZ,,0x003ABC0B,22,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003ABC0BDtor.cpp,matched,null guarded vptr restore plus tail jmp to base
 ??0Rva003ACC7C@@QAE@PAX0@Z,,0x003ACC7C,49,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003ACC7CCtor.cpp,matched,chain ctor calls base 0x003ABFE1 then vtable immediates

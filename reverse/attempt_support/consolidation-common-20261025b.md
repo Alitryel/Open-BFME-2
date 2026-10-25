@@ -64,3 +64,30 @@ environment-dependent test skips, including the gate-exploit suite.
 Other hits are merged provenance, unchanged symbol/header names, historical
 attempt/naming/census records and independent reference evidence. No active
 include, tool, hook, workflow or build input names an absorbed source.
+
+## DataChunk consolidation
+
+Claimed apply agrees with the prior dry run: six files become the existing
+DataChunk.cpp, removing five donors. Ordinary build passes 17/17 ledger rows,
+including all three named imports; declared-unmatched passes. The tool's
+suggested subject reports 16 because it sums per-donor distinct-RVA sets.
+There are 15 distinct RVAs: writeInt/writeReal already share 0x00306CFF with
+an explicit ICF note, and the pre-existing placeholder Rva00307A2C duplicates
+the seed's findMapping owner at 0x00307A2C. History confirms the placeholder
+predates this pass (8e0b9308b0). Both rows remain verified, with no new row or
+coverage claim; the placeholder's duplicate identity still needs cleanup.
+
+Six rejected donors need DataChunkInput scalar/getChunkLabel declarations,
+DataChunkTableOfContents getName/Mapping declarations, or DataChunkOutput
+string/name-key declarations reconciled. The exact compile errors remain in
+`build/datachunk-consolidation-apply.txt`. Mixed files and four protected
+donors remain untouched. Rejected AudioEventRTS and DataChunk donor claims
+are released; accepted path claims stay held until publication.
+
+The combined outgoing audit now covers ce5e16cd06 through fe1710f491 and this
+staged merge, with origin fetched at 70a67784ed: 33 removed donor paths and
+992 path/basename/stem hits. No additional active consumer needs changing.
+The owning Microsoft-header audit refreshes the destination and removes
+absorbed entries, retaining fwrite's ABI conflict at the new source path.
+Only source columns change in the committed TU map. Historical evidence and
+source provenance remain intact.
