@@ -15,7 +15,7 @@ public:
 	const char *getSepsColon() const { return m_sepsColon; }
 	const char *getSepsQuote() const { return m_sepsQuote; }
 
-private:
+public:
 	char m_unreconstructed_000[0x418];
 	const char *m_seps;			// +0x418
 	const char *m_sepsPercent;	// +0x41C
@@ -23,8 +23,8 @@ private:
 	const char *m_sepsQuote;	// +0x424
 };
 
-typedef const char *(INI::*IniSeparatorGetter)() const;
-extern const IniSeparatorGetter g_iniSeparatorGetters[4];
-const IniSeparatorGetter g_iniSeparatorGetters[4] = {
+// One definition, no typedef or separate extern declaration: a merged TU
+// emits declarations ahead of the INI class body, definitions after it.
+extern const char *(INI::*const g_iniSeparatorGetters[4])() const = {
 	&INI::getSeps, &INI::getSepsPercent, &INI::getSepsColon, &INI::getSepsQuote
 };
