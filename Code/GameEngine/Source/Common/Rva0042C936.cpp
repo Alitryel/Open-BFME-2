@@ -59,7 +59,7 @@ Rva0042C936 *Rva0042C936::rva0042C936(Holder0042C936 holder)
 	return this;
 }
 
-// ?rva0042CA4B@Rva0042CA4B@@QAEXXZ, retail 0x0042CA4B, 146 bytes (EH), reached
+// ?update@Rva0042CA4B@@QAEXXZ, retail 0x0042CA4B, 146 bytes (EH), reached
 // through the pinned 7B thunk 0x0042CADD (mov ecx [ecx]; jmp). Once the
 // living world exists and its pinned 0x0004253A check passes, clears the
 // byte at +0x94 of the +0x08 object; when the logic's +0xF4 value differs
@@ -134,7 +134,7 @@ struct Rva0042CA4BTarget
 class Rva0042CA4B
 {
 public:
-	void rva0042CA4B();
+	void update();
 private:
 	unsigned char m_pad00[0x08];
 	Rva0042CA4BTarget *m_08;	// +0x08
@@ -143,7 +143,7 @@ private:
 	Rva0042C936 m_14;			// +0x14
 };
 
-void Rva0042CA4B::rva0042CA4B()
+void Rva0042CA4B::update()
 {
 	if (TheLivingWorldLogic && reinterpret_cast<BfmeSelectionState *>(TheLivingWorldLogic)->isSelectionLocked())
 	{
@@ -159,7 +159,7 @@ void Rva0042CA4B::rva0042CA4B()
 }
 
 // ?rva0042CADD@Rva0042CADDOwner@@QAEXXZ @0x0042CADD 7B, directly after
-// rva0042CA4B: forwards to the object held at +0. Its caller at 0x0023911C
+// update: forwards to the object held at +0. Its caller at 0x0023911C
 // tail-calls it on a non-null pointer read from +0x1C. Owner and name are
 // address-derived.
 class Rva0042CADDOwner
@@ -172,5 +172,5 @@ private:
 
 void Rva0042CADDOwner::rva0042CADD()
 {
-	m_target00->rva0042CA4B();
+	m_target00->update();
 }
