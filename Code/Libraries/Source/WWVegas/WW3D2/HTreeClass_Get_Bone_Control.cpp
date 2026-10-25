@@ -1,31 +1,27 @@
 // ?Get_Bone_Control@HTreeClass@@QBEXHAAVMatrix3D@@@Z
 // ?Get_Bone_Control@HTreeClass@@QBEXHAAVMatrix3D@@@Z
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
-// cl: /O2 /arch:SSE /EHsc /MD /DNDEBUG
-class Quaternion { public: float X,Y,Z,W; Quaternion &operator=(const Quaternion &q){X=q.X;Y=q.Y;Z=q.Z;W=q.W;return *this;} };
-class Vector3 { public: float X,Y,Z; Vector3(const Vector3 &v):X(v.X),Y(v.Y),Z(v.Z){} Vector3 &operator=(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;return *this;} Vector3(float x,float y,float z):X(x),Y(y),Z(z){} };
-class Matrix3D { public: float M[3][4]; void Get_Translation(Vector3 *v) const {v->X=M[0][3];v->Y=M[1][3];v->Z=M[2][3];} };
-// The same accessor under a unit-local name, so this /O2 unit emits no external
-// Matrix3D::Get_Translation copy differing from retail's x87 body (0x0009314A).
-struct HTreeTranslationView : Matrix3D { void Get_Translation(Vector3 *v) const {v->X=M[0][3];v->Y=M[1][3];v->Z=M[2][3];} };
-Quaternion Build_Quaternion(const Matrix3D &);
-class PivotClass;
-class HTreeClass {
- struct CapturedBone {int Index;Quaternion Rotation;Vector3 Translation;bool WorldSpaceTranslation;};
- char Name[16];int NumPivots;PivotClass *Pivot;float ScaleFactor;
- CapturedBone *Begin,*End,*Capacity;
-public: void Control_Bone(int,const Matrix3D &,bool); void Get_Bone_Control(int,Matrix3D &) const;
-};
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfme2htree /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+#include <windows.h>
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
+#include "../../../../../reference/shims/bfme2htree/htree.h"
+// Target-decoded capture record; the shared HTree seed retains the vector
+// as three 32-bit words at +1C, +20 and +24.
+struct CapturedBone {int Index;Quaternion Rotation;Vector3 Translation;bool WorldSpaceTranslation;};
 // HTreeClass::Control_Bone (0x00162060) is rowed in htree_control.cpp.
 
 void HTreeClass::Get_Bone_Control(int index,Matrix3D &out) const
 {
- CapturedBone *bone=Begin;
- while(bone!=End && bone->Index<index) ++bone;
- if(bone==End || bone->Index!=index) {
-  out.M[0][0]=1.0f;out.M[0][1]=0.0f;out.M[0][2]=0.0f;out.M[0][3]=0.0f;
-  out.M[1][0]=0.0f;out.M[1][1]=1.0f;out.M[1][2]=0.0f;out.M[1][3]=0.0f;
-  out.M[2][0]=0.0f;out.M[2][1]=0.0f;out.M[2][2]=1.0f;out.M[2][3]=0.0f;
+ // Target Matrix3D is twelve row-major floats. A scalar view keeps this
+ // body from emitting a second Matrix3D accessor under its own flags.
+ typedef float MatrixWords[3][4];
+ MatrixWords &matrix=*reinterpret_cast<MatrixWords *>(&out);
+ CapturedBone *bone=reinterpret_cast<CapturedBone *>(OwnedSequence1C[0]);
+ while(bone!=reinterpret_cast<CapturedBone *>(OwnedSequence1C[1]) && bone->Index<index) ++bone;
+ if(bone==reinterpret_cast<CapturedBone *>(OwnedSequence1C[1]) || bone->Index!=index) {
+  matrix[0][0]=1.0f;matrix[0][1]=0.0f;matrix[0][2]=0.0f;matrix[0][3]=0.0f;
+  matrix[1][0]=0.0f;matrix[1][1]=1.0f;matrix[1][2]=0.0f;matrix[1][3]=0.0f;
+  matrix[2][0]=0.0f;matrix[2][1]=0.0f;matrix[2][2]=1.0f;matrix[2][3]=0.0f;
   return;
  }
  {
@@ -39,9 +35,9 @@ void HTreeClass::Get_Bone_Control(int index,Matrix3D &out) const
   float yw=quaternion.Y*quaternion.W*2.0f;
   float zz=quaternion.Z*quaternion.Z*2.0f;
   float zw=quaternion.Z*quaternion.W*2.0f;
-  out.M[0][0]=1.0f-yy-zz; out.M[0][1]=xy-zw; out.M[0][2]=yw+xz;
-  out.M[1][0]=zw+xy; out.M[1][1]=1.0f-zz-xx; out.M[1][2]=yz-xw;
-  out.M[2][0]=xz-yw; out.M[2][1]=yz+xw; out.M[2][2]=1.0f-yy-xx;
-  out.M[0][3]=bone->Translation.X;out.M[1][3]=bone->Translation.Y;out.M[2][3]=bone->Translation.Z;
+  matrix[0][0]=1.0f-yy-zz; matrix[0][1]=xy-zw; matrix[0][2]=yw+xz;
+  matrix[1][0]=zw+xy; matrix[1][1]=1.0f-zz-xx; matrix[1][2]=yz-xw;
+  matrix[2][0]=xz-yw; matrix[2][1]=yz+xw; matrix[2][2]=1.0f-yy-xx;
+  matrix[0][3]=bone->Translation.X;matrix[1][3]=bone->Translation.Y;matrix[2][3]=bone->Translation.Z;
  }
 }
