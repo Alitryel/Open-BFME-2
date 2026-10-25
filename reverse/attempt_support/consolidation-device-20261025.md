@@ -585,12 +585,36 @@ Further scoped trials, left unchanged:
   Only that trial's source/ledger changes were restored and its claims released.
   The pool-key and module constructor remain protected; mixed sources are
   outside the device prefix.
+- `W3DBibBuffer.cpp` dry-run accepted the seed and allocation donor;
+  `W3DBibBufferDtor.cpp` failed byte verification and
+  `W3DBibBufferConstructor.cpp` hit MSVC C1001 at composed TU line 104.
+  Applying the accepted pair staged a destination containing only `compile`,
+  and the required build failed C1004 (unexpected EOF). The trial was restored
+  and its 13 RVA plus four file claims were released. Do not retry unchanged;
+  investigate the merge tool's staging behavior before applying another
+  partially accepted donor set.
 - `W3DSmudge.cpp` split trials for `W3DSmudgeManagerTestHardwareSupport.cpp`
   and `W3DSmudgeManagerRender.cpp` were refused because the residual would lose
   matched rows `0x000A60EA` and `0x000A60A9`, respectively. No split claims or
   edits remain.
+- `W3DDebrisDrawModule.cpp` can carve row `0x000B1A37` toward
+  `W3DDebrisDraw.cpp`, but the split dry run refuses because the residual would
+  lose matched rows `0x000B19E5` and `0x000B19FB`. Nothing was applied.
 
 The verified FlatHeightMap merge is commit `47ad9a226a` and remains in the
 runner's unpublished batch. Keep its `file:` and RVA claims until publication
 is confirmed; its audit range is the two deletions listed in that commit plus
 the `FlatHeightMap.cpp` and function/TU-map updates.
+
+### Resumed batch publication audit (2026-10-25)
+
+Rechecked the complete pending range `origin/master..HEAD` before publication.
+The only source-path moves are the two FlatHeightMap donors listed above,
+absorbed into the already approved `FlatHeightMap.cpp`; the active search across
+`tools/`, `.githooks/`, `.github/`, `Code/`, includes and build/config files found
+no path consumer requiring an update. The old link-status entries and source
+provenance comments retain historical paths. Function and TU-map owners resolve
+to the destination, `check_csv.py` passes, and the prior build, declaration,
+staged data and code-identity checks remain the evidence for this merge. The
+five shadow identity findings listed above remain for Sol; no identity debt is
+retired by this move. No other source moves were added to the pending range.
