@@ -5,7 +5,8 @@
 // Ctor: zero ints at +0x00 +0x04 init Rva0055A246 at +0x08 zero 12 floats at +0x38.
 // Evidence: retail and [esi] 0 and [esi+4] 0 lea ecx [esi+8] call 0x55A246 xorps movss x12; chain from 0x55A246.
 typedef float Real;
-#include <d3dx9math.h>
+// Use the defining unit's DX8 matrix type so the shared basis has one COFF name.
+#include "d3dx8math.h"
 extern const D3DXMATRIX g_Rva009D2398Basis;
 extern "C" D3DXVECTOR4* __stdcall rva0062AF4AD3DXVec4Transform(D3DXVECTOR4*,const D3DXVECTOR4*,const D3DXMATRIX*);
 
