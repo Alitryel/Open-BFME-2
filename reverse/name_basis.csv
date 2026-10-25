@@ -2223,3 +2223,6 @@ function,?Rva00664A60Handler@@YAXPAVRva007E8810Message@@PAVBfmeThingZI@@@Z,?ente
 param,W3DTerrainBackground::getTriangleIntersection::x,W3DTerrainBackground::getTriangleIntersection::startX,inferred,agree:nl-60094a59d781,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp,0x0011319A
 param,W3DTerrainBackground::getTriangleIntersection::y,W3DTerrainBackground::getTriangleIntersection::startY,inferred,agree:nl-c43f2d623f08,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp,0x0011319A
 local,W3DTerrainBackground::getTriangleIntersection::z,W3DTerrainBackground::getTriangleIntersection::intersectionHeight,inferred,agree:nl-6949f9139753,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp,0x0011319A
+member,Rva00DFE758::m_134,Rva00DFE758::m_timeOfDay,inferred,agree:nl-7c105501a76a,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,
+param,Rva0045D7E0Notify::a,Rva0045D7E0Notify::assets,inferred,agree:nl-15c3e3f4aef2,Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp,0x0045D7E0
+param,Rva0045D7E0Notify::b,Rva0045D7E0Notify::context,inferred,agree:nl-b79b12715f17,Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp,0x0045D7E0

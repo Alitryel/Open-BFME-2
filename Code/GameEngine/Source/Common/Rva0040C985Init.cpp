@@ -15,7 +15,7 @@ class Rva00DFE758
 {
 public:
 	char m_pad[0x134];
-	int m_134;
+	int m_timeOfDay;
 };
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
@@ -65,7 +65,7 @@ void ArmySummary::rva0040CA09()
 }
 int ArmySummary::rva0040CA24()
 {
-	if (((Rva00DFE758 *)TheWritableGlobalData)->m_134 == 4)
+	if (((Rva00DFE758 *)TheWritableGlobalData)->m_timeOfDay == 4)
 		return m_28;
 	return m_24;
 }

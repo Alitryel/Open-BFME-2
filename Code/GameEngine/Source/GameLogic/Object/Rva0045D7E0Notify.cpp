@@ -37,20 +37,20 @@ struct Rva0045D7E0Host
 	Rva0045D7E0Vector<Rva002CA9CA> m_c[4];        // +0xB8
 };
 
-void Rva0045D7E0Notify(void *obj, int a, int b)
+void Rva0045D7E0Notify(void *obj, int assets, int context)
 {
 	Rva0045D7E0Host *&host = *(Rva0045D7E0Host **)&obj;
 	for (int i = 0; i < 4; ++i) {
 		for (ObjectCreationList **objectCreationList = host->m_b[i].m_begin; objectCreationList != host->m_b[i].m_end; ++objectCreationList) {
 			if (*objectCreationList)
-				(*objectCreationList)->rva001F0410((void *)a, (void *)b);
+				(*objectCreationList)->rva001F0410((void *)assets, (void *)context);
 		}
 		for (Rva001E11F8 **fxList = host->m_a[i].m_begin; fxList != host->m_a[i].m_end; ++fxList) {
 			if (*fxList)
-				(*fxList)->rva001E11F8(a, b);
+				(*fxList)->rva001E11F8(assets, context);
 		}
 		for (Rva002CA9CA **weaponTemplate = host->m_c[i].m_begin; weaponTemplate != host->m_c[i].m_end; ++weaponTemplate) {
 			if (*weaponTemplate)
-				(*weaponTemplate)->rva002CAC6E(a, b);
+				(*weaponTemplate)->rva002CAC6E(assets, context);
 		}	}
 }
