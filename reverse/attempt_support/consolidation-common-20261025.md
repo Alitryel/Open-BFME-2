@@ -133,3 +133,25 @@ staged move, covering all nine deleted paths. New path hits are provenance and
 the census snapshot. Stem hits also identify unchanged function declarations,
 calls, ledger identities and a naming tier; they do not depend on source paths.
 No active consumer needs repair; previous historical classifications still hold.
+
+## TunnelTracker.cpp
+
+The dry run and claimed merge accepted the existing RTS destination plus
+`Thing/Rva004F53A3.cpp` and `Thing/Rva004F5436Count.cpp`: four matched rows
+preserved, two fragments removed. The normal build passed 4/4 and the
+declared-unmatched check passed. The current routing approved both helpers;
+only their source columns were changed in the existing map and function ledger.
+
+The other eight eligible donors remain unchanged. Most fail against differing
+Object/TunnelTracker declarations, with allocator<char> specialization conflicts
+in several combinations. The deleting-destructor donor loses its byte match.
+Two other sources remain mixed, and the getCurNemesis/xfer sources remain
+protected by their existing registers. Reconcile prerequisites individually;
+the successful subset does not establish a unified class layout for those rows.
+
+Fetched origin and audited the combined eleven deleted paths from `91fe970939`
+through this staged move. New exact path hits are provenance and the census
+snapshot. Other stem hits name unchanged symbols, structural evidence and WB
+name leads; they do not consume the removed files. No active tools, hooks,
+workflows, includes, build inputs or registries need updating. Generic source
+discovery still includes the destinations; no source directory was moved.
