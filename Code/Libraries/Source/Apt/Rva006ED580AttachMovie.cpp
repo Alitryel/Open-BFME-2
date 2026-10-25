@@ -69,7 +69,7 @@ struct Rva006ED580CIH
 	}
 };
 
-AptValue *__cdecl Rva006ED580AttachMovie(AptValue *self, int count)
+AptValue *__cdecl attachMovie(AptValue *self, int count)
 {
 	AptValue *idValue = g_aptDateInterpreter.stack.At(0);
 	AptValue *nameValue = g_aptDateInterpreter.stack.At(1);

@@ -46,9 +46,9 @@ void Rva001F51DC::rva001F51DC(Vec2001F51DC *out)
 	Provider001F51DC *provider = m_ptr;
 	if (provider != 0)
 	{
-		const Data001F51DC *d = provider->fetch();
-		a = d->x;
-		b = d->y;
+		const Data001F51DC *coordinates = provider->fetch();
+		a = coordinates->x;
+		b = coordinates->y;
 	}
 	out->x = a;
 	out->y = b;

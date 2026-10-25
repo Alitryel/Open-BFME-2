@@ -43,7 +43,7 @@ public:
     virtual void UnknownSlot4(float frame, Vector3 *value, unsigned char **cursor);
     virtual void UnknownSlot5(float frame, Quaternion *value, unsigned char **cursor);
     void rva001B230A(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1);
-    void rva001B2210(unsigned int *state, unsigned int from, unsigned int frame, float *value0, float *value1);
+    void decompress(unsigned int *state, unsigned int from, unsigned int frame, float *value0, float *value1);
     void rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1);
 };
 class BFME2Encoding2MotionChannel : public BFME2StreamMotionChannel {
@@ -76,13 +76,13 @@ void BFME2Encoding1MotionChannel::UnknownSlot3(float frame, float *value, unsign
         BFME2StreamCache *cache = (BFME2StreamCache *)*cursor;
         float *value0 = &cache->Value0;
         float *value1 = value0 + 1;
-        rva001B2210((unsigned int *)value0, cache->Frame, whole, value0, value1);
+        decompress((unsigned int *)value0, cache->Frame, whole, value0, value1);
         cache->Frame = whole;
         *value = Bfme_Lerp(*value0, *value1, frame);
         *cursor += Components * 8 + 4;
     } else {
         float value0, value1;
-        rva001B2210((unsigned int *)(EncodedHeader + 4), 0, whole, &value0, &value1);
+        decompress((unsigned int *)(EncodedHeader + 4), 0, whole, &value0, &value1);
         *value = Bfme_Lerp(value0, value1, frame);
     }
 }

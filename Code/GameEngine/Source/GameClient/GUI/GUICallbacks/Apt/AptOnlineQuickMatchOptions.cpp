@@ -477,7 +477,7 @@ void AptOnlineQuickMatch::rva005BBF15() {
 // the connect-info type (its constructor zeroing is dead but sets retail's
 // frame homes for the temporaries and the param-home reuse of the new NAT).
 class MapMetaData {public:char pad[0x20];int players;};class MapCache{public:const MapMetaData *findMap(AsciiString);};extern MapCache *TheMapCache;
-class Rva003821E2 {public:void assign(UnicodeString);};class Rva004FDD36AsciiField{public:void rva004FDD36(AsciiString);};
+class Rva003821E2 {public:void assign(UnicodeString);};class Rva004FDD36AsciiField{public:void setClan(AsciiString);};
 class MpGameRules { public: static void GetDefaults(int,void*); };void SendStatsToOtherPlayers(GameInfo*);
 class Rva005A734B{public:char storage[0x974];Rva005A734B();};
 

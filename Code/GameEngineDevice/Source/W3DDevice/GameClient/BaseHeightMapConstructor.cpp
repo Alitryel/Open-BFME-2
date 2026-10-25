@@ -58,7 +58,7 @@ class W3DTaint {public:W3DTaint();char data[80];};
 class GlobalData;extern GlobalData*TheWritableGlobalData;
 struct TerrainGlobalView {char data[0xC6A];bool useTaint;};
 class Rva001E35DFView {public:const Rva001E35DFView*getFinalOverride()const{if(next)return next->getFinalOverride();return this;}void*unknown00;Rva001E35DFView*next;bool isOverride;};
-class Rva00DFF488Setting:public Rva001E35DFView {public:char unknown0C[12];int field18,field1C;};
+class Rva00DFF488Setting:public Rva001E35DFView {public:char unknown0C[12];int m_transparentWaterDepth,m_minWaterOpacity;};
 template<class T>class OVERRIDE {public:__forceinline operator const T*()const{if(!pointer)return 0;return(const T*)pointer->getFinalOverride();}__forceinline const T*operator->()const{if(!pointer)return 0;return(const T*)pointer->getFinalOverride();}const T*pointer;};
 class WaterTransparencySetting;
 extern OVERRIDE<WaterTransparencySetting>TheWaterTransparency;
@@ -158,6 +158,6 @@ if(((const TerrainGlobalView*)TheWritableGlobalData)->useTaint)buffer11=new W3DT
 DX8Wrapper::SetCleanupHook(this);
 f3824.set("TSCloudMed.tga");f3830.set("TSNoiseUrb.tga");f3840.set("TSTaintMed.tga");f384c.set("TSElvenMed.tga");
 const OVERRIDE<Rva00DFF488Setting>&settings=(const OVERRIDE<Rva00DFF488Setting>&)TheWaterTransparency;
-config1C=settings->field1C;config18=settings->field18;
+config1C=settings->m_minWaterOpacity;config18=settings->m_transparentWaterDepth;
 initialized=true;
 }

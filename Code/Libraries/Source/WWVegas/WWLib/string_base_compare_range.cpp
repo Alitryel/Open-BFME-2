@@ -78,19 +78,19 @@ int WideCharCompare::compare(const wchar_t *a, const wchar_t *b, int len) const
     return 0;
 }
 
-int compareRange(const wchar_t *a, int alen, const wchar_t *b, int blen, WideCharCompare tag)
+int compareRange(const wchar_t *left, int alen, const wchar_t *right, int blen, WideCharCompare tag)
 {
     const int len = alen < blen ? alen : blen;
-    const int result = tag.compare(a, b, len);
+    const int result = tag.compare(left, right, len);
     if (result != 0)
         return result;
     return alen - blen;
 }
 
-int compareRangeNoCase(const wchar_t *a, int alen, const wchar_t *b, int blen, WideCharCompare tag)
+int compareRangeNoCase(const wchar_t *left, int alen, const wchar_t *right, int blen, WideCharCompare tag)
 {
     const int len = alen < blen ? alen : blen;
-    const int result = tag.compareNoCase(a, b, len);
+    const int result = tag.compareNoCase(left, right, len);
     if (result != 0)
         return result;
     return alen - blen;
@@ -104,7 +104,7 @@ int compareRangeNoCase(const wchar_t *a, int alen, const wchar_t *b, int blen, W
 // PlayerInitFromDict.cpp keeps the narrow compareRange body visible, so it is a
 // select-any copy of the same body there and here; this anchor keeps it emitted.
 // ?bfmeAnchorCompareRange absent-from-retail
-int bfmeAnchorCompareRange(const char *a, int alen, const char *b, int blen)
+int bfmeAnchorCompareRange(const char *left, int alen, const char *right, int blen)
 {
-    return compareRange(a, alen, b, blen, CharCompare());
+    return compareRange(left, alen, right, blen, CharCompare());
 }

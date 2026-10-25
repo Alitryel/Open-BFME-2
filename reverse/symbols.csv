@@ -6201,7 +6201,7 @@ name,address,notes
 ?Rva0080DFC0@@YAXPAXPBX@Z,0x00679EC0,same cipher-init body as the Rva0080DFC0 row; C++ alias name from BFME1 Y2Rva00806580Module call sites
 ?Rva0080E330@@YAHPAXH@Z,0x0067A230,same length-adjust body as the Rva0080E330 row; C++ alias name from BFME1 Y2Rva00806580Module call sites
 ?Rva0080E410@@YAXPAXPADH@Z,0x0067A310,same cipher-update body as the Rva0080E410 row; C++ alias name from BFME1 Y2Rva00806580Module call sites
-?Rva00814020@@YAXXZ,0x0067FF20,op-table slot 10 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi declares it at plain scope (C++ linkage); 17B tick-read wrapper unclaimed
+?CommTAPITick@@YAXXZ,0x0067FF20,op-table slot 10 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi declares it at plain scope (C++ linkage); 17B tick-read wrapper unclaimed
 ?Rva0085EFA0@@YAXPAVRva0085EFA0Owner@@@Z,0x0069FEA0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?Rva008793B0@@YAHH@Z,0x006B8C40,address read from the REL32 displacement at a placed body
 ?Rva0087E900@@YAPAURva0087E900Coord@@PAU1@PBU1@PBURva0087E900Shape@@M@Z,0x006BE190,"auto-pin (permute --pins): REL32 call target read from retail in 0x006be220, whose banked body is byte-exact once this call resolves"
@@ -9902,7 +9902,7 @@ name,address,notes
 ?rva0018C73C@Rva0018C73C@@QAEXHHPAD@Z,0x0018C73C,thiscall callee of the F22 ebp-frame forwarders; takes the wrapper's first two args plus (char*)&arg2+3 in a vestigial third slot; name unknown
 ?rva0019C0A0@Rva0019C0A0NullTarget@@QAEHXZ,0x0019C0A0,"method a null-checked vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva001A3930@Rva001A3930NullTarget@@QAEHXZ,0x001A3930,"method a null-checked vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
-?rva001B2210@BFME2Encoding1MotionChannel@@QAEXPAIIIPAM1@Z,0x001B2210,"REL32 at +0x3C and +0x87 of the byte-true BFME2Encoding1MotionChannel::UnknownSlot3 0x001B28FA (thiscall decoder: state/from/frame/value0/value1; RET 0x14); reads this+0x18 and Data +0x28; 0x001B2599 is the encoding-2 twin; unrowed"
+?decompress@BFME2Encoding1MotionChannel@@QAEXPAIIIPAM1@Z,0x001B2210,"REL32 at +0x3C and +0x87 of the byte-true BFME2Encoding1MotionChannel::UnknownSlot3 0x001B28FA (thiscall decoder: state/from/frame/value0/value1; RET 0x14); reads this+0x18 and Data +0x28; 0x001B2599 is the encoding-2 twin; unrowed"
 ?rva001B230A@BFME2Encoding1MotionChannel@@QAEXPAIIIPAVVector3@@1@Z,0x001B230A,"REL32 at +0x3E and +0xC2 of the byte-true BFME2Encoding1MotionChannel::UnknownSlot4 0x001B29A6 (thiscall Vector3 decoder: state/from/frame/value0/value1); 0x001B267B is the encoding-2 twin; unrowed"
 ?rva001B2450@BFME2Encoding1MotionChannel@@QAEXPAIIIPAVQuaternion@@1@Z,0x001B2450,"REL32 at +0x3A and +0x7D of the byte-true BFME2Encoding1MotionChannel::UnknownSlot5 0x001B2ABE (thiscall quaternion decoder: state/from/frame/value0/value1); 0x001B27AB is the encoding-2 twin; unrowed"
 ?rva001B2599@BFME2Encoding2MotionChannel@@QAEXPAIIIPAM1@Z,0x001B2599,"REL32 at +0x3C and +0x87 of the byte-true BFME2Encoding2MotionChannel::UnknownSlot3 0x001B2B5F (thiscall decoder twin of 0x001B2210 for the 17-byte-block encoding); unrowed"
@@ -10702,7 +10702,7 @@ name,address,notes
 ?rva007FBE70@Rva007FBC60Game@@QAEPADXZ,0x00668370
 ?rva007FBE80@Rva007FBC60Game@@QAE_NPBDPADI@Z,0x00668380
 ?rva007FBFB0@Rva007F5010Player@@QAE_NPBDPADI@Z,0x006684B0
-?rva00813A40@@YAXXZ,0x0067F940,op-table slot 8 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
+?CommTAPICallback@@YAXXZ,0x0067F940,op-table slot 8 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
 ?CommTAPIUnresolve@@YAXXZ,0x0067FBF0,op-table slot 3 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
 ?rva0082ADB0Fill@@YAXPAD0ABD@Z,0x000237C0
 ?rva0082C6E0CopyValues@@YAPAURva0082C6E0Value@@PAU1@00@Z,0x000179B0

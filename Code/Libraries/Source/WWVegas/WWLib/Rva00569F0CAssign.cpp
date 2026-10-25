@@ -28,8 +28,8 @@ void Rva00569F0CVec::rva00569F0C(void *a,void *b,bool *){
  const BfmeStringRecord00568CE0 *first=static_cast<const BfmeStringRecord00568CE0 *>(a),*last=static_cast<const BfmeStringRecord00568CE0 *>(b);
  unsigned len=last-first;
  if(len>static_cast<unsigned>(_M_end_of_storage-_M_start)){
-  BfmeStringRecord00568CE0 *tmp=_M_allocate_and_copy(len,first,last);
-  _M_clear();_M_start=tmp;_M_end_of_storage=tmp+len;_M_finish=_M_end_of_storage;
+  BfmeStringRecord00568CE0 *newStorage=_M_allocate_and_copy(len,first,last);
+  _M_clear();_M_start=newStorage;_M_end_of_storage=newStorage+len;_M_finish=_M_end_of_storage;
  }else if(static_cast<unsigned>(_M_finish-_M_start)>=len){
   BfmeStringRecord00568CE0 *end=reinterpret_cast<BfmeStringRecord00568CE0 *>(rva00569450(const_cast<BfmeStringRecord00568CE0 *>(first),const_cast<BfmeStringRecord00568CE0 *>(last),_M_start));
   _STL::_Destroy(end,_M_finish);_M_finish=end;

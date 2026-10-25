@@ -147,9 +147,9 @@ public:
     char m_pad[0xC0];
     MeshModelClass *m_model;
 };
-void __cdecl Rva00135F6CMakeUnique(void *p)
+void __cdecl Rva00135F6CMakeUnique(void *renderObj)
 {
-    Rva00135F6CNode *obj = (Rva00135F6CNode *)p;
+    Rva00135F6CNode *obj = (Rva00135F6CNode *)renderObj;
     if (obj == 0)
         return;
     if (obj->v03() == 0)
@@ -168,8 +168,8 @@ void __cdecl Rva00135F6CMakeUnique(void *p)
             return;
         return model->rva00171780();
     }
-    int n = obj->v28();
-    for (int i = 0; i < n; ++i)
+    int subObjectCount = obj->v28();
+    for (int i = 0; i < subObjectCount; ++i)
     {
         Rva00135F6CNode *sub = (Rva00135F6CNode *)obj->v30(i);
         Rva00135F6CMakeUnique(sub);
@@ -185,8 +185,8 @@ void __cdecl Rva00135F6CMakeUnique(void *p)
 // Donor reference/open-bfme-1 @34f59164f6d1efd413c5fd37f4894ec834c3c0fe:
 // game/GameEngine/Source/Common/Rva00739B30RenderObjectUnique.cpp semantic guide;
 // native 10E4F6..10E5A2 proves bool ABI, refcount+4 and slots0/C/70/78/154.
-static void releaseUniqueObject(Rva00135F6CNode *p) {
-    if (p && --p->m_ref == 0) p->v00();
+static void releaseUniqueObject(Rva00135F6CNode *refCountedObject) {
+    if (refCountedObject && --refCountedObject->m_ref == 0) refCountedObject->v00();
 }
 void rva0010E4F6(void *pointer, bool geometry)
 {

@@ -170,7 +170,7 @@ AptValue *Rva006ECC20LoadVariables(AptValue *self,int count);
 AptValue *__cdecl Rva006ECCB0LocalToGlobal(AptValue *,int);
 AptValue *aptHelperClearFlag008AE450(void *entry, int count);
 AptValue *aptHelperSetFlag008AE470(void *entry, int count);
-AptValue *__cdecl Rva006ED580AttachMovie(AptValue *,int);
+AptValue *__cdecl attachMovie(AptValue *,int);
 AptValue *Rva006ED770RemoveMovieClip(AptValue *self,int);
 AptValue *__cdecl Rva006ED810CreateTextField(AptValue *,int);
 AptValue *__cdecl Rva006EDBD0SwapDepths(AptValue *,int);
@@ -430,7 +430,7 @@ g_Va00E18198=(Acac0Releaseable*)new Rva006D6500((int)&aptHelperClearFlag008AE450
 return (AptValue*)g_Va00E18198;
 
  case 100:if(!g_Va00E181A0){
-g_Va00E181A0=(Acac0Releaseable*)new Rva006D6500((int)&Rva006ED580AttachMovie);
+g_Va00E181A0=(Acac0Releaseable*)new Rva006D6500((int)&attachMovie);
 ((Rva006D6500*)g_Va00E181A0)->setGCRootCount(1);
 ((Rva006D6500*)g_Va00E181A0)->AddRef();
 }

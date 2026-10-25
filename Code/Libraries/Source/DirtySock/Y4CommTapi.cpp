@@ -49,8 +49,8 @@ extern "C"
 }
 
 void CommTAPIUnresolve( void );
-void rva00813A40( void );
-void Rva00814020( void );
+void CommTAPICallback( void );
+void CommTAPITick( void );
 
 extern "C" CommTAPIRef *Rva00812DD0( int first, int second, int third )
 {
@@ -70,9 +70,9 @@ extern "C" CommTAPIRef *Rva00812DD0( int first, int second, int third )
 	comm->m_ops[ 5 ] = (void *)Rva00813E30;
 	comm->m_ops[ 6 ] = (void *)Rva00813E50;
 	comm->m_ops[ 7 ] = (void *)Rva00813F20;
-	comm->m_ops[ 8 ] = (void *)rva00813A40;
+	comm->m_ops[ 8 ] = (void *)CommTAPICallback;
 	comm->m_ops[ 9 ] = (void *)Rva00813F90;
-	comm->m_ops[ 10 ] = (void *)Rva00814020;
+	comm->m_ops[ 10 ] = (void *)CommTAPITick;
 	comm->m_ops[ 11 ] = (void *)Rva00814040;
 	comm->m_ops[ 12 ] = (void *)Rva00814070;
 	comm->m_ops[ 13 ] = (void *)Rva008140A0;
@@ -105,11 +105,11 @@ void CommTAPIUnresolve( void )
 {
 }
 
-void rva00813A40( void )
+void CommTAPICallback( void )
 {
 }
 
-void Rva00814020( void )
+void CommTAPITick( void )
 {
 	Rva007FEA00();
 }

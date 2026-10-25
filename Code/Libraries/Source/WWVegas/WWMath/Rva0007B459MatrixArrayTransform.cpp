@@ -23,12 +23,12 @@ void Rva0007B459MatrixArrayTransform::transform_inplace(Vector3 *inout, int coun
 {
  while (count--)
  {
-  float x = (Row[0].X * inout->X + Row[0].Y * inout->Y + Row[0].Z * inout->Z + Row[0].W);
-  float y = (Row[1].X * inout->X + Row[1].Y * inout->Y + Row[1].Z * inout->Z + Row[1].W);
-  float z = (Row[2].X * inout->X + Row[2].Y * inout->Y + Row[2].Z * inout->Z + Row[2].W);
-  inout->X = x;
-  inout->Y = y;
-  inout->Z = z;
+  float transformedX = (Row[0].X * inout->X + Row[0].Y * inout->Y + Row[0].Z * inout->Z + Row[0].W);
+  float transformedY = (Row[1].X * inout->X + Row[1].Y * inout->Y + Row[1].Z * inout->Z + Row[1].W);
+  float transformedZ = (Row[2].X * inout->X + Row[2].Y * inout->Y + Row[2].Z * inout->Z + Row[2].W);
+  inout->X = transformedX;
+  inout->Y = transformedY;
+  inout->Z = transformedZ;
   ++inout;
  }
 }

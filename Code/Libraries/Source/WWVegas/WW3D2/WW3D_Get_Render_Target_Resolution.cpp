@@ -30,8 +30,8 @@ public:
 struct BfmeDisplayModeInfo
 {
 	char m_bfmeHead[0x18];
-	Int m_bfmeWidth; // +0x18
-	Int m_bfmeHeight; // +0x1C
+	Int m_width; // +0x18
+	Int m_height; // +0x1C
 };
 
 class BfmeRenderDevice
@@ -80,8 +80,8 @@ void DX8Wrapper::Get_Render_Target_Resolution(Int &width, Int &height, Int &bitD
 
 		((BfmeRenderDevice *)CurrentRenderTarget)->bfmeGetModeInfo(&info);
 
-		width = info.m_bfmeWidth;
-		height = info.m_bfmeHeight;
+		width = info.m_width;
+		height = info.m_height;
 		bitDepth = BitDepth;
 		windowed = IsWindowed;
 	}

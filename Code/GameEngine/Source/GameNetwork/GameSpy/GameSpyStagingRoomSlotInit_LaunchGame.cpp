@@ -206,7 +206,7 @@ class Rva004FDCE1AsciiField
 {
 public:
 	AsciiString get(void) const;
-	void rva004FDCFF(AsciiString value);
+	void setGameSpyName(AsciiString value);
 };
 class Rva004FDD6DAsciiField
 {
@@ -221,7 +221,7 @@ public:
 class Rva004FDD36AsciiField
 {
 public:
-	void rva004FDD36(AsciiString value);
+	void setClan(AsciiString value);
 };
 class Rva004CFB6DAsciiField
 {

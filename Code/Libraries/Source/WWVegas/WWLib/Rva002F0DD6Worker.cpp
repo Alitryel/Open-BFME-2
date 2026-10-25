@@ -49,7 +49,7 @@ class Rva002F1DDCTree
 {
 public:
 	Rva002F1DDCIter rva002F0DD6(Rva002F1DDCNode *x,
-		Rva002F1DDCNode *y, const Rva002F1DDCValue &value,
+		Rva002F1DDCNode *parent, const Rva002F1DDCValue &value,
 		Rva002F1DDCNode *w);
 private:
 	Rva002F1DDCNode *m_header;
@@ -57,31 +57,31 @@ private:
 };
 
 Rva002F1DDCIter Rva002F1DDCTree::rva002F0DD6(Rva002F1DDCNode *x,
-	Rva002F1DDCNode *y, const Rva002F1DDCValue &value,
+	Rva002F1DDCNode *parent, const Rva002F1DDCValue &value,
 	Rva002F1DDCNode *w)
 {
-	Rva002F1DDCNode *z;
-	if (y == m_header || (w == 0 && (x != 0 || *(const unsigned int *)&value < y->_key))) {
-		z = (Rva002F1DDCNode *)reinterpret_cast<Rva002F0DD6Tree *>(this)->rva002EF25B(reinterpret_cast<const Rva002F0DD6Value &>(value));
-		y->_left = z;
-		if (y == m_header) {
-			m_header->_parent = z;
-			m_header->_right = z;
-		} else if (y == m_header->_left) {
-			m_header->_left = z;
+	Rva002F1DDCNode *newNode;
+	if (parent == m_header || (w == 0 && (x != 0 || *(const unsigned int *)&value < parent->_key))) {
+		newNode = (Rva002F1DDCNode *)reinterpret_cast<Rva002F0DD6Tree *>(this)->rva002EF25B(reinterpret_cast<const Rva002F0DD6Value &>(value));
+		parent->_left = newNode;
+		if (parent == m_header) {
+			m_header->_parent = newNode;
+			m_header->_right = newNode;
+		} else if (parent == m_header->_left) {
+			m_header->_left = newNode;
 		}
 	} else {
-		z = (Rva002F1DDCNode *)reinterpret_cast<Rva002F0DD6Tree *>(this)->rva002EF25B(reinterpret_cast<const Rva002F0DD6Value &>(value));
-		y->_right = z;
-		if (y == m_header->_right) {
-			m_header->_right = z;
+		newNode = (Rva002F1DDCNode *)reinterpret_cast<Rva002F0DD6Tree *>(this)->rva002EF25B(reinterpret_cast<const Rva002F0DD6Value &>(value));
+		parent->_right = newNode;
+		if (parent == m_header->_right) {
+			m_header->_right = newNode;
 		}
 	}
-	z->_parent = y;
-	z->_left = 0;
-	z->_right = 0;
-	_STL::_Rb_global<bool>::_Rebalance((_STL::_Rb_tree_node_base *)z,
+	newNode->_parent = parent;
+	newNode->_left = 0;
+	newNode->_right = 0;
+	_STL::_Rb_global<bool>::_Rebalance((_STL::_Rb_tree_node_base *)newNode,
 		(_STL::_Rb_tree_node_base *&)m_header->_parent);
 	++m_count;
-	return Rva002F1DDCIter(z);
+	return Rva002F1DDCIter(newNode);
 }

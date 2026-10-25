@@ -85,14 +85,14 @@ struct Rva0032AAEENode
 class Rva0032AAEE
 {
 public:
-	void rva0032AAEE(int firstIndex, int secondIndex);
+	void swapNodes(int firstIndex, int secondIndex);
 
 private:
 	char unknown00[12];
 	Rva0032AAEENode *nodes;
 };
 
-void Rva0032AAEE::rva0032AAEE(int firstIndex, int secondIndex)
+void Rva0032AAEE::swapNodes(int firstIndex, int secondIndex)
 {
 	if (firstIndex == secondIndex)
 		return;

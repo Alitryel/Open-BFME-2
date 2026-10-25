@@ -45,7 +45,7 @@ public:
     virtual void UnknownSlot4(float frame, Vector3 *value, unsigned char **cursor);
     virtual void UnknownSlot5(float frame, Quaternion *value, unsigned char **cursor);
     void rva001B230A(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1);
-    void rva001B2210(unsigned int *state, unsigned int from, unsigned int frame, float *value0, float *value1);
+    void decompress(unsigned int *state, unsigned int from, unsigned int frame, float *value0, float *value1);
     void rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1);
 };
 class BFME2Encoding2MotionChannel : public BFME2StreamMotionChannel {

@@ -24,8 +24,8 @@ struct Rva000ECF79Tree {
  int treeType; bool visible; unsigned char alignment45[3]; SphereClass bounds;
  unsigned int drawableID; int pushAside; int swayType, firstIndex, bufferIndex;
  float pushAsideSource; float pushAsideDelta; Vector3 vector74;
- unsigned int lastFrame; float field84; bool flag88; unsigned char gap89[3]; int field8c;
- Matrix3D matrix90; int fieldc0; bool flagc4; unsigned char gapc5[3];
+ unsigned int lastFrame; float m_angularAccumulation; bool flag88; unsigned char gap89[3]; int m_options;
+ Matrix3D matrix90; int m_sinkFramesLeft; bool flagc4; unsigned char gapc5[3];
  int fieldc8,typecc,fieldd0,fieldd4,fieldd8,fielddc,fielde0,fielde4;
 };
 extern float GetGameClientRandomValueReal(float,float,char*,int);
@@ -104,11 +104,11 @@ void W3DTreeBuffer::addTree(unsigned int id,Rva000ECF79Coord location,float scal
  trees[numTrees].pushAsideSource=0;
  trees[numTrees].pushAsideDelta=0;
  trees[numTrees].vector74.Set(0,0,0);
- trees[numTrees].field84=0;
+ trees[numTrees].m_angularAccumulation=0;
  trees[numTrees].flag88=false;
- trees[numTrees].field8c=0;
+ trees[numTrees].m_options=0;
  trees[numTrees].matrix90.Make_Identity();
- trees[numTrees].fieldc0=0;
+ trees[numTrees].m_sinkFramesLeft=0;
  ++numTrees;
  changed=true;
 }

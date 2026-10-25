@@ -311,8 +311,8 @@ void W3DTerrainLogic::Rva0027D960(void *water, float *out)
 	out[1] = mapBounds.hiY + c;
 	out[3] = mapBounds.loX - c;
 	out[4] = mapBounds.loY - c;
-	Rva0027D960Water *w = (Rva0027D960Water *)water;
-	Rva0027D960Real *real0 = (Rva0027D960Real *)((char *)water + 0x18 + w->m_inner18->m_off04);
+	Rva0027D960Water *waterView = (Rva0027D960Water *)water;
+	Rva0027D960Real *real0 = (Rva0027D960Real *)((char *)water + 0x18 + waterView->m_inner18->m_off04);
 	int pointCount = real0->getCount();
 	int i = 0;
 	if (pointCount <= 0)

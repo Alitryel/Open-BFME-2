@@ -208,7 +208,7 @@ class Rva004FDCE1AsciiField
 {
 public:
 	AsciiString get(void) const;
-	void rva004FDCFF(AsciiString value);
+	void setGameSpyName(AsciiString value);
 };
 class Rva004FDD6DAsciiField
 {
@@ -223,7 +223,7 @@ public:
 class Rva004FDD36AsciiField
 {
 public:
-	void rva004FDD36(AsciiString value);
+	void setClan(AsciiString value);
 };
 class Rva004CFB6DAsciiField
 {
@@ -590,7 +590,7 @@ void GameSpyStagingRoom::startGame(Int gameID)
 			++numHumans;
 			AsciiString gsName;
 			gsName.translate(slot->m_name);
-			((Rva004FDCE1AsciiField *)slot)->rva004FDCFF(gsName);
+			((Rva004FDCE1AsciiField *)slot)->setGameSpyName(gsName);
 			PlayerInfo *info = TheGameSpyInfo->rva00382CCE(((const StringBase<char> *)&gsName)->str());
 
 			if (m_isQM)
@@ -609,7 +609,7 @@ void GameSpyStagingRoom::startGame(Int gameID)
 				if (it != pInfoMap->end())
 				{
 					slot->setProfileID(it->second.m_profileID);
-					((Rva004FDD36AsciiField *)slot)->rva004FDD36(it->second.m_clan);
+					((Rva004FDD36AsciiField *)slot)->setClan(it->second.m_clan);
 					slot->setSlotRankPoints(it->second.m_rankPoints);
 					slot->setFavoriteSide(it->second.m_desync);
 				}

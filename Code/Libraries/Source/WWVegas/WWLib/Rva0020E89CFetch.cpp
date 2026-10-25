@@ -83,12 +83,12 @@ UnicodeString Rva005C95CAGet(const Rva005E2338Elem *)
 class Rva003F0403
 {
 public:
-    UnicodeString rva003F0403();
+    UnicodeString getDisplayName();
 private:
     char unknown00[0x3C];
     AsciiString label;
 };
-UnicodeString Rva003F0403::rva003F0403()
+UnicodeString Rva003F0403::getDisplayName()
 {
     if (label.isEmpty()) return UnicodeString::TheEmptyString;
     return TheGameText->fetch(label);

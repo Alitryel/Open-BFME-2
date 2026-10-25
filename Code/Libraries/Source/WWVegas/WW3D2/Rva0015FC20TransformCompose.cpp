@@ -18,14 +18,14 @@ struct Rva0015FC20Rotation
 {
 	__forceinline void Rotate_Vector(const Rva0015FC20Vector &v, Rva0015FC20Vector *result) const
 	{
-		float x = W*v.X + (Y*v.Z - v.Y*Z);
-		float y = W*v.Y - (X*v.Z - v.X*Z);
-		float z = W*v.Z + (X*v.Y - v.X*Y);
-		float w = -(X*v.X + Y*v.Y + Z*v.Z);
+		float productX = W*v.X + (Y*v.Z - v.Y*Z);
+		float productY = W*v.Y - (X*v.Z - v.X*Z);
+		float productZ = W*v.Z + (X*v.Y - v.X*Y);
+		float productW = -(X*v.X + Y*v.Y + Z*v.Z);
 
-		result->X = W*x - w*X + (Y*z - y*Z);
-		result->Y = W*y - w*Y - (X*z - x*Z);
-		result->Z = W*z - w*Z + (X*y - Y*x);
+		result->X = W*productX - productW*X + (Y*productZ - productY*Z);
+		result->Y = W*productY - productW*Y - (X*productZ - productX*Z);
+		result->Z = W*productZ - productW*Z + (X*productY - Y*productX);
 	}
 	__forceinline void multiply(const Rva0015FC20Rotation &other)
 	{

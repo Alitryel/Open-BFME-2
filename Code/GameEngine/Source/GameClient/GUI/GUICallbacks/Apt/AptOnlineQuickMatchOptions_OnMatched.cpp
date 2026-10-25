@@ -388,7 +388,7 @@ void *GadgetComboBoxGetItemData(GameWindow *, int);
 // the connect-info type (its constructor zeroing is dead but sets retail's
 // frame homes for the temporaries and the param-home reuse of the new NAT).
 class MapMetaData {public:char pad[0x20];int players;};class MapCache{public:const MapMetaData *findMap(AsciiString);};extern MapCache *TheMapCache;
-class Rva003821E2 {public:void assign(UnicodeString);};class Rva004FDD36AsciiField{public:void rva004FDD36(AsciiString);};
+class Rva003821E2 {public:void assign(UnicodeString);};class Rva004FDD36AsciiField{public:void setClan(AsciiString);};
 class MpGameRules { public: static void GetDefaults(int,void*); };void SendStatsToOtherPlayers(GameInfo*);
 class Rva005A734B{public:char storage[0x974];Rva005A734B();};
 void AptOnlineQuickMatch::OnMatched(PeerResponse &resp){
@@ -404,7 +404,7 @@ void AptOnlineQuickMatch::OnMatched(PeerResponse &resp){
    AsciiString aName=resp.unknown_88[i].c_str();char baseName[256]="";strncpy(baseName,resp.unknown_88[i].c_str(),255);
    PlayerInfo player;player.name=resp.unknown_88[i].c_str();player.baseName=baseName;TheGameSpyInfo->updatePlayerInfo(player,AsciiString::TheEmptyString);
    UnicodeString uName;uName.translate(baseName);IPAndPort connect(resp.qmStatus.IP[i],resp.qmStatus.ports[i]);
-   slot->setState(SLOT_PLAYER,uName,(const GameSlotConnectInfo*)&connect);slot->color=resp.payload_572.words[24+i];slot->setPlayerTemplate(resp.payload_572.words[16+i]);slot->nat=resp.payload_572.words[32+i];((Rva004FDD36AsciiField*)slot)->rva004FDD36("");slot->team=i/numPerTeam;
+   slot->setState(SLOT_PLAYER,uName,(const GameSlotConnectInfo*)&connect);slot->color=resp.payload_572.words[24+i];slot->setPlayerTemplate(resp.payload_572.words[16+i]);slot->nat=resp.payload_572.words[32+i];((Rva004FDD36AsciiField*)slot)->setClan("");slot->team=i/numPerTeam;
    switch(numPerTeam){case 1:slot->rva1d0=resp.payload_572.words[40+i];slot->rva1d4=-1;break;case 2:slot->rva1d0=-1;slot->rva1d4=resp.payload_572.words[40+i];break;default:slot->rva1d0=-1;slot->rva1d4=-1;}
    if(i==0)((Rva003821E2*)TheGameSpyGame)->assign(uName);
   }

@@ -2072,6 +2072,11 @@ member,Rva001338A0::m_0C,Rva001338A0::m_bottom,inferred,agree:nl-cecd5e49c798,Co
 member,Rva00034C90Block::m_head04,Rva00034C90Block::m_sizeAndFlags,inferred,agree:nl-96d3d3132002,Code/GameEngine/Source/Common/Rva00034C90Finish.cpp,
 member,Rva0033A77F::mA0,Rva0033A77F::m_geometryInfo,inferred,agree:nl-1858b2fc89ec,Code/GameEngine/Source/Common/Rva0033A77FForward.cpp,
 member,Rva003EFDF5Inner::m_2C,Rva003EFDF5Inner::m_enabled,inferred,agree:nl-42ae1b83852c,Code/GameEngine/Source/Common/Rva003EFDF5.cpp,
+local,Rva001F51DC::rva001F51DC::d,Rva001F51DC::rva001F51DC::coordinates,inferred,agree:nl-333315312300,Code/GameEngine/Source/Common/Rva001F51DC.cpp,0x001F51DC
+local,Rva001F526E::rva001F526E::d,Rva001F526E::rva001F526E::coordinates,inferred,agree:nl-3126e98ba7b4,Code/GameEngine/Source/Common/Rva001F526E.cpp,0x001F526E
+local,W3DTerrainLogic::Rva0027D960::w,W3DTerrainLogic::Rva0027D960::waterView,inferred,agree:nl-15fb927c9b23,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D960
+function,?rva004FDCFF@Rva004FDCE1AsciiField@@QAEXVAsciiString@@@Z,?setGameSpyName@Rva004FDCE1AsciiField@@QAEXVAsciiString@@@Z,inferred,agree:nl-21298c4ebb19,Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp,0x004FDCFF
+function,?rva004FDD36@Rva004FDD36AsciiField@@QAEXVAsciiString@@@Z,?setClan@Rva004FDD36AsciiField@@QAEXVAsciiString@@@Z,inferred,agree:nl-42ca66b31811,Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp,0x004FDD36
 member,Rva00373B70Template::kindOf114,Rva00373B70Template::m_kindOf,inferred,agree:nl-25f9ba12336b,Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviour.cpp,
 member,CreateObjectDieModuleDataView::m_begin40,CreateObjectDieModuleDataView::m_requiredUpgradesBegin,inferred,agree:nl-174022da0617,Code/GameEngine/Source/GameLogic/Object/Die/Rva00485C86Finish.cpp,
 member,CreateObjectDieModuleDataView::m_end44,CreateObjectDieModuleDataView::m_requiredUpgradesEnd,inferred,agree:nl-7bd8369950b0,Code/GameEngine/Source/GameLogic/Object/Die/Rva00485C86Finish.cpp,
@@ -2117,3 +2122,44 @@ local,Rva003B489CHolder::check::p,Rva003B489CHolder::check::recordBytes,inferred
 local,Rva003B489CHolder::rva003B4885::p,Rva003B489CHolder::rva003B4885::recordBytes,inferred,agree:nl-befe165ec159,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptLeafCheck.cpp,0x003B4885
 local,ScriptActions::Rva003C1E8CSet::t,ScriptActions::Rva003C1E8CSet::targetTeam,inferred,agree:nl-d1975b220ee6,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp,0x003C1E8C
 local,LargeGroupAudioSoundKeyPair::removeDuckingTarget::e,LargeGroupAudioSoundKeyPair::removeDuckingTarget::duckingTarget,inferred,agree:nl-886cde062dd8,Code/GameEngine/Source/Common/LargeGroupAudioSoundKeyPair_removeDuckingTarget.cpp,0x0056913D
+function,?rva0032AAEE@Rva0032AAEE@@QAEXHH@Z,?swapNodes@Rva0032AAEE@@QAEXHH@Z,inferred,agree:nl-d69b15d25bb7,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
+carry,Rva0032AAEE::rva0032AAEE::savedIndex,Rva0032AAEE::swapNodes::savedIndex,inferred,scope renamed by Rename rva0032AAEE to swapNodes (inferred),Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
+carry,Rva0032AAEE::rva0032AAEE::firstIndex,Rva0032AAEE::swapNodes::firstIndex,inferred,scope renamed by Rename rva0032AAEE to swapNodes (inferred),Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
+carry,Rva0032AAEE::rva0032AAEE::secondIndex,Rva0032AAEE::swapNodes::secondIndex,inferred,scope renamed by Rename rva0032AAEE to swapNodes (inferred),Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
+function,?rva0057322B@@YAPAVWaypoint@@VAsciiString@@@Z,?getWaypointByName@@YAPAVWaypoint@@VAsciiString@@@Z,inferred,agree:nl-5df06bac17a5,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp,0x0057322B
+member,Rva00DFF488Setting::field18,Rva00DFF488Setting::m_transparentWaterDepth,inferred,agree:nl-42f2f14ed7ee,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp,
+member,Rva00DFF488Setting::field1C,Rva00DFF488Setting::m_minWaterOpacity,inferred,agree:nl-2adf7cf06ef2,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapConstructor.cpp,
+function,?rva00072E10@Rva00072B3A@@QAEXE@Z,?fillShroudData@Rva00072B3A@@QAEXE@Z,inferred,agree:nl-943dfbd56c86,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E10
+carry,Rva00072B3A::rva00072E10::column,Rva00072B3A::fillShroudData::column,inferred,scope renamed by Rename rva00072E10 to fillShroudData (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E10
+carry,Rva00072B3A::rva00072E10::row,Rva00072B3A::fillShroudData::row,inferred,scope renamed by Rename rva00072E10 to fillShroudData (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMaterialPass.cpp,0x00072E10
+member,Rva000ECF79Tree::field84,Rva000ECF79Tree::m_angularAccumulation,inferred,agree:nl-e530f0c2ce89,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+member,Rva000ECF79Tree::field8c,Rva000ECF79Tree::m_options,inferred,agree:nl-7a78efbd9cf0,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+member,Rva000ECF79Tree::fieldc0,Rva000ECF79Tree::m_sinkFramesLeft,inferred,agree:nl-c3a23e73af24,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+function,?Rva006ED580AttachMovie@@YAPAVAptValue@@PAV1@H@Z,?attachMovie@@YAPAVAptValue@@PAV1@H@Z,inferred,agree:nl-bcf89fee54ae,Code/Libraries/Source/Apt/Rva006ED580AttachMovie.cpp,0x006ED580
+function,?rva00813A40@@YAXXZ,?CommTAPICallback@@YAXXZ,inferred,agree:nl-05cc1ccd93e9,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,0x0067F940
+function,?Rva00814020@@YAXXZ,?CommTAPITick@@YAXXZ,inferred,agree:nl-3e353ccf5572,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,0x0067FF20
+local,BFME2Encoding1MotionChannel::rva001B2210::f,BFME2Encoding1MotionChannel::rva001B2210::currentFrame,inferred,agree:nl-fa26f119c7e7,Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelRva001B2210.cpp,0x001B2210
+function,?rva001B2210@BFME2Encoding1MotionChannel@@QAEXPAIIIPAM1@Z,?decompress@BFME2Encoding1MotionChannel@@QAEXPAIIIPAM1@Z,inferred,agree:nl-f257716047b9,Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelRva001B2210.cpp,0x001B2210
+carry,BFME2Encoding1MotionChannel::rva001B2210::currentFrame,BFME2Encoding1MotionChannel::decompress::currentFrame,inferred,scope renamed by Rename rva001B2210 to decompress (inferred),Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelRva001B2210.cpp,0x001B2210
+param,Rva00135F6CMakeUnique::p,Rva00135F6CMakeUnique::renderObj,inferred,agree:nl-0752fcd141e1,Code/Libraries/Source/WWVegas/WW3D2/Rva00135F6CMakeUnique.cpp,0x00135F6C
+local,Rva00135F6CMakeUnique::n,Rva00135F6CMakeUnique::subObjectCount,inferred,agree:nl-19dace05333d,Code/Libraries/Source/WWVegas/WW3D2/Rva00135F6CMakeUnique.cpp,0x00135F6C
+param,releaseUniqueObject::p,releaseUniqueObject::refCountedObject,inferred,agree:nl-186aa21f989f,Code/Libraries/Source/WWVegas/WW3D2/Rva00135F6CMakeUnique.cpp,
+local,Rotate_Vector::x,Rotate_Vector::productX,inferred,agree:nl-f67c1ec9efaf,Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp,
+local,Rotate_Vector::y,Rotate_Vector::productY,inferred,agree:nl-00dbffceab70,Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp,
+local,Rotate_Vector::z,Rotate_Vector::productZ,inferred,agree:nl-f217a58bb96d,Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp,
+local,Rotate_Vector::w,Rotate_Vector::productW,inferred,agree:nl-5c1fcd63d199,Code/Libraries/Source/WWVegas/WW3D2/Rva0015FC20TransformCompose.cpp,
+member,BfmeDisplayModeInfo::m_bfmeWidth,BfmeDisplayModeInfo::m_width,inferred,agree:nl-83a8e69d00a7,Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp,
+member,BfmeDisplayModeInfo::m_bfmeHeight,BfmeDisplayModeInfo::m_height,inferred,agree:nl-68567e19fd9a,Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp,
+function,?rva003F0403@Rva003F0403@@QAE?AVUnicodeString@@XZ,?getDisplayName@Rva003F0403@@QAE?AVUnicodeString@@XZ,inferred,agree:nl-ad328ca06cec,Code/Libraries/Source/WWVegas/WWLib/Rva0020E89CFetch.cpp,0x003F0403
+param,Rva002F1DDCTree::rva002F0DD6::y,Rva002F1DDCTree::rva002F0DD6::parent,inferred,agree:nl-2e886e00aa6b,Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp,0x002F0DD6
+local,Rva002F1DDCTree::rva002F0DD6::z,Rva002F1DDCTree::rva002F0DD6::newNode,inferred,agree:nl-b16644ffef46,Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp,0x002F0DD6
+local,Rva00569F0CVec::rva00569F0C::tmp,Rva00569F0CVec::rva00569F0C::newStorage,inferred,agree:nl-fc13ca763fc5,Code/Libraries/Source/WWVegas/WWLib/Rva00569F0CAssign.cpp,0x00569F0C
+param,compareRange::a,compareRange::left,inferred,agree:nl-6d4fc60c0d81,Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp,
+param,compareRange::b,compareRange::right,inferred,agree:nl-caaaadac0d93,Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp,
+param,compareRangeNoCase#2::a,compareRangeNoCase#2::left,inferred,agree:nl-39cf678fa390,Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp,
+param,compareRangeNoCase#2::b,compareRangeNoCase#2::right,inferred,agree:nl-c61530545fb5,Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp,
+param,bfmeAnchorCompareRange::a,bfmeAnchorCompareRange::left,inferred,agree:nl-9fa5212ba6b9,Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp,
+param,bfmeAnchorCompareRange::b,bfmeAnchorCompareRange::right,inferred,agree:nl-fc50ae7eeb9b,Code/Libraries/Source/WWVegas/WWLib/string_base_compare_range.cpp,
+local,Rva0007B459MatrixArrayTransform::transform_inplace::x,Rva0007B459MatrixArrayTransform::transform_inplace::transformedX,inferred,agree:nl-9e8676ffa4e0,Code/Libraries/Source/WWVegas/WWMath/Rva0007B459MatrixArrayTransform.cpp,0x0007B459
+local,Rva0007B459MatrixArrayTransform::transform_inplace::y,Rva0007B459MatrixArrayTransform::transform_inplace::transformedY,inferred,agree:nl-535c31dcf775,Code/Libraries/Source/WWVegas/WWMath/Rva0007B459MatrixArrayTransform.cpp,0x0007B459
+local,Rva0007B459MatrixArrayTransform::transform_inplace::z,Rva0007B459MatrixArrayTransform::transform_inplace::transformedZ,inferred,agree:nl-9fbd32d5a6fc,Code/Libraries/Source/WWVegas/WWMath/Rva0007B459MatrixArrayTransform.cpp,0x0007B459

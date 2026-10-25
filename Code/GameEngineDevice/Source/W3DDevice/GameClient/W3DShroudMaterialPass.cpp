@@ -84,7 +84,7 @@ class Rva00072B3A
 {
 public:
 	RvaTextureHandleView getShroudTexture() const;
-	void rva00072E10(unsigned char level);
+	void fillShroudData(unsigned char level);
 	void rva00072E84(unsigned char level, Rva00116680 *surface);
 private:
 	int m_numCellsX;         // +0x00
@@ -206,7 +206,7 @@ unsigned short __cdecl Rva00072D5DShroudPixel(unsigned char level)
 // is raised to the global minimum, every shroud pixel (+0x18) gets its packed
 // value and the logical levels (+0x38) get the level. The second loop
 // rewrites the first row only, as the donor does.
-void Rva00072B3A::rva00072E10(unsigned char level)
+void Rva00072B3A::fillShroudData(unsigned char level)
 {
 	int column;
 	int row;

@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Oy-
 //
-// ?rva001B2210@BFME2Encoding1MotionChannel@@QAEXPAIIIPAM1@Z, retail 0x001b2210, 250 bytes. Banked partial (score 0.992) closed by tools/permute.py;
+// ?decompress@BFME2Encoding1MotionChannel@@QAEXPAIIIPAM1@Z, retail 0x001b2210, 250 bytes. Banked partial (score 0.992) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
 // BFME 2 stream motion channel encoding 1: nibble adaptive-delta decoders, called from the
 // slot 3/4/5 evaluators (BFME2StreamMotionChannelEvaluate.cpp). The decoder continues from a
@@ -43,12 +43,12 @@ public:
 };
 class BFME2Encoding1MotionChannel : public BFME2StreamMotionChannel {
 public:
-    void rva001B2210(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1);
+    void decompress(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1);
     void rva001B230A(unsigned int *state, unsigned int from, unsigned int frame, Vector3 *value0, Vector3 *value1);
     void rva001B2450(unsigned int *state, unsigned int from, unsigned int frame, Quaternion *value0, Quaternion *value1);
 };
 struct ScalarValue {float x;};
-void BFME2Encoding1MotionChannel::rva001B2210(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1)
+void BFME2Encoding1MotionChannel::decompress(unsigned int *state,unsigned int from,unsigned int frame,float *value0,float *value1)
 {
  ScalarValue last;
  if(from>frame){ from=0; last=*(const ScalarValue*)Initial; }
@@ -60,9 +60,9 @@ void BFME2Encoding1MotionChannel::rva001B2210(unsigned int *state,unsigned int f
   float filter=filtertable[*packet]*Scale;
   unsigned char *p=packet+1+(fi0>>1);
   for(unsigned fi=fi0;fi<16;++fi){
-   unsigned f=fi + from;
-   if(f==frame)*value0=last.x;
-   else if(f==frame+1){*value1=last.x;break;}
+   unsigned currentFrame=fi + from;
+   if(currentFrame==frame)*value0=last.x;
+   else if(currentFrame==frame+1){*value1=last.x;break;}
    int bit=fi&1;
    int factor=bit?(signed char)*p>>4:(signed char)(*p<<4)>>4;
    p = p + (bit);

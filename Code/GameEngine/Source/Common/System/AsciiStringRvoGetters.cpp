@@ -163,7 +163,7 @@ class Rva004FDCE1AsciiField
 {
 public:
 	AsciiString get() const;
-	void rva004FDCFF(AsciiString value);
+	void setGameSpyName(AsciiString value);
 
 private:
 	char m_pad[0x1B0];
@@ -180,7 +180,7 @@ AsciiString Rva004FDCE1AsciiField::get() const
 // (0x004FDCE1+30=0x004FDCFF), same class and offset. Takes AsciiString by value
 // (lea eax,[ebp+8]; ret 4), assigns via rowed operator= then destroys the copy
 // via rowed releaseBuffer with EH unwind (mov eax,scope; call __EH_prolog).
-void Rva004FDCE1AsciiField::rva004FDCFF(AsciiString value)
+void Rva004FDCE1AsciiField::setGameSpyName(AsciiString value)
 {
 	AsciiString &slot = m_value;
 	slot = value;
@@ -189,7 +189,7 @@ void Rva004FDCE1AsciiField::rva004FDCFF(AsciiString value)
 class Rva004FDD36AsciiField
 {
 public:
-	void rva004FDD36(AsciiString value);
+	void setClan(AsciiString value);
 
 private:
 	char m_pad[0x1B4];
@@ -201,7 +201,7 @@ private:
 // member at +0x1B4 (lea eax,[ebp+8]; add ecx,0x1B4; push eax) via rowed
 // operator= then rowed releaseBuffer with EH unwind. New address-derived
 // class since no landed getter shares +0x1B4.
-void Rva004FDD36AsciiField::rva004FDD36(AsciiString value)
+void Rva004FDD36AsciiField::setClan(AsciiString value)
 {
 	AsciiString &slot = m_value;
 	slot = value;
