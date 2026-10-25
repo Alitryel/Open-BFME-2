@@ -96,8 +96,8 @@ struct Rva005FEntryView {char prefix[16];Rva005FArmyView*army;Rva005FSelectionVi
 struct Rva005FContextView {char prefix[12];Rva005FEntryView*source;Rva005FEntryView*target;};
 class Rva005F23B2 {public:~Rva005F23B2();};
 class Rva005F2381 {public:Rva005F2381();__forceinline ~Rva005F2381(){((Rva005F23B2*)this)->~Rva005F23B2();}char bytes[28];};
-class Rva005F52C0 {public:void rva005F52C0();void rva005F5331();char unknown[8];Rva005FContextView*volatile context;};
-void Rva005F52C0::rva005F52C0(){
+class Rva005F52C0 {public:void moveSelectedMembersToTarget();void moveSelectedMembersToSource();char unknown[8];Rva005FContextView*volatile context;};
+void Rva005F52C0::moveSelectedMembersToTarget(){
  Rva005FArmyView*source=context->source->army;Rva005FContextView*owner=context;Rva005FEntryView*entry=owner->source;Rva005FArmyView*target=owner->target->army;
  Rva005FSelectionView&first=entry->selection;
  if(StrategicInGameUI::CanMoveArmyMembers(&first,source,target)){
@@ -105,7 +105,7 @@ void Rva005F52C0::rva005F52C0(){
  }
 }
 
-void Rva005F52C0::rva005F5331(){
+void Rva005F52C0::moveSelectedMembersToSource(){
  Rva005FArmyView*source=context->target->army;Rva005FContextView*owner=context;Rva005FEntryView*entry=owner->target;Rva005FArmyView*target=owner->source->army;
  Rva005FSelectionView&first=entry->selection;
  if(StrategicInGameUI::CanMoveArmyMembers(&first,source,target)){
