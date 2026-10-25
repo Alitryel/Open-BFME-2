@@ -5,9 +5,9 @@
 class Vector3
 {
 public:
-	float x;
-	float y;
-	float z;
+	float X;
+	float Y;
+	float Z;
 };
 
 class W3DBridge
@@ -25,12 +25,12 @@ private:
 
 void W3DBridge::init(Vector3 fromLoc, Vector3 toLoc, AsciiString name)
 {
-	m_start.x = fromLoc.x;
-	m_start.y = fromLoc.y;
-	m_start.z = fromLoc.z;
-	m_end.x = toLoc.x;
-	m_end.y = toLoc.y;
-	m_end.z = toLoc.z;
+	m_start.X = fromLoc.X;
+	m_start.Y = fromLoc.Y;
+	m_start.Z = fromLoc.Z;
+	m_end.X = toLoc.X;
+	m_end.Y = toLoc.Y;
+	m_end.Z = toLoc.Z;
 	m_templateName = name;
 	m_enabled = true;
 }
