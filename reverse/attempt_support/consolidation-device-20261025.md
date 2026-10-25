@@ -291,6 +291,17 @@ include or registry path dependency on the absorbed donor filenames. The old
 provenance. No data-ledger or code-identity key was moved or retired. The
 planner snapshot used to choose this TU is now stale after the applied merge and
 must be regenerated before another planner decision.
+
+`RTS/Energy.cpp` accepted the unchanged `Rva004DF18DAdd.cpp` and
+`Rva004DF1AFAdd.cpp` donors. The combined TU build matched 9/9 rows, including
+its compiler float; declaration, CSV, staged data, staged link new-variant,
+ownership and header-order checks passed. `EnergyXfer.cpp` remains rejected on
+C2061 for missing `Snapshot` and `AsciiString` declarations at
+`BfmeXfer.h:37/48`; the mixed dword getter was not split. The combined pending
+path search found no active consumer or path-keyed register entry for the two
+absorbed donor files. The destination path already existed; original donor
+locations remain as generated provenance comments only. No code-identity or
+data debt was retired.
   environment. It needs the owning canonical-header/declaration acceptance path.
 - BIG/Laser/Font: the header-audit/path-keyed prerequisites documented above are
   unchanged. Ghost's byte/vector-view blockers and Shadow's lack of a verified

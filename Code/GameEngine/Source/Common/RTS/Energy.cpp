@@ -123,6 +123,10 @@ public:
 	int m_08;
 };
 
+struct Rva004DF207Outer;
+
+// ---- from Code/GameEngine/Source/Common/RTS/Energy.cpp
+
 // ---- from Code/GameEngine/Source/Common/Energy_getEnergySupplyRatio.cpp
 
 float Energy::getEnergySupplyRatio() const
@@ -139,12 +143,6 @@ bool Rva004DF17F::rva004DF17F() const
 {
 	return m_04 >= m_08;
 }
-
-// tu-skeleton: 0x004DF18D 34B ?rva004DF18D@Energy@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/Rva004DF18DAdd.cpp (not merged yet)
-
-// tu-skeleton: 0x004DF1AF 34B ?rva004DF1AF@Energy@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/Rva004DF1AFAdd.cpp (not merged yet)
-
-// tu-skeleton: 0x004DF1D1 7B ?get@Rva004DF1D1DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/Disp32DwordFieldGetters.cpp (not merged yet)
 
 // ---- from Code/GameEngine/Source/Common/RTS/EnergyAdjustPower.cpp
 
@@ -209,5 +207,25 @@ void Energy::rva004DF274(Rva004DF207Outer *arg)
 	if (arg)
 		rva004DF18D(-arg->m_ptr->m_54C);
 }
+
+// ---- from Code/GameEngine/Source/Common/Rva004DF18DAdd.cpp
+
+void Energy::rva004DF18D(int delta)
+{
+	m_energyProduction += delta;
+	if (m_owner)
+		m_owner->onPowerBrownOutChange(m_energyProduction < m_energyConsumption);
+}
+
+// ---- from Code/GameEngine/Source/Common/Rva004DF1AFAdd.cpp
+
+void Energy::rva004DF1AF(int delta)
+{
+	m_energyConsumption += delta;
+	if (m_owner)
+		m_owner->onPowerBrownOutChange(m_energyProduction < m_energyConsumption);
+}
+
+// tu-skeleton: 0x004DF1D1 7B ?get@Rva004DF1D1DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/Disp32DwordFieldGetters.cpp (not merged yet)
 
 // tu-skeleton: 0x004DF290 82B ?xfer@Energy@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/Common/RTS/EnergyXfer.cpp (not merged yet)
