@@ -190,7 +190,7 @@ authored-byte previews or commit-title gains into a projected headline.
 
 ### LINK-007: incomplete data ownership beyond clean symbol resolution
 
-**Status: Open; one storage subset repaired. Updated: 2026-10-25.**
+**Status: Open; two storage subsets repaired. Updated: 2026-10-25.**
 
 - **Evidence / scope:** the [linking handoff](../reverse/attempt_support/link-seat-20261025-final.md)
   identifies missing shader/filter root objects and the unowned 52-byte
@@ -201,11 +201,25 @@ authored-byte previews or commit-title gains into a projected headline.
   **17,413-byte placed closed-strict gain**. Those units already counted as
   linked in the headline. This is scoped closure evidence, not a new headline
   measurement of master; follow that lane's clean-room rules.
-- **Remaining / next check:** shader/filter object ownership and the recorded
-  `g_bfmeFilterLimit` / `g_bfmeDeringModifiers` data dependencies remain separate
-  work. Verify storage extents, initial bytes, relocations and dependent closure
-  through the existing ownership gates. Family clearance and census confirmation
-  remain pending. Preserve the no-stubs/no-`/FORCE` runtime exit requirements.
+- **Filter adjacency repaired (2026-10-25):** the
+  [modifier/pointer ownership proof](../reverse/attempt_support/vp6-filter-adjacency-link-20261025/readme.md)
+  preserves native `g_bfmeDeringModifiers+0x100 == g_bfmeFilterLimit` in one
+  verified 260-byte owner. The six-unit control passes 13/13 bodies (5,862
+  bytes); all 13 affected data relocations keep their native targets. The
+  authoritative fixed comparison `026edbcbcc` to `a7637e3b22` changes exactly
+  four of 23,460 canonical objects and gains **2,369 placed closed-strict
+  bytes** in seven rows, with no losses. All seven former unit failures are
+  self-strict; six are also closed-strict, together with the FilterBlock2d
+  caller. The independent closure report reproduces all 98,202 status rows.
+  This is scoped closure evidence, not a new census headline.
+- **Remaining / next check:** shader/filter root-object ownership remains
+  open. InitPostProcessing is now self-strict but still closure-blocked through
+  PostProcMachineSpecificConfig and its scaling helpers; the retained witness
+  reaches HorizontalLine_3_5_Scale_MMX. Inspect those actual prerequisites
+  rather than retrying the cleared filter-pointer split. Verify storage
+  extents, initial bytes, relocations and dependent closure through the existing
+  gates. Family clearance and later census confirmation remain pending.
+  Preserve the no-stubs/no-`/FORCE` runtime exit requirements.
 
 ### LINK-008: include inventories prevent strict reusable graphics receipts
 
