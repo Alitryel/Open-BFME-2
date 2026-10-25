@@ -344,6 +344,17 @@ its compiler settings and evidence-backed deltas after checking each applies
 (folder structure alone is not evidence); return to the broad queue when transfer
 behavior diverges or the remaining candidates require distinct investigation.
 
+## Consolidate files into retail translation units
+
+The one-function files are merged back into the TU retail built them from with
+`tools/tu_skeleton.py`, never by hand: `--queue` picks an approved TU
+(`reverse/tu_map.csv`), `--merge TU --dry-run` names the donors that do not yet
+compile together, and `--merge TU` claims the scope, writes the TU, deletes the
+absorbed donors and repoints every path-keyed column, keeping only merges that
+lose no matched row. Reconcile a rejected donor's private views in its own
+verified commit first; never split a mixed file inside a merge. Workflow:
+`docs/consolidation.md`.
+
 ## Batch homogeneous trivial recoveries
 
 Atomic does not mean one function per commit. When bodies use one established
