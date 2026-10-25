@@ -29,24 +29,15 @@ typedef unsigned int UnsignedInt;
 
 #include "Lib/Coord3D.h"
 
-struct Region3D
-{
-	Coord3D lo, hi;
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
-	Bool isInRegionNoZ( const Coord3D *query ) const
-	{
-		return (lo.x < query->x) && (query->x < hi.x) &&
-			(lo.y < query->y) && (query->y < hi.y);
-	}
-	// LINK: same-body helper under a TU-unique name (identical inlined bytes);
-	// isInRegionNoZ's out-of-line copy loses to the first-in-link-order copy.
-	// Rebinding the call emits only this unique copy. No flags touched.
-	Bool bfme_in_region_nz_findpos( const Coord3D *query ) const
-	{
-		return (lo.x < query->x) && (query->x < hi.x) &&
-			(lo.y < query->y) && (query->y < hi.y);
-	}
-};
+// LINK: TU-local no-Z containment test (identical inlined bytes); the canonical
+// Region3D::isInRegionNoZ's out-of-line copy loses to the first-in-link-order copy.
+static inline Bool bfme_in_region_nz_findpos( const Region3D &region, const Coord3D *query )
+{
+	return (region.lo.x < query->x) && (query->x < region.hi.x) &&
+		(region.lo.y < query->y) && (query->y < region.hi.y);
+}
 
 struct FindPositionOptions
 {
@@ -113,7 +104,7 @@ Bool PartitionManager::findPositionAround( const Coord3D *center,
 			extent.lo.x, extent.lo.y, extent.lo.z,
 			extent.hi.x, extent.hi.y, extent.hi.z );
 
-	if (!extent.bfme_in_region_nz_findpos( center ))
+	if (!bfme_in_region_nz_findpos( extent, center ))
 	{
 		if (DOCKING_TRACE)
 			bfmeRetailCritterDesyncLog( theLogicRandomLogFile,

@@ -74,18 +74,15 @@ public:
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-struct Region3D
-{
-	Coord3D lo;
-	Coord3D hi;
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
-	// LINK: TU-unique name (identical inlined bytes); the isInRegionNoZ copy loses to the first-in-order copy. No flags touched.
-	__forceinline bool bfme_isInRegionNoZ_3d51b(const Coord3D *query) const
-	{
-		return (lo.x < query->x) && (query->x < hi.x)
-			&& (lo.y < query->y) && (query->y < hi.y);
-	}
-};
+// LINK: TU-local no-Z containment test (identical inlined bytes); the canonical
+// Region3D::isInRegionNoZ copy loses to the first-in-order copy. No flags touched.
+static __forceinline bool bfme_isInRegionNoZ_3d51b(const Region3D &region, const Coord3D *query)
+{
+	return (region.lo.x < query->x) && (query->x < region.hi.x)
+		&& (region.lo.y < query->y) && (query->y < region.hi.y);
+}
 
 enum KindOfType { CAPTURE_FORBIDDEN_KIND = 0x6f };
 enum SpecialPowerType { CAPTURE_POWER = 0x1d, SPECIAL_POWER_27 = 0x27 };
@@ -1586,7 +1583,7 @@ bool ActionManager::rva0041CC65(const SpecialPowerTemplate *sp, const Coord3D *p
 	extent.hi.y -= margin;
 	extent.lo.x += margin;
 	extent.lo.y += margin;
-	if (extent.bfme_isInRegionNoZ_3d51b(pos))
+	if (bfme_isInRegionNoZ_3d51b(extent, pos))
 		return true;
 	return false;
 }

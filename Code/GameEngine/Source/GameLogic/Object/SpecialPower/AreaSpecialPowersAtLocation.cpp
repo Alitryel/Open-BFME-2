@@ -273,11 +273,7 @@ struct GlobalWeatherState
 };
 class GlobalWeatherSystem;
 extern GlobalWeatherSystem *TheGlobalWeatherSystem;
-struct Region3D
-{
- float lo[3];
- float hi[3];
-};
+#include "../../../../../Libraries/Include/Lib/Region3D.h"
 class TerrainLogic
 {
 public:
@@ -314,8 +310,8 @@ void FreezingRainSpecialPower::rva004C4C99(const Coord3D *loc)
  Region3D extent;
  TheTerrainLogic->getExtent(&extent);
  FXList::doFXPos(data->m_fx,
-  &WeatherPoint((extent.lo[0] + extent.hi[0]) * 0.5f,
-   (extent.lo[1] + extent.hi[1]) * 0.5f, loc->z), 0, 0.0f, 0);
+  &WeatherPoint((extent.lo.x + extent.hi.x) * 0.5f,
+   (extent.lo.y + extent.hi.y) * 0.5f, loc->z), 0, 0.0f, 0);
 }
 
 void DarknessSpecialPower::rva004C4E93(const Coord3D *loc)
@@ -328,6 +324,6 @@ void DarknessSpecialPower::rva004C4E93(const Coord3D *loc)
  Region3D extent;
  TheTerrainLogic->getExtent(&extent);
  FXList::doFXPos(data->m_fx,
-  &WeatherPoint((extent.lo[0] + extent.hi[0]) * 0.5f,
-   (extent.lo[1] + extent.hi[1]) * 0.5f, loc->z), 0, 0.0f, 0);
+  &WeatherPoint((extent.lo.x + extent.hi.x) * 0.5f,
+   (extent.lo.y + extent.hi.y) * 0.5f, loc->z), 0, 0.0f, 0);
 }

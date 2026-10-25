@@ -23,15 +23,14 @@ typedef int Int;
 
 class Matrix3D;
 
-struct Region3D
+#include "../../../../Libraries/Include/Lib/Region3D.h"
+
+// TU-local no-Z containment test (identical inlined bytes): the canonical
+// Region3D::isInRegionNoZ's out-of-line copy could lose to a first-in-order copy.
+static inline bool isInRegionNoZRV( const Region3D &region, const Coord3D *query )
 {
-	Coord3D lo;
-	Coord3D hi;
-	bool isInRegionNoZRV( const Coord3D *query ) const
-	{
-		return query->x > lo.x && hi.x > query->x && query->y > lo.y && hi.y > query->y;
-	}
-};
+	return query->x > region.lo.x && region.hi.x > query->x && query->y > region.lo.y && region.hi.y > query->y;
+}
 
 class TerrainLogic
 {
@@ -173,7 +172,7 @@ void Object::reactToTransformChange( const Matrix3D * /*oldMtx*/, const Coord3D 
 
 			Region3D mapExtent;
 			TheTerrainLogic->getExtent( &mapExtent );
-			if( mapExtent.isInRegionNoZRV( getPosition() ) )
+			if( isInRegionNoZRV( mapExtent, getPosition() ) )
 				m_privateStatus &= ~OFF_MAP;
 			else
 				m_privateStatus |= OFF_MAP;

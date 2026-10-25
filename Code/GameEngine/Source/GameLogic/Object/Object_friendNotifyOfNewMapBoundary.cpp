@@ -19,17 +19,15 @@ typedef int Bool;
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-struct Region3D
-{
-	Coord3D lo;
-	Coord3D hi;
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
-	__forceinline Bool isInRegionNoZ(const Coord3D *query) const
-	{
-		return (lo.x < query->x) && (query->x < hi.x)
-			&& (lo.y < query->y) && (query->y < hi.y);
-	}
-};
+// Forced-inline no-Z containment test (the canonical member is plain inline;
+// retail inlines this test here and emits no out-of-line copy).
+static __forceinline Bool regionContainsNoZ(const Region3D &region, const Coord3D *query)
+{
+	return (region.lo.x < query->x) && (query->x < region.hi.x)
+		&& (region.lo.y < query->y) && (query->y < region.hi.y);
+}
 
 class Object;
 
@@ -105,7 +103,7 @@ void Object::friend_notifyOfNewMapBoundary()
 
 	Region3D mapExtent;
 	TheTerrainLogic->getExtent(&mapExtent);
-	if (mapExtent.isInRegionNoZ(getPosition()))
+	if (regionContainsNoZ(mapExtent, getPosition()))
 		m_privateStatus &= ~OFF_MAP;
 	else
 		m_privateStatus |= OFF_MAP;
