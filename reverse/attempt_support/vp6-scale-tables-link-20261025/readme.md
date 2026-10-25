@@ -27,7 +27,46 @@ private definition counts 4/4/4/4/6 become exactly one external definition each.
 Control and repair process exits are both zero. This adds zero matched function
 coverage. The source result is recorded once per body with add_match.
 
-A controlled authoritative link measurement is pending. No prospective gain or
-current census headline change is claimed. The comparison will hold the completed
-a7637e3b22 snapshot constant except for these five sources and five data rows;
-all five original source blobs have already been proved equal to that snapshot.
+The completed controlled comparison below holds a7637e3b22 constant except for
+these five sources and five data rows. No current census headline change is
+claimed. All five original source blobs equal the baseline snapshot; all five
+repaired blobs equal the production source commit.
+
+The controlled input commit is 7124e772c53d154cc9131722a4fd4dba4998cf0a.
+Its complete tree is independently reconstructed from the baseline plus the
+retained binary patch; all five measured source blobs equal production commit
+ad87df2168. Both measurement states retain BFME1 input 32774ab03393709a7f14331ba8d98d281a55ffd9,
+while production keeps its separately verified 0bf534ea7ccde110c456edb9cd2dd5dae823c953.
+No donor implementation is used by this repair. The separate measurement
+worktree initially lacked its submodule checkout; its normal commit hook refused
+that input. An isolated clone of the locally available committed baseline fixed
+the missing checkout, and the unchanged commit then passed all normal hooks.
+No hook, cache check or dependency gate was bypassed. The full runner uses
+BUILD_POOL=1 and an immutable export, reusing 46,912 previous object/cache files.
+
+The authoritative full link-cycle process exits zero after 3513 seconds.
+Its unique placed closed-strict credit changes from 1,699,192 to 1,700,931 bytes,
+a gain of 1,739 in 6 rows, with zero lost rows and zero new function coverage.
+All six scalers are self-strict and closed-strict. All five native coefficient
+data nodes pass with their complete eight-byte extents. Exactly five of 23,460
+canonical objects change; all other 23,455 objects agree. Final link drift and
+new unresolved references are zero, with no missing objects, failed compiles
+or stale warm start. This gain belongs to the fixed comparison, not current
+master. Independent closure reproduction and remaining witnesses follow.
+
+The remaining-witness file is extracted from this completed measurement, not
+from a prospective graph. InitPostProcessing remains closure-blocked through
+GetProcessorFlags and CpuProbe_VendorSse2 to the selected __except_handler3
+import twin (missing map/object definition). The independent Util configuration
+path still reaches FilterBlock2dBil's g_bfmeTableC7E0 forward-map conflict. Neither
+CPU behavior nor these unrelated data providers was changed or claimed repaired.
+The final scaffold still reports five forced duplicate symbols (ten diagnostics);
+this scoped credit is not the no-FORCE/no-stubs whole-game exit test.
+
+Independent closure_report reconstruction reproduces all 98,202 status rows and
+the exact 1,700,931-byte credit, with 25 ranked roots independently re-proved.
+The retained graph/status hashes and receipt binding are in
+independent-closure-verification.json. Source integration is t=2 minutes for the
+shared six-body cohort; the full measurement process takes 3,513 seconds
+(58.55 minutes). Claims were renewed before publication after the completed run
+was collected. No source, ledger landing or attempt-log line was repeated.

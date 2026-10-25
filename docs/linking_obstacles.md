@@ -321,7 +321,7 @@ authored-byte previews or commit-title gains into a projected headline.
 
 ### LINK-007: incomplete data ownership beyond clean symbol resolution
 
-**Status: Open; two storage subsets repaired. Updated: 2026-10-25.**
+**Status: Open; three storage subsets repaired. Updated: 2026-10-25.**
 
 - **Evidence / scope:** the [linking handoff](../reverse/attempt_support/link-seat-20261025-final.md)
   identifies missing shader/filter root objects and the unowned 52-byte
@@ -347,13 +347,22 @@ authored-byte previews or commit-title gains into a projected headline.
   [the six-scaler ownership repair](../reverse/attempt_support/vp6-scale-tables-link-20261025/readme.md)
   gives the five shared native coefficient addresses one owner each instead of
   22 private copies. Normal controls pass 6/6 bodies (1,739 bytes), all five
-  eight-byte data owners and all 64 native DIR32 targets. No instruction or
-  alignment-padding ownership changes. The controlled authoritative comparison
-  is pending; no new closed-strict credit or census gain is claimed yet.
+  eight-byte data owners and all 64 native DIR32 targets. The authoritative
+  fixed comparison `a7637e3b22` to `7124e772c5` gains **1,739 placed
+  closed-strict bytes** in the six scalers, with zero losses. All five datum
+  nodes pass; exactly five of 23,460 canonical objects change. Independent
+  reconstruction reproduces all 98,202 status rows and the 1,700,931-byte
+  credit. This scoped
+  scaler repair is **cleared in the fixed comparison**; no current census
+  headline change is claimed. Native alignment padding remains unowned.
 - **Remaining / next check:** shader/filter root-object ownership remains
-  open. Verify the scaler repair's complete closure and InitPostProcessing's
-  dependency path through PostProcMachineSpecificConfig in the pending fixed
-  comparison; do not repeat the cleared filter-pointer split. Verify storage
+  open. The [current witnesses](../reverse/attempt_support/vp6-scale-tables-link-20261025/remaining-witnesses.json)
+  show InitPostProcessing still closure-blocked through GetProcessorFlags and
+  CpuProbe_VendorSse2: the selected `__except_handler3` import twin lacks a
+  confirmed map/object definition. UtilMachineSpecificConfig independently
+  reaches FilterBlock2dBil's `g_bfmeTableC7E0` forward-map conflict. Prove those
+  selected providers and native storage relationships; do not retry the cleared
+  coefficient or filter-pointer splits. Verify storage
   extents, initial bytes, relocations and dependent closure through the existing
   gates. Family clearance and later census confirmation remain pending.
   Preserve the no-stubs/no-`/FORCE` runtime exit requirements.
