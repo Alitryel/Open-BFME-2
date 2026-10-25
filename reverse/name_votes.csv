@@ -6182,3 +6182,9 @@ Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva005382
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::rva002CA9CA|arg,3f1ae7d5a169b09bc588fe7e,gpt-6.1-sol,codex4-20261025-061940-4,w-887869184137,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::getProjectileNuggetRadiusIfAlliesAffected|arg,eaceb9b79ae443df05466caf,gpt-6.1-sol,codex4-20261025-061940-4,w-887869184137,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|local|Rva002CA9CA::rva002CAC6E|n,797e625d7fd451263a67e952,gpt-6.1-sol,codex4-20261025-061940-4,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055BCF1ColorModuleCtor.cpp|local|~Rva0055BCD2|b08,5e7d674bb1dab7bd3b3da808,gpt-6.1-sol,codex4-20261025-061940-5,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|arg,8e422cc1fb82b052c2c5eb4f,gpt-6.1-sol,codex4-20261025-061940-6,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t0,1e0c64400aa0b4b2110c7d1e,gpt-6.1-sol,codex4-20261025-061940-7,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t1,72124ef1e7eb77df90342c17,gpt-6.1-sol,codex4-20261025-061940-7,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t2,c1bd09df46608b29c6e924a9,gpt-6.1-sol,codex4-20261025-061940-7,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t3,075a31c6ec359b0a50bf9ea3,gpt-6.1-sol,codex4-20261025-061940-7,w-887869184137,2026-10-25
