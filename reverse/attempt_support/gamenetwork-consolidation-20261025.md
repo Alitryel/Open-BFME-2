@@ -235,3 +235,70 @@ release --landed, and release any accepted seed claims still held. Accepted
 RVA claims retained for this unpublished merge:
 
 `0x005948F5` `0x00594918` `0x0059495D` `0x00594976` `0x005949AB` `0x00594A7C` `0x00594AA6` `0x00594AD0` `0x00594AFF` `0x00594B2E` `0x00594B56` `0x00594C7F`
+
+## Follow-up: GameInfo consolidation and IPEnumeration prerequisite
+
+This follow-up retained the previously unpublished UDP prerequisite and merge
+(rebased local commits b2e8581a1c and eb9cd68a6a). Their destination, deleted
+constructor file and twelve accepted RVA claims were restored when inspection
+showed they had not yet reached origin/master. Release those claims only after
+the runner confirms publication.
+
+GameInfo's private views were reconciled in three separately verified
+prerequisite commits. Existing byte-proven preorder storage at +8, state flags
+at +0x10/+0x11 and slot array at +0x18 now coexist. The GameSlot prefix and its
+existing AsciiString setter at +0x1A8 are declared identically in the participating
+files. These are local declaration reconciliations, not new recovered names or
+canonical layout claims. Identical declarations also avoid the merge engine
+placing a union view after the seed's existing member-pointer anchor.
+
+The normal tu_skeleton merge accepts GameInfo.cpp, GameInfoEndGame.cpp,
+GameSlotRva003FF5F2.cpp and GameInfoClearSlotList.cpp. Three source files are
+removed; four existing matched rows (121 retail bytes) move into the retail TU.
+All ten destination rows (344 bytes) pass ./build.sh, with literal/import
+checks passing, and find_declared_unmatched reports all definitions matched.
+check_csv passes. The map diff contains only the four source-column repoints;
+no regenerated routing map or protected register change is committed. The
+remaining GameSlotIsPlayerAscii.cpp donor is still rejected for duplicate
+SlotState enumerators. Its UnicodeString name view at +0x30 also differs from
+the accepted setter view; retain the previous blocked verdict rather than
+guessing a combined layout or retrying the unchanged failure.
+
+IPEnumerationRuntime.cpp separately removes unused WSADATA/WSAStartup/gethostname
+declarations. Its destructor remains exact (60 bytes; one named import), and
+the merge trial can now combine the destructor and machine-name getter (two
+rows, 194 bytes). The official scoped Microsoft-header scan reports two
+remaining declarations and changes the existing queue classification. The
+shared reverse/ms_header_queue.tsv scope is held by another worker, so its
+report refresh and the actual merge are deferred. A blocked re_log verdict was
+committed with the verified prerequisite; its file/RVA claims were released.
+The local scan output is build/network-ms-header-scoped.tsv. Regenerate through
+the owning scan and queue writer after obtaining the report scope; do not
+hand-edit its classification.
+
+The tooling compatibility audit covers all pending local commits from
+b2e8581a1c through dab5509118 plus the staged GameInfo merge, compared with
+origin/master 70a67784edc276b62a5f3b3791681606be5a037f. The double-dot inventory
+also contains other workers' newer upstream changes; the merge-base inventory
+and local commit list isolate this seat's outgoing moves. Combined old-path,
+basename and root build/config searches find no active tool, hook, workflow,
+include or build input consuming the four deleted paths. Current ledger paths
+are repointed by the merge tool, and none of the GameInfo donors is keyed in
+the Microsoft-header queue. Remaining old references are historical link
+snapshots, target evidence comments, fragment provenance and inert skeleton
+comments; those are retained. The owning source checks run at the new TU.
+
+The refreshed scoped planner and its --check pass before applying the merge.
+The scoped queue's other seven TUs retain the previously documented blockers:
+FirewallHelper declaration conflicts; DisconnectManager collateral selection;
+GameResultsThread and NAT prerequisites outside this seat's scope; remaining
+UDP aliases/signatures; PingThread SDK/placement-new declarations; and the
+IPEnumeration shared report described above. No unchanged blocked trials were
+repeated. Consolidation does not add authored C++ bytes or census measurements.
+
+For any runner-held final batch, retain file claims for udp.cpp and its deleted
+constructor, GameInfo.cpp and its three deleted donors, plus accepted seed and
+moved RVA claims. After confirmed publication, release those file scopes and
+run claims.py release --landed; settle any surviving accepted seed RVA claims.
+The rejected ASCII-player donor's scope/RVA should be released. This support
+file's scope can be released after publication as well.
