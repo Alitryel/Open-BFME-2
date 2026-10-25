@@ -1,37 +1,57 @@
-// cl: /O1 /MD /Ireference/shims/bfme2_ascii
-// PlayerAITypeSet::PlayerAITypeSet, native 0x0022E156..0x0022E177 (33B).
-// Identity: byte-verified GameEngine::init allocates 0x18 bytes, calls this
-// target and registers ThePlayerAITypeSet through its named subsystem slot.
-// Target layout: SubsystemInterface ctor 0x1B4E63, derived vptr 0xBE77B0,
-// empty vector header at +0x0C; the vector-base helper is 0x211E58 (29B).
+// cl: /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfme2_ascii
+// stlport
+// ??0PlayerAITypeSet@@QAE@XZ @0x0022E156 33B plus the rowed vector-base helper
+// ??0?$_Vector_base@UBfmeVectorRecord0002154F3@@... @0x00211E58 29B (already
+// rowed, Code/Libraries/Source/WWVegas/WWLib/PlayerAITypeSetVectorBase.cpp):
+// inlined base SubsystemInterface ctor then vtable 0x00BE77B0 then the empty
+// vector header at +0x0C, the proven RankInfoStore sibling shape. Identity:
+// byte-verified GameEngine::init allocates 0x18 bytes, calls this target and
+// registers ThePlayerAITypeSet (initSubsystem<PlayerAITypeSet> 0x0022A302,
+// named global ThePlayerAITypeSet 0x009FE31C, SidesList 0x0032FC70).
 // Semantic reference: Open-BFME-1 d6db6bfa4fd3bd86c1d7ca4a5ab882d7c453a92c,
 // game/GameEngine/Source/Common/PlayerAITypeSetFind.cpp. Its 16-byte entry
 // view (AsciiString then 12 opaque bytes) is donor-derived; this constructor
 // proves only the empty header, not the target entries' contents or stride.
-// BFME2's base grows from donor +8 to +0xC, corroborated by native allocation
-// and the explicit member address. The vector fields are never dereferenced
-// here. /O1 /MD with no EH option matches the verified RankInfoStore sibling;
-// enabling EH introduces cleanup states that are absent from this boundary.
-// stlport
+// BFME2's base grows from donor +8 to +0xC, matching the 16-byte storage the
+// rowed Record-keyed STLport vector owner uses at 0x0021579C.
+// /O1 /MD without EH matches the sibling pattern; enabling EH introduces
+// cleanup states absent from this 33B boundary.
+//
+// The dtor pair is synthesized implicitly in this unit: NO user dtor is
+// declared anywhere, so MSVC 7.1 emits ??1PlayerAITypeSet@@UAE@XZ (0x0022E1BC,
+// 53B - no entry vptr reinstall, EH prolog via __EH_prolog; retail-proven by
+// vtable ??_7PlayerAITypeSet@@6B@ slot 0 = 0x0022E1A0 while the base table
+// slot 0 is 0x001B4F51) and the 28B deleting wrapper ??_GPlayerAITypeSet@@
+// UAEPAXI@Z (0x0022E1A0, calls this dtor then rowed operator delete
+// 0x0002FD60) as COMDATs beside the ctor. An explicitly-defined empty dtor
+// instead gains the dead derived-vptr reinstall retail does not carry
+// (DebugCmdInterfaceDebugCtor.cpp probe precedent: explicit-empty 61B
+// two-store vs implicit 55B exact). The member spelling follows the rowed
+// Record-keyed owner names so both dtor call sites resolve through existing
+// rows without pins (the _Vector_base pair 47383/47384 precedent at
+// 0x00211E58; the old PlayerAITypeEntry-keyed vector_base row is retired with
+// the member spelling change, tombstoned in deleted_rows.csv).
 #include <vector>
 #include "ascii_string.h"
-struct PlayerAITypeEntry { AsciiString name; char unknown[12]; };
-// Bind the base initialization to its existing C++ owner. The inline bridge
-// is the same source pattern as the verified RankInfoStore constructor.
-class BFME2NativeNetwork { public: void baseConstruct(); };
-class __declspec(novtable) PlayerAITypeSetBase {
-public:
- PlayerAITypeSetBase() { ((BFME2NativeNetwork *)this)->baseConstruct(); }
- virtual ~PlayerAITypeSetBase();
-private:
- unsigned char m_04;
- int m_08;
+struct BfmeVectorRecord0002154F3
+{
+	char m_pad[16];
 };
-class PlayerAITypeSet : public PlayerAITypeSetBase {
+namespace _STL {
+template <> vector<BfmeVectorRecord0002154F3, allocator<BfmeVectorRecord0002154F3> >::~vector();
+}
+typedef bool Bool;
+#include "subsystem_interface.h"
+
+class PlayerAITypeSet : public SubsystemInterface
+{
 public:
- PlayerAITypeSet();
- virtual ~PlayerAITypeSet();
+	PlayerAITypeSet();
 private:
- _STL::vector<PlayerAITypeEntry> m_types;
+	_STL::vector<BfmeVectorRecord0002154F3> m_types;
 };
-PlayerAITypeSet::PlayerAITypeSet() {}
+
+PlayerAITypeSet::PlayerAITypeSet()
+: m_types()
+{
+}
