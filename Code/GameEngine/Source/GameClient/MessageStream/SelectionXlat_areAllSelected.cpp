@@ -48,6 +48,26 @@ template <> struct hash<const ThingTemplate *>
 }
 typedef std::hash_map<const ThingTemplate *, Bool> SelectCountMap;
 
+// Retail's operator[] calls 0x0042FD55, the four-byte-key one-byte-value
+// _M_insert rowed in SelectionIDMap.cpp (pair<const int, bool>; same key
+// width, identity hash and node layout). This TU's own flags compile a
+// different copy, so forward to that row and keep it declared only.
+namespace _STL {
+typedef hashtable<pair<const int, bool>, int, hash<int>, _Select1st<pair<const int, bool> >,
+                  equal_to<int>, allocator<pair<const int, bool> > > SelectIDTable;
+template <> SelectIDTable::reference SelectIDTable::_M_insert(const SelectIDTable::value_type &);
+typedef hashtable<pair<const ThingTemplate *const, Bool>, const ThingTemplate *,
+                  hash<const ThingTemplate *>, _Select1st<pair<const ThingTemplate *const, Bool> >,
+                  equal_to<const ThingTemplate *>, allocator<pair<const ThingTemplate *const, Bool> > > SelectCountTable;
+// ?_STL::SelectCountTable::_M_insert absent-from-retail
+template <> __declspec(dllimport) __forceinline SelectCountTable::reference
+SelectCountTable::_M_insert(const SelectCountTable::value_type &obj)
+{
+	return *(SelectCountTable::value_type *)&((SelectIDTable *)this)->_M_insert(
+		*(const SelectIDTable::value_type *)&obj);
+}
+}
+
 Bool &selectionCountFor(SelectCountMap &counts, const ThingTemplate *thingTemplate)
 {
 	return counts[thingTemplate];
