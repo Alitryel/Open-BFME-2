@@ -99,3 +99,38 @@ The remaining clear/destructor donor is outside the destination scope and has
 a different field vocabulary and virtual release view; a guessed destructor
 declaration alone would not reconcile its layout. Other GameLogic donors still
 lack baseline matches at this destination. Their source is left intact.
+
+
+## MetaEvent record reconciliation
+
+Prerequisite 4ec781d6ee reconciles the seed's observed MetaMapRec fields with
+the rowed 0x001DB537 allocator: integer key/transition storage, category and two
+canonical UnicodeString words make the same 0x24-byte record. A forward
+record declaration and the existing protected getMetaMapRec callable let the
+merge compose it. The 819-byte translator and its TheMetaMap data row freshly
+verify before and after this prerequisite. No global definition changes.
+
+The supported claimed merge absorbs MetaMapGetMetaMapRec.cpp: three rows
+preserved, one source removed. Fresh build verifies 3/3 and the existing data
+row; find_declared_unmatched and check_csv pass. The map diff only repoints two
+source columns. The deleting helper still lacks its callable and virtual layout
+in the composed MetaMap; it is outside the donor-preparation scope. Other
+sources are mixed or protected and remain intact.
+
+The normal hook reports a shadow wrong-name finding for the unchanged
+TheMessageStream reference at RVA 0x00A00950. The cached data_ledger calls that
+provisional address TheMessageStream, but data_ledger.load reconciles the
+explicit verified owner MessageStreamSubsystem from data_rows. The same
+TheMessageStream declaration and calls exist in origin/master's original
+MetaEvent source. No alias, data definition, baseline or register was added;
+all enforced converged-address checks pass. Reconciliation belongs to the data
+owner, outside this consolidation pass.
+
+Before this commit, the complete pending moves are opacity -> RadiusDecal and
+MetaMapGetMetaMapRec -> MetaEvent. Audited the fetched outgoing commits plus the
+staged merge with their combined full paths, basenames and stems across active
+tools, hooks, workflows, source/includes, build inputs, docs and registries.
+Only historical census/attempt records, source provenance/placeholder comments
+and pattern-reference comments remain. No active consumer or protected-register
+transfer is needed. Local audit: build/gameclient-session2-opacity-metaevent-audit.txt.
+The prior published parser/font audit is unchanged.
