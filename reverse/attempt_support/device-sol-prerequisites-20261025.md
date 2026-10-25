@@ -184,3 +184,45 @@ publisher rebase. Retain their exact file/RVA scopes listed above until the
 publisher confirms landing, then release them. The next mechanical pass should
 use current routing and fresh reports, respecting all remaining SDK report,
 Common-donor, mixed and protected boundaries.
+
+## UDP Write SDK prototype blocker cleared
+
+The fresh Network planner passes its snapshot check. The approved lower-case
+udp.cpp plan and normal baseline trial reject all four remaining clean donors:
+three use private UDP alias members absent from the shared header, and
+Rva00594C12Write.cpp conflicts with the seed's sendto prototype (C2733).
+
+The Write donor now includes the existing sweep winsock.h instead of its four
+local import declarations and signed SOCKET typedef. Its existing class name,
+16-byte address view and function body remain, with an explicit sockaddr cast
+for the typed header prototype. SOCKET remains four bytes; socket and error
+fields remain at +0 and +0x1C. No shared/header contract, pin or name changed.
+Official standalone verification preserves the full 109-byte row and all four
+named imports; declared-unmatched and diff checks pass. The normal after trial
+accepts udp.cpp plus Write: 13 rows/882 retail bytes. Receipts:
+build/udp-sol-write-{before,after}-dry.txt. The three private UDP alias donors
+retain their declaration prerequisite; no merge was applied.
+
+Write's Microsoft-header queue row still describes the removed declarations.
+That register is held by another worker; the owning environment and writer must
+refresh it before deleting the donor or retiring debt. No queue row was edited
+and no debt retirement is claimed. Keep file scope
+Code/GameEngine/Source/GameNetwork/Rva00594C12Write.cpp and RVA 0x00594C12 until
+confirmed publication, then release them with the earlier prerequisite scopes.
+
+The complete pending path audit was repeated for the additional Write edit:
+origin/master..6015a8b4c3 plus this staged prerequisite, against fetched origin
+27b23d675b8e46e096fc697af711003cf06c29f3, distinguishing incoming changes by
+the outgoing merge-base diff. There are still no deleted or renamed sources,
+ledger repoints or changed path consumers. Active tool/hook/workflow, build,
+source/header, registry and doxygen searches find only the intended local debug
+includes, existing Write routing/SDK row and seed's historical marker paths.
+No active consumer repair or historical EA path rewrite is needed.
+
+Updated session total: nine verified prerequisites, 30 affected existing rows
+and 4172 standalone retail bytes. The six compatible normal trial subsets
+contain 64 rows/6202 retail bytes in total. Actual merges/files removed/new
+matched bytes remain zero. The previous five pending commits were held by the
+shared publisher cooldown, not rejected by verification; this prerequisite
+retries publication in the same command as its commit. Runner-held claims and
+the exact audited range are documented here for settlement after landing.
