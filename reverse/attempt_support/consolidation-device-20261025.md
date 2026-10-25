@@ -118,3 +118,133 @@ data rows. String, float, import, DIR32, pin, module, source-claim and no-op
 patch checks also passed. Its complete receipt is retained locally as
 `build/bfme1-freshness-stable-old.log`. This verifies the retained inputs and
 does not establish the newer pointer's compatibility.
+
+## Follow-up pass, 2026-10-25 (codexb3)
+
+Destination scope: `Code/GameEngineDevice/Source/`. Reviewed the scoped planner,
+original-path alternatives, current approved plans and dry merges. Every applied
+move used the normal claimed `tu_skeleton.py --merge`; no mixed-file split,
+naming vote, routing-map regeneration or maintainer runner was used.
+
+Verified results for this pass (distinct rows at the final destinations):
+
+| Retail TU | Donor .cpp files removed | Matched rows preserved | Retail bytes |
+|---|---:|---:|---:|
+| W3DSupplyDraw.cpp | 1 | 3 | 137 |
+| W3DShrubBuffer.cpp | 1 | 5 | 431 |
+| W3DBridgeBuffer.cpp | 5 | 10 | 1225 |
+| TileData.cpp | 1 | 5 | 519 |
+| Total | 8 | 23 | 2312 |
+
+One scope-local header was added, so the net tracked file reduction is seven.
+This is consolidation progress, with no newly recovered C++ bytes or claimed
+link-census/ownership improvement.
+
+Prerequisites were separate byte-verified commits. Supply's local
+`BfmeDrawXferPrefix.h` places operand forwards ahead of the existing Xfer header
+when includes are hoisted; the seed and donor use the same verified flags/view.
+Shrub's dirty-byte member spelling was aligned without changing its offset.
+Bridge reconciled the existing mesh reference prefix and mesh pointers at
+0x38/0x7C/0xB8, visibility at 0x104, stride 0x114, and the MeshClass member at
+0xC4. Its cull donor shed unused includes while retaining EA provenance. The
+init donor's Vector3 component spelling was aligned, and the destination now
+exposes its verified template-name/state/enabled suffix at 0x108/0x10C/0x110.
+No escape hatch or protected register was added or expanded.
+
+All four destination `./build.sh` runs, `find_declared_unmatched.py`, CSV and
+normal commit hooks passed. The hooks checked source ownership, code identity
+(shadow, no new finding), converged data, pin admission, literal/float/import
+references and EH where present. Bridge's final ten-row build includes its init
+EH row; TileData's five-row build includes its destructor EH row. Only ledger
+source columns moved; the committed TU map's routing was not regenerated.
+CSV verification: 98,247 function rows, 15,733 symbols, 2,210 data rows.
+
+Upstream commit `80ff5cf1e52d4cd952c16a86aa68a747bcbd4107` arrived during a publisher
+rebase. Its changed consolidation instructions were read. Its EH-parent routing
+fix made the Bridge init and TileData destructor whole-file candidates. The new
+split lane was not used. A planner currency probe encountered an in-flight
+compiler-trial source; the report was regenerated with the trial finished and
+`name_lane.py consolidate --check build/consolidation` then passed. Local receipt:
+`build/device-planner-after-init-merge.log`.
+
+### Final compatibility audit and publication handoff
+
+The audit covers all outgoing absorbed paths plus staged moves through
+`c9411de1053cac4a570b996691a40d3acfcc3d62`, based on
+`20d076561b9a2a0e705a187684f73b9aee12c4e9`. The fetched `origin/master..HEAD`
+diff and staged diff were reviewed together; inverse incoming GameLogic changes
+were distinguished from this seat's moves. Receipts:
+`build/device-pending-paths-7.txt`, `build/device-path-consumers-7.txt`, and
+`build/device-directory-consumers.txt`. The combined search covered old paths,
+basenames, directory-derived discovery, active tools, hooks, workflows, includes,
+build inputs, registries and documentation. No active consumer needed a repair.
+Intentional old mentions remain in census history, attempt history/support,
+source provenance, stale generated not-yet-merged comments and an unrelated
+destructor declaration comment. No containing directory was removed. EA paths
+remain unchanged. Normal source-ledger repointing accompanied every move.
+
+At handoff writing the thirteen implementation commits remain local. Each commit
+called `/opt/runner/publish` in the same command. Most calls deferred on the
+shared slot. One publisher ran and rebased successfully, with its push gates
+passing, but all three push attempts failed (remote pack rename/unpack, then a
+remote error, then a concurrent master update). The final handoff commit retries
+publication normally; the runner owns any remaining unpublished batch.
+
+Unchanged rejected donors' claims and the partially acquired Vegetation scope
+were released. Keep the following accepted file claims until publication is
+confirmed, then release them and run `python3 tools/claims.py release --landed`:
+
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DSupplyDraw.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DSupplyDrawXfer.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/BfmeDrawXferPrefix.h`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E70D9.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBufferRva000DD878.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBufferDestructor.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeClearBridge.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer_cullBridge_W3DBridge_QAE_NPAVCameraClass_Z.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeInit.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/TileData.cpp`
+- `Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataDtor.cpp`
+- `reverse/attempt_support/consolidation-device-20261025.md`
+
+The corresponding 23 RVA claims are the matched rows in the four destinations,
+including Bridge's 0x00762E6C and TileData's 0x007649BA EH rows.
+Use the live claims/pending landing records for settlement rather than assuming a
+local commit is a published receipt.
+
+### Remaining scoped candidates
+
+- Vegetation: dry merge accepted reset/render-pass donors, seven rows. Normal
+  application refused the render-pass file claim held by another worker; no
+  source changed and all nine partial claims acquired here were released.
+- Shrub: the current queue marks the remaining donor set HELD. Explicit claims
+  for 0x000E7140 and 0x000E7A40 were refused under `jarvis-p2-shrub-1025`; neither
+  file was edited. Other private-view prerequisites remain with that worker.
+- Bridge: remaining clean donors need Vector3/MeshClass and terrain declarations
+  or add/load member declarations reconciled. Final dry/apply receipts retain
+  the exact compiler refusals for GetModelVertices, Load, AddBridge and
+  LoadBridges; these unchanged donor claims and RVAs were released. The
+  GetModelVerticesFixed donor remains protected-register keyed; mixed ctor,
+  destructor and renderer files were not split.
+- WaterTracks: the current dry run found no verified two-donor merge; SaveTracks
+  has no baseline match in that trial. Flush/bounds donors are protected-register
+  keyed, and other rows are mixed. No source or claims changed.
+- TreeDraw: ModuleNameKey donor fails because the seed lacks getModuleNameKey;
+  adding a virtual requires checking the existing constructor's vtable stores.
+- PropDraw: React donor fails on Coord3D redefinition against the seed's header
+  environment. It needs the owning canonical-header/declaration acceptance path.
+- BIG/Laser/Font: the header-audit/path-keyed prerequisites documented above are
+  unchanged. Ghost's byte/vector-view blockers and Shadow's lack of a verified
+  two-donor merge are unchanged and were not repeatedly rebuilt.
+
+Final scoped queue receipt: `build/device-queue-after-init.txt`. The session ends
+with verified consolidation tasks complete, not an assertion that the scope has
+no remaining work. The BFME 1 reference update/freshness handoff above remains
+open; no success receipt or pointer update was invented.
+
+`python3 tools/progress.py origin/master` passed: BYTE-MATCHED 7,978,500 bytes
+(100.00%), LINKING 7,343,016 (97.74%), LINKED 7,598,950 (95.24%). All three deltas
+are zero. Linking figures remain the census dated 2026-10-25 09:42 at
+d2636bb381; no new census was run. Local receipt: `build/device-session-progress.txt`.
