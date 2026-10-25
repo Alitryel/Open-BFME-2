@@ -82,3 +82,22 @@ append-only naming records or independent BFME 1 evidence. Stem-prefix matches
 to the separate `getValueInt.cpp` and `getValueReal.cpp` sources are unchanged
 live sources, not removed paths. The two original EA assertion strings remain
 unchanged and verified.
+
+## FunctionLexicon.cpp
+
+Dry run and normal claimed application accepted the existing System destination
+and `Rva002D22CAValidate.cpp`: four matched rows preserved, one fragment removed.
+The normal build passed 4/4 and the declared-unmatched check passed. Only the
+validator's source columns were repointed in the existing ledgers.
+
+The constructor donor still fails because lifting its subsystem include ahead
+of its local typedef leaves `Bool` undefined. The registry-lookup donor fails
+because the combined declaration strategy loses protected `findFunction`
+access. Both remain unchanged, as does the mixed deleting-destructor source.
+Reconcile those declarations in separate verified prerequisites before retrying.
+
+Fetched origin and repeated the combined audit from `91fe970939` through this
+staged move, covering all six deleted paths. The new validator-path references
+are merged provenance and the maintainer's census snapshot. No active tools,
+hooks, workflows, includes, build inputs or registries require repair; earlier
+historical and distinct stem-prefix references retain their prior classification.
