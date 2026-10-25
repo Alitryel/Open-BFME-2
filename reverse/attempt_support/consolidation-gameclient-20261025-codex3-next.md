@@ -38,3 +38,32 @@ build/gameclient-session2-path-audit.txt.
 Accepted file/RVA claims remain held until confirmed publication. Rejected donor
 claims are released separately. Publication runs only with the commit through
 /opt/runner/publish; a deferred batch remains the runner's responsibility.
+
+
+## GameWindowGlobal canonical string context
+
+Prerequisite 2f2ea4eeb3 removes the donor-wide header environment and uses the
+registered BFME 2 UnicodeString header, with callable-only declarations for the
+two existing GameWindowManager bodies. The rowed names preserve virtual
+winMakeColor and nonvirtual winGetTextSize; no complete manager layout or slot
+is asserted. Both original rows verify. The old duplicate donor/canonical
+AsciiString composition failure is cleared for winFindFont.
+
+The supported merge accepts the existing TU and GameWindowManager_winFindFont:
+three matched rows preserved and one fragment removed. The two other approved
+addresses remain in mixed Common sources, untouched. Only functions.csv and
+current tu_map source columns are repointed; no map regeneration is staged.
+
+Expanded the batch consumer audit to both absorbed paths (RadiusDecal parser
+and GameWindowManager_winFindFont), using full paths, basenames and stems across
+active tools, hooks, workflows, source/includes, build/configuration files and
+registers. Remaining references are historical link_status, retained donor
+provenance and generated placeholder comments. No active consumer or protected
+register key needs a transfer. Audit output remains in ignored build/ reports;
+accepted claims stay held while the runner defers publication.
+
+Fresh destination build verifies 3/3, find_declared_unmatched and check_csv pass.
+The pre-commit hook supplies the normal data, identity, ownership, include, EH,
+case and byte checks. The fetched upstream may advance independently while the
+batch waits; source-path audit concerns the outgoing commits plus staged merge,
+not unrelated upstream changes that will be retained by the publisher's rebase.
