@@ -2004,3 +2004,4 @@ function,?rva0042CA4B@Rva0042CA4B@@QAEXXZ,?update@Rva0042CA4B@@QAEXXZ,inferred,a
 member,Bfme5Obj18::m_bfmeV0,Bfme5Obj18::m_ownerVtable,inferred,agree:nl-b6baea4a66a4,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
 member,Bfme5Obj18::m_bfmeV4,Bfme5Obj18::m_listenerVtable,inferred,agree:nl-e15934563d9e,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
 function,?Rva00664A70Handler@@YAXPAVRva007E8810Message@@PAVBfmeHostBT@@@Z,?gameRemovedHandler@@YAXPAVRva007E8810Message@@PAVBfmeHostBT@@@Z,inferred,agree:nl-3c6c03feee0d,Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp,0x00664A70
+function,?rva00254D0B@Rva00254D0B@@QAEXPAURva00254D0BNode@@@Z,?freeTree@Rva00254D0B@@QAEXPAURva00254D0BNode@@@Z,inferred,agree:nl-77d4c7916ee8,Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp,0x00254D0B

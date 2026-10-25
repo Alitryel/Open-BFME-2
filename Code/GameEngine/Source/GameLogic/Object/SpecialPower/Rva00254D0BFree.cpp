@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?rva00254D0B@Rva00254D0B@@QAEXPAURva00254D0BNode@@@Z @0x00254D0B 45B.
+// ?freeTree@Rva00254D0B@@QAEXPAURva00254D0BNode@@@Z @0x00254D0B 45B.
 // Recursive list free: for each node recurse into child at +0xC with same
 // this then free the node via rowed _free 0x00030830 and advance to +0x8.
 // Self-call at 0x00254D1D plus caller 0x00255CDF. __thiscall method (this in
@@ -14,15 +14,15 @@ struct Rva00254D0BNode
 class Rva00254D0B
 {
 public:
-	void rva00254D0B(Rva00254D0BNode *head);
+	void freeTree(Rva00254D0BNode *head);
 };
-void Rva00254D0B::rva00254D0B(Rva00254D0BNode *head)
+void Rva00254D0B::freeTree(Rva00254D0BNode *head)
 {
 	Rva00254D0BNode *cur = head;
 	if (!cur)
 		return;
 	do {
-		rva00254D0B((Rva00254D0BNode *)cur->m_child);
+		freeTree((Rva00254D0BNode *)cur->m_child);
 		Rva00254D0BNode *next = cur->m_next;
 		free(cur);
 		cur = next;

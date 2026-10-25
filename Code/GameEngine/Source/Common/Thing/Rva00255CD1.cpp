@@ -8,7 +8,7 @@ struct Rva00254D0BNode;
 class Rva00254D0B
 {
 public:
-	void rva00254D0B(Rva00254D0BNode *head);
+	void freeTree(Rva00254D0BNode *head);
 };
 struct Rva00255CD1Inner
 {
@@ -29,7 +29,7 @@ void Rva00255CD1::rva00255CD1()
 {
 	if (m_04 == 0)
 		return;
-	((Rva00254D0B *)this)->rva00254D0B(m_00->m_04);
+	((Rva00254D0B *)this)->freeTree(m_00->m_04);
 	m_00->m_08 = m_00;
 	m_00->m_04 = 0;
 	m_00->m_0C = m_00;
