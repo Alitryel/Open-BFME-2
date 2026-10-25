@@ -52,3 +52,28 @@ Keep the Thread source/constructor, debug destructor and handoff file claims,
 plus RVAs 0x00610430, 0x00040860 and 0x000408C0, until publication is confirmed.
 Release them after landing; these existing-row claims may require explicit
 release if --landed reports none.
+
+## Factory prerequisite and current accepted subset
+
+A separate prerequisite removes DebugIOCon_Create.cpp's private placement-new
+and placement-delete definitions, using the existing <new> include directly.
+All three factory rows still byte-match, including the unwind funclet and
+handler; exception data is EXACT. The SDK audit now finds zero local Microsoft
+definitions and its owning scoped refresh removes the old two-definition
+queue entry. Code/data identity checks find no new findings. The factory's
+class view and 0x110 allocation size are unchanged.
+
+With that independent header conflict removed, the next normal merge dry run
+accepts seed, destructor and factory, ten rows, and emits real composed C++.
+The final-retry failure above is historical for the destructor-only stage;
+no tool was modified and no verifier was bypassed. The cache diagnostic issue
+still deserves a tooling regression test. The only rejected clean donor is
+now the outside-pool Common WriteFile caller; the constructor remains
+protected. Receipt: build/sol-debug-factory-after.txt. These three Libraries
+sources are ready for Luna's ordinary merge and destination checks. No merge
+was applied in this repair seat.
+
+The outgoing batch still has no path changes. Header queues and identity/data
+registers retain the same owners; the factory has no canonical-header or
+identity/data baseline key. Keep file:Code/Libraries/Source/WWVegas/WWDebug/
+DebugIOCon_Create.cpp and RVA 0x00040E50 as additional publication claims.
