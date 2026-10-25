@@ -2041,3 +2041,4 @@ file,Code/GameEngine/Source/GameLogic/Map/Rva0032A186Finish.cpp,Code/GameEngine/
 file,Code/Libraries/Source/VP6/Rva001C5040PeekBits.cpp,Code/Libraries/Source/VP6/bitreadonly.cpp,inferred,mechanical:_bitreadonly,Code/Libraries/Source/VP6/bitreadonly.cpp,
 file,Code/Libraries/Source/VP6/Rva001C5070SkipBits.cpp,Code/Libraries/Source/VP6/bitShift.cpp,inferred,mechanical:_bitShift,Code/Libraries/Source/VP6/bitShift.cpp,
 file,Code/Libraries/Source/VP6/Rva001C6980InsertSorted.cpp,Code/Libraries/Source/VP6/InsertSorted.cpp,inferred,mechanical:?InsertSorted@@YAXPAUVp6SortRecord@@HPAH@Z,Code/Libraries/Source/VP6/InsertSorted.cpp,
+file,Code/Libraries/Source/VP6/_AnyRatioFrameScaleRva001BAF30Farm.cpp,Code/Libraries/Source/VP6/AnyRatioFrameScale.cpp,inferred,mechanical:_AnyRatioFrameScale,Code/Libraries/Source/VP6/AnyRatioFrameScale.cpp,
