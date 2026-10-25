@@ -176,3 +176,21 @@ its subsequent merge acceptance check.
 The flank commit gate passed; its shadow identity check reported the Coord3D
 copy constructor definition as divergent. Byte checks and EH remained exact;
 no identity baseline was edited.
+
+## SubObjectsUpgrade parser merge
+
+After the prerequisite, fresh planner review/currency and all five donor frozen
+checks pass. Both dry run and normal merge accept the parser into the existing
+retail TU, removing one more file and preserving seven rows / 894 bytes.
+Build passes 7/7, including two emitted constructor folds and all string/float/
+import checks. Frozen and staged canonical checks pass; EH one EXACT row,
+no missing object. Other three rejections are unchanged. Only the parser's
+function/map source columns are repointed; protected registers remain intact.
+
+Refreshed full outgoing/staged audit against fetched origin
+6af09d7663ff87e66966be5ac1c53e21c0768e0d: nine absorbed source paths across
+three TUs. The newly removed parser path appears only in merged provenance,
+older trial evidence and historical census. No active path consumer needs
+repair. Prior naming-evidence and directory classifications remain valid;
+upstream-only evidence additions are not local removals. This audit covers
+the entire five-commit pending batch, including the vector prerequisite.
