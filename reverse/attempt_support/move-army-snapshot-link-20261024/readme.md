@@ -83,3 +83,23 @@ false-identity tombstone. Production code and table source stay unchanged.
 The exact row and full30-relocation proof are retained here. This intermediate
 commit must never be published alone. Restore the exact data row after ordinary
 parser admission and pass full ordinary data verification before publication.
+
+## Live copy-table bridge and shadow classification
+
+The normal current copy-constructor object references external data symbol
+`?g_00C61DB4@@3QBQBXB` through a DIR32 field at offset 34 of its complete
+77-byte body; retail points to C61DB4. Its existing linker directive targets
+`??_7Rva004E1B00@@6B@` with exactly the same alias mangling. The bridge is live
+and not misspelled. The object hash, symbol, relocation and directive are
+preserved in copy-alias-actual-object-proof.json.
+
+The code-identity shadow scan calls this unreferenced because
+allowed_symbols.Identity.row_refs deliberately excludes native targets outside
+.text. A data-table target therefore cannot enter judge_alternatename targets.
+This is a shadow classification limitation, not an enforced refusal, and no
+check/register is changed. Ordinary data checks report no new findings.
+Publication still requires complete current16-byte vtable/four-target proof,
+the exact copy77 body and the final provider-consumer family link proof.
+The parser now forward-declares Xfer only; its unused Version definition and
+BfmeXfer dependency were removed without changing constructor17. The actual
+DoXfer TU retains its required Version definition.
