@@ -106,7 +106,29 @@ public:
 // +0x20, where the constructor 0x00468559 stores its secondary table.
 class TransportContainUpdate : public Rva004640BE { unsigned char m_pad14[0x20 - 0x14]; };
 
-class TransportConditionInterface { public: virtual void rva004673C0() = 0; };
+// The +0x20 interface: the constructor 0x00468559's secondary table holds
+// 0x004673C0 at slot 60; onCapture (0x004672B7) calls slots 32/35/42/54/56.
+#define CSLOT(n) virtual void cslot##n();
+class TransportConditionInterface
+{
+public:
+	CSLOT(00) CSLOT(01) CSLOT(02) CSLOT(03) CSLOT(04) CSLOT(05) CSLOT(06) CSLOT(07) CSLOT(08) CSLOT(09)
+	CSLOT(10) CSLOT(11) CSLOT(12) CSLOT(13) CSLOT(14) CSLOT(15) CSLOT(16) CSLOT(17) CSLOT(18) CSLOT(19)
+	CSLOT(20) CSLOT(21) CSLOT(22) CSLOT(23) CSLOT(24) CSLOT(25) CSLOT(26) CSLOT(27) CSLOT(28) CSLOT(29)
+	CSLOT(30) CSLOT(31)
+	virtual void cslot32(int);
+	CSLOT(33) CSLOT(34)
+	virtual void cslot35(int);
+	CSLOT(36) CSLOT(37) CSLOT(38) CSLOT(39) CSLOT(40) CSLOT(41)
+	virtual void cslot42(int);
+	CSLOT(43) CSLOT(44) CSLOT(45) CSLOT(46) CSLOT(47) CSLOT(48) CSLOT(49)
+	CSLOT(50) CSLOT(51) CSLOT(52) CSLOT(53)
+	virtual bool cslot54();
+	CSLOT(55)
+	virtual int cslot56();
+	CSLOT(57) CSLOT(58) CSLOT(59)
+	virtual void rva004673C0() = 0;	// slot 60
+};
 
 // OpenContain's share of the object: the four interfaces above and its data
 // up to +0xFC (the members themselves are not recovered here).
@@ -136,7 +158,8 @@ class TransportContain : public OpenContain, public TransportPayloadCreator
 {
 public:
 #define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
-	V(04) V(05) V(06) V(07) V(08) V(09)
+	V(04) V(05) V(06) V(07) V(08)
+	virtual void onCapture(int oldOwner, int newOwner);	// slot 9, 0x004672B7
 	V10(1) V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
 #undef V10
 	virtual void createPayload();		// slot 29 (0x004670D6)
@@ -816,7 +839,11 @@ public:
 public:
 	TransportContainModelFlags m_modelFlags;
 public:
-	unsigned char m_pad158[0x250 - 0x158];
+	unsigned char m_pad158[0x1C8 - 0x158];
+public:
+	unsigned char m_flags1C8;	// bit 0x20 tested by onCapture
+public:
+	unsigned char m_pad1C9[0x250 - 0x1C9];
 public:
 	ContainModuleInterface *m_contain;
 public:
