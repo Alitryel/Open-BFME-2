@@ -98,3 +98,32 @@ source snapshot. Those records retain their original paths. The normal build
 created current receipts for the destination; donor receipts are not proof.
 The supported merge tool repointed active ledger source columns. Subsequent
 path changes require extending this audit before their publication.
+
+## PoisonedBehavior claim conflict
+
+The scoped planner, plan, frozen checks and dry run accepted two files / five
+rows, but the actual normal-claim merge refused because another worker held
+0x00482ED9 and the Xfer, destructor and calcSleepTime file scopes. No source
+was written. Released this attempt's partial scope claims and moved to another
+TU; see `poisoned-claim-blocked.txt`. Do not retry while those claims are held.
+
+## OneRingPenaltyUpdate approved retail path
+
+The merge tool moved one accepted 284-byte row from the address-suffixed
+fragment to its approved retail TU, preserving the historical BFME 2 path
+string and requiring no net file-count reduction. Ordinary build and frozen
+checks pass 1/1. The other five donors were rejected for missing Snapshot,
+ObjectModule/UpdateModuleInterface, Thing or receiver declarations, or for no
+destination-context baseline match. Two protected and five mixed files remain
+untouched. See `onering-merge.json`.
+
+The complete pending path audit against origin 4f111811802ec7c4004506163e93cc7327e21581
+now covers thirteen old paths, including Git-detected renames. It found one
+active consumer: the Coord3D header-adoption queue row. Shared rename/TU
+repointing now transfers its source and generated acceptance command, preserving
+the row, RVAs, retry budget and original compiler failure. The old path in that
+failure remains historical evidence. The regression checks quoted TSV fields,
+untouched failure text and a similar-prefix unrelated source; rename, TU and
+gate-exploit suites passed 97 tests with one pre-existing skip. No header debt
+is retired. Other old-path hits are census snapshots, name evidence, banked
+patches and donor comments. No include, build or directory consumer needs edits.

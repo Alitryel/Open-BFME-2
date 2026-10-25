@@ -150,6 +150,21 @@ def test_field_spans_handle_quotes():
     assert [text[s:e] for s, e in rename.field_spans(text)] == ["a", '"b,""c"""', "", "d"]
 
 
+def test_header_queue_repoint_preserves_debt_and_failure_evidence():
+    header = b'class\tsource\tretail_rvas\theader\tfailure\tretry_budget\tacceptance\n'
+    row = (b'Coord3D\t"Code/X.cpp"\t0x1000\tCode/Coord3D.h\t'
+           b'"Code/X.cpp(198), old failure"\t3\t'
+           b'"python3 tools/header_adopt_lane.py accept --class Coord3D Code/X.cpp"\n')
+    unrelated = row.replace(b'"Code/X.cpp"\t', b'Code/X.cppz\t', 1)
+    out, count = rename.repoint_column(header + row + unrelated, "reverse/header_queue.tsv",
+                                       "source", "Code/X.cpp", "Code/T.cpp")
+    assert ("reverse/header_queue.tsv", "source") in rename.PATH_COLUMNS
+    assert count == 1
+    expected = row.replace(b'"Code/X.cpp"\t', b'"Code/T.cpp"\t', 1)
+    expected = expected.replace(b'Coord3D Code/X.cpp"\n', b'Coord3D Code/T.cpp"\n')
+    assert out == header + expected + unrelated
+
+
 # ------------------------------------------------------------ file kind
 
 def test_file_plan_repoints_every_path_keyed_column(tree):

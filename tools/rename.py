@@ -310,7 +310,8 @@ def identifier_string(text, start):
     return IDENTIFIER_CALL.search(text, max(0, start - 64), start) is not None
 # Path-keyed ledger columns a file rename repoints.
 PATH_COLUMNS = (("reverse/functions.csv", "source"), ("reverse/data_rows.csv", "source"),
-                ("reverse/tu_map.csv", "source"), ("reverse/body_owners.csv", "source"))
+                ("reverse/tu_map.csv", "source"), ("reverse/body_owners.csv", "source"),
+                ("reverse/header_queue.tsv", "source"))
 # Path-keyed files a phase-1 file rename may not re-key: tool-owned or
 # shrink-only (tools/protected_paths.py), so re-keying is a Verifier-Change commit.
 PROTECTED_PATH_KEYED = ("reverse/flag_overrides.csv", "reverse/hatch_baseline.tsv",
@@ -2863,8 +2864,8 @@ def plan_global(ctx, name, new, basis, evidence, *, max_files=25):
 
 # ---------------------------------------------------------------- files
 
-def field_spans(text):
-    """(start, end) of each field of one CSV record, quotes included."""
+def field_spans(text, delimiter=","):
+    """(start, end) of each delimited field, quotes included."""
     spans, i, n = [], 0, len(text)
     while True:
         start = i
@@ -2878,7 +2879,7 @@ def field_spans(text):
                     i += 1
                     break
                 i += 1
-        while i < n and text[i] != ",":
+        while i < n and text[i] != delimiter:
             i += 1
         spans.append((start, i))
         if i >= n:
@@ -2888,12 +2889,16 @@ def field_spans(text):
 
 def repoint_column(raw, label, column, old, new):
     """`raw` with every record whose `column` field is exactly `old` changed
-    to `new`; returns (new_raw, count). Every other byte is kept."""
+    to `new`; returns (new_raw, count). The header queue's acceptance command
+    follows its source; failure evidence and all other bytes are kept."""
     ledger_io.lf_terminator(raw, label)
     if old.encode("utf-8") not in raw:
         return raw, 0
     records = ledger_io.split_records(raw)
-    header = ledger_io.fields(records[0][0]) if records else []
+    header_queue = label == "reverse/header_queue.tsv"
+    delimiter = "\t" if header_queue else ","
+    header = next(csv.reader(io.StringIO(records[0][0].decode("utf-8")),
+                             delimiter=delimiter), []) if records else []
     if column not in header:
         raise Refusal(f"{label} has no {column!r} column")
     index = header.index(column)
@@ -2901,12 +2906,24 @@ def repoint_column(raw, label, column, old, new):
     for payload, term in records[1:]:
         if needle in payload:
             text = payload.decode("utf-8")
-            spans = field_spans(text)
+            spans = field_spans(text, delimiter)
             if len(spans) > index:
                 start, end = spans[index]
                 value = text[start:end]
                 if value in (old, f'"{old}"'):
-                    payload = (text[:start] + value.replace(old, new) + text[end:]).encode("utf-8")
+                    edits = [(start, end, value.replace(old, new))]
+                    if header_queue and column == "source" and "acceptance" in header:
+                        command_index = header.index("acceptance")
+                        if command_index < len(spans):
+                            a, b = spans[command_index]
+                            command = text[a:b]
+                            suffix = '"' if command.startswith('"') else ''
+                            if command.endswith(" " + old + suffix):
+                                edits.append((a, b, command[:len(command) - len(old) - len(suffix)]
+                                              + new + suffix))
+                    for a, b, replacement in sorted(edits, reverse=True):
+                        text = text[:a] + replacement + text[b:]
+                    payload = text.encode("utf-8")
                     count += 1
         out.append(payload + term)
     return b"".join(out), count
