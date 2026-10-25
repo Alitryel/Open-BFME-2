@@ -2040,3 +2040,4 @@ param,Rva00330A37::rva00330A37::a1,Rva00330A37::rva00330A37::delay,inferred,agre
 file,Code/GameEngine/Source/GameLogic/Map/Rva0032A186Finish.cpp,Code/GameEngine/Source/GameLogic/Map/BuildListInfo.cpp,inferred,mechanical:??1BuildListInfo@@MAE@XZ;?loadPostProcess@BuildListInfo@@MAEXXZ,Code/GameEngine/Source/GameLogic/Map/BuildListInfo.cpp,
 file,Code/Libraries/Source/VP6/Rva001C5040PeekBits.cpp,Code/Libraries/Source/VP6/bitreadonly.cpp,inferred,mechanical:_bitreadonly,Code/Libraries/Source/VP6/bitreadonly.cpp,
 file,Code/Libraries/Source/VP6/Rva001C5070SkipBits.cpp,Code/Libraries/Source/VP6/bitShift.cpp,inferred,mechanical:_bitShift,Code/Libraries/Source/VP6/bitShift.cpp,
+file,Code/Libraries/Source/VP6/Rva001C6980InsertSorted.cpp,Code/Libraries/Source/VP6/InsertSorted.cpp,inferred,mechanical:?InsertSorted@@YAXPAUVp6SortRecord@@HPAH@Z,Code/Libraries/Source/VP6/InsertSorted.cpp,
