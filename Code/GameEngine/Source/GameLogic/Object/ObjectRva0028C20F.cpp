@@ -42,9 +42,9 @@ private:
 
 void Object::rva0028C20F(int key)
 {
-	for (Rva0028C20FModule **m = m_modules; *m; ++m)
+	for (Rva0028C20FModule **module = m_modules; *module; ++module)
 	{
-		Rva0028C20FInner *inner = (*m)->m_mid.getInner();
+		Rva0028C20FInner *inner = (*module)->m_mid.getInner();
 		if (inner != 0)
 		{
 			if (inner->getKey() == key)

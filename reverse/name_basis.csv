@@ -1997,3 +1997,4 @@ local,Rva00539281::rva00539281::p,Rva00539281::rva00539281::element,inferred,agr
 local,Rva0057ACEB::Rva0057ACEB::p,Rva0057ACEB::Rva0057ACEB::impl,inferred,agree:nl-4b162284e7a7,Code/GameEngine/Source/Common/Rva0057ACEBCtor.cpp,0x0057ACEB
 local,Rva005B1A07::rva005B1A07::c2,Rva005B1A07::rva005B1A07::currentSize,inferred,agree:nl-00a3f0eac864,Code/GameEngine/Source/Common/Rva005B1A07.cpp,0x005B1A07
 local,Rva003F2A3E::n,Rva003F2A3E::count,inferred,agree:nl-545139459577,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva003F2A11Assign.cpp,0x003F2A3E
+local,Object::rva0028C20F::m,Object::rva0028C20F::module,inferred,agree:nl-fe597da0f638,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028C20F.cpp,0x0028C20F
