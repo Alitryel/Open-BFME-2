@@ -33,10 +33,10 @@ private:
 };
 Rva0057ACEB::Rva0057ACEB(const Rva0057ACEBData *initialData)
 {
-	Rva0057ACEBImpl *p = new Rva0057ACEBImpl(initialData);
-	m_impl = p;
-	if (p)
-		++p->m_ref;
+	Rva0057ACEBImpl *impl = new Rva0057ACEBImpl(initialData);
+	m_impl = impl;
+	if (impl)
+		++impl->m_ref;
 }
 
 // Retail's data references in this unit's matched rows land on globals defined

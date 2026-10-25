@@ -1994,3 +1994,4 @@ param,Rva003A45D2::rva003A45D2::arg,Rva003A45D2::rva003A45D2::sourceObject,infer
 local,LivingWorldTutorial::LogicTurn::ParseINI::p,LivingWorldTutorial::LogicTurn::ParseINI::logicTurn,inferred,agree:nl-b9ae268f78ea,Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp,0x003F907B
 local,PathfindZoneManager::rva00531720::t,PathfindZoneManager::rva00531720::flags,inferred,agree:nl-36b8933724d4,Code/GameEngine/Source/Common/Rva00531720Finish.cpp,0x00531720
 local,Rva00539281::rva00539281::p,Rva00539281::rva00539281::element,inferred,agree:nl-e777c04b26a1,Code/GameEngine/Source/Common/Rva00539281.cpp,0x00539281
+local,Rva0057ACEB::Rva0057ACEB::p,Rva0057ACEB::Rva0057ACEB::impl,inferred,agree:nl-4b162284e7a7,Code/GameEngine/Source/Common/Rva0057ACEBCtor.cpp,0x0057ACEB
