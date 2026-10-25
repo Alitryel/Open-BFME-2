@@ -137,73 +137,6 @@ extern GameWindowManager *TheWindowManager;
 
 class Gadget210;
 
-class GameWindow
-{
-public:
-	GameWindow *winPointInChild(int, int, bool, bool = false);
-	Int winSetSize(Int width, Int height);
-	virtual void winSetFont(GameFont *);
-	void winSetEnabledTextColors(int color, int borderColor);
-	void winSetDisabledTextColors(int color, int borderColor);
-	void winSetHiliteTextColors(int color, int borderColor);
-	void winSetIMECompositeTextColors(int color, int borderColor);
-	GameWindow *winPointInAnyChild(Int x, Int y, bool ignoreHidden, bool ignoreEnableCheck);
-	UnsignedInt winClearStatus(UnsignedInt status);
-	Int winSetInputFunc(GameWinInputFunc input);
-	Int winSetDrawFunc(GameWinDrawFunc draw);
-	// Out of line in GameWindowSetTooltipFunc.cpp (0x0031416D); inline here, as
-	// retail winSetCallbacks expands it.
-	Int winSetTooltipFunc(GameWinTooltipFunc tooltip) { m_tooltipFunc = tooltip; return WIN_ERR_OK; }
-	Int winSetCallbacks(GameWinInputFunc input, GameWinDrawFunc draw, GameWinTooltipFunc tooltip);
-	Int winGetScreenPosition(Int *x, Int *y);
-	Int winGetSize(Int *width, Int *height);
-	Int winGetPosition(Int *x, Int *y);
-	bool winIsHidden(void);
-	int winSetPosition(int x, int y);
-	void orderPairs();
-
-protected:
-	GameWindow *findFirstLeaf();
-	GameWindow *findLastLeaf();
-	GameWindow *findPrevLeaf();
-	GameWindow *findNextLeaf();
-
-private:
-	GameWindowChild *m_positionSink; // +0x04 notified by winSetPosition
-	UnsignedInt m_status;
-	Int m_sizeX;
-	Int m_sizeY;
-	Int m_regionLoX;
-	Int m_regionLoY;
-	Int m_regionHiX;
-	Int m_regionHiY;
-	Int m_cursorX;
-	Int m_cursorY;
-	unsigned char m_pad2C[0x3C - 0x2C];
-	unsigned m_style;
-	unsigned char m_pad40[0x18C - 0x40];
-	int m_enabledColor;
-	int m_enabledBorderColor;
-	int m_disabledColor;
-	int m_disabledBorderColor;
-	int m_hiliteColor;
-	int m_hiliteBorderColor;
-	int m_imecompositeColor;
-	int m_imecompositeBorderColor;
-	unsigned char m_pad1AC[0x1E0 - 0x1AC];
-	GameWinInputFunc m_inputFunc;	// +0x1E0
-	unsigned char m_pad1E4[0x1E8 - 0x1E4];
-	GameWinDrawFunc m_drawFunc;	// +0x1E8
-	GameWinTooltipFunc m_tooltipFunc;	// +0x1EC
-	unsigned char m_pad1F0[0x1F8 - 0x1F0];
-	GameWindow *m_next;
-	GameWindow *m_prev;
-	GameWindow *m_parent;
-	GameWindow *m_child;
-	unsigned char m_pad208[0x210 - 0x208];
-	Gadget210 *m_210;
-};
-
 class BfmeWindowDisplayString
 {
 public:
@@ -592,6 +525,149 @@ private:
     TargetA *m_04;
     TargetB *m_08;
 };
+
+class Gadget210
+{
+public:
+	virtual void g00(); virtual void g01(); virtual void g02(); virtual void g03();
+	virtual void g04(); virtual void g05();
+	virtual void Virtual18(GameWindow *win);
+	virtual void Virtual1C(GameWindow *win);
+};
+
+class GameWindow
+{
+public:
+	GameWindow *winPointInChild(int, int, bool, bool = false);
+public:
+	Int winSetSize(Int width, Int height);
+public:
+	virtual void winSetFont(GameFont *);
+public:
+	void winSetEnabledTextColors(int color, int borderColor);
+public:
+	void winSetDisabledTextColors(int color, int borderColor);
+public:
+	void winSetHiliteTextColors(int color, int borderColor);
+public:
+	void winSetIMECompositeTextColors(int color, int borderColor);
+public:
+	GameWindow *winPointInAnyChild(Int x, Int y, bool ignoreHidden, bool ignoreEnableCheck);
+public:
+	UnsignedInt winClearStatus(UnsignedInt status);
+public:
+	Int winSetInputFunc(GameWinInputFunc input);
+public:
+	Int winSetDrawFunc(GameWinDrawFunc draw);
+public:
+	Int winSetTooltipFunc(GameWinTooltipFunc tooltip) { m_tooltipFunc = tooltip; return WIN_ERR_OK; }
+public:
+	Int winSetCallbacks(GameWinInputFunc input, GameWinDrawFunc draw, GameWinTooltipFunc tooltip);
+public:
+	Int winGetScreenPosition(Int *x, Int *y);
+public:
+	Int winGetSize(Int *width, Int *height);
+public:
+	Int winGetPosition(Int *x, Int *y);
+public:
+	bool winIsHidden(void);
+public:
+	int winSetPosition(int x, int y);
+public:
+	void orderPairs();
+protected:
+	GameWindow *findFirstLeaf();
+protected:
+	GameWindow *findLastLeaf();
+protected:
+	GameWindow *findPrevLeaf();
+protected:
+	GameWindow *findNextLeaf();
+private:
+	GameWindowChild *m_positionSink;
+private:
+	UnsignedInt m_status;
+private:
+	Int m_sizeX;
+private:
+	Int m_sizeY;
+private:
+	Int m_regionLoX;
+private:
+	Int m_regionLoY;
+private:
+	Int m_regionHiX;
+private:
+	Int m_regionHiY;
+private:
+	Int m_cursorX;
+private:
+	Int m_cursorY;
+private:
+	unsigned char m_pad2C[0x3C - 0x2C];
+private:
+	unsigned m_style;
+private:
+	unsigned char m_pad40[0x18C - 0x40];
+private:
+	int m_enabledColor;
+private:
+	int m_enabledBorderColor;
+private:
+	int m_disabledColor;
+private:
+	int m_disabledBorderColor;
+private:
+	int m_hiliteColor;
+private:
+	int m_hiliteBorderColor;
+private:
+	int m_imecompositeColor;
+private:
+	int m_imecompositeBorderColor;
+private:
+	unsigned char m_pad1AC[0x1E0 - 0x1AC];
+private:
+	GameWinInputFunc m_inputFunc;
+private:
+	unsigned char m_pad1E4[0x1E8 - 0x1E4];
+private:
+	GameWinDrawFunc m_drawFunc;
+private:
+	GameWinTooltipFunc m_tooltipFunc;
+private:
+	unsigned char m_pad1F0[0x1F8 - 0x1F0];
+private:
+	GameWindow *m_next;
+private:
+	GameWindow *m_prev;
+private:
+	GameWindow *m_parent;
+private:
+	GameWindow *m_child;
+private:
+	unsigned char m_pad208[0x210 - 0x208];
+private:
+	Gadget210 *m_210;
+public:
+	int winBringToTop();
+public:
+	int winGetCursorPosition(int *x, int *y);
+public:
+	int winActivate();
+public:
+	int winHide(bool hide);
+public:
+	UnsignedInt winSetStatus(UnsignedInt status);
+public:
+	Int winEnable(bool enable);
+public:
+	int winSetParent(int arg);
+};
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
+
+// TU Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 
 // ---- from Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 
@@ -1298,6 +1374,254 @@ int Rva003145B1::rva00314596(int message, int a1, int a2)
 // tu-skeleton: 0x0031475A 128B ?winBringToTop@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp (not merged yet)
 
 // tu-skeleton: 0x003147DA 28B ?winActivate@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp (not merged yet)
+
+// tu-skeleton: 0x003147F6 84B ?winPointInWindow@GameWindow@@QAEEHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
+
+// tu-skeleton: 0x0031484A 88B ?winSetText@GameWindow@@UAEHVUnicodeString@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
+
+// tu-skeleton: 0x003148A2 68B ?winSetTooltip@GameWindow@@QAEXVUnicodeString@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
+
+// tu-skeleton: 0x00314926 28B ??_GRva0031468C@@QAEPAXI@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00314942 26B ?winGetText@GameWindow@@QAE?AVUnicodeString@@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowWinSetInstanceData_Rva0031495c.cpp (not merged yet)
+
+// tu-skeleton: 0x0031495C 142B ?winSetInstanceData@GameWindow@@QAEHPAVWinInstanceData@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowWinSetInstanceData_Rva0031495c.cpp (not merged yet)
+
+// tu-skeleton: 0x00314A0C 184B ??1GameWindow@@MAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00314AC4 28B ??_GGameWindow@@MAEPAXI@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowDtor.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp
+
+int GameWindow::winBringToTop()
+{
+	GameWindowManager *mgr = TheWindowManager;
+	GameWindow *parent = m_parent;
+	if (parent != 0) {
+		mgr->unlinkChildWindow(this);
+		TheWindowManager->VirtualE0(this, parent);
+	} else {
+		GameWindow *cur = mgr->Virtual94();
+		while (cur != this) {
+			if (cur == 0)
+				return -3;
+			cur = cur->m_next;
+		}
+		TheWindowManager->unlinkWindow(this);
+		TheWindowManager->linkWindow(this);
+	}
+	Gadget210 *g = m_210;
+	if (g != 0) {
+		g->Virtual1C(this);
+		g->Virtual18(this);
+	}
+	return 0;
+}
+
+// ?winActivate@GameWindow@@QAEHXZ, retail 0x003147DA, 28 bytes.
+// Calls winBringToTop then winHide(false) on success; sets status bit0.
+// Evidence: chain caller of 0x0031475A; or [esi+8],1 matches m_status;
+// rowed ?winHide@GameWindow@@QAEH_N@Z.
+
+int GameWindow::winActivate()
+{
+	int returnCode = winBringToTop();
+	if (returnCode != 0)
+		return returnCode;
+	m_status |= 1;
+	winHide(false);
+	return 0;
+}
+
+// ZH names plus native IME call at 0x233947 and loads at +0x24/+0x28.
+int GameWindow::winGetCursorPosition(int *x, int *y)
+{
+	if (x) *x = m_cursorX;
+	if (y) *y = m_cursorY;
+	return 0;
+}
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/GameWindowHide.cpp
+
+// ?winHide@GameWindow@@QAEH_N@Z, retail 0x00313C64 (117B).
+Int GameWindow::winHide(bool hide)
+{
+	UnsignedInt oldStatus = m_status;
+
+	if (hide)
+	{
+		m_status |= 0x10;
+		TheWindowManager->windowHiding(this);
+	}
+	else
+	{
+		m_status &= ~0x10;
+	}
+
+	if (m_status != oldStatus)
+		TheWindowManager->winSendSystemMsg(this, 0x1B, !hide, 0);
+
+	m_status &= ~0x10000000;
+
+	TheWindowManager->winSendSystemMsg(this, 0x1C, 0x10, (m_status >> 4) & 1);
+
+	return WIN_ERR_OK;
+}
+
+// ?winSetStatus@GameWindow@@QAEII@Z, retail 0x00313CE3 (15B).
+UnsignedInt GameWindow::winSetStatus(UnsignedInt status)
+{
+	UnsignedInt oldStatus = m_status;
+	m_status |= status;
+	return oldStatus;
+}
+
+// ?winEnable@GameWindow@@QAEH_N@Z, retail 0x00313BEC (120B).
+// Ported from Open-BFME-1 GameWindowFields.cpp donor (GameWindow::winEnable,
+// BFME1 0x00478390) with BFME2 repairs: the trailing winSendSystemMsg is
+// unconditional with (0x1C / 8 / enabled-bit) in place of the donor
+// conditional (0x1C / enable / 0) and m_child sits at +0x204 with m_next at
+// +0x1F8 per retail bytes. Focus slots are winGetFocus at 0xC0 and
+// winSetFocus at 0xC4. WIN_STATUS_ENABLED is 0x08.
+Int GameWindow::winEnable(bool enable)
+{
+	GameWindow *child;
+
+	if (enable)
+	{
+		m_status |= 0x08;
+	}
+	else
+	{
+		m_status &= ~0x08;
+
+		if (TheWindowManager->winGetFocus() == this)
+			TheWindowManager->winSetFocus(0);
+	}
+
+	for (child = m_child; child; child = child->m_next)
+		child->winEnable(enable);
+
+	TheWindowManager->winSendSystemMsg(this, 0x1C, 8, (m_status >> 3) & 1);
+
+	return WIN_ERR_OK;
+}
+
+// tu-skeleton: 0x00313D03 17B ?winDrawBorder@GameWindow@@QAEXXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowManager_drawWindow_Thunk.cpp (not merged yet)
+
+// tu-skeleton: 0x00313D28 23B ?set@Rva004784D0PairSlot@@QAEXHH@Z -- matched in Code/GameEngine/Source/Common/SmallLeafBodies2_PairSlotSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00313D64 8B ?winGetTextLength@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313D6C 7B ?get@Rva00313D6CDwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00313E8C 7B ?winGetEnabledTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313E93 7B ?winGetEnabledTextBorderColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313E9A 7B ?winGetDisabledTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EA1 7B ?winGetDisabledTextBorderColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EA8 7B ?winGetIMECompositeTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EB6 7B ?winGetHiliteTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EBD 393B ??4WinInstanceData@@QAEAAV0@ABV0@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/WinInstanceData.cpp (not merged yet)
+
+// tu-skeleton: 0x00314046 4B ?get@Rva00314046LeaField@@QBEPAXXZ -- matched in Code/GameEngine/Source/Common/Disp8LeaFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0031404A 12B ?winSetWindowId@GameWindow@@QAEHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/GameWindow_winSetParent.cpp
+
+int GameWindow::winSetParent(int arg)
+{
+	GameWindowManager *mgr = *(GameWindowManager * volatile *)&TheWindowManager;
+	if (m_parent == 0)
+		mgr->unlinkWindow(this);
+	else
+		mgr->unlinkChildWindow(this);
+	GameWindowManager *mgr2 = TheWindowManager;
+	if (arg == 0) {
+		mgr2->linkWindow(this);
+		m_parent = 0;
+	} else {
+		mgr2->VirtualE0(this, (GameWindow *)arg);
+	}
+	return 0;
+}
+
+// tu-skeleton: 0x003140C8 7B ?get@Rva003140C8DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003140E4 13B ?set@Rva003140E4DwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003140F1 7B ?get@Rva003140F1DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003140F8 13B ?set@Rva003140F8DwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00314105 7B ?get@Rva00314105DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0031410C 13B ?set@Rva0031410CDwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00314119 13B ?Set_Subdivision_Level@ParticleEmitterDefClass@@UAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp (not merged yet)
+
+// tu-skeleton: 0x00314126 7B ?get@Rva00314126DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0031412D 7B ?get@Rva0031412DDwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/GameWindowSetTooltipFunc.cpp
+
+// The anchor keeps the rowed body emitted.
+// ?bfmeAnchorWinSetTooltipFunc@@YAXXZ absent-from-retail
+void bfmeAnchorWinSetTooltipFunc()
+{
+	Int (GameWindow::*volatile setter)(GameWinTooltipFunc) = &GameWindow::winSetTooltipFunc;
+}
+
+// tu-skeleton: 0x0031417C 13B ?set@Rva0031417CDwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003141BC 293B ?winPointInChild@GameWindow@@QAEPAV1@HH_N0@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowCursorSearch.cpp (not merged yet)
+
+// tu-skeleton: 0x003142E1 121B ?rva003142E1@Rva003141BCWindowView@@QAEPAV1@HH_N0@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowCursorSearch.cpp (not merged yet)
+
+// tu-skeleton: 0x003143B9 36B ?winSetEnabledImage@GameWindow@@QAEHHPBVImage@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003143DD 34B ?winSetEnabledColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003143FF 34B ?winSetEnabledBorderColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x00314421 36B ?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x00314445 37B ?winSetDisabledColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x0031446A 37B ?winSetDisabledBorderColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x0031448F 36B ?winSetHiliteImage@GameWindow@@QAEHHPBVImage@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003144B3 37B ?winSetHiliteColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003144D8 37B ?winSetHiliteBorderColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003144FD 13B ?setRva003144FD@GameWindow@@QAEXH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x0031450A 7B ?winGetEditData@GameWindow@@QAEPAUGameWindowEditData@@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x00314511 30B ?winSendInputMsg@GameWindow@@QAE?AW4WindowMsgHandledType@@III@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowManagerSendMsg.cpp (not merged yet)
+
+// tu-skeleton: 0x0031452F 30B ?winSendSystemMsg@GameWindow@@QAE?AW4WindowMsgHandledType@@III@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowManagerSendMsg.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/BfmeThreeHundredFortyTwoBase.cpp
+
+// GameWindow.cpp's view of this class (it rows the destructor 0x003148E6 and
+// the deleting destructor 0x003149EA); only the constructor lives here.
+Rva0031455E::Rva0031455E() : m_04(0), m_08(0) {}
+
+// tu-skeleton: 0x003145F0 156B ??0GameWindow@@QAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_DefaultConstructor.cpp (not merged yet)
+
+// tu-skeleton: 0x0031468C 80B ??1Rva0031468C@@QAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031468CDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x003146DC 126B ?snapshotCreateView@GameWindow@@QAEXPAVGadgetCreateView@@_N@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_snapshotCreateView.cpp (not merged yet)
 
 // tu-skeleton: 0x003147F6 84B ?winPointInWindow@GameWindow@@QAEEHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
 
