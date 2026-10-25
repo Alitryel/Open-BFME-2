@@ -1506,17 +1506,25 @@ def repoint_all(root, gone, tu):
 
 
 def refresh_reports(root, gone, tu, text):
-    """Keep the Microsoft-header picker attached to the resulting source."""
+    """Keep header debt and the Microsoft-header picker attached to the TU."""
+    import header_adopt_lane
+    moved = {}
+    count = header_adopt_lane.transfer_sources(
+        gone, tu, queue=Path(root) / "reverse/header_queue.tsv")
+    if count:
+        moved["reverse/header_queue.tsv"] = count
     queue = Path(root) / "reverse/ms_header_queue.tsv"
     if not queue.exists():
-        return {}
+        return moved
     import ms_header_audit
     index = ms_header_audit.load_index()
     result = ms_header_audit.scan_text(tu, text, index)
     changed = ms_header_audit.refresh_queue(
         {tu: result}, index, removed=gone, queue=queue,
         occurrences=Path(root) / "build/ms_header_audit/occurrences.tsv")
-    return {"reverse/ms_header_queue.tsv": 1} if changed else {}
+    if changed:
+        moved["reverse/ms_header_queue.tsv"] = 1
+    return moved
 
 
 def apply(tu, accepted, text, root=ROOT):

@@ -1,4 +1,5 @@
 """header_adopt_lane: source surgery, header generation, failure taxonomy and the closure check."""
+import csv
 import sys
 from pathlib import Path
 
@@ -22,6 +23,35 @@ void use(Coord3D *c) { c->zero(); }
 CONTRACT = {"class": "Coord3D", "key": "struct", "key_by": "bytes", "size": 12, "size_by": "zh", "bases": [],
             "fields": [{"offset": o, "size": 4, "kind": "f4", "type": "float", "name": n}
                        for o, n in ((0, "x"), (4, "y"), (8, "z"))]}
+
+
+def test_consolidation_transfers_all_debt_and_only_acceptance_retires_it(tmp_path, monkeypatch):
+    queue = tmp_path / "header_queue.tsv"
+    cols = ["class", "source", "retail_rvas", "header", "failure", "retry_budget", "acceptance"]
+    rows = [dict(zip(cols, ["Coord3D", source, rva, "Coord3D.h", "original failure", "3",
+                           lane.acceptance_command("Coord3D", source)]))
+            for source, rva in [("Code/A.cpp", "0x10"), ("Code/B.cpp", "0x20"),
+                                ("Code/Other.cpp", "0x30")]]
+    with queue.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, cols, delimiter="\t", lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+    assert lane.transfer_sources(["Code/A.cpp", "Code/B.cpp"], "Code/T.cpp", queue) == 2
+    with queue.open(newline="") as handle:
+        moved = list(csv.DictReader(handle, delimiter="\t"))
+    assert len(moved) == len(rows)
+    for before, after in zip(rows[:2], moved[:2]):
+        assert after == dict(before, source="Code/T.cpp",
+                             acceptance=lane.acceptance_command("Coord3D", "Code/T.cpp"))
+    assert moved[2] == rows[2]
+    monkeypatch.setattr(lane, "QUEUE", queue)
+    monkeypatch.setattr(lane, "ROOT", tmp_path)
+    monkeypatch.setattr(lane, "verdict", lambda *args: ["not adopted"])
+    assert lane.accept("Coord3D", ["Code/T.cpp"]) == 1
+    assert len(list(csv.DictReader(queue.open(), delimiter="\t"))) == 3
+    monkeypatch.setattr(lane, "verdict", lambda *args: [])
+    assert lane.accept("Coord3D", ["Code/T.cpp"]) == 0
+    assert list(csv.DictReader(queue.open(), delimiter="\t")) == rows[2:]
 
 
 def test_swap_strips_the_view_and_includes_the_header_where_it_stood():

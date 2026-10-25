@@ -404,6 +404,34 @@ def acceptance_command(name, source):
     return f"python3 tools/header_adopt_lane.py accept --class {name} {source}"
 
 
+def transfer_sources(gone, destination, queue=QUEUE):
+    """Carry every absorbed source's adoption debt to its new TU, without retiring it.
+
+    Keep individual rows and their original diagnostics/RVAs, even when several
+    donors owe the same class adoption. Only `accept` can retire that debt.
+    """
+    queue = Path(queue)
+    if not queue.exists():
+        return 0
+    with queue.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        cols, rows = reader.fieldnames, list(reader)
+    gone, changed = set(gone), 0
+    for row in rows:
+        if row["source"] in gone:
+            row["source"] = destination
+            row["acceptance"] = acceptance_command(row["class"], destination)
+            changed += 1
+    if changed:
+        tmp = queue.with_suffix(".tsv.tmp")
+        with tmp.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, cols, delimiter="\t", lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(rows)
+        os.replace(tmp, queue)
+    return changed
+
+
 def write_queue(name, header, failures):
     rows = []
     if QUEUE.exists():

@@ -35,3 +35,32 @@ already refreshed affected destination queue entries in that pending batch.
 No directory was moved, so generic directory discovery remains valid.
 Scratch evidence: `build/consolidation-audit.json` and
 `build/consolidation-audit-hits.txt`.
+
+## AudioEventRTS consolidation
+
+The prerequisite unlocks nine files into the existing AudioEventRTS.cpp:
+eight donor files removed, all 17 matched rows preserved (11 repointed).
+Both ordinary dry-run and claimed apply agree. `./build.sh` passes 17/17,
+declared-unmatched and check_csv pass. Only source columns change in the
+committed TU map; there is no regenerated routing. Mixed files and the
+protected position donor remain untouched.
+
+Remaining eligible donors: Rva002DA0CFFinish.cpp and Rva002DA153Scale.cpp
+cannot establish a baseline in the destination environment. Filename-prefix
+and Rva002D9FD9Seq composition need the AudioManager slot134/a29 declarations
+reconciled. Their compile diagnostics are retained in
+`build/audio-consolidation-apply.txt`; no failing reconstruction was written.
+
+The outgoing audit, after fetching origin at 17d211067f, covers the merge-base
+ce5e16cd06 through dfd4b0c242 plus this staged merge: 28 removed donor paths,
+975 path/basename/stem hits. The additional active consumer is one GameLogic
+header-adoption queue row for Rva002DA414.cpp. The owning header lane now
+transfers that row and its acceptance command to AudioEventRTS.cpp. It keeps
+the original failure, RVAs and retry budget and does not retire debt.
+tu_skeleton applies this transfer for subsequent merges, even without a
+Microsoft-header queue. Regression coverage includes two same-class debts,
+an unrelated source and failed/successful acceptance; 64 tests pass, one
+environment-dependent test skips, including the gate-exploit suite.
+Other hits are merged provenance, unchanged symbol/header names, historical
+attempt/naming/census records and independent reference evidence. No active
+include, tool, hook, workflow or build input names an absorbed source.

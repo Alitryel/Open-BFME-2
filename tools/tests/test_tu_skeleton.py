@@ -71,6 +71,19 @@ class EffectiveFlagsTests(unittest.TestCase):
 
 
 class RepointTests(unittest.TestCase):
+    def test_apply_stages_transferred_adoption_debt_without_a_microsoft_queue(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Code").mkdir()
+            with patch("header_adopt_lane.transfer_sources", return_value=2) as transfer, \
+                    patch.object(T.subprocess, "run") as run:
+                moved = T.apply("Code/T.cpp", ["Code/A.cpp"], "int x;\n", root=root)
+            transfer.assert_called_once_with(
+                ["Code/A.cpp"], "Code/T.cpp", queue=root / "reverse/header_queue.tsv")
+            self.assertEqual(moved, {"reverse/header_queue.tsv": 2})
+            self.assertEqual(run.call_args.args[0],
+                             ["git", "add", "--", "Code/T.cpp", "reverse/header_queue.tsv"])
+
     def test_apply_stages_the_refreshed_header_queue(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
