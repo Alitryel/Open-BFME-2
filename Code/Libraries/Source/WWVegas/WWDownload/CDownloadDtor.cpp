@@ -20,15 +20,7 @@
 
 void __cdecl operator delete(void *ptr);
 
-class Cftp
-{
-public:
-	// Stand-in for slot 0 (the deleting dtor ??_GCftp at 0x006CB5B0, which
-	// calls the pinned scalar ??1Cftp at 0x006CA600 then operator delete).
-	// A virtual ~Cftp here would fold delete to push-1; the explicit slot-0
-	// call with flag 0 reproduces retail's unfolded shape.
-	virtual void *scalarDeletingDestructor(unsigned int flags);
-};
+class Cftp;
 
 class CDownload
 {
@@ -46,7 +38,15 @@ private:
 
 inline CDownload::~CDownload()
 {
-	::operator delete(m_Ftp != 0 ? m_Ftp->scalarDeletingDestructor(0) : 0);
+	// This is an ABI view of Cftp's existing deleting-destructor slot, not
+	// another virtual method on Cftp. Its single slot is 0x006CB5B0, which
+	// returns this in eax and frees only when flags & 1 is set.
+	struct DeletingDestructorSlot
+	{
+		virtual void *scalarDeletingDestructor(unsigned int flags);
+	};
+	::operator delete(m_Ftp != 0 ?
+		reinterpret_cast<DeletingDestructorSlot *>(m_Ftp)->scalarDeletingDestructor(0) : 0);
 }
 
 // Header inlines that the units including the header emit as select-any

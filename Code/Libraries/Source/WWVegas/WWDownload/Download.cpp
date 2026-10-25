@@ -85,13 +85,14 @@ public:
  virtual HRESULT OnStatusUpdate(int)=0;
 };
 
-class __declspec(novtable) CDownload
+class CDownload
 {
 public:
-	virtual HRESULT PumpMessages() = 0;
-	virtual HRESULT Abort() = 0;
-	virtual HRESULT DownloadFile(LPCSTR server, LPCSTR username, LPCSTR password, LPCSTR file, LPCSTR localfile, LPCSTR regkey, bool tryresume = true) = 0;
-	virtual HRESULT GetLastLocalFile(char *local_file, int maxlen) = 0;
+	~CDownload();
+	virtual HRESULT PumpMessages();
+	virtual HRESULT Abort();
+	virtual HRESULT DownloadFile(LPCSTR server, LPCSTR username, LPCSTR password, LPCSTR file, LPCSTR localfile, LPCSTR regkey, bool tryresume = true);
+	virtual HRESULT GetLastLocalFile(char *local_file, int maxlen);
 
 private:
 	char m_Server[256]; // +0x04
