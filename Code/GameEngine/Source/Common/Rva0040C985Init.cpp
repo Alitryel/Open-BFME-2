@@ -26,7 +26,7 @@ public:
 	int rva0040C9F4();
 	void rva0040CA09();
 	int rva0040CA24();
-	void rva0040CA3A(int x);
+	void rva0040CA3A(int delaySeconds);
 
 private:
 	char m_pad[0x24];
@@ -74,8 +74,8 @@ extern float g_00DBA4F4;
 // g_00DBA4F4: matched references place it at VA 0xdba4f4 (retail .data initial value 5.0f).
 float g_00DBA4F4 = 5.0f;
 
-void ArmySummary::rva0040CA3A(int x)
+void ArmySummary::rva0040CA3A(int delaySeconds)
 {
 	m_2C &= 0;
-	m_30 = (int)((float)x * g_00DBA4F4);
+	m_30 = (int)((float)delaySeconds * g_00DBA4F4);
 }

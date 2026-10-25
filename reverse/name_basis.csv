@@ -2279,3 +2279,7 @@ member,GlobalData2::m_9A5,GlobalData2::m_showSelectedUnitMarker,inferred,agree:n
 member,GlobalData2::m_9BD,GlobalData2::m_showObjectHealth,inferred,agree:nl-107984924677,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroConstructor.cpp,
 member,LivingWorldShadowManagerView::m_08,LivingWorldShadowManagerView::m_stencilShadowMask,inferred,agree:nl-3d0f5e3bc288,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp,
 member,BfmeThingVJQ::m_bfme30,BfmeThingVJQ::m_state,inferred,agree:nl-c4b162b379e9,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,
+function,?bfmeAddFN@BfmeHostFN@@QAEHPBD0@Z,?appendText@BfmeHostFN@@QAEHPBD0@Z,inferred,agree:nl-f9da8b74730f,Code/GameEngine/Source/Common/BfmeConv2048.cpp,0x0066DC40
+carry,BfmeHostFN::bfmeAddFN::buffer,BfmeHostFN::appendText::buffer,inferred,scope renamed by Rename bfmeAddFN to appendText (inferred),Code/GameEngine/Source/Common/BfmeConv2048.cpp,0x0066DC40
+param,ArmySummary::rva0040CA3A::x,ArmySummary::rva0040CA3A::delaySeconds,inferred,agree:nl-0c6e450bc41a,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,0x0040CA3A
+member,Rva00524B7A::m_0C,Rva00524B7A::m_videoStream,inferred,agree:nl-909d5144ca10,Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp,

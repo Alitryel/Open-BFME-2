@@ -54,7 +54,7 @@ public:
 	virtual void update();
 private:
 	char m_basePad[8];
-	Rva00524B7A_0C *m_0C;
+	Rva00524B7A_0C *m_videoStream;
 	volatile int m_10;
 	int m_14;
 	int m_18;
@@ -71,7 +71,7 @@ private:
 
 void Rva00524B7A::update()
 {
-	if (m_0C == 0)
+	if (m_videoStream == 0)
 		return;
 	if ((m_flags & 4) != 0)
 	{
@@ -97,7 +97,7 @@ void Rva00524B7A::update()
 	if ((m_playbackFlags & 0x80) != 0)
 		return;
 check0c:
-	unsigned char r = m_0C->check(m_playbackFlags);
+	unsigned char r = m_videoStream->check(m_playbackFlags);
 	if ((r & 2) == 0)
 		return;
 	if ((m_flags & 2) != 0)

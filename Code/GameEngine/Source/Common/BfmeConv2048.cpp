@@ -24,7 +24,7 @@ public:
 class BfmeHostFN
 {
 public:
-	int bfmeAddFN(const char *name, const char *text);
+	int appendText(const char *name, const char *text);
 
 	void *m_bfmeVfFN;
 	BfmeOwnerFN *m_owner;
@@ -33,7 +33,7 @@ public:
 	int m_bufferCount;
 };
 
-int BfmeHostFN::bfmeAddFN(const char *name, const char *text)
+int BfmeHostFN::appendText(const char *name, const char *text)
 {
 	int idx = m_owner->bfmeFindFN(&m_owner->m_bfmeVecFN, name);
 
