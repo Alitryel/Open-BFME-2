@@ -6088,3 +6088,9 @@ Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp|function|0x005
 Code/GameEngine/Source/Common/Rva00800A40Owner.cpp|class||Rva00800A40Diag,06e7c29a1bf952b9c9929aed,gpt-6-astra,codexb2-20261025-061132-3,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|a,d0276365ad64750ac7de9269,gpt-6-astra,codexb2-20261025-061132-4,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/Common/Rva001F529D.cpp|local|Rva001F529D::rva001F529D|b,7da5ae322f3334d0f79c0f3d,gpt-6-astra,codexb2-20261025-061132-4,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp|param|Rva0045D7E0Notify|a,b2274c43a97fddfa4da6bd69,gpt-6-astra,codexb2-20261025-061132-6,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp|param|Rva0045D7E0Notify|b,b79b12715f17762ca13b9ba7,gpt-6-astra,codexb2-20261025-061132-6,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|class||Rva0010F5A8,3f51e369b01ca48fc4d4532e,gpt-6-astra,codexb2-20261025-061132-7,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|a,157c8d08c01df99a04dc099b,gpt-6-astra,codexb2-20261025-061132-8,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|class||Rva000E7140Record,162e66251199237eb3b84066,gpt-6-astra,codexb2-20261025-061132-9,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,7895009a304cde6346a6dfe5,gpt-6-astra,codexb2-20261025-061132-9,w-d0bdfd8b17e9,2026-10-25
