@@ -97,6 +97,14 @@ void __cdecl Rva003B8B61Destroy(Rva003B8B61Elem *first, Rva003B8B61Elem *last, i
 namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<BfmeAssignRecord104 *>(BfmeAssignRecord104 *first, BfmeAssignRecord104 *last, const __false_type &) { __false_type tag; ((void (__cdecl *)(BfmeAssignRecord104 *, BfmeAssignRecord104 *, const __false_type &))(void (__cdecl *)(Rva003B8B61Elem *, Rva003B8B61Elem *, int))&Rva003B8B61Destroy)(first, last, tag); } }
 struct BfmeAssignRecord172 { int a[42]; AsciiString s; BfmeAssignRecord172 &operator=(const BfmeAssignRecord172 &); };
 inline bool operator==(const BfmeAssignRecord172 &x, const BfmeAssignRecord172 &y) { return x.s == y.s; }
+// The native range worker at1EAF5E walks 0xAC-byte records and invokes
+// virtual slot0 with argument0. This size-only assignment view cannot emit
+// its destruction. The native worker reads only first/last; preserve the
+// caller's existing unused tag argument while naming its rowed owner.
+class Rva001EAF5EElement;
+void rva001EAF5E(Rva001EAF5EElement *, Rva001EAF5EElement *);
+namespace _STL { template <> __declspec(dllimport) __forceinline void __destroy_aux<BfmeAssignRecord172 *>(BfmeAssignRecord172 *first, BfmeAssignRecord172 *last, const __false_type &) { __false_type tag; ((void (__cdecl *)(BfmeAssignRecord172 *, BfmeAssignRecord172 *, const __false_type &))(void (__cdecl *)(Rva001EAF5EElement *, Rva001EAF5EElement *))&rva001EAF5E)(first, last, tag); } }
+
 // Declared only: each helper below is a byte-verified retail body rowed under
 // another name (bound by /alternatename at the end of this file). These
 // size-only views would otherwise emit their own non-retail copies.
@@ -118,79 +126,63 @@ struct BfmeStringTailRecord180 { int a[44]; AsciiString s; BfmeStringTailRecord1
 inline bool operator==(const BfmeStringTailRecord180 &x, const BfmeStringTailRecord180 &y) { return x.s == y.s; }
 namespace _STL {
 // Declared only: defined by their owning TUs. Declaring these explicit
-// specializations before the whole-class instantiations below suppresses
+// specializations before the member instantiations below suppresses
 // emission here; this file's bodies keep calling them by the same names.
 template <> void _Destroy<BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *);
 template <> void _Destroy<BfmeAssignRecord44 *>(BfmeAssignRecord44 *, BfmeAssignRecord44 *);
 template <> BfmeAssignRecord32 *vector<BfmeAssignRecord32, allocator<BfmeAssignRecord32> >::erase(BfmeAssignRecord32 *, BfmeAssignRecord32 *);
 template <> BfmeAssignRecord172 *vector<BfmeAssignRecord172, allocator<BfmeAssignRecord172> >::erase(BfmeAssignRecord172 *, BfmeAssignRecord172 *);
 }
-template class _STL::vector<BfmeAssignRecord24, _STL::allocator<BfmeAssignRecord24> >;
-template class _STL::vector<BfmeAssignRecord28, _STL::allocator<BfmeAssignRecord28> >;
-// Emit the recovered record32 algorithms without unrelated vector APIs.
+// Retain native copy providers also used by other vector units.
 namespace _STL {
-template BfmeAssignRecord32 *__copy_backward<BfmeAssignRecord32 *, BfmeAssignRecord32 *, int>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, const random_access_iterator_tag &, int *);
+template void _Construct<BfmeStringHeadRecord160, BfmeStringHeadRecord160>(BfmeStringHeadRecord160 *, const BfmeStringHeadRecord160 &);
+template BfmeStringHeadRecord184 *__copy<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, int>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const random_access_iterator_tag &, int *);
+template BfmeAssignRecord104 *__copy<BfmeAssignRecord104 *, BfmeAssignRecord104 *, int>(BfmeAssignRecord104 *, BfmeAssignRecord104 *, BfmeAssignRecord104 *, const random_access_iterator_tag &, int *);
+template void _Destroy<BfmeAssignRecord172 *>(BfmeAssignRecord172 *, BfmeAssignRecord172 *);
+}
+// Instantiate only the recovered operations, avoiding unrelated class members.
+namespace _STL {
+template void _Construct<BfmeStringHeadRecord148, BfmeStringHeadRecord148>(BfmeStringHeadRecord148 *, const BfmeStringHeadRecord148 &);
+template BfmeAssignRecord52 *__copy_backward<BfmeAssignRecord52 *, BfmeAssignRecord52 *, int>(BfmeAssignRecord52 *, BfmeAssignRecord52 *, BfmeAssignRecord52 *, const random_access_iterator_tag &, int *);
+template BfmeAssignRecord24 *__copy_backward<BfmeAssignRecord24 *, BfmeAssignRecord24 *, int>(BfmeAssignRecord24 *, BfmeAssignRecord24 *, BfmeAssignRecord24 *, const random_access_iterator_tag &, int *);
+template BfmeAssignRecord36 *__copy_backward<BfmeAssignRecord36 *, BfmeAssignRecord36 *, int>(BfmeAssignRecord36 *, BfmeAssignRecord36 *, BfmeAssignRecord36 *, const random_access_iterator_tag &, int *);
+template void fill<BfmeAssignRecord52 *, BfmeAssignRecord52>(BfmeAssignRecord52 *, BfmeAssignRecord52 *, const BfmeAssignRecord52 &);
+template void fill<BfmeAssignRecord28 *, BfmeAssignRecord28>(BfmeAssignRecord28 *, BfmeAssignRecord28 *, const BfmeAssignRecord28 &);
 template void fill<BfmeAssignRecord32 *, BfmeAssignRecord32>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, const BfmeAssignRecord32 &);
-template BfmeAssignRecord32 *__copy_backward_ptrs<BfmeAssignRecord32 *, BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, const __false_type &);
-template BfmeAssignRecord32 *__copy<BfmeAssignRecord32 *, BfmeAssignRecord32 *, int>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, const random_access_iterator_tag &, int *);
-template BfmeAssignRecord32 *__copy_ptrs<BfmeAssignRecord32 *, BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, __false_type);
-}
-template class _STL::vector<BfmeAssignRecord36, _STL::allocator<BfmeAssignRecord36> >;
-template class _STL::vector<BfmeAssignRecord44, _STL::allocator<BfmeAssignRecord44> >;
-template class _STL::vector<BfmeAssignRecord52, _STL::allocator<BfmeAssignRecord52> >;
-template struct _STL::pair<const AsciiString, BfmePod8>;
-template class _STL::vector<BfmeAssignRecord84, _STL::allocator<BfmeAssignRecord84> >;
-// Declared only: the retail vector<BfmeStringHeadRecord148/160> overflow
-// helper, its prefix copy/fill helpers and the 160 destructor are emitted and
-// rowed by the StlportVectorInsertOverflow units. This TU's per-flag copies
-// sort first in link order and win, blocking those owners; declaring the
-// explicit specializations before the whole-class instantiations below stops
-// this TU emitting them. Its own _M_clear, _Destroy and __destroy_aux rows
-// stay instantiated (kept for the same units).
-namespace _STL {
-template <> BfmeStringHeadRecord148 *__uninitialized_copy<BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *>(BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *, BfmeStringHeadRecord148 *, const __false_type &);
-template <> BfmeStringHeadRecord148 *__uninitialized_fill_n<BfmeStringHeadRecord148 *, unsigned int, BfmeStringHeadRecord148>(BfmeStringHeadRecord148 *, unsigned int, const BfmeStringHeadRecord148 &, const __false_type &);
-template <> void vector<BfmeStringHeadRecord148, allocator<BfmeStringHeadRecord148> >::_M_insert_overflow(BfmeStringHeadRecord148 *, const BfmeStringHeadRecord148 &, const __false_type &, unsigned int, bool);
-template <> void vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::_M_insert_overflow(BfmeStringHeadRecord160 *, const BfmeStringHeadRecord160 &, const __false_type &, unsigned int, bool);
-template <> BfmeStringHeadRecord160 *__uninitialized_copy<BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, const __false_type &);
-template <> BfmeStringHeadRecord160 *__uninitialized_fill_n<BfmeStringHeadRecord160 *, unsigned int, BfmeStringHeadRecord160>(BfmeStringHeadRecord160 *, unsigned int, const BfmeStringHeadRecord160 &, const __false_type &);
-template <> vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::~vector();
-}
-template class _STL::vector<BfmeStringHeadRecord148, _STL::allocator<BfmeStringHeadRecord148> >;
-template class _STL::vector<BfmeStringHeadRecord160, _STL::allocator<BfmeStringHeadRecord160> >;
-namespace _STL {
+template void fill<BfmeAssignRecord36 *, BfmeAssignRecord36>(BfmeAssignRecord36 *, BfmeAssignRecord36 *, const BfmeAssignRecord36 &);
 template BfmeStringHeadRecord184 *__copy_backward<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, int>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const random_access_iterator_tag &, int *);
 template void __destroy_aux<BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const __false_type &);
-template BfmeStringHeadRecord184 *__copy_backward_ptrs<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const __false_type &);
-template void _Destroy<BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *);
-template BfmeStringHeadRecord184 *__copy<BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, int>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *, const random_access_iterator_tag &, int *);
-template void vector<BfmeStringHeadRecord184, allocator<BfmeStringHeadRecord184> >::_M_clear();
-}
-template class _STL::vector<BfmeAssignRecord40, _STL::allocator<BfmeAssignRecord40> >;
-namespace _STL {
+template BfmeAssignRecord172 *__copy_backward<BfmeAssignRecord172 *, BfmeAssignRecord172 *, int>(BfmeAssignRecord172 *, BfmeAssignRecord172 *, BfmeAssignRecord172 *, const random_access_iterator_tag &, int *);
+template BfmeAssignRecord104 *__copy_backward<BfmeAssignRecord104 *, BfmeAssignRecord104 *, int>(BfmeAssignRecord104 *, BfmeAssignRecord104 *, BfmeAssignRecord104 *, const random_access_iterator_tag &, int *);
+template BfmeAssignRecord40 *__copy_backward<BfmeAssignRecord40 *, BfmeAssignRecord40 *, int>(BfmeAssignRecord40 *, BfmeAssignRecord40 *, BfmeAssignRecord40 *, const random_access_iterator_tag &, int *);
 template Rva0051FC54Element *__copy_backward<Rva0051FC54Element *, Rva0051FC54Element *, int>(Rva0051FC54Element *, Rva0051FC54Element *, Rva0051FC54Element *, const random_access_iterator_tag &, int *);
+template void fill<BfmeAssignRecord172 *, BfmeAssignRecord172>(BfmeAssignRecord172 *, BfmeAssignRecord172 *, const BfmeAssignRecord172 &);
+template void fill<BfmeAssignRecord104 *, BfmeAssignRecord104>(BfmeAssignRecord104 *, BfmeAssignRecord104 *, const BfmeAssignRecord104 &);
 template void fill<Rva0051FC54Element *, Rva0051FC54Element>(Rva0051FC54Element *, Rva0051FC54Element *, const Rva0051FC54Element &);
-template Rva0051FC54Element *__copy_ptrs<Rva0051FC54Element *, Rva0051FC54Element *>(Rva0051FC54Element *, Rva0051FC54Element *, Rva0051FC54Element *, __false_type);
-}
-namespace _STL { template <> vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::~vector(); }
-template class _STL::vector<BfmeAssignRecord104, _STL::allocator<BfmeAssignRecord104> >;
-template class _STL::vector<BfmeAssignRecord172, _STL::allocator<BfmeAssignRecord172> >;
-namespace _STL {
 template void __destroy_aux<BfmeStringTailRecord144 *>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const __false_type &);
-template void _Destroy<BfmeStringTailRecord144 *>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *);
-template BfmeStringTailRecord144 *__copy<BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, int>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const random_access_iterator_tag &, int *);
-template void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *);
-}
-// Emit only the recovered APIs. Whole-class instantiation also emitted a
-// footprint-only default ctor writing the trailing field at+0x98, conflicting
-// with the genuine four-byte owner constructor used by TerrainRoadType.
-namespace _STL {
 template void __destroy_aux<BfmeStringTailRecord156 *>(BfmeStringTailRecord156 *, BfmeStringTailRecord156 *, const __false_type &);
+template void __destroy_aux<BfmeStringTailRecord180 *>(BfmeStringTailRecord180 *, BfmeStringTailRecord180 *, const __false_type &);
+template void vector<BfmeAssignRecord44, allocator<BfmeAssignRecord44> >::_M_clear();
+template void vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::_M_clear();
+template void _Destroy<BfmeStringTailRecord144 *>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *);
+template void _Destroy<BfmeStringHeadRecord184 *>(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *);
+template void _Destroy<BfmeStringTailRecord180 *>(BfmeStringTailRecord180 *, BfmeStringTailRecord180 *);
+template void _Destroy<BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *);
 template void _Destroy<BfmeStringTailRecord156 *>(BfmeStringTailRecord156 *, BfmeStringTailRecord156 *);
 template void vector<BfmeStringTailRecord156, allocator<BfmeStringTailRecord156> >::_M_clear();
+template BfmeAssignRecord36 *__copy_ptrs<BfmeAssignRecord36 *, BfmeAssignRecord36 *>(BfmeAssignRecord36 *, BfmeAssignRecord36 *, BfmeAssignRecord36 *, __false_type);
+template BfmeAssignRecord32 *__copy_ptrs<BfmeAssignRecord32 *, BfmeAssignRecord32 *>(BfmeAssignRecord32 *, BfmeAssignRecord32 *, BfmeAssignRecord32 *, __false_type);
+template BfmeAssignRecord172 *__copy_ptrs<BfmeAssignRecord172 *, BfmeAssignRecord172 *>(BfmeAssignRecord172 *, BfmeAssignRecord172 *, BfmeAssignRecord172 *, __false_type);
+template BfmeAssignRecord52 *__copy_ptrs<BfmeAssignRecord52 *, BfmeAssignRecord52 *>(BfmeAssignRecord52 *, BfmeAssignRecord52 *, BfmeAssignRecord52 *, __false_type);
+template Rva0051FC54Element *__copy_ptrs<Rva0051FC54Element *, Rva0051FC54Element *>(Rva0051FC54Element *, Rva0051FC54Element *, Rva0051FC54Element *, __false_type);
+template BfmeAssignRecord84 *__copy_ptrs<BfmeAssignRecord84 *, BfmeAssignRecord84 *>(BfmeAssignRecord84 *, BfmeAssignRecord84 *, BfmeAssignRecord84 *, __false_type);
+template BfmeStringTailRecord144 *__copy<BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, int>(BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, BfmeStringTailRecord144 *, const random_access_iterator_tag &, int *);
+template void __destroy_aux<BfmeAssignRecord52 *>(BfmeAssignRecord52 *, BfmeAssignRecord52 *, const __false_type &);
 template void vector<BfmeStringTailRecord156, allocator<BfmeStringTailRecord156> >::push_back(const BfmeStringTailRecord156 &);
+template BfmeAssignRecord44 *__copy<BfmeAssignRecord44 *, BfmeAssignRecord44 *, int>(BfmeAssignRecord44 *, BfmeAssignRecord44 *, BfmeAssignRecord44 *, const random_access_iterator_tag &, int *);
+template void _Destroy<BfmeStringTailRecord144>(BfmeStringTailRecord144 *);
+template void vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::clear();
 }
-template class _STL::vector<BfmeStringTailRecord180, _STL::allocator<BfmeStringTailRecord180> >;
 
 // Both assignment spellings designate the existing45B native body51C3F.
 #pragma comment(linker, "/alternatename:??4BfmeStringTailRecord144@@QAEAAU0@ABU0@@Z=??4Rva00051C3F@@QAEAAV0@ABV0@@Z")
