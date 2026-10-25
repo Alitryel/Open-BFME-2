@@ -58,6 +58,11 @@ addresses. This is verification evidence, not a new link census.
   is EXACT, the frozen-file check passes, and ordinary preview preserves
   194 -> 194 authored bytes against the same index. The header lane accepts
   and retires this source's one queue row.
+- `OptionPreferences_getLANIPAddress.cpp`: the same canonical-header adoption
+  removes the private wide-string declarations. Both rows (194-byte body and
+  10-byte handler) pass the normal gate, the parent EH graph is EXACT and the
+  frozen-file check passes. Ordinary preview preserves 204 -> 204 authored
+  bytes, and header-lane acceptance retires its one queue row.
 
 ## Reference freshness check
 

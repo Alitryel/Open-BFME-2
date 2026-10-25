@@ -250,6 +250,8 @@ authored-byte previews or commit-title gains into a projected headline.
   The online-address preference consumer additionally adopts the shared
   UnicodeString declaration: its 194-byte body and EH graph pass, ordinary
   preview keeps 194 -> 194 bytes, and the header lane retires another row.
+  The LAN-address twin likewise passes both rows and its EH graph, keeps
+  204 -> 204 bytes in ordinary preview, and retires its header-queue row.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and
