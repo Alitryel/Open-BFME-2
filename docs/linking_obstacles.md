@@ -252,6 +252,9 @@ authored-byte previews or commit-title gains into a projected headline.
   preview keeps 194 -> 194 bytes, and the header lane retires another row.
   The LAN-address twin likewise passes both rows and its EH graph, keeps
   204 -> 204 bytes in ordinary preview, and retires its header-queue row.
+  Rva001EB15ACopy adopts the canonical strings using the existing revival
+  record's AsciiString member view: all three rows and the copy EH graph
+  pass, preview keeps 121 -> 121 bytes, and the fourth queue row is retired.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and

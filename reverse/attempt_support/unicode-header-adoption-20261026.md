@@ -44,7 +44,8 @@ ledger was changed; no verifier, pin or alias was adjusted to hide the failures.
 The AudioFileCache cleanup at 0x00760BC6 remains a future metadata-cleanup lead:
 its exact parent graph binds it to freeUnusedSamples at 0x000A81BE.
 
-Commit `92f1df9c15` passed the complete normal hook: 98,252 function rows,
+Before rebasing, the wide-concat change on base `1efc3f6a40` passed the
+complete normal hook: 98,252 function rows,
 2,210 data rows, all reference checks and the no-op image check. The enforced
 converged-data audit also passed all 23,127 sources for its ten registered
 addresses. This is verification evidence, not a new link census.
@@ -63,6 +64,22 @@ addresses. This is verification evidence, not a new link census.
   10-byte handler) pass the normal gate, the parent EH graph is EXACT and the
   frozen-file check passes. Ordinary preview preserves 204 -> 204 authored
   bytes, and header-lane acceptance retires its one queue row.
+- `Rva001EB15ACopy.cpp`: includes both canonical string headers and uses
+  AsciiString for the member at +0x10. The existing Rva001EB15A view in
+  `Common/RTS/UnitRevivalTracker.cpp` already uses UnicodeString at +0xC and
+  AsciiString at +0x10; the record name remains provisional. The 89-byte copy
+  constructor, 22-byte default constructor and 10-byte handler all pass the
+  normal gate, the copy's EH graph is EXACT and the frozen-file check passes.
+  Ordinary preview keeps 121 -> 121 authored bytes; the header lane accepts
+  and retires its queue row.
+
+Batch result: four accepted header-queue retirements, with all 19 existing
+rows (1,003 bytes) preserved in the four changed source files. No new body,
+source ownership, original name or census gain is claimed.
+
+Publication was synchronized to `16119d3948`. Upstream did not change the
+four sources or the shared string headers; the obstacle-register conflict
+retains both the upstream INI repair and this adoption record.
 
 ## Reference freshness check
 
