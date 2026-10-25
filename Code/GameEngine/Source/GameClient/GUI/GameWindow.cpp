@@ -35,6 +35,7 @@
 	}
 #include "Common/BfmeAudioEventPrefix136.h"
 #define BitTest(value,mask) (((value)&(mask))!=0)
+#include "GameWindowManagerRecordView.h"
 
 // Clean Open-BFME-1 6d9434269164392c5ba62aaa7c15a86b5b020d76 reference transfer.
 // Native font dispatcher313D73 and helper boundaries establish target operation/ABI.
@@ -575,23 +576,129 @@ public:
  Rva003141BCWindowView*rva003142E1(int,int,bool,bool);
 };
 
+class AudioManager;
+
+ extern AudioManager *TheAudio;
+
+struct Rva003141BCMiscView { char unknown[0x88]; OpaqueRefElement4 disabledClick; };
+
+class Rva003141BCAudioView { public:
+ virtual void slot0();
+ virtual void slot1();
+ virtual void slot2();
+ virtual void slot3();
+ virtual void slot4();
+ virtual void slot5();
+ virtual void slot6();
+ virtual void slot7();
+ virtual void slot8();
+ virtual void slot9();
+ virtual void slot10();
+ virtual void slot11();
+ virtual void slot12();
+ virtual void slot13();
+ virtual void slot14();
+ virtual void slot15();
+ virtual void slot16();
+ virtual void slot17();
+ virtual void slot18();
+ virtual void slot19();
+ virtual void slot20();
+ virtual void slot21();
+ virtual void slot22();
+ virtual void slot23();
+ virtual void slot24();
+ virtual void addAudioEvent(const BfmeAudioEventPrefix136 *);
+ virtual void slot26();
+ virtual void slot27();
+ virtual void slot28();
+ virtual void slot29();
+ virtual void slot30();
+ virtual void slot31();
+ virtual void slot32();
+ virtual void slot33();
+ virtual void slot34();
+ virtual void slot35();
+ virtual void slot36();
+ virtual void slot37();
+ virtual void slot38();
+ virtual void slot39();
+ virtual void slot40();
+ virtual void slot41();
+ virtual void slot42();
+ virtual void slot43();
+ virtual void slot44();
+ virtual void slot45();
+ virtual void slot46();
+ virtual void slot47();
+ virtual void slot48();
+ virtual void slot49();
+ virtual void slot50();
+ virtual void slot51();
+ virtual void slot52();
+ virtual void slot53();
+ virtual void slot54();
+ virtual void slot55();
+ virtual void slot56();
+ virtual void slot57();
+ virtual void slot58();
+ virtual void slot59();
+ virtual void slot60();
+ virtual void slot61();
+ virtual void slot62();
+ virtual void slot63();
+ virtual void slot64();
+ virtual void slot65();
+ virtual void slot66();
+ virtual void slot67();
+ virtual void slot68();
+ virtual void slot69();
+ virtual void slot70();
+ virtual void slot71();
+ virtual void slot72();
+ virtual void slot73();
+ virtual void slot74();
+ virtual void slot75();
+ virtual void slot76();
+ virtual void slot77();
+ virtual const Rva003141BCMiscView *getMiscAudio();
+};
+
+// Native2C1629-2C176C; capture/grab/modal precedence and three status passes
+// follow ZH GameWindowManager donor; manager accessed prefix only.
+struct CursorModalView { void*unknown0; Rva003141BCWindowView*window; };
+
+class CursorManagerView {
+public:
+ unsigned char opaque0[12]; Rva003141BCWindowView*m_windowList;
+ unsigned char opaque10[12]; Rva003141BCWindowView*m_mouseCaptor;
+ void*unknown20; CursorModalView*m_modalHead; Rva003141BCWindowView*m_grabWindow;
+ Rva003141BCWindowView*getWindowUnderCursor(int,int,bool);
+};
+
 class GameWindow
 {
-// Retail vftable 0x0080BBCC, 11 slots: 0 the deleting destructor 0x00314AC4,
-// 3 draw 0x0009DC05, 5 rva0009FD78, 7 __purecall; the other slots hold folded
-// bodies the ledger names after other classes. No row here calls through it.
 protected:
 	virtual ~GameWindow();
 public:
 	virtual void vslot1();
+public:
 	virtual void vslot2();
+public:
 	virtual Int draw(void *);
+public:
 	virtual void vslot4();
+public:
 	virtual Int rva0009FD78();
+public:
 	virtual void vslot6();
+public:
 	virtual void *fetchCreateInstance() = 0;
+public:
 	virtual void vslot8();
+public:
 	virtual void vslot9();
+public:
 	virtual void vslot10();
 public:
 	GameWindow *winPointInChild(int, int, bool, bool = false);
@@ -719,107 +826,21 @@ public:
 	Int winEnable(bool enable);
 public:
 	int winSetParent(int arg);
-};
-
-class AudioManager;
-
- extern AudioManager *TheAudio;
-
-struct Rva003141BCMiscView { char unknown[0x88]; OpaqueRefElement4 disabledClick; };
-
-class Rva003141BCAudioView { public:
- virtual void slot0();
- virtual void slot1();
- virtual void slot2();
- virtual void slot3();
- virtual void slot4();
- virtual void slot5();
- virtual void slot6();
- virtual void slot7();
- virtual void slot8();
- virtual void slot9();
- virtual void slot10();
- virtual void slot11();
- virtual void slot12();
- virtual void slot13();
- virtual void slot14();
- virtual void slot15();
- virtual void slot16();
- virtual void slot17();
- virtual void slot18();
- virtual void slot19();
- virtual void slot20();
- virtual void slot21();
- virtual void slot22();
- virtual void slot23();
- virtual void slot24();
- virtual void addAudioEvent(const BfmeAudioEventPrefix136 *);
- virtual void slot26();
- virtual void slot27();
- virtual void slot28();
- virtual void slot29();
- virtual void slot30();
- virtual void slot31();
- virtual void slot32();
- virtual void slot33();
- virtual void slot34();
- virtual void slot35();
- virtual void slot36();
- virtual void slot37();
- virtual void slot38();
- virtual void slot39();
- virtual void slot40();
- virtual void slot41();
- virtual void slot42();
- virtual void slot43();
- virtual void slot44();
- virtual void slot45();
- virtual void slot46();
- virtual void slot47();
- virtual void slot48();
- virtual void slot49();
- virtual void slot50();
- virtual void slot51();
- virtual void slot52();
- virtual void slot53();
- virtual void slot54();
- virtual void slot55();
- virtual void slot56();
- virtual void slot57();
- virtual void slot58();
- virtual void slot59();
- virtual void slot60();
- virtual void slot61();
- virtual void slot62();
- virtual void slot63();
- virtual void slot64();
- virtual void slot65();
- virtual void slot66();
- virtual void slot67();
- virtual void slot68();
- virtual void slot69();
- virtual void slot70();
- virtual void slot71();
- virtual void slot72();
- virtual void slot73();
- virtual void slot74();
- virtual void slot75();
- virtual void slot76();
- virtual void slot77();
- virtual const Rva003141BCMiscView *getMiscAudio();
-};
-
-// Native2C1629-2C176C; capture/grab/modal precedence and three status passes
-// follow ZH GameWindowManager donor; manager accessed prefix only.
-struct CursorModalView { void*unknown0; Rva003141BCWindowView*window; };
-
-class CursorManagerView {
 public:
- unsigned char opaque0[12]; Rva003141BCWindowView*m_windowList;
- unsigned char opaque10[12]; Rva003141BCWindowView*m_mouseCaptor;
- void*unknown20; CursorModalView*m_modalHead; Rva003141BCWindowView*m_grabWindow;
- Rva003141BCWindowView*getWindowUnderCursor(int,int,bool);
+	void snapshotCreateView(GadgetCreateView *view, bool clear);
 };
+
+struct WindowBlockTail
+{
+	unsigned char m_pad[0x19C];
+	Int m_clear0;
+	Int m_clear1;
+	Int m_clear2;
+};
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
+
+// TU Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 
 // ---- from Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 
@@ -2066,6 +2087,129 @@ Rva003141BCWindowView *Rva003141BCWindowView::rva003142E1(int x, int y, bool a3,
 // tu-skeleton: 0x0031468C 80B ??1Rva0031468C@@QAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031468CDtor.cpp (not merged yet)
 
 // tu-skeleton: 0x003146DC 126B ?snapshotCreateView@GameWindow@@QAEXPAVGadgetCreateView@@_N@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_snapshotCreateView.cpp (not merged yet)
+
+// tu-skeleton: 0x003147F6 84B ?winPointInWindow@GameWindow@@QAEEHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
+
+// tu-skeleton: 0x0031484A 88B ?winSetText@GameWindow@@UAEHVUnicodeString@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
+
+// tu-skeleton: 0x003148A2 68B ?winSetTooltip@GameWindow@@QAEXVUnicodeString@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
+
+// tu-skeleton: 0x00314926 28B ??_GRva0031468C@@QAEPAXI@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00314942 26B ?winGetText@GameWindow@@QAE?AVUnicodeString@@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowWinSetInstanceData_Rva0031495c.cpp (not merged yet)
+
+// tu-skeleton: 0x0031495C 142B ?winSetInstanceData@GameWindow@@QAEHPAVWinInstanceData@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowWinSetInstanceData_Rva0031495c.cpp (not merged yet)
+
+// tu-skeleton: 0x00314A0C 184B ??1GameWindow@@MAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00314AC4 28B ??_GGameWindow@@MAEPAXI@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00313D03 17B ?winDrawBorder@GameWindow@@QAEXXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowManager_drawWindow_Thunk.cpp (not merged yet)
+
+// tu-skeleton: 0x00313D64 8B ?winGetTextLength@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313D6C 7B ?get@Rva00313D6CDwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00313E8C 7B ?winGetEnabledTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313E93 7B ?winGetEnabledTextBorderColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313E9A 7B ?winGetDisabledTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EA1 7B ?winGetDisabledTextBorderColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EA8 7B ?winGetIMECompositeTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EB6 7B ?winGetHiliteTextColor@GameWindow@@QAEHXZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp (not merged yet)
+
+// tu-skeleton: 0x00313EBD 393B ??4WinInstanceData@@QAEAAV0@ABV0@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/WinInstanceData.cpp (not merged yet)
+
+// tu-skeleton: 0x00314046 4B ?get@Rva00314046LeaField@@QBEPAXXZ -- matched in Code/GameEngine/Source/Common/Disp8LeaFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0031404A 12B ?winSetWindowId@GameWindow@@QAEHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003140C8 7B ?get@Rva003140C8DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003140E4 13B ?set@Rva003140E4DwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003140F1 7B ?get@Rva003140F1DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003140F8 13B ?set@Rva003140F8DwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00314105 7B ?get@Rva00314105DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0031410C 13B ?set@Rva0031410CDwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00314119 13B ?Set_Subdivision_Level@ParticleEmitterDefClass@@UAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp (not merged yet)
+
+// tu-skeleton: 0x00314126 7B ?get@Rva00314126DwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0031412D 7B ?get@Rva0031412DDwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0031417C 13B ?set@Rva0031417CDwordSlot@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp (not merged yet)
+
+// tu-skeleton: 0x003143B9 36B ?winSetEnabledImage@GameWindow@@QAEHHPBVImage@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003143DD 34B ?winSetEnabledColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003143FF 34B ?winSetEnabledBorderColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x00314421 36B ?winSetDisabledImage@GameWindow@@QAEHHPBVImage@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x00314445 37B ?winSetDisabledColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x0031446A 37B ?winSetDisabledBorderColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x0031448F 36B ?winSetHiliteImage@GameWindow@@QAEHHPBVImage@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003144B3 37B ?winSetHiliteColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003144D8 37B ?winSetHiliteBorderColor@GameWindow@@QAEHHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x003144FD 13B ?setRva003144FD@GameWindow@@QAEXH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x0031450A 7B ?winGetEditData@GameWindow@@QAEPAUGameWindowEditData@@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp (not merged yet)
+
+// tu-skeleton: 0x00314511 30B ?winSendInputMsg@GameWindow@@QAE?AW4WindowMsgHandledType@@III@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowManagerSendMsg.cpp (not merged yet)
+
+// tu-skeleton: 0x0031452F 30B ?winSendSystemMsg@GameWindow@@QAE?AW4WindowMsgHandledType@@III@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowManagerSendMsg.cpp (not merged yet)
+
+// tu-skeleton: 0x003145F0 156B ??0GameWindow@@QAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_DefaultConstructor.cpp (not merged yet)
+
+// tu-skeleton: 0x0031468C 80B ??1Rva0031468C@@QAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031468CDtor.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/GameWindow_snapshotCreateView.cpp
+
+// The canonical 0x34-byte create record (registered in canonical_classes.csv).
+// Offsets this body writes: +0x04 status, +0x10/+0x14 width/height, +0x18
+// the slot-7 result, +0x1C system, +0x20..+0x2C the unknown32 words and
+// +0x30 the aliased window block, which every read reloads (volatile access).
+
+// ?snapshotCreateView@GameWindow@@QAEXPAVGadgetCreateView@@_N@Z
+void GameWindow::snapshotCreateView(GadgetCreateView *view, bool clear)
+{
+	char *windowBlock;
+
+	view->unknown24 = fetchCreateInstance();
+	view->status = *(Int *)((char *)this + 0x08);
+	view->width = *(Int *)((char *)this + 0x0C);
+	view->height = *(Int *)((char *)this + 0x10);
+	windowBlock = (char *)this + 0x30;
+	*(char *volatile *)&view->instance = windowBlock;
+	*(Int *)(view->unknown32 + 0) = *(Int *)((char *)this + 0x1E0);
+	view->system = *(void **)((char *)this + 0x1E4);
+	*(Int *)(view->unknown32 + 4) = *(Int *)((char *)this + 0x1E8);
+	*(Int *)(view->unknown32 + 8) = *(Int *)((char *)this + 0x1EC);
+	*(Int *)(view->unknown32 + 12) = *(Int *)((char *)this + 0x1F0);
+
+	if (clear)
+	{
+		*(Int *)(windowBlock + 0x14) = 0;
+		(*(WindowBlockTail *volatile *)&view->instance)->m_clear0 = 0;
+		(*(WindowBlockTail *volatile *)&view->instance)->m_clear1 = 0;
+		(*(WindowBlockTail *volatile *)&view->instance)->m_clear2 = 0;
+	}
+}
 
 // tu-skeleton: 0x003147F6 84B ?winPointInWindow@GameWindow@@QAEEHH@Z -- matched in Code/GameEngine/Source/GameClient/GUI/GameWindow_winSetText.cpp (not merged yet)
 
