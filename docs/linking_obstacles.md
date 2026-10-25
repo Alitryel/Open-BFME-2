@@ -242,6 +242,40 @@ authored-byte previews or commit-title gains into a projected headline.
   witnesses. Clearance and closed-strict confirmation remain pending; no census
   change is claimed for this inventory work.
 
+### LINK-009: split-identity destructors; the alias route needs an admission path
+
+**Status: Blocked on an identity merge or a maintainer admission decision.
+Updated: 2026-10-25; inspected revision: `4e835ab16a6`.**
+
+- **Evidence / scope:** constructors matched under one class name whose retail
+  destructor is matched under a second, address-derived name, so the unit's
+  `??1X` stays unresolved. Six units are affected, 661 authored bytes:
+  GameSpyInfoCtor.cpp 280 B (`??1GameSpyInfo`), ExperienceTrackerAutoResolve.cpp
+  113 B, Rva0022BD9ASubsystem.cpp 67 B, Rva0022C0CDSubsystemCtor.cpp 81 B,
+  Rva0022BE0FSubsystemCtor.cpp 65 B and Rva0022BD25SubsystemCtor.cpp 55 B.
+  Retail proves each pair: the unit's constructor installs a vtable whose slot 0
+  deleting destructor calls the matched body, and two pairs are additionally
+  anchored by address adjacency (`0x0041EFFF` + 67 = `0x0041F042`;
+  `0x0041F913` + 55 = `0x0041F94A`). Banked detail and the per-class table:
+  [split-identity handoff](../reverse/attempt_support/split-identity-dtors-20261024/readme.md).
+- **Completed:** a full-form `/alternatename` trial on all six units re-verified
+  28/28 rows and linked `LINKED 0 -> 661` bytes at census index 2026-10-24 10:28
+  (`2fbdec0868`). It was reverted: the current rules forbid adding
+  `/alternatename` by hand, hatch counts may rise only through an admitted tool,
+  and the counter's own `--allow`/`--admit` is hand-adding. No admission tool
+  covers this hatch, so the evidence is preserved as an attempt, not a repair.
+- **Remaining / next check:** choose an admissible route. Preferred is an
+  identity merge of the placeholder destructor class into the class the
+  constructor/vtable prove, sharing one class view among every unit that emits
+  the vtable; that is still blocked on `rename.py` support for a
+  placeholder-to-real merge and on the class-view/COMDAT cases recorded in the
+  handoff (GameLogic/SubsystemInterface slots, the ExperienceTrackerXfer vtable
+  COMDAT, BaseHeightMapRenderObjClass and GlobalWeatherSystem whose rowed names
+  are deleting destructors only). Otherwise a maintainer decision is needed for
+  a scoped admission path. Do not repeat the unchanged alias trial.
+- **Clearance / census confirmation:** pending; no census change is claimed and
+  the alias trial was not published.
+
 ## Investigation-specific validation limitation
 
 The initial investigation preserved a pre-existing BFME 1 checkout at
