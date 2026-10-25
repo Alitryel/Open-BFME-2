@@ -29,12 +29,6 @@ enum Relationship
 	ALLIES
 };
 
-class Object
-{
-public:
-	Relationship getRelationship(Object const *that) const;
-};
-
 class Rva0039ACBD
 {
 public:
@@ -102,13 +96,6 @@ struct ExperienceParent { unsigned char pad[0x5e7]; bool trainable; };
 // four callers pass [input+0xFC] with no extra args.
 
 class BfmeThingEFC;
-
-class BfmeThingEFC
-{
-public:
-	void rva0039B1F9(void);
-	void bfmeUpdate(int val);
-};
 
 struct Rva0039B24FInput
 {
@@ -205,6 +192,115 @@ public:
 	int rva00289BE0(const ExperienceTracker *tracker, int *out);
 };
 
+class Overridable
+{
+public:
+	Overridable *friend_getFinalOverride();
+	Overridable *getFinalOverride()
+	{
+		return next ? next->friend_getFinalOverride() : this;
+	}
+private:
+	void *vptr;
+	Overridable *next;
+};
+
+class ExperienceLevel : public Overridable
+{
+public:
+	char unknown08[8];
+	AsciiString name;
+};
+
+struct ExperienceLevelNode
+{
+	ExperienceLevelNode *next, *prev;
+	ExperienceLevel data;
+};
+
+class ExperienceLevelList
+{
+public:
+	ExperienceLevelNode *sentinel;
+};
+
+class Rva0039B24F
+{
+public:
+	virtual void d0(void);
+	virtual void d1(void);
+	virtual void d2(void);
+	virtual void d3(void);
+	virtual void virt4(Rva0039B24FInput *input, bool arg2);
+	void rva0039B24F(Rva0039B24FInput *input, bool arg2, bool flag);
+
+private:
+	char m_pad04[0x10 - 0x04];
+	float m_10;
+};
+
+//
+// ?rva0039B315@ExperienceTracker@@QAEXM_N000@Z, retail 0x0039b315, 188 bytes. Banked partial (score 0.96) closed by tools/permute.py;
+// the body is the banked one up to statement/operand order and local types.
+// sink-chain LOOP (not recursion): walk m_experienceSink via findObjectByID,
+// scale per tracker, single trailing transfer 0x0039B16F on the final tracker.
+// Retail has no self-call and no loop-back before the transfer; the loop-back
+// jne targets the lookup, and null-sink breaks to MULT (not return).
+class Object;
+
+class BfmeGlob939D:public GameLogic{public:char bfmeCall939D();};
+
+class PlayerList
+{
+public:
+	int rva002A7C0B(bool b);			// 0x002A7C0B
+};
+
+extern PlayerList *ThePlayerList;
+
+class MultiPlayMults
+{
+public:
+	float getBuildingXPMult(int player) const;	// 0x002359A6
+	float getUnitXPMult(int player) const;		// 0x0023598B
+};
+
+class GlobalData
+{
+public:
+	unsigned char m_pad[0xEC4];
+	MultiPlayMults m_multiPlayMults;		// +0xEC4
+};
+
+extern GlobalData *TheWritableGlobalData;
+
+class ThingTemplate
+{
+public:
+	bool isStructure() const { return (m_kindOf[0x108 - 0x100] & 0x80) != 0; }
+private:
+	unsigned char m_pad[0x100];
+	unsigned char m_kindOf[0x10];			// +0x100
+};
+
+class Object
+{
+public:
+	const ThingTemplate *getTemplate() const { return m_template; }
+public:
+	ExperienceTracker *getExperienceTracker() const { return m_experienceTracker; }
+private:
+	void *m_vtbl;
+private:
+	const ThingTemplate *m_template;
+private:
+	unsigned char m_pad08[0x264 - 8];
+private:
+	ExperienceTracker *m_experienceTracker;
+public:
+	Relationship getRelationship(Object const *that) const;
+};
+
 class ExperienceTracker {
 public:
 	int rva0039AC23(bool);
@@ -242,61 +338,55 @@ public:
 	void rva0039B315(float amount, bool a, bool b, bool c, bool d);
 };
 
-class Overridable
-{
+class BfmeThingEFC {
 public:
-	Overridable *friend_getFinalOverride();
-	Overridable *getFinalOverride()
-	{
-		return next ? next->friend_getFinalOverride() : this;
-	}
-private:
-	void *vptr;
-	Overridable *next;
+    void rva0039B1F9(void);
+    void bfmeUpdate(int);
+    char pad[0x0C]; int level;
 };
 
-class ExperienceLevel : public Overridable
-{
+struct ExperienceParentView { char pad[0x5E7]; bool trainable; };
+
+class Rva003BD306Target {
 public:
-	char unknown08[8];
-	AsciiString name;
-};
-
-struct ExperienceLevelNode
-{
-	ExperienceLevelNode *next, *prev;
-	ExperienceLevel data;
-};
-
-class ExperienceLevelList
-{
+	char pad0[4];
 public:
-	ExperienceLevelNode *sentinel;
-};
-
-class Rva003BD306Target
-{
+	ExperienceParentView *parent;
+public:
+	char pad08[4];
+public:
+	int m_level;
+public:
+	float experience;
+public:
+	char pad14[0x2C-0x14];
+public:
+	BfmeThingEFC *handle;
+public:
+	char pad30[8];
+public:
+	ObjectID sink;
+public:
+	bool enable;
+public:
+	void rva0039B3D1(float value,bool feedback);
 public:
 	void rva0039B28F(bool v);
-private:
-	unsigned char m_pad0[0xC];
-	int m_level;				// +0x0C
 };
 
-class Rva0039B24F
-{
-public:
-	virtual void d0(void);
-	virtual void d1(void);
-	virtual void d2(void);
-	virtual void d3(void);
-	virtual void virt4(Rva0039B24FInput *input, bool arg2);
-	void rva0039B24F(Rva0039B24FInput *input, bool arg2, bool flag);
+struct ObjectExperienceView { char pad[0x264]; Rva003BD306Target *tracker; };
 
-private:
-	char m_pad04[0x10 - 0x04];
-	float m_10;
-};
+// tu-skeleton: 0x0039ABFF 13B ?rva0039ABFF@ExperienceTracker@@QBE_NXZ -- matched in Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AC0C 23B ?rva0039AC0C@ExperienceTracker@@QBE?AUExperienceLevelHandle@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AC23 121B ?rva0039AC23@ExperienceTracker@@QAEH_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AC9C 8B ?rva0039AC9C@Rva0039AC9CForwarder@@QAEXXZ -- matched in Code/GameEngine/Source/Common/VslotSizedForwarders.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+
+// TU Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 
 // tu-skeleton: 0x0039ABFF 13B ?rva0039ABFF@ExperienceTracker@@QBE_NXZ -- matched in Code/GameEngine/Source/Common/RvaSingletonFwdMisc.cpp (not merged yet)
 
@@ -536,5 +626,108 @@ void ExperienceTracker::rva0039B438(const AsciiString &name, bool feedback)
 		}
 	}
 }
+
+// tu-skeleton: 0x0039B4B8 52B ?rva0039B4B8@Rva0039B24F@@QAEXABVAsciiString@@_N@Z -- matched in Code/GameEngine/Source/Common/GapBodiesGE06.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AD0B 58B ?xfer@Rva0039AE75@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AD45 17B ?rva0039AD45@ExperienceTracker@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AD56 89B ??1Rva0039AD56@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADAF 10B ?isTrainable@ExperienceTracker@@QBE_NXZ -- matched in Code/GameEngine/Source/Common/Disp8ByteChaseGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADB9 51B ?rva0039ADB9@ExperienceTracker@@QBEMMH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADEC 7B ?rva0039ADEC@Rva0039ADEC@@QBEMM@Z -- matched in Code/GameEngine/Source/Common/GapLeavesSeat8.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADF3 11B ??1Rva0039ADF3@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039ADFE 6B ?name@Rva0039ADFENamed@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters3.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE04 44B ?rva0039AE04@Rva0039ADF3@@QBE_NXZ -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE30 69B ??0Rva0039AE75@@QAE@PAURva0039AE75Owner@@@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE75 29B ??_GRva0039AE75@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/InlineDtorDeletingDtorsC01.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AE92 42B ?indexFor@Rva0039AE75@@ABEHH@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AEBC 158B ??0ExperienceTracker@@QAE@PBVThingTemplate@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer_ExperienceTracker.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AF5A 28B ??_GRva0039AD56@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039AFC8 257B ?xfer@ExperienceTracker@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B0C9 40B ??0Rva0039ADF3@@QAE@PAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer_ExperienceTracker.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B0F1 28B ??_GRva0039ADF3@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B10D 56B ?xfer@Rva0039ADF3@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B145 42B ?bfmeAt@Rva0039AE75@@QBEMH@Z -- matched in Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B1E2 23B ?bfmeUpdate@BfmeThingEFC@@QAEXH@Z -- matched in Code/GameEngine/Source/Common/BfmeConv813.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B1F9 19B ?rva0039B1F9@BfmeThingEFC@@QAEXXZ -- matched in Code/GameEngine/Source/Common/Rva0039B1F9Refresh.cpp (not merged yet)
+
+// tu-skeleton: 0x0039B2C7 31B ?rva0039B2C7@Rva003BD306Target@@QAEXH_N@Z -- matched in Code/GameEngine/Source/Common/Rva0039B548Method.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerRva0039B315.cpp
+
+void ExperienceTracker::rva0039B315(float amount, bool a, bool b, bool c, bool d)
+{
+	ExperienceTracker *tracker = this;
+	unsigned sink;
+	GameLogic *gameLogic = TheGameLogic;
+	goto cond;
+body:
+	{
+		const Object *obj = gameLogic->findObjectByID((ObjectID)sink);
+		if ((0 == obj))
+			goto mult;
+		d = false;
+		c = true;
+		amount *= tracker->multiplier;
+		tracker = obj->getExperienceTracker();
+	}
+cond:
+	if ((sink = tracker->m_experienceSink))
+		goto body;
+mult:
+	float mult = 1.0f;
+	if (reinterpret_cast < BfmeGlob939D*>(gameLogic)->bfmeCall939D())
+	{
+		const long player = ThePlayerList->rva002A7C0B(false);
+		if (tracker->m_parent->getTemplate()->isStructure())
+			mult = TheWritableGlobalData->m_multiPlayMults.getBuildingXPMult(player);
+		else
+			mult = TheWritableGlobalData->m_multiPlayMults.getUnitXPMult(player);
+	}
+	tracker->rva0039B16F(amount, a, b, c, d, mult);
+}
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerSetExperience.cpp
+
+// BFME1 9cbfb551fe ExperienceTracker.cpp setExperienceAndLevel supplies the
+// sink-forwarding semantics. Native BFME2 0039B3D1..0039B433 RET8 uses float
+// experience and the existing level-handle update providers.
+
+void Rva003BD306Target::rva0039B3D1(float value,bool feedback)
+{
+    if (sink!=INVALID_OBJECT_ID) {
+        Object *object=TheGameLogic->findObjectByID(sink);
+        if (object) {
+            reinterpret_cast<ObjectExperienceView *>(object)->tracker->rva0039B3D1(value,feedback);
+            return;
+        }
+    }
+    if (!parent->trainable) return;
+    experience=value;
+    int level=reinterpret_cast<ExperienceTracker *>(this)->rva0039AC23(enable);
+    if (feedback && level && level!=handle->level) handle->bfmeUpdate(level);
+}
+
+// tu-skeleton: 0x0039B433 5B ?j_0039b433@@YAXXZ -- matched in Code/gen_small/gthunks_000_admitted.cpp (not merged yet)
 
 // tu-skeleton: 0x0039B4B8 52B ?rva0039B4B8@Rva0039B24F@@QAEXABVAsciiString@@_N@Z -- matched in Code/GameEngine/Source/Common/GapBodiesGE06.cpp (not merged yet)
