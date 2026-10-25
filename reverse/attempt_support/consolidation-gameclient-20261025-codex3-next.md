@@ -155,3 +155,30 @@ and MetaEvent path audit against fetched origin/master. No new path move is in
 this prerequisite. Active tools/hooks/workflows, source includes, build inputs
 and registries have no stale consumers; remaining mentions are historical or
 source provenance/placeholder/pattern comments.
+
+
+## Styles initializer merge and cumulative audit
+
+The supported merge accepts MainMenuScaleUpTransitionInit.cpp into the retail
+styles TU: eight rows preserved, one actual fragment removed. Fresh destination
+build verifies 8/8 with its string and three float literals; frozen-body and
+ledger checks pass. Only one source column in each function ledger and current
+TU map changes; no regenerated map or protected register is staged.
+
+The full pending range now has three moves: RadiusDecal_setOpacity,
+MetaMapGetMetaMapRec and MainMenuScaleUpTransitionInit into their respective
+retail destinations. Searched full paths/basenames/stems across active tools,
+hooks, workflows, source/includes, build/config inputs, docs and registries.
+No hard-coded build/include consumer requires repair. Historical census,
+attempt logs and source provenance/placeholder/pattern comments remain.
+Local combined output: build/gameclient-session2-three-moves-audit.txt.
+
+The old initializer has a generated ms_header_queue entry for NULL/FALSE/TRUE.
+NULL and the donor-local macros were already eliminated in prerequisite
+75db5f4784, whose standalone byte check passed. FALSE/TRUE are the destination's
+existing queue item, unchanged and still served by repair_queue.ms_header_items.
+That picker filters nonexistent sources. Thus no unique remaining finding is
+hidden by this move, and no header debt or queue retirement is claimed. The
+owning tool's read-only scan was retried; its Wine preprocessing probe still
+drops standard headers, consistent with the previous handoff. Queue and tools
+remain unchanged; this is classification of redundant generated entries.

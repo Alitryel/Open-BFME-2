@@ -7388,7 +7388,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??0W3DTornadoDraw@@QAE@PAVThing@@PBVModuleData@@@Z,,0x000D181D,67,Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdateCtor.cpp,matched,opaque Rva000B19A1 base via pin; bone-index list<int> via matched list_base 0x4EC36C
 ?Get_DX8_Texture_Stage_State_Value_Name@DX8Wrapper@@SAXAAVStringClass@@KI@Z,,0x00120B90,320,Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperGetTextureStageStateValueName.cpp,matched,
 ?Get_DX8_Render_State_Value_Name@DX8Wrapper@@SAXAAVStringClass@@KI@Z,,0x00121A10,921,Code/Libraries/Source/WWVegas/WW3D2/DX8WrapperGetRenderStateValueName.cpp,matched,
-?init@MainMenuScaleUpTransition@@UAEXPAVGameWindow@@@Z,,0x0035E01E,217,Code/GameEngine/Source/GameClient/GUI/MainMenuScaleUpTransitionInit.cpp,matched,
+?init@MainMenuScaleUpTransition@@UAEXPAVGameWindow@@@Z,,0x0035E01E,217,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp,matched,
 ?Get_DX8_Texture_Stage_State_Name@DX8Wrapper@@SAPBDK@Z,,0x0011EA70,236,Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper_names.cpp,matched,
 ?Get_DX8_Render_State_Name@DX8Wrapper@@SAPBDK@Z,,0x0011E6D0,921,Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper_names.cpp,matched,
 ??_GRva00484EF4@@UAEPAXI@Z,,0x00589035,28,Code/GameEngine/Source/Common/Rva0049B47CThreeVptrDerived.cpp,matched,emitted scalar deleting dtor; dtor call via opaque pin at 0x484EF4; flag plus pinned operator delete
