@@ -43,59 +43,17 @@
 #include "GameLogic/Damage.h"
 #include "GameLogic/GameLogic.h"
 #include "GameLogic/Object.h"
-#include "GameLogic/Module/FXListDie.h"
+#include "GameLogic/Module/DieModule.h"
 #include "GameLogic/Module/AIUpdate.h"
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1FXListDie@@MAE@XZ present-unmatched
-FXListDie::~FXListDie( void )
+// Emit DieModule::~DieModule out of line without emitting conflicting FXListDie vtables
+class DieModuleAnchor : public DieModule
 {
+public:
+	virtual ~DieModuleAnchor();
+};
 
-}
-
-// FXListDie::onDie and its DieModule::isDieApplicable helper are owned by
-// FXListDieOnDie.cpp; the ZH upgrade-filtering callback differs from retail.
-
-// ------------------------------------------------------------------------------------------------
-/** CRC */
-// ------------------------------------------------------------------------------------------------
-// ?crc@FXListDie@@MAEXPAVXfer@@@Z present-unmatched
-void FXListDie::crc( Xfer *xfer )
-{
-
-	// extend base class
-	DieModule::crc( xfer );
-
-}  // end crc
-
-// ------------------------------------------------------------------------------------------------
-/** Xfer method
-	* Version Info:
-	* 1: Initial version */
-// ------------------------------------------------------------------------------------------------
-// ?xfer@FXListDie@@MAEXPAVXfer@@@Z present-unmatched
-void FXListDie::xfer( Xfer *xfer )
-{
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// extend base class
-	DieModule::xfer( xfer );
-
-}  // end xfer
-
-// ------------------------------------------------------------------------------------------------
-/** Load post process */
-// ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@FXListDie@@MAEXXZ present-unmatched
-void FXListDie::loadPostProcess( void )
-{
-
-	// extend base class
-	DieModule::loadPostProcess();
-
-}  // end loadPostProcess
+// ??1DieModuleAnchor@@UAE@XZ absent-from-retail
+DieModuleAnchor::~DieModuleAnchor() {}
