@@ -22593,10 +22593,10 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00313A25,121,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313A9E,70,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313AE4,38,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
-0x00313B0A,19,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313AE4..0x00313B1D,Code/GameEngine/Source/Common/Rva00478180Set.cpp
+0x00313B0A,19,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313AE4..0x00313B1D,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313B1D,31,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp
 0x00313B3C,51,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
-0x00313B6F,24,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313B3C..0x00313B87,Code/GameEngine/Source/Common/Bfme5FortySix.cpp
+0x00313B6F,24,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313B3C..0x00313B87,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313B87,63,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313BC6,38,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313BEC,120,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindowHide.cpp
@@ -22605,9 +22605,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00313CE3,15,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindowHide.cpp
 0x00313CF2,17,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313D03,17,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,S,S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindowManager_drawWindow_Thunk.cpp
-0x00313D14,20,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313D03..0x00313D28,Code/GameEngine/Source/Common/FlagBitSetters.cpp
+0x00313D14,20,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313D03..0x00313D28,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313D28,23,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313D03..0x00313D3F,Code/GameEngine/Source/Common/SmallLeafBodies2_PairSlotSetters.cpp
-0x00313D3F,37,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313D03..0x00313D64,Code/GameEngine/Source/Common/Rva004784F0Get.cpp
+0x00313D3F,37,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313D03..0x00313D64,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00313D64,8,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindowStatusUserData.cpp
 0x00313D6C,7,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313D64..0x00313D73,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp
 0x00313D73,121,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
@@ -22624,12 +22624,12 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00313EB6,7,code,,displaced,-,S=Code/GameEngine/Source/GameLogic/Object/Object.cpp N=Code/GameEngine/Source/GameLogic/Object/Object.cpp,Code/GameEngine/Source/GameLogic/Object/Object.cpp
 0x00313EBD,393,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313E64..0x00314046,Code/GameEngine/Source/GameClient/GUI/WinInstanceData.cpp
 0x00314046,4,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313E64..0x0031404A,Code/GameEngine/Source/Common/Disp8LeaFieldGetters.cpp
-0x0031404A,12,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313E64..0x00314056,Code/GameEngine/Source/Common/Rva0031404ASetter.cpp
+0x0031404A,12,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00313E64..0x00314056,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00314056,78,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,S,S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/Common/GameWindow.cpp,Code/GameEngine/Source/Common/GameWindow_winSetParent.cpp
 0x003140A4,7,code,,displaced,-,S=Code/Libraries/Source/WWVegas/WW3D2/ringobj.cpp N=Code/Libraries/Source/WWVegas/WW3D2/RingRenderObjClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/ringobj.cpp
-0x003140AB,29,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x003140C8,Code/GameEngine/Source/Common/Rva003140ABContains.cpp
+0x003140AB,29,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x003140C8,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x003140C8,7,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x003140CF,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp
-0x003140CF,21,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x003140E4,Code/GameEngine/Source/Common/Rva0031404ASetter.cpp
+0x003140CF,21,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x003140E4,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x003140E4,13,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x003140F1,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp
 0x003140F1,7,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x003140F8,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp
 0x003140F8,13,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x00314105,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp
@@ -22638,12 +22638,12 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00314119,13,code-unledgered,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x00314126,
 0x00314126,7,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x0031412D,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp
 0x0031412D,7,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x00314134,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp
-0x00314134,19,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x00314147,Code/GameEngine/Source/Common/Rva00478E50Set.cpp
+0x00314134,19,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314056..0x00314147,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00314147,19,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x0031415A,19,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x00314147..0x0031416D,Code/GameEngine/Source/Common/Rva00478E90Set.cpp
 0x0031416D,15,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindowSetTooltipFunc.cpp
 0x0031417C,13,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031416D..0x003141AA,Code/GameEngine/Source/Common/DispDwordFieldSetters.cpp
-0x003141AA,18,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031416D..0x003141BC,Code/GameEngine/Source/Common/Rva00478F40Apply.cpp
+0x003141AA,18,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031416D..0x003141BC,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x003141BC,293,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031416D..0x003142E1,Code/GameEngine/Source/GameClient/GUI/GameWindowCursorSearch.cpp
 0x003142E1,121,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031416D..0x003143B9,Code/GameEngine/Source/GameClient/GUI/GameWindowCursorSearch.cpp
 0x003143B9,36,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindowFields.cpp
@@ -22662,8 +22662,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0031454D,17,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031452F..0x0031455E,Code/GameEngine/Source/Common/BfmeThreeHundredFortyTwoBase.cpp
 0x0031455E,35,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031452F..0x00314581,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x00314581,21,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031452F..0x00314596,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
-0x00314596,27,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031452F..0x003145B1,Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp
-0x003145B1,63,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031452F..0x003145F0,Code/GameEngine/Source/GameClient/GUI/Rva003145B1Dispatch.cpp
+0x00314596,27,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031452F..0x003145B1,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
+0x003145B1,63,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x0031452F..0x003145F0,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp
 0x003145F0,156,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow_DefaultConstructor.cpp
 0x0031468C,80,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,C,C=0x003145F0..0x003146DC,Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031468CDtor.cpp
 0x003146DC,126,code,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,approved,S,S=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp N=Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,Code/GameEngine/Source/GameClient/GUI/GameWindow_snapshotCreateView.cpp
