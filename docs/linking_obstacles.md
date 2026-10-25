@@ -323,6 +323,37 @@ authored-byte previews or commit-title gains into a projected headline.
   other dependencies and MapMetaDataCopyDeferred's waypoint-tree identity/provider
   conflicts remain open. No whole-family or executable closure is claimed.
 
+- **Decal unmatched-emission subset (2026-10-25):**
+  The native check of `decalmsh.cpp` retains all six existing exact rows
+  (326 bytes) while removing 18 explicitly unmatched Zero Hour function
+  definitions. Five Texture-pointer vector members are emitted explicitly;
+  the existing count getter keeps its directly proven receiver-field load,
+  with no new vtable definition. The six unresolved legacy renderer calls
+  disappear. Normal byte verification passes 6/6 before and after.
+  Against the fixed `f995f30157` index (2026-10-25 21:36), the bounded ordinary
+  preview changes this unit from blocked to clean (0 -> 326 authored bytes).
+  No new C++ exact bytes, census headline or closed-strict result is claimed.
+  Verification is the isolated native fork workflow; canonical class
+  registration, data ownership, source claims and the actual file lease are
+  checked before editing. The broader compiler/provider entry remains open.
+
+  Removed hatch occurrences: 22; registered debt retired: 0. Unrelated register keys are preserved.
+
+  Source blobs: original `11adf762e6f6e2a8296465286d1bb96364c58a02`, repaired `23f5050ee6df39dd0d5846c45f16427e153cc6a7`.
+  Existing rows retained without ledger edits:
+
+  | RVA | Bytes | Symbol |
+  | --- | ---: | --- |
+  | `0x00143E90` | 129 | `?Resize@?$SimpleVecClass@PAVTextureClass@@@@UAE_NH@Z` |
+  | `0x00143F20` | 55 | `?Uninitialised_Grow@?$SimpleVecClass@PAVTextureClass@@@@UAE_NH@Z` |
+  | `0x005508E9` | 7 | `?Decal_Count@RigidDecalMeshClass@@UAEHXZ` |
+  | `0x00144910` | 40 | `?Resize@?$SimpleDynVecClass@PAVTextureClass@@@@UAE_NH@Z` |
+  | `0x00144020` | 39 | `??0?$SimpleVecClass@PAVTextureClass@@@@QAE@H@Z` |
+  | `0x001448D0` | 56 | `??0?$SimpleDynVecClass@PAVTextureClass@@@@QAE@H@Z` |
+
+  Provider audit retains every mapped symbol through an equivalent or retail-correct provider; no linker alias is removed.
+  Native receipt: https://github.com/McMickey93/Open-BFME-2/actions/runs/40240437884.
+
 ### LINK-007: incomplete data ownership beyond clean symbol resolution
 
 **Status: Open; three storage subsets repaired. Updated: 2026-10-25.**
