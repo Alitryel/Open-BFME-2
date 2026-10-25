@@ -6897,7 +6897,7 @@ Code/GameEngine/Source/Common/Rva005D20E5Wrap.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005D2111Dtor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005D2355ImageGet.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005D2462Ctor.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,no,2,0,0,0,0
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005D2664Method.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005D27BEMethod.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005D2EA8Dtor.cpp,yes,0,0,0,0,0
@@ -8219,7 +8219,7 @@ Code/GameEngine/Source/Common/System/GeometryRecordAssign.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/GeometryRecordVector.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/GeometryRecordVectorCopyConstructor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/GeometryShapeAssign.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/System/GeometryShapeVectorCopyConstructor.cpp,no,0,0,1,0,1
+Code/GameEngine/Source/Common/System/GeometryShapeVectorCopyConstructor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/GeometryUpgradePoolKey.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/GetArmySummaryName.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/System/GetBattleTypeSelectedMessage.cpp,yes,0,0,0,0,0
@@ -20649,7 +20649,7 @@ Code/Libraries/Source/WWVegas/WWLib/Rva001EBFE5Dtor.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/Rva001EC311Ctor.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/Rva001EC349Dtor.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/Rva001EC9BDResize.cpp,yes,0,0,0,0,0
-Code/Libraries/Source/WWVegas/WWLib/Rva001ECF66Finish.cpp,yes,0,0,0,0,0
+Code/Libraries/Source/WWVegas/WWLib/Rva001ECF66Finish.cpp,no,1,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/Rva001ED0DEDtor.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/Rva001ED2C5Parse.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/Rva001ED338Init.cpp,yes,0,0,0,0,0
@@ -21790,7 +21790,7 @@ Code/Libraries/Source/WWVegas/WWLib/StlportCopyRva002D0D5E.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/StlportCopyRva003F610F.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/StlportCopyWrapperPairsFamily.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/StlportDeque2148Cleanup.cpp,yes,0,0,0,0,0
-Code/Libraries/Source/WWVegas/WWLib/StlportDeque40Iterators.cpp,no,0,0,2,0,2
+Code/Libraries/Source/WWVegas/WWLib/StlportDeque40Iterators.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/StlportDequeBaseSweepRva00056DEB.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/StlportDequeCopyRecord8KeySort.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WWLib/StlportDequeE12Rva00585257.cpp,yes,0,0,0,0,0
