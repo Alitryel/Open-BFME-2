@@ -105,6 +105,12 @@ authored-byte previews or commit-title gains into a projected headline.
   real whole-body C++ instantiation replaces its old alias and retires one
   hatch key; the paired before/after preview preserves all 2,978 authored
   bytes and claims no new linking gain. The other alias remains debt.
+- **Placement-copy register cleanup (2026-10-26, `1cd28a3a88`):**
+  [the current-object retirement](../reverse/attempt_support/vector-copy-identity-retirement-20261026.md)
+  verifies both rows (239 bytes) in stlport_vector_rva00287f76_overflow.cpp.
+  Its existing native-owner forwarding passes `repair_queue.py retire identity`,
+  which removes the stale wrong-copy key. The current census already records
+  the unit as linking; no new byte or census gain is claimed.
 - **Clearance / census confirmation:** graphics ordinary-preview scope cleared
   at the revision above; other families and census confirmation remain pending.
   Keep individual repair previews separate from later census confirmation.
