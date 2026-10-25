@@ -71,6 +71,17 @@ authored-byte previews or commit-title gains into a projected headline.
   it was the sole blocker in 30, holding 45,189 authored nonpadding bytes
   (about 45 KB). The inspected provider index now has 33 retail-correct copies
   with identical digests. Provider evidence alone does not remeasure consumers.
+- **Verified graphics subset (2026-10-25, `91fe970939`):**
+  [the bounded verification](../reverse/attempt_support/weightinfo-verification-20261025/readme.md)
+  passes 404/404 matched rows across all 34 units. Current-object inspection
+  confirms 33 retail-correct copies and a correct selected body; W3DScene
+  intentionally stopped emitting the incorrect copy. No destructor blocker
+  remains in these 34 objects. The ordinary preview links all 30 historical
+  sole-blocker units, covering **45,204 authored nonpadding bytes**. The other
+  four retain unrelated dependencies, listed in that evidence. This graphics
+  subset is **cleared in the bounded ordinary-preview scope**; census and
+  closed-strict confirmation remain unclaimed. Strict receipt prerequisites
+  found during verification are tracked separately as LINK-008.
 - **Completed:** `51fde01dff` removed W3DScene's nonretail emission; its source
   was unchanged at investigation time. The earlier graphics gains overlap.
   Other landed repairs also have scoped evidence:
@@ -78,11 +89,13 @@ authored-byte previews or commit-title gains into a projected headline.
   [record helpers](../reverse/attempt_support/asciistring-record-link-20261025/readme.md)
   and [narrow strings](../reverse/attempt_support/narrow-string-selective-link-20261025.md).
   Several historical `_Destroy` names already resolve to defined providers.
-- **Remaining / next check:** verify current consumers and providers before
-  attempting another repair, and check the next normal maintainer census.
+- **Remaining / next check:** check the next normal maintainer census for the
+  verified graphics subset. Verify the other landed repair families' current
+  consumers and providers before attempting another repair.
   Do not reopen a repaired name solely because `link_rank.py` still lists it.
-- **Clearance / census confirmation:** pending for current master; keep the
-  individual repair previews separate from any later census confirmation.
+- **Clearance / census confirmation:** graphics ordinary-preview scope cleared
+  at the revision above; other families and census confirmation remain pending.
+  Keep individual repair previews separate from later census confirmation.
 
 ### LINK-002: distinct container element identities and exception contracts
 
@@ -194,6 +207,27 @@ authored-byte previews or commit-title gains into a projected headline.
   through the existing ownership gates. Family clearance and census confirmation
   remain pending. Preserve the no-stubs/no-`/FORCE` runtime exit requirements.
 
+### LINK-008: include inventories prevent strict reusable graphics receipts
+
+**Status: Blocked on complete include inventories. Updated: 2026-10-25.**
+
+- **Evidence / scope:** [graphics verification at `91fe970939`](../reverse/attempt_support/weightinfo-verification-20261025/readme.md)
+  ran the normal gates successfully for 34 units, but its initial 17-unit
+  `--prepare-current` run refused strict reuse. W3DShadowTextureCtor,
+  W3DDebrisDraw, W3DDebrisDrawLegacy and W3DVolumetricShadow reported macro or
+  parent-traversing include roots, or headers outside inventoried search roots.
+- **Completed:** all 34 ordinary byte/receipt checks pass; 13 objects also have
+  strict reusable receipts. The other 17 units were checked through the ordinary
+  path; no claim is made that all of them are uncacheable. The refusal is retained
+  in the evidence, and no gate was relaxed. LINK-001's destructor preview result
+  does not establish strict closure.
+- **Remaining / next check:** prove and make the actual include graph
+  inventoryable under the existing gates, then repeat bounded strict preparation
+  for all affected providers/consumers. A needed verifier repair follows the
+  separate false-reject workflow. Do not substitute ordinary receipts for strict
+  witnesses. Clearance and closed-strict confirmation remain pending; no census
+  change is claimed for this inventory work.
+
 ## Investigation-specific validation limitation
 
 The initial investigation preserved a pre-existing BFME 1 checkout at
@@ -203,3 +237,8 @@ but normal object import refused that mismatch. No check was bypassed and no
 fresh local compile-based preview was claimed. This is a local input limitation,
 not evidence that other agents or the whole repository are blocked. Use a
 consistent verified checkout before taking new compile-based measurements.
+
+The graphics follow-up above used a separate checkout with the pinned reference
+and completed ordinary compile-based verification. The original checkout was
+preserved; its mismatch did not block that isolated check. LINK-008 records the
+separate strict receipt limitation encountered there.
