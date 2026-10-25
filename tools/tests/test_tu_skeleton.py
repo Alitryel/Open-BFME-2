@@ -239,6 +239,31 @@ class ClaimTests(unittest.TestCase):
         self.assertEqual(held, ["file:Code/A.cpp"])
         self.assertEqual(len(calls), 1)
 
+    def test_a_partly_won_scope_is_released_when_another_worker_holds_the_rest(self):
+        T._CACHE.clear()
+        T._CACHE["ledger"] = [{"name": "?a@@YAXXZ", "export_rva": "", "target_rva": "0x00001000", "target_size": "8",
+                               "source": "Code/A.cpp", "status": "matched", "notes": ""},
+                              {"name": "?b@@YAXXZ", "export_rva": "", "target_rva": "0x00001010", "target_size": "8",
+                               "source": "Code/B.cpp", "status": "matched", "notes": ""}]
+        T._CACHE["map"] = [{"rva": "0x00001000", "size": "8", "kind": "code", "tu": "Code/T.cpp", "confidence": "approved",
+                            "by": "-", "evidence": "", "source": "Code/A.cpp"},
+                           {"rva": "0x00001010", "size": "8", "kind": "code", "tu": "Code/T.cpp", "confidence": "approved",
+                            "by": "-", "evidence": "", "source": "Code/B.cpp"}]
+        T._CACHE["stale"] = False
+        released = []
+        original_claim, original_release = T.claims.claim, T.claims.release
+        T.claims.claim = lambda keys, note="", root=None: SimpleNamespace(
+            refused=[T.claims.key_of("file:Code/A.cpp")], claimed=[k for k in keys if k != "file:Code/A.cpp"])
+        T.claims.release = lambda keys, **kw: released.append(list(keys))
+        T.refusal = lambda f, rows: None
+        try:
+            rep = T.merge("Code/T.cpp", dry_run=False, claim=True)
+        finally:
+            T.claims.claim, T.claims.release = original_claim, original_release
+            T._CACHE.clear()
+        self.assertTrue(rep["blocked"].startswith("held by another worker"))
+        self.assertEqual(released, [["file:Code/T.cpp", "file:Code/A.cpp", "file:Code/B.cpp", "0x00001000", "0x00001010"]])
+
     def test_a_merge_blocked_after_claiming_releases_its_scope(self):
         don = {"Code/T.cpp": [{"target_rva": "0x00001000", "status": "matched"}],
                "Code/A.cpp": [{"target_rva": "0x00001010", "status": "matched"}]}

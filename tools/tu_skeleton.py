@@ -569,6 +569,7 @@ def merge(tu, dry_run=False, log=print, claim=True):
     if claim and not dry_run:
         held = claim_scope(tu, don)
         if held:
+            claims.release(claim_keys(tu, don))     # the part of the scope we did win goes back
             report["blocked"] = "held by another worker: " + ", ".join(held[:5])
             return report
         report = _merge(tu, sk, don, report, dry_run)
@@ -1320,6 +1321,7 @@ def split(path, tu, dry_run=False, claim=True):
     if claim and not dry_run:
         held = claim_scope(tu, {path: carved})
         if held:
+            claims.release(claim_keys(tu, {path: carved}))
             report["blocked"] = "held by another worker: " + ", ".join(held[:5])
             return report
         report = _merge(tu, sk, don, report, dry_run, texts=texts, applier=applier)
