@@ -2252,3 +2252,11 @@ member,AudioData::m_8,AudioData::m_musicFolder,inferred,agree:nl-fd819646b9c7,Co
 member,Rva002BEBE3Flag::m_88,Rva002BEBE3Flag::m_livingWorldTurbo,inferred,agree:nl-ff27c9cadab3,Code/GameEngine/Source/Common/Rva002BEBE3Step.cpp,
 member,Rva002BEFE5::m_74,Rva002BEFE5::m_moveProgress,inferred,agree:nl-f1d725de62c0,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
 member,Rva0052DB11Head::m_20,Rva0052DB11Head::m_presentList,inferred,agree:nl-ac5136e978e7,Code/GameEngine/Source/Common/Rva0052DB11.cpp,
+param,FireLogicSystem::rva00285DC5::f12,FireLogicSystem::rva00285DC5::maxBurnRate,inferred,agree:nl-dff14df18027,Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp,0x00285DC5
+param,FireLogicSystem::rva00285DC5::f10,FireLogicSystem::rva00285DC5::decay,inferred,agree:nl-27b9d5a88d02,Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp,0x00285DC5
+param,FireLogicSystem::rva00285DC5::f8,FireLogicSystem::rva00285DC5::resistance,inferred,agree:nl-3743368aa7a2,Code/GameEngine/Source/Common/Rva00285DC5Paint.cpp,0x00285DC5
+param,ThingFactory::newDrawable::a1,ThingFactory::newDrawable::thingTemplate,inferred,agree:nl-427350235346,Code/GameEngine/Source/Common/Rva002CF21BGet.cpp,0x002CF21B
+local,~Rva0055BCD2::b08,~Rva0055BCD2::categoryModuleInfo,inferred,agree:nl-4a687321cbad,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055BCF1ColorModuleCtor.cpp,
+member,Rva002EBA88::m_0,Rva002EBA88::m_nodesPerBlock,inferred,agree:nl-fee9a234f9ab,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,
+member,Rva002EBA88::m_4,Rva002EBA88::m_blockList,inferred,agree:nl-057a037e532b,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,
+param,Rva002EBA88::rva002EBA88::a1,Rva002EBA88::rva002EBA88::nodesPerBlock,inferred,agree:nl-b2491028a20c,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88

@@ -21,7 +21,7 @@ extern TerrainLogic *TheTerrainLogic;
 class FireLogicSystem
 {
 public:
-	void rva00285DC5(int startRow, int endRow, int col, int add, int f12, int f10, int f8, bool flag);
+	void rva00285DC5(int startRow, int endRow, int col, int add, int maxBurnRate, int decay, int resistance, bool flag);
 private:
 	struct Cell
 	{
@@ -38,7 +38,7 @@ private:
 	int m_numCols;
 };
 
-void FireLogicSystem::rva00285DC5(int startRow, int endRow, int col, int add, int f12, int f10, int f8, bool flag)
+void FireLogicSystem::rva00285DC5(int startRow, int endRow, int col, int add, int maxBurnRate, int decay, int resistance, bool flag)
 {
 	if (col < 0)
 		return;
@@ -52,12 +52,12 @@ void FireLogicSystem::rva00285DC5(int startRow, int endRow, int col, int add, in
 		startRow = 0;
 	if (endRow >= m_numRows)
 		endRow = m_numRows - 1;
-	if (f12 > 0xfff)
-		f12 = 0xfff;
-	if (f10 > 0x3ff)
-		f10 = 0x3ff;
-	if (f8 < 0)
-		f8 = 0;
+	if (maxBurnRate > 0xfff)
+		maxBurnRate = 0xfff;
+	if (decay > 0x3ff)
+		decay = 0x3ff;
+	if (resistance < 0)
+		resistance = 0;
 	if (startRow > endRow)
 		return;
 	float colF = (float)(((double)col + 0.5) * 10.0);
@@ -75,14 +75,14 @@ void FireLogicSystem::rva00285DC5(int startRow, int endRow, int col, int add, in
 		else
 			cell->m_add = (unsigned short)t;
 		unsigned int packed = cell->m_packed;
-		if (((packed >> 18) & 0xfff) < (unsigned int)f12)
-			cell->m_packed = (packed & ~0x3ffc0000) | ((f12 << 18) & 0x3ffc0000);
+		if (((packed >> 18) & 0xfff) < (unsigned int)maxBurnRate)
+			cell->m_packed = (packed & ~0x3ffc0000) | ((maxBurnRate << 18) & 0x3ffc0000);
 		packed = cell->m_packed;
-		if ((packed & 0x3ff) < (unsigned int)f10)
-			cell->m_packed = (packed & ~0x3ff) | (f10 & 0x3ff);
+		if ((packed & 0x3ff) < (unsigned int)decay)
+			cell->m_packed = (packed & ~0x3ff) | (decay & 0x3ff);
 		packed = cell->m_packed;
-		if (((packed >> 10) & 0xff) > (unsigned int)f8)
-			cell->m_packed = (packed & ~0x3fc00) | ((f8 << 10) & 0x3fc00);
+		if (((packed >> 10) & 0xff) > (unsigned int)resistance)
+			cell->m_packed = (packed & ~0x3fc00) | ((resistance << 10) & 0x3fc00);
 		cell->m_type = 0;
 	}
 }

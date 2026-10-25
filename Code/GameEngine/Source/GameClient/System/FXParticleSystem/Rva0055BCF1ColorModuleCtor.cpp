@@ -66,8 +66,8 @@ public:
 	Rva0055BCD2(unsigned int a);
 	~Rva0055BCD2()
 	{
-		unsigned char *b08 = this ? (unsigned char *)this + 8 : 0;
-		*(volatile unsigned int *)b08 = (unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@");
+		unsigned char *categoryModuleInfo = this ? (unsigned char *)this + 8 : 0;
+		*(volatile unsigned int *)categoryModuleInfo = (unsigned int)__identifier("??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@");
 		*(volatile unsigned int *)this = (unsigned int)__identifier("??_7V3Vt01111D90@@6B@");
 	}
 };

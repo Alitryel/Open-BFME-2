@@ -13,24 +13,24 @@ public:
 class Rva002EBA88
 {
 public:
-	Rva002EBA88 *rva002EBA88(int a1, int arena, int size, int a4, int a5, int context);
+	Rva002EBA88 *rva002EBA88(int nodesPerBlock, int arena, int size, int a4, int a5, int context);
 private:
-	int m_0;
-	int m_4;
+	int m_nodesPerBlock;
+	int m_blockList;
 	int m_freeList;
 	int m_C;
 	int m_10;
 	int m_context;
 };
 // ?rva002EBA88@Rva002EBA88@@QAEPAV1@HHHHHH@Z @0x002EBA88 67B.
-Rva002EBA88 *Rva002EBA88::rva002EBA88(int a1, int arena, int size, int a4, int a5, int context)
+Rva002EBA88 *Rva002EBA88::rva002EBA88(int nodesPerBlock, int arena, int size, int a4, int a5, int context)
 {
-	m_0 = 0x80;
-	m_4 = 0;
+	m_nodesPerBlock = 0x80;
+	m_blockList = 0;
 	m_freeList = 0;
 	m_C = (int)&Rva0002FFC0Alloc;
 	m_10 = (int)&Rva0002FFE0Free;
 	m_context = 0;
-	((Rva001FF36A *)this)->rva001FF36A(a1, arena, size, a4, a5, context);
+	((Rva001FF36A *)this)->rva001FF36A(nodesPerBlock, arena, size, a4, a5, context);
 	return this;
 }
