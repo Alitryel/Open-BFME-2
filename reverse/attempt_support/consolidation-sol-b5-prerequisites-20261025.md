@@ -161,3 +161,19 @@ identity debt retired: zero; recovered C++/retail bytes: zero.
 Keep seed, allocator, loader and this handoff file claims plus 0x000DD8B8 and
 0x000DFB3C until
 publication is confirmed. Release file scopes and settle landed RVAs afterward.
+
+## Next-session publication recovery
+
+Recovered the four clean, pending prerequisite commits through c3472f19b7.
+Fresh `./build.sh` on all seven changed source files passes 40/40 rows,
+one string literal and three float literals (receipt:
+build/sol-b5-inherited-recheck.txt). The outgoing range contains only source
+edits, this evidence file and the attempt log; no source move, deletion,
+owner transfer or active path consumer needs repointing. Existing per-commit
+identity/data/EH checks and composition receipts above remain applicable;
+this recovery introduces no source change or new provider binding.
+
+A fresh official BFME 1 fetch now finds local c0385ef6ba2031d152781f9a8343bfef40c7bd29
+behind upstream 967c7e1cf5bbda24ea52f802caffa7164c1368ff. The checkout is clean.
+Retained these existing inputs; full reference-update verification is still
+pending outside this prerequisite lane. No freshness success receipt written.
