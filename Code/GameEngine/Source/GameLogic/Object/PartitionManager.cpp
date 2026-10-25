@@ -53,6 +53,13 @@
 //-----------------------------------------------------------------------------
 // Retail's /O1 _Bit_reference::operator= (0x00066099): in-class inline members
 // take the optimize state of their definition; PreRTS.h brings <vector> in.
+// Zero Hour's PartitionManager.h defines PartitionData::friend_updateCellsTouched
+// inline as a bare updateCellsTouched() call; BFME 2's facade first unlinks the
+// dirty list (retail 0x0073B250, rowed in PartitionData_friendUpdateCellsTouched.cpp).
+// This TU's copy sat first in link order, so units emitting or calling the retail
+// body were charged against it. Leave the member declared only; the inline body
+// moves to an unreferenced free function (the call site below stays a call).
+#define friend_updateCellsTouched() friend_updateCellsTouched(); void bfmeZhInline_friend_updateCellsTouched()
 #pragma optimize("s", on)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #pragma optimize("", on)
