@@ -5,6 +5,8 @@
 #include "../../../Common/GameLogicObjectLookupView.h"
 #include <memory>
 #include <list>
+#define BFME_STRINGBASE_PUBLIC_DTOR
+#include "ascii_string.h"
 
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
 
@@ -162,19 +164,9 @@ public:
 // lea ecx,[esi+4] then mov ecx,esi plus and/or EH states; no vptr store;
 // callers at 0x00466EC5 0x00467DD6 0x004689CB plus jmp at 0x00467794;
 // neighbours CaveContainModuleDataCtor and StringRecordCopy. Honest Rva name.
-template <typename T>
-class StringBase
-{
-public:
-	~StringBase() { releaseBuffer(); }
-private:
-	void releaseBuffer();
-	T *m_data;
-};
-
-// Existing public narrow teardown spelling resolves to the verified
-// 133-byte releaseBuffer worker at RVA 0x36410. Wide teardown is unchanged.
-template <> StringBase<char>::~StringBase();
+// StringBase comes from the shared shim (ascii_string.h, included above) with
+// its public destructor switch: the narrow teardown spelling it declares
+// resolves to the verified 133-byte releaseBuffer worker at RVA 0x36410.
 
 void __cdecl Rva00467763Construct(void *dest, const void *source);
 
