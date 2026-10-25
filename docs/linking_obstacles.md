@@ -541,6 +541,38 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
 - **Clearance:** preview scope only (five of six units against the f995f30157 index).
 - **Census confirmation:** awaiting the next census.
 
+### LINK-014: the census at f995f30157's other lost units (htree, SpecialPower, FX, BfmeE8, INI _M_find, BfmeConv499)
+
+**Status: Open (partial repair landed). Updated: 2026-10-26; inspected revision: 65972bab0b.**
+
+- **Evidence / scope:** 22 units linked in the census at ef9c691284 but not at f995f30157,
+  for causes other than LINK-013 and the INI `__lower_bound` copy. Found by diffing
+  `reverse/link_status.csv` (f995f30157 vs 763dc8759f) and reading the f995f30157
+  index's blockers.
+- **Completed** (each `./build.sh`-exact and previewed with `tools/link_check.py` against
+  the f995f30157 index):
+
+  | Unit(s) | Cause | Repair | Preview |
+  |---|---|---|---|
+  | `htree.cpp` | Merge af2f149baa dropped `/O1 /DNDEBUG`, so four unrowed Zero Hour definitions (`Create_Interpolated` ×2, `Create_Morphed`, `Vector3::Lerp`) called `_assert`, which retail does not import. | `/DNDEBUG` restored (35306cabab). | 0 -> 2,175 B |
+  | 14 special-power ports | My landing of 83b2c3fa65 respelled `~SpecialPowerModule` protected after bcac7d81eb had bound the ports to the public spelling. | Public spelling restored (74fdf83172). | 0 -> 1,212 B |
+  | `FXParticleSystemDefaultTemplateDtor.cpp` | My c81e10ce9d anchor made `FXParticleSystem.cpp` emit copies of the `DefaultModuleTemplate<2>/<3>` and Ortho dtors ahead of the owner. | Dtors declared in its views (d4fa3d06f2). | 0 -> 64 B |
+  | Two `stlport_vector_e8_*` units | Once 289c748fb3 rowed `vector<BfmeE8>::_M_fill_insert`, their whole-class instantiations were non-retail copies first in link order. | Member declared decl-only; `__copy_backward` instantiated explicitly (1f6a6430ad). | 43/43 BfmeE8 users link, +950 B |
+  | `_M_find` owner, `StlSweepR3Rva0002CB7D.cpp` | `INI.cpp`'s `_M_find<AsciiString>` called `vector<void*>::operator[] const` out of line. | Accessor forced inline as the owner does; copy now equals retail (f37ca79179). | +110 B |
+  | `BfmeConv499.cpp` | 51cc7ed5dc dropped the alias for placeholder `bfmeDoBNH`. | Builds its handle base in place from `TextureAsset::Get`; orphaned pin dropped (65972bab0b). | 0 -> 27 B |
+
+- **Remaining / next check:** `SpecialPowerModuleCtor.cpp` (340 B) still fails. Two private views of
+  `SpecialPowerModule` emit differing `??_7SpecialPowerModule@@6B@` copies:
+  - `SpecialPowerModuleDtor_Unresolved.cpp`, earlier in link order: slot 7 is
+    `onSpecialPowerCreation`.
+  - The ctor unit's view: slots 9 and 15 are `pauseCountdown` and `startPowerRecharge`.
+  - All other slots are pure stand-ins in both views.
+
+  Neither view changed in those slots between the censuses. Next check: give both views
+  the same slot set (the union of the named slots) and confirm the ctor unit links.
+- **Clearance:** preview scope only (the units listed above).
+- **Census confirmation:** awaiting the next census.
+
 ## Investigation-specific validation limitation
 
 The initial investigation preserved a pre-existing BFME 1 checkout at
