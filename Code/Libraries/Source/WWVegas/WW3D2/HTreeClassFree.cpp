@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfme2htree /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// stlport
 //
 // HTreeClass::Free at 0x00166510.
 //
@@ -14,7 +15,10 @@
 // address-derived names; the member is the same +0x1C object whose copy
 // constructor HTreeClassCopyConstructor.cpp reaches at 0x00166110.
 
-void __cdecl operator delete[](void *block);
+#include <windows.h>
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
+#include "../../../../../reference/shims/bfme2htree/htree.h"
+#include <stl/_iterator_base.h>
 
 // The copy helper 0x00161350 is rowed as STLport's random-access __copy over
 // 36-byte BfmePod36 records (int distance); declared only, so the call keeps
@@ -27,43 +31,26 @@ _OutputIter __copy(_RandomAccessIter __first, _RandomAccessIter __last, _OutputI
 }
 struct BfmePod36;
 typedef BfmePod36 BfmeRva00161350Elem;
-namespace _STL { struct random_access_iterator_tag {}; }
 
 // The +0x1C member: start, finish, end of storage.  Clear is STLport's
 // erase(begin(), end()).
 struct BfmeRva00166110
 {
-	void Clear()
-	{
-		BfmeRva00161350Elem *first = Start;
-		BfmeRva00161350Elem *last = Finish;
-		_STL::random_access_iterator_tag tag;
-		BfmeRva00161350Elem *i = _STL::__copy(last, Finish, first, tag, (int *)0);
-		Finish = i;
-	}
+	void Clear();
 	BfmeRva00161350Elem *Start;
 	BfmeRva00161350Elem *Finish;
 	BfmeRva00161350Elem *EndOfStorage;
 };
 
-struct PivotClass;
-
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/htree.h
-class HTreeClass
+// Keep this matched helper emitted independently when Free is split away.
+void BfmeRva00166110::Clear()
 {
-public:
-	void Free(void);
-
-private:
-	char Name[16];
-	int NumPivots;						// +0x10
-	PivotClass *Pivot;					// +0x14
-	float ScaleFactor;					// +0x18
-	BfmeRva00166110 OwnedSequence1C;	// +0x1C
-	unsigned int Unknown28;				// +0x28
-	void *Unknown2C;					// +0x2C
-	unsigned int Unknown30;				// +0x30
-};
+	BfmeRva00161350Elem *first = Start;
+	BfmeRva00161350Elem *last = Finish;
+	_STL::random_access_iterator_tag tag;
+	BfmeRva00161350Elem *i = _STL::__copy(last, Finish, first, tag, (int *)0);
+	Finish = i;
+}
 
 void HTreeClass::Free(void)
 {
@@ -74,10 +61,16 @@ void HTreeClass::Free(void)
 	NumPivots = 0;
 	ScaleFactor = 1.0f;
 
-	OwnedSequence1C.Clear();
+	// Retail inlines the erase here; keep its separately rowed Clear provider
+	// independent so a TU carve can retain that body in the residual.
+	BfmeRva00166110 &sequence = *reinterpret_cast<BfmeRva00166110 *>(OwnedSequence1C);
+	BfmeRva00161350Elem *first = sequence.Start;
+	BfmeRva00161350Elem *last = sequence.Finish;
+	_STL::random_access_iterator_tag tag;
+	sequence.Finish = _STL::__copy(last, sequence.Finish, first, tag, (int *)0);
 
 	Unknown28 = 0;
-	delete [] (char *)Unknown2C;
+	delete [] reinterpret_cast<char *>(Unknown2C);
 	Unknown2C = 0;
 	Unknown30 = 0;
 }

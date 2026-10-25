@@ -78,3 +78,34 @@ protected donors remain separate. No path moves, identity retirement, file
 reduction or recovered C++ bytes occur. The combined outgoing path-consumer
 audit still has no moved paths. Hold the CaptureBone file and 0x00166980
 claims with the other queued prerequisite claims until publication.
+
+## Follow-up: mixed Free donor is ready for the split lane
+
+`HTreeClassFree.cpp --split --for htree.cpp --dry-run` initially selected only
+Free (0x00166510) and lost the residual Clear row (0x001663C0). Clear was defined
+inline and disappeared when its only caller left. Move Clear's definition out
+of the class so it is emitted independently. A carved Free then called Clear
+instead of retaining retail's inline erase: the probe was 71 bytes against
+retail's 90. Spell the same erase operation directly inside Free, preserving
+its native __copy call, empty by-reference dispatch tag and null distance.
+Clear retains its own independent 33-byte implementation.
+
+The donor now includes the seed's real HTree declaration and matrix header,
+with the same SDK/STLport environment; its private HTree copy and private
+iterator-tag definition are removed. The three-word member view interprets
+only already-proven +1C/+20/+24 storage; no new identity or layout is inferred.
+The STLport iterator-base header supplies the existing real tag declaration
+without instantiating algorithms over an incomplete record.
+
+Acceptance: `./build.sh .../HTreeClassFree.cpp` verifies both rows, 90+33 bytes,
+and one float; frozen-file check passes. Final split dry-run retains the one
+residual row, matches the carved row alone under TU flags, and accepts seed
+plus carved Free with no rejected donor. Receipts:
+`build/sol-htree-free-before.txt`, `build/sol-htree-free-probe.txt`,
+`build/sol-htree-free-build-inline.txt`, `build/sol-htree-free-inline-after.txt`.
+The split has NOT been applied: leave it for Luna, using the tool with claims.
+Free's ready split is independent of the three ready whole-donor merges.
+No source paths move in this prerequisite or the complete outgoing range;
+the prepublication path audit has no consumers to repoint. File reduction,
+identity debt retirement and new recovered bytes remain zero. Keep the donor,
+0x00166510 and 0x001663C0 claims until the prerequisite batch is published.
