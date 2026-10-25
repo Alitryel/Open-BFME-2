@@ -22,7 +22,8 @@ namespace _STL {
 template<> bitset<128> &bitset<128>::reset();
 }
 
-extern unsigned char g_00DFEFA4StoragePrototype[28];
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 class BfmeFixedStorage0004543D
 {
@@ -96,6 +97,6 @@ AttachUpdateModuleData::AttachUpdateModuleData()
 	m_parentEnemyDiedEvaEvent = -1;
 	memset(m_parentStatus, 0, sizeof(m_parentStatus));
 	m_objectFilter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE)));
 }

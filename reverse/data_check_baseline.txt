@@ -1232,15 +1232,12 @@ Code/GameEngine/Source/GameLogic/Object/Update/AnimatedParticleSysBoneClientUpda
 Code/GameEngine/Source/GameLogic/Object/Update/ArrowStormUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004907F7@ArrowStormUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A039A4
 Code/GameEngine/Source/GameLogic/Object/Update/AssaultTransportAIUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00048F411@AssaultTransportAIUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03978
 Code/GameEngine/Source/GameLogic/Object/Update/AssistedTargetingUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000486E31@AssistedTargetingUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A038B0
-Code/GameEngine/Source/GameLogic/Object/Update/AttachUpdateModuleDataCtor.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
 Code/GameEngine/Source/GameLogic/Object/Update/AttachUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000491912@AttachUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A039C8
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00049B5DC@AttributeModifierAuraUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B34
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000403A61@AttributeModifierPoolUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A02F34
 Code/GameEngine/Source/GameLogic/Object/Update/AudioLoopUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva004B7BBB@AudioLoopUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F18
 Code/GameEngine/Source/GameLogic/Object/Update/AutoDepositUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00049A1CA@AutoDepositUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B14
 Code/GameEngine/Source/GameLogic/Object/Update/AutoFindHealingUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004950B4@AutoFindHealingUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A30
-Code/GameEngine/Source/GameLogic/Object/Update/AutoPickUpUpdateModuleDataCtor.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
-Code/GameEngine/Source/GameLogic/Object/Update/AutoPickUpUpdateModuleDataCtor.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
 Code/GameEngine/Source/GameLogic/Object/Update/AutoPickUpUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000495CEC@AutoPickUpUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A54
 Code/GameEngine/Source/GameLogic/Object/Update/BannerCarrierUpdateModuleDataCtor.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
 Code/GameEngine/Source/GameLogic/Object/Update/BannerCarrierUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A64
@@ -1251,8 +1248,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/BloodthirstyUpdateIfaceChecks.cpp
 Code/GameEngine/Source/GameLogic/Object/Update/BloodthirstyUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00044E054@BloodthirstyUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03384
 Code/GameEngine/Source/GameLogic/Object/Update/BoneFXDamagePoolKey.cpp	wrong-name	?$S1@?1??rva004B9757@BoneFXDamage@@SA?AW4NameKeyType@@XZ@4IA	0x00A03FAC
 Code/GameEngine/Source/GameLogic/Object/Update/BoneFXUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000487A19@BoneFXUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A038CC
-Code/GameEngine/Source/GameLogic/Object/Update/BoredUpdateModuleDataCtor.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
-Code/GameEngine/Source/GameLogic/Object/Update/BoredUpdateModuleDataCtor.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
 Code/GameEngine/Source/GameLogic/Object/Update/BoredUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004966B9@BoredUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A5C
 Code/GameEngine/Source/GameLogic/Object/Update/BroadcastStealthUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004A34C6@BroadcastStealthUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03BD8
 Code/GameEngine/Source/GameLogic/Object/Update/BroadcastStealthUpdateUpdate.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
@@ -1329,7 +1324,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecalUpdatePoolKey.cpp	wron
 Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004AC148@RainOfFireUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03CF8
 Code/GameEngine/Source/GameLogic/Object/Update/RepairDockUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004A11F4@RepairDockUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03BA0
 Code/GameEngine/Source/GameLogic/Object/Update/ReplaceObjectUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004B29FF@ReplaceObjectUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03DA4
-Code/GameEngine/Source/GameLogic/Object/Update/RespawnUpdateModuleDataCtor.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
 Code/GameEngine/Source/GameLogic/Object/Update/RespawnUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004AF116@RespawnUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03D6C
 Code/GameEngine/Source/GameLogic/Object/Update/RousingSpeechUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004ACED8@RousingSpeechUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03D14
 Code/GameEngine/Source/GameLogic/Object/Update/RubbleRiseUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004A4C82@RubbleRiseUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03C20
@@ -1388,7 +1382,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/WeaponModeSpecialPowerUpdatePoolK
 Code/GameEngine/Source/GameLogic/Object/Update/WeaponSetSpecialAbilityUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000492459@WeaponSetSpecialAbilityUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A039E0
 Code/GameEngine/Source/GameLogic/Object/Update/WoundArrowUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004C6999@WoundArrowUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A042B4
 Code/GameEngine/Source/GameLogic/Object/Upgrade/AllowBannerSpawnUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva004B8520@AllowBannerSpawnUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F3C
-Code/GameEngine/Source/GameLogic/Object/Upgrade/CostModifierUpgradeModuleDataCtor.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
 Code/GameEngine/Source/GameLogic/Object/Upgrade/CostModifierUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva004B59B7@CostModifierUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03E98
 Code/GameEngine/Source/GameLogic/Object/Upgrade/ExperienceScalarUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B6142@ExperienceScalarUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03EB0
 Code/GameEngine/Source/GameLogic/Object/Upgrade/GrantUpgradeCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8FAB@GrantUpgradeCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F84

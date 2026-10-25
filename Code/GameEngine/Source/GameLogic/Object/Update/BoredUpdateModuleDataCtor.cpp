@@ -20,7 +20,8 @@ char g_00C4F590;
 
 extern int BfmeLogicFramesPerSecond;
 
-extern unsigned char g_00DFEFA4StoragePrototype[28];
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 class BfmeFixedStorage0004543D
 {
@@ -76,8 +77,8 @@ BoredUpdateModuleData::BoredUpdateModuleData()
 	m_scanDelayTime = LogicFramesPerSecond;
 	m_scanDistance = 300.0f;
 	m_boredFilter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE)));
 	m_specialPowerTemplate = 0;
 	m_canScanWhileAttackingOrMoving = 0;
 }

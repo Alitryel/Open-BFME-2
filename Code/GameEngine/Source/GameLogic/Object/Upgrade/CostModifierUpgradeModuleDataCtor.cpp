@@ -43,7 +43,8 @@ template <> void _STLP_alloc_proxy<float*, float, allocator<float> >::deallocate
 template <> void allocator<float>::deallocate(float*, size_t) const;
 }
 
-extern unsigned char g_00DFEFA4StoragePrototype[28];
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 class BfmeFixedStorage0004543D
 {
@@ -99,8 +100,8 @@ CostModifierUpgradeModuleData::CostModifierUpgradeModuleData()
 	, m_slaughter(false)
 {
 	m_objectFilter.initFromStorages(
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
-		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE)));
 	m_labelForPalantirString.set(">UNSPECIFIED<");
 	m_startsActive = false;
 }
