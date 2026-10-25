@@ -58,3 +58,23 @@ unchanged owner rows with full bytes, relocations, extents, EH and all emitted
 symbols. Merely changing the primary copy clause, using extern-template
 selection, or selecting the old 29/45-byte copy cannot pass. No such provider
 edit or trial was performed here; no link or coverage gain is claimed.
+
+## Separate overflow-owner suppression refusal
+
+At own HEAD `b3344a2c44c11fe9d17194c10f0eaf45beaf24cc`, a control-only
+ordinary `extern template` declaration for the already rowed
+`vector<Rva00587375>::_M_insert_overflow` was tested with one normal two-TU
+`./build.sh`. Primary 0x00587C40 stayed 189/189 exact. Control 0x0039C415
+and 0x0039CADC stayed 226/226 and 5/5 exact. The declaration removed the
+control's wrong overflow definition and left an external call to the primary
+owner, but control 0x00587DCD changed at byte +5 and emitted seven nonretail
+tail bytes after its 226B extent. All 226 compared bytes were concrete; no
+masked or unresolved references explain the refusal. Build exit 1, guest
+compiler exit 0, receipt transfer exit 0. Full owner/ref/EH and complete
+emission inventories are preserved in ignored
+`build/restart-bank/seat1-20261025/587c40-extern-overflow-01/result.md`.
+The source was restored byte-for-byte; the failed object and sidecar remain
+banked and stale. This declaration shape is not a linking repair. No selected
+preview ran and no link gain was claimed. A different independent prerequisite
+needs actual new provider or native evidence, not a repositioning of the same
+declaration or another unproven exception contract.
