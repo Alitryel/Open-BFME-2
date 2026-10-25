@@ -18,12 +18,3 @@ Rva007EB810Diag *Rva007EB810Get(void)
 }
 // ?g_FeslDiagReporter@@3HA: the global at VA 0xe09fbc is ?g_Va0130A5A0@@3PAURva007EB810Diag@@A.
 #pragma comment(linker, "/alternatename:?g_FeslDiagReporter@@3HA=?g_Va0130A5A0@@3PAURva007EB810Diag@@A")
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeReportVJO@@YAPAVBfmeRVJO@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
-#pragma comment(linker, "/alternatename:?bfmeGetLogVNC@@YAPAVBfmeLogVNC@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
-#pragma comment(linker, "/alternatename:?bfmeLogGetESI@@YAPAVBfmeLogESI@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
-#pragma comment(linker, "/alternatename:?bfmeGetLogUUA@@YAPAVBfmeLogUUA@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
-#pragma comment(linker, "/alternatename:?bfmeGetLogUVB@@YAPAVBfmeLogUVB@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
-#pragma comment(linker, "/alternatename:?bfmeGetLog1038@@YAPAVBfmeLog1038@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")

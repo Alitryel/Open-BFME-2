@@ -14,7 +14,7 @@ public:
 	virtual void release( void *block, int flags );
 };
 
-extern void *bfmeGo929C();
+class GenAlloc; GenAlloc *Gen007EFFC0();
 
 // 0x007EC030: deletes the named field from the record.
 int Rva007EC030( char *text, const char *tag );
@@ -322,7 +322,7 @@ static int Rva007E8D30( const char *name, const char *value, char *record, int s
 	unsigned int iLeft;
 	int iResult;
 
-	item = ( char * )( ( Rva007EFFC0Allocator * )bfmeGo929C() )->allocate( 0x32200, 2 );
+	item = ( char * )( ( Rva007EFFC0Allocator * )((void *)Gen007EFFC0()) )->allocate( 0x32200, 2 );
 	pSrc = ( const unsigned char * )value;
 
 	if( pSrc == 0 )
@@ -388,7 +388,7 @@ static int Rva007E8D30( const char *name, const char *value, char *record, int s
 	*p = 0;
 
 	iResult = Rva007E8B00( (unsigned char *)record, size, item );
-	( ( Rva007EFFC0Allocator * )bfmeGo929C() )->release( item, 0 );
+	( ( Rva007EFFC0Allocator * )((void *)Gen007EFFC0()) )->release( item, 0 );
 	return iResult;
 }
 

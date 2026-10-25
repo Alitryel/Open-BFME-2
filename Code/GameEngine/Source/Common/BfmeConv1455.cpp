@@ -9,7 +9,7 @@ public:
 	virtual void bfmeFreeVMP(void *p, int f);
 };
 
-BfmePoolVMP *bfmeGetPoolVMP();
+class GenAlloc; GenAlloc *Gen007EFFC0();
 void bfmeDeleteVMP(void *p, unsigned n);
 
 struct BfmeBufVMP
@@ -38,7 +38,7 @@ void BfmeCtxVMP::bfmeResetVMP()
 
 	if (b != 0)
 	{
-		bfmeGetPoolVMP()->bfmeFreeVMP(b->m_bfme08, 1);
+		((BfmePoolVMP *)Gen007EFFC0())->bfmeFreeVMP(b->m_bfme08, 1);
 		b->m_bfme04 = 0;
 		b->m_bfme00 = 0;
 		b->m_bfme08 = 0;

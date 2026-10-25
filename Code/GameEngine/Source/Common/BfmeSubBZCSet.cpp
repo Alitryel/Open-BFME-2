@@ -27,7 +27,7 @@ public:
 	virtual void *bfmeAllocate(unsigned int size, int flags);
 };
 
-BfmeRva0065CEA0Allocator *bfmeRva0065CEA0();
+class GenAlloc; GenAlloc *Gen007EFFC0();
 
 class BfmeSubBZC
 {
@@ -44,7 +44,7 @@ void BfmeSubBZC::bfmeSetBZC(int count)
 {
 	bfmeRva0066EB40();
 	m_bfmeArray = static_cast<BfmeRva0066E270 *>(
-		bfmeRva0065CEA0()->bfmeAllocate(count * sizeof(BfmeRva0066E270), 0));
+		((BfmeRva0065CEA0Allocator *)Gen007EFFC0())->bfmeAllocate(count * sizeof(BfmeRva0066E270), 0));
 	for (int index = 0; index < count; ++index)
 		new (&m_bfmeArray[index]) BfmeRva0066E270;
 	m_bfmeCount = count;

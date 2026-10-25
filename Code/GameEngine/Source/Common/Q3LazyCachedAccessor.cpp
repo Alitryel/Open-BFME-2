@@ -47,11 +47,32 @@
 		return m_owner->m_slot;                                               \
 	}
 
-BFME_LAZY_CACHED_ACCESSOR( Rva007E9CE0, Gen007F1C20, 0x24C )
-BFME_LAZY_CACHED_ACCESSOR( Rva007E9D70, Gen007E9B40, 0x234 )
-BFME_LAZY_CACHED_ACCESSOR( Rva007E9DB0, Gen007F2150, 0x248 )
-BFME_LAZY_CACHED_ACCESSOR( Rva007E9DF0, Gen007F2E60, 0x238 )
-BFME_LAZY_CACHED_ACCESSOR( Rva007E9E30, Gen007F3410, 0x23C )
-BFME_LAZY_CACHED_ACCESSOR( Rva007E9E70, Gen007F40F0, 0x240 )
+#define BFME_LAZY_CACHED_ACCESSOR_REAL( NAME, HELPER, OFFSET )                     \
+	struct NAME##Cached { int m_opaque; };                                    \
+	struct NAME##Owner                                                        \
+	{                                                                         \
+		char m_lead[ OFFSET ];                                                \
+		NAME##Cached *m_slot;                                                 \
+	};                                                                        \
+	class HELPER##Object; HELPER##Object *HELPER( void *owner );                               \
+	struct NAME                                                               \
+	{                                                                         \
+		void *m_head;                                                         \
+		NAME##Owner *m_owner;                                                 \
+		NAME##Cached *get();                                                  \
+	};                                                                        \
+	NAME##Cached *NAME::get()                                                 \
+	{                                                                         \
+		if ( m_owner->m_slot == 0 )                                           \
+			m_owner->m_slot = (NAME##Cached *)HELPER( m_owner );                              \
+		return m_owner->m_slot;                                               \
+	}
+
+BFME_LAZY_CACHED_ACCESSOR_REAL( Rva007E9CE0, Rva0065E7A0, 0x24C )
+BFME_LAZY_CACHED_ACCESSOR_REAL( Rva007E9D70, Rva007E9B40, 0x234 )
+BFME_LAZY_CACHED_ACCESSOR_REAL( Rva007E9DB0, Rva0065EC70, 0x248 )
+BFME_LAZY_CACHED_ACCESSOR_REAL( Rva007E9DF0, Rva007F2E60, 0x238 )
+BFME_LAZY_CACHED_ACCESSOR_REAL( Rva007E9E30, Rva007F3410, 0x23C )
+BFME_LAZY_CACHED_ACCESSOR_REAL( Rva007E9E70, Rva007F40F0, 0x240 )
 BFME_LAZY_CACHED_ACCESSOR( Rva007E9EF0, Gen007F86A0, 0x2A4 )
 BFME_LAZY_CACHED_ACCESSOR( Rva007E9F30, Gen007F89D0, 0x2A8 )

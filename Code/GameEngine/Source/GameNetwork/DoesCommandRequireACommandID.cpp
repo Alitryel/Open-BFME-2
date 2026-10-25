@@ -164,7 +164,3 @@ bool Rva00581318Get(NetCommandMsg *msg)
 		(msg->getNetCommandType() == (NetCommandType)1) ||
 		(msg->getNetCommandType() == (NetCommandType)2));
 }
-
-// Other units call this body (pinned at its address) under the spelling(s)
-// below, with the same calling convention and stack arguments; bind them.
-#pragma comment(linker, "/alternatename:?CommandRequiresAck@@YAHPAVNetCommandMsg@@@Z=?CommandRequiresAck@@YA_NPAVNetCommandMsg@@@Z")

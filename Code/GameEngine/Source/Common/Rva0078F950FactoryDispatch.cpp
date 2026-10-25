@@ -15,14 +15,6 @@
 // mov/test branch shape while the argument record selects one of the two
 // already reconstructed 0x2F8-byte object factories.
 
-#pragma comment(linker, "/alternatename:?Rva0078EF00New@@YGPAXPAX@Z=?Rva0008F999Create@@YGPAVRva000A2670@@PAX@Z")
-#pragma comment(linker, "/alternatename:?Rva0078EF80New@@YGPAXPAX@Z=?Rva0008F9D3Create@@YGPAVRva000A26C7@@PAX@Z")
-#pragma comment(linker, "/alternatename:?Rva0078F000New@@YGPAXPAX@Z=?Rva0008FA0DCreate@@YGPAVRva000A26F7@@PAX@Z")
-#pragma comment(linker, "/alternatename:?Rva0078F080New@@YGPAXPAX@Z=?Rva0008FA47Create@@YGPAVRva000A270F@@PAX@Z")
-#pragma comment(linker, "/alternatename:?Rva0078F300New@@YGPAVRva007996A0VptrCtor@@PAX@Z=?Rva0008FB69Create@@YGPAVRva000A12FE@@PAX@Z")
-#pragma comment(linker, "/alternatename:?Rva0078F380New@@YGPAVRva00799730VptrCtor@@PAX@Z=?Rva0008FBA3Create@@YGPAVRva000A1346@@PAX@Z")
-#pragma comment(linker, "/alternatename:?Rva0078F400New@@YGPAVRva00790C40VptrCtor@@PAX@Z=?Rva0008FBDDCreate@@YGPAVRva000A15FE@@PAX@Z")
-#pragma comment(linker, "/alternatename:?Rva0078F480New@@YGPAVRva00790CD0VptrCtor@@PAX@Z=?Rva0008FC17Create@@YGPAVRva000A1646@@PAX@Z")
 #pragma comment(linker, "/alternatename:?dispatchFactory@Rva0078F770Owner@@QAEPAVGameWindow@@PAURva0078F950Record@@PAURva0078F770Secondary@@HH@Z=?gogoGadgetListBox@GameWindowManager@@UAEPAVGameWindow@@PAVGadgetCreateView@@PAU_ListboxData@@PAVGameFont@@_N@Z")
 #pragma comment(linker, "/alternatename:?dispatchFactory@Rva0078F830Owner@@QAEHPAURva0078F950Record@@HHH@Z=?gogoGadgetSlider@TabWindowManagerView@@QAEPAVGameWindow@@PAVGadgetCreateView@@PAUSliderDataView@@PAVGameFont@@_N@Z")
 #pragma comment(linker, "/alternatename:?flags@Rva0078F830Predicate@@QAEEXZ=?get@Rva005C4AF1DwordField@@QBEHXZ")
@@ -121,16 +113,16 @@ Rva007961D0VptrCtor *__stdcall Rva0078EB00New(void *argument);
 Rva00796260VptrCtor *__stdcall Rva0078EB80New(void *argument);
 Rva0078FCA0VptrCtor *__stdcall Rva0078EC00New(void *argument);
 Rva0078FD30VptrCtor *__stdcall Rva0078EC80New(void *argument);
-Rva007996A0VptrCtor *__stdcall Rva0078F300New(void *argument);
-Rva00799730VptrCtor *__stdcall Rva0078F380New(void *argument);
-Rva00790C40VptrCtor *__stdcall Rva0078F400New(void *argument);
-Rva00790CD0VptrCtor *__stdcall Rva0078F480New(void *argument);
+class Rva000A12FE; Rva000A12FE *__stdcall Rva0008FB69Create(void *argument);
+class Rva000A1346; Rva000A1346 *__stdcall Rva0008FBA3Create(void *argument);
+class Rva000A15FE; Rva000A15FE *__stdcall Rva0008FBDDCreate(void *argument);
+class Rva000A1646; Rva000A1646 *__stdcall Rva0008FC17Create(void *argument);
 void *__stdcall Rva0078ED00New(void *argument);
 void *__stdcall Rva0078ED80New(void *argument);
-void *__stdcall Rva0078EF00New(void *argument);
-void *__stdcall Rva0078EF80New(void *argument);
-void *__stdcall Rva0078F000New(void *argument);
-void *__stdcall Rva0078F080New(void *argument);
+class Rva000A2670; Rva000A2670 *__stdcall Rva0008F999Create(void *argument);
+class Rva000A26C7; Rva000A26C7 *__stdcall Rva0008F9D3Create(void *argument);
+class Rva000A26F7; Rva000A26F7 *__stdcall Rva0008FA0DCreate(void *argument);
+class Rva000A270F; Rva000A270F *__stdcall Rva0008FA47Create(void *argument);
 
 typedef void *(__stdcall *Rva0078F950Factory)(void *argument);
 
@@ -320,14 +312,14 @@ void Rva0078F770Owner::selectFactory(Rva0078F950Record *record,
 	if (kind & 0x80)
 	{
 		if (secondary->m_flag)
-			record->m_factory = (Rva0078F950Factory)Rva0078F080New;
+			record->m_factory = (Rva0078F950Factory)Rva0008FA47Create;
 		else
-			record->m_factory = (Rva0078F950Factory)Rva0078F000New;
+			record->m_factory = (Rva0078F950Factory)Rva0008FA0DCreate;
 	}
 	else if (secondary->m_flag)
-		record->m_factory = (Rva0078F950Factory)Rva0078EF80New;
+		record->m_factory = (Rva0078F950Factory)Rva0008F9D3Create;
 	else
-		record->m_factory = (Rva0078F950Factory)Rva0078EF00New;
+		record->m_factory = (Rva0078F950Factory)Rva0008F999Create;
 
 	dispatchFactory(record, secondary, ignored, value);
 }
@@ -340,17 +332,17 @@ int Rva0078F830Owner::selectFactory(Rva0078F950Record *record, int first,
 	if (flags & 0x10)
 	{
 		if (record->m_kind & 0x80)
-			record->m_factory = (Rva0078F950Factory)Rva0078F480New;
+			record->m_factory = (Rva0078F950Factory)Rva0008FC17Create;
 		else
-			record->m_factory = (Rva0078F950Factory)Rva0078F400New;
+			record->m_factory = (Rva0078F950Factory)Rva0008FBDDCreate;
 	}
 	else if (flags & 8)
 	{
 		if ((record->m_kind & 0x80) && (record->m_head == 0 ||
 			!(record->m_head->flags() & 0x20)))
-			record->m_factory = (Rva0078F950Factory)Rva0078F380New;
+			record->m_factory = (Rva0078F950Factory)Rva0008FBA3Create;
 		else
-			record->m_factory = (Rva0078F950Factory)Rva0078F300New;
+			record->m_factory = (Rva0078F950Factory)Rva0008FB69Create;
 	}
 	else
 	{

@@ -11,7 +11,7 @@ typedef unsigned int UnsignedInt;
 typedef int Int;
 
 class NetCommandMsg;
-Int CommandRequiresAck(NetCommandMsg *msg);
+bool CommandRequiresAck(NetCommandMsg *msg);
 
 class NetCommandRef
 {

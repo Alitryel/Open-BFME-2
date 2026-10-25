@@ -94,7 +94,7 @@ public:
 	virtual void bfmeR0CVJO(const char *a, const char *f, int line);
 };
 
-BfmeRVJO *__cdecl bfmeReportVJO();
+struct Rva007EB810Diag; Rva007EB810Diag *Rva007EB810Get();
 
 class BfmeThingVJO
 {
@@ -116,7 +116,7 @@ void BfmeThingVJO::bfmeGoVJO(int id)
 	BfmeXVJO *p = m_bfme2d8->bfmeC34VJO(id);
 	if (!p)
 	{
-		bfmeReportVJO()->bfmeR0CVJO("hp", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowser.cpp", 0x478);
+		((BfmeRVJO *)Rva007EB810Get())->bfmeR0CVJO("hp", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowser.cpp", 0x478);
 		return;
 	}
 	BfmeMsgVJO msg;

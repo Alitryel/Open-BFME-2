@@ -10,7 +10,7 @@ public:
 	virtual void bfmeDropTQD(void *item, int flags) = 0;
 };
 
-BfmeSinkTQD *bfmeGetTQD(void);
+class GenAlloc; GenAlloc *Gen007EFFC0();
 void bfmeFreeTQD(void *place, int size);
 
 class BfmeThingTQD
@@ -59,7 +59,7 @@ BfmeThingTQD::BfmeThingTQD()
 void *BfmeThingTQD::bfmeDelTQD(unsigned char flags)
 {
 	m_bfmeVft = g_bfmeVftTQD;
-	bfmeGetTQD()->bfmeDropTQD(m_bfmeItem, 0);
+	((BfmeSinkTQD *)Gen007EFFC0())->bfmeDropTQD(m_bfmeItem, 0);
 	if (flags & 1)
 		bfmeFreeTQD(this, 0x14);
 	return this;

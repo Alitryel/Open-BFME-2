@@ -129,7 +129,3 @@ bool BFME_DX8_Thread_Assert(void);
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?BFME_DX8_Thread_Assert@@YAXXZ=?BFME_DX8_Thread_Assert@@YA_NXZ")
-
-// Other units call this body (pinned at its address) under the spelling(s)
-// below, with the same calling convention and stack arguments; bind them.
-#pragma comment(linker, "/alternatename:?W3DRadarResetLock@@YAXXZ=?BFME_DX8_Thread_Lock@@YAXXZ")

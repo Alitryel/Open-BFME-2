@@ -105,7 +105,7 @@ public:
 	virtual void bfmeDropTVC(void *p, int f) = 0;
 };
 
-BfmeSinkTVC *bfmeGetTVC(void);
+class GenAlloc; GenAlloc *Gen007EFFC0();
 void bfmeFreeTVC(void *p, int n);
 
 class BfmeThingTVC
@@ -119,7 +119,7 @@ public:
 
 void *BfmeThingTVC::bfmeDelTVC(unsigned char flags)
 {
-	bfmeGetTVC()->bfmeDropTVC(m_bfmeItem, 1);
+	((BfmeSinkTVC *)Gen007EFFC0())->bfmeDropTVC(m_bfmeItem, 1);
 	m_bfme04 = 0;
 	m_bfme00 = 0;
 	m_bfmeItem = 0;

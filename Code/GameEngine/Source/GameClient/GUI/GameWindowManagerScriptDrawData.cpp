@@ -80,10 +80,10 @@ extern WinDrawData hiliteSliderThumbDrawData[ MAX_DRAW_DATA ];
 
 // The file-static sscanf wrapper lives in the GameWindowManagerScript unit;
 // retail folds it with scanInt (0x00314E96), and parseDrawData calls it there.
-Int scanUnsignedInt( const char *source, UnsignedInt& val );
+Int scanInt( const char *source, Int& val );
 // Retail folds scanUnsignedInt into scanInt (both read "%d" at 0x00BBE164);
-// only scanInt is defined (GameWindowManagerScript_scanInt.cpp).
-#pragma comment(linker, "/alternatename:?scanUnsignedInt@@YAHPBDAAI@Z=?scanInt@@YAHPBDAAH@Z")
+// only scanInt is defined (GameWindowManagerScript_scanInt.cpp), so the
+// unsigned channels go through its Int& signature.
 
 Bool parseDrawData( char *token, WinInstanceData *instData,
 													 char *buffer, void *data )
@@ -171,25 +171,25 @@ Bool parseDrawData( char *token, WinInstanceData *instData,
 		// COLOR: R G B A
 		c = strtok( NULL, seps );  // label
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, r );
+		scanInt( c, (Int&)r );
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, g );
+		scanInt( c, (Int&)g );
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, b );
+		scanInt( c, (Int&)b );
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, a );
+		scanInt( c, (Int&)a );
 		drawData->color = GameMakeColor( r, g, b, a );
 
 		// BORDERCOLOR: R G B A
 		c = strtok( NULL, seps );  // label
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, r );
+		scanInt( c, (Int&)r );
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, g );
+		scanInt( c, (Int&)g );
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, b );
+		scanInt( c, (Int&)b );
 		c = strtok( NULL, seps );  // value
-		scanUnsignedInt( c, a );
+		scanInt( c, (Int&)a );
 		drawData->borderColor = GameMakeColor( r, g, b, a );
 
 	}  // end for i

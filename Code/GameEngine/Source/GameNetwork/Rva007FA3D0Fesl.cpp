@@ -73,7 +73,7 @@ public:
 	virtual void v1(int value);
 };
 
-Rva007E9B70Obj *Rva007E9B70Get();
+int Rva00656B60Get();
 
 class Rva007FA2C0
 {
@@ -137,7 +137,7 @@ void Rva007FA2C0::rva007FA3D0(Rva007FA5E0Arg *arg,
 	do
 	{
 		m_20->m();
-		Rva007E9B70Get()->v1(10);
+		((Rva007E9B70Obj *)Rva00656B60Get())->v1(10);
 	} while (slot->m_04 != 2);
 	clearSlot((void *)slot);
 }

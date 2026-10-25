@@ -6,7 +6,6 @@
 // WaitForSingleObject, so the declaration is renamed to the real import.
 
 // Matched connection-log bodies use the same getter for their second vtable slot.
-#pragma comment(linker, "/alternatename:?bfmeGetLog1037@@YAPAVBfmeLog1037@@XZ=?Rva007EB810Get@@YAPAURva007EB810Diag@@XZ")
 
 class BfmeLog1037
 {
@@ -16,7 +15,7 @@ public:
 };
 
 extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void *, unsigned long);
-BfmeLog1037 *bfmeGetLog1037(void);
+struct Rva007EB810Diag; Rva007EB810Diag *Rva007EB810Get();
 
 class BfmeH1037
 {
@@ -30,5 +29,5 @@ public:
 void BfmeH1037::bfmeGo1037H(void)
 {
 	if (WaitForSingleObject(m_handle, (unsigned long)-1) != 0)
-		bfmeGetLog1037()->bfmeSay1037((char *)"Error entering critical section\n");
+		((BfmeLog1037 *)Rva007EB810Get())->bfmeSay1037((char *)"Error entering critical section\n");
 }

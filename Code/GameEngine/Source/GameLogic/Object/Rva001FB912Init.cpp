@@ -22,7 +22,7 @@ namespace FXParticleSystem
 };
 
 class INI;
-void __cdecl Rva001FA8DDParse();
+void __cdecl Rva001FA8DDParse(INI *, void *);
 
 struct Obj80
 {

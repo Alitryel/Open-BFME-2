@@ -3,7 +3,6 @@
 // These call sites use rowed FESL buffer and allocator operations.
 #pragma comment(linker, "/alternatename:?bfmeAppendVCB@BfmeBufVCB@@QAEXPBD@Z=?append@Rva00800290Buffer@@QAEXPBD@Z")
 // The VCC receiver's slot-3 (block, flags) call matches GenAlloc::release.
-#pragma comment(linker, "/alternatename:?bfmeGetVCC@@YAPAVBfmeSinkVCC@@XZ=?Gen007EFFC0@@YAPAVGenAlloc@@XZ")
 // The size word is ignored by the rowed cdecl class delete; caller cleans both.
 #pragma comment(linker, "/alternatename:?bfmeFreeVCC@@YAXPAXH@Z=??3Gen007F0170@@SAXPAX@Z")
 
@@ -65,7 +64,7 @@ public:
 	virtual void bfmeDropVCC(void *p, int f) = 0;
 };
 
-BfmeSinkVCC *bfmeGetVCC(void);
+class GenAlloc; GenAlloc *Gen007EFFC0();
 void bfmeFreeVCC(void *p, int n);
 
 struct BfmeNodeVCC
@@ -90,7 +89,7 @@ void __stdcall bfmeGoVCC(BfmeThingVCC *p)
 {
 	BfmeNodeVCC *n = p->m_bfme18;
 	if (n) {
-		bfmeGetVCC()->bfmeDropVCC(n->m_bfme08, 1);
+		((BfmeSinkVCC *)Gen007EFFC0())->bfmeDropVCC(n->m_bfme08, 1);
 		n->m_bfme04 = 0;
 		n->m_bfme00 = 0;
 		n->m_bfme08 = 0;

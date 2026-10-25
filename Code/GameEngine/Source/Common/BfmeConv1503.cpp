@@ -9,7 +9,7 @@ public:
 	virtual void bfmeAssertVNC(const char *cond, const char *file, int line);
 };
 
-BfmeLogVNC *bfmeGetLogVNC();
+struct Rva007EB810Diag; Rva007EB810Diag *Rva007EB810Get();
 
 class BfmeKeyVNC
 {
@@ -65,7 +65,7 @@ void BfmeMgrVNC::bfmeFreeVNC(BfmeKeyVNC *key)
 				s->m_bfme20 = 0;
 				s->m_bfme08 = 0;
 				if (--m_bfme1f4 < 0)
-					bfmeGetLogVNC()->bfmeAssertVNC("mNumProbes >= 0", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp", 0x147);
+					((BfmeLogVNC *)Rva007EB810Get())->bfmeAssertVNC("mNumProbes >= 0", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp", 0x147);
 			}
 			break;
 		}

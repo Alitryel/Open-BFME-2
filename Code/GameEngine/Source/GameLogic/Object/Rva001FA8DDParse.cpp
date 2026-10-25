@@ -67,7 +67,3 @@ void Rva001FA8DDParse(INI *ini, void *instance)
 	Rva002BA8F1Listener *listener = entry->create(ini);
 	holder->m_list.append(listener);
 }
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?Rva001FA8DDParse@@YAXXZ=?Rva001FA8DDParse@@YAXPAVINI@@PAX@Z")

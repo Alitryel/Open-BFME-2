@@ -33,7 +33,7 @@ public:
 	virtual void bfmeLog03ESI(const char *what, const char *file, int line);
 };
 
-BfmeLogESI *bfmeLogGetESI();
+struct Rva007EB810Diag; Rva007EB810Diag *Rva007EB810Get();
 
 class BfmeSinkESI
 {
@@ -80,7 +80,7 @@ void BfmeHostESI::bfmeApplyESI(BfmeDictESI *dict)
 
 	if (value == 0)
 	{
-		BfmeLogESI *log = bfmeLogGetESI();
+		BfmeLogESI *log = ((BfmeLogESI *)Rva007EB810Get());
 
 		log->bfmeLog03ESI("hp", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowser.cpp", 0x5f6);
 

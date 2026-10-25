@@ -85,9 +85,9 @@ struct Rva007E9B70Obj
 	virtual unsigned int now();
 };
 
-Rva007EFFC0Allocator *Rva007EFFC0Get();
+class GenAlloc; GenAlloc *Gen007EFFC0();
 Rva007EB810Diag *Rva007EB810Get();
-Rva007E9B70Obj *Rva007E9B70Get();
+int Rva00656B60Get();
 
 // Rva00809500Sink::accept: defined in Y4FeslFavGameAddress_accept.cpp (its row's unit).
 

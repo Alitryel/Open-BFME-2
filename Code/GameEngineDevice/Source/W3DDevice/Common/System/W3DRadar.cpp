@@ -781,7 +781,7 @@ public:
 	virtual void slot28();
 };
 
-extern void W3DRadarResetLock();
+extern void BFME_DX8_Thread_Lock();
 extern void W3DRadarResetUnlock();
 
 // W3DRadar::reset is implemented in W3DRadarReset.cpp (retail 0x0004E2FA).

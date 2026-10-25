@@ -11,7 +11,7 @@ public:
 	virtual void bfmeWarnUUA(const char *msg, const char *file, int line) = 0;
 };
 
-BfmeLogUUA *bfmeGetLogUUA(void);
+struct Rva007EB810Diag; Rva007EB810Diag *Rva007EB810Get();
 
 class BfmeThingUUA
 {
@@ -28,11 +28,11 @@ void BfmeThingUUA::bfmeGoUUA()
 {
 	m_bfmeVft = g_bfmeVftUUA;
 	if (m_bfmeRef)
-		bfmeGetLogUUA()->bfmeWarnUUA((char *)"mProtoPingRef == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x45);
+		((BfmeLogUUA *)Rva007EB810Get())->bfmeWarnUUA((char *)"mProtoPingRef == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x45);
 	if (m_bfmeQueue)
-		bfmeGetLogUUA()->bfmeWarnUUA((char *)"mPendingQueue == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x46);
+		((BfmeLogUUA *)Rva007EB810Get())->bfmeWarnUUA((char *)"mPendingQueue == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x46);
 	if (m_bfmePending)
-		bfmeGetLogUUA()->bfmeWarnUUA((char *)"mNumPendingRequests == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x47);
+		((BfmeLogUUA *)Rva007EB810Get())->bfmeWarnUUA((char *)"mNumPendingRequests == 0", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserpinger.cpp", 0x47);
 }
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

@@ -16,7 +16,7 @@ public:
 	virtual void release( void *block, int flags );
 };
 
-Rva007EFFC0Allocator *Rva007EFFC0Get();
+class GenAlloc; GenAlloc *Gen007EFFC0();
 void rva007FF100Encode( unsigned int length, const char *source,
 	void *destination );
 
@@ -90,7 +90,7 @@ int Rva007FA2C0::onAccept( void *rawArg )
 	Rva007F9FD0Arg *arg = (Rva007F9FD0Arg *)rawArg;
 	unsigned int length = strlen( arg->m_text );
 	unsigned int encodedLength = ( ( length + 2 ) / 3 ) * 4;
-	char *encoded = (char *)Rva007EFFC0Get()->allocate(
+	char *encoded = (char *)((Rva007EFFC0Allocator *)Gen007EFFC0())->allocate(
 		(int)( encodedLength + 1 ), 0 );
 	rva007FF100Encode( length, arg->m_text, encoded );
 
@@ -110,7 +110,7 @@ int Rva007FA2C0::onAccept( void *rawArg )
 	message.m_30 = arg->m_30;
 	message.m_20 = (int)m_hub->v5( &message, 1, 1 );
 
-	char *scratch = (char *)Rva007EFFC0Get()->allocate( 0x800, 0 );
+	char *scratch = (char *)((Rva007EFFC0Allocator *)Gen007EFFC0())->allocate( 0x800, 0 );
 	message.m_10 = scratch;
 	message.m_14 = 0x800;
 	unsigned int offset = 0;
@@ -130,8 +130,8 @@ int Rva007FA2C0::onAccept( void *rawArg )
 		offset += chunk;
 	}
 
-	Rva007EFFC0Get()->release( encoded, 0 );
-	Rva007EFFC0Get()->release( scratch, 0 );
+	((Rva007EFFC0Allocator *)Gen007EFFC0())->release( encoded, 0 );
+	((Rva007EFFC0Allocator *)Gen007EFFC0())->release( scratch, 0 );
 	}
 	return 0;
 }

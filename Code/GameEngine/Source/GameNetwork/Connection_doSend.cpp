@@ -126,7 +126,7 @@ public:
 
 extern GlobalData *TheWritableGlobalData;
 extern GameLogic *TheGameLogic;
-Int CommandRequiresAck(NetCommandMsg *msg);
+Bool CommandRequiresAck(NetCommandMsg *msg);
 
 class Connection
 {

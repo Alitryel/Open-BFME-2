@@ -24,8 +24,8 @@ struct Rva007E9B70Obj
 typedef void *(__fastcall *Rva007EFFC0AllocateSlot)(
 	Rva007EFFC0Allocator *, void *, unsigned int, int);
 
-void *bfmeGo929C(void);
-Rva007E9B70Obj *Rva007E9B70Get();
+class GenAlloc; GenAlloc *Gen007EFFC0();
+int Rva00656B60Get();
 
 class Gen007F0130
 {
@@ -150,14 +150,14 @@ Rva00808920LanGame::Rva00808920LanGame( int maxPlayers )
 {
 	m_state = 1;
 	m_maxPlayers = maxPlayers;
-	Rva007EFFC0Allocator *allocator = (Rva007EFFC0Allocator *)bfmeGo929C();
+	Rva007EFFC0Allocator *allocator = (Rva007EFFC0Allocator *)((void *)Gen007EFFC0());
 	m_players = (void **)((Rva007EFFC0AllocateSlot)(*(void ***)allocator)[2])(
 		allocator, *(void ***)allocator, m_maxPlayers * 4, 0);
 	for( int index = 0; index < m_maxPlayers; ++index )
 		m_players[ index ] = 0;
 
 	char text[ 0x24 ];
-	int value = Rva007E9B70Get()->v2() * rand() * m_maxPlayers;
+	int value = ((Rva007E9B70Obj *)Rva00656B60Get())->v2() * rand() * m_maxPlayers;
 	sprintf( text, "%032x", value );
 	memset( m_ugid, 0, 0x25 );
 	strncpy( m_ugid, text, 8 );

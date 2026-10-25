@@ -12,7 +12,7 @@ public:
 };
 
 extern "C" __declspec(dllimport) int __stdcall ReleaseMutex(void *h);
-BfmeLog1038 *bfmeGetLog1038(void);
+struct Rva007EB810Diag; Rva007EB810Diag *Rva007EB810Get();
 
 class BfmeD1038
 {
@@ -26,5 +26,5 @@ public:
 void BfmeD1038::bfmeGo1038D(void)
 {
 	if (ReleaseMutex(m_bfmeHandle) == 0)
-		bfmeGetLog1038()->bfmeSay1038((char *)"Error leaving critical section\n");
+		((BfmeLog1038 *)Rva007EB810Get())->bfmeSay1038((char *)"Error leaving critical section\n");
 }

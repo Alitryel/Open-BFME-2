@@ -70,7 +70,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "dx8wrapper.h"
 #include "dx8caps.h"
 
-extern void W3DRadarResetLock(void);
+extern void BFME_DX8_Thread_Lock(void);
 
 // Retail's ~SortingIndexBufferClass has no EH frame at all: it is 62 bytes that
 // start straight at `push esi`.  With a throwing operator delete[] the array

@@ -24,7 +24,7 @@ inline void *operator new(unsigned int, void *p)
 	return p;
 }
 
-void *bfmeGo929C(void);
+class GenAlloc; GenAlloc *Gen007EFFC0();
 void Rva007F0120(void *a, void *b);
 Rva007EB810Diag *Rva007EB810Get();
 void Rva007EBAA0(void);
@@ -35,7 +35,7 @@ extern unsigned char g_Va0130A58D;
 
 ServiceHubImpl *createServiceHubImpl(void *a, void *b, void *c, void *d, void *e, void *f)
 {
-	void *p = bfmeGo929C();
+	void *p = ((void *)Gen007EFFC0());
 	if (p == 0)
 	{
 		Rva007F0120(p, p);

@@ -24,7 +24,7 @@ public:
 	virtual void bfmeWarnUVB(const char *msg, const char *file, int line) = 0;
 };
 
-BfmeLogUVB *bfmeGetLogUVB(void);
+struct Rva007EB810Diag; Rva007EB810Diag *Rva007EB810Get();
 
 struct BfmeRecUVB
 {
@@ -48,6 +48,6 @@ int bfmeGoUVB(BfmeRecUVB *r, char *out)
 		Rva00655700(out + 1, 0x13, r->m_bfmeText);
 		return 1;
 	}
-	bfmeGetLogUVB()->bfmeWarnUVB((char *)"false", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\util.cpp", 0x2e);
+	((BfmeLogUVB *)Rva007EB810Get())->bfmeWarnUVB((char *)"false", (char *)"\\views\\feslbuild_main\\jabba\\fesl\\source\\util.cpp", 0x2e);
 	return 0;
 }

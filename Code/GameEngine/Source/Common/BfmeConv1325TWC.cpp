@@ -11,7 +11,7 @@ public:
 	virtual void bfmeDropTWC(void *p, int f) = 0;
 };
 
-BfmeSinkTWC *bfmeGetTWC(void);
+class GenAlloc; GenAlloc *Gen007EFFC0();
 void bfmeFreeTWC(void *p, int n);
 
 class BfmeHeadTWC
@@ -33,7 +33,7 @@ public:
 void *BfmeThingTWC::bfmeDelTWC(unsigned char flags)
 {
 	if (m_bfmeItem)
-		bfmeGetTWC()->bfmeDropTWC(m_bfmeItem, 0);
+		((BfmeSinkTWC *)Gen007EFFC0())->bfmeDropTWC(m_bfmeItem, 0);
 	m_bfmeItem = 0;
 	m_bfme10 = 0;
 	m_bfmeHead.bfmeDtorTWC();

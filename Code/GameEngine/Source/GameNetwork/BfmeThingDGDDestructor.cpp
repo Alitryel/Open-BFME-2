@@ -120,7 +120,7 @@ public:
 	virtual void release( unsigned handle, int flag ) = 0;
 };
 
-void *bfmeGo929C( void );
+class GenAlloc; GenAlloc *Gen007EFFC0();
 
 // One 0x94-byte record of the four the holder owns at this+0x58.
 struct Rva007F6D60Child
@@ -214,7 +214,7 @@ BfmeThingDGD::~BfmeThingDGD()
 
 	if( m_2d0 != 0 )
 	{
-		((Rva007EFFC0Registry *)bfmeGo929C())->release( m_2d0, 0 );
+		((Rva007EFFC0Registry *)((void *)Gen007EFFC0()))->release( m_2d0, 0 );
 		m_2d0 = 0;
 	}
 	m_2d4 = 0;
@@ -222,7 +222,7 @@ BfmeThingDGD::~BfmeThingDGD()
 
 	if( m_2c8 != 0 )
 	{
-		((Rva007EFFC0Registry *)bfmeGo929C())->release( m_2c8, 0 );
+		((Rva007EFFC0Registry *)((void *)Gen007EFFC0()))->release( m_2c8, 0 );
 		m_2c8 = 0;
 	}
 	m_2cc = 0;
@@ -230,7 +230,7 @@ BfmeThingDGD::~BfmeThingDGD()
 
 	if( m_2c0 != 0 )
 	{
-		((Rva007EFFC0Registry *)bfmeGo929C())->release( m_2c0, 0 );
+		((Rva007EFFC0Registry *)((void *)Gen007EFFC0()))->release( m_2c0, 0 );
 		m_2c0 = 0;
 	}
 	m_2c4 = 0;

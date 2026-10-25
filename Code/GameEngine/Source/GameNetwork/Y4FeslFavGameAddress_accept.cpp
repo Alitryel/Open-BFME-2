@@ -31,9 +31,9 @@ struct Rva007E9B70Obj
 	virtual unsigned int now();
 };
 
-Rva007EFFC0Allocator *Rva007EFFC0Get();
+class GenAlloc; GenAlloc *Gen007EFFC0();
 Rva007EB810Diag *Rva007EB810Get();
-Rva007E9B70Obj *Rva007E9B70Get();
+int Rva00656B60Get();
 
 struct Rva00809500Entry
 {
@@ -61,10 +61,10 @@ struct Rva00809500Sink
 void Rva00809500Sink::accept( Rva00809500Entry *entry )
 {
 	if( m_gdatBuffer != 0 )
-		Rva007EFFC0Get()->release( m_gdatBuffer, 0 );
+		((Rva007EFFC0Allocator *)Gen007EFFC0())->release( m_gdatBuffer, 0 );
 
 	m_gdatBufferSize = entry->m_gdatBufferSize;
-	m_gdatBuffer = (char *)Rva007EFFC0Get()->allocate( m_gdatBufferSize, 0 );
+	m_gdatBuffer = (char *)((Rva007EFFC0Allocator *)Gen007EFFC0())->allocate( m_gdatBufferSize, 0 );
 	if( m_gdatBuffer == 0 )
 	{
 		Rva007EB810Get()->fail(
@@ -83,5 +83,5 @@ void Rva00809500Sink::accept( Rva00809500Entry *entry )
 	}
 	while( value != 0 );
 
-	m_gdatTimestamp = Rva007E9B70Get()->now();
+	m_gdatTimestamp = ((Rva007E9B70Obj *)Rva00656B60Get())->now();
 }

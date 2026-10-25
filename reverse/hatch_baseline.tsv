@@ -2408,7 +2408,6 @@ alternatename	Code/GameEngine/Source/Common/BfmeConv1019.cpp	_Rva007F0030	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp	?bfmeAdd1034@BfmeSubA1034@@QAEXH@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp	?bfmeFind1034@@YGPAUBfmeX1034@@HH@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1036.cpp	?bfmeStepTWA@BfmeThingTWA@@QAEXXZ	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv1037.cpp	?bfmeGetLog1037@@YAPAVBfmeLog1037@@XZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1037_bfmeGo1037F_YGXHHH_Z.cpp	?bfmeDo1037@BfmeG1037@@QAEXH_N@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1037_bfmeGo1037F_YGXHHH_Z.cpp	?bfmeFind1037F@@YGPAVBfmeG1037@@H@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1039.cpp	_bfmeVft1039C	1
@@ -2450,7 +2449,6 @@ alternatename	Code/GameEngine/Source/Common/BfmeConv1343.cpp	?g_bfmeVftUUA@@3PAP
 alternatename	Code/GameEngine/Source/Common/BfmeConv1347.cpp	?bfmeGetAUZA@BfmeSubAUZA@@QBE?AUBfmeHandleUZA@@HH@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1349.cpp	?bfmeAppendVCB@BfmeBufVCB@@QAEXPBD@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1349.cpp	?bfmeFreeVCC@@YAXPAXH@Z	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv1349.cpp	?bfmeGetVCC@@YAPAVBfmeSinkVCC@@XZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1349.cpp	?clearSlot@Rva007FA2C0@@QAEXPAX@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1369.cpp	??1Rva00801FB0Elem@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1369.cpp	?g_bfmeVftAVHW@@3PAHA	1
@@ -2668,10 +2666,8 @@ alternatename	Code/GameEngine/Source/Common/ConstGlobalGetters2.cpp	?G00E08CF0@@
 alternatename	Code/GameEngine/Source/Common/ConstGlobalGetters2.cpp	?G00E08CFC@@3HA	1
 alternatename	Code/GameEngine/Source/Common/ConstGlobalGetters2.cpp	?G00E08D08@@3HA	1
 alternatename	Code/GameEngine/Source/Common/ConstGlobalGetters2.cpp	?G00E08D24@@3HA	1
-alternatename	Code/GameEngine/Source/Common/ConstIntGetters.cpp	?Rva007E9B70Get@@YAPAURva007E9B70Obj@@XZ	1
 alternatename	Code/GameEngine/Source/Common/ConstIntGetters.cpp	?opaqueCall@Rva00507552@@SAPAXXZ	1
 alternatename	Code/GameEngine/Source/Common/ConstIntGetters.cpp	?opaqueCall@Rva005088C8@@SAPAXXZ	1
-alternatename	Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp	?Rva007E9B70Get@@YAPAURva007E9B70Obj@@XZ	1
 alternatename	Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp	?opaqueCall@Rva00507552@@SAPAXXZ	1
 alternatename	Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp	?opaqueCall@Rva005088C8@@SAPAXXZ	1
 alternatename	Code/GameEngine/Source/Common/Containers/Rva000C781ERecordGrowth.cpp	??1BfmeVectorRecord000C0BEC@@QAE@XZ	1
@@ -2927,12 +2923,6 @@ alternatename	Code/GameEngine/Source/Common/OpaqueSingleInheritanceDtors.cpp	?f2
 alternatename	Code/GameEngine/Source/Common/OpaqueSingleInheritanceDtors.cpp	?f3@MiBase3_62AF7@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/P8ZeroingCtorsInit.cpp	?Release_Ref@TaggedRefObject@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Q1ZeroingConstructors.cpp	?bfmeInit1029@BfmeSub1029@@QAEXXZ	1
-alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?Gen007E9B40@@YAPAURva007E9D70Cached@@PAURva007E9D70Owner@@@Z	1
-alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?Gen007F1C20@@YAPAURva007E9CE0Cached@@PAURva007E9CE0Owner@@@Z	1
-alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?Gen007F2150@@YAPAURva007E9DB0Cached@@PAURva007E9DB0Owner@@@Z	1
-alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?Gen007F2E60@@YAPAURva007E9DF0Cached@@PAURva007E9DF0Owner@@@Z	1
-alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?Gen007F3410@@YAPAURva007E9E30Cached@@PAURva007E9E30Owner@@@Z	1
-alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?Gen007F40F0@@YAPAURva007E9E70Cached@@PAURva007E9E70Owner@@@Z	1
 alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?primary@Rva0065E7A0Object@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?primary@Rva0065EC70Object@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp	?primary@Rva007E9B40Object@@UAEXXZ	1
@@ -3553,14 +3543,6 @@ alternatename	Code/GameEngine/Source/Common/Rva007401F6Dtor.cpp	_vtbl_00C3962C	1
 alternatename	Code/GameEngine/Source/Common/Rva00751EFDtor.cpp	??1Rva0007517F@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva00785140HandleCtor.cpp	?g_00BC940C@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/Common/Rva00789900Init.cpp	?g_Rva00789900Table@@3PAPAXA	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078EF00New@@YGPAXPAX@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078EF80New@@YGPAXPAX@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078F000New@@YGPAXPAX@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078F080New@@YGPAXPAX@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078F300New@@YGPAVRva007996A0VptrCtor@@PAX@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078F380New@@YGPAVRva00799730VptrCtor@@PAX@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078F400New@@YGPAVRva00790C40VptrCtor@@PAX@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?Rva0078F480New@@YGPAVRva00790CD0VptrCtor@@PAX@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?dispatchFactory@Rva0078F770Owner@@QAEPAVGameWindow@@PAURva0078F950Record@@PAURva0078F770Secondary@@HH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?dispatchFactory@Rva0078F830Owner@@QAEHPAURva0078F950Record@@HHH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0078F950FactoryDispatch.cpp	?flags@Rva0078F830Predicate@@QAEEXZ	1
@@ -3936,7 +3918,6 @@ alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionPre
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/WOLLoginMenu_GameSpyLoginPreferences_getPasswordForEmail.cpp	?TheEmptyString@AsciiString@@2V1@A	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBoxInit00325199.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript.cpp	_strcpy	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScriptDrawData.cpp	?scanUnsignedInt@@YAHPBDAAI@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp	??1FullFadeTransition@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GameWindow_winGetUserData.cpp	?bfmeFindBHF@BfmeSubBHF@@QAEPAUBfmeGotBHF@@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GameWindow_winGetUserData.cpp	?bfmeFindLC@BfmeKeyLC@@QAEPAUBfmeNodeLC@@XZ	1
@@ -4517,7 +4498,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/PillageModuleDataCtor.cpp	
 alternatename	Code/GameEngine/Source/GameLogic/Object/Rva000AA867ArmorFind.cpp	?find@Rva00786BD0Owner@@QAEPAXI@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Rva001E86D0.cpp	?Rva00030830FreeAllocation@@YAXPAX@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Rva001E86D0.cpp	?rvaClear@Rva001E7087@@AAEXXZ	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Rva001FA8DDParse.cpp	?Rva001FA8DDParse@@YAXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Rva00220DCDInit.cpp	?g_00DFE490@@3VRva00575674@@A	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Rva0028D8EB.cpp	?hasSpecialPower@Object@@QBE_NW4SpecialPowerType@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Rva002A7400Ctor.cpp	?g_defaultStorage009FEFA4@@3VBfmeFixedStorage0004543D@@B	1
@@ -5110,7 +5090,6 @@ alternatename	Code/GameEngine/Source/GameNetwork/ConnectionManager_processGameSp
 alternatename	Code/GameEngine/Source/GameNetwork/ConnectionManager_processGameSpyStatsAuthKey_Rva004CFE24.cpp	?setLoginName@GameSpyGameSlot@@QAEXV?$StringBase@D@@@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/ConnectionProcessAck.cpp	?processAck@Connection@@QAEPAVNetCommandRef@@PAVNetAckBothCommandMsg@@@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/ConnectionProcessAck.cpp	?processAck@Connection@@QAEPAVNetCommandRef@@PAVNetAckStage1CommandMsg@@@Z	1
-alternatename	Code/GameEngine/Source/GameNetwork/DoesCommandRequireACommandID.cpp	?CommandRequiresAck@@YAHPAVNetCommandMsg@@@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/FeslEchoNotifier.cpp	??0FeslEchoMessage@@QAE@PADH@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/FeslEchoNotifier.cpp	??1FeslEchoMessage@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/FeslEchoNotifier.cpp	?addInt@FeslEchoMessage@@QAEXPBDH@Z	1
@@ -5148,15 +5127,6 @@ alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerOperations.c	_
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerOperations.c	_piChangeNickCallbackA	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerOperations.c	_piOperationsReset	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerUserChangedNickCallback.c	_piChannelUserChangedNickA	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?Rva007EFFC0Get@@YAPAVRva007EFFC0Allocator@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeGetMgr1015@@YAPAVBfmeMgr1015@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeGetPoolVMP@@YAPAVBfmePoolVMP@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeGetTDA@@YAPAVBfmeSinkTDA@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeGetTQD@@YAPAVBfmeSinkTQD@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeGetTVC@@YAPAVBfmeSinkTVC@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeGetTWC@@YAPAVBfmeSinkTWC@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeGo929C@@YAPAXXZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Gen007EFFC0Getter.cpp	?bfmeRva0065CEA0@@YAPAVBfmeRva0065CEA0Allocator@@XZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp	?g_Va00A03354@@3PAUOuter00446A77@@A	1
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIOnGameCreate.cpp	?g_Va00E03354@@3PAURva004469D1Receiver@@A	2
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIRva00248D9D.cpp	?g_Va00A03354@@3PAUGlobalA03354@@A	1
@@ -5175,12 +5145,6 @@ alternatename	Code/GameEngine/Source/GameNetwork/Rva007EAA70Prepare.cpp	?bfmeDoE
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007EAA70Prepare.cpp	?bfmeDoECKb@BfmeHeldECKb@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007EAA70Prepare.cpp	?prepare@Rva007EAD30Owner@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007EAA70Prepare.cpp	?prepare@Rva007EADC0Owner@@QAEXXZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Rva007EB810Get.cpp	?bfmeGetLog1038@@YAPAVBfmeLog1038@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Rva007EB810Get.cpp	?bfmeGetLogUUA@@YAPAVBfmeLogUUA@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Rva007EB810Get.cpp	?bfmeGetLogUVB@@YAPAVBfmeLogUVB@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Rva007EB810Get.cpp	?bfmeGetLogVNC@@YAPAVBfmeLogVNC@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Rva007EB810Get.cpp	?bfmeLogGetESI@@YAPAVBfmeLogESI@@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/Rva007EB810Get.cpp	?bfmeReportVJO@@YAPAVBfmeRVJO@@XZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007EB810Get.cpp	?g_FeslDiagReporter@@3HA	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007EBAA0Create.cpp	?g_Va0130A5A0@@3PAXA	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva007F0080DefaultPointers.cpp	?slot@Rva007F0080Owner@@UAEXXZ	1
@@ -5684,7 +5648,6 @@ alternatename	Code/Libraries/Source/STLport/Rva008314E0StringReplace.cpp	?bfmeIm
 alternatename	Code/Libraries/Source/STLport/Rva008314E0StringReplace.cpp	?bfmeInsertV51@BfmeStrV51@@QAEXPAD0000@Z	1
 alternatename	Code/Libraries/Source/STLport/Rva008314E0StringReplace.cpp	?bfmeInsertV55@BfmeStrV55@@QAEXPAD0000@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeDX8ThreadLock.cpp	?BFME_DX8_Thread_Assert@@YAXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeDX8ThreadLock.cpp	?W3DRadarResetLock@@YAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?clear@HAnimPrototypeOwner@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?clear@HTreePrototypeOwner@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/BfmeResetTextureRefClear.cpp	?clear@Rva00180023@@QAEXXZ	1

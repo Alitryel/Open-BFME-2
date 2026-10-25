@@ -71,7 +71,7 @@ public:
 	virtual void release( void *block, int flags );
 };
 
-Rva007EFFC0Allocator *Rva007EFFC0Get();
+class GenAlloc; GenAlloc *Gen007EFFC0();
 
 class Gen00809750
 {
@@ -117,7 +117,7 @@ Rva00808920LanGame::~Rva00808920LanGame()
 		m_players[ index ] = 0;
 	}
 
-	Rva007EFFC0Get()->release( m_players, 0 );
+	((Rva007EFFC0Allocator *)Gen007EFFC0())->release( m_players, 0 );
 	m_players = 0;
 }
 
@@ -237,7 +237,7 @@ void BfmeSinkTCA::bfmeUseTCA( void *value )
 	if ( current != 0 )
 	{
 		if ( current->m_field14 != 0 )
-			Rva007EFFC0Get()->release( (void *)current->m_field14, 0 );
+			((Rva007EFFC0Allocator *)Gen007EFFC0())->release( (void *)current->m_field14, 0 );
 		current->m_field14 = 0;
 		current->m_field10 = 0;
 		current->Rva007E86B0Base::~Rva007E86B0Base();

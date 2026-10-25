@@ -29,7 +29,7 @@ public:
 	virtual void bfmeFree1015(int h, int f);
 };
 
-BfmeMgr1015 *bfmeGetMgr1015(void);
+class GenAlloc; GenAlloc *Gen007EFFC0();
 
 class BfmeL1015
 {
@@ -46,7 +46,7 @@ public:
 void BfmeL1015::bfmeGo1015L(void)
 {
 	if (m_bfmeH != 0)
-		bfmeGetMgr1015()->bfmeFree1015(m_bfmeH, 0);
+		((BfmeMgr1015 *)Gen007EFFC0())->bfmeFree1015(m_bfmeH, 0);
 
 	m_bfmeH = 0;
 	m_bfmeCount = 0;
