@@ -138,7 +138,7 @@ class RenderObjClass {public:
  void Release_Ref(){if(--refs==0)Delete_This();}
 };
 RenderObjClass *Create_Render_Obj(const char *);
-__forceinline Coord3D shrubPosition(const Vector3 &p) { Coord3D r; r.x=p.X;r.y=p.Y;r.z=p.Z;return r; }
+__forceinline Coord3D shrubPosition(const Vector3 &position) { Coord3D pos; pos.x=position.X;pos.y=position.Y;pos.z=position.Z;return pos; }
 class Rva000E771B {public:Rva000E771B();char body[0xA0];};
 struct Rva000E73FC {Rva000E73FC(const Rva000E73FC &) throw();char body[0xA0];};
 
