@@ -55,7 +55,8 @@ class FakeUser:
 
 class FakeKernel:
     def __init__(self, clock, events, *, fail_continue=False, fail_close=None,
-                 wait_error=False, fail_terminate=False, wait_result=0, emit_exit=True):
+                 wait_error=False, fail_terminate=False, wait_result=0, game_wait_result=0,
+                 fail_duplicate=False, emit_exit=True):
         self.clock = clock
         self.events = list(events)
         self.fail_continue = fail_continue
@@ -63,6 +64,8 @@ class FakeKernel:
         self.wait_error = wait_error
         self.fail_terminate = fail_terminate
         self.wait_result = wait_result
+        self.game_wait_result = game_wait_result
+        self.fail_duplicate = fail_duplicate
         self.emit_exit = emit_exit
         self.last_error = 0
         self.delivered = []
@@ -70,6 +73,7 @@ class FakeKernel:
         self.closed = []
         self.terminated = []
         self.waited = []
+        self.duplicated = []
         self.calls = []
         self.QueryFullProcessImageNameW = lambda *args: self.query_image(*args)
 
@@ -86,9 +90,23 @@ class FakeKernel:
         return 1
 
     def query_image(self, handle, flags, buffer, count):
-        assert handle == 21
+        assert handle in (21, 23)
         buffer.value = "game.dat"
         count._obj.value = len(buffer.value)
+        return 1
+
+    def GetCurrentProcess(self):
+        return ctypes.c_void_p(-1).value
+
+    def DuplicateHandle(self, source_process, source_handle, target_process, target_handle,
+                        access, inherit, options):
+        assert source_process == target_process == ctypes.c_void_p(-1).value
+        assert (access, inherit, options) == (0, False, 0x2)
+        self.duplicated.append(source_handle.value)
+        if self.fail_duplicate:
+            self.last_error = 6
+            return 0
+        target_handle._obj.value = 41
         return 1
 
     def WaitForDebugEvent(self, output, milliseconds):
@@ -124,28 +142,31 @@ class FakeKernel:
         if self.fail_terminate and value == 11:
             self.last_error = 5
             return 0
-        pid, tid = (100, 101) if value == 11 else (200, 201)
+        pid, tid = {11: (100, 101), 21: (200, 201), 23: (300, 301)}[value]
         if self.emit_exit:
             self.events.append(debug_event(runner.EXIT_PROCESS, pid=pid, tid=tid, exit_code=1))
         return 1
 
     def WaitForSingleObject(self, handle, milliseconds):
         self.waited.append((handle.value, milliseconds))
-        return self.wait_result
+        self.calls.append(("wait", handle.value))
+        return self.game_wait_result if handle.value == 41 else self.wait_result
 
 
 class RunnerDebugTests(unittest.TestCase):
     def test_kernel_bindings_use_checked_return_types(self):
         exports = type("Exports", (), {})()
         for name in ("WaitForDebugEvent", "ContinueDebugEvent", "CloseHandle",
-                     "TerminateProcess", "WaitForSingleObject", "CreateProcessW"):
+                     "TerminateProcess", "WaitForSingleObject", "CreateProcessW",
+                     "GetCurrentProcess", "DuplicateHandle"):
             setattr(exports, name, lambda *args: 1)
         with mock.patch.object(runner.ctypes, "WinDLL", return_value=exports, create=True):
             kernel = runner.k32()
         for name in ("WaitForDebugEvent", "ContinueDebugEvent", "CloseHandle",
-                     "TerminateProcess", "CreateProcessW"):
+                     "TerminateProcess", "CreateProcessW", "DuplicateHandle"):
             self.assertIs(getattr(kernel, name).restype, runner.wt.BOOL)
         self.assertIs(kernel.WaitForSingleObject.restype, runner.wt.DWORD)
+        self.assertIs(kernel.GetCurrentProcess.restype, runner.wt.HANDLE)
 
     def run_case(self, events, **failures):
         clock = FakeClock()
@@ -172,7 +193,52 @@ class RunnerDebugTests(unittest.TestCase):
         self.assertEqual(kernel.terminated, [11])
         self.assertEqual(result["cleanup"]["exit_events"], [100])
         self.assertEqual(kernel.closed.count(31), 1)
+        self.assertEqual(kernel.duplicated, [21])
+        self.assertEqual([handle for handle, _ in kernel.waited], [11, 41])
+        self.assertLessEqual(kernel.waited[1][1], 5000)
+        self.assertGreater(kernel.calls.index(("wait", 41)), kernel.calls.index(("continue", 200), 1))
+        self.assertEqual(kernel.closed.count(41), 1)
+        self.assertIn("game-process", result["cleanup"]["close"])
         self.assertEqual(result["debugger_errors"], [])
+
+    def test_failed_game_handle_duplication_refuses_exit(self):
+        kernel, result = self.run_case([debug_event(3), debug_event(5, exit_code=0)],
+                                       fail_duplicate=True)
+        self.assertEqual(result["outcome"], "debugger-error")
+        self.assertEqual(kernel.duplicated, [21])
+        self.assertEqual([handle for handle, _ in kernel.waited], [11])
+        self.assertNotIn(41, kernel.closed)
+        self.assertIn({"operation": "DuplicateHandle:game-process", "error": 6},
+                      result["debugger_errors"])
+
+    def test_unsignaled_game_process_refuses_exit(self):
+        kernel, result = self.run_case([debug_event(3), debug_event(5, exit_code=0)],
+                                       game_wait_result=258)
+        self.assertEqual(result["outcome"], "debugger-error")
+        self.assertEqual([handle for handle, _ in kernel.waited], [11, 41])
+        self.assertIn({"operation": "WaitForSingleObject:200", "error": 258},
+                      result["debugger_errors"])
+        self.assertEqual(kernel.closed.count(41), 1)
+
+    def test_failed_game_handle_close_is_uncertain_without_retry(self):
+        kernel, result = self.run_case([debug_event(3), debug_event(5, exit_code=0)],
+                                       fail_close=41)
+        self.assertEqual(result["outcome"], "debugger-error")
+        self.assertEqual(kernel.closed.count(41), 1)
+        self.assertNotIn("game-process", result["cleanup"]["close"])
+        self.assertIn({"label": "game-process", "handle": 41},
+                      result["cleanup"]["uncertain_handles"])
+        self.assertIn({"operation": "CloseHandle:game-process", "error": 6},
+                      result["debugger_errors"])
+
+    def test_second_game_create_refuses_replacing_owned_handle(self):
+        kernel, result = self.run_case([debug_event(3),
+                                        debug_event(3, pid=300, tid=301, process_handle=23)])
+        self.assertEqual(result["outcome"], "debugger-error")
+        self.assertEqual(kernel.duplicated, [21])
+        self.assertEqual(kernel.closed.count(41), 1)
+        self.assertIn({"operation": "CREATE_PROCESS:multiple-game", "error": 300},
+                      result["debugger_errors"])
 
     def test_failed_exit_continuation_refuses_natural_exit_without_retry(self):
         kernel, result = self.run_case([debug_event(3), debug_event(5, exit_code=0)],

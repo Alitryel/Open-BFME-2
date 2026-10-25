@@ -145,6 +145,11 @@ class PROCESS_INFORMATION(ctypes.Structure):
 
 def k32():
     k = ctypes.WinDLL("kernel32", use_last_error=True)
+    k.GetCurrentProcess.argtypes = []
+    k.GetCurrentProcess.restype = wt.HANDLE
+    k.DuplicateHandle.argtypes = [wt.HANDLE, wt.HANDLE, wt.HANDLE, ctypes.POINTER(wt.HANDLE),
+                                  wt.DWORD, wt.BOOL, wt.DWORD]
+    k.DuplicateHandle.restype = wt.BOOL
     k.WaitForDebugEvent.argtypes = [ctypes.c_void_p, wt.DWORD]
     k.WaitForDebugEvent.restype = wt.BOOL
     k.ContinueDebugEvent.argtypes = [wt.DWORD, wt.DWORD, wt.DWORD]
@@ -526,6 +531,7 @@ def run(launcher, game_dir, args, timeout, version_lie=True, probes=(), focus_rv
     armed, focus, stepping = {}, {}, {}
     exited, termination_requested = set(), set()
     continuation_failed = False
+    game_handle = None
 
     def debugger_error(operation, error):
         res["debugger_errors"].append({"operation": operation, "error": error})
@@ -578,7 +584,17 @@ def run(launcher, game_dir, args, timeout, version_lie=True, probes=(), focus_rv
                     res["main_thread"] = int.from_bytes(ev.raw[32:40], "little")
                 res["processes"].append(Path(buf.value).name)
                 if Path(buf.value).name.lower() == "game.dat":
-                    res.update(pid=pid, image_base=procs[pid][2], started=round(time.time() - t0, 1))
+                    if "pid" in res:
+                        debugger_error("CREATE_PROCESS:multiple-game", pid)
+                    else:
+                        res.update(pid=pid, image_base=procs[pid][2], started=round(time.time() - t0, 1))
+                        duplicated = wt.HANDLE()
+                        current = k.GetCurrentProcess()
+                        if not k.DuplicateHandle(current, wt.HANDLE(h), current, ctypes.byref(duplicated),
+                                                 0, False, 0x2) or not duplicated.value:
+                            debugger_error("DuplicateHandle:game-process", ctypes.get_last_error())
+                        else:
+                            game_handle = duplicated.value
             elif code == LOAD_DLL:
                 h = int.from_bytes(ev.raw[16:24], "little")
                 close_handle(h, f"load-dll:{pid}")
@@ -711,6 +727,18 @@ def run(launcher, game_dir, args, timeout, version_lie=True, probes=(), focus_rv
         res["cleanup"]["wait"].append({"pid": pi.pid, "result": result})
         if result != 0:
             debugger_error(f"WaitForSingleObject:{pi.pid}", ctypes.get_last_error() if result == 0xFFFFFFFF else result)
+        if game_handle is not None:
+            remaining = max(0, int((deadline - time.monotonic()) * 1000))
+            result = k.WaitForSingleObject(wt.HANDLE(game_handle), remaining)
+            res["cleanup"]["wait"].append({"pid": res["pid"], "result": result})
+            if result != 0:
+                debugger_error(f"WaitForSingleObject:{res['pid']}",
+                               ctypes.get_last_error() if result == 0xFFFFFFFF else result)
+            if not k.CloseHandle(wt.HANDLE(game_handle)):
+                res["cleanup"]["uncertain_handles"].append({"label": "game-process", "handle": game_handle})
+                debugger_error("CloseHandle:game-process", ctypes.get_last_error())
+            else:
+                res["cleanup"]["close"].append("game-process")
         for label, handle in (("pi-thread", pi.hThread), ("pi-process", pi.hProcess)):
             if not k.CloseHandle(handle):
                 res["cleanup"]["uncertain_handles"].append({"label": label, "handle": handle})
