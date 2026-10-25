@@ -35,6 +35,8 @@ public:
  EAStringC &rva006D61E0(int);
  EAStringC &Rva006D4F00Append(const EAStringC &);
  EAStringC &operator=(const EAStringC &);
+ const char *rva00620090() const;
+ int rva006d6070(const char *,int);
 private:StringDataC *data;
 };
 
