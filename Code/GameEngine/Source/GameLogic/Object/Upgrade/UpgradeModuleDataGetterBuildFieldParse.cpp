@@ -169,12 +169,6 @@ static BaselineFieldParse s_commandSetTable[2] = {
 	{ 0, 0, 0, 0 }
 };
 
-// Radar 0x00C578D0 32B: DisableProof@0x118 via rowed parseBool 0x2E850.
-static BaselineFieldParse s_radarTable[2] = {
-	{ "DisableProof", &INI::parseBool, 0, 0x118 },
-	{ 0, 0, 0, 0 }
-};
-
 static const FieldParse s_statusBitsTable;
 
 // AttributeModifier 0x00C58818 32B: AttributeModifier@0x118 via rowed 0x2F11E.
@@ -227,13 +221,6 @@ void CommandSetUpgradeModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	parse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
 	parse.add(reinterpret_cast<const FieldParse *>(&s_commandSetTable), 0);
-}
-
-// ?buildFieldParse@RadarUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z
-void RadarUpgradeModuleData::buildFieldParse(MultiIniFieldParse &parse)
-{
-	parse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	parse.add(reinterpret_cast<const FieldParse *>(&s_radarTable), 0);
 }
 
 // ?buildFieldParse@StatusBitsUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z
