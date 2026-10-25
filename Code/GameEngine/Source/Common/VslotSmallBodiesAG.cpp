@@ -261,10 +261,6 @@ class Rva00466E0A : public Rva00251C24Primary<28, 0x34>, public Rva00251C24Iface
 public:
 	void forward();
 };
-void Rva00466E0A::forward()
-{
-	target();
-}
 class Rva004BC51B : public Rva00251C24Primary<13, 0x10>, public Rva00251C24Iface
 {
 public:
