@@ -108,6 +108,12 @@ private:
 	float m_minY;
 private:
 	float m_maxY;
+private:
+	unsigned char m_pad74[0x104 - 0x74];
+public:
+	unsigned char m_visible;
+private:
+	unsigned char m_pad105[0x114 - 0x105];
 protected:
 	int getModelIndices(unsigned short *, int, int, MeshClass *);
 };

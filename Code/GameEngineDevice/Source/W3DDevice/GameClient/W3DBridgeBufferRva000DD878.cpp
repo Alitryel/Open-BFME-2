@@ -22,24 +22,24 @@ private:
 	void *m_vertexBridge;
 	void *m_indexBridge;
 	int m_08;
-	int m_curNumBridgeIndices;
+	int m_c;
 	W3DBridge m_bridges[200];
 	int m_numBridges;
 	unsigned char m_padD7B4;
-	unsigned char m_flagD7B5;
-	unsigned char m_flagD7B6;
+	unsigned char m_d7b5;
+	unsigned char m_d7b6;
 	unsigned char m_padTail[0xD7C0 - 0xD7B7];
 };
 
 void W3DBridgeBuffer::rva000DD878(int dummy)
 {
 	(void)dummy;
-	m_flagD7B6 = m_flagD7B5;
+	m_d7b6 = m_d7b5;
 	for (Int i = 0; i < m_numBridges; ++i)
 	{
 		unsigned char cur = m_bridges[i].m_visible;
 		m_bridges[i].m_visible = 1;
 		if (cur != 1)
-			m_flagD7B6 = 1;
+			m_d7b6 = 1;
 	}
 }
