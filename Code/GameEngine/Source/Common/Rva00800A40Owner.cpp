@@ -19,7 +19,7 @@ struct Rva00800A40Target
 	virtual void send(int code, int value);
 };
 
-struct Rva00800A40Diag
+struct AssertHandler
 {
 	virtual void v00();
 	virtual void v04();
@@ -72,7 +72,7 @@ int Rva00800920Owner::rva00800a40(
 
 	InternetAddress &record = *(InternetAddress *)input;
 	if (record.m_04 != 0)
-		reinterpret_cast<Rva00800A40Diag *>(Rva007EB810Get())->fail(
+		reinterpret_cast<AssertHandler *>(Rva007EB810Get())->fail(
 			"addr->GetType() == AddressInternet", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp", 0x4d);
 
 	int index;
@@ -93,7 +93,7 @@ int Rva00800920Owner::rva00800a40(
 	check_slot:
 	if (slot == 0)
 	{
-		reinterpret_cast<Rva00800A40Diag *>(Rva007EB810Get())->fail(
+		reinterpret_cast<AssertHandler *>(Rva007EB810Get())->fail(
 			"false", "\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp", 0x54);
 		m_0c->send(-0x65, value);
 	}
@@ -124,7 +124,7 @@ void Rva00800920Owner::releaseProbe(ProbeSlot *slot)
 	slot->m_08 = 0;
 	--m_numProbes;
 	if (m_numProbes < 0)
-		reinterpret_cast<Rva00800A40Diag *>(Rva007EB810Get())->fail(
+		reinterpret_cast<AssertHandler *>(Rva007EB810Get())->fail(
 			"mNumProbes >= 0",
 			"\\views\\feslbuild_main\\jabba\\fesl\\source\\gamebrowser\\gamebrowserdemangler.cpp",
 			0x147);
