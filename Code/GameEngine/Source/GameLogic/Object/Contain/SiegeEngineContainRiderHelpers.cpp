@@ -3,7 +3,21 @@
 // ?removeAllContained@Rva0047BDED@@QAEX_N@Z @0x0047BDED 54B: drain the contained list, calling
 // virtual slot 41 on each non-null node value with the flag, then removeAllContained.
 #include <list>
-class OpenContain {public: virtual void removeAllContained(bool);};
+class ModuleData;
+class Object;
+// OpenContain as HordeSiegeEngineContain.cpp declares it (qualified-call
+// virtuals only; slot order not asserted).
+class OpenContain
+{
+public:
+	virtual void onDelete();
+	virtual void removeAllContained(bool exposeStealthUnits);
+
+protected:
+	const ModuleData *m_moduleData;
+	Object *m_object;
+	unsigned char m_padding0C[0x100 - 0x0C];
+};
 class Rva0047BDED;
 struct Rva0047BDEDNode
 {
