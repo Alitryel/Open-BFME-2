@@ -6353,3 +6353,15 @@ Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|local|Rva008063B0
 Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|class||Rva008063B0Slot,2d8dc0309d34dd6435607a28,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035b,w-8c1b65ac9525,2026-10-25
 Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|class||Rva008063B0Owner,55e96c499bb8b2d00f70cf54,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035b,w-8c1b65ac9525,2026-10-25
 Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp|local|Rva008063B0Owner::addSlot|s,77bac0445e862a441ae38869,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p035b,w-8c1b65ac9525,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|class||BfmeMsgVJF,b2f80278e1e713150374b57b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039a,w-8158d4f57834,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|class||BfmePairVJF,bd755486aaff1e3bf7c5f257,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039a,w-8158d4f57834,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmeMsgVJF|m_bfme1c,64aa3ab67ff8aa4b36a9a48a,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039a,w-8158d4f57834,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmePairVJF|m_bfme00,e2f60fd3c465f4bbef56b0f1,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039a,w-8158d4f57834,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmePairVJF|m_bfme04,0a59fbadfd602a66739c0fc9,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039a,w-8158d4f57834,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|local|bfmeGoVJF|g,89dc2afb7069d404ecc603db,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039a,w-8158d4f57834,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|class||BfmeMsgVJF,b2f80278e1e713150374b57b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|class||BfmePairVJF,bd755486aaff1e3bf7c5f257,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmeMsgVJF|m_bfme1c,64aa3ab67ff8aa4b36a9a48a,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmePairVJF|m_bfme00,e2f60fd3c465f4bbef56b0f1,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|member|BfmePairVJF|m_bfme04,0a59fbadfd602a66739c0fc9,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1384.cpp|local|bfmeGoVJF|g,89dc2afb7069d404ecc603db,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p039b,w-1c9ec95ad089,2026-10-25

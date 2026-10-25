@@ -27,10 +27,10 @@ void * g_bfmeVJF;
 void __stdcall bfmeGoVJF(BfmeMsgVJF *m, BfmePairVJF *arr, int n)
 {
 	char buf[0x10];
-	void *g = g_bfmeVJF;
+	void *txn = g_bfmeVJF;
 	m->bfmeRunVJF();
 	m->m_bfme1c = 0x6664626b;
-	m->bfmeSetVJF("TXN", g);
+	m->bfmeSetVJF("TXN", txn);
 	for (int i = 0; i < n; ++i)
 	{
 		sprintf(buf, "users.%d", i);
