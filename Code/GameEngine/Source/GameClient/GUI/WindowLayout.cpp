@@ -24,6 +24,8 @@ public:
 	virtual void rva00538AB0(bool flag);
 	virtual void slot5();
 	virtual void add(void *payload);
+	virtual void slot7(GameWindow *w);
+	virtual void rva00538ADC();
 
 private:
 	void *m_04;

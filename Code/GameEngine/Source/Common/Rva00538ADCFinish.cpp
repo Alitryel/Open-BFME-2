@@ -20,7 +20,7 @@
 class GameWindow
 {
 public:
-	int dummy;
+	int winHide(bool hide);
 };
 
 class GameWindowManager
@@ -73,9 +73,9 @@ public:
 	virtual void slot1();
 	virtual void slot2();
 	virtual void slot3();
-	virtual void slot4(bool flag);
+	virtual void rva00538AB0(bool flag);
 	virtual void slot5();
-	virtual void slot6(void *p);
+	virtual void add(void *payload);
 	virtual void slot7(GameWindow *w);
 	virtual void rva00538ADC();
 
