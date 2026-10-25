@@ -14,6 +14,8 @@
 // the block copy, and the copy constructor's `other` pointer is then spilled
 // to esi for the trailing +0x20 byte -- exactly retail's ebx+ebp+esi+edi frame.
 // Element identity is not recovered; the address-derived name is retained.
+#include <new>
+
 struct Rva00161050Block16
 {
 	int m_words[4];
@@ -59,7 +61,6 @@ __forceinline Rva00161050::Rva00161050(const Rva00161050 &other)
 // The null guard and inlined copy constructor reproduce the consumed layout
 // of the adjacent 77-byte constructor above; the original element identity
 // remains unknown. Force inlining retains its standalone byte-exact copy.
-inline void *operator new(unsigned int, void *storage) { return storage; }
 struct Elem36;
 
 namespace _STL {
