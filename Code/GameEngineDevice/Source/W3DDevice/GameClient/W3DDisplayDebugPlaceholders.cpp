@@ -89,7 +89,7 @@ class W3DDisplay
 public:
     void rva0004387E();
     void rva000438CB();
-    void rva00043BF9();
+    void drawAnimStats();
     void drawSkirmishAIStats();
 protected:
     void drawCurrentDebugDisplay();
@@ -117,7 +117,7 @@ void W3DDisplay::drawCurrentDebugDisplay()
     if (m_debugDisplayCallback == AnimDebugDisplay)
     {
         reinterpret_cast<unsigned char *>(TheGlobalData)[0xbb4] = 0;
-        rva00043BF9();
+        drawAnimStats();
         return;
     }
     if (m_debugDisplayCallback == NetworkDebugDisplay)

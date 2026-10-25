@@ -112,20 +112,20 @@ extern ThingFactory *TheThingFactory;
 class Rva001E30F5
 {
 public:
-	void rva001E30F5(Int assets, Int b);
+	void rva001E30F5(Int assets, Int context);
 private:
 	char m_pad00[0x14C];
 	bool m_isComplexBuff;
 	char m_pad14D[0x07];
 	Int m_templateName;
 };
-void Rva001E30F5::rva001E30F5(Int assets, Int b)
+void Rva001E30F5::rva001E30F5(Int assets, Int context)
 {
 	if (!m_isComplexBuff)
 	{
 		const ThingTemplate *thingTemplate = TheThingFactory->findTemplate(*(const AsciiString *)&m_templateName);
 		if (thingTemplate)
-			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(assets, b);
+			const_cast<ThingTemplate *>(thingTemplate)->GetAssetList(assets, context);
 	}
 }
 
@@ -190,20 +190,20 @@ struct Rva002616D1Arg
 class Rva002616D1
 {
 public:
-	bool rva002616D1(const Rva002616D1Arg *arg) const;
-	Int rva002616EB(const Rva002616D1Arg *arg) const;
+	bool allow(const Rva002616D1Arg *arg) const;
+	Int rva002616EB(const Rva002616D1Arg *otherObject) const;
 private:
 	char m_pad00[0x08];
 	char m_08[0x10];
 	char m_18[0x10];
 };
-bool Rva002616D1::rva002616D1(const Rva002616D1Arg *arg) const
+bool Rva002616D1::allow(const Rva002616D1Arg *arg) const
 {
 	return arg->m_status.testMasks(m_08, m_18);
 }
-Int Rva002616D1::rva002616EB(const Rva002616D1Arg *arg) const
+Int Rva002616D1::rva002616EB(const Rva002616D1Arg *otherObject) const
 {
-	return !arg->m_status.testMasks(m_08, m_18);
+	return !otherObject->m_status.testMasks(m_08, m_18);
 }
 
 // 0x00131C63 (texture tables beside 0x00131CA5): a new 0x58-byte surface at

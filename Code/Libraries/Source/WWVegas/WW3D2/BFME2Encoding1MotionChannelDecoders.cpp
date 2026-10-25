@@ -63,7 +63,7 @@ void BFME2Encoding1MotionChannel::rva001B230A(unsigned int *state, unsigned int 
         from &= ~0xFu;
         for (int vi = 0; vi < 3; ++vi, packet += 9) {
             float filter = filtertable[*packet] * Scale;
-            unsigned char *p = packet + 1 + (fi0 >> 1);
+            unsigned char *deltaData = packet + 1 + (fi0 >> 1);
             for (unsigned int fi = fi0; fi < 16; ++fi) {
                 unsigned int f = from + fi;
                 if (f == frame)
@@ -73,8 +73,8 @@ void BFME2Encoding1MotionChannel::rva001B230A(unsigned int *state, unsigned int 
                     break;
                 }
                 int bit = fi & 1;
-                int factor = bit ? (signed char)*p >> 4 : (signed char)(*p << 4) >> 4;
-                p += bit;
+                int factor = bit ? (signed char)*deltaData >> 4 : (signed char)(*deltaData << 4) >> 4;
+                deltaData += bit;
                 ((float *)&last)[vi] += (float)factor * filter;
             }
         }

@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00043BF9@W3DDisplay@@QAEXXZ, retail 0x00043BF9, 240 bytes.
+// ?drawAnimStats@W3DDisplay@@QAEXXZ, retail 0x00043BF9, 240 bytes.
 // W3DDisplay per-line color pass over the 25 debug strings at +0x1D0: each
 // present line gets a severity color picked by its index (sparse switch with
 // shared arms; other indices keep the running color, initially -1), then
@@ -32,7 +32,7 @@ public:
 class W3DDisplay
 {
 public:
-	void rva00043BF9(void);
+	void drawAnimStats(void);
 
 private:
 	unsigned char m_pad0[0x18c];
@@ -41,7 +41,7 @@ private:
 	BfmeDrawString006e *m_lines25[25];
 };
 
-void W3DDisplay::rva00043BF9(void)
+void W3DDisplay::drawAnimStats(void)
 {
 	int color = -1;
 	int acc = 3;

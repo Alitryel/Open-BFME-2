@@ -2283,3 +2283,11 @@ function,?bfmeAddFN@BfmeHostFN@@QAEHPBD0@Z,?appendText@BfmeHostFN@@QAEHPBD0@Z,in
 carry,BfmeHostFN::bfmeAddFN::buffer,BfmeHostFN::appendText::buffer,inferred,scope renamed by Rename bfmeAddFN to appendText (inferred),Code/GameEngine/Source/Common/BfmeConv2048.cpp,0x0066DC40
 param,ArmySummary::rva0040CA3A::x,ArmySummary::rva0040CA3A::delaySeconds,inferred,agree:nl-0c6e450bc41a,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,0x0040CA3A
 member,Rva00524B7A::m_0C,Rva00524B7A::m_videoStream,inferred,agree:nl-909d5144ca10,Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp,
+param,BfmeSubmitter1283::bfmeSubmitColors1283::a6,BfmeSubmitter1283::bfmeSubmitColors1283::replace,inferred,agree:nl-fc2fb1aff5e7,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
+param,Rva001E30F5::rva001E30F5::b,Rva001E30F5::rva001E30F5::context,inferred,agree:nl-48f6f24846df,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,0x001E30F5
+param,Rva002616D1::rva002616EB::arg,Rva002616D1::rva002616EB::otherObject,inferred,agree:nl-33b4e1fae022,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,0x002616EB
+function,?rva002616D1@Rva002616D1@@QBE_NPBURva002616D1Arg@@@Z,?allow@Rva002616D1@@QBE_NPBURva002616D1Arg@@@Z,inferred,agree:nl-28319102312f,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,0x002616D1
+function,?rva00043BF9@W3DDisplay@@QAEXXZ,?drawAnimStats@W3DDisplay@@QAEXXZ,inferred,agree:nl-8cbf2b088ff6,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9
+carry,W3DDisplay::rva00043BF9::width,W3DDisplay::drawAnimStats::width,inferred,scope renamed by Rename rva00043BF9 to drawAnimStats (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9
+carry,W3DDisplay::rva00043BF9::height,W3DDisplay::drawAnimStats::height,inferred,scope renamed by Rename rva00043BF9 to drawAnimStats (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9
+local,BFME2Encoding1MotionChannel::rva001B230A::p,BFME2Encoding1MotionChannel::rva001B230A::deltaData,inferred,agree:nl-db37459ecac7,Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp,0x001B230A

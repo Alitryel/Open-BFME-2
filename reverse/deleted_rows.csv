@@ -2622,3 +2622,5 @@ __ehhandler$??0Rva0055BCF1@@QAE@IPBURva0055BCF1Src@@@Z,0x007997FA,"Renamed to __
 __ehhandler$??1SpecialPowerModule@@MAE@XZ,0x0078CE1C,"Respelled back to the public __ehhandler$??1SpecialPowerModule@@UAE@XZ: the Zero Hour special-power ports bind the public SpecialPowerModule dtor since bcac7d81eb; the protected spelling from 83b2c3fa65 left 15 consumers unresolved (census at f995f30157)"
 ?rva0040B0D0@Rva0040B0D0@@QAE_NPBX@Z,0x0040B0D0,"Renamed to ?isContributor@Rva0040B0D0@@QAE_NPBX@Z by tools/rename.py (inferred)"
 ?bfmeAddFN@BfmeHostFN@@QAEHPBD0@Z,0x0066DC40,"Renamed to ?appendText@BfmeHostFN@@QAEHPBD0@Z by tools/rename.py (inferred)"
+?rva002616D1@Rva002616D1@@QBE_NPBURva002616D1Arg@@@Z,0x002616D1,"Renamed to ?allow@Rva002616D1@@QBE_NPBURva002616D1Arg@@@Z by tools/rename.py (inferred)"
+?rva00043BF9@W3DDisplay@@QAEXXZ,0x00043BF9,"Renamed to ?drawAnimStats@W3DDisplay@@QAEXXZ by tools/rename.py (inferred)"
