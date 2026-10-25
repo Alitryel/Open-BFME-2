@@ -29,6 +29,7 @@ public:
  };
  EAStringC(unsigned int);
  EAStringC(const char *);
+ EAStringC(const EAStringC &);
  EAStringC();
  ~EAStringC();
  EAStringC &clear();
@@ -40,6 +41,8 @@ public:
  unsigned int rva006D3750() const;
  int rva006D5EC0();
  bool rva006D3510(const char *) const;
+ int Find(const char *,int);
+ EAStringC &Append(const char *const,unsigned int);
 private:StringDataC *data;
 };
 

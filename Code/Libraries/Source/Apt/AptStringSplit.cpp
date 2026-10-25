@@ -36,6 +36,7 @@ public:
 	int Find(const char *text, int start);
 	EAStringC &Append(const char *const text, unsigned int length);
 };
+struct ScopedStringText {unsigned char prefix[8];EAStringC text;};
 extern EAStringC::StringDataC g_eaEmptyStringData;
 __declspec(noinline) inline EAStringC::EAStringC()
 {
@@ -48,8 +49,6 @@ class BfmeAptValue006DCD20
 public:
 	int toInteger() const;
 	BfmeAptValue006DCD20 *checkedString();		// the AptString this value is
-	unsigned char m_pad00[8];
-	EAStringC m_text;				// +0x08
 };
 
 class AptBasePtrStack { public: BfmeAptValue006DCD20 *At(int index); };
@@ -60,8 +59,6 @@ class AptString
 {
 public:
 	static AptString *Create();
-	unsigned char m_pad00[8];
-	EAStringC m_text;				// +0x08
 };
 
 const char *rva006d4280(const char *text, int *codepoint);	// decodes one character
@@ -96,7 +93,7 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 		aptValue->toString(delimiter);
 		if (argc >= 2)
 			limit = g_aptDateInterpreter.stack.At(1)->toInteger();
-		EAStringC source(self->checkedString()->m_text);
+		EAStringC source(reinterpret_cast<ScopedStringText *>(self->checkedString())->text);
 		int delimiterLength = delimiter.rva006D3750();
 		if (delimiterLength == 0)
 		{
@@ -128,14 +125,14 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 					EAStringC rest;
 					if (position != -1)
 						rest.Append(source.rva00620090() + position, -1 - position);
-					piece->m_text = rest;
+					reinterpret_cast<ScopedStringText *>(piece)->text = rest;
 					result->set(i, (AptValue *)piece);
 					break;
 				}
 				AptString *piece=AptString::Create();
 				EAStringC part;
 				part.Append(text + position, found - position);
-				piece->m_text = part;
+				reinterpret_cast<ScopedStringText *>(piece)->text = part;
 				result->set(i, (AptValue *)piece);
 				++i;
 				position = found + delimiterLength;
