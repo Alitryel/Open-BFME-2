@@ -76,3 +76,6 @@ public:
 Rva004E1B00::Rva004E1B00() {}
 
 Rva004E1B00::~Rva004E1B00() {}
+
+
+const char *Rva004E1B00::GetSnapshotName() { return "MoveArmy"; }
