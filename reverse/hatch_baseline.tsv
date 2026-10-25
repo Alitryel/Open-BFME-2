@@ -2582,6 +2582,7 @@ alternatename	Code/GameEngine/Source/Common/BfmeFormatBuffer88A640.cpp	?bfmeWrit
 alternatename	Code/GameEngine/Source/Common/BfmeGrokOdIf0.cpp	?m@Gen_0082ad50@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeMakeBZA.cpp	?bfme5MakeObj70@@YAPAUBfme5Obj70@@H@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeNodeValueEBDDestructor.cpp	??1CountUpBuffer@@QAE@XZ	1
+alternatename	Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	?_M_copy_from@?$hashtable@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@@_STL@@AAEXABV12@@Z	1	allow=15656d749914ab83177f2ef895c397a8b3f09bf4
 alternatename	Code/GameEngine/Source/Common/BfmeOneHundredEightySix.cpp	??0W3DRadarResetSurface@@QAE@PAVSurfaceResource@@@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeOneHundredEleven.cpp	?bfmeBaseUNC@BfmeThingUNC@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeOneHundredSeventyOne.cpp	_piStartedEnteringRoom	1

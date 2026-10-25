@@ -129,8 +129,11 @@ struct Rva004216D3Coord : Coord3D {
 };
 struct Rva001FDCE1Record {Rva001FDCE1Record();Rva001FDCE1Record(const Rva001FDCE1Record&);~Rva001FDCE1Record();Rva001FDCE1Record&operator=(const Rva001FDCE1Record&);char bytes[1];bool operator<(const Rva001FDCE1Record&)const;bool operator==(const Rva001FDCE1Record&)const;};
 struct Rva001FDAB0Less {bool operator()(int,int)const;};
-// The bucket copy calls _M_new_node out of line and nothing here needs the node
-// teardown; StlSweepR3Rva001FDCE1.cpp's explicit instantiation defines all three.
+// Retail calls the rowed bucket-copy helper at 0x001FDC0F. Keep this
+// private container view from emitting another copy with an undefined node
+// constructor; its declaration preserves the native member-call ABI.
+namespace _STL { template <> void hashtable<pair<const int, Rva001FDCE1Record>, int, hash<int>, _Select1st<pair<const int, Rva001FDCE1Record> >, equal_to<int>, allocator<pair<const int, Rva001FDCE1Record> > >::_M_copy_from(const hashtable &); }
+#pragma comment(linker, "/alternatename:?_M_copy_from@?$hashtable@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@@_STL@@AAEXABV12@@Z=?_M_copy_from@?$hashtable@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@@_STL@@AAEXABV12@@Z")
 namespace _STL { template <> hashtable<pair<const int, Rva001FDCE1Record>, int, hash<int>, _Select1st<pair<const int, Rva001FDCE1Record> >, equal_to<int>, allocator<pair<const int, Rva001FDCE1Record> > >::_Node *hashtable<pair<const int, Rva001FDCE1Record>, int, hash<int>, _Select1st<pair<const int, Rva001FDCE1Record> >, equal_to<int>, allocator<pair<const int, Rva001FDCE1Record> > >::_M_new_node(const pair<const int, Rva001FDCE1Record> &); }
 namespace _STL { template <> hashtable<pair<const int, Rva001FDCE1Record>, int, hash<int>, _Select1st<pair<const int, Rva001FDCE1Record> >, equal_to<int>, allocator<pair<const int, Rva001FDCE1Record> > >::~hashtable(); }
 namespace _STL { template <> void _Destroy<pair<const int, Rva001FDCE1Record> >(pair<const int, Rva001FDCE1Record> *); }
