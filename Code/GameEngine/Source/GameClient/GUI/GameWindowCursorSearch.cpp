@@ -106,32 +106,6 @@ class Rva003141BCAudioView { public:
  virtual void slot77();
  virtual const Rva003141BCMiscView *getMiscAudio();
 };
-GameWindow *GameWindow::winPointInChild(int x,int y,bool ignoreEnableCheck,bool playDisabledSound)
-{
-    Rva003141BCWindowView *self = reinterpret_cast<Rva003141BCWindowView *>(this);
-    for (Rva003141BCWindowView *child=self->m_child;child;child=child->m_next) {
-        CursorCoord origin=child->m_region.lo;
-        Rva003141BCWindowView *parent=child->m_parent;
-        while(parent) {
-            origin.x+=parent->m_region.lo.x;
-            origin.y+=parent->m_region.lo.y;
-            parent=parent->m_parent;
-        }
-        if (x>=origin.x && x<=origin.x+child->m_size.x && y>=origin.y && y<=origin.y+child->m_size.y) {
-            bool enabled=ignoreEnableCheck || BitTest(child->m_status,WIN_STATUS_ENABLED);
-            bool hidden=BitTest(child->m_status,WIN_STATUS_HIDDEN);
-            if (!hidden) {
-                if (enabled || BitTest(child->m_status,0x20000000))
-                    return reinterpret_cast<GameWindow *>(child)->winPointInChild(x,y,ignoreEnableCheck,playDisabledSound);
-                else if (playDisabledSound && TheAudio) {
-                    BfmeAudioEventPrefix136 disabledClick(reinterpret_cast<Rva003141BCAudioView *>(TheAudio)->getMiscAudio()->disabledClick,2);
-                    reinterpret_cast<Rva003141BCAudioView *>(TheAudio)->addAudioEvent(&disabledClick);
-                }
-            }
-        }
-    }
-    return this;
-}
 
 // Native2C1629-2C176C; capture/grab/modal precedence and three status passes
 // follow ZH GameWindowManager donor; manager accessed prefix only.
@@ -244,26 +218,6 @@ Rva003141BCWindowView *CursorManagerView::getWindowUnderCursor( Int x, Int y, Bo
 	}
 
 	return window;
-}
-
-Rva003141BCWindowView *Rva003141BCWindowView::rva003142E1(int x, int y, bool a3, bool a4)
-{
-	for (Rva003141BCWindowView *child = m_child; child; child = child->m_next) {
-		int ox = child->m_region.lo.x;
-		int oy = child->m_region.lo.y;
-		Rva003141BCWindowView *parent = child->m_parent;
-		while (parent) {
-			ox += parent->m_region.lo.x;
-			oy += parent->m_region.lo.y;
-			parent = parent->m_parent;
-		}
-		if (x >= ox && x <= ox + child->m_size.x && y >= oy && y <= oy + child->m_size.y) {
-			if (a3 != true || !BitTest(child->m_status, WIN_STATUS_HIDDEN)) {
-				return reinterpret_cast<Rva003141BCWindowView *>(reinterpret_cast<GameWindow *>(child)->winPointInChild(x, y, a4, false));
-			}
-		}
-	}
-	return this;
 }
 
 // BF1 9cbfb551fe GameWindowManager.cpp testGrab is a semantic guide only.
