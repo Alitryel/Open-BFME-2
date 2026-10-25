@@ -57,18 +57,14 @@ private:
 };
 
 #include "ascii_string.h"
+class Rva002E3EB8Base { public: virtual void slot()=0; };
 class PolygonTrigger;
-class PolygonNext { public: PolygonNext():next(0){} PolygonTrigger *next; };
-class PolygonSecondary {
-public:
- PolygonSecondary(){}
- virtual PolygonTrigger* secondarySlot()=0;
-};
-class PolygonTrigger : public PolygonNext, public Rva00330C50, public PolygonSecondary {
+class PolygonLink { public: PolygonLink():next(0){} PolygonTrigger *next; };
+class PolygonTrigger : public PolygonLink, public Rva00330C50, public Rva002E3EB8Base {
 public:
  PolygonTrigger(int,int);
  virtual ~PolygonTrigger();
- virtual PolygonTrigger* secondarySlot();
+ virtual void slot() = 0;
  void rva002E36B7(int);
  AsciiString name;
  int id;
