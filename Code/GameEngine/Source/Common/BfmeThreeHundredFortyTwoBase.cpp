@@ -6,16 +6,19 @@
 // BfmeThingTC::bfmeBaseTC placeholder without changing the17 native bytes.
 // This is a consumed12-byte prefix; the target owner argument to Link is
 // a different receiver view and its1DC list head is not part of this object.
-class Rva0031455E {
+class Rva0031455E
+{
 public:
- Rva0031455E();
- virtual ~Rva0031455E();
- virtual void Rva0031455ELink(Rva0031455E *);
- virtual void Rva00314581Unlink();
-private: void *next; void *window;
+    Rva0031455E();
+    virtual ~Rva0031455E();
+    virtual void Rva0031455ELink(Rva0031455E *arg);
+    virtual void Rva00314581Unlink();
+private:
+    void *m_04;
+    void *m_08;
+    char m_pad[0x1DC - 0x0C];
+    void *m_1DC;
 };
-// The destructor is rowed in GameWindow.cpp (0x003148E6); its visible body
-// here lets the deleting destructor this unit's vtable emits inline it, as
-// retail's 0x003149EA does, instead of calling it.
-inline Rva0031455E::~Rva0031455E() { Rva00314581Unlink(); }
-Rva0031455E::Rva0031455E() : next(0),window(0) {}
+// GameWindow.cpp's view of this class (it rows the destructor 0x003148E6 and
+// the deleting destructor 0x003149EA); only the constructor lives here.
+Rva0031455E::Rva0031455E() : m_04(0), m_08(0) {}
