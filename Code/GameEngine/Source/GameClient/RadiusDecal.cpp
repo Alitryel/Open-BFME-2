@@ -11,10 +11,13 @@ struct RadiusDecalShadow
 	Coord3D m_position2; // +0x14
 };
 
+class INI;
+
 class RadiusDecalTemplate
 {
 public:
 	float rva00330D3E(unsigned int index);
+	static void parseRadiusDecalTemplate(INI *ini, void *instance, void *store, const void *userData);
 private:
 	AsciiString m_name; // +0x00
 	AsciiString m_secondName; // +0x04
