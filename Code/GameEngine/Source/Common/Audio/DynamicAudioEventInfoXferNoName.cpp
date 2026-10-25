@@ -60,10 +60,10 @@ private:
 
 void WeaponTemplateSetHead::rva000B3FA5(int bit, int value)
 {
-	unsigned int m = 1u << (bit & 31);
+	unsigned int mask = 1u << (bit & 31);
 	bit >>= 5;
 	unsigned int old = m_words[bit];
-	m_words[bit] = old ^ (((0 - (unsigned)value) ^ old) & m);
+	m_words[bit] = old ^ (((0 - (unsigned)value) ^ old) & mask);
 }
 
 class Rva001D96FF {public: void rva001D96FF(int);};

@@ -33,8 +33,8 @@ public:
 	Rva002D9893 &operator=(const Rva002D9893 &other);
 
 private:
-	StringBase<char> m_04;
-	OpaqueRefElement4 m_08;
+	StringBase<char> m_filenameToLoad;
+	OpaqueRefElement4 m_eventInfo;
 	int m_0C;
 	BfmePoolRef10 m_10;
 	int m_14;
@@ -77,8 +77,8 @@ private:
 
 void Rva002D9893::rva002D9893(const Rva002D9893 &other)
 {
-	m_04.set(other.m_04);
-	m_08 = other.m_08;
+	m_filenameToLoad.set(other.m_filenameToLoad);
+	m_eventInfo = other.m_eventInfo;
 	m_0C = other.m_0C;
 	m_10 = other.m_10;
 	m_14 = other.m_14;

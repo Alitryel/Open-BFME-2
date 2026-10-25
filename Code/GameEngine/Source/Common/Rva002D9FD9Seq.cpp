@@ -90,29 +90,29 @@ extern AudioManager *TheAudio;
 class Rva002D9FD9Owner : public Rva002D9608
 {
 public:
-	void rva002D9FD9(Rva002D9FD9Arg *a);
+	void rva002D9FD9(Rva002D9FD9Arg *xfer);
 };
 
 // ?rva002D9FD9@Rva002D9FD9Owner@@QAEXPAVRva002D9FD9Arg@@@Z
-void Rva002D9FD9Owner::rva002D9FD9(Rva002D9FD9Arg *a)
+void Rva002D9FD9Owner::rva002D9FD9(Rva002D9FD9Arg *xfer)
 {
-	if (a->v003())
+	if (xfer->v003())
 		return;
-	int t;
-	((unsigned char *)&t)[0] = 1;
-	((unsigned char *)&t)[1] = 6;
-	a->v010(&t);
+	int version;
+	((unsigned char *)&version)[0] = 1;
+	((unsigned char *)&version)[1] = 6;
+	xfer->v010(&version);
 	unsigned char flag;
 	int x;
-	if (a->v002())
+	if (xfer->v002())
 		flag = rva002D9608();
-	a->v036(&flag);
+	xfer->v036(&flag);
 	x = m_0C;
-	a->v030(&x);
-	((AudioEventRTS *)this)->internalXfer((Xfer *)a, &t);
+	xfer->v030(&x);
+	((AudioEventRTS *)this)->internalXfer((Xfer *)xfer, &version);
 	if (flag == 0)
 		return;
-	if (!a->v001())
+	if (!xfer->v001())
 		return;
 	if (TheAudio == 0)
 		return;

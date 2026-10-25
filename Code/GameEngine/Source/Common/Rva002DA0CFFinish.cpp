@@ -108,8 +108,8 @@ double Rva002DA0CF::rva002DA0CF()
 {
 	switch (m_38) {
 	case 1: {
-		ClientRet40 *p = ((ClientFrameSubsystem *)TheGameClient)->s016(m_34);
-		if (p != 0 && p->m_44A == 0)
+		ClientRet40 *drawable = ((ClientFrameSubsystem *)TheGameClient)->s016(m_34);
+		if (drawable != 0 && drawable->m_44A == 0)
 			return BfmeZeroRange;
 		break;
 	}

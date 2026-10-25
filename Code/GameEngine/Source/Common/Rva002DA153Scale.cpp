@@ -90,10 +90,10 @@ float Rva002DA153::rva002DA153()
 	}
 	else
 	{
-		void *p = reinterpret_cast<ClientFrameSubsystem *>(TheGameClient)->slot40((void *)m_34);
-		if (p != 0)
+		void *drawable = reinterpret_cast<ClientFrameSubsystem *>(TheGameClient)->slot40((void *)m_34);
+		if (drawable != 0)
 		{
-			if (*(unsigned char *)((char *)p + 0x44A) == 0)
+			if (*(unsigned char *)((char *)drawable + 0x44A) == 0)
 				return 0.0f;
 		}
 	}
