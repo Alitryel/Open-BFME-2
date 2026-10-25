@@ -309,30 +309,39 @@ def test_source_lanes_partition_claims_and_exclude_dumps():
 def test_zero_hour_reference_source_is_not_authored():
     """A row compiled out of the pristine Zero Hour tree is EA's source, not ours.
 
-    The zh_sweep waves point ledger rows straight at
-    reference/CnC_Generals_Zero_Hour/... — a tree this project is forbidden to
-    modify — so nobody wrote those bytes from the disassembly. Before the lane
-    was added, 34,291 bytes of Zero Hour scored as "C++ we wrote". The headline
-    may not move either way: rebuildable() spans authored and vendored alike.
+    BFME 2 reaches that tree through its BFME 1 submodule. Cover both layouts:
+    progress compares recorded ledger paths, so the historical spelling must
+    remain vendored after the submodule moves its reference tree into inputs/.
+    Reclassifying source must not change the recovered or rebuildable totals.
     """
-    zh = "reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source/"
-    assert progress.source_lane(zh + "GameClient/GUI/ControlBar/ControlBar.cpp",
-                                "", False) == "vendored"
-    # ...and only under that root. The shims are ours, and so is Code/.
+    roots = (
+        "reference/open-bfme-1/reference/CnC_Generals_Zero_Hour",
+        "reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour",
+    )
+    for root in roots:
+        zh = root + "/GeneralsMD/Code/GameEngine/Source/"
+        source = zh + "GameClient/GUI/ControlBar/ControlBar.cpp"
+        assert progress.source_lane(source, "", False) == "vendored", root
+        assert progress.source_lane(source, "gen-alias;", False) == "generated", root
+        assert progress.source_lane(source, "", True) == "dump", root
+        assert progress.source_lane(root + "-local/x.cpp", "", False) == "authored", root
+
+        matched, notes = {}, {}
+        for name, rva, size, source in (
+            ("zh-twin", 0x1000, 10, zh + "Common/x.cpp"),
+            ("ours", 0x1010, 10, "Code/GameEngine/Source/Common/y.cpp"),
+        ):
+            matched.update(row(name, rva, size, source))
+            notes[(name, f"0x{rva:X}")] = ""
+        split = progress.source_split(matched, notes, 0x1000, 100)
+        assert split["vendored"] == 10 and split["authored"] == 10, (root, split)
+        assert progress.rebuildable(split) == 20, (root, split)
+        assert progress.decompiled(split) == 20, (root, split)
+
+    # The project's shims and game source remain authored.
     assert progress.source_lane("reference/shims/controlbar/x.cpp", "", False) == "authored"
     assert progress.source_lane("Code/GameEngine/Source/Common/x.cpp", "", False) == "authored"
-
-    matched, notes = {}, {}
-    for name, rva, size, source in (
-        ("zh-twin", 0x1000, 10, zh + "Common/x.cpp"),
-        ("ours", 0x1010, 10, "Code/GameEngine/Source/Common/y.cpp"),
-    ):
-        matched.update(row(name, rva, size, source))
-        notes[(name, f"0x{rva:X}")] = ""
-    split = progress.source_split(matched, notes, 0x1000, 100)
-    assert split["vendored"] == 10 and split["authored"] == 10, split
-    assert progress.rebuildable(split) == 20, split
-    print("PASS Zero Hour reference source lands in the vendored lane")
+    print("PASS both Zero Hour reference layouts land in the vendored lane")
 
 
 def test_gamespy_sdk_c_is_vendored_but_the_cpp_beside_it_is_not():
