@@ -23,7 +23,6 @@ extern const int g_emptyFieldParseTable[4];
 #pragma comment(linker, "/alternatename:?opaqueCall@Rva005088C8@@SAPAXXZ=?Rva005088C8Get@@YAHXZ")
 
 
-
 // ?Rva00309E4BGet@@YAHXZ @ 0x00309E4B (6B): returns 0x00DBD7DC.
 // Follows the rep-movsd table copier at 0x309E30 (9 dwords
 // 0xDBD7B8->0xDBD7DC, ret at 0x309E4A) and returns the filled table's
@@ -54,23 +53,6 @@ int Rva00309E7FGet(void)
 	return 0x00DBD918;
 }
 
-// ?Rva004CE52EGet@@YAHXZ @ 0x004CE52E (6B): returns 0x00C5FFA0.
-// Follows a neg/sbb/neg boolize tail (ret at 0x4CE52D) with a
-// push-style function after. 20 direct E8 callers, Ghidra-6, no branch
-// sources. Opaque address-derived name.
-int Rva004CE52EGet(void)
-{
-	return 0x00C5FFA0;
-}
-
-// ?Rva00507552Get@@YAHXZ @ 0x00507552 (6B): returns 0x00C63FD0.
-// Follows a mov/mov/ret getter (ret at 0x507551) with a frame-style
-// function after. 17 direct E8 callers, Ghidra-6, no branch sources.
-// Opaque address-derived name.
-int Rva00507552Get(void)
-{
-	return 0x00C63FD0;
-}
 
 // ?Rva00510D87Get@@YAHXZ @ 0x00510D87 (6B): returns 0x006D1E55.
 // Follows an SEH leave/ret (0x510D85-86) with a sub/cmp-style function
@@ -129,13 +111,6 @@ int Rva000A8F5EGet(void)
 	return 0x00DB4CF8;
 }
 
-// ?Rva00404715Get@@YAHXZ @ 0x00404715 (6B): returns 0x00C38658.
-// Prev leave/ret with a push-style function after. 2 direct E8 callers,
-// no Ghidra entry (dead emission), no branch sources. Opaque name.
-int Rva00404715Get(void)
-{
-	return 0x00C38658;
-}
 
 // ?Rva005088C8Get@@YAHXZ @ 0x005088C8 (6B): returns 0x00C64180.
 // Follows a leave/ret (0x5088C6-87) with a push-style function after.
@@ -147,20 +122,6 @@ int Rva005088C8Get(void)
 }
 
 
-
-
-
-
-
-// ?Rva003EE6F7Get@@YAHXZ @ 0x003EE6F7 (6B): returns 0x00C36290.
-// Follows a leave/ret (0x3EE6F5-56) with a mov-style function after.
-// 1 direct E8 caller (0x20E1B8), no Ghidra entry (dead emission), no
-// branch sources. Opaque address-derived name.
-int Rva003EE6F7Get(void)
-{
-	return 0x00C36290;
-}
-
 // ?Rva00433B18Get@@YAHXZ @ 0x00433B18 (6B): returns 0x00E032DC.
 // Follows a leave/ret (0x433B16-17) with a push-style function after.
 // 1 direct E8 caller (0x23B65A), no Ghidra entry (dead emission), no
@@ -170,36 +131,6 @@ int Rva00433B18Get(void)
 	return 0x00E032DC;
 }
 
-// ?Rva0056A983Get@@YAHXZ @ 0x0056A983 (6B): returns 0x00C6CFD0.
-// Follows a leave/ret (0x56A981-82) with a cmp/jcc-style function after.
-// 1 direct E8 caller (0x3EE5CE), no Ghidra entry (dead emission), no
-// branch sources. Opaque address-derived name.
-int Rva0056A983Get(void)
-{
-	return 0x00C6CFD0;
-}
-
-
-
-
-
-// ?Rva0008EFCCGet@@YAHXZ @ 0x0008EFCC (6B): returns 0x00BFC338.
-// Follows a ret (0x8EFCB) with a B8-imm getter after. Carried at 0x7C7C08
-// and 0x7FD590, no direct callers, no branch sources. The value is below
-// the image base so it is a plain integer, not a pointer. Opaque name.
-int Rva0008EFCCGet(void)
-{
-	return 0x00BFC338;
-}
-
-// ?Rva004CE29DGet@@YAHXZ @ 0x004CE29D (6B): returns 0x00C5FEA0.
-// Follows a ret-4 (0x4CE29A-9C) with a mov/mov/ret getter after. 41
-// direct E8 callers (anchor-verified), Ghidra-6, no branch sources.
-// The value sits 0x100 below landed Rva004CE52EGet's table. Opaque name.
-int Rva004CE29DGet(void)
-{
-	return 0x00C5FEA0;
-}
 
 // ?Rva00226140Get@@YAHXZ @ 0x00226140 (6B): returns 0x00DC2274.
 // Follows a ret-8 (0x22613D-3F) with a frame-style function after.
@@ -219,14 +150,6 @@ int Rva00434091Get(void)
 	return 0x00DC5170;
 }
 
-// ?Rva003B0E57Get@@YAHXZ @ 0x003B0E57 (6B): returns 0x00C1DB18.
-// Follows a ret-4 (0x3B0E54-56) with a mov/mov/ret getter after.
-// 1 direct E8 caller (0x1FE73D), Ghidra-6, no branch sources.
-// Opaque address-derived name.
-int Rva003B0E57Get(void)
-{
-	return 0x00C1DB18;
-}
 
 // ?Rva0056B7DEGet@@YAHXZ @ 0x0056B7DE (6B): returns 0x00C6D690.
 // Follows a ret-4 (0x56B7DB-DD) with a B8-imm/call function after.
@@ -246,16 +169,6 @@ int Rva000EF29AGet(void)
 	return 0x00544558;
 }
 
-
-
-// ?Rva000907A1Get@@YAHXZ @ 0x000907A1 (6B): returns 0x00CE4818.
-// Follows a ret-12 (0x9079E-A0) with a push-style function after.
-// Carried at 0x7C7F0C and 0x8E497C, no direct callers, no branch
-// sources. Opaque address-derived name.
-int Rva000907A1Get(void)
-{
-	return 0x00CE4818;
-}
 
 // ?Rva00517F2BGet@@YAHXZ @ 0x00517F2B (6B): returns 0x006D2025.
 // Follows a leave/ret (0x517F29-2A) with a B8-imm/call function after
@@ -294,9 +207,6 @@ int Rva005C9880Get(void)
 }
 
 
-
-
-
 // ?Rva00655114Get@@YAHXZ @ 0x00655114 (6B): returns 1. Follows a
 // pop-ebp/ret (0x65510F-13) with a mov-style function after. Carried
 // at 0x8E0B54, no direct callers, no branch sources.
@@ -305,11 +215,6 @@ int Rva00655114Get(void)
 {
 	return 1;
 }
-
-
-
-
-
 
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

@@ -780,3 +780,95 @@ int Rva0041E6B8Get(void)
 {
 	return reinterpret_cast<int>(g_00C3AF18);
 }
+
+// Field-parse tables INIThinFieldParsers2.cpp defines; the getters below
+// (moved from ConstIntGettersAddr.cpp) return them.
+extern const FieldParse g_00BFC338[];
+extern const FieldParse g_00CE4818[];
+extern const FieldParse g_00C1DB18[];
+extern const FieldParse g_00C36290[];
+extern const FieldParse g_00C38658[];
+extern const FieldParse g_00C5FEA0[];
+extern const FieldParse g_00C5FFA0[];
+extern const FieldParse g_00C63FD0[];
+extern const FieldParse g_00C6CFD0[];
+
+// ?Rva0008EFCCGet@@YAHXZ @ 0x0008EFCC (6B): returns 0x00BFC338.
+// Follows a ret (0x8EFCB) with a B8-imm getter after. Carried at 0x7C7C08
+// and 0x7FD590, no direct callers, no branch sources. The value is below
+// the image base so it is a plain integer, not a pointer. Opaque name.
+int Rva0008EFCCGet(void)
+{
+	return reinterpret_cast<int>(g_00BFC338);
+}
+
+// ?Rva000907A1Get@@YAHXZ @ 0x000907A1 (6B): returns 0x00CE4818.
+// Follows a ret-12 (0x9079E-A0) with a push-style function after.
+// Carried at 0x7C7F0C and 0x8E497C, no direct callers, no branch
+// sources. Opaque address-derived name.
+int Rva000907A1Get(void)
+{
+	return reinterpret_cast<int>(g_00CE4818);
+}
+
+// ?Rva003B0E57Get@@YAHXZ @ 0x003B0E57 (6B): returns 0x00C1DB18.
+// Follows a ret-4 (0x3B0E54-56) with a mov/mov/ret getter after.
+// 1 direct E8 caller (0x1FE73D), Ghidra-6, no branch sources.
+// Opaque address-derived name.
+int Rva003B0E57Get(void)
+{
+	return reinterpret_cast<int>(g_00C1DB18);
+}
+
+// ?Rva003EE6F7Get@@YAHXZ @ 0x003EE6F7 (6B): returns 0x00C36290.
+// Follows a leave/ret (0x3EE6F5-56) with a mov-style function after.
+// 1 direct E8 caller (0x20E1B8), no Ghidra entry (dead emission), no
+// branch sources. Opaque address-derived name.
+int Rva003EE6F7Get(void)
+{
+	return reinterpret_cast<int>(g_00C36290);
+}
+
+// ?Rva00404715Get@@YAHXZ @ 0x00404715 (6B): returns 0x00C38658.
+// Prev leave/ret with a push-style function after. 2 direct E8 callers,
+// no Ghidra entry (dead emission), no branch sources. Opaque name.
+int Rva00404715Get(void)
+{
+	return reinterpret_cast<int>(g_00C38658);
+}
+
+// ?Rva004CE29DGet@@YAHXZ @ 0x004CE29D (6B): returns 0x00C5FEA0.
+// Follows a ret-4 (0x4CE29A-9C) with a mov/mov/ret getter after. 41
+// direct E8 callers (anchor-verified), Ghidra-6, no branch sources.
+// The value sits 0x100 below landed Rva004CE52EGet's table. Opaque name.
+int Rva004CE29DGet(void)
+{
+	return reinterpret_cast<int>(g_00C5FEA0);
+}
+
+// ?Rva004CE52EGet@@YAHXZ @ 0x004CE52E (6B): returns 0x00C5FFA0.
+// Follows a neg/sbb/neg boolize tail (ret at 0x4CE52D) with a
+// push-style function after. 20 direct E8 callers, Ghidra-6, no branch
+// sources. Opaque address-derived name.
+int Rva004CE52EGet(void)
+{
+	return reinterpret_cast<int>(g_00C5FFA0);
+}
+
+// ?Rva00507552Get@@YAHXZ @ 0x00507552 (6B): returns 0x00C63FD0.
+// Follows a mov/mov/ret getter (ret at 0x507551) with a frame-style
+// function after. 17 direct E8 callers, Ghidra-6, no branch sources.
+// Opaque address-derived name.
+int Rva00507552Get(void)
+{
+	return reinterpret_cast<int>(g_00C63FD0);
+}
+
+// ?Rva0056A983Get@@YAHXZ @ 0x0056A983 (6B): returns 0x00C6CFD0.
+// Follows a leave/ret (0x56A981-82) with a cmp/jcc-style function after.
+// 1 direct E8 caller (0x3EE5CE), no Ghidra entry (dead emission), no
+// branch sources. Opaque address-derived name.
+int Rva0056A983Get(void)
+{
+	return reinterpret_cast<int>(g_00C6CFD0);
+}

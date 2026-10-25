@@ -11407,8 +11407,8 @@ _duck_malloc,,0x001B63C0,62,Code/Libraries/Source/VP6/DuckMemAlloc.cpp,matched,C
 ?Rva00309E4BGet@@YAHXZ,,0x00309E4B,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDBD7DC; follows rep-movsd table copier; 28 E8 callers and Ghidra-6; plain int literal needs no pin; opaque name
 ?Rva00309E65Get@@YAHXZ,,0x00309E65,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDBD860; copier-getter pair like 0x309E4B; 13 E8 callers and Ghidra-6; opaque name
 ?Rva00309E7FGet@@YAHXZ,,0x00309E7F,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDBD918; third copier-getter pair; 11 E8 callers and Ghidra-6; opaque name
-?Rva004CE52EGet@@YAHXZ,,0x004CE52E,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC5FFA0; prev boolize ret with 20 E8 callers and Ghidra-6; opaque name
-?Rva00507552Get@@YAHXZ,,0x00507552,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC63FD0; prev mov-mov ret with 17 E8 callers and Ghidra-6; opaque name
+?Rva004CE52EGet@@YAHXZ,,0x004CE52E,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xC5FFA0; prev boolize ret with 20 E8 callers and Ghidra-6; opaque name
+?Rva00507552Get@@YAHXZ,,0x00507552,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xC63FD0; prev mov-mov ret with 17 E8 callers and Ghidra-6; opaque name
 ?Rva0000C124CGet@@YAHXZ,,0x000C124C,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0x186A0; follows sibling B8-6 with 6 rdata refs; opaque name
 ?Rva0013C6C0Get@@YAHXZ,,0x0013C6C0,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 14; CC-island in same family table as 0x13C650; 1 rdata ref; opaque name
 ??_GRva005F830A@@UAEPAXI@Z,,0x005F835A,28,Code/GameEngine/Source/Common/Rva005F7750Dtor.cpp,matched,home-TU emission beside rowed dtor 0x5F7750; resolves E8 to the row
@@ -11422,7 +11422,7 @@ _duck_malloc,,0x001B63C0,62,Code/Libraries/Source/VP6/DuckMemAlloc.cpp,matched,C
 ?Rva0056B767Get@@YAHXZ,,0x0056B767,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0xC6BB18; prev leave-ret with 3 E8 callers; opaque name
 ?Rva000A8F58Get@@YAHXZ,,0x000A8F58,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDB4CF0; pair head with jmp-thunk target plus 1 E8 caller and Ghidra-6; opaque name
 ?Rva000A8F5EGet@@YAHXZ,,0x000A8F5E,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDB4CF8; pair tail with jmp-thunk target plus 2 E8 callers and Ghidra-6; opaque name
-?Rva00404715Get@@YAHXZ,,0x00404715,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC38658; prev leave-ret with 2 E8 callers; opaque name
+?Rva00404715Get@@YAHXZ,,0x00404715,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xC38658; prev leave-ret with 2 E8 callers; opaque name
 __allmul,,0x00629580,52,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\llmul.obj;unique placement in .text;ghidra size agrees
 __aulldiv,,0x006295C0,104,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\ulldiv.obj;unique placement in .text;ghidra size agrees
 __alldiv,,0x00629630,170,vendor/msvc71crt/msvcrt.lib,matched,vendored=msvc71-crt;member=build\intel\dll_obj\lldiv.obj;unique placement in .text;ghidra size agrees
@@ -11471,9 +11471,9 @@ _ServerBrowserListQueryErrorA,,0x0069D000,16,Code/GameEngine/Source/GameNetwork/
 ?bfmeGoDFC@BfmeThingDFC@@QAEPAV1@PAVBfmeOtherDFC@@@Z,,0x00661900,27,Code/GameEngine/Source/Common/BfmeConv684.cpp,matched,BFME1 donor ambiguous by bytes; resolved by the BFME1->BFME2 address map; b1 0x007F4EC0; 2 candidate placements; prediction error 6B
 ?Rva00668100Get@@YAHXZ,,0x00668100,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0xDD8314; CC-island with 1 real E8 caller and Ghidra-6; opaque name
 ?Rva00669530Get@@YAHXZ,,0x00669530,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0xDD83B4; CC-island with 1 real E8 caller and Ghidra-6; opaque name
-?Rva003EE6F7Get@@YAHXZ,,0x003EE6F7,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC36290; prev leave-ret with 1 real E8 caller; opaque name
+?Rva003EE6F7Get@@YAHXZ,,0x003EE6F7,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xC36290; prev leave-ret with 1 real E8 caller; opaque name
 ?Rva00433B18Get@@YAHXZ,,0x00433B18,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xE032DC; prev leave-ret with 1 real E8 caller; opaque name
-?Rva0056A983Get@@YAHXZ,,0x0056A983,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC6CFD0; prev leave-ret with 1 real E8 caller; opaque name
+?Rva0056A983Get@@YAHXZ,,0x0056A983,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xC6CFD0; prev leave-ret with 1 real E8 caller; opaque name
 ?Rva004A6563Get@@YAHXZ,,0x004A6563,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0x3FFFFFFF small int; 5 .rdata refs and no callers; opaque name
 ?Rva0013D320Get@@YAHXZ,,0x0013D320,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 16; CC-island with 2 mapper-table refs and no callers; opaque name
 ?Rva007F2E60@@YAPAVRva007F2E60Object@@PAX@Z,,0x0065F940,45,Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp,matched,BFME1 byte-identical donor b1 0x007F2E60 ambiguous resolved by address map error 3 Ghidra-45 exact trimmed sibling
@@ -11485,15 +11485,15 @@ _ServerBrowserListQueryErrorA,,0x0069D000,16,Code/GameEngine/Source/GameNetwork/
 ?Rva003ABD55Get@@YAHXZ,,0x003ABD55,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0xC1C59C; prev ret with 2 refs and no callers; opaque name
 ?Rva003AC9A1Get@@YAHXZ,,0x003AC9A1,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0xC1C96C; prev ret with 2 refs and no callers; opaque name
 ??_GGen007F1BF0@@UAEPAXI@Z,,0x00669450,38,Code/Libraries/Source/DirtySock/Y2ScalarDeleters.cpp,matched,structural candidate; Y2ScalarDeleters TU already emits the body
-?Rva0008EFCCGet@@YAHXZ,,0x0008EFCC,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xBFC338 plain int; prev ret with 2 refs and no callers; opaque name
-?Rva004CE29DGet@@YAHXZ,,0x004CE29D,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC5FEA0; prev ret-4 with 41 real E8 callers and Ghidra-6; opaque name
+?Rva0008EFCCGet@@YAHXZ,,0x0008EFCC,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xBFC338 plain int; prev ret with 2 refs and no callers; opaque name
+?Rva004CE29DGet@@YAHXZ,,0x004CE29D,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xC5FEA0; prev ret-4 with 41 real E8 callers and Ghidra-6; opaque name
 ?Rva00226140Get@@YAHXZ,,0x00226140,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDC2274; prev ret-8 with 4 real E8 callers and Ghidra-6; opaque name
 ?Rva00434091Get@@YAHXZ,,0x00434091,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDC5170; prev ret-8 with 4 real E8 callers and Ghidra-6; opaque name
-?Rva003B0E57Get@@YAHXZ,,0x003B0E57,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC1DB18; prev ret-4 with 1 real E8 caller and Ghidra-6; opaque name
+?Rva003B0E57Get@@YAHXZ,,0x003B0E57,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xC1DB18; prev ret-4 with 1 real E8 caller and Ghidra-6; opaque name
 ?Rva0056B7DEGet@@YAHXZ,,0x0056B7DE,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xC6D690; prev ret-4 with 3 real E8 callers; opaque name
 ?Rva000EF29AGet@@YAHXZ,,0x000EF29A,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0x544558; prev ret-16 with 6 refs and no callers; opaque name
 ?Rva00342868Get@@YAHXZ,,0x00342868,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0xC12520; prev ret-4 with 4 refs and no callers; opaque name
-?Rva000907A1Get@@YAHXZ,,0x000907A1,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xCE4818; prev ret-12 with 2 refs and no callers; opaque name
+?Rva000907A1Get@@YAHXZ,,0x000907A1,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 returner ret 0xCE4818; prev ret-12 with 2 refs and no callers; opaque name
 ?Rva00742550Get@@YAHXZ,,0x00742550,6,Code/GameEngine/Source/Common/ConstIntGetters2.cpp,matched,B8-6 returner ret 0x1C; CC-island with 2 vtable refs and no callers/branches; opaque name
 ?Rva002BE8CEGet@@YAHXZ,,0x002BE8CE,6,Code/GameEngine/Source/Common/ConstIntGetters2.cpp,matched,B8-6 returner ret 0xBFE4D4; leave/ret-4 prev with 2 vtable refs and no callers/branches; opaque name; rehomed after naming existing factory provider or verified string literal
 ?Rva0009FDF5Get@@YAHXZ,,0x0009FDF5,6,Code/GameEngine/Source/Common/ConstIntGetters2.cpp,matched,B8-6 returner ret 0x48F925; C3-prev with 1 vtable ref paired with 0x9FDFB; opaque name; rehomed after naming existing factory provider or verified string literal

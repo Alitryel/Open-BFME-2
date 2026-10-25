@@ -254,3 +254,214 @@ extern const FieldParse g_00CE43B0[] = {
     { "LineTable", (FieldParseProc)&__identifier("?parseSubtitleLineTable@@YAXPAVINI@@PAX1PBX@Z"), 0, 36 },
     { 0, 0, 0, 0 }
 };
+
+// Nine more retail FieldParse tables returned by six-byte getters (formerly
+// literals in ConstIntGettersAddr.cpp): each is its entries plus the retail
+// 16-byte null terminator, every callback a rowed code owner, userData 0.
+extern "C" {
+void __identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
+void __identifier("?Rva00339761_ParseDurationUnsignedByte@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva00403233Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva00404648Parse@@YAXPAVINI@@PAVRva004045B4@@@Z")();
+void __identifier("?Rva0044E6CD_ParseCustomAnimAndDuration@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva0056A83BParseAudioMap@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?dup_002F0F7@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?iniParseObjectFilter@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAudioKeyTokens@Rva003D4920@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseCoord2D@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseDeathTypeFlags@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseDelayedUpgradeTemplate@AttributeModifierContainer@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseDurationReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseDurationUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseFontDesc@GlobalLanguage@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseFromINI@Rva003B1017@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseICoord2D@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseNamedRadiusDecalTemplate@InGameUI@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parsePercentToReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseRGBAColorInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseSoundBlock@LargeGroupAudioAudioMap@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseStringAsNameKeyType@NameKeyGenerator@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseTerrainResourceClaimDecal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseUnsignedShort@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// 0x00BFC338 (getter 0x0008EFCC): 81 entries.
+extern const FieldParse g_00BFC338[] = {
+    { "MaxSelectionSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1388 },
+    { "MessageColor1", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2068 },
+    { "MessageColor2", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2072 },
+    { "MessagePosition", (FieldParseProc)&__identifier("?parseICoord2D@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2076 },
+    { "MessagePositionLW", (FieldParseProc)&__identifier("?parseICoord2D@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2084 },
+    { "MessageFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2092 },
+    { "MessagePointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2096 },
+    { "MessageBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2100 },
+    { "MessageDelayMS", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2104 },
+    { "MilitaryCaptionColor", (FieldParseProc)&__identifier("?parseRGBAColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2108 },
+    { "MilitaryCaptionPosition", (FieldParseProc)&__identifier("?parseCoord2D@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2124 },
+    { "MilitaryCaptionCentered", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2132 },
+    { "MilitaryCaptionTitleFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2136 },
+    { "MilitaryCaptionTitlePointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2140 },
+    { "MilitaryCaptionTitleBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2144 },
+    { "MilitaryCaptionFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2148 },
+    { "MilitaryCaptionPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2152 },
+    { "MilitaryCaptionBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2156 },
+    { "MilitaryCaptionDelayMS", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2160 },
+    { "SuperweaponCountdownPosition", (FieldParseProc)&__identifier("?parseCoord2D@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1824 },
+    { "SuperweaponCountdownFlashDuration", (FieldParseProc)&__identifier("?parseDurationReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1832 },
+    { "SuperweaponCountdownFlashColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1864 },
+    { "SuperweaponCountdownNormalFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1836 },
+    { "SuperweaponCountdownNormalPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1840 },
+    { "SuperweaponCountdownNormalBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1844 },
+    { "SuperweaponCountdownReadyFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1848 },
+    { "SuperweaponCountdownReadyPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1852 },
+    { "SuperweaponCountdownReadyBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1856 },
+    { "NamedTimerCountdownPosition", (FieldParseProc)&__identifier("?parseCoord2D@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1884 },
+    { "NamedTimerCountdownCentered", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1896 },
+    { "NamedTimerCountdownFlashDuration", (FieldParseProc)&__identifier("?parseDurationReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1900 },
+    { "NamedTimerCountdownFlashColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1908 },
+    { "NamedTimerCountdownNormalFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1916 },
+    { "NamedTimerCountdownNormalPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1920 },
+    { "NamedTimerCountdownNormalBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1924 },
+    { "NamedTimerCountdownNormalColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1928 },
+    { "NamedTimerCountdownReadyFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1932 },
+    { "NamedTimerCountdownReadyPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1936 },
+    { "NamedTimerCountdownReadyBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1940 },
+    { "NamedTimerCountdownReadyColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1944 },
+    { "FloatingTextTimeOut", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2212 },
+    { "FloatingTextMoveUpSpeed", (FieldParseProc)&__identifier("?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2216 },
+    { "FloatingTextVanishRate", (FieldParseProc)&__identifier("?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2220 },
+    { "HelpBoxNameFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1964 },
+    { "HelpBoxNamePointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1968 },
+    { "HelpBoxNameBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1972 },
+    { "HelpBoxNameColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1976 },
+    { "HelpBoxCostFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1980 },
+    { "HelpBoxCostPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1984 },
+    { "HelpBoxCostBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1988 },
+    { "HelpBoxCostColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1992 },
+    { "HelpBoxShortcutFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1996 },
+    { "HelpBoxShortcutPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2000 },
+    { "HelpBoxShortcutBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2004 },
+    { "HelpBoxShortcutColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2008 },
+    { "HelpBoxDescriptionFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2012 },
+    { "HelpBoxDescriptionPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2016 },
+    { "HelpBoxDescriptionBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2020 },
+    { "HelpBoxDescriptionColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2024 },
+    { "DrawableCaptionFont", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1948 },
+    { "DrawableCaptionPointSize", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1952 },
+    { "DrawableCaptionBold", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1956 },
+    { "DrawableCaptionColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1960 },
+    { "DrawRMBScrollAnchor", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2243 },
+    { "MoveRMBScrollAnchor", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2244 },
+    { "RadiusCursorTemplate", (FieldParseProc)&__identifier("?parseNamedRadiusDecalTemplate@InGameUI@@SAXPAVINI@@PAX1PBX@Z"), 0, 0 },
+    { "RadiusCursorUseWeaponScatterRadius", (FieldParseProc)&__identifier("?parseStringAsNameKeyType@NameKeyGenerator@@SAXPAVINI@@PAX1PBX@Z"), 0, 2204 },
+    { "UnitHelpTextDelay", (FieldParseProc)&__identifier("?dup_002F0F7@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2436 },
+    { "SelectNearestBuilderCycleTimeOut", (FieldParseProc)&__identifier("?parseUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2440 },
+    { "TerrainResourceClaimDecal", (FieldParseProc)&__identifier("?parseTerrainResourceClaimDecal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0 },
+    { "PlaceTerrainResourceClaimantDecal", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1396 },
+    { "PlaceTerrainResourceClaimantFont", (FieldParseProc)&__identifier("?parseFontDesc@GlobalLanguage@@SAXPAVINI@@PAX1PBX@Z"), 0, 1400 },
+    { "PlaceTerrainResourceClaimantFontColor", (FieldParseProc)&__identifier("?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 1412 },
+    { "HeroInitialSpawnNotificationMessage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2512 },
+    { "HeroInitialSpawnNotificationTimeout", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2516 },
+    { "HeroRespawnNotificationMessage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2520 },
+    { "HeroRespawnNotificationTimeout", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2524 },
+    { "HeroDeathNotificationMessage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2528 },
+    { "HeroDeathNotificationTimeout", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2532 },
+    { "HeroEarnedAwardNotificationMessage", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2536 },
+    { "HeroEarnedAwardNotificationTimeout", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 2540 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C1DB18 (getter 0x003B0E57): 3 entries.
+extern const FieldParse g_00C1DB18[] = {
+    { "IntrinsicSciencePurchasePoints", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 4 },
+    { "MaxLevelMP", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 8 },
+    { "MaxLevelSP", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 12 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C36290 (getter 0x003EE6F7): 11 entries.
+extern const FieldParse g_00C36290[] = {
+    { "Size", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 16 },
+    { "Sound", (FieldParseProc)&__identifier("?parseSoundBlock@LargeGroupAudioAudioMap@@SAXPAVINI@@PAX1PBX@Z"), 0, 28 },
+    { "StartThreshold", (FieldParseProc)&__identifier("?parseUnsignedShort@INI@@SAXPAV1@PAX1PBX@Z"), 0, 224 },
+    { "StopThreshold", (FieldParseProc)&__identifier("?parseUnsignedShort@INI@@SAXPAV1@PAX1PBX@Z"), 0, 226 },
+    { "HandOffModeDuration", (FieldParseProc)&__identifier("?Rva00339761_ParseDurationUnsignedByte@INI@@SAXPAV1@PAX1PBX@Z"), 0, 228 },
+    { "MaximumAudioSpeed", (FieldParseProc)&__identifier("?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 20 },
+    { "RequiredModelConditionFlags", (FieldParseProc)&__identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 40 },
+    { "ExcludedModelConditionFlags", (FieldParseProc)&__identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 116 },
+    { "RequiredObjectStatusBits", (FieldParseProc)&__identifier("?parseFromINI@Rva003B1017@@SAXPAVINI@@PAX1PBX@Z"), 0, 192 },
+    { "ExcludedObjectStatusBits", (FieldParseProc)&__identifier("?parseFromINI@Rva003B1017@@SAXPAVINI@@PAX1PBX@Z"), 0, 208 },
+    { "IgnoreStealthedUnits", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 229 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C38658 (getter 0x00404715): 15 entries.
+extern const FieldParse g_00C38658[] = {
+    { "Modifier", (FieldParseProc)&__identifier("?Rva00404648Parse@@YAXPAVINI@@PAVRva004045B4@@@Z"), 0, 0 },
+    { "Duration", (FieldParseProc)&__identifier("?parseDurationUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 24 },
+    { "ModelCondition", (FieldParseProc)&__identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 28 },
+    { "ClearModelCondition", (FieldParseProc)&__identifier("?Rva000B9468Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 104 },
+    { "Category", (FieldParseProc)&__identifier("?Rva00403233Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 12 },
+    { "FX", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 180 },
+    { "FX2", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 184 },
+    { "FX3", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 188 },
+    { "EndFX", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 192 },
+    { "EndFX2", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 196 },
+    { "EndFX3", (FieldParseProc)&__identifier("?parseFXList@INI@@SAXPAV1@PAX1PBX@Z"), 0, 200 },
+    { "Upgrade", (FieldParseProc)&__identifier("?parseDelayedUpgradeTemplate@AttributeModifierContainer@@SAXPAVINI@@PAX1PBX@Z"), 0, 0 },
+    { "MultiLevelFX", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 208 },
+    { "ReplaceInCategoryIfLongest", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 210 },
+    { "IgnoreIfAnticategoryActive", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 211 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C5FEA0 (getter 0x004CE29D): 6 entries.
+extern const FieldParse g_00C5FEA0[] = {
+    { "TriggeredBy", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0 },
+    { "ConflictsWith", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 128 },
+    { "RequiresAllTriggers", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 268 },
+    { "RequiresAllConflictingTriggers", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 269 },
+    { "CustomAnimAndDuration", (FieldParseProc)&__identifier("?Rva0044E6CD_ParseCustomAnimAndDuration@INI@@SAXPAV1@PAX1PBX@Z"), 0, 256 },
+    { "Permanent", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 270 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C5FFA0 (getter 0x004CE52E): 6 entries.
+extern const FieldParse g_00C5FFA0[] = {
+    { "DeathTypes", (FieldParseProc)&__identifier("?parseDeathTypeFlags@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0 },
+    { "ExemptStatus", (FieldParseProc)&__identifier("?parseFromINI@Rva003B1017@@SAXPAVINI@@PAX1PBX@Z"), 0, 4 },
+    { "RequiredStatus", (FieldParseProc)&__identifier("?parseFromINI@Rva003B1017@@SAXPAVINI@@PAX1PBX@Z"), 0, 20 },
+    { "DamageAmountRequired", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 36 },
+    { "MinKillerAngle", (FieldParseProc)&__identifier("?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 40 },
+    { "MaxKillerAngle", (FieldParseProc)&__identifier("?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 44 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C63FD0 (getter 0x00507552): 3 entries.
+extern const FieldParse g_00C63FD0[] = {
+    { "RequiredUpgradeNames", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 264 },
+    { "ForbiddenUpgradeNames", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 276 },
+    { "SpecialObjectFilter", (FieldParseProc)&__identifier("?iniParseObjectFilter@@YAXPAVINI@@PAX1PBX@Z"), 0, 288 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C6CFD0 (getter 0x0056A983): 3 entries.
+extern const FieldParse g_00C6CFD0[] = {
+    { "Sound", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 12 },
+    { "Key", (FieldParseProc)&__identifier("?parseAudioKeyTokens@Rva003D4920@@SAXPAVINI@@PAX1PBX@Z"), 0, 0 },
+    { "Duck", (FieldParseProc)&__identifier("?Rva0056A83BParseAudioMap@@YAXPAVINI@@PAX1PBX@Z"), 0, 20 },
+    { 0, 0, 0, 0 }
+};
+// 0x00CE4818 (getter 0x000907A1): 5 entries.
+extern const FieldParse g_00CE4818[] = {
+    { "Filename", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0 },
+    { "Comment", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 8 },
+    { "HasSubtitles", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 12 },
+    { "Volume", (FieldParseProc)&__identifier("?parsePercentToReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 16 },
+    { "IsDefault", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 20 },
+    { 0, 0, 0, 0 }
+};
