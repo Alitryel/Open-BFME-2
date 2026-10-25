@@ -299,6 +299,18 @@ authored-byte previews or commit-title gains into a projected headline.
   A supported identity-retirement attempt refused missing/stale provider evidence;
   no baseline was changed.
 
+- **Map-metadata selected-copy subset (2026-10-25, inspected `d4cd9b535c`):**
+  [the read-only cache-reference repair](../reverse/attempt_support/map-metadata-borrow-link-20261025/readme.md)
+  stops SkirmishGameOptionsMenu.cpp from instantiating its shorter Zero Hour
+  metadata copy and related tree-copy operations. Native positioning helpers
+  independently show that the borrowed metadata and coordinates are read-only.
+  Normal gates pass 56 rows across six current sources, 13 exact EH graphs and
+  six strict receipts with independently checked object hashes. A fixed-facts
+  paired ordinary preview clears four caller units (2,295 authored nonpadding
+  bytes). This bounded subset awaits census confirmation; the legacy menu's
+  other dependencies and MapMetaDataCopyDeferred's waypoint-tree identity/provider
+  conflicts remain open. No whole-family or executable closure is claimed.
+
 ### LINK-007: incomplete data ownership beyond clean symbol resolution
 
 **Status: Open; two storage subsets repaired. Updated: 2026-10-25.**

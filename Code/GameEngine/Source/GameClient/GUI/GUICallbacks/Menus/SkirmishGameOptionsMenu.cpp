@@ -522,7 +522,9 @@ static void startPressed(void)
 		buttonPushed = FALSE;
 		MessageBoxOk(TheGameText->fetch("GUI:ErrorStartingGame"), TheGameText->fetch("GUI:CantFindMap"), NULL);
 	}
-	MapMetaData mmd = it->second;
+	// Only inspect the cached player count. A reference avoids instantiating
+	// this legacy header's shorter copy of the native 256-byte metadata record.
+	const MapMetaData &mmd = it->second;
 	if(playerCount > mmd.m_numPlayers)
 	{
 		buttonPushed = FALSE;
@@ -646,7 +648,9 @@ void positionStartSpots( AsciiString mapName, GameWindow *buttonMapStartPosition
 	}
 	else
 	{
-		MapMetaData mmd = it->second;
+		// The positioning helpers read metadata and waypoint coordinates; their
+		// non-const signatures do not require a separate metadata value.
+		MapMetaData &mmd = it->second;
 		
 		Image *image = getMapPreviewImage(mapName);
 		if (mapWindow != NULL) {
