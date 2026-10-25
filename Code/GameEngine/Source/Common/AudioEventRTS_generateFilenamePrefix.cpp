@@ -7,8 +7,8 @@
 struct AudioData
 {
 	char m_pad[4];
-	AsciiString m_4;
-	AsciiString m_8;
+	AsciiString m_soundsFolder;
+	AsciiString m_musicFolder;
 	AsciiString m_C;
 	AsciiString m_10;
 };
@@ -108,12 +108,12 @@ const AsciiString *AudioEventRTS::generateFilenamePrefix(int v)
 {
 	switch (v) {
 	case 0:
-		return &TheAudio->slot134()->m_8;
+		return &TheAudio->slot134()->m_musicFolder;
 	case 1:
 		return &TheAudio->slot134()->m_C;
 	case 2:
 	case 4:
-		return &TheAudio->slot134()->m_4;
+		return &TheAudio->slot134()->m_soundsFolder;
 	case 3:
 		return &TheAudio->slot134()->m_10;
 	case 5:

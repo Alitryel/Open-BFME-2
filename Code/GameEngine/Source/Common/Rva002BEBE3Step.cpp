@@ -23,7 +23,7 @@ class Rva002BEBE3Flag
 {
 public:
 	char m_pad[0x88];
-	unsigned char m_88;
+	unsigned char m_livingWorldTurbo;
 };
 
 class FCurve
@@ -102,7 +102,7 @@ private:
 
 void Rva002C021A::rva002BEBE3()
 {
-	if (TheKeyboard->isShift() && ((Rva002BEBE3Flag *)TheWritableGlobalData)->m_88)
+	if (TheKeyboard->isShift() && ((Rva002BEBE3Flag *)TheWritableGlobalData)->m_livingWorldTurbo)
 		m_progress += m_rate * 10.0f;
 	else
 		m_progress += m_rate;

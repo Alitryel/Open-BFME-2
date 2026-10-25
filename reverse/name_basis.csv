@@ -2247,3 +2247,8 @@ global,?BfmeAnimationField7@@3QBDB,?g_animationPriorityField@@3QBDB,inferred,agr
 global,?BfmeAnimationField8@@3QBDB,?g_fadeBeginFrameField@@3QBDB,inferred,agree:nl-dd1df1b2fd8f,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007CA4B0
 global,?BfmeAnimationField9@@3QBDB,?g_fadeEndFrameField@@3QBDB,inferred,agree:nl-b91bc7a17d4a,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007CA4A0
 global,?BfmeAnimationField10@@3QBDB,?g_fadingInField@@3QBDB,inferred,agree:nl-867c65d3ea1d,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007CA494
+member,AudioData::m_4,AudioData::m_soundsFolder,inferred,agree:nl-cb30d95acb66,Code/GameEngine/Source/Common/AudioEventRTS_generateFilenamePrefix.cpp,
+member,AudioData::m_8,AudioData::m_musicFolder,inferred,agree:nl-fd819646b9c7,Code/GameEngine/Source/Common/AudioEventRTS_generateFilenamePrefix.cpp,
+member,Rva002BEBE3Flag::m_88,Rva002BEBE3Flag::m_livingWorldTurbo,inferred,agree:nl-ff27c9cadab3,Code/GameEngine/Source/Common/Rva002BEBE3Step.cpp,
+member,Rva002BEFE5::m_74,Rva002BEFE5::m_moveProgress,inferred,agree:nl-f1d725de62c0,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
+member,Rva0052DB11Head::m_20,Rva0052DB11Head::m_presentList,inferred,agree:nl-ac5136e978e7,Code/GameEngine/Source/Common/Rva0052DB11.cpp,

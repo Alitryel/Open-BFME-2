@@ -53,7 +53,7 @@ public:
 	float m_68;
 	float m_6C;
 	float m_70;
-	float m_74;
+	float m_moveProgress;
 	unsigned char m_78;
 	char _pad79[3];
 	float m_7C;
@@ -68,7 +68,7 @@ void Rva002BEFE5::rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2
 	v29(m_startPosition);
 	m_80 = v30();
 	m_78 = 1;
-	m_74 = 0.0f;
+	m_moveProgress = 0.0f;
 	m_7C = 1.0f / (float)duration;
 	*(Rva002BEFE5Vec *)&m_60 = *position;
 	m_68 = 0.0f;
