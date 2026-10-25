@@ -6159,3 +6159,6 @@ Code/GameEngine/Source/Common/Rva001F5496.cpp|local|Rva001F5496::rva001F5496|p,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp|local|W3DProjectedShadowManager::rva0010BE72|value40,c594f3eed901ef4dfeb1c31c,gpt-6-astra,codexb2-20261025-070334-3,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp|local|W3DProjectedShadowManager::rva0010BE72|value54,7a7c7ea245a58dc32124bb3b,gpt-6-astra,codexb2-20261025-070334-3,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITacticsGenerator/ExpansionTactics/AISimpleExpansionTactic.cpp|class||Rva005AA860Unit,b920b030127cfb1672263a36,gpt-6-astra,codexb2-20261025-070334-4,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,f5369ff659f1c0e28a966fcb,gpt-6.1-sol,codexb-20261025-063820-1,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD::FormatCPString|tmp,994990aac7ba2fd841131aca,gpt-6.1-sol,codexb-20261025-063820-2,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/Rva002B47B1Get.cpp|member|Rva002B47B1Elem|m_cash40,0878ee40e89a8b02d9a16907,gpt-6.1-sol,codexb-20261025-063820-3,w-8e883e57d025,2026-10-25
