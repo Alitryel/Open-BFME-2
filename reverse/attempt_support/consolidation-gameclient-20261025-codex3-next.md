@@ -67,3 +67,35 @@ The pre-commit hook supplies the normal data, identity, ownership, include, EH,
 case and byte checks. The fetched upstream may advance independently while the
 batch waits; source-path audit concerns the outgoing commits plus staged merge,
 not unrelated upstream changes that will be retained by the publisher's rebase.
+
+
+## RadiusDecal opacity and confirmed publication
+
+The seven-commit batch landed through 70a67784ed via /opt/runner/publish. The
+push hook verified 39/39 rows across four sources, five exact EH rows, ten
+converged addresses, strings and floats. Landed file claims for LoadScreen,
+GameWindowGlobal and the parser fragment were released; release --landed ran.
+Rebased prerequisite identities include 3d1fcc4261 (parser), 54265e4418
+(GameWindowGlobal), and 70a67784ed (opacity).
+
+The opacity prerequisite uses the real Shadow pointer type for the +0x04
+holder and explicit casts for the observed position prefix. Target call identity
+is the already rowed Shadow::setOpacity at 0x003308F6. It declares the existing
+RadiusDecal::setOpacity without changing fields, flags, pins or hatches. All
+seven old rows and three float literals verify. The supported merge then accepts
+RadiusDecal_setOpacity.cpp, preserving eight rows and removing one fragment.
+Fresh destination build verifies 8/8 and four float literals; frozen-body and
+check_csv checks pass. The current-map diff repoints one source column only.
+
+The complete pending batch after the confirmed push contains only this opacity
+move. Audited the fetched origin/master..HEAD plus staged move across active
+tools, hooks, workflows, source/includes, build inputs and registries. Remaining
+old basename references are historical link_status, generated provenance and
+comments in Rva0029A469/ScriptActions_Rva003BC37C describing the verified pattern.
+No active consumer or protected register key needs changing. Earlier parser/font
+moves were audited and published in the preceding batch.
+
+The remaining clear/destructor donor is outside the destination scope and has
+a different field vocabulary and virtual release view; a guessed destructor
+declaration alone would not reconcile its layout. Other GameLogic donors still
+lack baseline matches at this destination. Their source is left intact.
