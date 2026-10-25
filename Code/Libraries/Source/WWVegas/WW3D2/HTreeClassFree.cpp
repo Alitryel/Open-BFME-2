@@ -51,26 +51,3 @@ void BfmeRva00166110::Clear()
 	BfmeRva00161350Elem *i = _STL::__copy(last, Finish, first, tag, (int *)0);
 	Finish = i;
 }
-
-void HTreeClass::Free(void)
-{
-	if (Pivot != 0) {
-		delete [] (char *)Pivot;
-		Pivot = 0;
-	}
-	NumPivots = 0;
-	ScaleFactor = 1.0f;
-
-	// Retail inlines the erase here; keep its separately rowed Clear provider
-	// independent so a TU carve can retain that body in the residual.
-	BfmeRva00166110 &sequence = *reinterpret_cast<BfmeRva00166110 *>(OwnedSequence1C);
-	BfmeRva00161350Elem *first = sequence.Start;
-	BfmeRva00161350Elem *last = sequence.Finish;
-	_STL::random_access_iterator_tag tag;
-	sequence.Finish = _STL::__copy(last, sequence.Finish, first, tag, (int *)0);
-
-	Unknown28 = 0;
-	delete [] reinterpret_cast<char *>(Unknown2C);
-	Unknown2C = 0;
-	Unknown30 = 0;
-}

@@ -109,3 +109,42 @@ No source paths move in this prerequisite or the complete outgoing range;
 the prepublication path audit has no consumers to repoint. File reduction,
 identity debt retirement and new recovered bytes remain zero. Keep the donor,
 0x00166510 and 0x001663C0 claims until the prerequisite batch is published.
+
+
+## Follow-up: Free split applied at final paths
+
+The split above was subsequently applied with normal tool claims to verify the
+prerequisite at its final paths. `tu_skeleton.py --split HTreeClassFree.cpp
+--for htree.cpp` moves only Free (0x00166510, 90 bytes); the residual retains
+Clear (0x001663C0, 33 bytes). Both existing files remain: net file change zero.
+The ledger and TU map each repoint exactly that one existing row. The map was
+not regenerated. No identity baseline keys or protected registers change.
+
+Acceptance: `./build.sh htree.cpp HTreeClassFree.cpp` passes 13/13 rows and seven
+float literals; frozen-file checks and `check_csv.py` pass (98,249 rows).
+The subsequent whole-donor merge dry-run accepts htree.cpp, storage,
+destructor and CaptureBone, preserving 15 rows with no rejected whole donor.
+Receipts: `build/sol-htree-free-applied.txt`,
+`build/sol-htree-free-final-paths.txt`, `build/sol-htree-post-split-dry.txt`.
+Leave the three remaining whole-donor merges for Luna after publication.
+
+The staged code-identity check passes in shadow mode with one unregistered
+global divergent COMDAT, Vector3's copy constructor. It has 94 cached copies:
+93 share the 25-byte variant, while RTS3DSceneVisibilityCheck has a 28-byte
+variant. Neither the residual nor this split introduces that variant. A scratch
+Verifier compilation of HEAD's pre-split seed passes all 11 old rows and emits
+the exact same 25-byte Vector3 constructor as the split seed. This is existing
+global shadow debt; no debt retirement or new identity improvement is claimed.
+
+Prepublication path-consumer audit covers the five prerequisite commits since
+7d1555ce5f, plus this staged split (HEAD before split f58a519fc4), and checks
+both origin/master..HEAD and the own-branch range to distinguish concurrent
+upstream work. No active tool, hook, workflow, include or build input names the
+moved Free row by its former source path. Both paths remain valid for residual
+rows; historical evidence, the header inventory and census snapshots remain.
+The tool updates the Doxygen source registry, function ledger and one TU-map
+entry. No other consumers require changes. Existing identity keys remain
+accounted for; file reduction, identity debt retired and recovered bytes are
+all zero. Keep the outstanding AptValue and HTree claims until the runner
+confirms this batch is published, then release the scope and prerequisite RVA
+claims (the split settles its moved RVA through the normal landed path).
