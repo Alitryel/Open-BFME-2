@@ -22,7 +22,7 @@ private:
 struct Rva000B508AGlobals
 {
 	char m_pad[0x9A6];
-	unsigned char m_flag9A6;
+	unsigned char m_useSimpleHordeDecals;
 };
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
@@ -215,7 +215,7 @@ void Rva000B508A::rva000B508A(const RadiusDecalTemplate *radiusDecalTemplate)
 		return;
 	if (object->m_template->m_flags108 & 0x80)
 		return;
-	if (((Rva000B508AGlobals *)TheWritableGlobalData)->m_flag9A6)
+	if (((Rva000B508AGlobals *)TheWritableGlobalData)->m_useSimpleHordeDecals)
 	{
 		if (m_drawable->m_flag43C)
 			slot27(object->rva0028C173(), ((BfmeSubBIC *)object)->bfmeAskBIC());
