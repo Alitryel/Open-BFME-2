@@ -75,9 +75,9 @@ void Rva004ED471::rva004ED471(HLodClass::ModelNodeClass *pos, const HLodClass::M
 {
 	unsigned int oldSize = (unsigned int)(m_finish - m_start);
 	unsigned int *growthCount = &count;
-	unsigned int tmp = oldSize;
-	if (tmp >= count) {
-		growthCount = &tmp;
+	unsigned int growthSize = oldSize;
+	if (growthSize >= count) {
+		growthCount = &growthSize;
 	}
 	unsigned int len = *growthCount + oldSize;
 	_STL::allocator<BfmeStringRecord002CF4C6> *alloc = (_STL::allocator<BfmeStringRecord002CF4C6> *)&m_end;

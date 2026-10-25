@@ -45,7 +45,7 @@ void famgenDelete(Rva00360D26Member *p) { delete p; }
 
 // ??_GBfmeObject544@@QAEPAXI@Z @0x4cacfb
 class BfmeObject544 { public: ~BfmeObject544(); };
-void famgenDelete(BfmeObject544 *p) { delete p; }
+void famgenDelete(BfmeObject544 *soundState) { delete soundState; }
 
 // ??_GGen_001DB2C0@@QAEPAXI@Z @0x4de5f4
 class Gen_001DB2C0 { public: ~Gen_001DB2C0(); };
