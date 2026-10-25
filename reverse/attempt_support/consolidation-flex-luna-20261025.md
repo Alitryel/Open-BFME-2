@@ -10,6 +10,10 @@
   the TU byte build and frozen-file check.
 - `WindowLayout.cpp` absorbed `Rva00538ADCFinish.cpp`; the TU build passed all
   three matched rows, including the 43-byte `0x00538ADC` body.
+- `MoneyCrateCollide.cpp` absorbed `MoneyCrateCollideExecute.cpp`; its accepted
+  body (`0x004BC9E9`, 244 bytes) passed the TU byte build and frozen-file check.
+- The matched `ConstIntGetters4.cpp` body `0x005A02E7` was split into its
+  approved `FireWeaponCollide.cpp` TU; the 5-row destination build passed.
 
 ## Donor blockers left for a prerequisite pass
 
@@ -24,6 +28,10 @@
   not declared in the class first. `window_layout.cpp` rows are refused because
   that source is keyed in a protected path-keyed register. No repair or
   register change was attempted.
+- MoneyCrateCollide `MoneyCrateCollideCtor.cpp`: the merge trial fails with
+  `C2504: 'CrateCollide' : base class undefined` in the generated TU.
+  `MoneyCrateCollidePoolKey.cpp` is refused because its source is keyed in a
+  protected path-keyed register. No repair or register change was attempted.
 
 ## Audit
 
@@ -37,4 +45,5 @@ only the row source owners changed. No data rows or global owners changed.
 The path audit found no affected consumers in tools, hooks, workflows, source
 includes or build inputs; remaining matches refer to unchanged destinations,
 documentation or donor provenance. No linked coverage is claimed. All changes
-are byte-neutral; net source files removed by the three merges: five.
+are byte-neutral; the four merges removed six source files. The ConstInt split
+retained its original donor file.
