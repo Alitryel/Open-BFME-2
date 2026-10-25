@@ -108,3 +108,37 @@ plus RVAs 0x0003C7A0, 0x0003CD30 and 0x0003DA20, until publication is confirmed.
 This declaration-only prerequisite adds the local header but moves no existing
 source path; the full outgoing Laser/Font/debug batch still has no absorbed
 fragment or renamed consumer to repoint.
+
+## PingThread SDK declarations and include order cleared
+
+The refreshed Network planner and approved PingThread plan retain the mixed and
+protected boundaries. The normal baseline trial accepted three files/ten rows,
+rejecting the two clean Pinger donors on duplicate placement-array operators.
+The earlier handoff also identified the seed's private void-pointer return for
+GetProcAddress, conflicting with the existing Windows header's FARPROC return.
+
+PingThread.cpp now includes its existing sweep windows.h before STLport and
+uses that header's declarations instead of its eight local SDK typedefs and
+function declarations. This also establishes the SDK shim's existing
+placement-array guard before STLport and GameMemory meet; the shim is unchanged.
+The ICMP helper's function-pointer casts and every body remain unchanged.
+`./build.sh PingThread.cpp` passes all five rows/502 retail bytes, four literals
+and three named imports; declared-unmatched and diff checks pass.
+
+The normal after trial accepts five files/13 rows/958 retail bytes, including
+areThreadsRunning and both getRequest donor rows. Only
+Rva0055011A00550041.cpp remains rejected, for explicit string specializations
+after instantiation. Receipts: build/ping-sol-before-dry.txt and
+build/ping-sol-after-dry.txt. No merge was applied.
+
+The optional ms_header_audit scan and check could not preprocess even their
+empty kitchen-sink prefix in this Linux environment (exit 1; scan receipt in
+build/ping-sol-ms-header.txt). No report refresh or register retirement is
+claimed. The PingThread Microsoft-header queue row needs the owning environment
+and writer refreshed before deletion or debt retirement. That queue is held
+by another worker and was not edited. Retain the PingThread.cpp file scope and
+0x0054F99E until this prerequisite is published, then release them.
+
+The complete outgoing prerequisite batch still moves no existing source path.
+The new debug view's explicit include path was verified from the standalone
+donors and the approved merge destination; no active path consumer needs a move.
