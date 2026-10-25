@@ -98,6 +98,8 @@ enum
 
 class GameWindow;
 
+class GameWindowManager;
+
 void GadgetComboBoxSetEnabledTextColors(GameWindow *, int, int);
 
 void GadgetListBoxSetFont(GameWindow *, GameFont *);
@@ -125,8 +127,8 @@ typedef void (*GameWinTooltipFunc)(GameWindow *, WinInstanceData *, UnsignedInt)
 class GameWindowChild
 {
 public:
-	virtual void childAnchor0();
-	virtual void childAnchor1();
+	virtual void drawBorder(GameWindow *window);
+	virtual void draw(GameWindow *window, void *instanceData);
 	virtual void onChildPosition(int curX, int curY, int newX, int newY);
 };
 
