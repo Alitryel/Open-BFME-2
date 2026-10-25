@@ -12,6 +12,10 @@ including a link task served by the default picker. Check its evidence and
 prerequisites against current source and providers before repeating an attempt:
 the ranking can still contain repairs that landed after the last census.
 
+Read the [linking target checklist](linking_targets.md) alongside the register.
+It preserves 50 named census leads, their byte counts and follow-up status.
+Update affected rows with the repair or attempt evidence and remaining blockers.
+
 Update the entries you worked on in the same commit as a repair or substantive
 attempt handoff, and before ending the pass. Record what was completed, new
 obstacles, remaining dependencies and the next useful check. Add a new stable ID

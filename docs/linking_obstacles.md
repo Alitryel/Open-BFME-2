@@ -5,6 +5,10 @@ and attempt handoffs, and before ending a linking pass. Workflow:
 [linking.md](linking.md#shared-obstacle-register). This is a shared handoff,
 not an authoritative progress counter. Claim work through the normal claim tool.
 
+Read the [linking target checklist](linking_targets.md) alongside this register
+when selecting work. Update affected target rows with results, evidence and
+remaining dependencies in the repair or handoff commit.
+
 ## Maintaining this register
 
 - Update only the entries your evidence affects. Record the date, source revision,
