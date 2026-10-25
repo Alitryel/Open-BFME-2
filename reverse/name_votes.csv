@@ -6259,3 +6259,13 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,0a146c2c25903e0079cb781a,gpt-6.1-sol,codex8-20261025-061940-9,w-de56e563a50b,2026-10-25
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,f53999235b3e6bcce0f8fce0,gpt-6.1-sol,codex8-20261025-061940-9,w-de56e563a50b,2026-10-25
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,bc016a2a74407bd6cbe4a1f0,gpt-6.1-sol,codex8-20261025-061940-9,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp|param|Rva004E6A37Ref|r,e0aa5d462b1a2bb34c8d2d08,gpt-6.1-sol,codex8-20261025-064219-2,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp|local|InGameNotificationBoxMovieClip::RenderMessage|w,b74dce2abf1093080a05486e,gpt-6.1-sol,codex8-20261025-064219-2,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t0,1e0c64400aa0b4b2110c7d1e,gpt-6.1-sol,codex8-20261025-064219-2,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t1,72124ef1e7eb77df90342c17,gpt-6.1-sol,codex8-20261025-064219-2,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t2,c1bd09df46608b29c6e924a9,gpt-6.1-sol,codex8-20261025-064219-2,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t3,075a31c6ec359b0a50bf9ea3,gpt-6.1-sol,codex8-20261025-064219-2,w-de56e563a50b,2026-10-25
+Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp|class||BfmeDisplayModeInfo,8071b2c988b7be8caa243756,gpt-6.1-sol,codex8-20261025-064219-3,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|class||Rva004F76EAPred,ff7c67914bc9841751b4844d,gpt-6.1-sol,codex8-20261025-064219-3,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,f5369ff659f1c0e28a966fcb,gpt-6.1-sol,codex8-20261025-064219-3,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|param|Object::forceEmotion|arg,2412110df8f00d962e6732a0,gpt-6.1-sol,codex8-20261025-064219-4,w-de56e563a50b,2026-10-25
