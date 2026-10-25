@@ -6,6 +6,9 @@
 // returned AptString factory with text+8. Neutral function name: fromCharCode
 // is a semantic lead, not independently established retail identity.
 class AptValue;
+class BfmeAptValue006DCD20;
+class AptBasePtrStack;
+struct AptActionInterpreter;
 
 class BfmeAptValue006DCD20 {public:int toInteger() const;};
 
@@ -25,6 +28,7 @@ public:
   unsigned short m_uHash;
  };
  EAStringC(unsigned int);
+ EAStringC(const char *);
  EAStringC();
  ~EAStringC();
  EAStringC &clear();
@@ -38,6 +42,7 @@ extern EAStringC::StringDataC g_eaEmptyStringData;
 
 class AptString {
 public:static AptString *Create();
+ static AptValue *sMethod_charCodeAt(AptValue *,int);
  char prefix[8]; EAStringC text;
 };
 

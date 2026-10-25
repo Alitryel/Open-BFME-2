@@ -1,10 +1,13 @@
-// cl: /O2 /MD /EHsc
+// cl: /O2 /MD /EHsc /D_CRTIMP=
 // ?sMethod_charCodeAt@AptString@@SAPAVAptValue@@PAV2@H@Z retail 0x006D7410 195B
 // (WB 0x0177FAB0): the stack's integer index into the receiver's string,
 // UTF-8 decoded (0x006D5E70 / 0x006D3E40) and returned as a new AptString of
 // its decimal code, else gpUndefinedValue. The field address is taken before
 // the index test, and the rest is that test's else block: that keeps retail's
 // first shared undefined-return block ahead of the lookup.
+// Retail calls the named direct sprintf thunk at RVA 006291B4.
+#include <stdio.h>
+
 class EAStringC {void *data;public:EAStringC(const char *);~EAStringC();EAStringC &operator=(const EAStringC &);};
 class AptValue;
 class BfmeAptValue006DCD20 {public:int toInteger()const;BfmeAptValue006DCD20 *checkedString();unsigned char prefix[8];EAStringC text;};
@@ -17,7 +20,6 @@ class AptString {public:static AptString *Create();static AptValue *sMethod_char
 void *rva006d4d40(void *,int);
 class Rva006D5E70String {void *data;public:void *rva006d5e70(int);};
 int rva006d3e40(const char *);
-extern "C" int __cdecl sprintf(char *,const char *,...);
 AptValue *AptString::sMethod_charCodeAt(AptValue *self,int)
 {
  int index=g_aptDateInterpreter.stack.At(0)->toInteger();

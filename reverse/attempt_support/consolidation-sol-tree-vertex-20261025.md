@@ -23,7 +23,7 @@ The donor identity scan reports the same four pre-existing divergent COMDATs
 with HEAD's unchanged source rebuilt and with this edit: Vector3 copy ctor,
 PtrVector<int> and PtrVector<VertexBufferClass*> operator[], and Matrix3D
 const operator[]. Its provider-binding reports are byte-identical before and
-after: nine owner, one gap-filler, one alias; zero wrong bindings. The edit
+after: nine owner, one EH, one alias; zero wrong bindings. The edit
 introduces no identity improvement claim and does not retire those findings.
 The modified donor was restored and freshly built after the comparison.
 
