@@ -285,3 +285,33 @@ pending absorbed source paths (BattlePlan and Squad). Matches are merged
 provenance, historical donor notes/attempts and census; no active consumer
 requires repair. The new Squad TU is tracked. Common and AI directories stay
 in place; no EA path strings changed. Exact merge report: squad-merge.txt.
+
+## RiderChangeContain blocked trial
+
+Reviewed path alternatives/current routing and private class/flags prerequisites;
+eight eligible donor files pass frozen checks. No verified merge: duplicate
+Xfer/AsciiString classes, private Module member access and missing damage view.
+Existing TU independently passes 1/1. No claims taken or source changes; exact
+reasons in rider-dryrun.txt. Initial existing-row count typo retracted/re-recorded
+through re_log.py. Nine mixed and four protected files remain untouched.
+
+## AssaultTransportAIUpdate merge
+
+Planner prerequisites and current routing reviewed. Eight eligible sources pass
+frozen checks; tool trials accept the existing TU and Rva0048F472Check. One
+file removed with two matched rows / 75 bytes retained. Normal build passes
+2/2 plus literal/import checks; frozen, staged canonical-class, EH (zero rows,
+zero missing objects) and converged-data checks pass. Only one functions/map
+source column is repointed. Six rejected donors require receiver declarations
+or Xfer/GameLogic include reconciliation; four mixed and three protected files
+remain untouched. Exact diagnostics and flags: assault-merge.txt.
+
+Combined outgoing/staged compatibility audit refreshed at fetched origin
+27b23d675b8e46e096fc697af711003cf06c29f3; local merge base is
+8983e1f1f1dc40579105599b51892e0faf1332bb. All five pending absorbed paths
+(BattlePlan, Squad and AssaultTransport) were searched by full path and basename
+across the tracked tree. Hits are merged provenance, historical symbols/ledger
+notes, attempt evidence and historical census. No active tool, hook, workflow,
+include, build/configuration input or registry requires repair. Upstream-only
+additions in the divergent-tip diff are not local removals. No directories
+removed or EA strings changed; protected registers remain unchanged.

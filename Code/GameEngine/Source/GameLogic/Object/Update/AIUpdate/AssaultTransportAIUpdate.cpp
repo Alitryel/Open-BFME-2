@@ -1,5 +1,27 @@
-// cl: /Ireference/shims/aiupdatelayout /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /FIzh_ascii.h /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/aiupdatelayout /Ireference/shims/zh_outofline /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
 // stlport
+// TU Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdate.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
+#pragma optimize("gsy", on)
+#pragma optimize("", on)
+#define Matrix4x4 Matrix4  // BFME renamed it
+#define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
+#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+#include "Common/Player.h"
+#include "Common/ThingFactory.h"
+#include "GameClient/Drawable.h"
+#include "GameClient/InGameUI.h"
+#include "GameLogic/ExperienceTracker.h"
+#include "GameLogic/Module/BodyModule.h"
+#include "GameLogic/Module/ContainModule.h"
+#include "GameLogic/Module/AssaultTransportAIUpdate.h"
+#include "GameLogic/Module/PhysicsUpdate.h"
+#include "GameLogic/Object.h"
+#include "GameLogic/PartitionManager.h"
+#include "GameLogic/Weapon.h"
+#ifdef _INTERNAL
+#endif
+
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdate.cpp); this unit had no counterpart under Code/.
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it. Retail links one
@@ -9,12 +31,48 @@
 // change nothing else in this unit, but if a function added later that builds
 // an array will not match, try it without this block.
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma optimize("gsy", on)
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+// ?Rva0048F472IsEqual@@YG_NPAX@Z @ 0x0048F472 58B
+// Evidence: single void* arg ret 4 stdcall bool; member +0x254 null-checked; virtual slots 0x10 and 0x18 returning float compared for equality; caller 0x0048FAB5 in 0x0048F828; unblocks 0x0048F828.
+class Rva0048F472Inner
+{
+public:
+	virtual void s0();
+	virtual void s1();
+	virtual void s2();
+	virtual void s3();
+	virtual float s4();
+	virtual void s5();
+	virtual float s6();
+};
+
+class Rva0048F472Outer
+{
+public:
+	char m_pad[0x254];
+	Rva0048F472Inner *m_ptr254;
+};
+
+// tu-skeleton: 0x0048F365 123B ?Rva0048F365Helper@AssaultTransportAIUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateHelper.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F3E0 49B ??1Rva0048F3E0@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva0026E836Derived.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F411 69B ?rva00048F411@AssaultTransportAIUpdate@@SA?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AssaultTransportAIUpdatePoolKey.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F456 6B ?name@Rva0048F456Named@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdate.cpp
+
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
-#define Matrix4x4 Matrix4  // BFME renamed it
-#define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
-// stlport
+
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -45,35 +103,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 //         troops, order them to attack, then return. Can do extra things like ordering
 //         injured troops to return to the transport for healing purposes.
 
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
-#include <list>
-
-// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
-namespace _STL {
-template <class T, class LeftTraits, class RightTraits>
-static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
-                              const _List_iterator<T, RightTraits>& b)
-{ return a._M_node != b._M_node; }
-}
-
-#include "Common/Player.h"
-#include "Common/ThingFactory.h"
-#include "GameClient/Drawable.h"
-#include "GameClient/InGameUI.h"
-#include "GameLogic/ExperienceTracker.h"
-#include "GameLogic/Module/BodyModule.h"
-#include "GameLogic/Module/ContainModule.h"
-#include "GameLogic/Module/AssaultTransportAIUpdate.h"
-#include "GameLogic/Module/PhysicsUpdate.h"
-#include "GameLogic/Object.h"
-#include "GameLogic/PartitionManager.h"
-#include "GameLogic/Weapon.h"
-
-#ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
 //#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
-#endif
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -105,7 +137,9 @@ void AssaultTransportAIUpdate::reset()
 // ??1AssaultTransportAIUpdate@@ present-unmatched
 AssaultTransportAIUpdate::~AssaultTransportAIUpdate( void )
 {
-} 
+}
+
+ 
 
 //-------------------------------------------------------------------------------------------------
 // ?aiDoCommand@AssaultTransportAIUpdate@@ present-unmatched
@@ -267,7 +301,9 @@ void AssaultTransportAIUpdate::crc( Xfer *xfer )
 {
 	// extend base class
 	AIUpdateInterface::crc(xfer);
-}  // end crc
+}
+
+  // end crc
 
 //-------------------------------------------------------------------------------------------------
 /** Xfer method
@@ -284,5 +320,41 @@ void AssaultTransportAIUpdate::loadPostProcess( void )
 {
  // extend base class
 	AIUpdateInterface::loadPostProcess();
-}  // end loadPostProcess
+}
 
+  // end loadPostProcess
+
+// tu-skeleton: 0x0048F46D 5B ?rva0048F46D@Rva0048F46D@@QAE_NXZ -- matched in Code/GameEngine/Source/Common/VslotSmallBodiesAJ.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0048F472Check.cpp
+
+bool __stdcall Rva0048F472IsEqual(void *p)
+{
+	Rva0048F472Outer *o = (Rva0048F472Outer *)p;
+	Rva0048F472Inner *q = o->m_ptr254;
+	if (q != 0) {
+		float a = q->s4();
+		float b = q->s6();
+		if (a == b)
+			return true;
+	}
+	return false;
+}
+
+// tu-skeleton: 0x0048F4AC 247B ?xfer@AssaultTransportAIUpdate@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F5A3 91B ??0AssaultTransportAIUpdate@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F5FE 28B ??_GRva0048F3E0@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva0026E836Derived.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F61A 52B ?isAttackPointless@AssaultTransportAIUpdate@@QBE_NXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateCheck.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F64E 66B ?rva0048F64E@AssaultTransportAIUpdate@@QAE_NPAX@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0048F64EFinish.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F690 94B ?Rva0048F690Helper@AssaultTransportAIUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdatePassengerHelper.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F6EE 185B ?Rva0048F6EEHelper@AssaultTransportAIUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateCommandHelper.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F7A7 129B ?Rva0048F7A7Dispatch@AssaultTransportAIUpdateSecondary@@QAEXPAUBfmeBehaviorRequest@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateDispatch.cpp (not merged yet)
+
+// tu-skeleton: 0x0048F828 914B ?update@AssaultTransportAIUpdate@@UAE?AW4UpdateSleepTime@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdateUpdate.cpp (not merged yet)
