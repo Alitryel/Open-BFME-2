@@ -92,6 +92,8 @@ public:
 	~HTreeClass(void);
 	// Native 0x00160FC0 caches input and byte storage at +28/+2C/+30.
 	void rva00160FC0(Rva00160FC0Input *next);
+	// Keep the existing rowed public Free provider's declaration and mangling.
+	void Free(void);
 	
 	int					Load_W3D(ChunkLoadClass & cload);
 	void					Init_Default(void);
@@ -185,7 +187,6 @@ private:
 	unsigned int Unknown2C;
 	unsigned int Unknown30;
 
-	void					Free(void);	
 	bool					read_pivots(ChunkLoadClass & cload,bool pre30);
 
 	friend class MeshClass;

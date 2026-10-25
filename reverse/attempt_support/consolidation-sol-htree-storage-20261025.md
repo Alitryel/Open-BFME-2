@@ -37,3 +37,23 @@ Claims remain held while the runner queues publication: header, seed, storage
 donor and RVA 0x00160FC0. The earlier AptValue prerequisite also retains its
 header, seed, donor and 0x006DE870 claims. Release these after the batch is
 confirmed on origin/master; a prerequisite does not queue an RVA-row landing.
+
+## Follow-up: destructor's unresolved Free call cleared
+
+Row-level composition diagnosis shows the destructor's only mismatch is its
+first CALL operand: actual unresolved `e800000000`, retail `e828fdffff`.
+The shared Zero Hour-derived header declares Free private, while the existing
+matched provider and pin are public `?Free@HTreeClass@@QAEXXZ`. Align the header
+declaration with that existing provider; this preserves the current binding
+and does not claim to recover original retail access from machine bytes.
+The native call destination is the already-matched Free body at 0x00166510.
+No new pin, visibility macro, alias or provider rename is needed.
+
+The destructor now includes the same real header and compilation environment
+as the seed, removing its second HTreeClass view. `./build.sh` verifies the
+26-byte destructor and seed together (12/12); frozen-file checks pass. The
+normal merge dry-run accepts seed, storage and destructor, 13 rows, rejecting
+only CaptureBone with `bytes`. Receipts: `build/sol-htree-dtor-probe.txt` and
+`build/sol-htree-dtor-after.txt`. The wider header gate remains required.
+Keep the destructor file and 0x001667E0 claims until publication as well.
+This is another prerequisite commit, with no path moves or file reduction.
