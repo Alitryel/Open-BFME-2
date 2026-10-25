@@ -26,10 +26,10 @@ void * g_bfmeGVIY;
 
 void __stdcall bfmeGoVIX(BfmeMsgVIX *m, void *email, void *parentalEmail, void *countryCode, void *eaMail, void *thirdPartyMail)
 {
-	void *g = g_bfmeFVIX;
+	void *txn = g_bfmeFVIX;
 	((Rva007E8810Message *)m)->reset();
 	m->m_bfme1c = 0x61636374;
-	((Rva007E8810Message *)m)->addString("TXN", (const char *)g);
+	((Rva007E8810Message *)m)->addString("TXN", (const char *)txn);
 	((Rva007E8810Message *)m)->addString("email", (const char *)email);
 	((Rva007E8810Message *)m)->addString("parentalEmail", (const char *)parentalEmail);
 	((Rva007E8810Message *)m)->addString("countryCode", (const char *)countryCode);

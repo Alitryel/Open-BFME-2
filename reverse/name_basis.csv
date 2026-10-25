@@ -2079,3 +2079,4 @@ member,Rva003A4BFDEntry::m_id08,Rva003A4BFDEntry::m_sourceID,inferred,agree:nl-1
 member,Rva002A8F24Data::m_874,Rva002A8F24Data::m_expansionRadius,inferred,agree:nl-acaa2c504a3b,Code/GameEngine/Source/GameLogic/SkirmishAI/AITacticalAI/AITargetChooser/AITargetHeuristics/AITargetHeuristicRva00573117.cpp,
 local,DiscreteCircle::generateEdgePairs::x,DiscreteCircle::generateEdgePairs::xOffset,inferred,agree:nl-9a35be3c8085,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
 local,DiscreteCircle::generateEdgePairs::y,DiscreteCircle::generateEdgePairs::yOffset,inferred,agree:nl-ce2338f03b0b,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
+local,bfmeGoVIX::g,bfmeGoVIX::txn,inferred,agree:nl-ab222ea7ae0c,Code/GameEngine/Source/Common/BfmeConv1380.cpp,0x006568F0

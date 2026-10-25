@@ -6329,3 +6329,7 @@ Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::R
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w2,81cdfdcecf112886f578a265,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|w3,a43c756134201f6f5a22aa16,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp|member|Rva0050B7D2Arg|m_08,cf456329800cf7b812d6a995,codex,codex-20261025-naming,w-876febbd28ff,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|bfmeGoVIX|g,ab222ea7ae0c88f302f6a22b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p004a,w-57bf5c94ca56,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|BfmeThingVIY::bfmeGoVIY|g,d9456a6456baa29060b11b4c,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p004a,w-57bf5c94ca56,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|bfmeGoVIX|g,ab222ea7ae0c88f302f6a22b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p004b,w-a473eaa5c011,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv1380.cpp|local|BfmeThingVIY::bfmeGoVIY|g,d9456a6456baa29060b11b4c,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p004b,w-a473eaa5c011,2026-10-25
