@@ -252,3 +252,97 @@ and all 23 built-in index validation probes passed. Wine line-directive paths
 are mapped back to their indexed header roots; an index version bump prevents
 reuse of older Linux indexes without that provenance. The refreshed queue
 keeps the unresolved TRUE definition under RTS/ActionManager.cpp.
+
+## Science.cpp and final pending-batch audit
+
+Both dry run and claimed application accepted nine donors into the approved
+RTS/Science.cpp destination, preserving eleven matched rows and removing
+eight net C++ files. The normal build passed 11/11, declared-unmatched passed,
+and check_csv reports 98,244 rows. Seven eligible donors remain: one cannot
+establish its baseline in the destination environment; the map iterator
+constructor changes bytes; three ScienceStore views omit isScienceGrantable;
+and two STLport views redefine allocator/vector/__false_type. Eleven mixed
+files and six protected-register donors remain intact. The merge moved only
+source columns of eleven function/map rows; the parse-definition data owner
+was not moved. No committed TU map regeneration occurred.
+
+The owning auditor automatically rescanned Science.cpp and replaced two
+donor NULL entries with one destination entry. Its NULL definition remains;
+unknown include-closure edges from the allocator shim remain explicitly
+queued as adapt/unknown, even though byte compilation succeeds. No debt is
+claimed retired by this report refresh.
+
+Fetched origin and audited the complete pending range from 475627d09f through
+the staged Science merge: twenty deleted paths and 198 surviving references.
+No old path remains in an active tool, hook, workflow, include, build input or
+mutable source registry after the owner-driven queue refreshes. Surviving
+Code hits are class/function identifiers, merge provenance and historical
+comments; independent reference-tree paths, naming evidence, attempts and the
+maintainer's link_status/link_census snapshots remain historical evidence.
+
+Session total: ten retail TUs consolidated, thirty-one donor files removed,
+six new destinations added (twenty-five net fewer C++ files), forty-seven
+matched rows preserved. The ResourceGatheringManager prerequisite separately
+reverified two bodies. The first seven commits through 475627d09f were
+published. Four later verified merge commits are eligible for the runner's
+final batch; retain their claims until publication is confirmed.
+
+### Claims retained for the final batch
+
+Owner: yasinschroeder-codex. Snapshot: 92 active claims (47 file scopes and
+45 RVAs), including rejected donors claimed by the normal merge workflow.
+The exact key/lease snapshot is build/consolidation-pending-claims.json; the
+file-key mapping is build/consolidation-pending-file-claims.json. After the
+runner lands the batch, release these file scopes and settle --landed RVAs,
+then release any remaining batch/rejected-donor RVAs from that snapshot. Do
+not release another owner's claims. These are the retained file scopes:
+
+```text
+Code/GameEngine/Source/Common/ActionManager_canFireWeapon.cpp
+Code/GameEngine/Source/Common/ActionManager_canOverrideSpecialPowerDestination.cpp
+Code/GameEngine/Source/Common/ActionManager_canPlayerGarrison.cpp
+Code/GameEngine/Source/Common/ActionManager_canResumeConstructionOf.cpp
+Code/GameEngine/Source/Common/BfmeConv1923.cpp
+Code/GameEngine/Source/Common/MakePairInstantiations.cpp
+Code/GameEngine/Source/Common/RTS/ActionManager.cpp
+Code/GameEngine/Source/Common/RTS/ActionManagerCanDoSpecialPower.cpp
+Code/GameEngine/Source/Common/RTS/ActionManagerGetCanAttackObject.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManager.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManagerDeleter.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManagerLists.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManagerXfer.cpp
+Code/GameEngine/Source/Common/RTS/Science.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreIsScienceGrantable.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreIsValidScience.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreNameDescription.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreParseScienceDefinition.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStorePurchasable.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreRootPrereqs.cpp
+Code/GameEngine/Source/Common/ResourceGatheringManagerAdd.cpp
+Code/GameEngine/Source/Common/Rva001FF6AEClear.cpp
+Code/GameEngine/Source/Common/Rva001FFEE9Assign.cpp
+Code/GameEngine/Source/Common/Rva0031804DAssign.cpp
+Code/GameEngine/Source/Common/Rva003B1546Rva001FF5C3.cpp
+Code/GameEngine/Source/Common/Rva0041B8D2.cpp
+Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp
+Code/GameEngine/Source/Common/Rva0041BB87.cpp
+Code/GameEngine/Source/Common/Rva0041C9C4.cpp
+Code/GameEngine/Source/Common/ScienceStore_getInternalNameForScience.cpp
+Code/GameEngine/Source/Common/ScienceStore_getScienceFromInternalName.cpp
+Code/GameEngine/Source/Common/TerrainTypeCollection.cpp
+Code/GameEngine/Source/Common/TerrainType_friend_setName.cpp
+Code/GameEngine/Source/Common/TerrainTypes.cpp
+Code/GameEngine/Source/GameLogic/Object/Behavior/Rva001FFA5A.cpp
+Code/GameEngine/Source/GameLogic/Object/Behavior/Rva001FFC38.cpp
+Code/GameEngine/Source/GameLogic/Object/WeaponAttackRva0041BAD2.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva001FF743.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00317CF2.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW6Rva00317CCD.cpp
+Code/Libraries/Source/WWVegas/WWLib/stlport_vector_nocasepair_assign.cpp
+Code/Libraries/Source/WWVegas/WWLib/stlport_vector_sciencevec_allocate_copy.cpp
+reverse/ms_header_queue.tsv
+tools/ms_header_audit.py
+tools/tests/test_ms_header_audit.py
+tools/tests/test_tu_skeleton.py
+tools/tu_skeleton.py
+```

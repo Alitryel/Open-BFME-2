@@ -520,8 +520,6 @@ Code/GameEngine/Source/Common/RTS/PlayerList_findPlayerWithNameKey.cpp	drop-in c
 Code/GameEngine/Source/Common/RTS/PlayerRva002ACE2B.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<math.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	floor:same
 Code/GameEngine/Source/Common/RTS/Rva00739AF0Siblings.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<math.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	floor:same
 Code/GameEngine/Source/Common/RTS/Rva00739CA0.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<math.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	floor:same
-Code/GameEngine/Source/Common/RTS/ScienceStoreIsScienceGrantable.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
-Code/GameEngine/Source/Common/RTS/ScienceStoreIsValidScience.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/Common/RTS/ScienceStoreNameDescription.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/Common/RTS/SpecialPowerStoreFind.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/Common/RTS/TeamGetControllingPlayer.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
@@ -3420,3 +3418,4 @@ reference/shims/sweep/windowsx.h	shim	unverified	2	0	0	0	2	0	0	0	0	0	0	<WindowsX
 reference/shims/sweep/comdef.h	shim	abi	1	0	0	0	0	0	1	0	0	0	0	<comutil.h>	no	no	shim			_bstr_t:abi
 reference/shims/sweep/winsock2.h	shim	abi	1	0	0	0	1	0	0	0	0	0	0	<windows.h>	yes	no	shim	96: reference/shims/sweep/winsock.h:9 in_addr(unknown); reference/shims/sweep/winsock.h:15 s_addr(unknown); reference/shims/sweep/winsock.h:18 sockaddr(source)		MAKEWORD:unverified
 Code/GameEngine/Source/Common/RTS/ActionManager.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<windows.h>	yes	yes	hand			TRUE:unverified
+Code/GameEngine/Source/Common/RTS/Science.cpp	adapt	unknown	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand	3: reference/shims/bfmealloc/stl/_algobase.h:51 stl/_pair.h(unknown); reference/shims/bfmealloc/stl/_algobase.h:55 stl/_iterator_base.h(unknown); reference/shims/bfmealloc/stl/_algobase.h:573 stl/_algobase.c(unknown)		NULL:same
