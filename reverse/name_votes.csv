@@ -6297,3 +6297,12 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp|local|W3DProjectedShadowManager::rva0010BE72|value54,e472cd95d2d3c364f80370bd,gpt-6.1-sol,codex5-20261025-065346-2,w-2d32e7a71cf1,2026-10-25
 Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|function|0x002F0DD6|rva002F0DD6,b160c836c17fd107c773a4c7,gpt-6.1-sol,codex5-20261025-065346-3,w-2d32e7a71cf1,2026-10-25
 Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCIter|p,fa82ebb0102cfd1aa73f7887,gpt-6.1-sol,codex5-20261025-065346-3,w-2d32e7a71cf1,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp|param|W3DTerrainBackground::getTriangleIntersection|x,b893a7c35fc6c329984e5766,gpt-6.1-sol,codex5-20261025-065346-5,w-2d32e7a71cf1,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp|param|W3DTerrainBackground::getTriangleIntersection|y,181f3f56cbddb4e96b05ef56,gpt-6.1-sol,codex5-20261025-065346-5,w-2d32e7a71cf1,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundGetTriangleIntersection.cpp|local|W3DTerrainBackground::getTriangleIntersection|z,67a9486c6489cec84ce6aa0b,gpt-6.1-sol,codex5-20261025-065346-5,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|member|Record52|selected2C,e8a11a056103452a42bf7d76,gpt-6.1-sol,codex5-20261025-065346-7,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|param|StrategicVeterancy::Data::AutoResolve::AutoResolve|a,a3740c805f8308bd22b41058,gpt-6.1-sol,codex5-20261025-065346-7,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t0,1e0c64400aa0b4b2110c7d1e,gpt-6.1-sol,codex5-20261025-065346-8,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t1,72124ef1e7eb77df90342c17,gpt-6.1-sol,codex5-20261025-065346-8,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t2,c1bd09df46608b29c6e924a9,gpt-6.1-sol,codex5-20261025-065346-8,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t3,075a31c6ec359b0a50bf9ea3,gpt-6.1-sol,codex5-20261025-065346-8,w-2d32e7a71cf1,2026-10-25
