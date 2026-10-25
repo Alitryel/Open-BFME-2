@@ -462,6 +462,25 @@ class Game:
         next_tick = self.t0 + tick_every
         next_note = self.t0 + 30
         res = self.res
+        res["debugger_errors"] = []
+        res["cleanup"] = {"terminate": [], "exit_events": [], "wait": [], "close": [], "uncertain_handles": []}
+        exited = set()
+        termination_requested = set()
+        continuation_failed = False
+        game_handle = None
+
+        def debugger_error(operation, error):
+            res["debugger_errors"].append({"operation": operation, "error": error})
+            res["stopped"] = "debugger-error"
+
+        def close_handle(handle, label):
+            if handle and handle != (1 << (ctypes.sizeof(wt.HANDLE) * 8)) - 1:
+                if not k.CloseHandle(wt.HANDLE(handle)):
+                    res["cleanup"]["uncertain_handles"].append({"label": label, "handle": handle})
+                    debugger_error(f"CloseHandle:{label}", ctypes.get_last_error())
+                else:
+                    res["cleanup"]["close"].append(label)
+
         try:
             while True:
                 now = time.time()
@@ -479,23 +498,38 @@ class Game:
                         res["stopped"] = why
                         break
                 if not k.WaitForDebugEvent(ev, 200):
+                    error = ctypes.get_last_error()
+                    if error != 121:
+                        debugger_error("WaitForDebugEvent", error)
+                        break
                     continue
                 code, pid, tid = (int.from_bytes(ev.raw[o:o + 4], "little") for o in (0, 4, 8))
                 status = DBG_CONTINUE
+                stop_after_continue = False
                 game = pid == self.pid
                 if code == CREATE_PROCESS:
-                    k.CloseHandle(int.from_bytes(ev.raw[16:24], "little"))
+                    close_handle(int.from_bytes(ev.raw[16:24], "little"), f"create-process:{pid}")
                     h = int.from_bytes(ev.raw[24:32], "little")
                     buf, n = ctypes.create_unicode_buffer(1024), wt.DWORD(1024)
                     k.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(n))
                     self.procs[pid] = [h, buf.value, int.from_bytes(ev.raw[40:48], "little"), False]
                     res["processes"].append(Path(buf.value).name)
                     if Path(buf.value).name.lower() == "game.dat":
-                        self.pid, self.hproc = pid, h
-                        self.base = int.from_bytes(ev.raw[40:48], "little")
-                        self.size = image_size(buf.value)
-                        self.exe = buf.value
-                        res.update(image_base=hex(self.base), started=self.seconds())
+                        if self.pid is not None:
+                            debugger_error("CREATE_PROCESS:multiple-game", pid)
+                        else:
+                            self.pid, self.hproc = pid, h
+                            self.base = int.from_bytes(ev.raw[40:48], "little")
+                            self.size = image_size(buf.value)
+                            self.exe = buf.value
+                            res.update(image_base=hex(self.base), started=self.seconds())
+                            duplicated = wt.HANDLE()
+                            current = k.GetCurrentProcess()
+                            if not k.DuplicateHandle(current, wt.HANDLE(h), current, ctypes.byref(duplicated),
+                                                     0, False, 0x2) or not duplicated.value:
+                                debugger_error("DuplicateHandle:game-process", ctypes.get_last_error())
+                            else:
+                                game_handle = duplicated.value
                 elif code == LOAD_DLL:
                     h = int.from_bytes(ev.raw[16:24], "little")
                     if h:
@@ -503,12 +537,11 @@ class Game:
                             buf = ctypes.create_unicode_buffer(1024)
                             if k.GetFinalPathNameByHandleW(wt.HANDLE(h), buf, 1024, 0):
                                 self.dlls.append((int.from_bytes(ev.raw[24:32], "little"), buf.value.split("\\")[-1]))
-                        k.CloseHandle(h)
+                        close_handle(h, f"load-dll:{pid}")
                 elif code == EXIT_PROCESS and game:
                     res.update(stopped="exit", exit_code=int.from_bytes(ev.raw[16:20], "little"),
                                seconds=self.seconds())
-                    k.ContinueDebugEvent(pid, tid, DBG_CONTINUE)
-                    break
+                    stop_after_continue = True
                 elif code == EXCEPTION:
                     exc = int.from_bytes(ev.raw[16:20], "little")
                     addr = int.from_bytes(ev.raw[32:40], "little")
@@ -519,9 +552,11 @@ class Game:
                         if game and not self._loaded():
                             res.update(stopped="profile-redirect-failed")
                             for hp, *_ in self.procs.values():     # killed before the thread is let go
-                                k.TerminateProcess(hp, 1)
-                            k.ContinueDebugEvent(pid, tid, DBG_CONTINUE)
-                            break
+                                if not k.TerminateProcess(wt.HANDLE(hp), 1):
+                                    debugger_error("TerminateProcess:profile-redirect", ctypes.get_last_error())
+                                else:
+                                    termination_requested.add(hp)
+                            stop_after_continue = True
                         elif self.want_version:      # the launcher gets the same version lie as boot_smoke
                             boot_smoke.xp_version_lie(k, h, base, path)
                     elif game and exc in INT3 and (addr in self.calls or addr - 1 in self.calls):
@@ -548,18 +583,84 @@ class Game:
                                     res["fault_where"] = self.where(addr)
                                     res["fault_stack"] = self.stack_frames(tid)
                         elif not first and game:
+                            status = DBG_NOT_HANDLED
                             res.update(stopped="crash", code=hex(exc), address=res.get("fault", addr),
                                        seconds=self.seconds())
-                            break
-                k.ContinueDebugEvent(pid, tid, status)
+                            stop_after_continue = True
+                if not k.ContinueDebugEvent(pid, tid, status):
+                    debugger_error("ContinueDebugEvent", ctypes.get_last_error())
+                    continuation_failed = True
+                    break
+                if code == EXIT_PROCESS:
+                    exited.add(pid)
+                if stop_after_continue or res["debugger_errors"]:
+                    break
             if res.get("stopped") not in ("exit", "crash", "profile-redirect-failed") and self.pid:
-                res["windows"], res["screenshot"] = self._while_serving(lambda: (
-                    [(t, r) for t, r, _ in boot_smoke.windows_of(self.pid)], capture(self.pid, OUT / f"{self.pid}.png")))
+                if not res["debugger_errors"]:
+                    res["windows"], res["screenshot"] = self._while_serving(lambda: (
+                        [(t, r) for t, r, _ in boot_smoke.windows_of(self.pid)],
+                        capture(self.pid, OUT / f"{self.pid}.png")))
         finally:
-            for h, *_ in self.procs.values():
-                k.TerminateProcess(h, 1)
-            k.CloseHandle(pi.hThread)
-            k.CloseHandle(pi.hProcess)
+            cleanup_targets = {pid: proc[0] for pid, proc in self.procs.items() if pid not in exited}
+            if pi.pid not in exited and pi.pid not in cleanup_targets:
+                cleanup_targets[pi.pid] = pi.hProcess
+            for pid, handle in cleanup_targets.items():
+                terminated = handle in termination_requested
+                if not terminated:
+                    terminated = bool(k.TerminateProcess(wt.HANDLE(handle), 1))
+                    if not terminated:
+                        debugger_error(f"TerminateProcess:{pid}", ctypes.get_last_error())
+                res["cleanup"]["terminate"].append({"pid": pid, "ok": terminated})
+            deadline = time.monotonic() + 5.0
+            pending = set(cleanup_targets)
+            if continuation_failed:
+                debugger_error("cleanup:uncontinued-event", "previous continuation failed")
+            else:
+                while pending and time.monotonic() < deadline:
+                    remaining = max(1, min(250, int((deadline - time.monotonic()) * 1000)))
+                    if not k.WaitForDebugEvent(ev, remaining):
+                        error = ctypes.get_last_error()
+                        if error == 121:
+                            continue
+                        debugger_error("WaitForDebugEvent:cleanup", error)
+                        break
+                    code, pid, tid = (int.from_bytes(ev.raw[o:o + 4], "little") for o in (0, 4, 8))
+                    if code in (CREATE_PROCESS, LOAD_DLL):
+                        close_handle(int.from_bytes(ev.raw[16:24], "little"), f"cleanup-event:{pid}")
+                    if code == CREATE_PROCESS and pid not in pending and pid not in exited:
+                        handle = int.from_bytes(ev.raw[24:32], "little")
+                        cleanup_targets[pid] = handle
+                        pending.add(pid)
+                        if not k.TerminateProcess(wt.HANDLE(handle), 1):
+                            debugger_error(f"TerminateProcess:cleanup-child:{pid}", ctypes.get_last_error())
+                    status = DBG_NOT_HANDLED if code == EXCEPTION else DBG_CONTINUE
+                    if not k.ContinueDebugEvent(pid, tid, status):
+                        debugger_error("ContinueDebugEvent:cleanup", ctypes.get_last_error())
+                        break
+                    if code == EXIT_PROCESS:
+                        exited.add(pid)
+                        pending.discard(pid)
+                        res["cleanup"]["exit_events"].append(pid)
+            if pending:
+                debugger_error("cleanup:missing-exit-events", sorted(pending))
+            remaining = max(0, int((deadline - time.monotonic()) * 1000))
+            result = k.WaitForSingleObject(wt.HANDLE(pi.hProcess), remaining)
+            res["cleanup"]["wait"].append({"pid": pi.pid, "result": result})
+            if result != 0:
+                debugger_error(f"WaitForSingleObject:{pi.pid}",
+                               ctypes.get_last_error() if result == 0xFFFFFFFF else result)
+            if game_handle is not None:
+                remaining = max(0, int((deadline - time.monotonic()) * 1000))
+                result = k.WaitForSingleObject(wt.HANDLE(game_handle), remaining)
+                res["cleanup"]["wait"].append({"pid": self.pid, "result": result})
+                if result != 0:
+                    debugger_error(f"WaitForSingleObject:{self.pid}",
+                                   ctypes.get_last_error() if result == 0xFFFFFFFF else result)
+                close_handle(game_handle, "game-process")
+            close_handle(pi.hThread, "pi-thread")
+            close_handle(pi.hProcess, "pi-process")
+        if res["debugger_errors"]:
+            res["stopped"] = "debugger-error"
         return res
 
     def where(self, va):
@@ -957,6 +1058,8 @@ def launch(a, extra, handlers=(), tick=None, timeout=None):
 
 
 def crash_outcome(res):
+    if res.get("stopped") == "debugger-error":
+        return "debugger-error"
     if res.get("stopped") == "profile-redirect-failed":
         return "profile-redirect-failed"
     if res.get("stopped") == "crash":
@@ -973,6 +1076,8 @@ def finish(a, name, out):
         out["outcome"] = "profile-changed"
     if any(out["guard"].values()):
         out["outcome"] = "guard-violation"
+    if out["run"].get("stopped") == "debugger-error":
+        out["outcome"] = "debugger-error"
     out["image"] = "retail" if a.retail else a.image
     if "coverage" in out:                            # the unit list goes to its own file
         cov = OUT / f"coverage_{name}_{out['image']}.json"
