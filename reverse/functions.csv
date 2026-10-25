@@ -6702,7 +6702,7 @@ _piStopReporting,,0x006A75E0,36,Code/GameEngine/Source/GameNetwork/GameSpy/peer/
 ?writeAsciiString@DataChunkOutput@@QAEXABVAsciiString@@@Z,,0x00307033,91,Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeAsciiString.cpp,matched,ZH DataChunk writeAsciiString; BFME string header len at +4 data at +8; /O1 /G7 for mov ax shape
 ?writeReal@DataChunkOutput@@QAEXM@Z,,0x00306CFF,24,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,ICF-folded with writeInt; int and float both write 4 bytes via fwrite
 ?writeByte@DataChunkOutput@@QAEXE@Z,,0x00306D17,24,Code/GameEngine/Source/Common/System/DataChunk.cpp,matched,ZH DataChunk writeByte; same shape as writeInt with size 1 not 4
-?detach@NetCommandNode@@QAEXXZ,,0x0058B8AE,12,Code/GameEngine/Source/GameNetwork/NetCommandList.cpp,matched,NetCommandNode message release; ZH NetCommandRef m_msg/m_next/m_prev; tail-calls NetCommandMsg::detach
+?detach@NetCommandNode@@QAEXXZ,,0x0058B8AE,12,Code/GameEngine/Source/GameNetwork/NetCommandRef.cpp,matched,NetCommandNode message release; ZH NetCommandRef m_msg/m_next/m_prev; tail-calls NetCommandMsg::detach
 ??0WeaponSetUpgradeModuleData@@QAE@XZ,,0x004B57AA,36,Code/GameEngine/Source/GameLogic/Object/Contain/HealContainModuleDataCtorThunk.cpp,matched,BFME2 HealContainModuleData ctor; OpenContain base pin; bitset128 reset via ledger row
 ??$_Construct@VBuddyRequest@@V1@@_STL@@YAXPAVBuddyRequest@@ABV1@@Z,,0x00550798,24,Code/GameEngine/Source/GameNetwork/GameSpy/BuddyRequestDequePushBackAux.cpp,matched,bfme1 GameSpy sweep exact placement; verbatim source import
 _PeerOperationsComplete,,0x0069FF40,95,Code/GameEngine/Source/GameNetwork/GameSpy/PeerOperationsComplete.cpp,matched,bfme1 GameSpy sweep exact placement; verbatim source import

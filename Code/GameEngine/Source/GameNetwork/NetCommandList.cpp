@@ -128,13 +128,6 @@ void NetCommandList::reset()
 	m_lastMessageInserted = 0;
 }
 
-// ?detach@NetCommandNode@@QAEXXZ
-void NetCommandNode::detach()
-{
-	if (m_msg)
-		m_msg->detach();
-}
-
 // ?removeMessage@NetCommandList@@QAEXPAVNetCommandRef@@@Z
 void NetCommandList::removeMessage(NetCommandRef *msg)
 {
