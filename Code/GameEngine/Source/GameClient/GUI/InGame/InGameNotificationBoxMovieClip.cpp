@@ -205,8 +205,8 @@ void InGameNotificationBoxMovieClip::rva004E6B7D(bool value){if(value!=flag50){i
 // WB13235C0 names RenderMessage. The equal-arm on the string argument keeps the
 // retail order of the two parameter loads (an arg-level (C ? E : E) schedule lever).
 void InGameNotificationBoxMovieClip::RenderMessage(const Coord2D*position,const Coord2D*size,void*,void*) {
- if(active.m_ptr){int w,h;((NoticeStringView*)string)->getSize(&w,&h);
- int x=WWMath::Float_To_Long((string ? ((float)floor(position->x+(size->x-w+1.0f)*0.5f)) : ((float)floor(position->x+(size->x-w+1.0f)*0.5f))));
+ if(active.m_ptr){int textWidth,h;((NoticeStringView*)string)->getSize(&textWidth,&h);
+ int x=WWMath::Float_To_Long((string ? ((float)floor(position->x+(size->x-textWidth+1.0f)*0.5f)) : ((float)floor(position->x+(size->x-textWidth+1.0f)*0.5f))));
  int y=WWMath::Float_To_Long((float)floor(position->y+(size->y-h+1.0f)*0.5f));
  ((NoticeStringView*)string)->draw(x,y);}
 }
