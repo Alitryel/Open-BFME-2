@@ -76,11 +76,11 @@ extern GameTextInterface *TheGameText;
 
 UnicodeString StrategicHUD::FormatCPString(int commandPoints, int maxCommandPoints)
 {
-	UnicodeString tmp;
+	UnicodeString cpString;
 	if (maxCommandPoints > 0) {
 		UnicodeString fetched = TheGameText->fetch("STRATEGICHUD:ArmyUnitSwapperCP", 0);
 		const wchar_t *fmt = fetched.m_data.m_data ? fetched.m_data.m_data->data : L"";
-		tmp.format(fmt, commandPoints, maxCommandPoints);
+		cpString.format(fmt, commandPoints, maxCommandPoints);
 	}
-	return tmp;
+	return cpString;
 }

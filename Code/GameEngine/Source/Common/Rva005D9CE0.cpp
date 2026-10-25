@@ -25,10 +25,10 @@ bool Rva005D9CD5::shouldActivate(Object *other)
 {
 	Object *victim = other->getAI()->getCurrentVictim();
 	if (victim) {
-		unsigned v = ((Rva005EE816 *)this)->rva005EE3B0(other, false);
-		if (v > 20)
+		unsigned enemyCount = ((Rva005EE816 *)this)->rva005EE3B0(other, false);
+		if (enemyCount > 20)
 			return true;
-		if (v != 0) {
+		if (enemyCount != 0) {
 			if (0.3f > other->getBody()->getFloat())
 				return true;
 		}

@@ -104,10 +104,10 @@ void SupplyWarehouseCreate::rva004B901D()
 	if (*(unsigned char *)((char *)data + 0x1C) != 0)
 		return;
 	BfmeObject872Header tmp(*(BfmeObject872Header *)((char *)m_object08 + 0x94));
-	unsigned int f = *(unsigned int *)((char *)data + 0x0C);
-	f >>= 2;
+	unsigned int moduleFlags = *(unsigned int *)((char *)data + 0x0C);
+	moduleFlags >>= 2;
 	_ReadWriteBarrier();
-	if ((f & 1) == 0)
+	if ((moduleFlags & 1) == 0)
 		return;
 	unsigned int objectFlags = *(unsigned int *)&tmp;
 	objectFlags >>= 2;
