@@ -59,7 +59,8 @@ The scoped planner's alternatives, mixed/protected prerequisites and compiler
 differences were reviewed; its currency check passed before applying. Current
 in-memory TU routing and the dry run approved the existing retail TU and two
 drawable-broadcast helpers. Normal-claim merge removed two fragment files,
-preserving all six matched rows, including the existing compiler EH handler.
+preserving all six matched rows / 806 retail bytes, including the existing
+compiler EH handler.
 The ordinary build passed 6/6 and verified two emitted STLport constructors
 against retail owners/callees; frozen-file and staged canonical-class checks
 passed. EH verification reports one EXACT row and no missing object.
@@ -79,3 +80,43 @@ Full tracked-tree searches of paths/basenames found only merged provenance
 comments and historical census snapshots. Behavior's directory remains, with
 no changed directory assumptions. No active tool, hook, workflow, include,
 build/config input or registry needs a repair. EA strings remain intact.
+
+The SubObjectsUpgrade commit gate passed. Its shadow identity pass reported a
+Vector_base constructor binding in swapTextures to 0x00211E58; the ordinary
+byte/STLport fold checks passed. No identity baseline was changed.
+
+## TunnelContain blocked trial
+
+Current routing approved 28 rows, eleven eligible donor files, three mixed
+and three protected files. All donor frozen checks passed. The dry run found
+no verified merge of two or more donors and supplied no per-donor rejection
+details. The unchanged destination builds 11/11 with string/float/import
+checks. No source was changed or claim taken. See `tunnel-dryrun.txt` and the
+recorded blocked verdict. Independent declaration/include/flag evidence is
+needed before retrying this same trial.
+
+## ProductionUpdate
+
+Reviewed current planner evidence, compiler differences and private declarations;
+the snapshot check passed before normal-claim application. All twelve eligible
+donors passed frozen checks. The merge absorbed four fragments into the existing
+TU, preserving 9 matched rows / 794 retail bytes. Ordinary build passed 9/9,
+including string/float/import checks. Frozen and staged canonical-class checks
+passed; EH reports two EXACT rows with no missing object. Converged data remains
+ten judged addresses with no second name or unjudged row. Only source columns
+were repointed; no protected register or regenerated map was committed.
+
+Seven donors remain rejected on baseline/context bytes, missing receiver
+methods, duplicate STL declarations or allocation specialization ordering.
+Thirteen mixed files and three protected files remain unchanged. Exact
+accepted/rejected files and flags are in production-merge.txt.
+
+Refreshed the full outgoing/staged path audit against origin
+584f3a434d6ed22f994ae1b2b0a4cfebde4a3b83: six absorbed source paths across
+SubObjectsUpgrade and ProductionUpdate. Full-path/basename searches cover
+tracked tools, hooks, workflows, includes, build/config inputs and registries;
+Common, Behavior and Update directories remain populated. No active consumers
+need repair. Old references are merged provenance, historical census records,
+append-only hashed naming votes/agreements/basis and attempt evidence; original
+EA strings are preserved. Two upstream-only newly added evidence files shown as
+deletions by the divergent-tip diff are not local changes or source moves.
