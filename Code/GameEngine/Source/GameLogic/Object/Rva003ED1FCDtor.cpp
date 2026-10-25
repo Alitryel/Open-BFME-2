@@ -95,3 +95,21 @@ Rva003ED1FC::~Rva003ED1FC()
 {
 	m_map.clear();
 }
+
+// The same manager under the constructor unit's spelling: ??0Rva0022BE0FSubsystem
+// (0x003ED340, Rva0022BE0FSubsystemCtor.cpp) stores this destructor's vtable
+// 0x00C36100, whose slot 0 (0x003ED249) calls 0x003ED1FC. Its vtable therefore
+// names this body; compiled under that spelling it is the identical 77B body.
+class Rva0022BE0FSubsystem : public SubsystemInterface
+{
+public:
+	virtual ~Rva0022BE0FSubsystem();
+private:
+	Rva003ED1F7 m_map;
+};
+
+// ??1Rva0022BE0FSubsystem@@UAE@XZ
+Rva0022BE0FSubsystem::~Rva0022BE0FSubsystem()
+{
+	m_map.clear();
+}
