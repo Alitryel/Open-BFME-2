@@ -224,6 +224,10 @@ public:
 	virtual int rva00466504(BfmeTab1026 *tab);
 	virtual int getContainMax() const;
 	virtual Rva0036AE51ListView rva00466534();
+	// Implemented for the lifecycle interface at complete-object +0x34.
+	// Their bodies use that interface's explicit receiver view.
+	virtual void onCreate();
+	virtual void onBuildComplete();
 
 	Object *getObject() const
 	{

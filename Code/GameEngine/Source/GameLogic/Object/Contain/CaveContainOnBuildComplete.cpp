@@ -20,7 +20,7 @@
 class Object;
 
 // Narrow target view: retail onCreate reads the module-data field at +0x98.
-class CaveContainModuleDataView
+class CaveContainBuildCompleteModuleDataView
 {
 public:
 	unsigned char m_pad[0x98];
@@ -47,9 +47,19 @@ public:
 // Cave-system singleton at retail RVA 0x00A031F4.
 extern CaveSystem *TheCaveSystem;
 
-// This TU-scoped view begins at the +0x34 secondary interface installed by
-// CaveContainCtor.cpp. It is not a complete declaration of CaveContain.
+// The rowed methods retain the CaveContain owner, but their incoming receiver
+// is the +0x34 interface. Keep that interface's data/dispatch contract separate
+// from the other CaveContain receiver views in the retail TU.
 class CaveContain
+{
+public:
+    virtual void onCreate();
+    virtual void onBuildComplete();
+};
+
+// This operand view begins at the +0x34 secondary interface installed by
+// CaveContainCtor.cpp. It is not a complete declaration of CaveContain.
+class CaveContainBuildCompleteView
 {
 public:
 	virtual void onCreate();
@@ -57,7 +67,6 @@ public:
 	virtual void rva004B3FD0();
 	virtual bool shouldDoOnBuildComplete();
 
-private:
 	unsigned char m_pad[0xC8];
 	unsigned char m_needToRunOnBuildComplete;
 	int m_caveIndex;
@@ -66,20 +75,24 @@ private:
 // ?onCreate@CaveContain@@UAEXXZ
 void CaveContain::onCreate()
 {
-	CaveContainModuleDataView *moduleData =
-		*reinterpret_cast<CaveContainModuleDataView **>(
+	CaveContainBuildCompleteModuleDataView *moduleData =
+		*reinterpret_cast<CaveContainBuildCompleteModuleDataView **>(
 			reinterpret_cast<char *>(this) - 0x30);
-	m_caveIndex = moduleData->m_caveIndexData;
+	CaveContainBuildCompleteView *view =
+		reinterpret_cast<CaveContainBuildCompleteView *>(this);
+	view->m_caveIndex = moduleData->m_caveIndexData;
 }
 
 void CaveContain::onBuildComplete()
 {
-	if (!shouldDoOnBuildComplete())
+	CaveContainBuildCompleteView *view =
+		reinterpret_cast<CaveContainBuildCompleteView *>(this);
+	if (!view->shouldDoOnBuildComplete())
 		return;
 
-	m_needToRunOnBuildComplete = 0;
-	TheCaveSystem->registerNewCave(m_caveIndex);
-	Rva004F56FC *myTracker = (Rva004F56FC *)TheCaveSystem->getTunnelTrackerForCaveIndex((unsigned int)m_caveIndex);
+	view->m_needToRunOnBuildComplete = 0;
+	TheCaveSystem->registerNewCave(view->m_caveIndex);
+	Rva004F56FC *myTracker = (Rva004F56FC *)TheCaveSystem->getTunnelTrackerForCaveIndex((unsigned int)view->m_caveIndex);
 	myTracker->rva004F56FC(*reinterpret_cast<Object **>((char *)this - 0x2C));
 }
 
