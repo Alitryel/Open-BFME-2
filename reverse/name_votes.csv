@@ -6415,3 +6415,7 @@ Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|param|Object::forc
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|function|0x0028EC48|rva0028EC48,82e8c84cce952907b0f9f550,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p089b,w-d531d6765c87,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|param|Object::forceEmotion|arg,cfef1ac7e9d5df9ec7a23e94,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p089b,w-d531d6765c87,2026-10-25
 Code/GameEngine/Source/Common/LivingWorld_ZoomInTo.cpp|param|LivingWorld::ZoomInTo|arg,f49a1cb5d1fbb692f691138c,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p092a,w-51874d0769b7,2026-10-25
+Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|class||Rva004E50C8,165da68e7260119ae8ec485f,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p096a,w-df480f0a7fd5,2026-10-25
+Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|local|Rva004E52DC::rva004E52DC|n,bae5b7a49cb63cd67b1d54a3,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p096a,w-df480f0a7fd5,2026-10-25
+Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|class||Rva004E50C8,165da68e7260119ae8ec485f,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p096b,w-ea849f70fbd9,2026-10-25
+Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|local|Rva004E52DC::rva004E52DC|n,bae5b7a49cb63cd67b1d54a3,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p096b,w-ea849f70fbd9,2026-10-25

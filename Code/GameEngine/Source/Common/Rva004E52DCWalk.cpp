@@ -51,8 +51,8 @@ private:
 // ?rva004E52DC@Rva004E52DC@@QAEXXZ @0x004E52DC 31B.
 void Rva004E52DC::rva004E52DC()
 {
-	for (Rva004E52DCNode *n = m_04->m_next; n != m_04; n = n->m_next)
-		n->m_sub.rva004E50C8();
+	for (Rva004E52DCNode *node = m_04->m_next; node != m_04; node = node->m_next)
+		node->m_sub.rva004E50C8();
 }
 
 class Rva004E6846
