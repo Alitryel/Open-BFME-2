@@ -38,5 +38,3 @@ static __forceinline void _Construct(_STL::pair<int const, Rva00439943Record> *d
 }
 }
 template _STL::_Rb_tree_node<_STL::pair<int const, Rva00439943Record> > * _STL::_Rb_tree<int, _STL::pair<int const, Rva00439943Record>, _STL::_Select1st<_STL::pair<int const, Rva00439943Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00439943Record> > >::_M_create_node(_STL::pair<int const, Rva00439943Record> const &);
-// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
-#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBHURva00439943Record@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva00439943Record@@@0@ABU10@@Z=??$_Construct@URva004395EC@@U1@@_STL@@YAXPAURva004395EC@@ABU1@@Z")

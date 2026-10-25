@@ -78,8 +78,3 @@ Rva0056ADF1::Rva0056ADF1(void *arg1, int arg2)
 	*(int *)((char *)this + 0x14) = (*(Rva0056ADF1Glob **)&TheLivingWorldLogic)->m_100 + arg2;
 }
 
-// Placeholder names this unit's own object settles.  In retail each one holds
-// what the unit's matched code references or installs: the rowed function of
-// the vftable slot it occupies, or the function or datum the instruction
-// reaches, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:?rva0056AD80@Rva0056AD80@@QAEXPAX@Z=??0Rva0056AC26@@QAE@PAVRva0056AC26Owner@@@Z")

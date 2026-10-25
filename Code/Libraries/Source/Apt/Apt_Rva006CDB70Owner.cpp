@@ -517,7 +517,6 @@ bool Rva006CCF30SetFocusPath(const char *path);
 // Same TU alias of the rowed AptScriptFunctionBase::PushStaticData that
 // AptActionInterpreterConstantHandlers.cpp binds (the class has a shared header).
 void *AptPushStaticData();
-#pragma comment(linker, "/alternatename:?AptPushStaticData@@YAPAXXZ=?PushStaticData@AptScriptFunctionBase@@SAPAXXZ")
 void rva007097B0(void *);
 void Rva006CCD90CallFunction(const char *function,char *result,const char *target,int nArgs,...);
 

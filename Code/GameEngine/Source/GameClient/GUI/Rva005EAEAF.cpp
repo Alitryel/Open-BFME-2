@@ -7,7 +7,6 @@
 
 // The unit calls the state handler's Done slot; retail's call lands on the
 // 0x005EA441 row (19 bytes, same thiscall no-argument shape), so bind it.
-#pragma comment(linker, "/alternatename:?rva005EA441@Rva005EAEAF@@QAEXXZ=?Done@ShowBattleStepStateHandler@Impl@DynamicAutoResolveDialog@StrategicInGameUI@@QAEXXZ")
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free

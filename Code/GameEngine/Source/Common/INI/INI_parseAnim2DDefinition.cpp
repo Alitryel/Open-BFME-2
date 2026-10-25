@@ -91,4 +91,3 @@ void INI::parseAnim2DDefinition( INI *ini )
 // the vftable slot it occupies, or the function or datum the instruction
 // reaches, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:?findTemplate@Anim2DCollection@@QAEPAVAnim2DTemplate@@ABVAsciiString@@@Z=?rva002D752D@Rva002D752D@@QAEPAURva002D752DNode@@ABV?$StringBase@D@@@Z")
-#pragma comment(linker, "/alternatename:?s_anim2DFieldParseTable@Anim2DTemplate@@2QBUFieldParse@@B=?s_anim2DFieldParseTable@Anim2DTemplate@@1QBUFieldParse@@B")

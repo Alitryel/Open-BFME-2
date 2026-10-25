@@ -22,5 +22,3 @@ static __forceinline void _Construct(_STL::pair<int const, Rva003EF066Element> *
 }
 }
 template _STL::_Hashtable_node<_STL::pair<int const, Rva003EF066Element> > * _STL::hashtable<_STL::pair<int const, Rva003EF066Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<int const, Rva003EF066Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<int const, Rva003EF066Element> > >::_M_new_node(_STL::pair<int const, Rva003EF066Element> const &);
-// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
-#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBHURva003EF066Element@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHURva003EF066Element@@@0@ABU10@@Z=?Rva003EEFDBConstruct@@YAXPAXPBX@Z")

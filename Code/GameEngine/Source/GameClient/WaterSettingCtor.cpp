@@ -10,7 +10,6 @@
 // member layout. The vptr is 0x00C082E8.
 
 extern "C" const void *const vtbl_00C082E8[];  // ??_7WaterSetting@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00C082E8=??_7WaterSetting@@6B@")
 
 #include <stddef.h>
 #include "ascii_string.h"

@@ -66,8 +66,3 @@ SiegeAIUpdate::SiegeAIUpdate(Thing *thing, const ModuleData *moduleData)
 {
 }
 
-// Each retail call in this body reads an address the ledger already carries
-// under the rowed name below; bind the donor spelling to that owner so one
-// address keeps one definition.
-//   0x0026E9BD -> ??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z (defined by Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AIUpdateInterfaceCtor.cpp)
-#pragma comment(linker, "/alternatename:??0SiegeAIUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z")

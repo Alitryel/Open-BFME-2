@@ -5,7 +5,6 @@
 
 // This view reaches ThreadClass::Execute as a private member; the ledger's body
 // at 0x006104B0 is the same function under the public spelling.
-#pragma comment(linker, "/alternatename:?Execute@ThreadClass@@QAEXXZ=?Execute@ThreadClass@@UAEXXZ")
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -480,4 +479,3 @@ extern HWND ApplicationHWnd;
 // Names this unit references that no unit defines under that spelling. Each is
 // bound to the row that owns the pinned retail address (same address, same
 // body); the pin keeps the name, the row supplies the definition.
-#pragma comment(linker, "/alternatename:?Execute@ThreadClass@@QAEXXZ=?Execute@ThreadClass@@UAEXXZ")

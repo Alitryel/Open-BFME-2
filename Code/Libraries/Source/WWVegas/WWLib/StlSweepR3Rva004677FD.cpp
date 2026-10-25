@@ -37,5 +37,3 @@ static __forceinline void _Construct(Rva004677FDRecord *dest, const Rva004677FDR
 }
 }
 template _STL::_List_node<Rva004677FDRecord> * _STL::list<Rva004677FDRecord, _STL::allocator<Rva004677FDRecord> >::_M_create_node(Rva004677FDRecord const &);
-// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
-#pragma comment(linker, "/alternatename:??$_Construct@URva004677FDRecord@@U1@@_STL@@YAXPAURva004677FDRecord@@ABU1@@Z=?Rva00467763Construct@@YAXPAXPBX@Z")

@@ -614,4 +614,3 @@ extern AptLinker *g_bfmeAptLinkerAtE176F8;
 
 
 
-#pragma comment(linker, "/alternatename:?getName@AptActionInterpreter@@SAXPAVAptCIH@@AAVEAStringC@@@Z=?rva006ffce0@@YAXPAVAptValue@@AAVEAStringC@@@Z")

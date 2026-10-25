@@ -347,7 +347,6 @@ private:
 typedef char LocalContextSize[sizeof(AptActionInterpreter::LocalContextT)==28 ? 1 : -1];
 typedef char ConstantPoolSize[sizeof(AptConstantPool)==8 ? 1 : -1];
 // Use the existing byte-verified stack provider's repository spelling.
-#pragma comment(linker, "/alternatename:?Push@AptBasePtrStack@@QAEXPAVAptValue@@@Z=?Push@AptBasePtrStack@@QAEXPAVBfmeAptValue006DCD20@@@Z")
 
 
 // Source headers declare c_string() const; native callers select this exact

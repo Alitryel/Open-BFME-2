@@ -85,5 +85,3 @@ PeerThreadClass::PeerThreadClass(MutexClass*p):ThreadClass(0),lock(p){
 // canonical row is the map<int,void*> one. Retail's derived destructor (0x0038ADE2) finishes by
 // calling ThreadClass::~ThreadClass (0x00610480) directly, so the intermediate thread object has
 // no destructor of its own there; bind it to the base's.
-#pragma comment(linker, "/alternatename:??0?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@URva0037BF60Less@@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@QAE@XZ=??0?$map@HPAXU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1Rva0038AAEBThreadObject@@UAE@XZ=??1ThreadClass@@UAE@XZ")

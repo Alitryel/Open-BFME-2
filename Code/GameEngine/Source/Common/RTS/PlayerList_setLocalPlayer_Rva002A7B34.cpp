@@ -73,8 +73,6 @@ void Rva002D7B18LocalPlayerTaintCallback()
 {
 }
 
-#pragma comment(linker, "/alternatename:?Rva002D7AE0LocalPlayerShroudCallback@@YAXXZ=?rva002D7AE0@@YAXHHH@Z")
-#pragma comment(linker, "/alternatename:?Rva002D7B18LocalPlayerTaintCallback@@YAXXZ=?rva002D7B18@@YAXHHH@Z")
 
 void PlayerList::setLocalPlayer(Player *player)
 {

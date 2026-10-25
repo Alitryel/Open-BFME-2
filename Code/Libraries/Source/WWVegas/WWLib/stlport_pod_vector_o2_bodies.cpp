@@ -19,7 +19,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // different implicit copy; the allocator is stateless in both views.
 struct BfmePod36;
 namespace _STL { template <> _Vector_base<BfmePod36, allocator<BfmePod36> >::_Vector_base(unsigned int, const allocator<BfmePod36> &); }
-#pragma comment(linker, "/alternatename:??0?$_Vector_base@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@QAE@IABV?$allocator@UBfmePod36@@@1@@Z=??0?$_Vector_base@URva00162800Record@@V?$allocator@URva00162800Record@@@_STL@@@_STL@@QAE@IABV?$allocator@URva00162800Record@@@1@@Z")
 // Suppress this TU's non-retail copy of ??$uninitialized_fill_n@PAUBfmePod36@@IU1@@_STL@@YAPAUBfmePod36@@PAU1@IABU1@@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct BfmePod36;

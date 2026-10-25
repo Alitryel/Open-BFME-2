@@ -205,4 +205,3 @@ CastleBehavior::CastleBehavior(Thing *thing, const ModuleData *moduleData)
 // _purecall; the single placeholder here stands for both).
 #pragma comment(linker, "/alternatename:??1FoundationAIUpdate@@UAE@XZ=??1Rva00455050@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??0Rva00395CEB@@QAE@XZ=??0?$map@HPAXU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?slot0@CastleBehavior@@UAEXXZ=?Rva00452D78Adjust@@YIPAXPAX@Z")

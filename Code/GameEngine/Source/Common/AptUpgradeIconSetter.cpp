@@ -317,5 +317,4 @@ void StrategicHUD::ArmyUnitIconMovieClip::DoUpdate()
 // the vftable slot it occupies, or the function or datum the instruction
 // reaches, so bind the placeholder to that row's name.
 #pragma comment(linker, "/alternatename:??1ArmyMemberIconMovieClip@StrategicHUD@@UAE@XZ=??1Rva0023863E@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1Rva00524306@@QAE@XZ=??1Rva004E2E58@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?DoUpdate@ArmyMemberIconMovieClip@StrategicHUD@@UAEXXZ=?rva005FC9F8@Rva005FC9F8@@QAEXXZ")

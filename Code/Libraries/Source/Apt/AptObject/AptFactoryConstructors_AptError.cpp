@@ -62,10 +62,7 @@ typedef char ErrorSize[sizeof(AptError)==40?1:-1];
 
 // Native vtable slots and scalar destructor calls bind canonical consumers to
 // existing exact providers. Opaque provider names retain their prior provenance.
-#pragma comment(linker, "/alternatename:??1AptSound@@MAE@XZ=??1Rva006F3990@@UAE@XZ")
-#pragma comment(linker, "/alternatename:??1AptStringObject@@UAE@XZ=??1Rva006FE460@@UAE@XZ")
 #pragma comment(linker, "/alternatename:??1AptError@@MAE@XZ=??1S4Dtor00587B30@@UAE@XZ")
-#pragma comment(linker, "/alternatename:?objectMemberLookup@AptStringObject@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z=?rva006FE400@Rva006FE400@@QAEHPAXPAURva008A4570Owner@@@Z")
 #pragma comment(linker, "/alternatename:?objectMemberSet@AptError@@UAE_NQAVAptValue@@QBVEAStringC@@0@Z=?rva006E9580@Rva006E9580@@QAE_NHPAVEAStringC@@PAVBfmeAptValue006DCD20@@@Z")
 
 // Original PDB ScriptColour is36B with pSprite+20; MAP supplies const-pointer
@@ -87,11 +84,8 @@ protected: virtual ~AptScriptColour();
 typedef char ScriptColourSize[sizeof(AptScriptColour)==36?1:-1];
 
 // Native vtable scalar6F2C70 calls complete destructor6F25D0.
-#pragma comment(linker, "/alternatename:??1AptScriptColour@@MAE@XZ=??1Rva006F25D0@@UAE@XZ")
 
 // Native ScriptColour vtable slots13/11 are these existing GC providers.
-#pragma comment(linker, "/alternatename:?RegisterReferences@AptScriptColour@@UBEXXZ=?rva006F2C20@Rva006F2C20@@UAEXXZ")
-#pragma comment(linker, "/alternatename:?DestroyGCPointers@AptScriptColour@@UAEXXZ=?rva006F2C50@Rva006F2C50@@UAEXXZ")
 
 // Lookup source leads: Sound e97b38e0a6efef64 and Colour f1e86798adbb054c.
 // Error uses original PDB fields and the verified setter sibling6E9580; no
@@ -148,7 +142,6 @@ AptValue *AptError::objectMemberLookup(AptValue *const context,const EAStringC *
 #pragma comment(linker, "/alternatename:??0AptNativeFunction@@QAE@P6APAVAptValue@@PAV1@H@Z@Z=??0Rva006D6500@@QAE@H@Z")
 #pragma comment(linker, "/alternatename:?factoryCreateString@@YAPAVAptValue@@XZ=?Create@AptString@@SAPAV1@XZ")
 #pragma comment(linker, "/alternatename:?factorySetString@BfmeAptValue006DCD20@@QAEXPBD@Z=?SetString@AptValue@@QAEXPBD@Z")
-#pragma comment(linker, "/alternatename:?callback006F3670@@YAPAVAptValue@@PAV1@H@Z=?Rva006F3670@@YAPAVBfmeAptValue006DCD20@@PAV1@@Z")
 #pragma comment(linker, "/alternatename:?callback006E9730@@YAPAVAptValue@@PAV1@H@Z=?rva006e9730@@YAPAVAptValue@@PAV1@@Z")
 #pragma comment(linker, "/alternatename:?rva006D36C0@EAStringC@@QBEHPBV1@@Z=?compare008B4260@Rva008B4260StringRef@@QBEHABU1@@Z")
 typedef char FactoryNativeFunctionSize[sizeof(AptNativeFunction)==36?1:-1];
@@ -176,7 +169,6 @@ AptValue *callback006F2700(AptValue *context,int);
 AptValue *callback006F2640(AptValue *context,int);
 
 
-#pragma comment(linker, "/alternatename:?factoryGetProperty@AptCIH@@QBEMH@Z=?rva006E0920@Rva006E0920@@QBEMH@Z")
 
 // Donor f1e86798adbb054c getTransform semantics; native6F2760..6F29BF
 // uses eight CIH floats at24..40, integer scaling100/255, and hash properties.

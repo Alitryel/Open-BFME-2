@@ -56,7 +56,6 @@ __forceinline AptValue **advanceRegisters(AptValue **aptValue,int n) { return ap
 
 
 // Existing providers own the predicate and the zero-initialized global storage.
-#pragma comment(linker, "/alternatename:?getIsDefined@AptValue@@QBE_NXZ=?get@Rva006DBB60ShrNAndField@@QBE_NXZ")
 #pragma comment(linker, "/alternatename:?gpGlobalGlobalObject@@3PAVAptValue@@A=?g_00E18650@@3VEAStringC@@A")
 
 #define CHECK_AT(c,s,f,l) if(!(c)) { g_bfmeAptAssertAtE17734(s,f,l); if(g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak(); }

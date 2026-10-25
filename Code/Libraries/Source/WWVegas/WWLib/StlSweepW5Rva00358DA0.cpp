@@ -22,5 +22,3 @@ static __forceinline void _Construct(_STL::pair<Rva00358DA0Element const, int> *
 }
 }
 template _STL::_Rb_tree_node<_STL::pair<Rva00358DA0Element const, int> > * _STL::_Rb_tree<Rva00358DA0Element, _STL::pair<Rva00358DA0Element const, int>, _STL::_Select1st<_STL::pair<Rva00358DA0Element const, int> >, _STL::less<Rva00358DA0Element>, _STL::allocator<_STL::pair<Rva00358DA0Element const, int> > >::_M_create_node(_STL::pair<Rva00358DA0Element const, int> const &);
-// The declared element copy binds to that row (tools/allowed_symbols.py --alternatenames).
-#pragma comment(linker, "/alternatename:??$_Construct@U?$pair@$$CBURva00358DA0Element@@H@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBURva00358DA0Element@@H@0@ABU10@@Z=?Rva00358CA0Construct@@YAXPAXPBX@Z")

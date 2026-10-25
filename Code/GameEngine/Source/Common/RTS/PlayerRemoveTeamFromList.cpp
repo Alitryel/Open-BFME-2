@@ -69,5 +69,3 @@ void Player::removeTeamFromList(TeamPrototype *team)
 	for (it = m_playerTeamPrototypes.begin(); it != m_playerTeamPrototypes.end(); ++it)
 		;
 }
-// The declared erase binds to that row (tools/allowed_symbols.py --alternatenames).
-#pragma comment(linker, "/alternatename:?erase@?$list@PAVTeamPrototype@@V?$allocator@PAVTeamPrototype@@@_STL@@@_STL@@QAE?AU?$_List_iterator@PAVTeamPrototype@@U?$_Nonconst_traits@PAVTeamPrototype@@@_STL@@@2@U32@@Z=?Rva002ABAC0Free@@YGXPAPAXPAUPoolNode002ABAC0@@@Z")
