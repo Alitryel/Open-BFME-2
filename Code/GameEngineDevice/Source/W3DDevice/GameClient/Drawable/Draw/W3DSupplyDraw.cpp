@@ -26,14 +26,20 @@ extern "C" const unsigned char __identifier("??_7Rva000CAEC6@@6BRva000C79C9@@@")
 class Thing;
 
 class ModuleData;
+class Xfer;
 
 class W3DScriptedModelDraw
 {
 public:
 	W3DScriptedModelDraw(Thing *thing, const ModuleData *moduleData);
 
+protected:
+	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void xfer(Xfer *xfer);
 private:
-	unsigned char m_pad[0x2E8];
+	unsigned char m_pad[0x2E8 - 4];
 };
 
 class W3DSupplyDraw : public W3DScriptedModelDraw
@@ -41,6 +47,8 @@ class W3DSupplyDraw : public W3DScriptedModelDraw
 public:
 	W3DSupplyDraw(Thing *thing, const ModuleData *moduleData);
 
+protected:
+	virtual void xfer(Xfer *xfer);
 private:
 	int m_flags2E8;
 	int m_2EC;

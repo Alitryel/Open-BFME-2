@@ -24,25 +24,7 @@
 // Ints of its own (+0x2E8, +0x2EC, no ZH counterpart) before the
 // W3DScriptedModelDraw base (0x000C5C04).
 
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-
-#include "../../../../../../GameEngine/Include/Common/BfmeXfer.h"
+#include "BfmeDrawXferPrefix.h"
 
 class Xfer::Version
 {
@@ -67,25 +49,33 @@ public:
 };
 
 
+class Thing;
+class ModuleData;
+
 class W3DScriptedModelDraw
 {
+public:
+	W3DScriptedModelDraw(Thing *thing, const ModuleData *moduleData);
+
 protected:
 	virtual void v00();
 	virtual void v01();
 	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-	char m_unrecovered04[ 0x2E8 - 0x04 ];
+	virtual void xfer(Xfer *xfer);
+private:
+	unsigned char m_pad[0x2E8 - 4];
 };
-
-typedef int Int;
 
 class W3DSupplyDraw : public W3DScriptedModelDraw
 {
+public:
+	W3DSupplyDraw(Thing *thing, const ModuleData *moduleData);
+
 protected:
-	virtual void xfer( Xfer *xfer );
+	virtual void xfer(Xfer *xfer);
 private:
-	Int m_bfmeInt2E8;																													///< 0x2E8
-	Int m_bfmeInt2EC;																													///< 0x2EC
+	int m_flags2E8;
+	int m_2EC;
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -99,8 +89,8 @@ void W3DSupplyDraw::xfer( Xfer *xfer )
 	// version
 	xfer->Version1();
 
-	*xfer == m_bfmeInt2E8;
-	*xfer == m_bfmeInt2EC;
+	*xfer == m_flags2E8;
+	*xfer == m_2EC;
 
 	// extend base class
 	W3DScriptedModelDraw::xfer( xfer );
