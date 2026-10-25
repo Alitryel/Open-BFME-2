@@ -18,6 +18,19 @@ typedef unsigned int UnsignedInt;
 typedef bool Bool;
 typedef float Real;
 
+class W3DDisplay;
+
+class Rva0025C6E2Elem
+{
+public:
+	void rva0025C829(W3DDisplay *display, int arg);	// 0x0025C829
+
+private:
+	unsigned char m_data[0x18];
+};
+
+enum { MAX_STATIC_IMAGES = 3 };
+
 class Display
 {
 public:
@@ -35,15 +48,23 @@ public:
 	virtual void pad11();
 	virtual void pad12();
 	virtual void pad13();
-	virtual void setWidth(UnsignedInt width);
-	virtual void setHeight(UnsignedInt height);
-	virtual UnsignedInt getWidth();
-	virtual UnsignedInt getHeight();
+	virtual void setWidth(unsigned int width);
+	virtual void setHeight(unsigned int height);
+	virtual unsigned int getWidth();
+	virtual unsigned int getHeight();
 	virtual void pad18();
 	virtual void pad19();
 	virtual void pad20();
-	virtual Bool getWindowed();
-	virtual Bool setDisplayMode(UnsignedInt xres, UnsignedInt yres, UnsignedInt bitdepth, Bool windowed);
+	virtual bool getWindowed();
+	virtual bool setDisplayMode(unsigned int xres, unsigned int yres, unsigned int bitdepth, bool windowed);
+	void DrawStaticImage(int index, int arg);
+
+private:
+	unsigned char m_pad04[8];
+	unsigned int m_height; // +0x0c
+	unsigned int m_width; // +0x10
+	unsigned char m_pad14[0x68 - 0x14];
+	Rva0025C6E2Elem m_staticImages[MAX_STATIC_IMAGES]; // +0x68
 };
 
 class View

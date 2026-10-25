@@ -287,3 +287,24 @@ debt is hidden or retired. Combined active-tool/hook/workflow/include/build/
 registry audit finds no consumer needing repair. Evidence:
 build/gameclient-session2-six-audit.txt. Existing upstream-only changes are
 excluded from outgoing move inventory; no generated TU map is staged.
+
+## Display virtual/data view prerequisite
+
+New evidence-backed prerequisite for the prior Display composition failures:
+combine the already rowed display-mode callable order (width/height slots
+0x38/0x3c, getters 0x40/0x44, mode 0x58) with the height/width bodies' observed
++0x0c/+0x10 fields and DrawStaticImage's +0x68 three-element array. These are
+BFME 2 facts in the existing rowed sources, not external donor offsets. Kept
+the existing 0x18-byte element and direct DrawStaticImage callable, adjusted
+padding for the existing vptr, and used the same declaration in all three
+files. No body statement, virtual call index, function name, global, flag,
+pin or hatch changes. A missing Int typedef in the first height trial was
+fixed with the equivalent int spelling before verification.
+
+Fresh ./build.sh verifies 5/5 rows across Display, DisplaySetDisplayMode and
+DisplaySetHeight, with eight float literals. All frozen checks pass. Supported
+dry-run now accepts all three files/five rows, clearing the old missing
+DrawStaticImage/m_staticImages failure for these two donors. Other private
+views and protected/mixed donors remain rejected. Local report:
+build/display-session2-dry2.txt. This prerequisite moves no path; fetched
+origin and the prior complete six-move consumer audit remains current.
