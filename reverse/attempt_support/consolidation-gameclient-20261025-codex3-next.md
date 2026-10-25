@@ -268,3 +268,22 @@ redundant donor Bool/macro aliases. Fresh standalone verification passes all
 12/12 rows across the two files, four floats and one string; frozen checks pass.
 The supported dry run accepts both for twelve rows. This prerequisite introduces
 no source-path change; the complete five-move consumer audit remains current.
+
+## TextOnFrame constructor merge
+
+Supported merge accepts the constructor and styles seed: twelve matched rows
+preserved, one fragment removed. Fresh destination byte check passes 12/12,
+with one string and four floats. Frozen check and check_csv pass. Only one
+source cell in functions.csv and tu_map.csv is repointed. Rejected donor file
+and RVA claims are released; accepted claims remain until publication.
+
+The combined audit now covers all six pending absorbed paths (the prior five
+plus TextOnFrameTransitionCtor) through 9c3022cc6b plus the staged merge, from
+fork d0c913e6dd after fetching origin. The constructor's only additional mentions
+are historical link_status, provenance/placeholder comments and its redundant
+FALSE/TRUE MS-header queue row: those macros were removed in the verified
+prerequisite and the destination's existing finding stays served. No unique
+debt is hidden or retired. Combined active-tool/hook/workflow/include/build/
+registry audit finds no consumer needing repair. Evidence:
+build/gameclient-session2-six-audit.txt. Existing upstream-only changes are
+excluded from outgoing move inventory; no generated TU map is staged.
