@@ -26,7 +26,7 @@ never routing approval. The actual merge remains for the Luna seat.
 
 ## Acceptance and batch audit
 
-The normal final dry run accepts the seed and removal donor, 18 matched rows,
+The normal final dry run accepts the seed and removal donor, 17 matched rows,
 and emits composed C++. Receipt: build/sol-tree-removal-final-after.txt.
 The all-strategy pair probe also loses zero rows. Leave the two-file compatible
 subset for Luna; the other declaration/record/string-header prerequisites in
