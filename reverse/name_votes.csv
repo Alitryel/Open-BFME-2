@@ -6285,3 +6285,4 @@ Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BD31Xfer|tmp,b
 Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp|class||BfmeFootDraw,99bdff7fd36f893aa8b68c7a,gpt-6.1-sol,codex6-20261025-065940-3,w-bcdd62231570,2026-10-25
 Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|CommSerialRef|m_field908,ee1459254450ca970fea5b25,gpt-6.1-sol,codex6-20261025-072308-4,w-bcdd62231570,2026-10-25
 Code/GameEngine/Source/Common/Rva002B37B4.cpp|member|Rva002B37B4P2|m_3C4,12fcdb358853cd1c7be349b4,gpt-6-astra,codex6-20261025-074050-2,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/Common/GapBodiesGE10.cpp|class||Rva004A2BF0Interface,9d88d212a4590c1a489e7a0f,gpt-6-astra,codex6-20261025-074050-7,w-bcdd62231570,2026-10-25
