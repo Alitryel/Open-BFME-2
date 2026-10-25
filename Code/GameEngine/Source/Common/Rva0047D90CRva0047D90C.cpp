@@ -23,19 +23,34 @@ template<int N>class Slots:public Slots<N-1>{public:virtual void gap(char(*)[N])
 class ContainOwner:public Slots<42>{public:virtual void remove(Object*);};
 class ContainCollection:public Slots<66>{public:virtual Rva0036AE51ListView get();};
 class ContainAI:public Slots<31>{public:virtual ContainCollection *get();};
-class Object {public:void *vtable;void *type; void *getTemplate()const{return type;}char pad8[0x250-8];ContainAI *ai;char pad254[0x454-0x254];bool blocked;};
+// Object as HordeSiegeEngineContain.cpp spells it (neutral names, target offsets).
+class Object
+{
+public:
+	void *getTemplate() const { return m_template; }
+	void *m_vtable;
+	void *m_template;
+	unsigned char unknown08[0x10C - 8];
+	unsigned m_modelConditionFlags[19];
+	unsigned char m_pad158[0x250 - 0x158];
+	ContainAI *m_contain;
+	unsigned char m_pad254[0x274 - 0x254];
+	Object *m_containedBy274;
+	unsigned char m_pad278[0x454 - 0x278];
+	bool m_blocked454;
+};
 class Rva0047D90C {public:void rva0047D90C(Object*,ExitDoorType);char pad[0x100];bool busy;HordeSiegeEngineContain *primary(){return (HordeSiegeEngineContain*)((char*)this-0x30);}};
 void Rva0047D90C::rva0047D90C(Object *object,ExitDoorType door)
 {
  if(busy)return;
  if(*((unsigned char*)object->getTemplate()+0x115)&0x20){
-  ContainAI *ai=object->ai;if(!ai)return;
+  ContainAI *ai=object->m_contain;if(!ai)return;
   ContainCollection *contain=ai->get();if(!contain)return;
   ContainmentList contents=contain->get().rva0036AE51();
   ContainmentList::iterator it;
   for(it=contents.begin();it!=contents.end();++it){
    Object *child=(Object*)containmentFirstWord(*it);
-   if(!child->blocked){((ContainOwner*)contain)->remove(child);primary()->rva0047D53A(child,door);}
+   if(!child->m_blocked454){((ContainOwner*)contain)->remove(child);primary()->rva0047D53A(child,door);}
   }
   for(it=contents.begin();it!=contents.end();++it){
    Object *child=(Object*)containmentFirstWord(*it);
