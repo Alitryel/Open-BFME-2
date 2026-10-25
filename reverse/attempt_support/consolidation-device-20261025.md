@@ -530,8 +530,8 @@ this seat's scope. No identity debt or byte/link improvement is claimed.
   the tool refreshed the TU map/function sources and did not stage other
   registers. The active path-consumer search found no tool, hook, workflow,
   include or build-input consumer; source-origin comments and old link-status
-  /attempt evidence are historical. No new link census or COMDAT selection was
-  run, so census bindings remain unmeasured for this move.
+  /attempt evidence are historical. No new live link census was run; the
+  index-based COMDAT variant check found no new variant.
 - `FlatHeightMapDoPartialUpdate.cpp` remains rejected with MSVC C1001 at
   composed TU line 540; `FlatHeightMapOnFrameUpdate.cpp` remains rejected by
   byte verification. `Rva000E1072.cpp` remains refused because it is keyed in
@@ -567,3 +567,30 @@ Sol's separate identity lane; no identity key was retired. `data_check.py
 `link_check.py --staged --new-variants --shadow` completed against the fetched
 2026-10-25 census index with 0 recompiles (1 current staged TU) and reported no
 new selected-COMDAT variant. The live census itself is unchanged.
+
+Further scoped trials, left unchanged:
+
+- `W3DBufferManager.cpp` accepted no donors. `W3DBufferManager_ReleaseResources.cpp`
+  fails byte verification; `W3DBufferManager_ReAcquireResources.cpp` fails
+  C2440 converting `BfmeDynamicNativeVB *` to `DX8VertexBufferClass *`. The
+  slots donor remains protected-register keyed.
+- `W3DTreeDraw.cpp` accepted no donors. The module-name-key donor reports
+  C2039 (`getModuleNameKey` is not a member of `W3DTreeDraw`); the module-data
+  destructor fails byte verification. Both mixed sources are outside this
+  device prefix, and the constructor / field-parse sources are protected.
+- `W3DPropDraw.cpp` dry-run accepted only the seed and its module-data
+  destructor; the React donor reports C2011 (`Coord3D` redefinition in
+  `Coord3DCtorView.h`). Applying the unchanged accepted pair then staged a TU
+  containing only `compile`, and the build failed C1004 (unexpected EOF).
+  Only that trial's source/ledger changes were restored and its claims released.
+  The pool-key and module constructor remain protected; mixed sources are
+  outside the device prefix.
+- `W3DSmudge.cpp` split trials for `W3DSmudgeManagerTestHardwareSupport.cpp`
+  and `W3DSmudgeManagerRender.cpp` were refused because the residual would lose
+  matched rows `0x000A60EA` and `0x000A60A9`, respectively. No split claims or
+  edits remain.
+
+The verified FlatHeightMap merge is commit `47ad9a226a` and remains in the
+runner's unpublished batch. Keep its `file:` and RVA claims until publication
+is confirmed; its audit range is the two deletions listed in that commit plus
+the `FlatHeightMap.cpp` and function/TU-map updates.
