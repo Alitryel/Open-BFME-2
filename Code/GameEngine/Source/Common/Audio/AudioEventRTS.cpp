@@ -127,10 +127,7 @@ class GameClient {public:
  virtual Drawable *findDrawableByID(int);
 };
 extern GameLogic *TheGameLogic;
-class ClientFrameSubsystem;
-// TheGameClient is only an alias of the owned global TheGameClient (ledger names column); this unit reads the owner through its own view type.
 extern class GameClient *TheGameClient;
-#define TheGameClient (*(ClientFrameSubsystem * *)&TheGameClient)
 
 class Rva002DA318 {
  char m_pad00[0x34];
