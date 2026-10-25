@@ -16,21 +16,10 @@ public:
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-class __declspec(novtable) Rva003B11ADBase
-{
-public:
-	Rva003B11ADBase() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual void unused();
-	char m_flag;
-	int m_value;
-};
-
-class SpecialPowerStore : public Rva003B11ADBase
+class SpecialPowerStore : public SubsystemInterface
 {
 public:
 	SpecialPowerStore();
-protected:
-	virtual ~SpecialPowerStore();
 private:
 	_STL::vector<BfmeE16> m_vec0C;
 	int m_18;
