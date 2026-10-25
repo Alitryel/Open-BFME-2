@@ -142,6 +142,19 @@ class BraceInitialisedDataTests(unittest.TestCase):
         self.assertIn("TheDrawableIconNames[] = {", out)
 
 
+class HeaderQueueTests(unittest.TestCase):
+    def test_donors_with_a_queued_private_copy_are_named_before_the_merge(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "reverse").mkdir()
+            (root / "reverse/header_queue.tsv").write_text(
+                "class\tsource\tretail_rvas\theader\tfailure\tretry_budget\tacceptance\n"
+                "AsciiString\tCode/A.cpp\t0x1\treference/shims/x.h\t\t3\t\n"
+                "Rva0007DF07\tCode/A.cpp\t0x2\treference/shims/y.h\t\t3\t\n")
+            q = T.header_queue_rows(root=root)
+            self.assertEqual(dict(q), {"Code/A.cpp": ["AsciiString", "Rva0007DF07"]})
+
+
 class ComposePreprocessorTests(unittest.TestCase):
     def test_conditionals_are_not_deduplicated_across_donors(self):
         texts = {"Seed.cpp": "#ifndef FALSE\n#define FALSE 0\n#endif\nint seed() { return 1; }\n",

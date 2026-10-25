@@ -604,10 +604,28 @@ class Verifier:
         return out
 
 
+def header_queue_rows(root=ROOT):
+    """{source: [class, ...]} of reverse/header_queue.tsv: a donor listed there
+    still carries a private copy of a class with a canonical header, and the
+    class gate refuses the merged TU at commit; adopt first
+    (`tools/header_adopt_lane.py accept`)."""
+    path = Path(root) / "reverse/header_queue.tsv"
+    out = collections.defaultdict(list)
+    if path.exists():
+        for row in csv.DictReader(io.StringIO(path.read_text(encoding="utf-8", errors="replace")), delimiter="\t"):
+            if row.get("source") and row.get("class"):
+                out[row["source"]].append(row["class"])
+    return out
+
+
 def merge(tu, dry_run=False, log=print, claim=True):
     sk = skeleton(tu)
     don, mixed, refused = donors(tu, sk)
     report = {"tu": tu, "approved": len(sk), "mixed": mixed, "refused": refused, "accepted": [], "rejected": {}}
+    queued = header_queue_rows()
+    adopt = {f: sorted(set(queued[f])) for f in don if f in queued}
+    if adopt:
+        report["adopt_first"] = adopt     # the class gate will refuse these donors' private copies at commit
     if tu in mixed or ((ROOT / tu).exists() and tu not in don):
         report["blocked"] = "TU path exists and holds rows of another TU (split it first)"
         return report
