@@ -167,3 +167,157 @@ Immediately before this commit/publish, the combined audit covers outgoing
 with origin at 80ff5cf1e52d4cd952c16a86aa68a747bcbd4107. It reviews 38 removed paths and
 1115 path/basename/stem hits. No additional active consumer remains.
 Historical evidence, original EA paths and source-provenance comments are kept.
+
+
+## INI: twenty-two fragments removed
+
+The current approved plan has thirty-six eligible donors, twenty-five mixed
+files and four protected refusals. All eligible files pass declared-unmatched.
+Ordinary dry run and claimed apply agree on twenty-three accepted files,
+including the existing INI.cpp destination. All twenty-four matched rows are
+preserved; twenty-three function source fields and twenty-one TU-map source
+fields are repointed, with no routing regeneration. ./build.sh passes 24/24,
+including twelve string literals and one empty-string reference. The final
+declared-unmatched check passes. No new body or retail byte is claimed.
+
+The merge automatically transfers the absorbed STL helper's fold-proof token
+through the shared repointer added with XferSave. Normal pin admission, pin
+consistency, hatch counters and check_csv pass. Pin identities and counts stay
+unchanged. The owning Microsoft-header audit refreshes the new TU's scanner
+entry and drops its absorbed donor entries.
+
+Thirteen rejected donors remain unchanged: separator getters, scanner and
+color-parser declarations, C-runtime linkage, and private allocator/vector
+views need reconciliation. INI has 828 private-view units and no registered
+canonical header; merging this subset establishes no canonical class layout.
+All thirteen rejected file scopes and sixteen RVAs are released. Exact
+compile diagnostics: build/ini-consolidation-{dry-run,apply}.txt.
+
+XferSave's normal hook reports one new code-identity shadow finding on the
+hashtable constructor's _M_initialize_buckets binding, plus two diagnostic
+private-layout fingerprints. Its byte, converged-data, pin and EH checks pass
+(EH EXACT 2/2); this pass claims no linking or identity-debt retirement.
+
+The final combined compatibility audit covers 289c748fb3608f9c28d8920f18a27f442435fe7e..
+9c77e2debdbc0b978ed3ec799e63f1b36f23a811 plus the staged INI merge, fetched origin
+2278ad51d20dd5950bf20a151ee450e48e3ffdf8: 60 removed paths, 1243 hits.
+No active tool, hook, workflow, include, build input or mutable path key
+remains stale. The data ledger's float row 0x007BB8D0 retains a static alias
+name@old-source in its names column: this is a cached object-census diagnostic,
+not its source ownership key. data_check ignores names and float identities;
+data_sweep recomputes its bindings through data_ledger.collect. The new TU's
+ordinary literal/relocation checks are the evidence for its current object.
+No protected index is hand-edited or regenerated from incomplete objects.
+The save/load documentation's WorldBuilder unit names remain original-path
+evidence. Other old references are provenance, history, census or unchanged
+symbol names. No directory was moved.
+
+## Pending publication and claim release
+
+All accepted path and tooling claims stay held until origin contains the batch.
+The runner snapshots build/consolidation-pending-claims-current.json and
+build/consolidation-pending-file-claims-current.json contain the exact live
+keys and leases. Release these file scopes after confirmed publication, then
+run claims.py release --landed and settle any older rejected-donor claims from
+the previous session's pending snapshot. Do not release another seat's claims.
+
+At this handoff there are 211 own live claims: 95 file scopes
+and 116 RVAs. File scopes:
+
+```text
+Code/GameEngine/Source/Common/ActionManager_canFireWeapon.cpp
+Code/GameEngine/Source/Common/ActionManager_canOverrideSpecialPowerDestination.cpp
+Code/GameEngine/Source/Common/ActionManager_canPlayerGarrison.cpp
+Code/GameEngine/Source/Common/ActionManager_canResumeConstructionOf.cpp
+Code/GameEngine/Source/Common/Audio/AudioEventRTS.cpp
+Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerConstructors.cpp
+Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerCtorTag4.cpp
+Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerCtorTag5.cpp
+Code/GameEngine/Source/Common/Audio/BfmeAudioEventPrefix136.cpp
+Code/GameEngine/Source/Common/Bfme/Q1Forwardee0000871A_handle.cpp
+Code/GameEngine/Source/Common/BfmeConv1923.cpp
+Code/GameEngine/Source/Common/INI/INI.cpp
+Code/GameEngine/Source/Common/MakePairInstantiations.cpp
+Code/GameEngine/Source/Common/RTS/ActionManager.cpp
+Code/GameEngine/Source/Common/RTS/ActionManagerCanDoSpecialPower.cpp
+Code/GameEngine/Source/Common/RTS/ActionManagerGetCanAttackObject.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManager.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManagerDeleter.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManagerLists.cpp
+Code/GameEngine/Source/Common/RTS/ResourceGatheringManagerXfer.cpp
+Code/GameEngine/Source/Common/RTS/Science.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreFindScienceInfo.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreIsScienceGrantable.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreIsValidScience.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreNameDescription.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreParseScienceDefinition.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStorePurchasable.cpp
+Code/GameEngine/Source/Common/RTS/ScienceStoreRootPrereqs.cpp
+Code/GameEngine/Source/Common/ResourceGatheringManagerAdd.cpp
+Code/GameEngine/Source/Common/Rva001FF6AEClear.cpp
+Code/GameEngine/Source/Common/Rva001FFEE9Assign.cpp
+Code/GameEngine/Source/Common/Rva002D9576GuardedGetter.cpp
+Code/GameEngine/Source/Common/Rva002D9608AudioCheck.cpp
+Code/GameEngine/Source/Common/Rva002D9F9FPair.cpp
+Code/GameEngine/Source/Common/Rva002DA414.cpp
+Code/GameEngine/Source/Common/Rva0031804DAssign.cpp
+Code/GameEngine/Source/Common/Rva003B1546Rva001FF5C3.cpp
+Code/GameEngine/Source/Common/Rva0041B8D2.cpp
+Code/GameEngine/Source/Common/Rva0041B94APermuted.cpp
+Code/GameEngine/Source/Common/Rva0041BB87.cpp
+Code/GameEngine/Source/Common/Rva0041C9C4.cpp
+Code/GameEngine/Source/Common/ScienceStore_getInternalNameForScience.cpp
+Code/GameEngine/Source/Common/ScienceStore_getScienceFromInternalName.cpp
+Code/GameEngine/Source/Common/System/DataChunk.cpp
+Code/GameEngine/Source/Common/System/INIPreprocessMacroThunk.cpp
+Code/GameEngine/Source/Common/System/INI_MultiIniFieldParse_add.cpp
+Code/GameEngine/Source/Common/System/INI_getNextQuotedAsciiString.cpp
+Code/GameEngine/Source/Common/System/INI_initFromINI.cpp
+Code/GameEngine/Source/Common/System/INI_initFromINIMultiProc.cpp
+Code/GameEngine/Source/Common/System/INI_parseAngleReal.cpp
+Code/GameEngine/Source/Common/System/INI_parseBitInInt32.cpp
+Code/GameEngine/Source/Common/System/INI_parseBool.cpp
+Code/GameEngine/Source/Common/System/INI_parseCoord2D.cpp
+Code/GameEngine/Source/Common/System/INI_parseCoord3D.cpp
+Code/GameEngine/Source/Common/System/INI_parseICoord2D.cpp
+Code/GameEngine/Source/Common/System/INI_parseIndexList.cpp
+Code/GameEngine/Source/Common/System/INI_parseInt.cpp
+Code/GameEngine/Source/Common/System/INI_parseLookupList.cpp
+Code/GameEngine/Source/Common/System/INI_parseQuotedAsciiString.cpp
+Code/GameEngine/Source/Common/System/INI_parseReal.cpp
+Code/GameEngine/Source/Common/System/INI_parseShort.cpp
+Code/GameEngine/Source/Common/System/INI_parseUnsignedByte.cpp
+Code/GameEngine/Source/Common/System/INI_parseUnsignedInt.cpp
+Code/GameEngine/Source/Common/System/INI_parseUnsignedShort.cpp
+Code/GameEngine/Source/Common/System/Rva00306C15MemoryChunkRead.cpp
+Code/GameEngine/Source/Common/System/XferSave.cpp
+Code/GameEngine/Source/Common/TerrainTypeCollection.cpp
+Code/GameEngine/Source/Common/TerrainType_friend_setName.cpp
+Code/GameEngine/Source/Common/TerrainTypes.cpp
+Code/GameEngine/Source/Common/Thing/Rva0002CD2F.cpp
+Code/GameEngine/Source/GameLogic/Object/Behavior/Rva001FFA5A.cpp
+Code/GameEngine/Source/GameLogic/Object/Behavior/Rva001FFC38.cpp
+Code/GameEngine/Source/GameLogic/Object/WeaponAttackRva0041BAD2.cpp
+Code/GameEngine/Source/GameLogic/ScriptEngine/DataChunkOutput_writeInt.cpp
+Code/Libraries/Source/WWVegas/WWLib/Rva003079EDFinish.cpp
+Code/Libraries/Source/WWVegas/WWLib/Rva00307A2CFind.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva001FF743.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0002D281.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00317CF2.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0060CF76.cpp
+Code/Libraries/Source/WWVegas/WWLib/StlSweepW6Rva00317CCD.cpp
+Code/Libraries/Source/WWVegas/WWLib/stlport_string_bktnum.cpp
+Code/Libraries/Source/WWVegas/WWLib/stlport_string_find_0060CAEA.cpp
+Code/Libraries/Source/WWVegas/WWLib/stlport_vector_nocasepair_assign.cpp
+Code/Libraries/Source/WWVegas/WWLib/stlport_vector_sciencevec_allocate_copy.cpp
+Code/Libraries/Source/xfer/XferSaveMemberDestructor.cpp
+Code/Libraries/Source/xfer/xfer_save.cpp
+reverse/attempt_support/consolidation-common-20261025b.md
+reverse/ms_header_queue.tsv
+tools/header_adopt_lane.py
+tools/ms_header_audit.py
+tools/tests/test_header_adopt_lane.py
+tools/tests/test_ms_header_audit.py
+tools/tests/test_tu_skeleton.py
+tools/tu_skeleton.py
+```
