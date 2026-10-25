@@ -34,38 +34,10 @@ namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, 
 namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_create_node(pair<AsciiString const, Coord3D> const &); }
 namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
 namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * allocator<_Rb_tree_node<pair<AsciiString const, Coord3D> > >::allocate(unsigned int, void const *) const; }
-// Retail's waypoint-tree _M_copy (0x00301F9B, 115B) has no unwind frame: it is
-// STLport's structural copy without _STLP_TRY/_STLP_UNWIND. Spell that body so
-// this /EHs unit stops emitting a try-wrapped copy the link would keep.
-namespace _STL {
-typedef _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > > WaypointTree;
-// Retail 0x00301F9B is rowed under the TreeHintPayload003012F0 name.
-// ?_STL::WaypointTree::_M_copy present-unmatched
-template <> inline _Rb_tree_node<pair<AsciiString const, Coord3D> > *
-WaypointTree::_M_copy(_Rb_tree_node<pair<AsciiString const, Coord3D> > *__x, _Rb_tree_node<pair<AsciiString const, Coord3D> > *__p)
-{
-	_Link_type __top = _M_clone_node(__x);
-	__top->_M_parent = __p;
-	if (__x->_M_right)
-		__top->_M_right = _M_copy(_S_right(__x), __top);
-	__p = __top;
-	__x = _S_left(__x);
-	while (__x != 0) {
-		_Link_type __y = _M_clone_node(__x);
-		__p->_M_left = __y;
-		__y->_M_parent = __p;
-		if (__x->_M_right)
-			__y->_M_right = _M_copy(_S_right(__x), __y);
-		__p = __y;
-		__x = _S_left(__x);
-	}
-	return __top;
-}
-}
 // bfme link decl-only end
 #include "../../../Libraries/Include/Lib/Region3D.h"
 typedef _STL::list<Coord3D> Coord3DList;
-// Instantiate the reference coordinate-list copy and its typed helpers.
+// Preserve the copy unit's member layout for native destruction.
 class WaypointMap : public _STL::map<AsciiString,Coord3D> { int numStartSpots; public: WaypointMap(const WaypointMap &); };
 // The copy chain301EF6->301A3E->3012B0->2C552 proves a string-only20B node:
 // these faction names form a set, not a map with an unobserved mapped value.
@@ -82,20 +54,6 @@ class MapMetaData {
     UnicodeString cachedDisplayName,cachedDescription;
 public: MapMetaData(const MapMetaData &); ~MapMetaData(); MapMetaData &operator=(const MapMetaData &);
 };
-inline MapMetaData::MapMetaData(const MapMetaData &o)
-    : displayName(o.displayName), description(o.description), extent(o.extent), numPlayers(o.numPlayers),
-      isMultiplayer(o.isMultiplayer), isScenarioMP(o.isScenarioMP), isOfficial(o.isOfficial),
-      filesize(o.filesize), crc(o.crc), timestampLo(o.timestampLo), timestampHi(o.timestampHi),
-      waypoints(o.waypoints), supplyPositions(o.supplyPositions), techPositions(o.techPositions),
-      fileName(o.fileName), players(o.players), wordF4(o.wordF4),
-      cachedDisplayName(o.cachedDisplayName), cachedDescription(o.cachedDescription) {}
-typedef char SizeCheck[sizeof(MapMetaData)==0x100?1:-1];
-
-// The tree at3025A5 is already byte-verified under its earlier opaque-payload
-// model; the metadata reference and its coordinate copy chain prove this alias.
-inline WaypointMap::WaypointMap(const WaypointMap &o)
-    : _STL::map<AsciiString,Coord3D>(o), numStartSpots(o.numStartSpots) {}
-
 // Retail faction-tree destruction uses the BFME null-checked header free.
 typedef _STL::_Rb_tree<AsciiString,AsciiString,_STL::_Identity<AsciiString>,_STL::less<AsciiString>,_STL::allocator<AsciiString> > FactionSetTree;
 template FactionSetTree::~_Rb_tree();
@@ -109,32 +67,6 @@ PlayerPosition::~PlayerPosition() {}
 // POD coordinate-list cleanup is shared with the already-held integer list.
 inline MapMetaData::~MapMetaData() {}
 
-// Reference assignment preserves the same256B member layout. Waypoint
-// assignment302C9C copies tree then count; player assignment302CB7 loops
-// eight20B records; list assignment301B54 copies three dwords per node.
-inline MapMetaData &MapMetaData::operator=(const MapMetaData &o)
-{
-    displayName.set(o.displayName);
-    description.set(o.description);
-    extent = o.extent;
-    numPlayers = o.numPlayers;
-    isMultiplayer = o.isMultiplayer;
-    isScenarioMP = o.isScenarioMP;
-    isOfficial = o.isOfficial;
-    filesize = o.filesize;
-    crc = o.crc;
-    timestampLo = o.timestampLo;
-    timestampHi = o.timestampHi;
-    waypoints = o.waypoints;
-    supplyPositions = o.supplyPositions;
-    techPositions = o.techPositions;
-    ((StringBase<char> *)&fileName)->set(*(const StringBase<char> *)&o.fileName);
-    players = o.players;
-    wordF4 = o.wordF4;
-    cachedDisplayName.set(o.cachedDisplayName);
-    cachedDescription.set(o.cachedDescription);
-    return *this;
-}
 // Retail 0x002819AD 28B is list<Coord3D>::push_front: insert(begin(), x).
 // Begin is the sentinel's _M_next (double deref); callers at 0x00534BD5 and
 // 0x00534BDC push parsed supply/tech positions, and 0x005352DD/0x00535302
@@ -172,24 +104,17 @@ void Rva00534BDCParse(INI *ini, void *instance, void *, const void *)
 	((Rva00534BDCHolder *)instance)->m_listAC.push_front(pos);
 }
 
-// The map<AsciiString, MapMetaData> node copy in stlport_rb_tree_hint_00304bef.cpp calls this copy constructor through an opaque spelling pinned to the same 0x003039E8 (thiscall, one const reference); bind that spelling here.
-#pragma comment(linker, "/alternatename:??0TreeHintOpaque00304573@@QAE@ABU0@@Z=??0MapMetaData@@QAE@ABV0@@Z")
-
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??1Rva00078460Elem@@QAE@XZ=??1PlayerPosition@@QAE@XZ")
 
-// The four members above are header inlines elsewhere: other units emit
-// select-any copies, so strong definitions here were duplicates in the linked
-// build. This anchor only makes this unit emit its copies for the ledger
-// rows; it is not retail code.
+// Emit the inline destructor for the ledger without instantiating the copy
+// operations. Their unresolved waypoint-tree identities remain isolated in
+// MapMetaDataCopyDeferred.cpp. This anchor is not retail code.
 #pragma inline_depth(0)
 // ?bfmeEmitMapMetaDataCopy@@YAXPAVMapMetaData@@ABV1@PAVWaypointMap@@ABV2@@Z present-unmatched
 void bfmeEmitMapMetaDataCopy(MapMetaData *p, const MapMetaData &that, WaypointMap *w, const WaypointMap &thatW)
 {
-	p->MapMetaData::MapMetaData(that);
 	p->MapMetaData::~MapMetaData();
-	*p = that;
-	w->WaypointMap::WaypointMap(thatW);
 }
 #pragma inline_depth()

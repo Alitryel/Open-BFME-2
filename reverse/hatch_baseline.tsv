@@ -4036,8 +4036,8 @@ alternatename	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicIn
 alternatename	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIRegionDetailsStructuresPage.cpp	?slot03@Impl@RegionDetailsStructuresPage@StrategicInGameUI@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIRegionDetailsStructuresPage.cpp	?slot04@Impl@RegionDetailsStructuresPage@StrategicInGameUI@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldIconSubObjectCtor.cpp	?rva003FCCC9@Rva003FB65C@@QAEXE@Z	1
-alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??0TreeHintOpaque00304573@@QAE@ABU0@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??1Rva00078460Elem@@QAE@XZ	1
+alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	??0TreeHintOpaque00304573@@QAE@ABU0@@Z	1	allow=b1612aca2b2e0c6f4d04a3e338e5b8e193d9949f
 alternatename	Code/GameEngine/Source/GameClient/ResourceEntryOwnerRva004E7E3A.cpp	?cb@Cb00359D42@@UAEXHMD@Z	1
 alternatename	Code/GameEngine/Source/GameClient/ResourceEntryOwnerRva004E7E3A.cpp	?cb@Rva004E7E3AClaimantCallback@@UAEXHMD@Z	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00222A8BAptCallLevel.cpp	?invoke@Rva00222A8BTarget@@QAEXPAXPBDH10000@Z	1
@@ -20863,8 +20863,9 @@ present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/Strateg
 present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUICommonBehavior.cpp	UserInputTranslator::slot25	1
 present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIDynamicAutoResolveDialog.cpp	StrategicInGameUI::DynamicAutoResolveDialog::Impl::ShowBattleStepStateHandler::OnHitAnimDone	1
 present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIQueueUnitButton.cpp	Rva005F8A7E::rva005F8A7E	1
-present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	_STL::WaypointTree::_M_copy	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	bfmeEmitMapMetaDataCopy@@YAXPAVMapMetaData@@ABV1@PAVWaypointMap@@ABV2@@Z	1
+present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	_STL::WaypointTree::_M_copy	1	allow=b1612aca2b2e0c6f4d04a3e338e5b8e193d9949f
+present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	bfmeEmitMapMetaDataDeferredCopy@@YAXPAVMapMetaData@@ABV1@PAVWaypointMap@@ABV2@@Z	1	allow=b1612aca2b2e0c6f4d04a3e338e5b8e193d9949f
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	addMap@MapCache@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	getMapDir@MapCache@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	getUserMapDir@MapCache@@	1

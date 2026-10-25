@@ -11,6 +11,7 @@ import build
 import eh_verify
 
 SOURCE = ROOT / 'Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp'
+COPY_SOURCE = SOURCE.with_name('MapMetaDataCopyDeferred.cpp')
 PARENTS = {
     '??0MapMetaData@@QAE@ABV0@@Z': (0x3039E8, 257),
     '??1MapMetaData@@QAE@XZ': (0x22DBC6, 156),
@@ -23,12 +24,17 @@ CLEANUPS = {0x7797D2: (11, '??0MapMetaData@@QAE@ABV0@@Z'),
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--rva', type=lambda value: int(value, 0), choices=CLEANUPS)
 args = parser.parse_args()
-obj_path = build.obj_path(SOURCE)
-obj, image = eh_verify.Obj(obj_path), eh_verify.Image()
+image = eh_verify.Image()
 symbols = build.load_symbol_map()
-source = SOURCE.relative_to(ROOT).as_posix()
 locations, parents, cleanups = {}, [], []
+def parent_source(parent):
+    return SOURCE if parent.startswith('??1') else COPY_SOURCE
+
 for parent, (rva, size) in PARENTS.items():
+    path = parent_source(parent)
+    source = path.relative_to(ROOT).as_posix()
+    obj_path = build.obj_path(path)
+    obj = eh_verify.Obj(obj_path)
     assert eh_verify.verify_row(image, obj, parent, rva) == ('EXACT', '')
     locations[parent] = eh_verify.verified_funclet_locations(image, obj, parent, rva)
     result = build.compile_function({'name': parent, 'target_rva': hex(rva),
@@ -41,6 +47,8 @@ for parent, (rva, size) in PARENTS.items():
 for rva, (size, parent) in CLEANUPS.items():
     if args.rva is not None and rva != args.rva:
         continue
+    source = parent_source(parent).relative_to(ROOT).as_posix()
+    obj_path = build.obj_path(parent_source(parent))
     labels = [label for label, address in locations[parent].items() if address == rva]
     assert len(labels) == 1, (hex(rva), labels)
     label = labels[0]
@@ -63,6 +71,8 @@ for rva, (size, parent) in CLEANUPS.items():
                         'native_target_rva': hex(address)})
     cleanups.append({'rva': hex(rva), 'size': size, 'label': label,
                      'full_bytes': result['bytes'].hex(), 'relocations': targets})
+source = SOURCE.relative_to(ROOT).as_posix()
+obj_path = build.obj_path(SOURCE)
 wrapper = build.compile_function({
     'name': '??1?$list@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@QAE@XZ',
     'target_rva': '0x00200667', 'target_size': '5', 'source': source, 'notes': ''},
