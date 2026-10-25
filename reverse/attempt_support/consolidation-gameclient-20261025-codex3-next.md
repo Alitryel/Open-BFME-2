@@ -249,3 +249,22 @@ already classified redundant MS-header macro rows, historical census/attempt
 records and source provenance/placeholder/pattern comments. The destination
 macro queue finding remains served; no debt retirement is claimed. No active
 consumer needs repointing. Local evidence: build/gameclient-session2-five-final-audit.txt.
+
+## Constructor follow-up
+
+Rva0035DB3FTransitionCtor's private base view can be reconciled at the same
+observed offsets, and its standalone 71 bytes still verify. The supported
+composition then reports bytes rather than the original missing-base-field
+compile error. The attempt is reverted, recorded with re_log.py and both file
+and RVA claims released; its store-order subobject/barrier is untouched. No
+unverified constructor body remains in Code.
+
+TextOnFrameTransitionCtor's existing base and derived views are reconciled with
+the destination: the same +0x04/+0x08/+0x09/+0x0a/+0x0c prefix, explicit derived
+constructor, and its pre-existing destructor/empty virtuals. All field offsets,
+virtual order and native call targets stay fixed. Both views use the destination's
+existing names; no new identity claim or external layout is asserted. Removed
+redundant donor Bool/macro aliases. Fresh standalone verification passes all
+12/12 rows across the two files, four floats and one string; frozen checks pass.
+The supported dry run accepts both for twelve rows. This prerequisite introduces
+no source-path change; the complete five-move consumer audit remains current.

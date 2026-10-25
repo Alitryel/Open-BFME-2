@@ -286,24 +286,21 @@ public:
 	bool winIsHidden(void);
 };
 
-class TextOnFrameTransition
+class TextOnFrameTransition : public Rva001DBAA4
 {
 public:
-	virtual ~TextOnFrameTransition(void);
+	// Retail vftable 0x00C1669C: the destructor (0x0035FA2A) clears +0x0C and chains to
+	// the base; draw and skip are the shared empty body 0x000B3FD0.
+	virtual ~TextOnFrameTransition(void) { m_win = 0; }
 	virtual void init(GameWindow *win);
 	virtual void update(Int frame);
 	virtual void reverse(void);
-	virtual void draw(void);
-	virtual void skip(void);
+	virtual void draw(void) {}
+	virtual void skip(void) {}
+	TextOnFrameTransition(void);
 
-	Int m_frameLength;		// +0x04
-	bool m_isFinished;		// +0x08
-	bool m_isForward;		// +0x09
-	bool m_isReversed;		// +0x0a
-	unsigned char m_pad0B;		// +0x0b
-	GameWindow *m_win;		// +0x0c
-	Int m_startFrame;		// +0x10
-	Int m_endFrame;			// +0x14
+	Int m_startFrame;	// +0x10
+	Int m_endFrame;		// +0x14
 };
 
 enum
