@@ -296,7 +296,7 @@ class MergeDiagnosticsTests(unittest.TestCase):
                donor: [{"target_rva": "0x1010"}]}
 
         class Verifier:
-            fd = SimpleNamespace(MANAGED=re.compile(r"(?!)"))
+            fd = SimpleNamespace(MANAGED=re.compile(r"(?!)"), overrides=lambda: {})
             errors = ["fixture.cpp(1) : error C2065: 'missing' : undeclared identifier"]
             all_errors = errors
 
@@ -357,11 +357,12 @@ class ClaimTests(unittest.TestCase):
         T.claims.claim = lambda keys, note="", root=None: SimpleNamespace(
             refused=[T.claims.key_of("file:Code/A.cpp")], claimed=[k for k in keys if k != "file:Code/A.cpp"])
         T.claims.release = lambda keys, **kw: released.append(list(keys))
-        T.refusal = lambda f, rows: None
+        original_refusal, T.refusal = T.refusal, lambda f, rows: None
         try:
             rep = T.merge("Code/T.cpp", dry_run=False, claim=True)
         finally:
             T.claims.claim, T.claims.release = original_claim, original_release
+            T.refusal = original_refusal
             T._CACHE.clear()
         self.assertTrue(rep["blocked"].startswith("held by another worker"))
         self.assertEqual(released, [["file:Code/T.cpp", "file:Code/A.cpp", "file:Code/B.cpp", "0x00001000", "0x00001010"]])
