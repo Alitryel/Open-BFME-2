@@ -363,3 +363,47 @@ RVA `0x00762F44`; file claims for `W3DSnow.cpp`, `W3DSnowManager.cpp`,
 `W3DWaypointBuffer.cpp`, `W3DWaypointBufferDestructor.cpp`,
 `W3DWaypointBufferDrawWaypoints.cpp`, and this handoff file. No claim was
 released for either verified merge because publication has not yet occurred.
+
+TreeBuffer follow-up in this seat: the current dry run and apply accepted the
+seed plus four in-scope donors, absorbing `Rva000EADA7Copy.cpp`,
+`Rva000EB08CCheck.cpp`, `Rva000EB3D1.cpp`, and `Rva000EDA94Dtor.cpp` into
+`W3DTreeBuffer.cpp` (16 rows; 13 function rows repointed). The final TU build
+reported 17/17 matched rows, `find_declared_unmatched.py` passed, and
+`check_csv.py` passed. The planner's pre-merge source count was 1,025, so this
+merge removes four source files; it recovers no bytes.
+
+TreeBuffer donor blockers left for Sol, unchanged after the trial:
+
+- `Rva000EA24DReset.cpp`: C2039, `rva000E65B1` is not a member of
+  `Rva000E6AC0`; also C2065, `m_dirty` undeclared.
+- `W3DTreeBufferRva000EA48D.cpp`: C2600, the `W3DTreeBuffer` constructor
+  cannot be defined as a compiler-generated special member not declared first.
+- `W3DTreeBufferRva000EA327.cpp`: C2039, `rva000EA327` is not a member of
+  `W3DTreeBuffer`; also C2065, `count` undeclared.
+- `rva000EAFA4Rva000EAFA4Farm.cpp`: C2039, `rva000EAFA4` is not a member of
+  `W3DTreeBuffer`; also C2065, `count` undeclared.
+- `W3DTreeBufferRva000EB0E6.cpp`: C2039, `rva000EB0E6` is not a member of
+  `W3DTreeBuffer`; also C2065, `m_numTrees` undeclared.
+- `W3DTreeBufferRva000EB2EF.cpp`: C2039, `rva000EB2EF` is not a member of
+  `W3DTreeBuffer`; also C2065, `m_numTrees` undeclared.
+- `W3DTreeBufferUpdateTexture.cpp`, `W3DTreeBufferAddTreeType.cpp`,
+  `W3DTreeBuffer_startMorph.cpp`, `W3DTreeBufferRva000ECDF5.cpp`, and
+  `W3DTreeBufferXfer.cpp`: C2953, `StringBase` template class already defined.
+- `Rva000EBFD1UpdateVertexBuffer.cpp`: C2039, `Release_Ref` is not a member
+  of `Rva000EDA94Ref`.
+- `Rva000EC9C6.cpp` and `W3DTreeBufferRecordLookup.cpp`: C2039,
+  `rva000EB2EF` is not a member of `W3DTreeBuffer`.
+- `W3DTreeBufferAddTree.cpp`: C2039, `rva000EB2EF` is not a member of
+  `W3DTreeBuffer`; its other diagnostic is C2600 for the undeclared
+  compiler-generated constructor.
+- `W3DTreeBufferUpdateTopplingTree.cpp` remains refused because it is keyed in
+  a protected path-keyed register. No identity or data debt was retired.
+
+The path audit for the pending range plus these staged moves searched the old
+and destination basenames in active tools, hooks, workflows, includes, build
+inputs and registries. It found no active consumer requiring a manual change;
+remaining old source mentions are the generated TU's source-origin comments and
+historical `reverse` evidence. The moved sources had no code-identity or data
+baseline keys; the merge tool retained queue accounting and moved every
+accepted ledger source. The current TU passed its byte/declaration checks; no
+source provider or consumer binding was changed by the composition.
