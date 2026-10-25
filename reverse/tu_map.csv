@@ -28113,7 +28113,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003B0E75,14,code,,,-,,Code/GameEngine/Source/Common/Rva003B0E83Init.cpp
 0x003B0E83,16,code,,,-,,Code/GameEngine/Source/Common/Rva003B0E83Init.cpp
 0x003B0EA2,27,code,Code/GameEngine/Source/Common/RTS/Handicap.cpp,approved,Z,Z=Code/GameEngine/Source/Common/RTS/Handicap.cpp S=Code/GameEngine/Source/Common/RTS/Handicap.cpp N=Code/GameEngine/Source/Common/RTS/Handicap.cpp,Code/GameEngine/Source/Common/RTS/Handicap.cpp
-0x003B0EBD,227,code,Code/GameEngine/Source/Common/RTS/Handicap.cpp,approved,Z,Z=Code/GameEngine/Source/Common/RTS/Handicap.cpp S=Code/GameEngine/Source/Common/RTS/Handicap.cpp N=Code/GameEngine/Source/Common/RTS/Handicap.cpp,Code/GameEngine/Source/Common/RTS/HandicapReadFromDict.cpp
+0x003B0EBD,227,code,Code/GameEngine/Source/Common/RTS/Handicap.cpp,approved,Z,Z=Code/GameEngine/Source/Common/RTS/Handicap.cpp S=Code/GameEngine/Source/Common/RTS/Handicap.cpp N=Code/GameEngine/Source/Common/RTS/Handicap.cpp,Code/GameEngine/Source/Common/RTS/Handicap.cpp
 0x003B0FA0,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp
 0x003B0FA6,6,code,,,-,,Code/GameEngine/Source/Common/ConstIntGetters5.cpp
 0x003B0FAC,26,code,,,-,,Code/GameEngine/Source/Common/Rva003B0FACSet.cpp
