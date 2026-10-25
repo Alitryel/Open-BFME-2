@@ -432,5 +432,242 @@ def test_static_call_missing_body_is_not_a_certificate():
     assert ident.static_call_bindings(None, None, None, [], 0x1000) == ({}, {})
 
 
+# ---- the registers' mode, reseed and flip (code_identity_gate.py), over a fixture repository
+
+import os  # noqa: E402
+import subprocess  # noqa: E402
+
+OLD_KEY = "Code/a.cpp\t?a@@YAXXZ\t?x@@YAXXZ\t0x00001000\twrong"
+NEW_ROW = {"source": "Code/b.cpp", "name": "?b@@YAXXZ"}
+
+
+def _git(root, *args):
+    env = dict(os.environ, GIT_AUTHOR_NAME="t", GIT_COMMITTER_NAME="t", GIT_AUTHOR_EMAIL="",
+               GIT_COMMITTER_EMAIL="")
+    got = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, env=env)
+    assert got.returncode == 0, got.stderr
+    return got.stdout
+
+
+class _Ident:
+    defs = {}
+    truth = None
+
+
+@pytest.fixture
+def registers(tmp_path, monkeypatch):
+    """A repository whose registers are committed in shadow; the scans are scripted: `found`
+    is what allowed_symbols.scan reports, `dup` the dup_defs debt keys."""
+    (tmp_path / "reverse").mkdir()
+    base = tmp_path / "reverse" / "code_identity_baseline.tsv"
+    dup = tmp_path / "reverse" / "dup_defs_baseline.tsv"
+    base.write_text(gate.HEADER + "# mode: shadow\n" + OLD_KEY + "\n", newline="\n")
+    dup.write_text(dup_defs.HEADER + "duplicate\t?old@@3HA\n", newline="\n")
+    _git(tmp_path, "init", "-q")
+    _git(tmp_path, "config", "core.autocrlf", "false")
+    _git(tmp_path, "add", ".")
+    _git(tmp_path, "commit", "-qm", "init")
+    monkeypatch.setattr(gate, "ROOT", tmp_path)
+    monkeypatch.setattr(gate, "BASELINE", base)
+    monkeypatch.setattr(dup_defs, "BASELINE", dup)
+    state = {"found": [], "dup": {"duplicate\t?old@@3HA"}, "ledger": []}
+    monkeypatch.setattr(allowed, "load", lambda sources=None: (_Ident(), []))
+    monkeypatch.setattr(allowed, "scan", lambda ident, rows: list(state["found"]))
+    monkeypatch.setattr(allowed.census, "ledger", lambda: list(state["ledger"]))
+    monkeypatch.setattr(dup_defs, "analyse", lambda rows, defs, truth: [])
+    monkeypatch.setattr(dup_defs, "debt", lambda found: set(state["dup"]))
+    monkeypatch.setattr(gate, "added_alternatenames", lambda: [])
+    monkeypatch.chdir(tmp_path)
+    state["root"], state["base"], state["dup_path"] = tmp_path, base, dup
+    return state
+
+
+def _finding(row):
+    return (row, 0, allowed.REL32, "?x@@YAXXZ", 0x2000, "wrong", "")
+
+
+def _set(path, mode, *keys):
+    path.write_text(gate.HEADER + f"# mode: {mode}\n" + "".join(k + "\n" for k in keys), newline="\n")
+
+
+NAMES = ["reverse/code_identity_baseline.tsv"]
+
+
+def test_reseed_and_flip_land_as_one_commit(registers):
+    registers["found"] = [_finding(NEW_ROW)]                       # drift the shadow register never saw
+    registers["dup"] = {"duplicate\t?old@@3HA", "duplicate\t?new@@3HA"}
+    assert gate.main(["--reseed", "--mode", "enforce"]) == 0
+    text = registers["base"].read_text()
+    assert "# mode: enforce" in text and "Code/b.cpp\t?b@@YAXXZ" in text and OLD_KEY not in text
+    assert "?new@@3HA" in registers["dup_path"].read_text()
+    _git(registers["root"], "add", ".")
+    notes = []
+    problems, mode, *_ = gate.check([], NAMES + ["reverse/dup_defs_baseline.tsv"], staged=True, notes=notes)
+    assert problems == [] and mode == "enforce"                    # HEAD in shadow: the growth is the reseed
+    assert any("grew by 1 key(s) while HEAD's register is in shadow" in n for n in notes)
+    _git(registers["root"], "commit", "-qm", "flip")
+    with pytest.raises(SystemExit, match="never reseeded"):        # one-way
+        gate.main(["--reseed"])
+
+
+def test_an_enforced_register_only_shrinks_and_never_goes_back(registers):
+    _set(registers["base"], "enforce", OLD_KEY)
+    _git(registers["root"], "commit", "-qam", "enforce")
+    _set(registers["base"], "enforce", OLD_KEY, "Code/b.cpp\t?b@@YAXXZ\t?x@@YAXXZ\t0x00002000\twrong")
+    _git(registers["root"], "add", ".")
+    problems, mode, *_ = gate.check([], NAMES, staged=True)
+    assert mode == "enforce" and any("grew by 1 key(s); an enforced register only shrinks" in p for p in problems)
+    _set(registers["base"], "shadow", OLD_KEY)
+    _git(registers["root"], "add", ".")
+    problems, mode, *_ = gate.check([], NAMES, staged=True)
+    assert mode == "enforce" and any("may not go back" in p for p in problems)
+    _set(registers["base"], "enforce")                             # shrinking is fine
+    _git(registers["root"], "add", ".")
+    assert gate.check([], NAMES, staged=True)[0] == []
+
+
+def test_the_mode_is_the_staged_registers_not_the_working_copy(registers):
+    _set(registers["base"], "enforce", OLD_KEY)
+    _git(registers["root"], "add", ".")
+    _set(registers["base"], "shadow", OLD_KEY)                     # unstaged edit back to shadow
+    registers["found"] = [_finding(NEW_ROW)]
+    problems, mode, *_ = gate.check([], [], staged=True)
+    assert mode == "enforce" and any(p.startswith("binding: Code/b.cpp") for p in problems)
+
+
+def test_enforced_refusal_says_what_to_do(registers, capsys):
+    _set(registers["base"], "enforce", OLD_KEY)
+    _git(registers["root"], "commit", "-qam", "enforce")
+    registers["found"] = [_finding(NEW_ROW)]
+    assert gate.main(["--full"]) == 1
+    err = capsys.readouterr().err
+    assert "REFUSED" in err and "allowed_symbols.py --source FILE" in err and "false-reject" in err
+    registers["found"] = []
+    assert gate.main(["--full"]) == 0
+
+
+HAND_KEY = "Code/c.cpp\t?c@@YAXXZ\t?x@@YAXXZ\t0x00003000\twrong"
+
+
+@pytest.mark.parametrize("mode", ["enforce", "shadow"])
+def test_a_hand_grown_register_is_no_reseed_in_either_mode(registers, mode):
+    # HEAD in shadow: growth is taken only as an exact scan of the staged tree. A key typed in
+    # (a register-only change: no source staged, so the ordinary scan reads nothing) is refused,
+    # staged as the flip or still in shadow.
+    _set(registers["base"], mode, OLD_KEY, HAND_KEY)
+    _git(registers["root"], "add", ".")
+    sources, names = gate.staged_sources()
+    assert sources == [] and "reverse/code_identity_baseline.tsv" in names
+    problems, got_mode, *_ = gate.check(sources, names, staged=True)
+    assert got_mode == "enforce" and any("not exactly the staged tree's scan" in p for p in problems)
+
+
+def test_a_flip_that_is_not_the_scan_is_refused(registers):
+    _set(registers["base"], "enforce", OLD_KEY)          # no growth, but the scan no longer finds OLD_KEY
+    _git(registers["root"], "add", ".")
+    problems, mode, *_ = gate.check([], NAMES, staged=True)
+    assert mode == "enforce" and any("not exactly the staged tree's scan" in p for p in problems)
+    registers["found"] = [_finding({"source": "Code/a.cpp", "name": "?a@@YAXXZ"})]
+    _set(registers["base"], "enforce", allowed.key(registers["found"][0]))   # the tool's own output passes
+    _git(registers["root"], "add", ".")
+    assert gate.check([], NAMES, staged=True)[0] == []
+
+
+def test_a_reseed_staged_over_unstaged_sources_or_missing_objects_is_refused(registers):
+    (registers["root"] / "Code").mkdir()
+    (registers["root"] / "Code/a.cpp").write_text("int a;\n", newline="\n")
+    _git(registers["root"], "add", ".")
+    _git(registers["root"], "commit", "-qm", "source")
+    assert gate.main(["--reseed", "--mode", "enforce"]) == 0
+    _git(registers["root"], "add", ".")
+    (registers["root"] / "Code/a.cpp").write_text("int a, b;\n", newline="\n")    # not staged
+    problems, mode, *_ = gate.check([], NAMES, staged=True)
+    assert mode == "enforce" and any("differ from the index (Code/a.cpp)" in p for p in problems)
+    _git(registers["root"], "checkout", "--", "Code/a.cpp")
+    registers["ledger"] = [{"source": "Code/never_built.cpp", "name": "?n@@YAXXZ", "target_rva": "0x00001000",
+                            "target_size": "4", "notes": "", "status": "matched"}]
+    problems, mode, *_ = gate.check([], NAMES, staged=True)
+    assert mode == "enforce" and any("have no current object" in p for p in problems)
+
+
+@pytest.mark.parametrize("which", ["reverse/code_identity_baseline.tsv", "reverse/dup_defs_baseline.tsv"])
+def test_a_deleted_register_is_refused(registers, which):
+    _git(registers["root"], "rm", "-q", "--cached", which)
+    sources, names = gate.staged_sources()
+    assert which in names                                # deletions are staged names too
+    problems, mode, *_ = gate.check(sources, names, staged=True)
+    assert mode == "enforce" and any(p.startswith(which + " deleted") for p in problems)
+
+
+def test_a_downgrade_is_refused_and_judged_as_enforced(registers):
+    _set(registers["base"], "enforce", OLD_KEY)
+    _git(registers["root"], "commit", "-qam", "enforce")
+    _set(registers["base"], "shadow", OLD_KEY)
+    _git(registers["root"], "add", ".")
+    registers["found"] = [_finding(NEW_ROW)]
+    problems, mode, *_ = gate.check([], NAMES, staged=True)
+    assert mode == "enforce"
+    assert any("may not go back" in p for p in problems) and any(p.startswith("binding: Code/b.cpp") for p in problems)
+
+
+def test_reseed_refuses_an_incomplete_tree(registers):
+    registers["ledger"] = [{"source": "Code/never_built.cpp", "name": "?n@@YAXXZ", "target_rva": "0x00001000",
+                            "target_size": "4", "notes": "", "status": "matched"}]
+    before = registers["base"].read_text()
+    with pytest.raises(SystemExit, match="no current object"):
+        gate.main(["--reseed", "--mode", "enforce"])
+    assert registers["base"].read_text() == before
+
+
+def test_reseed_cannot_hide_an_enforced_head_with_a_shadow_working_copy(registers):
+    _set(registers["base"], "enforce", OLD_KEY)
+    _git(registers["root"], "commit", "-qam", "enforced")
+    _set(registers["base"], "shadow", OLD_KEY)
+    before = registers["base"].read_bytes(), registers["dup_path"].read_bytes()
+    with pytest.raises(SystemExit, match="never reseeded"):
+        gate.main(["--reseed"])
+    assert (registers["base"].read_bytes(), registers["dup_path"].read_bytes()) == before
+
+
+@pytest.mark.parametrize("current", [False, True])
+def test_register_only_reseed_scans_every_source_and_requires_current_objects(registers, monkeypatch, current):
+    row = {**NEW_ROW, "target_rva": "0x00002000", "target_size": "4", "notes": "", "status": "matched"}
+    registers["ledger"] = [row]
+    registers["found"] = [_finding(row)]
+    obj = registers["root"] / "b.obj"
+    obj.write_bytes(b"fixture object")
+    monkeypatch.setattr(allowed, "row_object", lambda row: obj)
+    monkeypatch.setattr(allowed.build, "compile_is_current", lambda source, path: current)
+    calls = []
+    def load(sources=None):
+        calls.append(sources)
+        return _Ident(), [row] if sources is None else []
+    monkeypatch.setattr(allowed, "load", load)
+    _set(registers["base"], "enforce", allowed.key(registers["found"][0]))
+    _git(registers["root"], "add", ".")
+    problems, mode, *_ = gate.check([], NAMES, staged=True)
+    assert mode == "enforce"
+    if current:
+        assert problems == []
+        assert calls == [["<none>"], None]  # baseline-only changes still require the whole ledger
+    else:
+        assert any("have no current object" in p for p in problems)
+
+
+def test_duplicate_register_only_growth_requires_the_exact_full_scan(registers):
+    registers["dup_path"].write_text(dup_defs.HEADER + "duplicate\t?typed@@3HA\n", newline="\n")
+    _git(registers["root"], "add", ".")
+    sources, names = gate.staged_sources()
+    problems, mode, *_ = gate.check(sources, names, staged=True)
+    assert mode == "enforce"
+    assert any("reverse/dup_defs_baseline.tsv is not exactly" in p for p in problems)
+
+
+def test_main_rejects_a_deleted_register_even_while_head_is_shadow(registers, monkeypatch):
+    _git(registers["root"], "rm", "-q", "--cached", NAMES[0])
+    monkeypatch.setattr(allowed.build, "compile_rows", lambda *args: None)
+    assert gate.main(["--staged"]) == 1
+
+
 if __name__ == "__main__":
     unittest.main()

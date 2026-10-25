@@ -33,6 +33,12 @@ the first of them by name: the alias claims no class, and folded tables are
 identical slot for slot, so any member yields the same bytes and behaviour.
 Each changed file is rebuilt with
 ./build.sh and restored unchanged unless every row in it still matches.
+The escape hatches a kept rewrite writes -- the `_vtbl_<VA>` /alternatename,
+and a ledger global that is itself address-named -- are then admitted in
+reverse/hatch_baseline.tsv (tools/hatch_counters.py admit(), exactly those
+tokens), so the enforced register passes them; the file is restored if the
+register does not grant them. Commit the register with the sources, under a
+`Verifier-Change: hatch-admit name_globals ...` trailer.
 
 Usage:
   python3 tools/name_globals.py [--dry-run] [FILE ...]
@@ -251,9 +257,10 @@ def main(argv=None):
                  and (ROOT / s).exists()
                  and link_debt.addresses((ROOT / s).read_text(encoding="utf-8", errors="replace"))]
     import bulk_pass
-    plan = {}
+    plan, originals = {}, {}
     for source in files:
         path = ROOT / source
+        originals[source] = path.read_bytes()
         with path.open(encoding="latin-1", newline="") as handle:
             before = handle.read()
         _after, need = rewrite(before, index)
@@ -266,8 +273,56 @@ def main(argv=None):
         # costs the file its other, good rewrites
         plan[source] = [(name, lambda text, name=name: rewrite(text, index, {name})[0]) for name in sorted(need)]
     changed = bulk_pass.run(plan, label="name_globals", log=lambda line: print(line, flush=True))
-    print(f"name_globals: {len(changed)} file(s) rewritten")
+    reverted = [source for source, kept in sorted(changed.items())
+                if not admit_written(source, kept, originals[source])]
+    for source in reverted:
+        changed.pop(source)
+    print(f"name_globals: {len(changed)} file(s) rewritten"
+          + (f", {len(reverted)} restored (hatch admission refused)" if reverted else ""))
     return 0
+
+
+def hatch_tokens(kept):
+    """The escape-hatch tokens (tools/hatch_counters.py) a verified rewrite of these globals
+    writes: each vftable alias's /alternatename (`_vtbl_<VA>`), and a ledger global that is
+    itself address-named (`g_Va00DFE78C`: the name the defining unit gave it). Every other
+    rewrite only removes a hard-coded address."""
+    import hatch_counters
+    out = set()
+    for name in kept:
+        if name.startswith("vtbl_"):
+            out.add("_" + name)
+        elif hatch_counters.ADDR_GLOBAL.fullmatch(name):
+            out.add(name)
+    return out
+
+
+def admit_written(source, kept, original):
+    """Admit in the hatch register exactly the hatches this tool wrote into SOURCE (its kept,
+    byte-verified rewrites), so an enforced register lets them through; a hatch anything else
+    added stays refused. On a refusal (or a freeze) SOURCE is restored to ORIGINAL and the
+    register to what it was, and False is returned."""
+    import hatch_counters
+    tokens = hatch_tokens(kept)
+    if not tokens:
+        return True
+    register = ROOT / hatch_counters.BASELINE
+    saved = register.read_bytes() if register.exists() else None
+    try:
+        hatch_counters.admit(source, f"name_globals: verified rewrite ({', '.join(sorted(tokens))})",
+                             tokens=tokens, before=hatch_counters.blob_id(source, original))
+        # what the commit gate will grant, judged independently of admit()
+        refused = sorted(key for key in hatch_counters.ungranted(source) if key[2] in tokens)
+    except SystemExit as error:                    # a frozen hatch
+        print(f"name_globals: {source}: {error}", flush=True)
+        refused = ["frozen"]
+    if not refused:
+        return True
+    print(f"name_globals: RESTORED {source}: the hatch register did not admit {refused}", flush=True)
+    (ROOT / source).write_bytes(original)
+    if saved is not None:
+        register.write_bytes(saved)
+    return False
 
 
 if __name__ == "__main__":

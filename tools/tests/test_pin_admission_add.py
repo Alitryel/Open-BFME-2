@@ -174,3 +174,18 @@ def test_repeat_of_an_existing_pin_is_a_no_op(tree):
     before = (tree / "reverse/symbols.csv").read_bytes()
     assert pin_admission.add_pins([("?a@@YAXXZ", "0x1010")]) == []
     assert (tree / "reverse/symbols.csv").read_bytes() == before
+
+
+def test_the_enforced_commit_gate_passes_the_tool_path_and_says_what_to_do_otherwise(tree, capsys):
+    assert "# mode: enforce" in (tree / "reverse/hatch_baseline.tsv").read_text()
+    assert pin_admission.add_pins([("?callee@@YAXXZ", "0x2000")]) == []
+    git(tree, "add", ".")
+    assert hatch_counters.main(["--staged"]) == 0                       # the hook's own call
+    with (tree / "reverse/symbols.csv").open("a", newline="\n") as handle:
+        handle.write("?typed@@YAXXZ,0x00003000,by hand\n")
+    git(tree, "add", ".")
+    capsys.readouterr()
+    assert hatch_counters.main(["--staged"]) == 1
+    err = capsys.readouterr().err
+    assert "REFUSED" in err and "pin +1 in reverse/symbols.csv: 0x00003000" in err
+    assert "tools/pin_admission.py --add NAME 0xRVA" in err             # the way in it names

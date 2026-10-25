@@ -31,21 +31,50 @@ RULES (the commit gate, --staged):
      staged change to them is regenerated and must match byte for byte.
   6. A register line `# mode: shadow` reports rule 1-4 findings without
      refusing (the 48 h shadow before enforcement). `# mode: enforce` (also
-     the default) refuses; enforce may never go back to shadow. Rule 5, a
-     deleted register and a wrong first register are refused in both modes.
+     the default: a register with no mode line is enforced) refuses; enforce
+     may never go back to shadow, and a mode line, once the parent has one,
+     may not be dropped. Rule 5, a deleted register, a downgrade and a wrong
+     first register are refused in both modes; a downgrade is judged as
+     enforced.
      In shadow, findings the commit adds get a framed, counted banner (and
      --note-file, which the pre-commit hook repeats last); findings HEAD
      already carries are tagged [already in HEAD] and listed briefly.
+     Enforced, a commit is refused for what IT adds: an excess HEAD already
+     carried over HEAD's register (an unverified commit, a register line a
+     rebase merged low) is reported as inherited and not refused, so one
+     seat's drift never blocks the next seat that touches the file. Lowering
+     a line below what the file carries is still refused (rule 2).
   7. Reseed, shadow only. A register left in shadow drifts: commits it never
      refused grew the tree past it, so every touched file reports growth that
-     commit did not make. `--reseed` rewrites the whole register from the tree
-     (no allow= stamps, mode kept) and is refused once the register says
-     `# mode: enforce`: an enforced register is never re-derived from the
-     tree it judges. The gate takes a staged register that raises lines as a
-     reseed only when it equals the staged tree exactly (one full scan, as for
-     the first register); anything short of that is judged line by line as
-     before. The commit carries `Verifier-Change: hatch-reseed <why>`
+     commit did not make. `--reseed` rewrites the whole register from the
+     staged tree (no allow= stamps; `--mode enforce` also flips it, else the
+     mode is kept) and is refused once the register says `# mode: enforce`:
+     an enforced register is never re-derived from the tree it judges. The
+     gate takes a staged register that raises lines as a reseed only while
+     the parent's register is in shadow and the staged one equals the staged
+     tree exactly (one full scan, as for the first register); anything short
+     of that is judged line by line as before. So the reseed and the flip land
+     as ONE commit, carrying `Verifier-Change: hatch-reseed <why>`
      (tools/protected_paths.py asks for a trailer on any baseline edit).
+  8. Respellable hatches. An /alternatename, a present-unmatched marker and a
+     selectany line are keyed by a token a rename respells (a mangled name, a
+     label, a declaration). Once the code-identity register
+     (CODE_IDENTITY below) is enforced at HEAD and in the commit, so that
+     code_identity_gate judges each added /alternatename, the unit judged for
+     those is the file: its count of that hatch may not rise, and a token
+     traded for another at the same count is a respelling, noted, not refused.
+     Until then they are judged per token like every other hatch (a pin and an
+     alias row per address). A register line moved to another file (rule 3a)
+     and a respelling each consume an old occurrence, once: every net increase
+     needs an admission.
+  9. object-symbol= naming a compiler label (`$L<n>` funclet, `_$E<n>`
+     dynamic initializer), the row's own name or an anonymous-namespace
+     respelling of it is no hatch: it is the only way to address a body with
+     no source-level name, and every funclet landing writes one. Nor is a
+     ?dup_<rva> row (the name is minted per address and nothing calls it).
+     Any other row binding a name to another symbol counts, a Gen_/Rva<RVA>
+     placeholder name included (build.is_alias_row excuses those, but they
+     are link names this tree calls).
 
 Usage:
   python3 tools/hatch_counters.py --staged              the commit gate
@@ -67,8 +96,12 @@ in the worktree's git dir until HEAD moves, so admissions accumulate across call
 one working change whatever edits the file in between, while a register line typed
 by hand (any stamp) or a pin renamed or added at an admitted address stays refused;
 ungranted() then proves the register grants what the tool wrote.
+  python3 tools/hatch_counters.py --restamp PATH        after editing PATH since a tool admitted a hatch
+                                                        in it: re-stamp those admissions (nothing new)
   python3 tools/hatch_counters.py --write-baseline      first baseline only (refuses if one exists)
-  python3 tools/hatch_counters.py --reseed              rewrite a SHADOW register from the tree (rule 7)
+  python3 tools/hatch_counters.py --reseed [--mode enforce]
+                                                        rewrite a SHADOW register from the staged
+                                                        tree (rule 7); --mode enforce is the flip
 """
 import argparse
 import collections
@@ -90,12 +123,14 @@ if (ROOT / "targets" / "game" / "reverse").is_dir():      # Open-BFME-1
     PIN_FILE = re.compile(r"^targets/[^/]+/reverse/symbols\.csv$")
     LEDGER_FILE = re.compile(r"^targets/[^/]+/reverse/functions\.csv$")
     INVENTORY_DIR = "targets/game/reverse/retail_inventory/"
+    CODE_IDENTITY = "targets/game/reverse/code_identity_baseline.tsv"
 else:                                                       # Open-BFME-2
     BASELINE = "reverse/hatch_baseline.tsv"
     SOURCE_ROOTS = ("Code/", "reference/shims/")
     PIN_FILE = re.compile(r"^reverse/symbols\.csv$")
     LEDGER_FILE = re.compile(r"^reverse/functions\.csv$")
     INVENTORY_DIR = "reverse/retail_inventory/"
+    CODE_IDENTITY = "reverse/code_identity_baseline.tsv"
 
 CODE_EXT = (".cpp", ".c", ".cc", ".cxx", ".h", ".hpp", ".inl")
 FREEZE_WINDOW = 24 * 3600
@@ -104,6 +139,11 @@ LIFT = re.compile(r"^Verifier-Change:[ \t]*hatch-freeze-lift[ \t]+(\S+)", re.MUL
 
 HATCHES = ("selectany", "alternatename", "pin", "object_symbol", "address_global",
            "class_gate_allow", "present_unmatched", "pragma_optimize", "emit", "asm_bytes")
+# rule 8: judged per file, not per token (a rename respells the token, not the count), once
+# the code-identity register is enforced (STATE["respellable"]; per token until then)
+RESPELLABLE = frozenset(("alternatename", "present_unmatched", "selectany"))
+# rule 9: object-symbol= naming one of these is the compiler's own name for the body
+COMPILER_LABEL = re.compile(r"\$L\d+|_\$E\d+")
 
 SELECTANY = re.compile(r"__declspec\s*\(\s*selectany\s*\)")
 ALTNAME = re.compile(r"/alternatename:([^=\s\"]+)=([^\s\"]+)", re.IGNORECASE)
@@ -150,6 +190,30 @@ def _addr(cell):
         return cell.strip()
 
 
+OBJECT_SYMBOL = re.compile(r"(?:^|;)\s*object-symbol=([^;]+)")            # build.is_alias_row's
+
+
+def alias_of(cells):
+    """The object-symbol= alias of a functions.csv row when it is a hatch (rule 9), else None."""
+    m = OBJECT_SYMBOL.search(cells[6]) if len(cells) >= 7 else None
+    if not m:
+        return None
+    alias, name = m.group(1).strip(), cells[0]
+    # Build plumbing (build.is_alias_row, mirrored import-free for the hook; test_hatch_counters
+    # pins the two together): a compiler label, the row's own name or an anonymous-namespace
+    # respelling of it, and a ?dup_<rva> row, whose minted name nothing calls (zh_sweep,
+    # obj_sweep and wave_accounting write those without admit()). build also excuses a name
+    # with a Gen_/Rva<RVA> placeholder in it; those are link names this tree calls
+    # (BfmeAptValue006DCD20::rva006DCF60), so binding one to another symbol stays a hatch.
+    if COMPILER_LABEL.fullmatch(alias) or CLONE_LOCAL.sub("", alias) == CLONE_LOCAL.sub("", name):
+        return None
+    return None if DUP_PLACEHOLDER.match(name) else alias
+
+
+CLONE_LOCAL = re.compile(r"\?A0x[0-9A-Fa-f]{8}")                       # build.CLONE_LOCAL_RE
+DUP_PLACEHOLDER = re.compile(r"^\?dup_[0-9A-Fa-f]{8}@@YAXXZ$")         # build.DUP_ALIAS_ANYCASE_RE
+
+
 def scan(path, text):
     """Counter of (hatch, path, token) for one file's text."""
     out = collections.Counter()
@@ -161,7 +225,7 @@ def scan(path, text):
             # keyed by address: a rename is not a new hatch (name gates judge names)
             if pin and len(cells) >= 2:
                 out[("pin", path, _addr(cells[1]))] += 1
-            elif not pin and len(cells) >= 7 and "object-symbol=" in cells[6]:
+            elif not pin and alias_of(cells) is not None:
                 out[("object_symbol", path, _addr(cells[2]))] += 1
         return out
     if path.lower().endswith(".asm"):
@@ -197,9 +261,6 @@ def scan(path, text):
     return out
 
 
-OBJECT_SYMBOL = re.compile(r"object-symbol=([^;\s]*)")
-
-
 def occurrences(path, text):
     """{key: Counter(detail)}: scan()'s occurrences with what each one is beyond its key (the
     counts add up to scan()'s). A pin is keyed by its address alone, so its detail is the name
@@ -215,9 +276,8 @@ def occurrences(path, text):
     for cells in rows:
         if pin and len(cells) >= 2:
             out[("pin", path, _addr(cells[1]))][cells[0].strip()] += 1
-        elif not pin and len(cells) >= 7 and "object-symbol=" in cells[6]:
-            alias = OBJECT_SYMBOL.search(cells[6]).group(1)
-            out[("object_symbol", path, _addr(cells[2]))]["%s -> %s" % (cells[0].strip(), alias)] += 1
+        elif not pin and alias_of(cells) is not None:
+            out[("object_symbol", path, _addr(cells[2]))]["%s -> %s" % (cells[0].strip(), alias_of(cells))] += 1
     return dict(out)
 
 
@@ -244,7 +304,24 @@ def parse(text):
 
 
 MODE = re.compile(r"^# mode: (shadow|enforce)[ \t]*$", re.MULTILINE)
-STATE = {"mode": "enforce"}
+STATE = {"mode": "enforce", "respellable": frozenset()}
+CI_MODE = re.compile(r"^# mode:(.*)$", re.MULTILINE)
+
+
+def code_identity_enforced(texts):
+    """True when every TEXT is a code-identity register whose mode is enforce, read as
+    code_identity_gate.read_register reads it (its last `# mode:` line; none is shadow)."""
+    return bool(texts) and all(text is not None and [m.strip() for m in CI_MODE.findall(text)][-1:] == ["enforce"]
+                               for text in texts)
+
+
+def set_respellable(specs):
+    """Rule 8: the respellable hatches are judged per file only while the code-identity register
+    at every git object spec in SPECS is enforced; otherwise per token."""
+    texts = read_blobs(["%s%s" % (spec, CODE_IDENTITY) for spec in specs])
+    STATE["respellable"] = RESPELLABLE if code_identity_enforced(list(texts.values())) else frozenset()
+
+
 INHERITED = " [already in HEAD]"   # a finding HEAD's own file and register carry too
 
 
@@ -282,6 +359,84 @@ def by_token(counts):
     for (hatch, _, token), n in counts.items():
         t[(hatch, token)] += n
     return t
+
+
+def unit_of(key):
+    """What the gate judges a key as (rule 8): the file for a respellable hatch, else the key."""
+    return (key[0], key[1], None) if key[0] in STATE["respellable"] else key
+
+
+def by_unit(counts):
+    t = collections.Counter()
+    for key, n in counts.items():
+        t[unit_of(key)] += n
+    return t
+
+
+def register_growth(old, new, admitted=()):
+    """Keys NEW grants more than OLD that no old occurrence explains. An old occurrence explains
+    one new occurrence, at most: its own key, a move (same hatch and token in another file: a
+    renamed file, a function moved between units) or a respelling (rule 8: same hatch and file,
+    for a respellable hatch). So a move and a respelling cannot both spend one occurrence, and
+    every net increase is left over. An ADMITTED key (a valid tool allowance) explains its own
+    raise. A maximum matching: each key first keeps what it had, then augmenting paths reassign."""
+    def links(key):
+        hatch, path, token = key
+        out = by_tok.get((hatch, token), [])
+        return out + by_path.get((hatch, path), []) if hatch in STATE["respellable"] else out
+    supply = {k: n for k, n in old.items() if n > 0}
+    by_tok, by_path = collections.defaultdict(list), collections.defaultdict(list)
+    for k in supply:
+        by_tok[(k[0], k[2])].append(k)
+        by_path[(k[0], k[1])].append(k)
+    flow = collections.defaultdict(int)            # (old key, new key) -> occurrences explained
+    fed = collections.defaultdict(list)            # old key -> new keys it explains
+    need = {}
+    for k, n in new.items():
+        want = min(n, old.get(k, 0)) if k in admitted else n
+        own = min(want, supply.get(k, 0))
+        if own:
+            flow[(k, k)] = own
+            fed[k].append(k)
+            supply[k] -= own
+        if want > own:
+            need[k] = want - own
+    for k in sorted(need):
+        while need[k]:
+            # backward search: new key -> an old key linked to it -> a new key that old key explains
+            prev, queue, found = {k: None}, [k], None
+            while queue and found is None:
+                j = queue.pop(0)
+                for i in links(j):
+                    if ("o", i) in prev:
+                        continue
+                    prev[("o", i)] = j
+                    if supply[i]:
+                        found = i
+                        break
+                    for j2 in fed[i]:
+                        if j2 not in prev and flow[(i, j2)]:
+                            prev[j2] = i
+                            queue.append(j2)
+            if found is None:
+                break
+            path, i = [], found                    # [(old, new)]: each old key takes over the new key
+            while True:
+                j = prev[("o", i)]
+                path.append((i, j))
+                if prev[j] is None:
+                    break
+                i = prev[j]                        # j's explainer so far moves on down the path
+            delta = min([need[k], supply[found]] + [flow[(prev[j], j)] for _, j in path if prev[j] is not None])
+            supply[found] -= delta
+            for i, j in path:
+                if not flow[(i, j)]:
+                    fed[i].append(j)
+                flow[(i, j)] += delta
+                if prev[j] is not None:
+                    flow[(prev[j], j)] -= delta
+            need[k] -= delta
+    return sorted(k for k, n in need.items() if n)
 
 
 def read_blobs(specs):
@@ -377,9 +532,13 @@ def frozen(hatch, new_total, ref_totals):
 
 def check_staged():
     """(errors, warnings, hard): `errors` are reported only while the register is in
-    `# mode: shadow`; `hard` (inventory edits, a deleted or downgraded register) always fail."""
+    `# mode: shadow`; `hard` (inventory edits, a deleted or downgraded register) always fail.
+    Enforced, a finding HEAD already carried (rule 6) is a warning, not an error."""
     hard = []
     errors, warnings = _check_staged(hard)
+    if STATE["mode"] == "enforce":
+        warnings += ["inherited, not refused: " + e for e in errors if e.endswith(INHERITED)]
+        errors = [e for e in errors if not e.endswith(INHERITED)]
     return errors, warnings, hard
 
 
@@ -394,6 +553,7 @@ def _check_staged(hard):
         return errors, warnings                     # nothing this gate reads was staged
     staged_base = read_blobs([":" + BASELINE])[":" + BASELINE]
     STATE["mode"] = mode_of(staged_base)
+    set_respellable(["HEAD:", ":"])
     parents = ["HEAD"]
     merge_head = git("rev-parse", "-q", "--verify", "MERGE_HEAD").strip()
     if merge_head:
@@ -407,8 +567,16 @@ def _check_staged(hard):
         if not introduced:
             hard.append("%s deleted; the register may shrink line by line, never disappear" % BASELINE)
         return errors, warnings                     # register not introduced yet
-    if STATE["mode"] == "shadow" and any(MODE.search(t or "") and mode_of(t) == "enforce" for t in parent_texts.values()):
+    # A parent with no mode line is enforced (mode_of's default), so deleting the line and then
+    # adding `# mode: shadow` is a downgrade too; and once the parent has a line, it stays.
+    parents_present = [t for t in parent_texts.values() if t is not None]
+    if STATE["mode"] == "shadow" and any(mode_of(t) == "enforce" for t in parents_present):
         hard.append("%s: '# mode: enforce' may not go back to shadow" % BASELINE)
+        STATE["mode"] = "enforce"                   # judged as the parent says
+    if not MODE.search(staged_base) and any(MODE.search(t) for t in parents_present):
+        hard.append("%s: the '# mode:' line may not be removed (a register with none reads as "
+                    "enforce, and its next commit could then claim shadow)" % BASELINE)
+        STATE["mode"] = "enforce"
     if BASELINE not in changed and not merge_head:
         # Only the touched files' lines matter: filter before parsing the 40k-line register.
         want = set(touched)
@@ -426,55 +594,90 @@ def _check_staged(hard):
         for key, n in parse(text or "")[0].items():
             b0[key] = max(n, b0.get(key, 0))
     raised = [k for k, n in b1.items() if n > b0.get(k, 0)]
-    if (STATE["mode"] == "shadow" and BASELINE in changed and raised and not any(k in allow1 for k in raised)
-            and b1 == dict(tree_scan(index=True))):
-        # A shadow reseed (rule 7): lines were raised, none by a tool allowance (those stamp
-        # allow=, and must not pay for a full scan), and the register is exactly the staged
-        # tree, so no file holds more than it grants and there is nothing to report.
-        print("hatch_counters: %s reseeded from the staged tree (shadow): %s"
-              % (BASELINE, " ".join("%s=%d" % kv for kv in sorted(totals(b1).items()))), file=sys.stderr)
+    parent_shadow = all(mode_of(t) == "shadow" for t in parent_texts.values() if t is not None)
+    if (parent_shadow and BASELINE in changed and raised and not any(k in allow1 for k in raised)
+            and not _adds_occurrences(touched) and b1 == dict(tree_scan(index=True))):
+        # A reseed (rule 7): the parent register is in shadow, lines were raised, none by a
+        # tool allowance (those stamp allow=, and must not pay for a full scan), and the
+        # register is exactly the staged tree, so no file holds more than it grants and there
+        # is nothing to report. A staged `# mode: enforce` makes this commit the flip.
+        print("hatch_counters: %s reseeded from the staged tree (%s): %s"
+              % (BASELINE, "shadow -> ENFORCE" if STATE["mode"] == "enforce" else "shadow",
+                 " ".join("%s=%d" % kv for kv in sorted(totals(b1).items()))), file=sys.stderr)
         return errors, warnings
-    lowered =sorted({k[1] for k in set(b0) | set(b1) if b1.get(k, 0) < b0.get(k, 0)})
+    lowered = sorted({k[1] for k in set(b0) | set(b1) if b1.get(k, 0) < b0.get(k, 0)})
     paths = sorted(set(touched) | set(lowered))
+    pathset, touchedset = set(paths), set(touched)
     texts = read_blobs([":" + p for p in paths])
     actual = collections.Counter()
     for p in paths:
         if texts[":" + p] is not None:
             actual.update(scan(p, texts[":" + p]))
-    seen = {k for k in actual} | {k for k in b1 if k[1] in set(paths)}
-    over = {}
+    seen = {k for k in actual} | {k for k in b1 if k[1] in pathset}
+    # rule 8: a respellable hatch is judged by its file total, any other by its key
+    units = collections.defaultdict(list)
     for key in sorted(seen):
-        if key[1] not in set(paths):
-            continue
-        a, g = actual.get(key, 0), b1.get(key, 0)
+        if key[1] in pathset:
+            units[unit_of(key)].append(key)
+    over = {}
+    for unit, keys in sorted(units.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2] or "")):
+        a = sum(actual.get(k, 0) for k in keys)
+        g = sum(b1.get(k, 0) for k in keys)
         if a > g:
-            over[key] = (a, g)
-        elif a < g and key[1] in set(touched):
-            warnings.append("%s: %s in %s is down to %d (register says %d)" % (key[0], key[2], key[1], a, g))
+            over[unit] = (a, g, [k for k in keys if actual.get(k, 0) > b1.get(k, 0)])
+        elif unit[1] in touchedset:
+            if a < g:
+                warnings.append("%s: %s in %s is down to %d (register says %d)"
+                                % (unit[0], unit[2] or "all tokens", unit[1], a, g))
+            respelled = [k[2] for k in keys if actual.get(k, 0) > b1.get(k, 0)]
+            if respelled:
+                warnings.append("%s in %s respelled (%s), file count unchanged"
+                                % (unit[0], unit[1], ", ".join(respelled[:5])))
     if over:
-        # A shadow register drifts (rule 7): HEAD may already carry more than it grants, and
-        # every commit touching that file reports it again. Tag those so the occurrences
-        # this commit adds stand out (main()); enforcement judges both alike.
-        head_texts = read_blobs(["HEAD:" + p for p in sorted({k[1] for k in over})])
+        # A shadow register drifts (rule 7), and so can an enforced one (a commit that skipped
+        # the hook, a register line a rebase merged low): HEAD may already carry more than it
+        # grants. Tag those [already in HEAD]: shadow lists them apart from what the commit
+        # adds, enforcement reports them as inherited and refuses only what the commit adds.
+        head_texts = read_blobs(["HEAD:" + p for p in sorted({u[1] for u in over})])
         head_actual = collections.Counter()
         for spec, text in head_texts.items():
             if text is not None:
                 head_actual.update(scan(spec[len("HEAD:"):], text))
-        for key in sorted(over):
-            a, g = over[key]
-            msg = "%s +%d in %s: %s (register grants %d)" % (key[0], a - g, key[1], key[2], g)
-            if a - g <= max(0, head_actual.get(key, 0) - b0.get(key, 0)):
-                msg += INHERITED
-            errors.append(msg)
+        head_units, b0_units = by_unit(head_actual), by_unit(b0)
+        for unit in sorted(over, key=lambda u: (u[0], u[1], u[2] or "")):
+            a, g, keys = over[unit]
+            what = unit[2] if unit[2] is not None else ", ".join(k[2] for k in keys) or "?"
+            msg = "%s +%d in %s: %s (register grants %d)" % (unit[0], a - g, unit[1], what, g)
+            inherited = max(0, head_units.get(unit, 0) - b0_units.get(unit, 0))
+            if a - g <= inherited:
+                errors.append(msg + INHERITED)
+            elif inherited:          # the part HEAD carried is not this commit's; the rest is
+                errors.append("%s +%d in %s: %s (register grants %d; HEAD already carried %d more)"
+                              % (unit[0], a - g - inherited, unit[1], what, g, inherited))
+            else:
+                errors.append(msg)
+    # credited repair: a hatch whose register total this commit lowers (a move or a respelling
+    # lowers one line and raises another, and is no credit)
+    t0, t1 = totals(b0), totals(b1)
+    for hatch in HATCHES:
+        if t1[hatch] < t0[hatch] and not any(u[0] == hatch for u in over):
+            warnings.append("credited: %s register total %d -> %d (-%d)"
+                            % (hatch, t0[hatch], t1[hatch], t0[hatch] - t1[hatch]))
     # growth of the register itself
-    tok0, tok1 = by_token(b0), by_token(b1)
-    grown = sorted(k for k in b1 if b1[k] > b0.get(k, 0) and tok1[(k[0], k[2])] > tok0.get((k[0], k[2]), 0))
+    grown = register_growth(b0, b1)
     if grown:
-        blobs = index_blob_ids(sorted({k[1] for k in grown}))
-        need_freeze = set()
-        for key in grown:
-            if allow1.get(key) and allow1[key] == blobs.get(key[1]):
-                need_freeze.add(key[0])
+        stamped = [k for k in b1 if b1[k] > b0.get(k, 0) and allow1.get(k)]
+        blobs = index_blob_ids(sorted({k[1] for k in stamped}))
+        admitted = {k for k in stamped if allow1[k] == blobs.get(k[1])}
+        # what is left once every valid allowance explains its own raise; the freeze judges the
+        # hatches an allowance was needed for
+        need_freeze = {k[0] for k in admitted} & {k[0] for k in grown}
+        for key in register_growth(b0, b1, admitted):
+            if allow1.get(key):
+                errors.append("register line raised by hand, or admitted before %s last changed: %s %s %s "
+                              "%d -> %d (its allow= is not the staged blob; `python3 tools/hatch_counters.py "
+                              "--restamp %s` re-stamps what tools admitted in this working change)"
+                              % (key[1], key[0], key[1], key[2], b0.get(key, 0), b1[key], key[1]))
             else:
                 errors.append("register line raised by hand: %s %s %s %d -> %d (only "
                               "`tools/hatch_counters.py --allow` may raise a line)"
@@ -489,6 +692,22 @@ def _check_staged(hard):
                                   "'Verifier-Change: hatch-freeze-lift %s <reason>' lands"
                                   % (hatch, t1[hatch], ref[hatch], hatch))
     return errors, warnings
+
+
+def _adds_occurrences(paths):
+    """True when a staged PATH carries more of some hatch unit than HEAD's PATH: a reseed
+    records the tree as it stands, so the commit carrying it may not add to that tree."""
+    if not paths:
+        return False
+    texts = read_blobs([":" + p for p in paths] + ["HEAD:" + p for p in paths])
+    staged, head = collections.Counter(), collections.Counter()
+    for p in paths:
+        if texts[":" + p] is not None:
+            staged.update(scan(p, texts[":" + p]))
+        if texts["HEAD:" + p] is not None:
+            head.update(scan(p, texts["HEAD:" + p]))
+    head_units = by_unit(head)
+    return any(n > head_units.get(u, 0) for u, n in by_unit(staged).items())
 
 
 def check_inventory(paths):
@@ -513,9 +732,9 @@ def update(allow_paths=(), reason=None):
         sys.exit("hatch_counters: no register yet; --write-baseline creates the first one")
     old, _ = parse(old_text)
     new = tree_scan()
+    set_respellable(["HEAD:"])
     allow_paths = {p.replace("\\", "/") for p in allow_paths}
-    tok_old, tok_new = by_token(old), by_token(new)
-    grown = sorted(k for k in new if new[k] > old.get(k, 0) and tok_new[(k[0], k[2])] > tok_old.get((k[0], k[2]), 0))
+    grown = register_growth(old, new)
     refused = [k for k in grown if k[1] not in allow_paths]
     if refused:
         for k in refused[:40]:
@@ -545,24 +764,34 @@ def update(allow_paths=(), reason=None):
             print("%-18s %7d -> %7d" % (hatch, t0[hatch], t1[hatch]))
 
 
-def reseed():
-    """Rule 7: rewrite a shadow register from the tree. Refused when enforced or absent."""
+def reseed(mode=None):
+    """Rule 7: rewrite a shadow register from the staged tree, in MODE (None: keep shadow;
+    'enforce': the flip). Refused when the register, or HEAD's, is enforced or absent, and
+    when a tracked file this register reads differs from the index (the gate compares the
+    register with the staged tree, so that is the tree it is written from)."""
     old_text = (ROOT / BASELINE).read_text(encoding="utf-8") if (ROOT / BASELINE).exists() else None
     if old_text is None:
         sys.exit("hatch_counters: no register yet; --write-baseline creates the first one")
-    if mode_of(old_text) != "shadow":
+    head_text = read_blobs(["HEAD:" + BASELINE])["HEAD:" + BASELINE]
+    if mode_of(old_text) != "shadow" or (head_text is not None and mode_of(head_text) != "shadow"):
         sys.exit("hatch_counters: %s is enforced; an enforced register only shrinks (--update) "
-                 "or grows by --allow, it is never reseeded" % BASELINE)
+                 "or grows by --admit/--allow, it is never reseeded" % BASELINE)
+    unstaged = [p for p in git("diff", "--name-only", "-z").split("\0") if p and relevant(p)]
+    if unstaged:
+        sys.exit("hatch_counters: --reseed writes the register from the index, and %d file(s) it reads "
+                 "differ from it (%s%s): stage or revert them first"
+                 % (len(unstaged), ", ".join(unstaged[:5]), ", ..." if len(unstaged) > 5 else ""))
     old, _ = parse(old_text)
-    new = tree_scan()
-    write(new, mode="shadow")
+    new = tree_scan(index=True)
+    mode = mode or "shadow"
+    write(new, mode=mode)
     raised = sum(1 for k in new if new[k] > old.get(k, 0))
     lowered = sum(1 for k in old if new.get(k, 0) < old[k])
     t0, t1 = totals(old), totals(new)
     for hatch in HATCHES:
         print("%-18s %7d -> %7d" % (hatch, t0[hatch], t1[hatch]))
-    print("reseeded %s: %d line(s) raised or added, %d lowered or removed; commit it with "
-          "'Verifier-Change: hatch-reseed <why>'" % (BASELINE, raised, lowered))
+    print("reseeded %s (mode %s): %d line(s) raised or added, %d lowered or removed; commit it, "
+          "alone, with 'Verifier-Change: hatch-reseed <why>'" % (BASELINE, mode, raised, lowered))
 
 
 def blob_id(path, data):
@@ -875,6 +1104,49 @@ def shadow_banner(findings, limit=None):
     return "\n".join(out) + "\n"
 
 
+ADMIT = ("`python3 tools/hatch_counters.py --admit PATH --tokens TOKEN --reason \"<why>\"`, staged with "
+         "the register, and a `Verifier-Change: hatch-admit <why>` trailer")
+REMEDY = {
+    "pin": "never type a pin: `python3 tools/pin_admission.py --add NAME 0xRVA` (or `tools/add_match.py "
+           "... --pin NAME=0xRVA`) checks it and admits it.",
+    "object_symbol": "an object-symbol= alias row binds a real name to another symbol's bytes and is refused "
+                     "(pin_admission). Name the row after the symbol it compiles, or row the owner.",
+    "alternatename": "a vftable or global literal: `python3 tools/name_globals.py PATH` writes and admits it. "
+                     "Any other alias must be exactly what `python3 tools/allowed_symbols.py --alternatenames` "
+                     "emits (code_identity_gate refuses any other); admit that one with " + ADMIT + ".",
+    "address_global": "use the global reverse/data_ledger.csv names for that address (`python3 "
+                      "tools/name_globals.py PATH` rewrites literals); an address-named global is not admitted.",
+    "present_unmatched": "row the body (`tools/add_match.py`); a marker is honest only for a known, unpinned "
+                         "body, and is then admitted with " + ADMIT + ".",
+    "class_gate_allow": "include the class's canonical header (reverse/canonical_classes.csv) instead of a "
+                        "private view; a waiver is a class-reconciliation decision, not an edit.",
+    "pragma_optimize": "only for a proven codegen blocker (docs/recipes.md): " + ADMIT + ".",
+    "emit": "__emit is a lift, not a conversion (conversion_gate): write the body as C++.",
+    "asm_bytes": "raw db bytes are a lift: write the body as C++ or MASM instructions.",
+    "selectany": "a selectany definition hides a duplicate: define the datum once, in its owner; else " + ADMIT + ".",
+}
+
+
+def enforce_report(errors, elapsed):
+    """The refusal: what this commit adds, then what to do about each hatch it names."""
+    hatches = sorted(h for h in REMEDY if any(re.search(r"(?<!\w)%s(?!\w)" % h, e) for e in errors))
+    rule = "=" * 78
+    out = [rule, "hatch_counters: REFUSED (%.2fs): escape hatches grew -- this commit adds what the "
+                 "register (%s, enforced) does not grant:" % (elapsed, BASELINE)]
+    out += ["  " + e for e in errors]
+    out += ["", "What to do. Removing an occurrence is always allowed (and credited once "
+                "`python3 tools/hatch_counters.py --update` lowers the register). To keep one:"]
+    out += ["  %s: %s" % (h, REMEDY[h]) for h in hatches]
+    if any("raised by hand:" in e for e in errors):
+        out.append("  register lines: never edit reverse/hatch_baseline.tsv up by hand; restore it "
+                   "(`git checkout HEAD -- %s`) and let the tools above write it." % BASELINE)
+    out.append("  Not yours? An excess HEAD already carried is reported as inherited and never refused; "
+               "if the gate refuses correct work, record it: `python3 tools/re_log.py record <symbol> "
+               "<rva> <size> blocked \"false-reject hatch_counters: <evidence> t=<min> model=<model>\"`.")
+    out.append(rule)
+    return "\n".join(out) + "\n"
+
+
 def report():
     head =read_blobs(["HEAD:" + BASELINE])["HEAD:" + BASELINE]
     b = totals(parse(head or "")[0])
@@ -894,16 +1166,22 @@ def main(argv=None):
     g.add_argument("--write-baseline", action="store_true")
     g.add_argument("--admit", metavar="PATH")
     g.add_argument("--reseed", action="store_true", help="rewrite a shadow register from the tree")
+    g.add_argument("--restamp", metavar="PATH",
+                   help="re-stamp PATH's lines that tools admitted earlier in this working change, after "
+                        "an edit made their allow= stale; admits nothing new")
     ap.add_argument("--reason")
     ap.add_argument("--tokens", nargs="+", help="--admit only: admit just these tokens")
     ap.add_argument("--note-file", metavar="PATH",
                     help="--staged only: also write the shadow-mode banner to PATH (the pre-commit "
                          "hook repeats it as its last output); left untouched when there is none")
-    ap.add_argument("--mode", choices=("shadow", "enforce"), default="enforce",
-                    help="--write-baseline only: start in shadow (report, never refuse)")
+    ap.add_argument("--mode", choices=("shadow", "enforce"),
+                    help="--write-baseline: the first register's mode (default enforce); --reseed: "
+                         "the reseeded register's (default: keep shadow; enforce is the flip)")
     args = ap.parse_args(argv)
     if args.note_file and not args.staged:
         ap.error("--note-file goes with --staged")
+    if args.mode and not (args.write_baseline or args.reseed):
+        ap.error("--mode goes with --write-baseline or --reseed")
     if args.staged:
         t = time.time()
         errors, warnings, hard = check_staged()
@@ -921,16 +1199,18 @@ def main(argv=None):
                 if args.note_file:
                     Path(args.note_file).write_text(shadow_banner(added, limit=NOTE_SHOWN), encoding="utf-8")
             errors = []
-        errors += hard
         for w in warnings[:20]:
-            print("hatch_counters: note: " + w + " -- `tools/hatch_counters.py --update` tightens it",
-                  file=sys.stderr)
-        for e in errors:
+            tail = " -- `tools/hatch_counters.py --update` tightens it" if " is down to " in w else ""
+            print("hatch_counters: note: " + w + tail, file=sys.stderr)
+        if len(warnings) > 20:
+            print("hatch_counters: note: ... and %d more" % (len(warnings) - 20), file=sys.stderr)
+        if errors:                                  # enforced: what this commit adds
+            print(enforce_report(errors, time.time() - t), end="", file=sys.stderr)
+        for e in hard:
             print("  " + e, file=sys.stderr)
-        if errors:
-            print("hatch_counters: escape hatches grew (%.2fs). Remove the new occurrence(s); a real "
-                  "need is admitted only by `python3 tools/hatch_counters.py --allow PATH --reason TEXT`."
-                  % (time.time() - t), file=sys.stderr)
+        if errors or hard:
+            if hard and not errors:
+                print("hatch_counters: refused (%.2fs): see above." % (time.time() - t), file=sys.stderr)
             return 1
         return 0
     if args.report:
@@ -939,11 +1219,17 @@ def main(argv=None):
     if args.write_baseline:
         if (ROOT / BASELINE).exists():
             sys.exit("hatch_counters: %s exists; use --update (shrink/move) or --allow" % BASELINE)
-        write(tree_scan(), mode=args.mode)
+        write(tree_scan(), mode=args.mode or "enforce")
         return 0
     if args.reseed:
-        reseed()
+        reseed(args.mode)
         return 0
+    if args.restamp:
+        got = admit(args.restamp, "restamp: tool admissions of this working change", tokens=())
+        for key in got["refused"]:
+            print("hatch_counters: NOT re-stamped (no tool admitted it in this working change): "
+                  "%s in %s: %s" % key, file=sys.stderr)
+        return 1 if got["refused"] else 0
     if args.admit:
         got = admit(args.admit, args.reason, args.tokens)
         for key in got["refused"]:

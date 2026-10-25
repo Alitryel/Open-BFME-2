@@ -280,10 +280,7 @@ def test_shadow_mode_reports_growth_without_refusing(repo):
     repo.write(repo.lay["base"], base.replace("# mode: enforce", "# mode: shadow"))
     repo.git("add", ".")
     assert "may not go back" in staged(repo).stderr                    # the fixture register says enforce
-    repo.write(repo.lay["base"], base.replace("# mode: enforce\n", ""))
-    repo.commit("legacy register", when=T0 - DAY)
-    repo.write(repo.lay["base"], base.replace("# mode: enforce", "# mode: shadow"))
-    repo.commit("shadow", when=T0 - DAY + 1)
+    _shadow_register(repo)
     repo.write(repo.lay["src"], SOURCE + "void h() { __asm { __emit 0x90 } }\n")
     repo.git("add", ".")
     got = staged(repo)
@@ -297,15 +294,36 @@ def test_mode_may_go_shadow_to_enforce_but_not_back(repo):
     got = staged(repo)
     assert got.returncode == 1 and "may not go back to shadow" in got.stderr
     repo.git("reset", "-q", "--hard", "HEAD")
-    # a register without a mode line (written before modes existed) may be put in shadow once
-    base = repo.read(repo.lay["base"])
-    repo.write(repo.lay["base"], base.replace("# mode: enforce\n", ""))
-    repo.commit("legacy register", when=T0 - DAY)
-    repo.write(repo.lay["base"], base.replace("# mode: enforce", "# mode: shadow"))
-    repo.commit("shadow", when=T0 - DAY + 1, paths=[repo.lay["base"]])
+    _shadow_register(repo)
     _set_mode(repo, "enforce")
     repo.git("add", ".")
     assert staged(repo).returncode == 0
+
+
+def test_a_mode_line_dropped_then_shadow_is_refused_at_each_step(repo):
+    # Commit 1 deletes the line (read as enforce); commit 2 claims shadow with a hand pin.
+    base = repo.read(repo.lay["base"])
+    pins = repo.lay["rev"] + "/symbols.csv"
+    repo.write(repo.lay["base"], base.replace("# mode: enforce\n", ""))
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1 and "line may not be removed" in got.stderr
+    repo.commit("line dropped (the hook skipped)", when=T0 - 60)
+    repo.write(repo.lay["base"], base.replace("# mode: enforce", "# mode: shadow"))
+    repo.write(pins, repo.read(pins) + "?typed@@3HA,0x00003000,by hand\n")
+    repo.git("add", ".")
+    got = staged(repo)                                     # a parent with no line is enforced
+    assert got.returncode == 1 and "may not go back to shadow" in got.stderr
+    assert "pin +1 in %s: 0x00003000" % pins in got.stderr and "REFUSED" in got.stderr
+    # the refused downgrade is judged as enforced, and says so: no shadow banner above it
+    assert "SHADOW (not enforced)" not in got.stderr and "NOT refused" not in got.stderr
+
+
+def test_a_shadow_register_may_not_be_deleted_either(repo):
+    _shadow_register(repo)
+    repo.git("rm", "-q", "--cached", repo.lay["base"])
+    got = staged(repo)
+    assert got.returncode == 1 and "deleted" in got.stderr
 
 
 # ---- scoped tool allowance (admit): what pin/alias writers call after their own checks
@@ -520,12 +538,9 @@ def test_admit_respects_the_freeze(repo):
 # ---- reseed (rule 7): a drifted shadow register is rewritten from the tree, once
 
 def _shadow_register(repo):
-    """The fixture register as a committed `# mode: shadow` one (via a legacy, mode-less commit:
-    enforce may never go back to shadow)."""
-    base = repo.read(repo.lay["base"])
-    repo.write(repo.lay["base"], base.replace("# mode: enforce\n", ""))
-    repo.commit("legacy register", when=T0 - DAY)
-    repo.write(repo.lay["base"], base.replace("# mode: enforce", "# mode: shadow"))
+    """The fixture register as a committed `# mode: shadow` one (committed without the gate,
+    which refuses enforce -> shadow: the register as it stood before the flip)."""
+    repo.write(repo.lay["base"], repo.read(repo.lay["base"]).replace("# mode: enforce", "# mode: shadow"))
     repo.commit("shadow", when=T0 - DAY + 1)
 
 
@@ -587,3 +602,310 @@ def test_reseed_is_refused_for_an_enforced_or_missing_register(repo):
     (repo.root / repo.lay["base"]).unlink()
     got = repo.tool("--reseed")
     assert got.returncode != 0 and "--write-baseline" in got.stderr
+
+
+# ---- enforcement (the flip): what an enforced register refuses, allows and credits
+
+ALT = '#pragma comment(linker, "/alternatename:?%s@@YAXXZ=?g@@YAXXZ")\n'
+
+
+def test_enforce_refuses_a_new_alternatename_in_a_file_at_its_limit(repo):
+    assert "# mode: enforce" in repo.read(repo.lay["base"])           # the fixture register is enforced
+    assert "alternatename\t%s\t?f@@YAXXZ\t1\n" % repo.lay["src"] in repo.read(repo.lay["base"])
+    repo.write(repo.lay["src"], SOURCE + ALT % "h")
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1 and "REFUSED" in got.stderr and "escape hatches grew" in got.stderr
+    assert "alternatename +1 in %s: ?h@@YAXXZ (register grants 0)" % repo.lay["src"] in got.stderr
+    assert "tools/name_globals.py" in got.stderr and "--alternatenames" in got.stderr   # what to do
+    assert "pin_admission.py --add" not in got.stderr                  # only the hatches it names
+    # an admission typed into the register by hand is refused too
+    repo.write(repo.lay["base"], repo.read(repo.lay["base"]).replace(
+        "alternatename\t%s\t?f@@YAXXZ\t1\n" % repo.lay["src"],
+        "alternatename\t%s\t?f@@YAXXZ\t1\nalternatename\t%s\t?h@@YAXXZ\t1\n" % (repo.lay["src"], repo.lay["src"])))
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1 and "raised by hand" in got.stderr and "git checkout HEAD --" in got.stderr
+
+
+def test_enforce_allows_and_credits_a_decrease(repo):
+    repo.write(repo.lay["src"], SOURCE.replace(ALT % "f", ""))
+    repo.git("add", ".")
+    got = staged(repo)                                                 # register untouched: slack, noted
+    assert got.returncode == 0 and "is down to 0 (register says 1)" in got.stderr
+    assert repo.tool("--update").returncode == 0                       # the register follows it down
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 0 and "credited: alternatename register total 1 -> 0 (-1)" in got.stderr
+    repo.commit("drop the alias\n\nVerifier-Change: hatch register lowered by --update", when=T0)
+    repo.write(repo.lay["src"], repo.read(repo.lay["src"]) + ALT % "f")
+    repo.git("add", ".")
+    assert staged(repo).returncode == 1                                # and it does not come back
+
+
+def _code_identity(repo, mode):
+    """Commit a code-identity register in MODE: rule 8 reads it at HEAD and in the index."""
+    repo.write(repo.lay["rev"] + "/code_identity_baseline.tsv", "# Wrong code bindings\n# mode: %s\n" % mode)
+    repo.commit("code identity " + mode, when=T0 - DAY)
+
+
+def test_a_respelled_alias_is_judged_per_token_until_code_identity_is_enforced(repo):
+    # Nothing judges the added /alternatename while code_identity_gate is in shadow, so a real
+    # alias traded for an arbitrary one at the same count is a new hatch, not a respelling.
+    ci = repo.lay["rev"] + "/code_identity_baseline.tsv"
+    swap = SOURCE.replace("?f@@YAXXZ=?g@@YAXXZ", "?anything@@YAXXZ=?whatever@@YAXXZ")
+    for step in ("no register", "shadow", "flip staged only"):
+        if step == "shadow":
+            _code_identity(repo, "shadow")
+        if step == "flip staged only":                             # HEAD's is still shadow
+            repo.write(ci, repo.read(ci).replace("shadow", "enforce"))
+        repo.write(repo.lay["src"], swap)
+        repo.git("add", ".")
+        got = staged(repo)
+        assert got.returncode == 1, step
+        assert "alternatename +1 in %s: ?anything@@YAXXZ (register grants 0)" % repo.lay["src"] in got.stderr
+        repo.git("reset", "-q", "--hard", "HEAD")
+    _code_identity(repo, "enforce")
+    repo.write(repo.lay["src"], swap)
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 0 and "respelled (?anything@@YAXXZ)" in got.stderr
+
+
+def test_a_move_and_a_respelling_cannot_spend_one_occurrence(repo):
+    # A:f, B:y becomes A:y, B:f+y: each line change alone is a move or a respelling, but the
+    # alternatename total goes 2 -> 3.
+    a, b = repo.lay["src"], repo.lay["src2"]
+    repo.write(b, ALT % "y")
+    assert repo.tool("--allow", b, "--reason", "fixture: a second unit's alias").returncode == 0
+    repo.commit("B:y", when=T0 - DAY)
+    _code_identity(repo, "enforce")                                # respellings are per file
+    repo.write(a, SOURCE.replace("?f@@YAXXZ=", "?y@@YAXXZ="))
+    repo.write(b, ALT % "y" + ALT % "f")
+    assert repo.tool("--update").returncode != 0                   # growth needs --allow
+    repo.write(repo.lay["base"], repo.read(repo.lay["base"]).replace(
+        "alternatename\t%s\t?f@@YAXXZ\t1\n" % a,
+        "alternatename\t%s\t?y@@YAXXZ\t1\nalternatename\t%s\t?f@@YAXXZ\t1\n" % (a, b)))
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1 and "register line raised by hand: alternatename" in got.stderr
+
+
+def test_register_growth_matches_each_old_occurrence_once(monkeypatch):
+    k = lambda path, token, hatch="alternatename": (hatch, path, token)       # noqa: E731
+    monkeypatch.setitem(hc.STATE, "respellable", hc.RESPELLABLE)
+    assert hc.register_growth({k("A", "x"): 1}, {k("B", "x"): 1}) == []                    # a move
+    assert hc.register_growth({k("A", "x"): 1}, {k("A", "y"): 1}) == []                    # a respelling
+    old = {k("A", "x"): 1, k("B", "y"): 1}
+    assert hc.register_growth(old, {k("A", "y"): 1, k("B", "x"): 1, k("B", "y"): 1}) != []
+    # both at once, each occurrence spent once: B:x moves to A:x, A:x respells to A:y
+    assert hc.register_growth({k("B", "x"): 1, k("A", "x"): 1}, {k("A", "x"): 1, k("A", "y"): 1}) == []
+    # an admitted key explains its own raise (2 -> 3 with one admission is no growth) ...
+    assert hc.register_growth(old, {k("A", "y"): 1, k("B", "x"): 1, k("B", "y"): 1}, admitted={k("A", "y")}) == []
+    # ... and what is left over lands on a key nothing admitted
+    left = hc.register_growth({k("A", "x"): 1}, {k("A", "y"): 1, k("A", "z"): 1, k("A", "w"): 1},
+                              admitted={k("A", "y")})
+    assert len(left) == 1 and k("A", "y") not in left
+    big = {k("A", "*", "asm_bytes"): 5000}                                           # moved in bulk
+    assert hc.register_growth(big, {k("B", "*", "asm_bytes"): 5000}) == []
+    assert hc.register_growth(big, {k("B", "*", "asm_bytes"): 5001}) == [k("B", "*", "asm_bytes")]
+    monkeypatch.setitem(hc.STATE, "respellable", frozenset())                      # code identity in shadow
+    assert hc.register_growth({k("A", "x"): 1}, {k("A", "y"): 1}) == [k("A", "y")]
+
+
+def test_enforce_takes_a_respelled_alias_at_the_same_count(repo):
+    # a rename respells the token; the file's count of the hatch is what may not rise
+    _code_identity(repo, "enforce")
+    repo.write(repo.lay["src"], SOURCE.replace("?f@@YAXXZ=", "?f2@@YAXXZ="))
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 0 and "respelled (?f2@@YAXXZ)" in got.stderr
+    assert repo.tool("--update").returncode == 0                       # --update writes the respelling
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 0 and "raised by hand" not in got.stderr
+    repo.write(repo.lay["src"], repo.read(repo.lay["src"]) + ALT % "h")   # a second alias still is new
+    repo.git("add", ".")
+    assert "alternatename +1" in staged(repo).stderr
+    # a pin is keyed by address: trading one address for another is not a respelling
+    repo.git("reset", "-q", "--hard", "HEAD")
+    pins = repo.lay["rev"] + "/symbols.csv"
+    repo.write(pins, repo.read(pins).replace("0x00001000", "0x00001004"))
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1 and "pin +1 in %s: 0x00001004" % pins in got.stderr
+
+
+EMIT = "void h%d() { __asm { __emit 0x90 } }\n"
+
+
+def test_enforce_reports_inherited_drift_and_refuses_only_what_the_commit_adds(repo):
+    # HEAD carries an __emit the register never granted (a commit that skipped the hook)
+    repo.write(repo.lay["src"], SOURCE + EMIT % 1)
+    repo.commit("unverified", when=T0 - 60)
+    repo.write(repo.lay["src"], repo.read(repo.lay["src"]) + "int clean;\n")
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 0, got.stderr
+    assert "inherited, not refused: emit +1 in %s" % repo.lay["src"] in got.stderr
+    repo.write(repo.lay["src"], repo.read(repo.lay["src"]) + EMIT % 2)
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1
+    assert "emit +1 in %s: * (register grants 1; HEAD already carried 1 more)" % repo.lay["src"] in got.stderr
+    # lowering a line below what the file carries is still refused, drift or not
+    repo.git("reset", "-q", "--hard", "HEAD")
+    repo.write(repo.lay["base"], repo.read(repo.lay["base"]).replace("emit\t%s\t*\t1\n" % repo.lay["src"], ""))
+    repo.git("add", ".")
+    got = staged(repo)                                                 # the line it lowered is refused
+    assert got.returncode == 1 and "(register grants 0; HEAD already carried 1 more)" in got.stderr
+
+
+def test_an_enforced_register_raised_to_the_tree_is_no_reseed(repo):
+    # Rule 7 takes a register equal to the staged tree as a reseed only over a SHADOW parent.
+    _drift(repo)                                                       # HEAD carries what nothing granted
+    env = dict(os.environ, HATCH_ROOT=str(repo.root))
+    code = ("import sys; sys.path.insert(0, 'tools'); import hatch_counters as h; "
+            "h.write(h.tree_scan(index=True), mode='enforce')")
+    subprocess.run([sys.executable, "-c", code], cwd=repo.root, env=env, check=True)
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1 and "raised by hand" in got.stderr
+    assert "reseeded from the staged tree" not in got.stderr
+
+
+def test_reseed_refuses_while_heads_register_is_enforced(repo):
+    _set_mode(repo, "shadow")                                          # only the working copy says shadow
+    before = repo.read(repo.lay["base"])
+    got = repo.tool("--reseed")
+    assert got.returncode != 0 and "never reseeded" in got.stderr
+    assert repo.read(repo.lay["base"]) == before
+
+
+def test_compiler_label_aliases_are_no_hatch():
+    ledger = ("name,export_rva,target_rva,target_size,source,status,notes\n"
+              "uw_00792e1c,,0x00792E1C,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L8581\n"
+              "??__Eg_x@@YAXXZ,,0x007AF8E3,9,Code/a.cpp,matched,object-symbol=_$E16\n"
+              "?f@@YAXXZ,,0x00002000,5,Code/a.cpp,matched,gen-alias;object-symbol=?f@@YAXXZ\n"
+              "?g@@YAXXZ,,0x00003000,5,Code/a.cpp,matched,object-symbol=?f@@YAXXZ\n"
+              "?dup_00004000@@YAXXZ,,0x00004000,5,Code/a.cpp,matched,object-symbol=??1X@@QAE@XZ\n"
+              # obj_sweep / wave_accounting write placeholder gen-alias rows without admit()
+              "?dup_00005000@@YAXXZ,,0x00005000,5,Code/a.cpp,matched,gen-alias;object-symbol=?h@@YAXXZ;C++ alias\n"
+              # an Rva<RVA> placeholder is still a link name the tree calls: a hatch
+              "??1Rva005796FC@@QAE@XZ,,0x00006000,5,Code/a.cpp,matched,object-symbol=??1X@@QAE@XZ\n"
+              "?f@?A0x12345678@@YAXXZ,,0x00007000,5,Code/a.cpp,matched,object-symbol=?f@?A0x9abcdef0@@YAXXZ\n"
+              # a label inside a real name is no label
+              "?k@@YAXXZ,,0x00008000,5,Code/a.cpp,matched,object-symbol=?a$L1b\n")
+    led = hc.BASELINE.rsplit("/", 1)[0] + "/functions.csv"
+    got = hc.scan(led, ledger)
+    assert set(got) == {("object_symbol", led, a) for a in ("0x00003000", "0x00006000", "0x00008000")}
+    assert set(hc.occurrences(led, ledger)) == set(got)
+
+
+PARITY_ROWS = [
+    "uw_00792e1c,,0x00792E1C,8,a,matched,gen-funclet;object-symbol=$L8581",
+    "??__Eg_x@@YAXXZ,,0x007AF8E3,9,a,matched,object-symbol=_$E16",
+    "?f@@YAXXZ,,0x00002000,5,a,matched,gen-alias;object-symbol=?f@@YAXXZ",
+    "?g@@YAXXZ,,0x00003000,5,a,matched,object-symbol=?f@@YAXXZ",
+    "?dup_0000400A@@YAXXZ,,0x0000400A,5,a,matched,object-symbol=??1X@@QAE@XZ",
+    "?dup_00005000@@YAXXZ,,0x00005000,5,a,matched,gen-alias;object-symbol=?h@@YAXXZ;C++ alias",
+    "?f@?A0x12345678@@YAXXZ,,0x00007000,5,a,matched,object-symbol=?f@?A0x9abcdef0@@YAXXZ",
+    "_ggetm_dup_huffdecode,,0x0068DC60,5,a,matched,object-symbol=_ggetm",
+    # odd spellings: only an object-symbol= at the start or after `;` counts, its value stripped
+    "?x@@YAXXZ,,0x9000,5,a,matched,x object-symbol=$L1;object-symbol=?realOther@@YAXXZ",
+    "?x1@@YAXXZ,,0x9010,5,a,matched,x object-symbol=?realOther@@YAXXZ",
+    "?x2@@YAXXZ,,0x9020,5,a,matched,object-symbol= ?x2@@YAXXZ ",
+    "?x3@@YAXXZ,,0x9030,5,a,matched,gen-alias; object-symbol=?other@@YAXXZ",
+    "?x4@@YAXXZ,,0x9040,5,a,matched,object-symbol=?other@@YAXXZ ;C++ alias",
+    "?x5@@YAXXZ,,0x9050,5,a,matched,object-symbol=\t$L77\t",
+    "?x6@@YAXXZ,,0x9060,5,a,matched,object-symbol=?a$L1b",
+    " ?x7@@YAXXZ,,0x9070,5,a,matched,object-symbol=?x7@@YAXXZ",
+]
+# build.is_alias_row excuses a Gen_/Rva<RVA> placeholder name; hatch_counters counts it (rule 9)
+GEN_ROWS = [
+    "??1Rva005796FC@@QAE@XZ,,0x00006000,5,a,matched,object-symbol=??1X@@QAE@XZ",
+    "?m@Gen_t_001db910_p4cd@@QAEXXZ,,0x00006100,5,a,matched,object-symbol=?n@@YAXXZ",
+    "?rva006D95E0@BfmeAptValue006DCD20@@QAEXHPAV1@@Z,,0x6D95E0,5,a,matched,x;object-symbol=?set@AptArray@@QAEXHPAVAptValue@@@Z",
+]
+
+
+def test_alias_hatch_agrees_with_build_is_alias_row():
+    """hatch_counters.alias_of mirrors build.is_alias_row without importing it (the hook copy
+    of the tool runs standalone); the two must call the same rows plumbing, except that a
+    Gen_/Rva placeholder name stays a hatch."""
+    import csv
+    import build
+    for line in PARITY_ROWS + GEN_ROWS:
+        cells = next(csv.reader([line]))
+        row = {"name": cells[0], "notes": cells[6]}
+        gen = line in GEN_ROWS
+        assert gen == bool(build.GEN_PLACEHOLDER_RE.search(cells[0])), line
+        assert (hc.alias_of(cells) is not None) == (gen or build.is_alias_row(row)), line
+        if hc.OBJECT_SYMBOL.search(cells[6]):
+            assert build.ledger_object_symbol(row) == hc.OBJECT_SYMBOL.search(cells[6])[1].strip(), line
+    expected = {"?g@@YAXXZ", "_ggetm_dup_huffdecode", "?x@@YAXXZ", "?x3@@YAXXZ", "?x4@@YAXXZ", "?x6@@YAXXZ", " ?x7@@YAXXZ"}
+    assert {line.split(",")[0] for line in PARITY_ROWS if hc.alias_of(next(csv.reader([line])))} == expected
+
+
+def _placeholder_audit():
+    import csv
+    with (TOOLS / "tests/fixtures/hatch_placeholder_aliases.tsv").open(encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f, delimiter="\t"))
+
+
+@pytest.mark.parametrize("row", _placeholder_audit(), ids=lambda row: row["rva"])
+def test_each_of_the_51_placeholder_alias_verdicts(row):
+    cells = [row["name"], "", row["rva"], "5", row["source"], "matched",
+             "gen-alias; object-symbol=" + row["object_symbol"]]
+    assert bool(hc.alias_of(cells)) == (row["verdict"] == "keep"), row["reason"]
+    if row["verdict"] == "keep":
+        assert hc.alias_of(cells) == row["object_symbol"]
+    else:
+        assert hc.DUP_PLACEHOLDER.fullmatch(row["name"])
+
+
+def test_funclet_landing_passes_an_enforced_register(repo):
+    led = repo.lay["rev"] + "/functions.csv"
+    repo.write(led, repo.read(led) + "uw_00792e1c,,0x00792E1C,8,%s,matched,gen-funclet;object-symbol=$L8581\n"
+               % repo.lay["src"])
+    repo.git("add", ".")
+    assert staged(repo).returncode == 0
+
+
+def test_reseed_and_flip_land_as_one_commit(repo):
+    _shadow_register(repo)
+    _drift(repo)
+    got = repo.tool("--reseed", "--mode", "enforce")
+    assert got.returncode == 0 and "mode enforce" in got.stdout
+    assert "# mode: enforce" in repo.read(repo.lay["base"])
+    repo.git("add", ".")
+    got = staged(repo)                                                 # parent shadow, register == tree
+    assert got.returncode == 0 and "shadow -> ENFORCE" in got.stderr, got.stderr
+    repo.commit("Flip\n\nVerifier-Change: hatch-reseed and enforce", when=T0)
+    for line in repo.tool("--report").stdout.splitlines()[1:]:
+        _, reg, tree = line.split()
+        assert reg == tree
+    assert "never reseeded" in repo.tool("--reseed").stderr            # one-way
+    repo.write(repo.lay["src2"], repo.read(repo.lay["src2"]) + "void k() { __asm { __emit 0x90 } }\n")
+    repo.git("add", ".")
+    got = staged(repo)
+    assert got.returncode == 1 and "emit +1" in got.stderr
+
+
+def test_a_reseed_commit_may_not_add_hatches(repo):
+    _shadow_register(repo)
+    _drift(repo)
+    repo.write(repo.lay["src2"], repo.read(repo.lay["src2"]) + "void k() { __asm { __emit 0x90 } }\n")
+    repo.git("add", ".")
+    assert repo.tool("--reseed", "--mode", "enforce").returncode == 0  # register == staged tree ...
+    repo.git("add", ".")
+    got = staged(repo)                                                 # ... but the commit adds an __emit
+    assert got.returncode == 1 and "reseeded from the staged tree" not in got.stderr
+    assert "raised by hand" in got.stderr
+
+
+def test_reseed_writes_the_index_and_refuses_unstaged_files(repo):
+    _shadow_register(repo)
+    repo.write(repo.lay["src"], SOURCE + "void k() { __asm { __emit 0x90 } }\n")   # not staged
+    got = repo.tool("--reseed")
+    assert got.returncode != 0 and "differ from it" in got.stderr and repo.lay["src"] in got.stderr

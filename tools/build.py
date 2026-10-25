@@ -569,7 +569,7 @@ def is_alias_row(row):
     initializer ordinals, anonymous-namespace hashes and placeholder names
     that disclaim identity. What remains binds a callee name to someone
     else's body, and every caller of that name then resolves through it."""
-    match = re.search(r"(?:^|;)object-symbol=([^;]+)", row.get("notes") or "")
+    match = re.search(r"(?:^|;)\s*object-symbol=([^;]+)", row.get("notes") or "")
     if not match:
         return False
     symbol, name = match.group(1).strip(), row["name"]
@@ -585,8 +585,8 @@ def is_alias_row(row):
 
 def ledger_object_symbol(row):
     """Return an explicit TU-local object symbol alias from the notes column."""
-    match = re.search(r"(?:^|;)object-symbol=([^;]+)", row.get("notes", ""))
-    return match.group(1) if match else row["name"]
+    match = re.search(r"(?:^|;)\s*object-symbol=([^;]+)", row.get("notes", ""))
+    return match.group(1).strip() if match else row["name"]
 
 
 def vc71_root():
