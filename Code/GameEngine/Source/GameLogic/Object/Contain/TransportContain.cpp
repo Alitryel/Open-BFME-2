@@ -131,17 +131,30 @@ public:
 	virtual void rva004673C0() = 0;	// slot 60
 };
 
-// OpenContain's share of the object: the four interfaces above and its data
+// +0x24..+0x30: not recovered (no virtual call reaches it from these bodies).
+struct TransportContainGap24 { unsigned char m_pad24[0x30 - 0x24]; };
+
+// The exit interface at +0x30: its tables (0x00843FFC, 0x00845CFC, ...) hold
+// the busy check at slot 0 and 0x00466D93 at slot 1, whose body adjusts by
+// -0x30 to the primary object.
+class TransportExitInterface
+{
+public:
+	virtual bool isExitBusy() const = 0;
+};
+
+// OpenContain's share of the object: the interfaces above and its data
 // up to +0xFC (the members themselves are not recovered here). Named apart
 // from OpenContain: donors reach OpenContain's bodies through their own
 // qualified-call views of that class.
 class TransportContainOpenBase : public BehaviorModule, public BehaviorModuleInterface,
-	public TransportContainUpdate, public TransportConditionInterface
+	public TransportContainUpdate, public TransportConditionInterface,
+	public TransportContainGap24, public TransportExitInterface
 {
 public:
 	V(01) V(02) V(03)
 private:
-	unsigned char m_pad24[0xFC - 0x24];
+	unsigned char m_pad34[0xFC - 0x34];
 };
 
 class ThingTemplate;
@@ -890,6 +903,7 @@ public:
 #define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
 	V(04) V(05) V(06) V(07) V(08)
 	virtual void onCapture(int oldOwner, int newOwner);	// slot 9, 0x004672B7
+	virtual bool isExitBusy() const;	// exit interface slot 0, 0x00466DA9
 	V10(1) V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
 #undef V10
 	virtual void createPayload();		// slot 29 (0x004670D6)
@@ -899,7 +913,8 @@ public:
 	virtual void rva004673C0();
 	virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int initial);	// 0x00466FE0
 private:
-	unsigned char m_pad100[0x108 - 0x100];
+	unsigned int m_extraSlotsInUse;		// +0x100 (ZH name, per the matched xfer 0x00466DBC)
+	unsigned int m_frameExitNotBusy;	// +0x104
 	unsigned int m_payloadFrame;		// +0x108
 	bool m_hiddenState;					// +0x10C
 };
