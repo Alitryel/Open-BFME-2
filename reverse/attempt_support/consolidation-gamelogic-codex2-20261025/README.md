@@ -127,3 +127,19 @@ untouched failure text and a similar-prefix unrelated source; rename, TU and
 gate-exploit suites passed 97 tests with one pre-existing skip. No header debt
 is retired. Other old-path hits are census snapshots, name evidence, banked
 patches and donor comments. No include, build or directory consumer needs edits.
+
+## LargeGroupAudioUpdate
+
+Normal-claim merge accepted the slot group and copy-constructor fragment: two
+old files become one approved TU, a net reduction of one, preserving nine rows
+/ 120 retail bytes. Ordinary build and frozen checks pass 9/9. The four rejected
+donors need receiver/member declarations or Snapshot/include context. Three
+protected and eight mixed files remain intact; details in `largeaudio-merge.json`.
+
+The complete outgoing plus staged path audit was refreshed against fetched
+origin 4e835ab16a6f5953db26bd7d058f65f93f54bafc: fifteen old paths including
+the rename, twelve net files removed across four TUs. New old-path hits are
+historical name decisions/census rows and a layout-evidence comment in
+LargeGroupAudioUpdate004AB90A.cpp. No new active consumer or include/build input
+requires a change. All active pin and header-queue consumers were handled in
+the earlier commits; the full pending audit remains valid for this batch.
