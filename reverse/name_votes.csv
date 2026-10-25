@@ -6283,3 +6283,4 @@ Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::
 Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BC53Xfer3|p,2ae23f8791ab20f433c37ad3,gpt-6.1-sol,codex8-20261025-064219-10,w-de56e563a50b,2026-10-25
 Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BD31Xfer|tmp,bd3142837977fa41858424c1,gpt-6.1-sol,codex8-20261025-064219-10,w-de56e563a50b,2026-10-25
 Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp|class||BfmeFootDraw,99bdff7fd36f893aa8b68c7a,gpt-6.1-sol,codex6-20261025-065940-3,w-bcdd62231570,2026-10-25
+Code/Libraries/Source/DirtySock/Rva00819630TapiTransport.cpp|member|CommSerialRef|m_field908,ee1459254450ca970fea5b25,gpt-6.1-sol,codex6-20261025-072308-4,w-bcdd62231570,2026-10-25
