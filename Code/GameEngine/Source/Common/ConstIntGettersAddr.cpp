@@ -112,16 +112,6 @@ int Rva000A8F5EGet(void)
 }
 
 
-// ?Rva005088C8Get@@YAHXZ @ 0x005088C8 (6B): returns 0x00C64180.
-// Follows a leave/ret (0x5088C6-87) with a push-style function after.
-// 1 direct E8 caller (0x50B11D, anchor-decoded as a real call), Ghidra-6,
-// no branch sources. Opaque address-derived name.
-int Rva005088C8Get(void)
-{
-	return 0x00C64180;
-}
-
-
 // ?Rva00433B18Get@@YAHXZ @ 0x00433B18 (6B): returns 0x00E032DC.
 // Follows a leave/ret (0x433B16-17) with a push-style function after.
 // 1 direct E8 caller (0x23B65A), no Ghidra entry (dead emission), no

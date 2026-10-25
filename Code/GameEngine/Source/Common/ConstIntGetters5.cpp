@@ -897,3 +897,15 @@ int Rva005C9880Get(void)
 {
 	return reinterpret_cast<int>(&__identifier("?rva005C9886@Rva005C9886@@QBEPAVRva005C96EB@@PAX@Z"));
 }
+
+// Field-parse table INIThinFieldParsers2.cpp defines; the getter below returns it.
+extern const FieldParse g_00C64180[];
+
+// ?Rva005088C8Get@@YAHXZ @ 0x005088C8 (6B): returns 0x00C64180.
+// Follows a leave/ret (0x5088C6-87) with a push-style function after.
+// 1 direct E8 caller (0x50B11D, anchor-decoded as a real call), Ghidra-6,
+// no branch sources. Opaque address-derived name.
+int Rva005088C8Get(void)
+{
+	return reinterpret_cast<int>(g_00C64180);
+}

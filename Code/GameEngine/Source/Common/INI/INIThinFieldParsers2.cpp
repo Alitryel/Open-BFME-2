@@ -465,3 +465,140 @@ extern const FieldParse g_00CE4818[] = {
     { "IsDefault", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 20 },
     { 0, 0, 0, 0 }
 };
+
+// Retail name lists the 0x00C64180 table passes as userData: each its
+// string pointers plus the NULL terminator, in retail order.
+extern const char *g_00DD08C8[] = {
+    "SWORD_SLASH",
+    "WITCH_KING_MORGUL_BLADE",
+    "REFLECTED",
+    "GOOD_ARROW_PIERCE",
+    "EVIL_ARROW_PIERCE",
+    "SMALL_ROCK",
+    "BIG_ROCK",
+    "CLUBBING",
+    "FLAME",
+    "MAGIC",
+    "BALROG_SWORD",
+    "BALROG_WHIP",
+    "ELECTRIC",
+    "GIMLI_LEAP",
+    "STRUCTURAL",
+    "FLOOD_HORSE",
+    "BOLT",
+    "BOLT2",
+    "MAGIC2",
+    "MAGIC3",
+    "FIRE1",
+    "FIRE2",
+    "FIRE3",
+    "SPARKS1",
+    "SPARKS2",
+    "EARTH1",
+    "EARTH2",
+    "POISON",
+    "TORNADO",
+    "UNDEFINED",
+    0
+};
+extern const char *g_00DD0948[] = {
+    "FORCE",
+    "CRUSH",
+    "SLASH",
+    "PIERCE",
+    "SIEGE",
+    "STRUCTURAL",
+    "FLAME",
+    "HEALING",
+    "UNRESISTABLE",
+    "WATER",
+    "PENALTY",
+    "FALLING",
+    "TOPPLING",
+    "REFLECTED",
+    "PASSENGER",
+    "MAGIC",
+    "CHOP",
+    "HERO",
+    "SPECIALIST",
+    "URUK",
+    "HERO_RANGED",
+    "FLY_INTO",
+    "UNDEFINED",
+    "LOGICAL_FIRE",
+    "CAVALRY",
+    "CAVALRY_RANGED",
+    "POISON",
+    0
+};
+extern const char *g_00DD09B8[] = {
+    "NORMAL",
+    "BECOME_UNDEAD",
+    0
+};
+extern const char *g_00DD09C8[] = {
+    "NORMAL",
+    "NONE",
+    "CRUSHED",
+    "BURNED",
+    "EXPLODED",
+    "POISONED",
+    "TOPPLED",
+    "FLOODED",
+    "SUICIDED",
+    "LASERED",
+    "DETONATED",
+    "SPLATTED",
+    "POISONED_BETA",
+    "EXTRA_2",
+    "EXTRA_3",
+    "EXTRA_4",
+    "EXTRA_5",
+    "EXTRA_6",
+    "EXTRA_7",
+    "EXTRA_8",
+    "KNOCKBACK",
+    "SUPERNATURAL",
+    "FADED",
+    "SLAUGHTERED",
+    0
+};
+extern "C" {
+void __identifier("?Rva002567EAParse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?iniParseObjectFilter@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseDamageScalar@DamageNugget@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseDurationUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parsePercentToReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// 0x00C64180 (getter 0x005088C8): 23 entries plus the null terminator.
+extern const FieldParse g_00C64180[] = {
+    { "Damage", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 296 },
+    { "DamageTaperOff", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 300 },
+    { "AcceptDamageAdd", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 328 },
+    { "Radius", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 304 },
+    { "MinRadius", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 308 },
+    { "DamageArc", (FieldParseProc)&__identifier("?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 312 },
+    { "DamageArcInverted", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 316 },
+    { "DamageMaxHeight", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 320 },
+    { "DamageMaxHeightAboveTerrain", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 324 },
+    { "DelayTime", (FieldParseProc)&__identifier("?parseDurationUnsignedInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 340 },
+    { "DamageType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DD0948, 344 },
+    { "DeathType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DD09C8, 348 },
+    { "DamageFXType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DD08C8, 352 },
+    { "DamageSubType", (FieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), g_00DD09B8, 356 },
+    { "DamageScalar", (FieldParseProc)&__identifier("?parseDamageScalar@DamageNugget@@SAXPAVINI@@PAX1PBX@Z"), 0, 360 },
+    { "DamageSpeed", (FieldParseProc)&__identifier("?parseVelocityReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 372 },
+    { "LostLeadershipUselessAgainst", (FieldParseProc)&__identifier("?Rva002567EAParse@@YAXPAVINI@@PAX1PBX@Z"), 0, 376 },
+    { "FlankingBonus", (FieldParseProc)&__identifier("?parsePercentToReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 332 },
+    { "FlankedScalar", (FieldParseProc)&__identifier("?parsePercentToReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 336 },
+    { "DrainLife", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 404 },
+    { "DrainLifeMultiplier", (FieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 408 },
+    { "CylinderAOE", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 416 },
+    { "ForceKillObjectFilter", (FieldParseProc)&__identifier("?iniParseObjectFilter@@YAXPAVINI@@PAX1PBX@Z"), 0, 412 },
+    { 0, 0, 0, 0 }
+};
