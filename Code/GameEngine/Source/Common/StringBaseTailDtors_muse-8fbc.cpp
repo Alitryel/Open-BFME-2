@@ -1,7 +1,10 @@
+// stlport
+// cl: /D_STLP_USE_STATIC_LIB /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Tail-jmp dtors to pinned StringBase<char> dtor 0x00036410 (17 pins): add ecx,disp; jmp.
 // Each outer class holds StringBase<char> at the retail displacement; empty dtor tail-calls it at /O1.
-template <typename T> class StringBase { public: ~StringBase(); };
+#define BFME_STRINGBASE_PUBLIC_DTOR
+#include "ascii_string.h"
 
 // ??1Rva000B9AAA@@QAE@XZ @0x000B9AAA 8B; add ecx,0x10; jmp StringBase D dtor. 9 callers incl 4 Unwind funclets.
 class Rva000B9AAA { public: ~Rva000B9AAA(); private: char m_lead[0x10]; StringBase<char> m_str; };
@@ -25,3 +28,18 @@ Rva004D9A3C::~Rva004D9A3C() {}
 class Rva000AF215 { public: ~Rva000AF215(); private: char m_lead[0x14]; StringBase<char> m_str; char m_tail[0x10]; };
 // ??1Rva000AF215@@QAE@XZ present-unmatched
 Rva000AF215::~Rva000AF215() {}
+
+// Same native owning record: seven scalar words, one owning AsciiString, two tail bytes.
+struct BfmeStringRecord00063BE4 {
+    unsigned int word0, word1, word2, word3, word4, word5, word6;
+    AsciiString text;
+    unsigned char tail0, tail1;
+    BfmeStringRecord00063BE4();
+    BfmeStringRecord00063BE4(const BfmeStringRecord00063BE4 &);
+    ~BfmeStringRecord00063BE4();
+    BfmeStringRecord00063BE4 &operator=(const BfmeStringRecord00063BE4 &);
+};
+__declspec(noinline) inline BfmeStringRecord00063BE4::~BfmeStringRecord00063BE4() {}
+
+#include <memory>
+template void _STL::_Destroy<BfmeStringRecord00063BE4 *>(BfmeStringRecord00063BE4 *,BfmeStringRecord00063BE4 *);

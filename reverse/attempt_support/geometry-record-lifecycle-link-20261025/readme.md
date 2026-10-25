@@ -55,3 +55,42 @@ body, matching the existing provider's emission pattern; no fake anchor or
 wrapper. All3existing tail dtors have identical raw COFF bytes and relocation
 names before/after this canonical header view and pass the ordinary3/3 byte
 gate with zero string/float/import findings. No baseline/tool/hatch reseed.
+
+## Production admission and current verification
+
+The separate retirement commit is followed by normal add_match admissions:
+actual96-byte record-vector copy at9292B, and complete existing-body folds
+at21983A/7,10E5A2/60,255D17/8,50A60/25,50A79/63 and7FAB3/14.
+Every admission runs its ordinary whole-source byte gate; no no-verify option,
+new pin, source alias, assembly, baseline change or gate modification.
+The old96-byte call-candidate pin is now removed. All other existing private
+GeometryShape family rows and pins remain outside this identity correction.
+
+The additional14-byte base cleanup is independently read from the external
+REL32 operands in both exact EH graphs:760003 and75D6F2 reach7FAB3, whose
+full body frees the first pointer through30830. This closes the actual
+exception cleanup as well as the nine bodies in the initial diagnostic proof.
+
+Only the actual vector-copy member is explicitly instantiated. The unrelated
+Rva002AF6C5 erase/copy bodies were already rehomed to their correct existing
+GeometryInfoRva002B0E55.cpp owner; their obsolete unowned instantiation is
+removed here. No owning body is dropped. Native record default-insertion and
+assignment families are not invented to support a whole-class instantiation.
+
+Final ordinary verification covers all7 current consumer/provider TUs:
+114/114 matched bodies,37 EH-bearing rows EXACT, one empty-string reference
+verified, no unverified/skipped literals, floats or named imports. The3existing
+tail destructors retain identical raw COFF bytes and relocation names.
+
+Joint current-object published-index preview:7/7 LINKS,3532 ->3839 unique
+linked bytes (+307). The actual copy unit changes0 ->96 and GeometryInfo copy
+unit0 ->211; tail23 and four other providers remain linked. The two one-byte
+GeometryRecord helper-copy diagnostics are explicitly unreferenced and do not
+block selection under the existing retail-truth rules. This is a prediction,
+not a new census or a link-cycle run.
+
+Freshly fetched origin/master progress comparison: C++exact7984346 and
+Totalexact7997261, both +0. Unique coverage is preserved across retirement and
+readmission; the gain is that existing matched code can link. Census-derived
+LINKED/LINKING remains unchanged until a maintainer's normal census. Final
+normal commit and publication hooks remain required.

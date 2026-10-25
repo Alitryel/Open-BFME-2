@@ -1,18 +1,16 @@
-// cl: /EHsc
+// cl: /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /MD /D_CRTIMP= /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /EHsc-
 // stlport
-// Open-BFME: GeometryInfo copy constructor, retail 0x000FFD10.
+// GeometryInfo copy constructor, native929E8/173B.
+// EHsc- matches the native lifecycle provider: C free() is not assumed
+// nonthrowing, preserving the observed vector-base unwind-state reset.
+// This unit uses the actual owning record view for member2C; the old
+// mutable5EA9BB GeometryShape helper stays an independent legacy family.
 //
-// BFME's GeometryInfo is larger than the older reference declaration: it has
-// two STL vectors at +0x2C and +0x38, followed by the cached extent fields.
-// The first vector's 0x24-byte element contains a StringBase<char> at +0x1C;
-// the second vector's 0x10-byte element contains one at +0x0C.  These are the
-// two member-copy calls visible in the retail constructor.  Their owning
-// StringBase<char> members are non-trivial: normal GeometryInfo destruction
-// destroys the record vector through 0x000FF7D0, then the shape vector through
-// 0x000FF700.  The copy constructor's unwind map destroys an already-built
-// shape vector if record copying throws; each vector copy constructor owns its
-// partial-construction cleanup.  Both vector destructor loops call
-// releaseBuffer at 0x00887940.
+// Retail owns two vectors at2C and38 and cached scalar fields from44.
+// The first uses the proved36-byte owning record; the second's16-byte
+// element has a string atC. Native copy929E8 calls their separate providers.
+// Its cleanup graph destroys an already-built first vector if the second
+// copy fails; the first vector's destructor is the verified50A79 family.
 
 #include <vector>
 
@@ -27,13 +25,13 @@ namespace _STL { template <> _Vector_base<GeometryShape,allocator<GeometryShape>
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 struct GeometryRecord;
 namespace _STL { template <> void _Construct<GeometryRecord,GeometryRecord>(GeometryRecord *,GeometryRecord const &); }
-// The shape placement copy is rowed in GeometryShapeConstruct005EA9A9.cpp;
-// throw() keeps the range copy free of the EH frame retail does not have.
+// Independent legacy5EA9xx placement-copy contract; keep its existing
+// throw() declaration for the separately retained mutable38-byte helper.
 namespace _STL { template <> void _Construct<GeometryShape,GeometryShape>(GeometryShape *,GeometryShape const &) throw(); }
 // The record vector copy is supplied by GeometryRecordVectorCopyConstructor.cpp.
 namespace _STL { template <> vector<GeometryRecord>::vector(const vector<GeometryRecord> &); }
-// The shape vector copy is supplied by GeometryShapeVectorCopyConstructor.cpp
-// (retail 0x0009292B); this unit's implicit-copy view must not emit its own.
+// Existing legacy private declaration; actual member2C uses the coherent
+// BfmeStringRecord vector declaration below, whose native copy is9292B.
 namespace _STL { template <> vector<GeometryShape>::vector(const vector<GeometryShape> &); }
 namespace _STL { template <> _Vector_base<GeometryRecord,allocator<GeometryRecord> >::~_Vector_base(); }
 // Suppress this TU's non-retail copy of ?allocate@?$_STLP_alloc_proxy@PAUGeometryShape@@U1@V?$allocator@UGeometryShape@@@_STL@@@_S:
@@ -58,23 +56,7 @@ void _STLP_CALL __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 
 typedef bool Bool;
 
-template <typename T>
-class StringBase
-{
-public:
-	~StringBase()
-	{
-		releaseBuffer();
-	}
-
-private:
-	void releaseBuffer();
-	void *m_data;
-};
-
-// Existing public narrow teardown spelling resolves to the verified
-// 133-byte releaseBuffer worker at RVA 0x36410. Wide teardown is unchanged.
-template <> StringBase<char>::~StringBase();
+#include "ascii_string.h"
 
 
 struct GeometryShape
@@ -88,6 +70,17 @@ struct GeometryShape
 	Bool m_enabled;
 	char m_unmodelled21[0x03];
 };
+
+struct BfmeStringRecord00063BE4 {
+    unsigned int word0, word1, word2, word3, word4, word5, word6;
+    AsciiString text;
+    unsigned char tail0, tail1;
+    BfmeStringRecord00063BE4();
+    BfmeStringRecord00063BE4(const BfmeStringRecord00063BE4 &);
+    ~BfmeStringRecord00063BE4();
+    BfmeStringRecord00063BE4 &operator=(const BfmeStringRecord00063BE4 &);
+};
+namespace _STL { template <> vector<BfmeStringRecord00063BE4>::vector(const vector<BfmeStringRecord00063BE4> &); }
 
 struct GeometryRecord
 {
@@ -129,7 +122,7 @@ private:
 	int m_scalar20;
 	int m_scalar24;
 	int m_scalar28;
-	std::vector<GeometryShape> m_shapes;
+	std::vector<BfmeStringRecord00063BE4> m_shapes;
 	std::vector<GeometryRecord> m_records;
 	int m_cached44;
 	int m_cached48;
