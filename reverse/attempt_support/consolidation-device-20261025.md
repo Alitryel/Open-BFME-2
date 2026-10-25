@@ -238,6 +238,45 @@ local commit is a published receipt.
 - TreeDraw: ModuleNameKey donor fails because the seed lacks getModuleNameKey;
   adding a virtual requires checking the existing constructor's vtable stores.
 - PropDraw: React donor fails on Coord3D redefinition against the seed's header
+
+## Follow-up pass, 2026-10-25 (codexb3, Common/System allocation)
+
+`RepairDockUpdate.cpp` accepted its unchanged `RepairDockUpdateBehaviorCtor.cpp`
+donor and passed its destination build, but the path audit found protected
+`reverse/data_ledger.csv` owners for static symbols at `0x00851C30` and
+`0x00851C80` still keyed to that donor. `data_ledger.py --check` reported stale
+coverage (43 matched sources without objects), so the trial was restored and its
+claims released. Repairing that protected path-keyed register belongs to Sol.
+The same plan's Xfer donor fails at `BfmeXfer.h:37`/`:48` with C2061
+(`Snapshot`), and its Action donor fails with C2511 for a missing constructor
+overload in the composed declaration.
+
+`SupplyWarehouseDockUpdate.cpp` had no accepted donors: the destination itself
+fails C2950 at `_alloc.h:446` for an explicit allocator specialization and
+C2227 at `_alloc.h:293` for `getSupplyTruckAIInterface`; the slot donor fails
+C2039 for `rva001B7FC5`. `DetachableRiderUpdate.cpp` likewise had no accepted
+donors. Its Xfer donor fails C2061 (`Snapshot`, `BfmeXfer.h:37/51`), its
+WeaponTemplateSet donor fails C2995 (duplicate `_STL::_Construct`), and its
+killRider donor fails C2061/C2065 (`DisabledType`/`DISABLED4`). Its split probes
+were not applied: two accepted one-row splits (0x004AE909, 0x004AE972) and one
+accepted split moving data (0x004AEF05) did not unblock a multi-donor merge;
+the other mixed source was blocked by a namespace/extern-C block and residual
+rows without definitions. No source or claim was retained from these trials.
+
+`Code/GameEngine/Source/Common/System/SubsystemInterface.cpp` accepted the
+unchanged `Rva001B4E49Loop.cpp` and `Rva001B5140Collect.cpp` donors. The merge
+build passed 3/3 rows, `find_declared_unmatched.py` passed, CSV passed, staged
+data check reported zero findings, staged `link_check --new-variants` passed,
+and header queue ordering refreshed. Plain staged link preview still reports
+the two former donor symbols as duplicate against the pre-merge census; the
+new-variant check sees no new duplicate. Existing code-identity and data-ledger
+findings remain at `Code/Libraries/Source/subsystem/SubsystemInterface.cpp`;
+this move retires neither. The compatibility search across the pending
+FlatHeightMap and SubsystemInterface moves found no active tooling, hook,
+workflow, build, include, or registry consumer requiring a path edit. Mentions
+in `reverse/link_status.csv` and old-path comments are history/provenance. The
+current donor deletions and TU-map source repoints are staged with the merge;
+routing remains approved and unchanged.
   environment. It needs the owning canonical-header/declaration acceptance path.
 - BIG/Laser/Font: the header-audit/path-keyed prerequisites documented above are
   unchanged. Ghost's byte/vector-view blockers and Shadow's lack of a verified

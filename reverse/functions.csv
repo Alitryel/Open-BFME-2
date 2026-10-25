@@ -37273,7 +37273,7 @@ _GetThisFrameReconPtr,,0x001B6330,11,Code/Libraries/Source/VP6/PbAccessors.cpp,m
 ?rva00355290@ArmorTemplate@@QAEHXZ,,0x00355290,45,Code/GameEngine/Source/GameLogic/Object/Rva00355290Check.cpp,matched,nonempty circular list check at 0x4 with first node 0x8 versus 0x8 via rowed find caller
 ?rva00202613@Rva00202613@@QAEHM@Z,,0x00202613,32,Code/GameEngine/Source/Common/Rva00202613Level.cpp,matched,float to LOD level via 5 entry 16B threshold table at 0x1C8 beside rowed 0x202633
 ?rva001B4EAB@Rva001B4EAB@@QAEXXZ,,0x001B4EAB,166,Code/GameEngine/Source/Common/Rva001B4EABExport.cpp,matched,per-entry exporter via rowed set format releaseBuffer slot 0x2c caller 0x002304BB
-?rva001B4E49@Rva001B4E49@@QAEXXZ,,0x001B4E49,26,Code/GameEngine/Source/Common/Rva001B4E49Loop.cpp,matched,8-byte-entry loop calls virtual slot 3 no stack args
+?rva001B4E49@Rva001B4E49@@QAEXXZ,,0x001B4E49,26,Code/GameEngine/Source/Common/System/SubsystemInterface.cpp,matched,8-byte-entry loop calls virtual slot 3 no stack args
 ?rva003F8090@Rva003F8090@@QAEXXZ,,0x003F8090,31,Code/Libraries/Source/WWVegas/WW3D2/WaterRenderObjRva003F8090.cpp,matched,chain lane calls rowed 0x003F7F30 offsets verified
 ?rva003F8101@Rva003F8101@@QAEPAXXZ,,0x003F8101,38,Code/GameEngine/Source/Common/Rva003F8101.cpp,matched,loop ptr array plus0xC to plus0x10 cmp plus8 vs g plus0xF4 caller 0x003F8FF3
 ?rva003F802B@Rva003F802B@@QAE_NXZ,,0x003F802B,39,Code/Libraries/Source/WWVegas/WW3D2/WaterRenderObjRva003F802B.cpp,matched,pred plus8 plus0xC ge5 via TheAudio slot 0xD0 callers 0x003F847B 0x003F8F97
@@ -37845,7 +37845,7 @@ _Rva008143F0,,0x006802F0,5,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matc
 ?rva006C1E20@Rva006C1F60@@QAE_NPBXH@Z,,0x006C1E20,139,Code/GameEngine/Source/Common/Rva006C1E20Cluster.cpp,matched,lock-guarded Rva006C1F60 validator; same +0x4E4 RAII guard and SEH frame as 0x006C3840; tests low byte of arg2 and splits to rva006C1DC0(block) or base GeneralAllocator::rva00032830(block 0); single result local required for esi-this regalloc
 ?rva002000A4@RankInfoStore@@UAEXXZ,,0x002000A4,51,Code/GameEngine/Source/Common/Rva0022CA74Slot9.cpp,matched,vtable slot 9 of Rva0022CA74; calls rowed deleteOverrides and vector erase; spelled virtual: slot 9 of vftable 0x00BE2704 that the class's own constructor install at +0; retail never calls it directly; the view takes the vptr at +0
 ?rva0045628C@BuildingBehavior@@QAEXPBUBuildingWindowList@@PAVDrawable@@H@Z,,0x0045628C,52,Code/GameEngine/Source/Common/Rva0045628CDraw.cpp,matched,loops AsciiString range calls rowed Drawable rva002724FD ret 0xC 5 callers in 0x004562F8
-?rva001B5140@Rva001B5140@@QAE_NXZ,,0x001B5140,128,Code/GameEngine/Source/Common/Rva001B5140Collect.cpp,matched,chain packet rowed erase and push_back thiscall bool
+?rva001B5140@Rva001B5140@@QAE_NXZ,,0x001B5140,128,Code/GameEngine/Source/Common/System/SubsystemInterface.cpp,matched,chain packet rowed erase and push_back thiscall bool
 ?rva003605E3@DamageFX@@QAEPAXHMPBVObject@@@Z,,0x003605E3,48,Code/GameEngine/Source/Common/DamageFXParseCommon.cpp,matched,DamageFX major-minor threshold via m_dfx dt0 with zero-range null and 64B stride
 ?rva003608DF@DamageFX@@QAE_NHMPBVObject@@0@Z,,0x003608DF,50,Code/GameEngine/Source/Common/DamageFXParseCommon.cpp,matched,DamageFX doFX wrapper via rva003605E3 then doFXObj false on null
 ?getCDECount@BfmeOwnerCDE@@QAEHPAX@Z,,0x0073D090,939,Code/GameEngine/Source/Common/BfmeOwnerCDECount.cpp,matched,BFME1 donor BfmeOwnerCDECount plus rowed rva006BD9C0 and bfmeStepsEU via theDebug LINK BONUS name
