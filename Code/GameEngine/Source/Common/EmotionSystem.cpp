@@ -15,21 +15,10 @@ public:
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-class __declspec(novtable) Rva00426402Base
-{
-public:
-	Rva00426402Base() { reinterpret_cast<SubsystemInterface *>(this)->SubsystemInterface::SubsystemInterface(); }
-	virtual void unused();
-	char m_flag;
-	int m_value;
-};
-
-class EmotionSystem : public Rva00426402Base
+class EmotionSystem : public SubsystemInterface
 {
 public:
 	EmotionSystem();
-protected:
-	virtual ~EmotionSystem();
 private:
 	_STL::vector<BfmeE16> m_vec0C;
 	_STL::vector<BfmeE16> m_vec18;
