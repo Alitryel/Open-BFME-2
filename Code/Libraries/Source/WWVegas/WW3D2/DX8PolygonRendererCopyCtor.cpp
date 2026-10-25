@@ -1,89 +1,10 @@
-// cl: /DNDEBUG /MD /EHsc
-//
-// ??0DX8PolygonRendererClass@@QAE@ABV0@PAVMeshModelClass@@@Z at retail
-// 0x00187E90 (149B). Dedicated TU: same reason as DX8PolygonRendererCtor.cpp
-// (the Code/ dx8polygonrenderer.cpp TU is a ZH port whose renderer class
-// lacks the BFME split-table members). Class decls mirror that TU exactly:
-// the copy reads src at the same measured offsets (mmc +8, texture_category
-// +C, strip +2C, pass +0x30) and reaches MeshModelClass::PolygonRendererList
-// at +0x9C (BFME2 0x8C geometry base).
-// No new pins: the single call decodes to the matched
-// ?Internal_Add_Tail@GenericMultiListClass @0x00610820 (same as the primary
-// ctor). The near tool's only drift (scope-table push VA) is cross-image
-// layout noise: retail carries the same table as the primary ctor.
-
-#define WWASSERT(x) ((void)0)
-
-class MultiListObjectClass
-{
-public:
-	__declspec(dllimport) __forceinline MultiListObjectClass() : ListNode(0) { }
-	virtual ~MultiListObjectClass();
-
-private:
-	void *ListNode;
-};
-
-class MultiListNodeClass
-{
-public:
-	void *Prev;
-	void *Next;
-	void *NextList;
-	void *Object;
-	void *List;
-};
-
-class GenericMultiListClass
-{
-public:
-	virtual ~GenericMultiListClass();
-
-protected:
-	bool Internal_Add_Tail(MultiListObjectClass *obj, bool onlyonce = true);
-
-	friend class DX8PolygonRendererClass;
-
-private:
-	MultiListNodeClass Head;
-};
-
-class DX8PolygonRendererClass;
-class DX8TextureCategoryClass;
-class MeshModelClass;
-
-class DX8PolygonRendererList : public GenericMultiListClass
-{
-};
-
-class MeshModelClass
-{
-public:
-	char _pad[0x9C];
-	DX8PolygonRendererList PolygonRendererList;
-};
-
-class DX8PolygonRendererClass : public MultiListObjectClass
-{
-public:
-	virtual ~DX8PolygonRendererClass();
-	DX8PolygonRendererClass(
-		const DX8PolygonRendererClass &src,
-		MeshModelClass *mmc_);
-
-private:
-	MeshModelClass *mmc;
-	DX8TextureCategoryClass *texture_category;
-	unsigned index_offset;
-	unsigned vertex_offset;
-	unsigned index_count;
-	unsigned min_vertex_index;
-	unsigned vertex_index_range;
-	unsigned min_vertex_index2;
-	unsigned vertex_index_range2;
-	bool strip;
-	unsigned pass;
-};
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// Retail 0x00187E90..0x00187F25 (149 bytes). Semantic source is the BFME1
+// constructor; retail proves the copied split-table fields and MeshModel list
+// at +0x9C. Share the seed renderer header as the primary constructor does,
+// and keep the target list offset independent of the donor mesh declaration.
+// Add_Tail inlines to the existing Internal_Add_Tail provider at 0x00610820.
+#include "dx8polygonrenderer.h"
 
 // ??0DX8PolygonRendererClass@@QAE@ABV0@PAVMeshModelClass@@@Z
 DX8PolygonRendererClass::DX8PolygonRendererClass(const DX8PolygonRendererClass& src,MeshModelClass* mmc_)
@@ -100,5 +21,5 @@ DX8PolygonRendererClass::DX8PolygonRendererClass(const DX8PolygonRendererClass& 
 	strip(src.strip),
 	pass(src.pass)
 {
-	mmc->PolygonRendererList.Internal_Add_Tail(this, true);
+	reinterpret_cast<DX8PolygonRendererList *>(reinterpret_cast<char *>(mmc) + 0x9C)->Add_Tail(this, true);
 }

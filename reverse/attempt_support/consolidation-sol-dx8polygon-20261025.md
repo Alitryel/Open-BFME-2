@@ -36,3 +36,22 @@ protected register or row owner is changed. Byte verification includes the
 constructor reference and selected inline list provider. Debt retirement is
 not claimed. Actual source files removed 0, recovered bytes 0, identity keys
 retired 0. Keep the source/handoff claims until publication is confirmed.
+
+## Copy constructor follow-up
+
+DX8PolygonRendererCopyCtor.cpp now adopts the same header and compiler
+include environment. Its field initializers stay unchanged, and its list
+insertion uses the same retail-proven +0x9C list view as the primary ctor.
+`./build.sh DX8PolygonRendererCopyCtor.cpp` preserves all 149 bytes at
+0x00187E90, with literal/float/import and declared-unmatched checks passing.
+The normal merge dry run now accepts the seed and both constructor fragments:
+three files, nine rows, no rejected donors. Receipts:
+build/sol-dx8polygon-copy-header-build.txt and
+build/sol-dx8polygon-copy-header-after.txt. Luna can apply the ordinary merge;
+this prerequisite commit itself removes no file or identity key.
+
+The outgoing range from its merge base with origin/master plus this staged
+change still contains only in-place source repairs, evidence and the attempt
+log. There are no pending source moves, changed include targets or deleted
+paths for active tools, hooks, workflows, build inputs or registries to follow.
+The earlier publication audit therefore remains applicable to the full batch.
