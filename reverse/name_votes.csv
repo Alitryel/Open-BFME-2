@@ -6269,3 +6269,11 @@ Code/Libraries/Source/WWVegas/WW3D2/WW3D_Get_Render_Target_Resolution.cpp|class|
 Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|class||Rva004F76EAPred,ff7c67914bc9841751b4844d,gpt-6.1-sol,codex8-20261025-064219-3,w-de56e563a50b,2026-10-25
 Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,f5369ff659f1c0e28a966fcb,gpt-6.1-sol,codex8-20261025-064219-3,w-de56e563a50b,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp|param|Object::forceEmotion|arg,2412110df8f00d962e6732a0,gpt-6.1-sol,codex8-20261025-064219-4,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|DelegateDesc|f,47226c4f9d9846c28f6a673f,gpt-6.1-sol,codex8-20261025-064219-5,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|MakeBinding|f,5c49d5bcf5d6fbeefdd72c45,gpt-6.1-sol,codex8-20261025-064219-5,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|global||g_00C078DC,72accee5ca39a359b375c65d,gpt-6.1-sol,codex8-20261025-064219-5,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#10|p,66063b94914efb50fe68a30a,gpt-6.1-sol,codex8-20261025-064219-5,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,ee07e313c217a69f811be4d7,gpt-6.1-sol,codex8-20261025-064219-5,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|arg,8e422cc1fb82b052c2c5eb4f,gpt-6.1-sol,codex8-20261025-064219-6,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|param|LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer|a,5a92e5be692896ea1f2b50d4,gpt-6.1-sol,codex8-20261025-064219-6,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_254,ab25c56c7998e8919e1012b5,gpt-6.1-sol,codex8-20261025-064219-7,w-de56e563a50b,2026-10-25
