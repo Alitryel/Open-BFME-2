@@ -19978,7 +19978,6 @@ uw_007919bf,,0x007919BF,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obje
 uw_007919d1,,0x007919D1,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2567
 uw_00791a90,,0x00791A90,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2585
 uw_00791aa2,,0x00791AA2,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2594
-uw_00791b07,,0x00791B07,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2603
 uw_00791b19,,0x00791B19,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2612
 uw_00791b2b,,0x00791B2B,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2706
 uw_00791c35,,0x00791C35,8,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2880
@@ -98243,3 +98242,4 @@ __ehhandler$??1Rva004E1B00@@UAE@XZ,,0x00791AEB,10,Code/GameEngine/Source/Common/
 __ehhandler$?Rva004E1BFCParse@@YAXPAVINI@@PAX1PBX@Z,,0x00791B0F,10,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,gen-ehstub;parent=?Rva004E1BFCParse@@YAXPAVINI@@PAX1PBX@Z; Actual verified parser126 installs native handler791B0F; complete10B FuncInfo move and CxxFrameHandler jump; final production parent EH graph EXACT; only independently re-proved same-key tombstone restored
 Unwind@00b91ad8,,0x00791AD8,8,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,gen-funclet;parent=??1Rva004E1B00@@UAE@XZ;object-symbol=$L1333; Actual final production destructor EH graph EXACT binds this compiler cleanup to native791AD8; complete8B body and relocation verified through parent; supported anonymous gen_uw scaffold takeover; no gen_small source edit or adjacency inference
 Unwind@00b91ae0,,0x00791AE0,11,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,gen-funclet;parent=??1Rva004E1B00@@UAE@XZ;object-symbol=$L1334; Final production destructor69 EH graph EXACT binds this real11B cleanup to native791AE0; complete code and callee relocation verified; only independently reproved same-key tombstone restored; old false Tracer parent is retired
+Unwind@00b91b07,,0x00791B07,8,Code/GameEngine/Source/Common/Rva004E1BFCParse.cpp,matched,gen-funclet;parent=?Rva004E1BFCParse@@YAXPAVINI@@PAX1PBX@Z;object-symbol=$L1361; Actual final production parser126 EH graph EXACT binds native791B07 cleanup to the complete stack Snapshot record; full8B body and destructor relocation verified; supported anonymous gen_uw scaffold takeover; no gen_small source edit

@@ -1,5 +1,46 @@
 # MoveArmy Snapshot record ownership repair
 
+## Current final-series status
+
+All eleven record/handler/cleanup bodies are individually admitted through
+ordinary add_match and normal WumboJet commits. The four intended C++ homes
+contain the applied repair; the parser retains only a forward Xfer declaration.
+The exact original256-byte C6CD50 data row is restored byte-for-byte, with all
+30 relocations verified by ordinary data_rows. Publication is approved and
+pending the final evidence-only normal amend and ordinary pre-push hook.
+
+Final bounded strict preparation and post-rebase ordinary verification pass
+438/438 bodies across20 providers/consumers,3 data rows,254 literals and1 float,
+with no skipped/baselined reference checks. All51 EH graphs are EXACT, with no
+baseline exceptions or missing objects. Independent actual-object/ledger/native
+proofs pass both complete16-byte tables and copy77 DIR32 decimal+34 (hex+22).
+Derived weak E resolves to actual G28; canonical Snapshot uses real strong E74
+at1750 instead of the distinct unused local base G29 fallback. No resolver,
+sizer, verifier or baseline override was used. Stock compiler-vtable sizeof
+refusal is preserved in the independent proof rather than hidden.
+
+The supported bounded published-index preview reports18/20 LINKS, including
+all four changed homes; LINKED6560 to6801 (+241) against the2026-10-25 03:51
+ce1b975697 census witness. This is a scoped prediction, not a measured new
+census or all-current closure. CopyDeferred retains its same BfmePod32 selected
+constructor blocker. Unchanged FXList retains the same4 unresolved/4 COMDAT
+blocker identities; its2 selected blockers are a subset of the old3 because
+the false Tracer constructor blocker disappears. No remaining blocker is new.
+
+The separate global-current-ledger attempt honestly refused11,561 unrelated
+objects lacking strict evidence. No broad recompile, synthesized receipt or
+weakened check was used. The literal prepublication command
+`python3 tools/progress.py origin/master` reports C++ exact +0 bytes. Source
+attribution changes C++ we wrote -10 / generator C++ +10; no conversion gain
+is claimed. The existing append/copy structural ABI bridge remains explicit
+debt, with no claim that the whole copy/vector type migration is solved.
+
+## Historical retirement-stage record and proof log
+
+The original opening status below describes the initial withdrawal commit,
+when production source was unchanged and the source patch was not applied.
+Those phrases are historical; the current final-series status is above.
+
 Status: separate retirement of eight mistaken/dependent claims (277B); production
 source is unchanged and no new byte or LINKED gain is claimed. The source patch is a review artifact,
 not an applied change. Original donor TracerFXNugget remains intact.
