@@ -2095,3 +2095,4 @@ param,Object::setArmorSetFlag::v,Object::setArmorSetFlag::ast,inferred,agree:nl-
 param,Object::clearArmorSetFlag::v,Object::clearArmorSetFlag::ast,inferred,agree:nl-0c14695235ae,Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp,0x0028B79C
 local,GameWindow::winActivate::r,GameWindow::winActivate::returnCode,inferred,agree:nl-7e7f62ef2d1d,Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp,0x003147DA
 param,Rva00341796::onExit::arg,Rva00341796::onExit::status,inferred,agree:nl-dc08dbacc6f1,Code/GameEngine/Source/Common/Rva003418EAMethod.cpp,0x003418EA
+param,ModelSMConditionInfo::validateTurretInfo::arg,ModelSMConditionInfo::validateTurretInfo::boneState,inferred,agree:nl-6e9c43f2953b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp,0x000BBE86

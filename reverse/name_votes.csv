@@ -6389,3 +6389,4 @@ Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|class||Rva003418EAMember,f07
 Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|member|ChaseC|m_3BA,3e12eb8a5e74759b06eca987,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p067b,w-4154cf470102,2026-10-25
 Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|member|ChaseB|m_258,59001b96ddfce79ae4925e56,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p067b,w-4154cf470102,2026-10-25
 Code/GameEngine/Source/Common/Rva003418EAMethod.cpp|param|Rva00341796::onExit|arg,9af9d1755546601769116f50,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p067b,w-4154cf470102,2026-10-25
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DScriptedModelDrawTurretInfo.cpp|param|ModelSMConditionInfo::validateTurretInfo|arg,e86714c0659404e31f77aa52,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p077a,w-42064cc6a99d,2026-10-25

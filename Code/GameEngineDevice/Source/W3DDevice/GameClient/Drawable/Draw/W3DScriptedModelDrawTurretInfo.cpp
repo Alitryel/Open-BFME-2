@@ -35,7 +35,7 @@ struct Rva000BBE86Rec
 class ModelSMConditionInfo
 {
 public:
-	void validateTurretInfo(const Rva000BBDDF *arg);
+	void validateTurretInfo(const Rva000BBDDF *boneState);
 
 	char m_pad[0xD0];
 	_STL::vector<Rva000BBE86Rec> m_turrets;
@@ -43,7 +43,7 @@ public:
 	unsigned char m_flag;
 };
 
-void ModelSMConditionInfo::validateTurretInfo(const Rva000BBDDF *arg)
+void ModelSMConditionInfo::validateTurretInfo(const Rva000BBDDF *boneState)
 {
 	if (m_flag)
 		return;
@@ -60,13 +60,13 @@ void ModelSMConditionInfo::validateTurretInfo(const Rva000BBDDF *arg)
 			continue;
 		}
 		if (rec.m_key0) {
-			if (!arg->rva000BBDDF(rec.m_key0, &rec.m_slot10))
+			if (!boneState->rva000BBDDF(rec.m_key0, &rec.m_slot10))
 				rec.m_slot10 = 0;
 		} else {
 			rec.m_slot10 = 0;
 		}
 		if (rec.m_key4) {
-			if (!arg->rva000BBDDF(rec.m_key4, &rec.m_slot14))
+			if (!boneState->rva000BBDDF(rec.m_key4, &rec.m_slot14))
 				rec.m_slot14 = 0;
 		} else {
 			rec.m_slot14 = 0;
