@@ -43,7 +43,7 @@ struct ChaseC {
 };
 struct ChaseB {
 	char m_pad000[0x258];
-	ChaseC *m_258;
+	ChaseC *m_ai;
 };
 struct StateMachine {
 	char m_pad000[0x14];
@@ -69,7 +69,7 @@ void Rva00341796::onExit(int status)
 		::operator delete(memory);
 		m_20 = 0;
 	}
-	ChaseC *chaseC = m_machine->m_14->m_258;
+	ChaseC *chaseC = m_machine->m_14->m_ai;
 	if (chaseC)
 		chaseC->m_canPathThroughUnits = 0;
 }

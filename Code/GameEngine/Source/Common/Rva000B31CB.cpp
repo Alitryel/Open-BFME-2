@@ -22,7 +22,7 @@ class Player;
 struct Rva000B31CBGlobals
 {
 	char m_pad[0x9A5];
-	unsigned char m_flag9A5;
+	unsigned char m_showSelectedUnitMarker;
 };
 
 struct Rva000B31CBPlayerList
@@ -122,7 +122,7 @@ private:
 
 void Rva000B31CB::rva000B31CB(unsigned int selected, int color)
 {
-	if (!((Rva000B31CBGlobals *)TheWritableGlobalData)->m_flag9A5)
+	if (!((Rva000B31CBGlobals *)TheWritableGlobalData)->m_showSelectedUnitMarker)
 		return;
 	Drawable *draw = m_drawable;
 	Object *object = draw->m_object;

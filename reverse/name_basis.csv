@@ -2273,3 +2273,9 @@ member,Rva0030C2CEArea::m_float5C,Rva0030C2CEArea::m_opacity,inferred,agree:nl-0
 param,Rva002CA9CA::rva002CAC6E::b,Rva002CA9CA::rva002CAC6E::context,inferred,agree:nl-db4898fda3d2,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CAC6E
 function,?rva0040B0D0@Rva0040B0D0@@QAE_NPBX@Z,?isContributor@Rva0040B0D0@@QAE_NPBX@Z,inferred,agree:nl-87b719d51be5,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,0x0040B0D0
 carry,Rva0040B0D0::rva0040B0D0::objectView,Rva0040B0D0::isContributor::objectView,inferred,scope renamed by Rename rva0040B0D0 to isContributor (inferred),Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,0x0040B0D0
+member,Rva000B31CBGlobals::m_flag9A5,Rva000B31CBGlobals::m_showSelectedUnitMarker,inferred,agree:nl-3c9f1984ac59,Code/GameEngine/Source/Common/Rva000B31CB.cpp,
+member,ChaseB::m_258,ChaseB::m_ai,inferred,agree:nl-25d9c53c616a,Code/GameEngine/Source/Common/Rva003418EAMethod.cpp,
+member,GlobalData2::m_9A5,GlobalData2::m_showSelectedUnitMarker,inferred,agree:nl-204d120f49d7,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroConstructor.cpp,
+member,GlobalData2::m_9BD,GlobalData2::m_showObjectHealth,inferred,agree:nl-107984924677,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroConstructor.cpp,
+member,LivingWorldShadowManagerView::m_08,LivingWorldShadowManagerView::m_stencilShadowMask,inferred,agree:nl-3d0f5e3bc288,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp,
+member,BfmeThingVJQ::m_bfme30,BfmeThingVJQ::m_state,inferred,agree:nl-c4b162b379e9,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,

@@ -98,7 +98,7 @@ struct LivingWorldShadowManagerView
 {
 	void *m_vtbl;
 	int m_04;
-	int m_08;
+	int m_stencilShadowMask;
 };
 
 struct LivingWorldStaticLODInfo
@@ -189,7 +189,7 @@ void LivingWorld::rva002BF391(bool active)
 		{
 			((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_useShadowMapping = false;
 			((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_useShadowVolumes = true;
-			((LivingWorldShadowManagerView *)TheW3DShadowManager)->m_08 = -1;
+			((LivingWorldShadowManagerView *)TheW3DShadowManager)->m_stencilShadowMask = -1;
 		}
 		GameMessage *msg = ((LivingWorldMessageStreamView *)TheMessageStream)->appendMessage(0x3EC);
 		msg->appendBooleanArgument(true);

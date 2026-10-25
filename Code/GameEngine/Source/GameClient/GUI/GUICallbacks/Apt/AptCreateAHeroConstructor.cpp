@@ -192,9 +192,9 @@ struct GlobalData2
 	unsigned char m_pad000[0x68];
 	bool m_68;
 	unsigned char m_pad069[0x9A5 - 0x69];
-	bool m_9A5;
+	bool m_showSelectedUnitMarker;
 	unsigned char m_pad9a6[0x9BD - 0x9A6];
-	bool m_9BD;
+	bool m_showObjectHealth;
 	unsigned char m_pad9be[0xD45 - 0x9BE];
 	bool m_D45;
 };
@@ -287,7 +287,7 @@ public:
 AptCreateAHero::AptCreateAHero(void *context)
 	: _bfme_AptGameWindow(context), m_myHero(this), m_mode(0), m_page(0), m_previousPage(0)
 {
-	m_42c = TheGlobalDataView->m_9BD;
+	m_42c = TheGlobalDataView->m_showObjectHealth;
 	m_42d = TheGlobalDataView->m_D45;
 	m_42e = TheGlobalDataView->m_68;
 	m_takePicture = false;
@@ -298,8 +298,8 @@ AptCreateAHero::AptCreateAHero(void *context)
 	m_pictureFrames = 0;
 	memset(&m_pageM, 0, 0x14);
 	TheCreateAHeroManager->m_184 = true;
-	TheGlobalDataView->m_9BD = false;
-	TheGlobalDataView->m_9A5 = false;
+	TheGlobalDataView->m_showObjectHealth = false;
+	TheGlobalDataView->m_showSelectedUnitMarker = false;
 	TheGlobalDataView->m_D45 = true;
 	TheGlobalDataView->m_68 = false;
 	s_instance = this;
