@@ -10,6 +10,8 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -103,6 +105,272 @@ class CheckImage(unittest.TestCase):
         counts, _ = boot_image.check_image(self.r, self.pieces, self.mutated(a, p, original ^ 0xFF),
                                            self.base, self.publics)
         self.assertEqual(counts["bytes-differ"], 1)
+
+    def test_wrong_entry_point_is_caught(self):
+        import pefile
+        exe = self.tmp / "m_entry.exe"
+        pe = pefile.PE(str(BOOT / "boot.exe"))
+        pe.OPTIONAL_HEADER.AddressOfEntryPoint += 1
+        pe.write(str(exe))
+        pe.close()
+        counts, _ = boot_image.check_image(self.r, self.pieces, exe, self.base, self.publics)
+        self.assertEqual(counts["entry-ok"], 0)
+
+
+def fake_object(sec_name, ptr, payload=b"", relocs=()):
+    """(secs, syms, data) as link_cycle.Objects returns them: one 960-byte section
+    with external symbols at 0 and 640 and its section symbol."""
+    s = SimpleNamespace(name=sec_name, size=960, ptr=ptr, flags=0x40000040, relocs=list(relocs))
+    syms = {0: SimpleNamespace(name="_a", sec=1, value=0, cls=boot_image.EXTERNAL),
+            1: SimpleNamespace(name="_b", sec=1, value=640, cls=boot_image.EXTERNAL),
+            2: SimpleNamespace(name=sec_name, sec=1, value=0, cls=boot_image.STATIC)}
+    return [s], syms, bytes(ptr) + payload
+
+
+class ObjectDatum(unittest.TestCase):
+    """The datum a reference means starts at its symbol, not at whatever symbol
+    precedes symbol + addend."""
+    payload = bytes(k & 0xFF for k in range(960))
+
+    def test_bss_reference_before_its_symbol(self):
+        o = fake_object(".bss", 0)
+        self.assertEqual(boot_image.object_datum(o, 1, -20, at=640), (640, bytes(320), set()))
+        self.assertEqual(boot_image.object_datum(o, 1, -20), (-20, b"", set()))     # was bytes(-640): ValueError
+
+    def test_rdata_reference_before_its_symbol(self):
+        o = fake_object(".rdata", 16, self.payload, [(644, 0, boot_image.DIR32)])
+        self.assertEqual(boot_image.object_datum(o, 1, -4, at=640), (640, self.payload[640:], {4, 5, 6, 7}))
+        self.assertEqual(boot_image.object_datum(o, 1, -4, at=0), (0, self.payload[:640], set()))
+        self.assertEqual(boot_image.object_datum(o, 1, -4), (-4, b"", set()))       # was silently b""
+
+    def test_reference_into_the_previous_datum_is_its_symbols(self):
+        o = fake_object(".rdata", 16, self.payload)
+        y = o[1][1]
+        at = boot_image.datum_anchor(o, y, 600)                  # _b - 40
+        self.assertEqual(at, 640)
+        self.assertEqual(boot_image.object_datum(o, 1, 600, at=at)[:2], (640, self.payload[640:]))
+        self.assertEqual(boot_image.object_datum(o, 1, 600)[0], 0)   # the datum holding q: the wrong one
+
+    def test_section_symbol_anchors_at_the_offset(self):
+        o = fake_object(".rdata", 16, self.payload)
+        self.assertEqual(boot_image.datum_anchor(o, o[1][2], 700), 700)
+        self.assertEqual(boot_image.object_datum(o, 1, 700, at=700)[0], 640)
+
+    def test_anchor_outside_the_section_is_empty(self):
+        o = fake_object(".rdata", 16, self.payload)
+        for at in (960, 4000, -1):
+            self.assertEqual(boot_image.object_datum(o, 1, 0, at=at), (at, b"", set()))
+
+
+class EntryOk(unittest.TestCase):
+    """entry-ok: the image entry is `_boot_entry` and that is the moved copy of retail's entry."""
+    pieces = [SimpleNamespace(start=0x1000, size=0x100), SimpleNamespace(start=0x1100, size=0x100)]
+    new = {0x1000: 0x5000, 0x1100: 0x5200}
+
+    def ok(self, image_entry, publics, entry=0x1120):
+        return boot_image.entry_ok(image_entry, entry, self.pieces, lambda p: self.new[p.start], publics)
+
+    def test_moved_entry(self):
+        self.assertEqual(self.ok(0x5220, {"_boot_entry": 0x5220}), 1)
+
+    def test_mutated_entry_point(self):
+        self.assertEqual(self.ok(0x5221, {"_boot_entry": 0x5220}), 0)
+
+    def test_boot_entry_defined_elsewhere(self):
+        # image and map agree (the old, circular test passed) but not on retail's entry
+        self.assertEqual(self.ok(0x5224, {"_boot_entry": 0x5224}), 0)
+        self.assertEqual(self.ok(0x5220, {}), 0)
+        self.assertEqual(self.ok(0x5220, {"_boot_entry": 0x5220}, entry=0x3000), 0)
+
+
+class EntryInAUnit(unittest.TestCase):
+    """An overlay unit holding the entry point defines `_boot_entry`; the scaffold does not."""
+    def test_entry_defined_inside_the_unit(self):
+        import link_cycle
+        r = SimpleNamespace(entry=0x1120, secs={".text": (0x1000, 0x200, bytes(0x200))})
+        unit = SimpleNamespace(label="_bootu_00001100", body=b"\xcc" * 0x100, relocs=[])
+        pieces = [boot_image.Piece(".text$p000000", 0x1000, 0x100, boot_image.CODE),
+                  boot_image.Piece(".text$p000001", 0x1100, 0x100, boot_image.CODE | boot_image.ALIGN_1, unit)]
+        names = {"_boot_entry": r.entry, unit.label: 0x1100}
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            _, (scaffold,) = boot_image.write_scaffold(r, pieces, tmp / "scaffold.obj", names)  # was StopIteration
+            _, (overlay,) = boot_image.write_overlay(pieces, tmp / "overlay.obj", names)
+            defined = {}
+            for path in (scaffold, overlay):
+                for y in link_cycle.parse_coff(path.read_bytes())[1].values():
+                    if y.sec > 0:
+                        defined.setdefault(y.name, []).append((path.name, y.value))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        self.assertEqual(defined["_boot_entry"], [("overlay.obj", 0x20)])
+
+
+class FuncletUnits(unittest.TestCase):
+    """find_units resolves a funclet pin as build.read_funclet does, never by the first look-alike."""
+    TARGET = bytes(range(1, 9))
+
+    def setUp(self):
+        import link_cycle
+        self.tmp = Path(tempfile.mkdtemp())
+        self.obj = self.tmp / "f.obj"
+        # $L100: the stale pin (another body now); $L200 and $L300: two bodies equal to retail's
+        boot_image.write_coff(self.obj, [(".text$x", boot_image.CODE | boot_image.COMDAT,
+                                          b"\x8b\x4d\xf0" + bytes(5) + self.TARGET * 2, [])],
+                              [("$L100", 1, 0, 3), ("$L200", 1, 8, 3), ("$L300", 1, 16, 3)])
+        self.objs = link_cycle.Objects([])
+        text = bytearray(0x100)
+        text[0x10:0x18] = self.TARGET
+        self.r = SimpleNamespace(secs={".text": (0x1000, 0x100, bytes(text))})
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def find(self, pin="$L100", located=None, candidates=(), scoped=False):
+        row = {"name": "uw_00001010", "target_rva": "0x00001010", "target_size": "8", "source": "Code/x.cpp",
+               "status": "matched", "notes": f"gen-funclet;object-symbol={pin};parent=?f@@YAXXZ"}
+        self.calls = []
+
+        def locate(row, path, target):
+            self.calls.append("located")
+            if isinstance(located, BaseException):
+                raise located
+            self.assertEqual((path, target), (self.obj, self.TARGET))
+            return located
+
+        def cands(path, row, target):
+            self.calls.append("candidates")
+            return list(candidates)
+        b = boot_image.build
+        with mock.patch.object(b, "row_object", lambda row: self.obj), \
+                mock.patch.object(b, "located_funclet", locate), \
+                mock.patch.object(b, "funclet_candidates", cands), \
+                mock.patch.object(b, "scoped_funclet_collision", lambda row: scoped):
+            units, refused = boot_image.find_units(self.r, [row], self.objs)
+        return [(u.rva, u.off, u.size) for u in units], [why for _, why in refused]
+
+    def test_stale_pin_resolves_to_the_eh_proven_label(self):
+        self.assertEqual(self.find(located="$L200", candidates=["$L300"]), ([(0x1010, 8, 8)], []))
+        self.assertEqual(self.calls, ["located"])
+
+    def test_pin_that_still_holds_is_kept(self):
+        self.assertEqual(self.find(pin="$L300", candidates=["$L200"]), ([(0x1010, 16, 8)], []))
+        self.assertNotIn("candidates", self.calls)
+
+    def test_unique_candidate(self):
+        self.assertEqual(self.find(candidates=["$L200"]), ([(0x1010, 8, 8)], []))
+
+    def test_tie_is_refused(self):
+        self.assertEqual(self.find(candidates=["$L200", "$L300"]), ([], ["funclet-ambiguous:2"]))
+
+    def test_nothing_holds_it(self):
+        # read_funclet's last resort, "the body that label names now" ($L100), is never taken
+        self.assertEqual(self.find(), ([], ["funclet-unresolved"]))
+        self.assertEqual(self.find(pin="$L999"), ([], ["funclet-unresolved"]))
+
+    def test_scoped_collision_needs_eh_proof(self):
+        self.assertEqual(self.find(pin="$L200", candidates=["$L200"], scoped=True), ([], ["funclet-scoped-unlocated"]))
+        self.assertNotIn("candidates", self.calls)
+        self.assertEqual(self.find(located="$L200", scoped=True), ([(0x1010, 8, 8)], []))
+
+    def test_eh_proof_failure_is_refused_with_its_cause(self):
+        self.assertEqual(self.find(pin="$L200", located=SystemExit("uw_00001010 (Code/x.cpp): parent EH graph\nmore")),
+                         ([], ["funclet-unresolved:uw_00001010 (Code/x.cpp): parent EH graph"]))
+        self.assertEqual(self.find(pin="$L200", located=ValueError("symbol not found in object: ?f@@YAXXZ")),
+                         ([], ["funclet-unresolved:symbol not found in object: ?f@@YAXXZ"]))
+
+    def test_environment_fault_is_not_a_refusal(self):
+        with self.assertRaises(FileNotFoundError):            # e.g. no retail image for eh_verify
+            self.find(located=FileNotFoundError("game.dat"))
+        with self.assertRaises(SystemExit) as e:              # names no row: git, the toolchain
+            self.find(located=SystemExit("git rev-parse failed"))
+        self.assertEqual(str(e.exception), "git rev-parse failed")
+
+    def rows(self, n):
+        return [{"name": f"uw_{k}", "target_rva": "0x00001010", "target_size": "8", "source": "Code/x.cpp",
+                 "status": "matched", "notes": "gen-funclet;object-symbol=$L100;parent=?f@@YAXXZ"} for k in range(n)]
+
+    def find_all(self, rows, cause):
+        b = boot_image.build
+
+        def broken(row, path, target):
+            raise SystemExit(cause(row))
+        with mock.patch.object(b, "row_object", lambda row: self.obj), \
+                mock.patch.object(b, "located_funclet", broken), \
+                mock.patch.object(b, "scoped_funclet_collision", lambda row: False):
+            return boot_image.find_units(self.r, rows, self.objs)
+
+    def test_every_funclet_failing_is_loud(self):
+        # at quorum, whatever the causes
+        rows = self.rows(boot_image.FUNCLET_QUORUM)
+        with self.assertRaises(SystemExit) as e:
+            self.find_all(rows, lambda row: f"{row['name']}: cause {row['name'][3:]}")
+        self.assertIn("none of 10 funclet rows", str(e.exception))
+        # two or more, all for one cause (the row's own names aside)
+        with self.assertRaises(SystemExit) as e:
+            self.find_all(self.rows(2), lambda row: f"{row['name']} ({row['source']}): parent EH graph")
+        self.assertIn("none of 2 funclet rows", str(e.exception))
+        # two causes, or one row: per-row trouble
+        units, refused = self.find_all(self.rows(2), lambda row: f"{row['name']}: cause {row['name'][3:]}")
+        self.assertEqual([why for _, why in refused], ["funclet-unresolved:uw_0: cause 0",
+                                                       "funclet-unresolved:uw_1: cause 1"])
+        units, refused = self.find_all(self.rows(1), lambda row: f"{row['name']}: parent EH graph")
+        self.assertEqual([why for _, why in refused], ["funclet-unresolved:uw_0: parent EH graph"])
+        # one readable row among them is per-row trouble, not a broken environment
+        ok = dict(rows[0], notes="gen-funclet;object-symbol=$L200;parent=?f@@YAXXZ")
+        b = boot_image.build
+
+        def some(row, path, target):
+            if "$L200" in row["notes"]:
+                return "$L200"
+            raise SystemExit(row["name"] + ": parent EH graph")
+        with mock.patch.object(b, "row_object", lambda row: self.obj), \
+                mock.patch.object(b, "located_funclet", some), \
+                mock.patch.object(b, "scoped_funclet_collision", lambda row: False):
+            units, refused = boot_image.find_units(self.r, rows[1:] + [ok], self.objs)
+        self.assertEqual((len(units), len(refused)), (1, 9))
+
+    def test_quorum_counts_every_failure(self):
+        # ten scoped rows no EH proof locates, or unresolved and ambiguous rows mixed: none placed
+        b = boot_image.build
+        rows = self.rows(boot_image.FUNCLET_QUORUM)
+
+        def run(located, scoped, candidates=()):
+            with mock.patch.object(b, "row_object", lambda row: self.obj), \
+                    mock.patch.object(b, "located_funclet", located), \
+                    mock.patch.object(b, "funclet_candidates", lambda path, row, target: list(candidates)), \
+                    mock.patch.object(b, "scoped_funclet_collision", lambda row: scoped):
+                return boot_image.find_units(self.r, rows, self.objs)
+        with self.assertRaises(SystemExit) as e:
+            run(lambda row, path, target: None, True)
+        self.assertIn("funclet-scoped-unlocated 10", str(e.exception))
+
+        def mixed(row, path, target):
+            if int(row["name"][3:]) % 2:
+                raise SystemExit(f"{row['name']}: cause {row['name'][3:]}")
+            return None
+        with self.assertRaises(SystemExit) as e:
+            run(mixed, False, ["$L200", "$L300"])
+        self.assertIn("funclet-ambiguous 5", str(e.exception))
+        rows = rows[1:]                                    # below quorum: per-row trouble
+        self.assertEqual(len(run(lambda row, path, target: None, True)[1]), 9)
+
+    def test_quorum_counts_missing_funclet_objects(self):
+        rows = self.rows(boot_image.FUNCLET_QUORUM)
+        with mock.patch.object(boot_image.build, "row_object", lambda row: None):
+            with self.assertRaises(SystemExit) as e:
+                boot_image.find_units(self.r, rows, self.objs)
+        self.assertIn("no-object 10", str(e.exception))
+
+    def test_scoped_label_must_be_local(self):
+        # the EH-proven label of a scoped collision, defined external or twice, is not the TU's own
+        import link_cycle
+        body = b"\x8b\x4d\xf0" + bytes(5) + self.TARGET * 2
+        for syms in ([("$L200", 1, 8, boot_image.EXTERNAL)], [("$L200", 1, 8, 3), ("$L200", 1, 16, 3)]):
+            with self.subTest(syms=syms):
+                boot_image.write_coff(self.obj, [(".text$x", boot_image.CODE | boot_image.COMDAT, body, [])], syms)
+                self.objs = link_cycle.Objects([])
+                self.assertEqual(self.find(located="$L200", scoped=True), ([], ["funclet-scoped-not-local"]))
 
 
 PILOT = "Code/Libraries/Source/profile/"

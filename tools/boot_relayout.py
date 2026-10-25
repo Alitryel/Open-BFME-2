@@ -22,9 +22,11 @@ images in which they matter:
   --own-data   data the units' objects define (TU statics, literals, constant
                tables, globals) is placed from the objects in our own sections
                (`.ordata` read-only, `.odata` writable) and the units' references
-               bind to it, not to retail's copy. Writable data is owned only when
-               every retail reference to it lies in an overlaid unit; otherwise
-               (shared with code we do not provide yet) it stays retail's, counted.
+               bind to it, not to retail's copy. Retail code we do not provide
+               keeps retail's copy, so writable data is owned only when none of it
+               can reach the datum, and read-only data only when it cannot take
+               the datum's address (see plan_own); otherwise it stays retail's,
+               counted.
 
 Admission is check-driven: a unit is refused before the link only for structural
 reasons (bytes outside relocations differ, relocation sites disagree, an import
@@ -289,14 +291,16 @@ def relayout_pieces(pieces, moved, redirects, seed):
 
 
 # ---------------------------------------------------------------- own data
-def datum_extent(o, sec, q):
-    """(start, size) of the object datum holding section offset q: a COMDAT section
-    whole (a vtable's symbol is 4 bytes in, after its RTTI locator pointer), else
-    from the last symbol at or before q to the next one."""
+def datum_extent(o, sec, q, at=None):
+    """(start, size) of the object datum a reference to section offset q means: a
+    COMDAT section whole (a vtable's symbol is 4 bytes in, after its RTTI locator
+    pointer), else from the last symbol at or before `at` (bi.datum_anchor: the
+    referenced symbol's own offset) to the next one; size 0 when `at` lies outside
+    the section."""
     s = o[0][sec - 1]
     if s.flags & bi.COMDAT:
         return 0, s.size
-    lo, raw, _ = bi.object_datum(o, sec, q, OWN_CAP)
+    lo, raw, _ = bi.object_datum(o, sec, q, OWN_CAP, at)
     return lo, len(raw)
 
 
@@ -313,12 +317,139 @@ def is_writable(r, rlo, o, sec):
     return r.section_of(rlo) in (".data", "STLPORT_") or bool(o[0][sec - 1].flags & WRITABLE)
 
 
-def plan_own(r, live, refs, by_target, objs, banned=(), sites=()):
+def reloc_base(o, z, add, t):
+    """(base, extent) of a relocation in object o to symbol z + add whose retail target
+    is t: for data o defines, base is the retail start of z's datum (datum_extent at
+    bi.datum_anchor) and extent its (offset, size) in o; otherwise t - add and None."""
+    secs = o[0]
+    if 0 < z.sec <= len(secs) and not secs[z.sec - 1].name.startswith(".text"):
+        q = z.value + add
+        lo, n = datum_extent(o, z.sec, q, bi.datum_anchor(o, z, q))
+        return t - (q - lo), (lo, n)
+    return t - add, None
+
+
+# mnemonics whose memory operand is exactly the bytes capstone sizes it as (checked on
+# capstone 5.0.7): moves, ALU, x87 and SSE plain loads and stores. Not fnsave / frstor
+# (108 bytes), fxsave (512), lds / call far (6), bt (a register selects the word), string ops
+FIXED_ACCESS = frozenset((
+    "mov movzx movsx add adc sub sbb and or xor cmp test inc dec neg not "
+    "fld fst fstp fild fist fistp fadd fsub fsubr fmul fdiv fdivr fcom fcomp "
+    "fiadd fisub fisubr fimul fidiv fidivr ficom ficomp "
+    "movss movsd movaps movups movd movq movlps movhps movdqa movdqu "
+    "addss subss mulss divss sqrtss minss maxss addsd subsd mulsd divsd sqrtsd minsd maxsd "
+    "addps subps mulps divps andps andnps orps xorps comiss ucomiss comisd ucomisd "
+    "cvtsi2ss cvtsi2sd cvtss2sd cvtsd2ss cvttss2si cvttsd2si cvtss2si cvtsd2si").split())
+PADDING = (0xCC, 0x90)
+
+
+def known_accesses(r, sites, starts, want):
+    """{site: access size} for the retail .text sites in `want` whose field is the
+    disp32 of a plain `[disp32]` memory operand (no base, no index) of a FIXED_ACCESS
+    instruction: an access to exactly the bytes at the address the field holds. Any
+    other field (an imm32 address constant, `[reg + disp32]`, `[reg*s + disp32]`, lea,
+    bt, fxsave, a pointer in data, a field the sweep does not decode) can be a base
+    indexed by an unknown bias, and is left out.
+
+    A linear sweep from the known function start before each site to the next start
+    (`end`). It stops at data (an instruction starting on, or straddling, a site that
+    is not its own disp32 / imm32 field; a branch's rel32 is never a field) and after
+    an unconditional ret / jmp unless padding runs to `end` or the next address is a
+    branch target decoded earlier. A function keeps its accesses only when its sweep
+    reaches `end` exactly or stops at data, and the previous function's sweep does not
+    run over its start (a start one byte late turns `8B 84 05 X` into `test [X], al`)."""
+    tstart, tsize, text = r.secs[".text"]
+    tend = tstart + tsize
+    siteset = set(sites)
+    md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    md.detail = True
+    memo = {}
+
+    def sweep(k):
+        """(accesses, how the sweep ended: end | data | stop | overrun | bad)."""
+        if k in memo:
+            return memo[k]
+        a = starts[k]
+        end = min(starts[k + 1] if k + 1 < len(starts) else tend, tend)
+        got, targets, how = {}, set(), "end"
+        while a < end:
+            if a in siteset:
+                how = "data"
+                break
+            ins = next(md.disasm(text[a - tstart:min(tend, a + 16) - tstart], a, 1), None)
+            if ins is None:
+                how = "bad"
+                break
+            if a + ins.size > end:
+                how = "overrun"
+                break
+            m = ins.mnemonic
+            branch = m == "call" or m.startswith("j") or m.startswith("loop")
+            own = {a + ins.disp_offset} if ins.disp_size == 4 else set()
+            if ins.imm_size == 4 and not branch:
+                own.add(a + ins.imm_offset)
+            if any(x in siteset and x not in own for x in range(a + 1, a + ins.size)):
+                how = "data"
+                break
+            if branch:
+                targets.update(op.imm for op in ins.operands if op.type == capstone.x86.X86_OP_IMM)
+            elif ins.disp_size == 4 and m in FIXED_ACCESS:
+                for op in ins.operands:
+                    if op.type == capstone.x86.X86_OP_MEM and not op.mem.base and not op.mem.index:
+                        got[a + ins.disp_offset] = op.size
+            a += ins.size
+            if m in ("ret", "retf", "jmp", "ljmp"):
+                b = a
+                while b < end and text[b - tstart] in PADDING:
+                    b += 1
+                if b == end:
+                    a = end
+                elif a not in targets:
+                    how = "stop"
+                    break
+        memo[k] = got, how
+        return memo[k]
+    out = {}
+    for s in sorted(want):
+        k = bisect.bisect_right(starts, s) - 1
+        if not tstart <= s < tend or k < 0:
+            continue
+        got, how = sweep(k)
+        if how in ("end", "data") and (k == 0 or sweep(k - 1)[1] != "overrun"):
+            if s in got:
+                out[s] = got[s]
+    return out
+
+
+def plan_own(r, live, refs, by_target, objs, banned=(), sites=(), biased=None, known=None):
     """({rlo: (size, path, sec, lo, writable)} owned data, Counter of bytes not owned
     by reason, Counter of data not owned by reason). `refs` {unit rva: [(rlo, size,
-    path, sec, lo)]} are the defined-data references bind_unit saw; writable data is
-    owned only when every retail reference to it lies in a live unit, and data whose
-    relocations are not exactly retail's sites there stays retail's."""
+    path, sec, lo, bias, by section symbol)]} are the defined-data references
+    bind_unit saw; data whose relocations are not exactly retail's sites there stays
+    retail's.
+
+    Retail fields outside the live units (scaffold code, pointers in retail data, the
+    export and resource directories) keep retail's copy. `known` {site: size}
+    (known_accesses) are the fields that access exactly their target; any other can
+    be a base indexed by an unknown bias, and nothing bounds that bias: such a field
+    may reach any datum in any section (an intervening section does not stop it). So
+    writable data is owned only when no known access overlaps it and no field of
+    unknown bias exists (writable-reachable-from-scaffold): retail code then cannot
+    reach retail's copy, and none of the units' writes are lost to it. Pointers in an
+    owned writable datum's retail copy are unreachable and do not count (a greatest
+    fixpoint); an owned read-only datum's retail copy stays readable, so its pointers
+    do. Read-only copies hold equal values, but an address one side takes may be
+    compared with the other's (&B against retail's B - 0x44 + 0x44): read-only data is
+    owned only when no field of unknown bias exists (readonly-address-shared). Data the
+    units reach only through section symbols, whose bias the anchor hides, is not owned
+    (section-symbol-only).
+
+    The image check maps an address to the copy of the datum holding it, so no datum
+    is owned that a reference reaches from outside: one whose base (bind_unit's
+    `biased` {("unit", rva): [(site, target, base)]}, or a pointer in candidate data)
+    lies in the datum while its target does not (table - 40, an end pointer:
+    referenced-outside-extent), or whose target lies in it while its base does not
+    (contains-biased-base: bound to the copy, table[i - 10] would index past it)."""
     spans = sorted((u.rva, u.rva + u.size) for u in live)
     los = [s[0] for s in spans]
     siteset = set(sites)
@@ -326,10 +457,74 @@ def plan_own(r, live, refs, by_target, objs, banned=(), sites=()):
     def in_live(site):
         i = bisect.bisect_right(los, site) - 1
         return i >= 0 and site < spans[i][1]
-    cands = collections.defaultdict(set)
+    cands, pairs, named = collections.defaultdict(set), [], set()
     for u in live:
-        for rlo, n, path, sec, lo in refs.get(u.rva, ()):
+        for rlo, n, path, sec, lo, _bias, by_section in refs.get(u.rva, ()):
             cands[rlo].add((n, path, sec, lo))
+            if not by_section:
+                named.add(rlo)
+        pairs += [(t, b) for _, t, b in (biased or {}).get(("unit", u.rva), ())]
+    for rlo, c in cands.items():                    # pointers in the data, as datum_pieces binds them
+        n, path, sec, lo = min(c)
+        o = objs.get(path)
+        s = o[0][sec - 1]
+        for off, si, kind in s.relocs:
+            if kind == bi.DIR32 and lo <= off <= lo + n - 4 and r.section_of(rlo + off - lo):
+                t2 = r.u32(rlo + off - lo) - bi.RETAIL_BASE
+                add = struct.unpack_from("<i", o[2], s.ptr + off)[0] if s.ptr else 0
+                base = reloc_base(o, o[1][si], add, t2)[0]
+                if base != t2:
+                    pairs.append((t2, base))
+    by_t, by_base = sorted(pairs), sorted((b, t) for t, b in pairs)
+
+    def crossing(lo, hi):
+        if any(not lo <= t < hi for _, t in by_base[bisect.bisect_left(by_base, (lo,)):
+                                                     bisect.bisect_left(by_base, (hi,))]):
+            return "referenced-outside-extent"
+        if any(not lo <= b < hi for _, b in by_t[bisect.bisect_left(by_t, (lo,)):bisect.bisect_left(by_t, (hi,))]):
+            return "contains-biased-base"
+        return None
+    known = known or {}
+    outside = [(t, s) for t, s in zip(*by_target) if not in_live(s)]
+    dead = {rlo: max(c)[0] for rlo, c in cands.items()}     # owned writable copies: none, at the fixpoint
+    while True:
+        dlos = sorted(dead)
+
+        def in_dead(site):
+            i = bisect.bisect_right(dlos, site) - 1
+            return i >= 0 and site < dlos[i] + dead[dlos[i]]
+        unknown, accesses = False, []
+        for t, s in outside:
+            if in_dead(s):
+                continue
+            if s in known:
+                accesses.append((t, t + known[s]))
+            else:
+                unknown = True                      # a base of unknown bias: any section, any datum
+        accesses.sort()
+        acc_los = [x[0] for x in accesses]
+        widest = max((b - a for a, b in accesses), default=0)
+
+        def reachable(lo, hi):
+            return unknown or any(b > lo for _, b in accesses[bisect.bisect_left(acc_los, lo - widest):
+                                                              bisect.bisect_left(acc_los, hi)])
+
+        def address_shared(lo, hi):                 # a known access takes no address
+            return unknown
+        owned, why = decide(r, cands, objs, banned, sites, siteset, named, crossing, reachable, address_shared)
+        now = {rlo: v[0] for rlo, v in owned.items() if v[4]}
+        if now == dead:
+            break
+        dead = now
+    nbytes, ndata = collections.Counter(), collections.Counter()
+    for n, reason in why.values():
+        nbytes[reason] += n
+        ndata[reason] += 1
+    return owned, nbytes, ndata
+
+
+def decide(r, cands, objs, banned, sites, siteset, named, crossing, reachable, address_shared):
+    """One plan_own pass over the candidates: (owned, why)."""
     owned, why = {}, {}
     prev_end, prev = -1, None
     for rlo in sorted(cands):
@@ -343,15 +538,22 @@ def plan_own(r, live, refs, by_target, objs, banned=(), sites=()):
             why[rlo] = (n, "extent-differs-between-objects")
         elif rsec is None or r.section_of(rlo + n - 1) != rsec:
             why[rlo] = (n, "outside-retail-section")
-        elif n > OWN_CAP - 1 or n <= 0:
+        elif n <= 0:
+            why[rlo] = (n, "outside-object-section")
+        elif n > OWN_CAP - 1:
             why[rlo] = (n, "too-large")
+        elif crossing(rlo, rlo + n):
+            why[rlo] = (n, crossing(rlo, rlo + n))
+        elif rlo not in named:
+            why[rlo] = (n, "section-symbol-only")
         else:
             w = is_writable(r, rlo, o, sec)
-            shared = w and any(not in_live(s) for s in sites_into(by_target, rlo, rlo + n))
             secs = o[0]
             relocs = [x for x in secs[sec - 1].relocs if lo - 4 < x[0] < lo + n]
-            if shared:
-                why[rlo] = (n, "writable-shared-with-retail-code")
+            if w and reachable(rlo, rlo + n):
+                why[rlo] = (n, "writable-reachable-from-scaffold")
+            elif not w and address_shared(rlo, rlo + n):
+                why[rlo] = (n, "readonly-address-shared")
             elif n >= 4 and table_continues(r, rlo, n, siteset):
                 why[rlo] = (n, "code-pointer-table-continues-in-retail")
             elif any(not lo <= x[0] <= lo + n - 4 or x[2] != bi.DIR32 for x in relocs):
@@ -368,17 +570,7 @@ def plan_own(r, live, refs, by_target, objs, banned=(), sites=()):
                 why[prev] = (owned.pop(prev)[0], "overlaps-other-datum")
         if rlo + n > prev_end:
             prev_end, prev = rlo + n, rlo
-    nbytes, ndata = collections.Counter(), collections.Counter()
-    for n, reason in why.values():
-        nbytes[reason] += n
-        ndata[reason] += 1
-    return owned, nbytes, ndata
-
-
-def sites_into(by_target, lo, hi):
-    """Retail relocation sites whose target lies in [lo, hi)."""
-    keys = by_target[0]
-    return [by_target[1][k] for k in range(bisect.bisect_left(keys, lo), bisect.bisect_left(keys, hi))]
+    return owned, why
 
 
 def target_index(r, sites):
@@ -408,12 +600,13 @@ def datum_pieces(r, owned, objs, ctx):
             add = struct.unpack_from("<i", body, d)[0]
             t2 = r.u32(rlo + d) - bi.RETAIL_BASE
             name = None
-            if 0 < z.sec <= len(secs) and not secs[z.sec - 1].name.startswith(".text"):
-                q2 = z.value + add
-                lo2, n2 = datum_extent(o, z.sec, q2)
-                r2 = t2 - (q2 - lo2)
+            r2, ext = reloc_base(o, z, add, t2)
+            if r2 != t2:                              # for check_semantic: see plan_own
+                ctx.setdefault("biased_refs", {}).setdefault(("datum", rlo), []).append((rlo + d, t2, r2))
+            if ext is not None:
+                lo2, n2 = ext
                 if owned.get(r2, (None,))[0] == n2 and owned[r2][1:4] == (path, z.sec, lo2):
-                    name, inplace = f"_bootd_{r2:08X}", q2 - lo2
+                    name, inplace = f"_bootd_{r2:08X}", z.value + add - lo2
                     ctx["need"][name] = r2
             if name is None and z.sec == 0 and z.name.startswith("__imp_") and t2 in iat:
                 name, inplace = "__imp_" + bi.import_symbol(iat[t2]), 0
@@ -483,13 +676,23 @@ class Spans:
         return None if x is None else x[2] + t - x[0]
 
 
-def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publics):
+def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publics, biased=None):
     """Semantic equivalence of the relaid image with retail, judged from retail alone:
     every relocated field points at the moved copy of retail's target (for authored
     code and owned data: the owned copy when the target is owned data; a branch's
     rel32 counts as a field), every other byte equals retail's, moved units' old
     ranges are int3, scaffold .text keeps one offset, base relocations are exactly
-    the DIR32 fields. Returns (counts, examples, blame {('unit'|'datum', rva): kind})."""
+    the DIR32 fields. Returns (counts, examples, blame {('unit'|'datum', rva): kind}).
+
+    That maps a field by the address it holds, not by the datum it means: `biased`
+    {('unit'|'datum', rva): [(site, retail target, base)]} (bind_unit, datum_pieces)
+    fails every field whose displacement from its base the image does not keep (target
+    and base in different owned data, in pieces moved apart, or either in none), where
+    an index off the address reaches another copy than the one it means. A scaffold
+    field's base and bias are unknown (it may mean any retail address), so its
+    displacement is kept only when every mapped piece has the same offset as its
+    target. The section-wide scaffold-pieces-moved check also refuses shifted
+    scaffold sections."""
     pe = pefile.PE(str(exe))
     img = pe.get_memory_mapped_image()
     new_iat = {}
@@ -544,6 +747,13 @@ def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publi
             if len(bad) < 30:
                 bad.append("%s %#x: %d byte(s) differ" % (cls, p.start, diff))
 
+    def across(cls, who):
+        for site, t, b in (biased or {}).get(who, ()):
+            if u_at(t) is None or u_at(b) is None or u_at(t) - u_at(b) != t - b:
+                c["biased-displacement-differs"] += 1
+                note(cls, False, "%s %#x: target %#x is not %d bytes from the address it means %#x in the image"
+                     % (cls, site, t, t - b, b), who)
+
     def rel(mapper, t):
         return lambda a: None if mapper(t) is None else (mapper(t) - a - 4) & 0xFFFFFFFF
 
@@ -560,12 +770,30 @@ def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publi
             else:
                 out.append((o, kind, lambda a, t=tgt[2], k=kind: None if mapper(t) is None
                             else mapper(t) + (base if k == bi.DIR32 else 0)))
-                if p.unit is None and writable.find(tgt[2]):
+                # (retail's copy of owned writable data is unreachable: plan_own)
+                if p.unit is None and writable.find(tgt[2]) and not writable.find(site):
                     note("scaffold", False, "scaffold %#x refers to owned writable data %#x" % (site, tgt[2]), None)
                     c["owned-writable-referenced-by-retail-code"] += 1
         for s, t in rel32:
             out.append((s - p.start, bi.REL32, rel(mapper, t)))
         return out
+    scaffold_sites = [s for p in scaffold if p.unit is None and p.fill is None
+                      for s, kind, _ in p.relocs if kind == bi.DIR32]
+    known_scaffold = known_accesses(r, sites, bi.function_starts(), scaffold_sites)
+    # An unknown-bias base may address any image section. Its target and every
+    # reachable copy must retain one offset, not merely pass the field check.
+    mapped = [p for p in scaffold + moved + [d[0] for d in datums] if p.fill is None]
+    def scaffold_across(p):
+        for site, kind, tgt in p.relocs:
+            if kind != bi.DIR32 or site in known_scaffold or writable.find(site) or tgt[0] != "piece":
+                continue
+            t = tgt[2]
+            dest = u_at(t)
+            if dest is None or any(u_at(a) is None or u_at(a) - a != dest - t
+                                   for q in mapped for a in (q.start, q.start + q.size - 1)):
+                c["biased-displacement-differs"] += 1
+                note("scaffold", False, "scaffold %#x: unknown bias from %#x has no preserved displacement"
+                     % (site, t), None)
     tstart, _, text = r.secs[".text"]
     moved_ids = {id(p) for p in moved}
     for p in scaffold + moved:
@@ -580,6 +808,7 @@ def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publi
         want = raw[p.start - s0:p.start - s0 + p.size]
         if p.unit is None:
             judge("scaffold", p, want, None, piece_fields(p, smap.at))
+            scaffold_across(p)
             continue
         u = p.unit
         cls = "moved" if id(p) in moved_ids else "inplace"
@@ -594,6 +823,7 @@ def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publi
         dir32 = {x[0] for x in p.relocs}
         judge(cls, p, want, ("unit", u.rva),
               piece_fields(p, u_at, sorted((s, t) for s, t in out.items() if s not in dir32)))
+        across(cls, ("unit", u.rva))
     for p, body, rels in datums:
         s0, _, raw = next(v for v in r.secs.values() if v[0] <= p.start < v[0] + v[1])
         want = raw[p.start - s0:p.start - s0 + p.size]
@@ -610,6 +840,7 @@ def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publi
                 fl.append((s - p.start, bi.DIR32, lambda a, t=t: None if u_at(t) is None else u_at(t) + base))
         c["owned-data-bytes"] += p.size
         judge("owned", p, want, ("datum", p.start), fl)
+        across("owned", ("datum", p.start))
     # scaffold branches that still land in a moved unit's old (int3) range
     redirected = {s for p in scaffold for s, k, _ in p.relocs if k == bi.REL32}
     mspans = Spans([(p.start, p.start + p.size, 0, "m") for p in moved])
@@ -623,6 +854,7 @@ def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publi
     text_pieces = [p for p in scaffold if p.name.startswith(".text")]
     d0 = new[id(text_pieces[0])] - text_pieces[0].start
     c["text-pieces-moved"] = sum(1 for p in text_pieces if new[id(p)] - p.start != d0)
+    c["scaffold-pieces-moved"] = sum(1 for p in scaffold if new[id(p)] - p.start != d0)
     c["units-moved"] = len(moved)
     c["units-moved-at-retail-offset"] = sum(1 for p in moved if new[id(p)] - p.start == d0)
     dd = pe.OPTIONAL_HEADER.DATA_DIRECTORY[5]
@@ -632,7 +864,8 @@ def check_semantic(r, scaffold, moved, datums, branches, sites, exe, base, publi
     c["imports"] = len(new_iat)
     rsrc = next(p for p in scaffold if p.start == r.secs[".rsrc"][0])
     c["resource-dir"] = int(pe.OPTIONAL_HEADER.DATA_DIRECTORY[2].VirtualAddress == new[id(rsrc)])
-    c["entry-ok"] = int(pe.OPTIONAL_HEADER.AddressOfEntryPoint == publics["_boot_entry"])
+    c["entry-ok"] = bi.entry_ok(pe.OPTIONAL_HEADER.AddressOfEntryPoint, r.entry,
+                                [p for p in scaffold + moved if p.fill is None], lambda p: new[id(p)], publics)
     exp = r.pe.OPTIONAL_HEADER.DATA_DIRECTORY[0].VirtualAddress
     c["export-dir"] = int(pe.OPTIONAL_HEADER.DATA_DIRECTORY[0].VirtualAddress == smap.at(exp))
     c["exports"] = len(pe.DIRECTORY_ENTRY_EXPORT.symbols) if hasattr(pe, "DIRECTORY_ENTRY_EXPORT") else 0
@@ -652,17 +885,23 @@ def admit(r, sites, lost, rows, objs, own_data, banned_data):
         live, refused, names = bi.overlay_plan(r, sites, lost, rows, objs, opts)
         return live, refused, names, opts["ctx"], {}, collections.Counter(), collections.Counter()
     by_target = target_index(r, sites)
+    tstart, tsize, _ = r.secs[".text"]
+    known = known_accesses(r, sites, bi.function_starts(), [s for t, s in zip(*by_target)
+                                                            if tstart <= s < tstart + tsize
+                                                            and not tstart <= t < tstart + tsize])
     opts.update(datum_extent=datum_extent, datum_refs={}, defer_data=True, own={})
     live, refused, names = bi.overlay_plan(r, sites, lost, rows, objs, opts)
     owned, nb, nd = {}, collections.Counter(), collections.Counter()
     for _ in range(6):
-        owned, nb, nd = plan_own(r, live, opts["ctx"]["datum_refs"], by_target, objs, banned_data, sites)
+        owned, nb, nd = plan_own(r, live, opts["ctx"]["datum_refs"], by_target, objs, banned_data, sites,
+                                 opts["ctx"].get("biased_refs"), known)
         opts.update(defer_data=False, own={k: v[0] for k, v in owned.items()}, datum_refs={})
         live2, refused, names = bi.overlay_plan(r, sites, lost, rows, objs, opts)
         stable = {u.rva for u in live2} == {u.rva for u in live}
         live = live2
         if stable:
-            again = plan_own(r, live, opts["ctx"]["datum_refs"], by_target, objs, banned_data, sites)[0]
+            again = plan_own(r, live, opts["ctx"]["datum_refs"], by_target, objs, banned_data, sites,
+                             opts["ctx"].get("biased_refs"), known)[0]
             if again.keys() == owned.keys():
                 break
     return live, refused, names, opts["ctx"], owned, nb, nd
@@ -703,6 +942,7 @@ def build_image(base=0x10000000, out=bi.OUT, tag="boot", overlay=(), status=bi.L
         datums = datum_pieces(r, owned, objs, ctx)
         names = dict(names)
         names.update(ctx["need"])
+        names["_boot_entry"] = r.entry               # defined by whichever object holds the entry point
         mspans = Spans([(p.start, p.start + p.size, 0, "m") for p in moved]
                        + [(p.start, p.start + p.size, 0, "d") for p, _, _ in datums])
         inner = {n: a for n, a in names.items() if mspans.find(a)}
@@ -749,7 +989,7 @@ def build_image(base=0x10000000, out=bi.OUT, tag="boot", overlay=(), status=bi.L
             break
         publics = bi.read_publics(out / (tag + ".map"), base)
         counts, bad, blame = check_semantic(r, scaffold, moved, datums, branches, usites, out / (tag + ".exe"),
-                                            base, publics)
+                                            base, publics, ctx.get("biased_refs"))
         report.update(check=counts, check_bad=bad)
         report["check_blame"] = sorted("%s %#x %s" % (k[0], k[1], v) for k, v in blame.items())[:50]
         report["pieces_map"] = [[p.name, p.start, publics[p.public], p.size] for p in scaffold] + \
@@ -871,7 +1111,7 @@ def truncated_table_findings(r, sites, rows, objs, starts=None):
             if not 0 < y.sec <= len(secs) or secs[y.sec - 1].name.startswith(".text"):
                 continue
             q = y.value + struct.unpack_from("<i", data, s.ptr + off)[0]
-            lo, n = datum_extent(u.obj, y.sec, q)
+            lo, n = datum_extent(u.obj, y.sec, q, bi.datum_anchor(u.obj, y, q))
             rlo = r.u32(u.rva + o) - bi.RETAIL_BASE - (q - lo)
             if n < 4 or r.section_of(rlo) is None or rlo + n in starts or                     not table_continues(r, rlo, n, siteset):
                 continue

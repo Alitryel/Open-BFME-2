@@ -472,10 +472,11 @@ def chunk_paths(path, n):
 def write_scaffold(r, pieces, path, names=None):
     """COFF objects (several when the pieces exceed MAX_SECTIONS): one section per
     retail piece, DIR32/DIR32NB relocations against the owning piece's label
-    (addend in place), __imp_ and ___ImageBase externals, `_boot_entry` and a
-    `_bootp_<rva>` public at each piece start. Overlay pieces are not in them: a
-    reference into one names the authored definition, and every name in `names`
-    {name: rva} outside the overlay is defined here at its retail address.
+    (addend in place), __imp_ and ___ImageBase externals, and a `_bootp_<rva>`
+    public at each piece start. Overlay pieces are not in them: a reference into
+    one names the authored definition, and every name in `names` {name: rva}
+    outside the overlay (`_boot_entry` among them, unless an authored unit holds
+    the entry point) is defined here at its retail address.
     Returns (the import symbols referenced, the object paths)."""
     own = [p for p in pieces if p.unit is None]
     chunks = [own[i:i + MAX_SECTIONS] for i in range(0, len(own), MAX_SECTIONS)]
@@ -487,7 +488,6 @@ def write_scaffold(r, pieces, path, names=None):
         if p.unit is None and name not in ABSOLUTE:
             c, k = home[p.start]
             defs[c].append((name, k, rva - p.start + p.pad))
-    entry = next(p for p in own if p.start <= r.entry < p.start + p.size)
     imports, paths = set(), chunk_paths(path, len(chunks))
     for c, chunk in enumerate(chunks):
         syms = Symbols()
@@ -498,8 +498,6 @@ def write_scaffold(r, pieces, path, names=None):
         if c == 0:
             for name in sorted(set(names or ()) & set(ABSOLUTE)):
                 syms.add(name, -1, ABSOLUTE[name])
-        if home[entry.start][0] == c:
-            syms.add("_boot_entry", home[entry.start][1], r.entry - entry.start + entry.pad)
         sections = []
         for p in chunk:
             s0, _, raw = next(v for v in r.secs.values() if v[0] <= p.start < v[0] + v[1])
@@ -595,7 +593,7 @@ def descriptor_libs(dlls, out):
 # binds to an address label (`_boota_<rva>`). Refusals iterate to a fixpoint:
 # a refused unit no longer defines names the others resolved to.
 ABSOLUTE = {"__except_list": 0}         # exsup.asm: an FS: offset, not an address (as link_cycle.py)
-REL32, EXTERNAL, WEAK = 0x14, 2, 105
+REL32, EXTERNAL, STATIC, WEAK = 0x14, 2, 3, 105
 COMDAT = 0x1000
 LINK_STATUS = ROOT / "build" / "link_cycle" / "link_status.csv"
 # byte-true placeholders, not authored code: never overlaid from a path spec
@@ -655,30 +653,65 @@ def overlay_rows(specs, status=LINK_STATUS):
     return [out[k] for k in sorted(out)]
 
 
-def funclet_label(r, o, rva, size):
-    """A funclet row's static `$L` label in a .text$x section whose bytes equal
-    retail's outside relocation fields (an edit to the TU renumbers the label)."""
-    secs, syms, data = o
-    tstart, _, text = r.secs[".text"]
-    want = text[rva - tstart:rva - tstart + size]
-    for y in syms.values():
-        if y.name.startswith("$L") and 0 < y.sec <= len(secs) and secs[y.sec - 1].name == ".text$x":
-            s = secs[y.sec - 1]
-            if y.value + size <= s.size:
-                got = data[s.ptr + y.value:s.ptr + y.value + size]
-                masked = {k for off, _, _ in s.relocs for k in range(off - y.value, off - y.value + 4)}
-                if all(got[k] == want[k] or k in masked for k in range(size)):
-                    return y
-    return None
+def funclet_symbol(row, path, o, pin, target):
+    """(symbol, None) or (None, why) for a funclet row pinned to a `$L` label (an
+    edit to the TU renumbers them), resolved as build.read_funclet resolves it: the
+    label the parent's verified EH data places at the row's RVA; else, unless the
+    label repeats across TUs (which needs that proof), the pin while its bytes still
+    hold retail's `target`; else the one label of the parent's group whose bytes do.
+    A tie, and read_funclet's last resort (whatever the pin names now), are refused.
+    So is a row whose object or parent build cannot read (a ValueError or SystemExit
+    naming the row, its parent, pin, source or object: `funclet-unresolved:<cause>`);
+    one naming none of them (git, the toolchain), and anything else (a missing retail
+    image, ledger or module), is the environment's and propagates."""
+    secs, syms, _ = o
+    try:
+        label = build.located_funclet(row, path, target)
+        scoped = build.scoped_funclet_collision(row)
+        if label is None and not scoped:
+            try:
+                body, relocs = build.read_object_symbol_bytes(path, pin, len(target), code_only=True)
+            except ValueError:                          # the pinned label is gone
+                body, relocs = b"", []
+            if build.holds_funclet(body, relocs, target):
+                label = pin
+            else:
+                hits = build.funclet_candidates(path, row, target)
+                if len(hits) > 1:
+                    return None, f"funclet-ambiguous:{len(hits)}"
+                label = hits[0] if hits else None
+    except (ValueError, SystemExit) as e:              # what read_funclet raises for one row
+        if not any(k in str(e) for k in funclet_keys(row, path, pin)):
+            raise
+        return None, "funclet-unresolved:" + ((str(e).strip().splitlines() or [type(e).__name__])[0][:160])
+    if label is None:
+        return None, "funclet-scoped-unlocated" if scoped else "funclet-unresolved"
+    named = [y for y in syms.values() if y.name == label]
+    if scoped and (len(named) != 1 or named[0].cls != STATIC):
+        return None, "funclet-scoped-not-local"
+    y = next((y for y in named if 0 < y.sec <= len(secs)), None)       # the first definition, as build reads
+    return (y, None) if y is not None else (None, "symbol-not-in-object")
+
+
+def funclet_keys(row, path, pin):
+    """What a per-row funclet failure names: the row, its parent, pin, source or object."""
+    parent = re.search(r"(?:^|;)parent=([^;]+)", row.get("notes", ""))
+    return [k for k in (row["name"], parent and parent[1], pin, row.get("source"), str(path), Path(path).name) if k]
+
+
+FUNCLET_QUORUM = 10     # this many funclet rows, none readable: the EH evidence itself is broken
 
 
 def find_units(r, rows, objs):
     """(units sorted by RVA, refusals [(row, why)]): one unit per object section
     (COMDAT) or funclet slice holding the rows."""
-    tstart, tsize, _ = r.secs[".text"]
+    tstart, tsize, text = r.secs[".text"]
     units, refused = {}, []
+    funclets, placed, errors, failed = 0, 0, [], collections.Counter()
     for row in rows:
         rva, size = int(row["target_rva"], 16), int(row["target_size"] or 0)
+        name = (re.search(r"(?:^|;)object-symbol=([^;]+)", row.get("notes", "")) or [None, row["name"]])[1]
+        funclet = build.is_funclet_row(row, name)
         try:
             p = build.row_object(row)
         except SystemExit:
@@ -686,32 +719,49 @@ def find_units(r, rows, objs):
         o = objs.get(p) if p else None
         if o is None:
             refused.append((row, "no-object"))
+            if funclet:
+                funclets += 1
+                failed["no-object"] += 1
             continue
         secs, syms, _ = o
-        name = (re.search(r"(?:^|;)object-symbol=([^;]+)", row.get("notes", "")) or [None, row["name"]])[1]
-        y = next((y for y in syms.values() if y.name == name and 0 < y.sec <= len(secs)), None)
-        if y is None and "gen-funclet" in row.get("notes", ""):
-            y = funclet_label(r, o, rva, size)
-        if y is None:
-            refused.append((row, "symbol-not-in-object"))
+        if funclet:
+            y, why = funclet_symbol(row, p, o, name, text[rva - tstart:rva - tstart + size])
+            funclets += 1
+            if why and why.startswith("funclet-unresolved:"):
+                cause = why
+                for k in sorted(funclet_keys(row, p, name), key=len, reverse=True):
+                    cause = cause.replace(k, "<row>")
+                errors.append(cause)
+        else:
+            y = next((y for y in syms.values() if y.name == name and 0 < y.sec <= len(secs)), None)
+            why = "symbol-not-in-object"
+        if y is not None:
+            s = secs[y.sec - 1]
+            # a function's COMDAT is the unit; funclets share an associative .text$x COMDAT, one slice each
+            whole = s.flags & COMDAT and y.value == 0 and not s.name.startswith(".text$x")
+            off, n = (0, s.size) if whole else (y.value, size)
+            start = rva - (y.value - off)
+            why = ("not-code" if not s.name.startswith(".text") or not size else
+                   "outside-text" if not (tstart <= start and start + n <= tstart + tsize) else None)
+        if why:
+            refused.append((row, why))
+            if funclet:
+                failed[why.split(":")[0]] += 1
             continue
-        s = secs[y.sec - 1]
-        if not s.name.startswith(".text") or not size:
-            refused.append((row, "not-code"))
-            continue
-        # a function's COMDAT is the unit; funclets share an associative .text$x COMDAT, one slice each
-        whole = s.flags & COMDAT and y.value == 0 and not s.name.startswith(".text$x")
-        off, n = (0, s.size) if whole else (y.value, size)
-        start = rva - (y.value - off)
-        if not (tstart <= start and start + n <= tstart + tsize):
-            refused.append((row, "outside-text"))
-            continue
+        placed += funclet
         # one compiled body may be several retail copies (one name at several RVAs): a unit each,
         # and the name, denoting several addresses, binds by address
         key = (str(p), y.sec, off, start)
         if key not in units:
             units[key] = Unit([], o, str(p), y.sec, off, n, start)
         units[key].rows.append(row)
+    # no funclet row placed, at quorum (whatever the failures) or two or more unresolved for one
+    # cause: the EH evidence is broken, not the rows
+    if funclets and not placed and (funclets >= FUNCLET_QUORUM or
+                                    funclets >= 2 and len(errors) == funclets and len(set(errors)) == 1):
+        raise SystemExit(f"boot_image: none of {funclets} funclet rows could be placed "
+                         f"({', '.join(f'{k} {v}' for k, v in failed.most_common())}; {(errors or ['-'])[0]}); "
+                         "the EH evidence (retail image, ledger, objects) is broken, not the rows")
     return sorted(units.values(), key=lambda u: (u.rva, -u.size, u.rows[0]["name"])), refused
 
 
@@ -748,14 +798,30 @@ def import_entry_names(sym):
     return {bare, re.sub(r"@\d+$", "", bare)}
 
 
-def object_datum(o, sec, q, cap=0x1000):
-    """(start offset, bytes, masked offsets) of the object datum holding section
-    offset q: from the last symbol at or before q to the next one or the section end
-    (at most `cap` bytes)."""
+def is_section_symbol(o, y):
+    return y.cls == STATIC and y.value == 0 and y.name == o[0][y.sec - 1].name
+
+
+def datum_anchor(o, y, q):
+    """The section offset whose datum a reference to symbol y + addend means: y's
+    own offset (table[i - K] still names table, even when q lies before it or in
+    the datum before), or q itself when y is the section symbol (statics the object
+    addresses as section + offset: which datum a biased one means is unknown)."""
+    return q if is_section_symbol(o, y) else y.value
+
+
+def object_datum(o, sec, q, cap=0x1000, at=None):
+    """(start offset, bytes, masked offsets) of the object datum starting at the
+    last symbol at or before `at` (default q, the referenced offset): to the next
+    symbol or the section end (at most `cap` bytes). Empty when `at` lies outside
+    the section."""
     secs, syms, data = o
     s = secs[sec - 1]
+    a = q if at is None else at
+    if not 0 <= a < s.size:
+        return a, b"", set()                             # bind_unit refuses
     offs = section_symbols(o)[1].get(sec, [0])
-    i = bisect.bisect_right(offs, q)
+    i = bisect.bisect_right(offs, a)
     lo = offs[i - 1]
     hi = min(offs[i] if i < len(offs) else s.size, s.size, lo + cap)
     raw = data[s.ptr + lo:s.ptr + hi] if s.ptr else bytes(hi - lo)
@@ -790,17 +856,30 @@ def bind_unit(u, r, ctx):
     differs) as the object says, for its semantic image check to judge; `own`
     {retail start: size} binds references to data the object defines to the
     object's own copy (`_bootd_<rva>`), `defer_data` skips the content comparison,
-    and `datum_refs` collects {unit rva: [(retail start, size, path, section, offset)]}
-    of the data `datum_extent(obj, section, offset) -> (start, size)` delimits."""
+    and `datum_refs` collects {unit rva: [(retail start, size, path, section, offset,
+    bias, by section symbol)]} of the data `datum_extent(obj, section, offset, anchor)
+    -> (start, size)` delimits (bias: the reference's offset from that start;
+    table[i - 10] is -40; a section-symbol reference hides it).
+    With `datum_refs`, ctx["biased_refs"] {("unit", rva): [(site, retail target, base)]}
+    also collects every reference whose retail target is not the address it means
+    (`base`: its datum's start, else target - addend), and a reference whose target
+    and base lie in different owned data (`own`) is refused: bound by either, an
+    index off it would reach the wrong copy."""
     secs, syms, data = u.obj
     defer, own, refs = ctx.get("defer"), ctx.get("own"), ctx.get("datum_refs")
     if refs is not None:
         refs[u.rva] = []
+        biased = ctx.setdefault("biased_refs", {})[("unit", u.rva)] = []
     s = secs[u.sec - 1]
     tstart, _, text = r.secs[".text"]
     body = bytearray(data[s.ptr + u.off:s.ptr + u.off + u.size])
     want = text[u.rva - tstart:u.rva - tstart + u.size]
-    masks, relocs, bind, need = set(), [], collections.Counter(), {}
+    # bytes outside relocation fields first: a wrong slice reports bytes-differ, not the
+    # first relocation it happens to trip over
+    masks = {k for off, _, _ in s.relocs for k in range(off - u.off, off - u.off + 4) if 0 <= k < u.size}
+    if any(body[k] != want[k] for k in range(u.size) if k not in masks):
+        return "bytes-differ"
+    relocs, bind, need = [], collections.Counter(), {}
     for off, si, kind in s.relocs:
         o = off - u.off
         if o + 4 <= 0 or o >= u.size:
@@ -811,7 +890,6 @@ def bind_unit(u, r, ctx):
             return f"reloc-type-{kind:#x}"
         y = syms[si]
         add = struct.unpack_from("<i", body, o)[0]
-        masks.update(range(o, o + 4))
         if kind == DIR32:
             v = struct.unpack_from("<I", want, o)[0]
             if y.sec == 0 and y.name in ABSOLUTE:
@@ -868,12 +946,19 @@ def bind_unit(u, r, ctx):
                 at, name = t, f"_boota_{t:08X}"
                 struct.pack_into("<i", body, o, 0)
                 bind["site-content" if defined else "site"] += 1
-            # data the object defines (and code it defines under no identity) must equal retail's there
-            if refs is not None and defined and not secs[y.sec - 1].name.startswith(".text"):
+            base = t - add                              # the retail address the reference means
+            datum = refs is not None and defined and not secs[y.sec - 1].name.startswith(".text")
+            if datum:
                 q = y.value + add
-                lo, n = ctx["datum_extent"](u.obj, y.sec, q)
-                rlo = t - (q - lo)
-                refs[u.rva].append((rlo, n, u.path, y.sec, lo))
+                lo, n = ctx["datum_extent"](u.obj, y.sec, q, datum_anchor(u.obj, y, q))
+                base = rlo = t - (q - lo)
+                refs[u.rva].append((rlo, n, u.path, y.sec, lo, q - lo, is_section_symbol(u.obj, y)))
+            if refs is not None and t != base:
+                biased.append((u.rva + o, t, base))
+                if owned_span(ctx, t) != owned_span(ctx, base):
+                    return f"biased-across-owned-data:{y.name}"
+            # data the object defines (and code it defines under no identity) must equal retail's there
+            if datum:
                 if (own or {}).get(rlo) == n:           # the object's own copy of its data
                     struct.pack_into("<i", body, o, q - lo)
                     relocs.append((o, kind, f"_bootd_{rlo:08X}"))
@@ -885,7 +970,7 @@ def bind_unit(u, r, ctx):
                     bind["content-deferred"] += 1
             if defined and not (named and secs[y.sec - 1].name.startswith(".text")):
                 q = y.value + add
-                lo, raw, masked = object_datum(u.obj, y.sec, q)
+                lo, raw, masked = object_datum(u.obj, y.sec, q, at=datum_anchor(u.obj, y, q))
                 rlo = t - (q - lo)
                 rsec = r.section_of(rlo)
                 if not raw or rsec is None or r.section_of(rlo + len(raw) - 1) != rsec:
@@ -899,8 +984,6 @@ def bind_unit(u, r, ctx):
                 return f"target-outside-kept-sections:{y.name}"
             relocs.append((o, kind, name))
             need[name] = at
-    if any(body[k] != want[k] for k in range(u.size) if k not in masks):
-        return "bytes-differ"
     dir32 = {u.rva + o for o, k, n in relocs if k == DIR32 and n not in ABSOLUTE}
     sl = ctx["site_list"]
     if any(x not in dir32 for x in sl[bisect.bisect_left(sl, u.rva):bisect.bisect_left(sl, u.rva + u.size)]):
@@ -908,6 +991,16 @@ def bind_unit(u, r, ctx):
     u.body, u.relocs, u.bind = bytes(body), relocs, bind
     ctx["need"].update(need)
     return None
+
+
+def owned_span(ctx, a):
+    """(retail start, size) of the owned datum (ctx["own"]) holding a, or None."""
+    own = ctx.get("own") or {}
+    spans = ctx.get("_own_spans")
+    if spans is None or spans[0] is not own:
+        spans = ctx["_own_spans"] = (own, sorted(own.items()))
+    i = bisect.bisect_right(spans[1], (a, float("inf"))) - 1
+    return spans[1][i] if i >= 0 and a < spans[1][i][0] + spans[1][i][1] else None
 
 
 def unit_names(u):
@@ -1033,6 +1126,14 @@ def read_publics(mapfile, base):
     return out
 
 
+def entry_ok(image_entry, entry, pieces, new_start, publics):
+    """1 when the image's AddressOfEntryPoint is `_boot_entry` and that is the moved
+    copy of retail's entry: the new address (`new_start(piece)`) of the piece holding
+    it plus the entry's offset in the piece. Else 0."""
+    p = next((p for p in pieces if p.start <= entry < p.start + p.size), None)
+    return int(p is not None and image_entry == publics.get("_boot_entry") == new_start(p) + entry - p.start)
+
+
 def check_image(r, pieces, exe, base, publics):
     """Field-by-field equivalence of the linked image with retail: every
     non-relocated byte equal; every relocated field points at the moved copy of
@@ -1089,7 +1190,8 @@ def check_image(r, pieces, exe, base, publics):
     c["baserelocs-extra"] = len(image_fields - fields)
     c["imports"] = len(new_iat)
     c["resource-dir"] = int(pe.OPTIONAL_HEADER.DATA_DIRECTORY[2].VirtualAddress == moved[r.secs[".rsrc"][0]])
-    c["entry-ok"] = int(pe.OPTIONAL_HEADER.AddressOfEntryPoint == publics["_boot_entry"])
+    c["entry-ok"] = entry_ok(pe.OPTIONAL_HEADER.AddressOfEntryPoint, r.entry, pieces, lambda p: moved[p.start],
+                             publics)
     exp = r.pe.OPTIONAL_HEADER.DATA_DIRECTORY[0].VirtualAddress
     c["export-dir"] = int(pe.OPTIONAL_HEADER.DATA_DIRECTORY[0].VirtualAddress == moved[exp])
     c["exports"] = len(pe.DIRECTORY_ENTRY_EXPORT.symbols) if hasattr(pe, "DIRECTORY_ENTRY_EXPORT") else 0
@@ -1152,6 +1254,7 @@ def build_image(base=0x10000000, out=OUT, tag="boot", overlay=(), status=LINK_ST
         ov["specs"] = list(overlay)
     for stale in list(out.glob("scaffold*.obj")) + list(out.glob("overlay*.obj")):
         stale.unlink()
+    names = dict(names, _boot_entry=r.entry)     # defined by whichever object holds the entry point
     used, objs = write_scaffold(r, pieces, out / "scaffold.obj", names)
     if units:
         more, paths = write_overlay(pieces, out / "overlay.obj", names)
@@ -1187,9 +1290,9 @@ def image_ok(rep):
     """The link succeeded and the check found no difference of any kind."""
     chk = rep.get("check", {})
     return rep["link_exit"] == 0 and bool(chk) and not any(
-        chk.get(k) for k in ("reloc-bad", "bytes-differ", "text-pieces-moved", "baserelocs-missing",
-                             "baserelocs-extra")) and all(chk.get(k) == 1 for k in ("entry-ok", "export-dir",
-                                                                                    "resource-dir"))
+        chk.get(k) for k in ("reloc-bad", "bytes-differ", "text-pieces-moved", "scaffold-pieces-moved",
+                             "baserelocs-missing", "baserelocs-extra")) and all(
+        chk.get(k) == 1 for k in ("entry-ok", "export-dir", "resource-dir"))
 
 
 def main(argv=None):
