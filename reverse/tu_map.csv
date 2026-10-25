@@ -2087,27 +2087,27 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0003C110,1078,code,Code/Libraries/Source/debug/debug_stack.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_stack.cpp S=Code/Libraries/Source/debug/debug_stack.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugStackwalk.cpp,Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp
 0x0003C550,465,code-unledgered,,,-,,
 0x0003C730,112,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/DebugCopyToClipboard.cpp
-0x0003C7A0,1044,code,Code/Libraries/Source/debug/debug_except.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_except.cpp S=Code/Libraries/Source/debug/debug_except.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler.cpp,Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionGetType.cpp
-0x0003CBC0,85,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CC20,Code/GameEngine/Source/Common/BfmeConv1305.cpp
+0x0003C7A0,1044,code,Code/Libraries/Source/debug/debug_except.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_except.cpp S=Code/Libraries/Source/debug/debug_except.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler.cpp,Code/Libraries/Source/debug/debug_except.cpp
+0x0003CBC0,85,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CC20,Code/Libraries/Source/debug/debug_except.cpp
 0x0003CC20,39,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CC50,Code/GameEngine/Source/Common/Rva0088D8E0RecordInitialize.cpp
 0x0003CC50,33,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CC80,Code/GameEngine/Source/Common/Rva0088D8E0RecordInitialize.cpp
-0x0003CC80,21,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CCA0,Code/GameEngine/Source/Common/Bfme/Rva008830D0.cpp
-0x0003CCA0,21,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CCC0,Code/GameEngine/Source/Common/Rva0088D910VirtualDispatch.cpp
-0x0003CCC0,21,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CCE0,Code/GameEngine/Source/Common/Rva0088D930VirtualDispatch.cpp
+0x0003CC80,21,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CCA0,Code/Libraries/Source/debug/debug_except.cpp
+0x0003CCA0,21,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CCC0,Code/Libraries/Source/debug/debug_except.cpp
+0x0003CCC0,21,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CCE0,Code/Libraries/Source/debug/debug_except.cpp
 0x0003CCE0,17,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CD00,Code/GameEngine/Source/Common/Rva0089CompactHelpers.cpp
 0x0003CD00,11,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CD10,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_istream.cpp
 0x0003CD10,17,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003C7A0..0x0003CD30,Code/GameEngine/Source/Common/Rva0089CompactHelpers.cpp
-0x0003CD30,635,code,Code/Libraries/Source/debug/debug_except.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_except.cpp S=Code/Libraries/Source/debug/debug_except.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler.cpp,Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler_LogFPURegisters.cpp
+0x0003CD30,635,code,Code/Libraries/Source/debug/debug_except.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_except.cpp S=Code/Libraries/Source/debug/debug_except.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler.cpp,Code/Libraries/Source/debug/debug_except.cpp
 0x0003CFB0,957,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D004,Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp
 0x0003D004,873,code-unledgered,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D380,
 0x0003D380,17,code-unledgered,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D3A0,
 0x0003D3A0,767,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D6A0,Code/Libraries/Source/WWVegas/WWDebug/DebugCopyDialogReport.cpp
-0x0003D6A0,203,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D770,Code/Libraries/Source/WWVegas/WWDebug/AssertCrashDialogProc.cpp
-0x0003D770,107,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D7E0,Code/Libraries/Source/WWVegas/WWDebug/Rva0088E090ResumeOtherThreads.cpp
+0x0003D6A0,203,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D770,Code/Libraries/Source/debug/debug_except.cpp
+0x0003D770,107,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D7E0,Code/Libraries/Source/debug/debug_except.cpp
 0x0003D7E0,139,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D870,Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp
 0x0003D870,9,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003D880,Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp
 0x0003D880,410,code,Code/Libraries/Source/debug/debug_except.cpp,approved,C,C=0x0003CD30..0x0003DA20,Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp
-0x0003DA20,678,code,Code/Libraries/Source/debug/debug_except.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_except.cpp S=Code/Libraries/Source/debug/debug_except.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler.cpp,Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler_LogRegisters.cpp
+0x0003DA20,678,code,Code/Libraries/Source/debug/debug_except.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_except.cpp S=Code/Libraries/Source/debug/debug_except.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler.cpp,Code/Libraries/Source/debug/debug_except.cpp
 0x0003DCD0,1255,code,Code/Libraries/Source/debug/debug_except.cpp,approved,Z,Z=Code/Libraries/Source/debug/debug_except.cpp S=Code/Libraries/Source/debug/debug_except.cpp N=Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler.cpp,Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp
 0x0003E1C0,160,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/DebugRaiseExceptionHook.cpp
 0x0003E260,252,code,,,-,,Code/Libraries/Source/WWVegas/WWDebug/DebugRaiseExceptionHook.cpp
