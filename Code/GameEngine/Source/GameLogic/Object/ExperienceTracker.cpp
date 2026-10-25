@@ -132,6 +132,7 @@ class Rva0028951F
 {
 public:
 	const Overridable *rva002897A8(void *list, int level);	// 0x002897A8
+	const Overridable *rva0028951F(int key);	// 0x0028951F, level by name key
 };
 
 class Rva0039AF76
@@ -233,6 +234,7 @@ public:
 	virtual void d3(void);
 	virtual void virt4(Rva0039B24FInput *input, bool arg2);
 	void rva0039B24F(Rva0039B24FInput *input, bool arg2, bool flag);
+	void rva0039B4B8(const AsciiString &name, bool flag);	// 0x0039B4B8
 
 private:
 	char m_pad04[0x10 - 0x04];
