@@ -30,3 +30,24 @@ build/sol-smudge-ctor-header-after.txt. Remaining whole-file blockers are
 ReleaseResources C2440 (`DX8IndexBufferClass *` to `IndexBufferRef *`),
 ReAcquireResources byte mismatch, and copyRect C1001. Mixed render/probe/math
 files still need the supported split lane. No merge is applied in this commit.
+
+## Release-resources slot view
+
+The fresh ctor trial reproduces C2440 in ReleaseResources when the native
+IndexBufferRef pointer is initialized from the seed header's DX8IndexBufferClass
+slot. Keep that slot's real class name in the donor too, and cast only the local
+view used for its native refcount-prefix operations. Retail proves the slot at
++0x34, count at pointee +4 and zero-count call through vtable slot zero.
+The native body at 0x000A6135 and its EH handler remain byte exact (2/2 rows,
+65-byte body plus 10-byte handler); literals, floats, imports and the frozen-file
+check pass. Receipt: build/sol-smudge-release-build.txt. The old leading
+comment's other-image address/size and unrelated GameFont path were corrected.
+No row, protected register, path consumer or escape-hatch count changes.
+
+Normal `--merge W3DSmudge.cpp --dry-run` now accepts all three files (seed,
+constructor and release resources), preserving ten rows; the only rejected
+whole-file donors are still ReAcquireResources (`bytes`) and copyRect (C1001).
+Receipt: build/sol-smudge-release-after.txt. The original comment about a
+reloaded count was also corrected to the retail decrement/branch sequence.
+This leaves the compatible three-file subset ready for Luna, without changing
+identity ownership or claiming a full subsystem merge.

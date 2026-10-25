@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// W3DSmudgeManager::ReleaseResources, retail 0x00722190, 90 bytes.
+// W3DSmudgeManager::ReleaseResources, retail 0x000A6135, 65 bytes.
 //
 // The lock and unlock at either end are a guard object, not two bare calls:
 // that is what gives the body its SEH frame and the two unwind writes, which
@@ -30,7 +30,7 @@ public:
 	Int m_refCount;							// +0x04
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/GameFont.h
+// Base extent: native index slot at +0x34; upstream class is in GameClient/Smudge.h.
 class SmudgeManager
 {
 public:
@@ -39,6 +39,8 @@ public:
 private:
 	char m_body[0x20];
 };
+
+class DX8IndexBufferClass;
 
 class W3DSmudgeManager : public SmudgeManager
 {
@@ -50,7 +52,7 @@ private:
 	void *m_posBuffer;
 	void *m_RGBABuffer;
 	void *m_sizeBuffer;
-	IndexBufferRef *m_indexBuffer;
+	DX8IndexBufferClass *m_indexBuffer;
 };
 
 // ?ReleaseResources@W3DSmudgeManager@@UAEXXZ
@@ -58,9 +60,9 @@ void W3DSmudgeManager::ReleaseResources(void)
 {
 	BfmeRadarResetLock lock;
 
-	// The handle goes into a local: read through the member the compiler
-	// cannot use the decrement's own flags and reloads the count to test it.
-	IndexBufferRef *indexBuffer = m_indexBuffer;
+	// Keep the seed header's slot type; view only the native refcount prefix.
+	// Retail decrements its count at +4 and calls slot zero when it reaches zero.
+	IndexBufferRef *indexBuffer = reinterpret_cast<IndexBufferRef *>(m_indexBuffer);
 
 	if (indexBuffer)
 	{
