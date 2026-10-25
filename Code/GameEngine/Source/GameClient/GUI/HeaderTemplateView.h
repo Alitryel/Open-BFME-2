@@ -28,6 +28,8 @@ public:
 	HeaderTemplate *findHeaderTemplate(AsciiString name);
 	HeaderTemplate *newHeaderTemplate(AsciiString name);
 	GameFont *getFontFromTemplate(AsciiString name);
+	HeaderTemplate *getFirstHeader();
+	HeaderTemplate *getNextHeader(HeaderTemplate *header);
 	void populateGameFonts();
 	void init();
 	void headerNotifyResolutionChange();
@@ -35,5 +37,6 @@ public:
 	const FieldParse *getFieldParse() const { return m_headerFieldParseTable; }
 private:
 	typedef _STL::list<HeaderTemplate *> HeaderTemplateList;
+	typedef HeaderTemplateList::iterator HeaderTemplateListIt;
 	HeaderTemplateList m_headerTemplateList;
 };
