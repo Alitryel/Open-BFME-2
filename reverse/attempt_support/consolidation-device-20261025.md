@@ -518,3 +518,52 @@ something; SmudgeManagerTestHardwareSupport would lose a matched residual row;
 and W3DDrawModuleDeletingDtors has no definition spelling the ProjectileStream
 row `0x000D144F`. No split was applied. Cross-prefix mixed donors remain outside
 this seat's scope. No identity debt or byte/link improvement is claimed.
+
+### Current-session result
+
+- `FlatHeightMap.cpp` accepted the seed plus `Rva000E10C0.cpp` and
+  `Rva000E1D51Forward.cpp`; the tool repointed 2 function rows and 2 TU-map
+  rows. `./build.sh Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp`
+  passed 38/38 matched rows, 13 string literals, 7 float literals and 29 EH
+  funclet-label checks. `find_declared_unmatched.py` passed. No data rows,
+  header-queue entries, identity keys or hatch counts belonged to those donors;
+  the tool refreshed the TU map/function sources and did not stage other
+  registers. The active path-consumer search found no tool, hook, workflow,
+  include or build-input consumer; source-origin comments and old link-status
+  /attempt evidence are historical. No new link census or COMDAT selection was
+  run, so census bindings remain unmeasured for this move.
+- `FlatHeightMapDoPartialUpdate.cpp` remains rejected with MSVC C1001 at
+  composed TU line 540; `FlatHeightMapOnFrameUpdate.cpp` remains rejected by
+  byte verification. `Rva000E1072.cpp` remains refused because it is keyed in
+  a protected path-keyed register. All were left untouched.
+- `W3DDisplayStringManager.cpp` accepted no donors: the constructor donor
+  reports C2039 (`rva00090381` is not a member of
+  `W3DDisplayStringManager`); the Common destructor donor reports C2065
+  (`m_14` undeclared) and C3861 (`rva0009038` not found).
+- `W3DWaypointBuffer.cpp` accepted no donors: DrawWaypoints reports C2143 at
+  composed TU lines 38 and 56 (missing comma before `&`).
+- After Sol's BibBuffer allocation prerequisite, `W3DBibBuffer.cpp` dry-run
+  accepts its seed and allocation donor. Applying through the merge tool
+  staged a TU whose complete contents were the single token `compile`; the
+  required build then failed C1004 (unexpected EOF). Only this trial's staged
+  source/ledger changes were restored and all acquired claims released. This
+  is handed to Sol as a tool/application false-reject investigation; no code
+  or tool workaround was made.
+
+The pending FlatHeightMap path range was audited across active tools, hooks,
+workflows, includes, build inputs, source registries and path-keyed ledgers.
+The only references outside the new TU are source-origin comments, current
+historical link-status rows, and attempt evidence. The moved owners are code
+rows only; provider/data ownership and header/hatch debt did not change. No
+identity retirement or source-byte recovery is claimed.
+
+The staged code-identity gate reports five new shadow findings in the composed
+TU (`RefCountPtr<FXShader::RenderingMethod>` copy constructor, `Vector3` copy
+constructor, `Matrix3D::operator[]`, `VertexMaterialClass::Add_Ref`, and
+`W3DTreeBuffer::setIsTerrain`). They remain outside the baseline and require
+Sol's separate identity lane; no identity key was retired. `data_check.py
+--staged` reports zero findings for the staged source.
+
+`link_check.py --staged --new-variants --shadow` completed against the fetched
+2026-10-25 census index with 0 recompiles (1 current staged TU) and reported no
+new selected-COMDAT variant. The live census itself is unchanged.
