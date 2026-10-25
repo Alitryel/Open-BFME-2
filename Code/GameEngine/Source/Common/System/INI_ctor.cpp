@@ -79,7 +79,3 @@ INI::INI()
 	m_buffer[0] = 0;
 	m_curBlockStart[0] = 0;
 }
-
-INI::~INI()
-{
-}
