@@ -8,7 +8,7 @@
 struct Rva002B47B1Elem
 {
 	char m_pad[0x40];
-	int m_cash40;
+	int m_startingMoney;
 };
 class LivingWorldCampaignManager
 {
@@ -25,5 +25,5 @@ class LivingWorldLogic { public: int getStartingMoney(); };
 int LivingWorldLogic::getStartingMoney()
 {
 	LivingWorldCampaignManager *campaignManager = ((LivingWorldCampaignManager *)TheCampaignManager);
-	return campaignManager->m_array14[campaignManager->m_index10]->m_cash40;
+	return campaignManager->m_array14[campaignManager->m_index10]->m_startingMoney;
 }
