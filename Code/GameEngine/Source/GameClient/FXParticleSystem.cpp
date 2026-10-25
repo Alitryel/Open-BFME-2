@@ -1725,8 +1725,24 @@ class DefaultModuleTemplate : public ModuleTemplate, public SecondaryModuleBase,
 
 FX_DEFAULT_TEMPLATE_SPEC(0, DefaultColorModuleInfo)
 FX_DEFAULT_TEMPLATE_SPEC(1, DefaultAlphaModuleInfo)
-FX_DEFAULT_TEMPLATE_SPEC(2, DefaultUpdateModuleInfo)
-FX_DEFAULT_TEMPLATE_SPEC(3, DefaultPhysicsModuleInfo)
+// Categories 2 and 3 also declare the destructor: this unit's vector deleting
+// destructors for DefaultModuleTag<3>/<2> would otherwise emit their own copies
+// of it, and FXParticleSystemDefaultTemplateDtor.cpp owns retail's (0x003A6201).
+#define FX_DEFAULT_TEMPLATE_SPEC_DECLARED_DTOR(CATEGORY, INFO) \
+    template <> \
+    class DefaultModuleTemplate<CATEGORY> : public ModuleTemplate, public SecondaryModuleBase, \
+                                            public INFO \
+    { \
+    public: \
+        virtual ~DefaultModuleTemplate(); \
+    }; \
+    typedef DefaultModuleTemplate<CATEGORY> &(DefaultModuleTemplate<CATEGORY>::* \
+        DefaultModuleTemplate##CATEGORY##Assign)(const DefaultModuleTemplate<CATEGORY> &); \
+    DefaultModuleTemplate##CATEGORY##Assign g_defaultModuleTemplate##CATEGORY##Assign = \
+        &DefaultModuleTemplate<CATEGORY>::operator=;
+
+FX_DEFAULT_TEMPLATE_SPEC_DECLARED_DTOR(2, DefaultUpdateModuleInfo)
+FX_DEFAULT_TEMPLATE_SPEC_DECLARED_DTOR(3, DefaultPhysicsModuleInfo)
 
 template <int CATEGORY>
 class DefaultModuleTag
@@ -1768,6 +1784,9 @@ class OrthoEmissionVelocityModuleTemplate : public ModuleTemplate, public Second
 public:
     OrthoEmissionVelocityModuleTemplate();
     OrthoEmissionVelocityModuleTemplate(const OrthoEmissionVelocityModuleTemplate &that);
+    // Declared for the same reason as categories 2 and 3 above: retail's body is
+    // FXParticleSystemDefaultTemplateDtor.cpp's 0x003A6201.
+    virtual ~OrthoEmissionVelocityModuleTemplate();
 };
 
 typedef ConcreteModuleTemplate<OrthoEmissionVelocityModuleTag> OrthoEmissionVelocityConcrete;
