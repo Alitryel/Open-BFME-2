@@ -6,66 +6,7 @@
 // The old no-boundary verdict confused instruction addresses; the native
 // body starts with 55 8B EC and ends with 5F 5E 5D C2 04 00.
 #include "../../../../../../reference/shims/bfme_matrix3d_copy_link/matrix3d_copy_link.h"
-enum UpdateSleepTime { FOREVER=0x3fffffff };
-class Thing {public:void setTransformMatrix(const Matrix3D*);const Matrix3D*getTransformMatrix()const{return(const Matrix3D*)((const char*)this+8);}};
-class DamageInfo;
-struct ModuleData
-{
-    char pad[0x4C];
-    unsigned int sinkDuration;
-};
-class ObjectModule
-{
-public:
-    virtual ~ObjectModule();
-protected:
-    const ModuleData *m_moduleData;
-    void *m_object;
-};
-class BehaviorModuleInterface
-{
-public:
-    virtual void slot0();
-};
-class BehaviorModule : public ObjectModule, public BehaviorModuleInterface {};
-class UpdateModuleInterface
-{
-public:
-    virtual UpdateSleepTime update() = 0;
-};
-class UpdateModule : public BehaviorModule, public UpdateModuleInterface
-{
-    char pad14[0xC];
-};
-class DieModuleInterface
-{
-public:
-    virtual void onDie(const DamageInfo *) = 0;
-};
-class SlowDeathBehaviorInterface
-{
-public:
-    virtual void beginSlowDeath(const DamageInfo *) = 0;
-};
-class SlowDeathBehavior : public UpdateModule, public DieModuleInterface,
-                          public SlowDeathBehaviorInterface
-{
-public:
-    virtual void beginSlowDeath(const DamageInfo *);
-    virtual UpdateSleepTime update();
-private:
-    char pad28[0x28];
-};
-class ShipSlowDeathBehavior : public SlowDeathBehavior
-{
-public:
-    virtual void beginSlowDeath(const DamageInfo *);
-    virtual UpdateSleepTime update();
-private:
-    float m_pitchRate;
-    float m_rollRate;
-    float m_rotation;
-};
+#include "ShipSlowDeathBehaviorView.h"
 int GetGameLogicRandomValue(int, int, char *, int);
 
 void ShipSlowDeathBehavior::beginSlowDeath(const DamageInfo *damage)
