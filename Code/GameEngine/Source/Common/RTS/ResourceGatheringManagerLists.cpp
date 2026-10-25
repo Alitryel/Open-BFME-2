@@ -61,7 +61,10 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 }
 
 
-typedef unsigned int ObjectID;
+// Use the signed list payload already required by the verified insertion owner
+// in ResourceGatheringManagerAdd.cpp (push_back at retail RVA 0x0005548F).
+// Equality-only removal retains its native instructions with this declaration.
+typedef int ObjectID;
 
 // Only Object::getID() is reachable from these bodies; the id lives at retail
 // Object+0x74.

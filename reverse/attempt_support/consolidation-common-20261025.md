@@ -155,3 +155,16 @@ snapshot. Other stem hits name unchanged symbols, structural evidence and WB
 name leads; they do not consume the removed files. No active tools, hooks,
 workflows, includes, build inputs or registries need updating. Generic source
 discovery still includes the destinations; no source directory was moved.
+
+## ResourceGatheringManager prerequisite
+
+The first trial accepted only the removal-list fragment. Its ObjectID typedef
+was unsigned while the already-verified insertion owner uses int and binds the
+signed list push_back at 0x0005548F. Class-view inspection found eleven views
+and no registered canonical header. Changing only the removal fragment's
+typedef to int aligns its identical list field layout with the insertion owner;
+the two equality-only removal bodies still pass 2/2 byte checks (118B).
+The declared-unmatched check passes. No names, pins, layouts or flags changed.
+
+This prerequisite adds no path changes or consumers. The combined eleven-path
+audit through the TunnelTracker merge remains applicable to the pending batch.
