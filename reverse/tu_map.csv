@@ -6779,7 +6779,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000E70D9,103,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,N,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E70D9.cpp
 0x000E7140,371,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,N,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp
 0x000E72B3,283,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,N,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E72B3.cpp
-0x000E73CE,46,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E72B3..0x000E73FC,Code/GameEngine/Source/Common/Rva000E73CE.cpp
+0x000E73CE,46,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E72B3..0x000E73FC,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp
 0x000E73FC,301,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E72B3..0x000E7529,Code/GameEngine/Source/Common/Rva000E73FCCopy.cpp
 0x000E7529,29,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E72B3..0x000E7546,Code/GameEngine/Source/Common/VtableSlotBodiesR3.cpp
 0x000E7546,175,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E72B3..0x000E75F5,
@@ -6788,7 +6788,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000E771B,25,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E75F5..0x000E7734,Code/GameEngine/Source/Common/Rva000E771BCtor.cpp
 0x000E7734,780,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E75F5..0x000E7A40,
 0x000E7A40,196,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,N,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7A40.cpp
-0x000E7B04,59,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E7A40..0x000E7B3F,Code/GameEngine/Source/Common/Rva000E7B04.cpp
+0x000E7B04,59,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E7A40..0x000E7B3F,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp
 0x000E7B3F,692,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,N,N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUpdateTexture.cpp
 0x000E7DF3,1394,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E7B3F..0x000E8365,
 0x000E8365,753,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp,approved,C,C=0x000E7B3F..0x000E8656,
@@ -6806,7 +6806,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000E9C0F,6,code,,,-,,Code/GameEngine/Source/Common/W3DDrawNameGetters.cpp
 0x000E9C15,8,code,,,-,,Code/GameEngine/Source/Common/DispByteOneSetters.cpp
 0x000E9CDF,28,code,,,-,,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB01.cpp
-0x000E9CFB,29,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000E9BACSetter.cpp
+0x000E9CFB,29,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBuffer.cpp
 0x000E9D18,228,code-unledgered,,,-,,
 0x000E9DFC,7,code,,,-,,Code/GameEngine/Source/Common/Disp32FloatGetters.cpp
 0x000E9E27,204,code,,displaced,-,N=Code/GameEngine/Source/GameLogic/Object/Behavior/Matrix3D.cpp,Code/GameEngine/Source/GameLogic/Object/Behavior/Matrix3DO1Inlines.cpp
