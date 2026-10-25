@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /MD /Oy-
+// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Include/GameLogic
+// stlport
 // ?rva0047CA4D@Rva0047CA4D@@QAE_NPAVObject@@HH@Z, retail 0x0047CA4D, 142 bytes.
 // Evidence: slot38-shape leaf like the matched 0x0047BA69 row (Object::testStatus
 // 0x0004E536 STATUS_62 refusal, this-0x18 Object / this-0x1c table base,
@@ -10,6 +11,9 @@
 // count/player refusals fall back to TransportContain::slot38 pin 0x00466EDE.
 // Honest address name; the owning class is unproven (a HordeSiegeEngineContain
 // slot is suspected from the matched slot53 row at the next address 0x0047CADB).
+
+// ContainmentList for the HordeTransportContain view shared with HordeSiegeEngineContain.cpp.
+#include "ContainmentListView.h"
 
 enum ObjectStatusTypes
 {
@@ -33,16 +37,40 @@ class BfmeTab1026 : public Rva2225E0Filter
 {
 public:
 };
-class TransportContain
+class ModuleData;
+// OpenContain / TransportContain as HordeSiegeEngineContain.cpp declares them.
+class OpenContain
 {
 public:
+	virtual void onDelete();
+
+protected:
+	const ModuleData *m_moduleData;
+	Object *m_object;
+	unsigned char m_padding0C[0x100 - 0x0C];
+};
+
+// Virtuals below are the ones this unit's bodies call by qualified name; their
+// relative slot order is not asserted (no vtable is emitted from this view).
+class TransportContain : public OpenContain
+{
+public:
+	virtual void onContaining(Object *rider, bool wasSelected);
 	virtual bool slot38(Object *obj, int a, int b);
+
+private:
+	unsigned char m_padding100[0x11C - 0x100];
 };
 // 0x004771EB is rowed as HordeTransportContain::isValidContainerFor.
-class HordeTransportContain
+class HordeTransportContain : public TransportContain
 {
 public:
-	virtual bool isValidContainerFor(Object *obj, bool a, bool b);
+	void rva00463A4D(ContainmentList riders, int arg);	// 0x00463A4D
+	void redeployOccupants();					// 0x00477513
+	virtual bool isValidContainerFor(Object *obj, bool a, bool b);	// 0x004771EB
+
+private:
+	unsigned char m_padding11C[0x128 - 0x11C];
 };
 class Rva0047CA4D
 {
