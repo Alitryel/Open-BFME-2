@@ -34,3 +34,48 @@ repointing. Upstream-only path changes in the divergent tip comparison are not
 outgoing moves (confirmed with the merge-base diff and outgoing commit list).
 No merge, file reduction, debt retirement, new hatch or recovered C++ bytes.
 Keep the seed file claim until publication, then release it.
+
+## Applied consolidation update (2026-10-25)
+
+The scoped merge is now applied. `tu_skeleton.py --merge` accepted the seed and
+three unchanged donors, moving six matched rows into FlammableUpdate.cpp and
+removing these fragments:
+
+- GameLogic/Object/Update/Rva0048C8C6Ctor.cpp
+- Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0048C84C.cpp
+- Libraries/Source/WWVegas/WWLib/StlSweepW6Rva0048C872.cpp
+
+Verification: `./build.sh FlammableUpdate.cpp` passed all 6/6 matched rows;
+`find_declared_unmatched.py` passed with 5 already-unclaimed definitions;
+`tu_ownership.py --staged --shadow`, `code_identity_gate.py --staged` (6 rows,
+0 new findings), `data_check.py --staged` (0 findings), `check_csv.py`, and
+`git diff --cached --check` passed. The planner snapshot was regenerated and
+`--check build/consolidation` passed (5,447 source files). No identity or data
+keys were retired. Existing FlammableUpdatePoolKey data debt and the OneRing
+Coord3D header queue item remain for Sol; the protected Flammable donors remain
+unmoved.
+
+Rejected donor evidence for Sol: `FlammableUpdateXfer.cpp` fails with C2011
+`Xfer` redefinition at `BfmeXfer.h(19)` and C2011 `AudioManager` redefinition
+in the composed TU; `FlammableUpdate_doAflameDamage.cpp` fails C2084 (duplicate
+`FlammableUpdate::doAflameDamage` body); `FlammableUpdateRva0048C7BF.cpp` fails
+C2039 (`rva0048C7BF` is not a member of `FlammableUpdate`); `Rva0048CACCAccumulate.cpp`
+fails C2065 (`OS_A` undeclared) and C2039 (`rva0048C8F9` is not a member);
+`CameraMarkerVecErase.cpp` fails C2011 (`_STL::random_access_iterator_tag`
+redefinition); `FlammableUpdateModuleDataDtor.cpp` is rejected on bytes; and
+`FlammableUpdateModuleDataCtor.cpp` fails C2614 (`m_damageType` is not a member
+of `FlammableUpdateModuleData`). Protected-register and mixed donors were left
+untouched. The separate AssaultTransport dry run accepted no donors; its
+unmodified rejections include C2039 `Rva0048F365Helper` missing from the class,
+C2011 `Xfer` redefinition at `BfmeXfer.h(19)`, and C2065 `m_object08`
+undeclared.
+
+Tooling compatibility audit covered the complete outgoing path range
+`origin/master..HEAD` plus staged moves: BfmeConv987.cpp to
+OneRingPenaltyUpdate.cpp (inherited, previously audited) and the three absorbed
+Flammable fragments above. Searches of tools, hooks, workflows, source/header
+includes, build inputs, registries and docs found no active path consumer needing
+a manual repoint. `reverse/link_status.csv`, `reverse/re_attempts.log`, source
+provenance comments and attempt evidence retain historical old-path references;
+these were preserved. `reverse/header_queue.tsv` still has the existing OneRing
+Coord3D item, and `reverse/ms_header_queue.tsv` has no entries for these paths.

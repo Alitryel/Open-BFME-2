@@ -1,9 +1,129 @@
-// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/dockupdate /MD /O1 /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfmefrustum
+// cl: /FIzh_ascii.h /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE -D_STLP_USE_STATIC_LIB -DNDEBUG -DWIN32 -D_WINDOWS /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/dockupdate /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene /Ireference/shims/bfmefrustum /Ireference/shims/moduledata /ICode/GameEngine/Include
 // stlport
+// TU Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
+#define Matrix4x4 Matrix4  // BFME renamed it
+#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "Common/AudioEventRTS.h"
+#include "Common/GameAudio.h"
+#include "Common/Xfer.h"
+#include "GameLogic/GameLogic.h"
+#include "GameLogic/Object.h"
+#include "GameLogic/Module/BodyModule.h"
+#include "GameLogic/Module/FlammableUpdate.h"
+#include "GameLogic/Module/FireSpreadUpdate.h"
+#pragma inline_depth(0)
+#pragma inline_depth()
+#include <vector>
+#include "ascii_string.h"
+
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp); this unit had no counterpart under Code/.
 extern class GameLogic *TheGameLogic;
 
-#define Matrix4x4 Matrix4  // BFME renamed it
+// BFME2 reads the GameLogic frame at +0x40, four past the reference header's
+// +0x3C (DeletionUpdate_calcSleepDelay precedent). TU-local view so the shared
+// header stays untouched; every getFrame site below wants the retail offset.
+class FlammableGameLogic
+{
+public:
+	UnsignedInt getFrame() const { return m_frame; }
+
+private:
+	unsigned char m_pad[ 0x40 ];
+	UnsignedInt m_frame;
+};
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+// BFME m_audioHandle at +0x34; removeAudioEvent at AudioManager vtable +0x6c (retail call [edx+0x6c]).
+class AudioManager_RemoveSlot {
+public:
+	virtual void _pad0(void) = 0;
+	virtual void _pad1(void) = 0;
+	virtual void _pad2(void) = 0;
+	virtual void _pad3(void) = 0;
+	virtual void _pad4(void) = 0;
+	virtual void _pad5(void) = 0;
+	virtual void _pad6(void) = 0;
+	virtual void _pad7(void) = 0;
+	virtual void _pad8(void) = 0;
+	virtual void _pad9(void) = 0;
+	virtual void _pad10(void) = 0;
+	virtual void _pad11(void) = 0;
+	virtual void _pad12(void) = 0;
+	virtual void _pad13(void) = 0;
+	virtual void _pad14(void) = 0;
+	virtual void _pad15(void) = 0;
+	virtual void _pad16(void) = 0;
+	virtual void _pad17(void) = 0;
+	virtual void _pad18(void) = 0;
+	virtual void _pad19(void) = 0;
+	virtual void _pad20(void) = 0;
+	virtual void _pad21(void) = 0;
+	virtual void _pad22(void) = 0;
+	virtual void _pad23(void) = 0;
+	virtual void _pad24(void) = 0;
+	virtual void _pad25(void) = 0;
+	virtual void _pad26(void) = 0;
+	virtual void removeAudioEvent( void *handle ) = 0;
+};
+
+//
+// 0x0048C84C (38B): STLport's __uninitialized_copy loop over 0x8-byte records.
+// Each element goes through the placement copy at 0x0048C81F, which the ledger owns
+// as Rva0048C81FConstruct: retail keeps several identical placement copies apart (each with
+// its own EH data), so they and this loop carry address names rather than a
+// template over an element type nobody has recovered. The tag argument is
+// pushed by the caller and never read.
+
+namespace _STL { struct __false_type; }
+
+struct TreeKey00242F5E
+{
+	unsigned char m_bytes[0x8];
+};
+
+void Rva0048C81FConstruct(TreeKey00242F5E *dest, const TreeKey00242F5E &source);
+
+// STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
+// Element identity and unconstrained fields remain address-derived structural inference.
+
+// The native loop proves an eight-byte stride and calls the already verified
+// placement-copy owner directly. Keep only that neutral footprint here;
+// original element identity and the provider's inherited type view are unknown.
+struct Rva0048C872Element { unsigned words[2]; };
+
+struct TreeKey00242F5E;
+
+void Rva0048C81FConstruct(TreeKey00242F5E *, const TreeKey00242F5E &);
+
+namespace _STL {
+// TU-local forwarding glue; its discardable out-of-line copy has no retail entry.
+// ?_STL::_Construct absent-from-retail
+static __forceinline void _Construct(Rva0048C872Element *destination,
+                                    const Rva0048C872Element &value)
+{
+    Rva0048C81FConstruct(reinterpret_cast<TreeKey00242F5E *>(destination),
+        *reinterpret_cast<const TreeKey00242F5E *>(&value));
+}
+}
+
+// Instantiate the recovered operation and its required template dependencies.
+template Rva0048C872Element * _STL::__uninitialized_fill_n<Rva0048C872Element *, unsigned int, Rva0048C872Element>(Rva0048C872Element *, unsigned int, Rva0048C872Element const &, _STL::__false_type const &);
+
+// ??0Rva0048C8C6@@QAE@XZ @0x0048C8C6 23B
+// Evidence: and [esi],0 then StringBase(PBD) at +4 with g_Rva0107301CEmptyString; caller 0x0048D671; neighbours stlport_copy_camera_marker and FlammableUpdateDtor.
+
+class Rva0048C8C6
+{
+public:
+	Rva0048C8C6();
+private:
+	int m_00;
+	AsciiString m_04;
+};
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp
+
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -34,30 +154,6 @@ extern class GameLogic *TheGameLogic;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
-
-#include "Common/AudioEventRTS.h"
-#include "Common/GameAudio.h"
-#include "Common/Xfer.h"
-
-#include "GameLogic/GameLogic.h"
-#include "GameLogic/Object.h"
-#include "GameLogic/Module/BodyModule.h"
-#include "GameLogic/Module/FlammableUpdate.h"
-#include "GameLogic/Module/FireSpreadUpdate.h"
-
-// BFME2 reads the GameLogic frame at +0x40, four past the reference header's
-// +0x3C (DeletionUpdate_calcSleepDelay precedent). TU-local view so the shared
-// header stays untouched; every getFrame site below wants the retail offset.
-class FlammableGameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-
-private:
-	unsigned char m_pad[ 0x40 ];
-	UnsignedInt m_frame;
-};
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/FlammableUpdateModuleDataCtorThunk.cpp
@@ -127,40 +223,6 @@ void FlammableUpdate::doAflameDamage()
 	getObject()->attemptDamage( &info );
 }
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-// BFME m_audioHandle at +0x34; removeAudioEvent at AudioManager vtable +0x6c (retail call [edx+0x6c]).
-class AudioManager_RemoveSlot {
-public:
-	virtual void _pad0(void) = 0;
-	virtual void _pad1(void) = 0;
-	virtual void _pad2(void) = 0;
-	virtual void _pad3(void) = 0;
-	virtual void _pad4(void) = 0;
-	virtual void _pad5(void) = 0;
-	virtual void _pad6(void) = 0;
-	virtual void _pad7(void) = 0;
-	virtual void _pad8(void) = 0;
-	virtual void _pad9(void) = 0;
-	virtual void _pad10(void) = 0;
-	virtual void _pad11(void) = 0;
-	virtual void _pad12(void) = 0;
-	virtual void _pad13(void) = 0;
-	virtual void _pad14(void) = 0;
-	virtual void _pad15(void) = 0;
-	virtual void _pad16(void) = 0;
-	virtual void _pad17(void) = 0;
-	virtual void _pad18(void) = 0;
-	virtual void _pad19(void) = 0;
-	virtual void _pad20(void) = 0;
-	virtual void _pad21(void) = 0;
-	virtual void _pad22(void) = 0;
-	virtual void _pad23(void) = 0;
-	virtual void _pad24(void) = 0;
-	virtual void _pad25(void) = 0;
-	virtual void _pad26(void) = 0;
-	virtual void removeAudioEvent( void *handle ) = 0;
-};
 void FlammableUpdate::stopBurningSound()
 {
 	struct AudioHandleField {
@@ -195,7 +257,9 @@ void FlammableUpdate::crc( Xfer *xfer )
 	// extend base class
 	UpdateModule::crc( xfer );
 
-}  // end crc
+}
+
+  // end crc
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
@@ -215,14 +279,85 @@ void FlammableUpdate::loadPostProcess( void )
 	// extend base class
 	UpdateModule::loadPostProcess();
 
-}  // end loadPostProcess
+}
+
+  // end loadPostProcess
 
 // ?forceFlammableOnBodyDamageStateChange@@YAXPAVFlammableUpdate@@@Z absent-from-retail
 // This empty inline virtual only gets an out-of-line copy when something in the
-// TU needs one; a qualified call with inlining off is the smallest way to ask.
-#pragma inline_depth(0)
+
 void forceFlammableOnBodyDamageStateChange(FlammableUpdate *flammableUpdate)
 {
 	flammableUpdate->FlammableUpdate::onBodyDamageStateChange(NULL, BODY_PRISTINE, BODY_PRISTINE);
 }
-#pragma inline_depth()
+
+// tu-skeleton: 0x0048C582 205B ?xfer@FlammableUpdate@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C64F 138B ??0FlammableUpdate@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C6D9 6B ?GetSnapshotName@FlammableUpdate@@MBEPBDXZ -- matched in Code/GameEngine/Source/Common/ConstIntGetters4.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C6DF 69B ?getModuleNameKey@FlammableUpdate@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdatePoolKey.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C724 77B ??1FlammableUpdate@@UAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C771 78B ?doAflameDamage@FlammableUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate_doAflameDamage.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C7BF 96B ?rva0048C7BF@FlammableUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateRva0048C7BF.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C81F 45B ?Rva0048C81FConstruct@@YAXPAUTreeKey00242F5E@@ABU1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_game_structs.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0048C84C.cpp
+
+TreeKey00242F5E *Rva0048C84CUninitializedCopy(const TreeKey00242F5E *first, const TreeKey00242F5E *last, TreeKey00242F5E *result,
+	const _STL::__false_type &)
+{
+	TreeKey00242F5E *cur = result;
+	for (; first != last; ++first, ++cur)
+		Rva0048C81FConstruct(cur, *first);
+	return cur;
+}
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW6Rva0048C872.cpp
+
+// Expose the local overload when the reference template is parsed.
+
+// tu-skeleton: 0x0048C897 47B ??$__copy@PAUCameraMarker@@PAU1@H@_STL@@YAPAUCameraMarker@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_copy_camera_marker.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/Rva0048C8C6Ctor.cpp
+
+Rva0048C8C6::Rva0048C8C6() : m_00(0), m_04("")
+{
+}
+
+// tu-skeleton: 0x0048C8DD 28B ??_GFlammableUpdate@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048C8F9 467B ?rva0048C8F9@FlammableUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048CACC 76B ?rva0048CACC@Rva0048CACC@@QAEXPAURva0048CACCArg@@@Z -- matched in Code/GameEngine/Source/Common/Rva0048CACCAccumulate.cpp (not merged yet)
+
+// tu-skeleton: 0x0048CB18 781B ?tryToIgnite@FlammableUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048CE25 25B ??$_Destroy@PAVCameraMarker@@@_STL@@YAXPAVCameraMarker@@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp (not merged yet)
+
+// tu-skeleton: 0x0048CE3E 453B ?onDamage@FlammableUpdate@@UAEXPAVDamageInfo@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D003 63B ??1CameraMarkerVec@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorChains.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D042 51B ?erase@CameraMarkerVec@@QAEPAVCameraMarker@@PAV2@0@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/CameraMarkerVecErase.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D075 73B ??1FlammableUpdateModuleData@@UAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateModuleDataDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D0BE 977B ?update@FlammableUpdate@@UAE?AW4UpdateSleepTime@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D48F 178B ?_M_insert_overflow@?$vector@URva0048D48FRecord@@V?$allocator@URva0048D48FRecord@@@_STL@@@_STL@@IAEXPAURva0048D48FRecord@@ABU3@ABU__false_type@2@I_N@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva0048D48F.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D541 203B ??0FlammableUpdateModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateModuleDataCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D60C 28B ??_GFlammableUpdateModuleData@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateModuleDataDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D628 55B ?push_back@?$vector@URva0048D628Record@@V?$allocator@URva0048D628Record@@@_STL@@@_STL@@QAEXABURva0048D628Record@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D65F 203B ?Rva0048D65FParse@@YAXPAVINI@@PAX1PBX@Z -- matched in Code/GameEngine/Source/Common/INI/INILevelUpFxParse.cpp (not merged yet)
+
+// tu-skeleton: 0x0048D72A 17B ?buildFieldParse@FlammableUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/ModuleDataBuildFieldParse.cpp (not merged yet)
