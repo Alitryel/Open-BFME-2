@@ -55,8 +55,8 @@ void Rva005B1A07::rva005B1A07(unsigned int index, BfmePod20 val)
 		return;
 	}
 	int e2 = *(volatile int *)&m_4;
-	int c2 = (e2 - beginAddress) / 20;
-	unsigned int need = index - (unsigned int)c2;
+	int currentSize = (e2 - beginAddress) / 20;
+	unsigned int need = index - (unsigned int)currentSize;
 	((_STL::vector<BfmePod20> *)this)->_M_fill_insert((BfmePod20 *)e2, need, val);
 }
 
