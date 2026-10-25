@@ -207,3 +207,26 @@ with empty diagnostics. It then waited for other index-building threads;
 the read-only diagnostic was interrupted once the failure was established.
 No queue or gate was edited. The prior three-move consumer audit remains
 current for this prerequisite, which introduces no additional path change.
+
+
+## FullFade coordinate and base view prerequisite
+
+The private donor used four adjacent integers where the destination uses the
+canonical eight-byte ICoord2D at +0x18/+0x20. Reconciled it to the existing
+destination base, virtual declarations and coordinate fields, and rewrote only
+the coordinate accesses. The existing color helper now has the destination's
+identical expression. Both private W3DDisplay declarations expose the already
+rowed rva0004D6B3 and rva0008EEF0 callables, with an Image forward declaration.
+No global, flag, callable target, pin or hatch changes. No external donor
+layout/name is claimed as target evidence. Both complete FullFade bodies
+(114-byte update, 197-byte draw) and all eight destination rows freshly verify;
+frozen-body checks pass. The supported dry run accepts the seed plus FullFade
+and TextOnFrame initializer, preserving eleven rows.
+
+Claimed the exact FullFade draw at 0x0035F369; an accidentally requested
+0x0035EA05 and its automatically attached Common file claim were released
+immediately without editing either source. Before this prerequisite's publish
+call, fetched origin and confirmed the prior three pending moves have no new
+active path consumers. The prospective five-path audit also finds only the
+redundant macro queue rows, historical records and source comments. No further
+path is removed in this prerequisite commit.

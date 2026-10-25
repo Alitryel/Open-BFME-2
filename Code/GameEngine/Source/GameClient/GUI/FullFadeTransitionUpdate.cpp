@@ -8,6 +8,8 @@
 // m_endFrame/2, then m_drawState (+0x2c) is frame. winHide stays out-of-line
 // (declared-only, rowed at 0x00313C64).
 
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+
 typedef int Int;
 typedef bool Bool;
 
@@ -19,9 +21,10 @@ typedef bool Bool;
 typedef unsigned char UnsignedByte;
 typedef int Color;
 
-inline Color GameMakeColor(UnsignedByte red, UnsignedByte green, UnsignedByte blue, UnsignedByte alpha)
+inline Int GameMakeColor(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
 {
-	return (alpha << 24) | (red << 16) | (green << 8) | (blue);
+	return ((unsigned int)alpha << 24) | ((unsigned int)red << 16) |
+		((unsigned int)green << 8) | blue;
 }
 
 class GameWindow
@@ -39,35 +42,45 @@ public:
 	void rva0004263F(float a, float b, float c, float d, int color);
 };
 
+class Image;
+
 class W3DDisplay
 {
 public:
+	void rva0004D6B3(Image *image, float x0, float y0, float x1, float y1, int color, int mode);
 	void rva0008EEF0(float x0, float y0, float x1, float y1, float w, int color);
 };
 
-class FullFadeTransition
+class Rva001DBAA4
 {
 public:
+	virtual ~Rva001DBAA4();
+	Rva001DBAA4();
+
+	Int m_frameLength;		// +0x04
+	bool m_isFinished;		// +0x08
+	bool m_isForward;		// +0x09
+	bool m_isReversed;		// +0x0a
+	unsigned char m_pad0B;		// +0x0b
+	GameWindow *m_win;		// +0x0c
+};
+
+class FullFadeTransition : public Rva001DBAA4
+{
+public:
+	FullFadeTransition(void);
 	virtual ~FullFadeTransition(void);
 	virtual void init(GameWindow *win);
 	virtual void update(Int frame);
-	virtual void reverse(void);
+	virtual void reverse(void) = 0;
 	virtual void draw(void);
-	virtual void skip(void);
+	virtual void skip(void) = 0;
 
-	Int m_frameLength;		// +0x04
-	Bool m_isFinished;		// +0x08
-	Bool m_isForward;		// +0x09
-	Bool m_isReversed;		// +0x0a
-	unsigned char m_pad0B;		// +0x0b
-	GameWindow *m_win;		// +0x0c
 	Int m_startFrame;		// +0x10
 	Int m_endFrame;			// +0x14
-	Int m_posX;			// +0x18
-	Int m_posY;			// +0x1c
-	Int m_sizeX;			// +0x20
-	Int m_sizeY;			// +0x24
-	float m_percent;		// +0x28
+	ICoord2D m_pos;			// +0x18
+	ICoord2D m_size;		// +0x20
+	float m_percent;			// +0x28
 	Int m_drawState;		// +0x2c
 };
 
@@ -113,6 +126,6 @@ void FullFadeTransition::draw(void)
 		alpha = (Int)((float)m_drawState * m_percent * 255.0f);
 	if (alpha > 255)
 		alpha = 255;
-	((Rva0004263F *)TheDisplay)->rva0004263F((float)m_posX, (float)m_posY, (float)m_sizeX, (float)m_sizeY, GameMakeColor(0, 0, 0, (UnsignedByte)alpha));
-	((W3DDisplay *)TheDisplay)->rva0008EEF0((float)m_posX, (float)m_posY, (float)m_sizeX, (float)m_sizeY, 1.0f, GameMakeColor(255, 190, 0, (UnsignedByte)alpha));
+	((Rva0004263F *)TheDisplay)->rva0004263F((float)m_pos.x, (float)m_pos.y, (float)m_size.x, (float)m_size.y, GameMakeColor(0, 0, 0, (UnsignedByte)alpha));
+	((W3DDisplay *)TheDisplay)->rva0008EEF0((float)m_pos.x, (float)m_pos.y, (float)m_size.x, (float)m_size.y, 1.0f, GameMakeColor(255, 190, 0, (UnsignedByte)alpha));
 }
