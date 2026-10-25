@@ -212,6 +212,13 @@ verified and easy to rebase. Detail for the hook rules:
 
 An explicit request or assigned lane overrides the queue.
 
+For any linking work, including work served by the default picker, read
+`docs/linking_obstacles.md` before choosing a target. Update the relevant entries
+with completed work, newly encountered obstacles and remaining prerequisites in
+the repair or attempt-handoff commit, and before ending a linking pass. Mark a
+cleared obstacle with verification evidence and its scope; retain its history.
+Maintenance and measurement rules: `docs/linking.md` ("Shared obstacle register").
+
 0. `git pull --rebase origin master`, then `python3 tools/check_csv.py`; repair
    ledger errors first. If the pull touched your own area, `./build.sh` the
    affected sources and repair regressions.
@@ -310,6 +317,8 @@ verified commit first; never split a mixed file inside a merge. Workflow:
 - `docs/structural.md`: manual RE, reassessing, recording and banking attempts.
 - `docs/recipes.md`: proven fixes for near misses.
 - `docs/linking.md`: the census, link tools, class reconciliation.
+- `docs/linking_obstacles.md`: required linking handoff; update repairs, new
+  obstacles and evidence for cleared entries.
 - `docs/claims.md`: claim mechanics.
 - `docs/naming.md`: names and `tools/rename.py`.
 - `docs/consolidation.md`: TU merges.

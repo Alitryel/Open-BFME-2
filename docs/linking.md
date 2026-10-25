@@ -5,6 +5,27 @@ linking pass, moved from AGENTS.md ("Make matched code link") in 2026-10.
 
 A matched row whose unit cannot link is half done.
 
+## Shared obstacle register
+
+Read [linking_obstacles.md](linking_obstacles.md) before selecting linking work,
+including a link task served by the default picker. Check its evidence and
+prerequisites against current source and providers before repeating an attempt:
+the ranking can still contain repairs that landed after the last census.
+
+Update the entries you worked on in the same commit as a repair or substantive
+attempt handoff, and before ending the pass. Record what was completed, new
+obstacles, remaining dependencies and the next useful check. Add a new stable ID
+for a distinct cause. Keep cleared entries with their proof; reopen them when new
+evidence contradicts the clearance. Follow the register's status and update
+format. It supplements claims, attempt evidence and debt registers; it does not
+replace their required updates or retire debt.
+
+After pulling or rebasing, reconcile other agents' updates before publishing.
+A current-object preview can clear its stated repair scope, but only a new census
+can change the headline. Record those outcomes separately; do not add overlapping
+preview gains or treat an old blocker list as a current link result. Existing
+restrictions on maintainer-only measurement runners still apply.
+
 ## How the census decides
 
 `reverse/link_status.csv` and `tools/link_census.py` measure linking under
