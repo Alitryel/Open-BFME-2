@@ -7,28 +7,38 @@
 // GameWindowManager_linkWindow.cpp; rowed unlinkWindow/linkWindow/unlinkChildWindow; TheWindowManager
 // ?TheWindowManager@@3PAVGameWindowManager@@A; WIN_ERR codes 0/-3.
 
+typedef int Int;
+typedef unsigned int UnsignedInt;
+typedef UnsignedInt WindowMsgData;
+
+enum WindowMsgHandledType
+{
+	MSG_IGNORED,
+	MSG_HANDLED
+};
+
 class GameWindow;
 
 class GameWindowManager
 {
 public:
-	virtual void d00(); virtual void d01(); virtual void d02(); virtual void d03();
-	virtual void d04(); virtual void d05(); virtual void d06(); virtual void d07();
-	virtual void d08(); virtual void d09(); virtual void d10(); virtual void d11();
-	virtual void d12(); virtual void d13(); virtual void d14(); virtual void d15();
-	virtual void d16(); virtual void d17(); virtual void d18(); virtual void d19();
-	virtual void d20(); virtual void d21(); virtual void d22(); virtual void d23();
-	virtual void d24(); virtual void d25(); virtual void d26(); virtual void d27();
-	virtual void d28(); virtual void d29(); virtual void d30(); virtual void d31();
-	virtual void d32(); virtual void d33(); virtual void d34(); virtual void d35();
-	virtual void d36();
-	virtual GameWindow *Virtual94();
-	virtual void d38(); virtual void d39();
-	virtual void d40(); virtual void d41(); virtual void d42(); virtual void d43();
-	virtual void d44(); virtual void d45(); virtual void d46(); virtual void d47();
-	virtual void d48(); virtual void d49(); virtual void d50(); virtual void d51();
-	virtual void d52(); virtual void d53(); virtual void d54(); virtual void d55();
-	virtual void VirtualE0(GameWindow *win, GameWindow *parent);
+#define V(n) virtual void pad##n() = 0;
+	V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7)
+	V(8) V(9) V(10) V(11) V(12) V(13) V(14) V(15)
+	V(16) V(17) V(18) V(19) V(20) V(21) V(22) V(23)
+	V(24) V(25) V(26) V(27) V(28) V(29) V(30) V(31)
+	V(32) V(33) V(34) V(35) V(36)
+	virtual GameWindow *Virtual94() = 0;
+	V(38) V(39)
+	virtual void windowHiding(GameWindow *window) = 0;
+	V(41) V(42) V(43) V(44) V(45) V(46) V(47)
+	virtual GameWindow *winGetFocus() = 0;
+	virtual Int winSetFocus(GameWindow *window) = 0;
+	V(50) V(51) V(52) V(53) V(54) V(55)
+	virtual void VirtualE0(GameWindow *win, GameWindow *parent) = 0;
+	V(57)
+#undef V
+	virtual WindowMsgHandledType winSendSystemMsg(GameWindow *window, UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2) = 0;
 	void linkWindow(GameWindow *win);
 	void unlinkWindow(GameWindow *win);
 	void unlinkChildWindow(GameWindow *win);
