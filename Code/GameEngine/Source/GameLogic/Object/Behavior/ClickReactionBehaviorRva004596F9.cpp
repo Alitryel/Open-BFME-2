@@ -27,6 +27,7 @@ class ModuleData;
 class Drawable;
 
 #include "ClickReactionObjectView.h"
+#include "ClickReactionBehaviorView.h"
 
 struct ClickReactionBehaviorModuleData
 {
@@ -36,51 +37,6 @@ struct ClickReactionBehaviorModuleData
 };
 
 int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
-
-class ClickReactionBehaviorIface
-{
-public:
-	virtual void slot0();
-	virtual void rva004596F9();
-};
-
-class PB_DeepBase
-{
-public:
-	virtual ~PB_DeepBase();
-protected:
-	const ModuleData *m_moduleData; // +0x04
-	Object *m_object; // +0x08
-};
-
-class PB_Iface1
-{
-public:
-	virtual void slot();
-};
-
-class PB_Iface2
-{
-public:
-	virtual void slot();
-};
-
-class UpdateModuleView : public PB_DeepBase, public PB_Iface1, public PB_Iface2
-{
-	unsigned int m_f14;
-	int m_f18;
-	int m_f1c;
-};
-
-class ClickReactionBehavior : public UpdateModuleView, public ClickReactionBehaviorIface
-{
-public:
-	virtual void slot0();
-	virtual void rva004596F9();
-private:
-	int m_clicks; // +0x24
-	int m_cooldown; // +0x28
-};
 
 static __forceinline const int &minRef(const int &a, const int &b)
 {

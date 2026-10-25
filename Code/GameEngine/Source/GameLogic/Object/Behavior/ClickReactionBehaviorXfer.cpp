@@ -5,62 +5,14 @@
 // base UpdateModule xfer via rowed 0x0044DF9F, then int at +0x24 via Xfer
 // slot 0x7C plus int at +0x28 via Xfer slot 0x7C.
 
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-class Thing;
-class ModuleData;
-class Object;
+#include "ClickReactionXferPrefix.h"
 
-#include "../../../../Include/Common/BfmeXfer.h"
-
-class UpdateModule
-{
-public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	virtual ~UpdateModule();
-	void xfer(Xfer *xfer);
-
-protected:
-	const ModuleData *m_moduleData;
-	Object *m_object;
-	const void *m_p0C;
-	const void *m_p10;
-	unsigned char m_pad[0x20 - 0x14];
-};
-
-class ClickReactionBehavior : public UpdateModule
-{
-public:
-	ClickReactionBehavior(Thing *thing, const ModuleData *moduleData);
-
-protected:
-	virtual void xfer(Xfer *xfer);
-
-private:
-	int m_20;
-	int m_24;
-	int m_28;
-};
+#include "ClickReactionBehaviorView.h"
 
 void ClickReactionBehavior::xfer(Xfer *xfer)
 {
 	xfer->Version1();
 	UpdateModule::xfer(xfer);
-	*xfer == m_24;
-	*xfer == m_28;
+	*xfer == m_clicks;
+	*xfer == m_cooldown;
 }

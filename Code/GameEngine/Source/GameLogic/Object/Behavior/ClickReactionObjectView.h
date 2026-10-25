@@ -88,4 +88,3 @@ public:
 	unsigned char m_pad158[0x258 - 0x158];
 	AIUpdateInterface *m_ai; // +0x258
 };
-

@@ -48,3 +48,43 @@ Libraries donors are cross-family work and were not edited. Receipt:
 build/codex4-playertemplate-before.txt. Destination investigation claim released.
 The transient source files produced by that running trial caused two planner
 scans to refuse; a fresh scoped scan and currency check succeeded after it ended.
+
+## Xfer and hierarchy follow-up
+
+The Xfer include is now wrapped by the private ClickReactionXferPrefix.h, which
+keeps its existing operand class-keys before BfmeXfer.h when the composer hoists
+includes. This first removed the include error but exposed competing
+ClickReactionBehavior declarations (receipt: build/codex4-click-xfer-after.txt).
+
+ClickReactionBehaviorView.h now supplies one declaration to Xfer and reaction.
+It retains the reaction donor's PB base hierarchy, secondary interface and
+fields at +0x24/+0x28. The existing rowed constructor 0x0045961D independently
+uses the three-base UpdateModule layout followed by that secondary interface;
+its UpdateModule spelling and out-of-line declarations replace the reaction's
+private UpdateModuleView spelling. Xfer consumes the same existing fields and
+keeps its existing nonvirtual qualified base call. No ledger symbol, global,
+string, virtual implementation or protected constructor source was renamed or
+changed. These are local declaration reconciliations, not new source-name or
+canonical-layout claims.
+
+- `./build.sh` on Xfer, reaction and update: 3/3 exact, 503 retail bytes kept;
+  string, float and import checks pass (build/codex4-click-shared-build.txt).
+- Frozen-file checks pass for all three; converged data: 3 sources, 10 addresses,
+  zero second names/unjudged rows. EH: zero EH-bearing rows or missing objects.
+- Normal dry-run now accepts all three eligible donors / three rows and rejects
+  none (build/codex4-click-shared-after.txt). This is a demonstrated prerequisite
+  unblock for Luna, not an applied merge. The two mixed and three protected
+  donors remain untouched. No rows, debt keys or files were removed.
+- No affected source owns a code-identity, header, or Microsoft-header queue key.
+  No protected register was edited. The prior Object header's trailing blank
+  line was also removed.
+
+The outgoing range plus this change adds private headers but moves/deletes no
+source path. Active tools, hooks, workflows, includes, build inputs and the
+canonical-class registry have no references requiring repointing. The new
+headers' consumers were verified together, including their eventual composed
+location; historical paths remain unchanged. The previous path audit therefore
+still applies to the entire pending batch. Claims remain held while the runner
+queues publication; release the ClickReactionBehavior destination, all three
+donors, three private headers and RVAs 0x00459579/0x0045969F/0x004596F9 after
+confirmed publication. First prerequisite commit: 44a9537bc7.
