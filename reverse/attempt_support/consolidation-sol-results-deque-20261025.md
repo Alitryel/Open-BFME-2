@@ -65,3 +65,47 @@ map are unchanged. The earlier wrapper Microsoft-header queue retirement stays
 separate from zero code-identity retirements. No file reduction or recovered
 C++ bytes is claimed. Pending publication retains this seed/handoff file claims
 and 0x00419D9C plus earlier handoffs' AptString, debris and wrapper scopes.
+
+## Worker placement-new follow-up: blocked, trial reverted
+
+After publication, allocation --check-tu still authorized this destination.
+Claimed both worker donors and their rows before testing whether moving their
+existing __PLACEMENT_VEC_NEW_INLINE source definition into each donor's /D flags
+would establish it before the merge tool hoists vendor includes. This changes
+no intended ABI or implementation. Both standalone donors remained 7/7 exact;
+every external code/data body, relocation, section flag, COMDAT selection and
+external reference was identical to the pre-trial objects. EH remained EXACT 1,
+data had no findings, and code identity checked seven rows with no new or wrong
+bindings. These checks establish standalone equivalence, not composition.
+
+The complete ordinary merge dry-run still accepts the same thirteen-row subset
+and rejects both workers with C2084 at legacy GameMemory.h:895/896. The chosen
+POD donor flag set lacks the worker-local /D guard, so promoting the macro alone
+does not fix the include environment. Destructor byte failures and Startup's
+private deque conflict are unchanged. The roughly fourteen-minute run completed;
+it was not duplicated. Do not repeat this flag-only trial. A future repair must
+prove a compatible include environment for the actual selected flag set and
+verify all affected providers and consumers; no shared-header relaxation or
+unverified flag union is justified by this evidence.
+
+Reverted both source edits and their scoped Microsoft-header queue refresh;
+the prior published seed repair remains intact. Receipts:
+build/sol-results-workers-{before-build,guards-build,guards-bindings,guards-trial,
+restored-build}.txt. The full dry-run records the selected flags, accepted
+sources and rejection diagnostics. Frozen-file checks pass after restoration.
+Both worker integration attempts are recorded as blocked in re_attempts.log;
+their source/RVA claims and the related completed seed scopes are released.
+
+Publication confirmed the recovered AptString prerequisite as e6053fbdba and
+the new debris, debris-transform, wrapper and results prerequisites as
+fa9cb57db5, 98e0a2f6d2, dd3a0b2883 and fce2c6327a. The push verified 78/78 rows
+across ten sources. There are no confirmed downstream Luna landings yet.
+The final progress.py origin/master receipt is build/sol-session-progress.txt:
+BYTE-MATCHED remains 7,978,500 bytes (100%); census LINKING 7,267,914 (96.74%) and
+LINKED 7,518,133 (97.51%) are unchanged. This session removes no source files,
+recovers no C++ bytes and retires no code-identity keys; the supported wrapper
+refresh retires one Microsoft-header queue entry. No ownership measurement was
+run. The final evidence-only commit has no source path changes or consumer
+updates; the pending-range tooling compatibility audit remains unchanged.
+If publication holds this evidence commit, retain only this handoff's file
+claim until the runner publishes it; all source and RVA claims are released.
