@@ -7485,7 +7485,6 @@ name,address,notes
 ?bfmeDoBLA@@YGXH@Z,0x002C94F5,callee read from the retail REL32 in placed BFME1-donor body ?bfmeGoBLA@BfmeThingBLA@@QAEXPAX_N@Z (0x0028AA55)
 ?bfmeDoBLD@BfmeSinkBLD@@QAEXPAXH@Z,0x002D4341,callee read from the retail REL32 in placed BFME1-donor body ?bfmeGoBLD@@YGXPAX@Z (0x0029ACE3)
 ?bfmeDoBLF@@YAXPAUBfmeSubBLF@@PAXH@Z,0x0062983E
-?bfmeDoBNH@@YAXPAVBfmeThingBNH@@PAXHH@Z,0x00132D89,BFME1-attested free helper called from BfmeThingBNH::bfmeGoBNH; same call slot as BFME2LoadParticleTexture pin (texture-loader family)
 ?bfmeDoBOE@BfmeSinkBOE@@QAEXPAX0@Z,0x005B7454,callee read from the retail REL32 in placed BFME1-donor body ?bfmeGoBOE@@YGXPAX000@Z (0x00514CEB)
 ?bfmeDoBPB@BfmeSubBPB0064C6C0@@QAEXPAX00@Z,0x0038BBF0,callee read from the retail REL32 in placed BFME1-donor body ?bfmeGoBPB0064C6C0@@YAXPAX00HHPAVBfmeSubBPB0064C6C0@@@Z (0x0038D4AA)
 ?bfmeDoBPB@BfmeSubBPB@@QAEXPAX00@Z,0x001F08D3,callee read from the retail REL32 in placed BFME1-donor body ?update@Rva002D6EB0@@QAEXXZ (0x004B4204)

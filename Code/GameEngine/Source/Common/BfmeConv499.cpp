@@ -6,11 +6,27 @@
 // relationship; the original class name and unused argument type are unknown.
 // Keep an address-derived owner and a neutral one-word mip argument. Native
 // ignores that argument; the shared132D89 loader receives exscorch01.tga.
-// This replaces the old ordinary-method spelling, without a second name or
-// new pin at EF966. Its full27B body and literal remain identical.
-class BfmeThingBNH;
-void bfmeDoBNH(BfmeThingBNH *,void *,int,int);
+// The loader is TextureAsset::Get (0x00132D89, TextureAssetGet.cpp), which
+// returns its handle through the hidden result pointer: the owner's handle base
+// is built in place from it, so the call passes `this` as that pointer.
 class TextureClass;
-template<class T>class RefCountPtr{public:T*Referent;};
-class Rva0006B3F3ScorchTexture:public RefCountPtr<TextureClass>{public:Rva0006B3F3ScorchTexture(int mipCount);};
-Rva0006B3F3ScorchTexture::Rva0006B3F3ScorchTexture(int mipCount){bfmeDoBNH((BfmeThingBNH*)this,(char*)"exscorch01.tga",0,0);}
+class BFME2ParticleTextureHandle
+{
+public:
+	TextureClass *Ptr;
+	~BFME2ParticleTextureHandle();
+};
+class TextureAsset
+{
+public:
+	static BFME2ParticleTextureHandle Get(const char *filename, int option0, int option1);
+};
+class Rva0006B3F3ScorchTexture : public BFME2ParticleTextureHandle
+{
+public:
+	Rva0006B3F3ScorchTexture(int mipCount);
+};
+Rva0006B3F3ScorchTexture::Rva0006B3F3ScorchTexture(int mipCount)
+	: BFME2ParticleTextureHandle(TextureAsset::Get("exscorch01.tga", 0, 0))
+{
+}
