@@ -703,21 +703,7 @@ public:
 		DEBUG_CRASH(("You must use the object form for this effect"));
 	}
 
-	virtual void doFXObj(const Object* primary, const Object* /*secondary*/) const
-	{
-		if (primary)
-		{
-      // first, try the unadorned name.
-			doFxAtBones(primary, 0);
-
-      // then, try the 01,02,03...etc names.
-			doFxAtBones(primary, 1);
-		}
-		else
-		{
-			DEBUG_CRASH(("You must have a primary source for this effect"));
-		}
-	}
+	virtual void doFXObj(const Object* primary, const Object* /*secondary*/) const;
 
 	static void parse(INI *ini, void *instance, void* /*store*/, const void* /*userData*/)
 	{
@@ -754,18 +740,13 @@ EMPTY_DTOR(FXListAtBonePosFXNugget)
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
-// Retain the donor nugget helper emissions. This unreferenced reference table
-// is removed by link-time /OPT:REF; FXListStoreParse.cpp owns the native table.
+// The native table and parsers are owned by FXListStoreParse.cpp and
+// FXListNuggetParse.cpp. This unreferenced compiler-only table retains the
+// existing inline particle method shape and is removed by /OPT:REF. Do not
+// instantiate the other obsolete Zero Hour constructors and virtual tables.
 extern const FieldParse BfmeReferenceFXListFieldParse[] =
 {
-	{ "Sound",											SoundFXNugget::parse, 0, 0},		
-	{ "RayEffect",									RayEffectFXNugget::parse, 0, 0},		
-	{ "Tracer",											TracerFXNugget::parse, 0, 0},		
-	{ "LightPulse",									LightPulseFXNugget::parse, 0, 0},		
-	{ "ViewShake",									ViewShakeFXNugget::parse, 0, 0},		
-	{ "TerrainScorch",							TerrainScorchFXNugget::parse, 0, 0},		
 	{ "ParticleSystem",							ParticleSystemFXNugget::parse, 0, 0},		
-	{ "FXListAtBonePos",						FXListAtBonePosFXNugget::parse, 0, 0},		
 	{ NULL, NULL, 0, 0 }  // keep this last
 };
 
@@ -847,4 +828,18 @@ template FXList &std::hash_map<NameKeyType, FXList, rts::hash<NameKeyType>,
 /*static*/ void INI::parseFXListDefinition(INI *ini)
 {
 	FXListStore::parseFXListDefinition(ini);
+}
+
+void FXListAtBonePosFXNugget::doFXObj(const Object* primary, const Object* /*secondary*/) const
+{
+	if (primary)
+	{
+		// First, try the unadorned name, then the 01,02,03... names.
+		doFxAtBones(primary, 0);
+		doFxAtBones(primary, 1);
+	}
+	else
+	{
+		DEBUG_CRASH(("You must have a primary source for this effect"));
+	}
 }

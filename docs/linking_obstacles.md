@@ -284,6 +284,21 @@ authored-byte previews or commit-title gains into a projected headline.
   suppressing a helper or changing an exception declaration can break a matched
   parent. Clearance and census confirmation remain pending for this scope.
 
+- **FX-list obsolete-emission subset (2026-10-25, inspected `9edfc2834c`):**
+  [the bounded cleanup and identity handoff](../reverse/attempt_support/fxlist-obsolete-emissions-20261025/readme.md)
+  removes unused Zero Hour callbacks and retains the bone-position method out
+  of line. All seven existing bodies and all their relocations are unchanged;
+  normal byte/data gates and a strict current receipt pass. Against the fixed
+  `ef9c691284` index, the obsolete drawable call and bone-position table conflict
+  disappear. The 620-byte unit still does not link; no census gain is claimed.
+  The two remaining list pins target StringBase operations (000365F0 and
+  00036E70), and the 0052BD3A copy installs the existing one-string C61A20 table.
+  Declaration-only suppression introduces unresolved references, so the next
+  step is a coherent ownership/provider/consumer correction, preserving coverage.
+  The separate particle table and legacy particle/terrain calls remain open.
+  A supported identity-retirement attempt refused missing/stale provider evidence;
+  no baseline was changed.
+
 ### LINK-007: incomplete data ownership beyond clean symbol resolution
 
 **Status: Open; two storage subsets repaired. Updated: 2026-10-25.**
