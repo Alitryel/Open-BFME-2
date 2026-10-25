@@ -6027,7 +6027,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorClearF6Family.cpp
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorClearF6Family.cpp	??$_Destroy@PAURva005C84D3Element@@@_STL@@YAXPAURva005C84D3Element@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorClearRva00475F2A.cpp	??$_Destroy@PAURva004758F4Element@@@_STL@@YAXPAURva004758F4Element@@0@Z	2
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorDeferred.cpp	??$_Destroy@PAURva002BBB96Element@@@_STL@@YAXPAURva002BBB96Element@@0@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorDeferred.cpp	??$_Destroy@PAURva005F8620Element@@@_STL@@YAXPAURva005F8620Element@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorDtorDeferred.cpp	??$_Destroy@PAURvaPair00257544@@@_STL@@YAXPAURvaPair00257544@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorRva0032C0E3Assign.cpp	??$_M_allocate_and_copy@PAURva0032C0E3Element@@@?$vector@URva0032C0E3Element@@V?$allocator@URva0032C0E3Element@@@_STL@@@_STL@@IAEPAURva0032C0E3Element@@IPAU2@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlportVectorRva0032C0E3Assign.cpp	??$__copy_ptrs@PAURva0032C0E3Element@@PAU1@@_STL@@YAPAURva0032C0E3Element@@PAU1@00ABU__false_type@0@@Z	1

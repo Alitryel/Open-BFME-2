@@ -11,3 +11,18 @@ void __cdecl Rva005F85C8Destroy(Rva005F8447 *first, Rva005F8447 *last)
 	for (; first != last; ++first)
 		first->~Rva005F8447();
 }
+
+// The range destroyed by native 0x005F85E1/0x005F8620 has eight-byte
+// elements and calls 0x005F8447 for every element at 0x005F85C8.
+// This incomplete application identity remains a code-generation view;
+// the operation uses the existing destructor owner, without a linker alias.
+struct Rva005F8620Element { char m_storage[8]; };
+namespace _STL {
+template <class Iterator>
+void _Destroy(Iterator first, Iterator last)
+{
+    for (; first != last; ++first)
+        reinterpret_cast<Rva005F8447 *>(first)->~Rva005F8447();
+}
+template void _Destroy<Rva005F8620Element *>(Rva005F8620Element *, Rva005F8620Element *);
+}

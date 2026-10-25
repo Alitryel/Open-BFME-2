@@ -67,5 +67,4 @@ template _STL::vector<Rva001DEF38Element>::~vector();
 // The complete 25B worker at 2BB6A5 reads only these two arguments, and native
 // caller 2BBB18 pushes and pops exactly two; the provider's unused tag is absent.
 #pragma comment(linker, "/alternatename:??$_Destroy@PAURvaPair00257544@@@_STL@@YAXPAURvaPair00257544@@0@Z=?Rva0032C0CADestroyPairs@@YAXPAURvaPair0032C0CA@@0@Z")
-#pragma comment(linker, "/alternatename:??$_Destroy@PAURva005F8620Element@@@_STL@@YAXPAURva005F8620Element@@0@Z=?Rva005F85C8Destroy@@YAXPAURva005F8447@@0@Z")
 #pragma comment(linker, "/alternatename:??$_Destroy@PAURva002BBB96Element@@@_STL@@YAXPAURva002BBB96Element@@0@Z=??$__destroy_aux@PAUBfmeAssignRecord52@@@_STL@@YAXPAUBfmeAssignRecord52@@0ABU__false_type@0@@Z")

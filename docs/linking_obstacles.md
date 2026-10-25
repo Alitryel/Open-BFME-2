@@ -93,6 +93,14 @@ authored-byte previews or commit-title gains into a projected headline.
   verified graphics subset. Verify the other landed repair families' current
   consumers and providers before attempting another repair.
   Do not reopen a repaired name solely because `link_rank.py` still lists it.
+- **Range-worker current-input check (2026-10-25, after `e302344089`):**
+  [the paired range-worker proof](../reverse/attempt_support/range-destroy-link-20261025/readme.md)
+  verifies 71/71 rows, 7 EXACT exception graphs and three strict receipts.
+  The provider and both deferred-vector consumer files already preview cleanly
+  with current alias handling, despite the historical unresolved names. One
+  real whole-body C++ instantiation replaces its old alias and retires one
+  hatch key; the paired before/after preview preserves all 2,978 authored
+  bytes and claims no new linking gain. The other alias remains debt.
 - **Clearance / census confirmation:** graphics ordinary-preview scope cleared
   at the revision above; other families and census confirmation remain pending.
   Keep individual repair previews separate from later census confirmation.
