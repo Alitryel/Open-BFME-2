@@ -6,15 +6,7 @@
 // Gen_0018BC70::bfmeCompact with rowed callees liveObjects/rva004D6CAC and
 // Object::isSelectable plus rowed vector<void*>::erase. Evidence pin plus
 // LINK BONUS name plus donor loop shape plus callers in PlayerHotkeySquads.
-namespace _STL
-{
-template <typename T> class allocator;
-template <typename T, typename A = allocator<T> > class vector
-{
-public:
-	void **erase(void **pos);
-};
-}
+#include "../GameLogic/AI/SquadCompactView.h"
 class Object
 {
 public:
@@ -26,29 +18,15 @@ public:
 	const _STL::vector<Object *> &getAllObjectsAndRemoveDead();
 	const _STL::vector<Object *> &rva004D6CAC();
 };
-class BfmeVecAK
-{
-public:
-	void **m_start;
-	void **m_finish;
-	void **m_end;
-};
-class Gen_0018BC70
-{
-public:
-	BfmeVecAK *bfmeCompact(bool restart);
-	int m_00[4];
-	BfmeVecAK m_10;
-};
 BfmeVecAK *Gen_0018BC70::bfmeCompact(bool restart)
 {
 	if (restart)
 		((Squad *)this)->getAllObjectsAndRemoveDead();
 	else
 		((Squad *)this)->rva004D6CAC();
-	void ***vec = (void ***)&m_10;
-	void **it = m_10.m_start;
-	while (it != m_10.m_finish)
+	void ***vec = (void ***)&m_vector;
+	void **it = (void **)m_vector.m_start;
+	while (it != (void **)m_vector.m_finish)
 	{
 		Object *obj = (Object *)*it;
 		if (!obj->isSelectable())
@@ -56,5 +34,5 @@ BfmeVecAK *Gen_0018BC70::bfmeCompact(bool restart)
 		else
 			++it;
 	}
-	return &m_10;
+	return &m_vector;
 }
