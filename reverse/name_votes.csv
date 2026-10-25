@@ -6167,3 +6167,6 @@ Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|b,7
 Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|d,b126b05cc4ef44a12607593c,gpt-6.1-sol,codexb-20261025-063820-6,w-8e883e57d025,2026-10-25
 Code/GameEngine/Source/Common/FamilyDeletingDtors3.cpp|param|famgenDelete#5|p,327b5424902cd3c461c177f5,gpt-6.1-sol,codexb-20261025-063820-7,w-8e883e57d025,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|function|0x00254D0B|rva00254D0B,f47e8d0299e78d1442d8a531,gpt-6.1-sol,codexb-20261025-063820-8,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|a,f4fd4c73d8cbb090601c2f55,gpt-6.1-sol,codexb-20261025-063820-10,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|b,a5b3dce2ced0db871a3f90e1,gpt-6.1-sol,codexb-20261025-063820-10,w-8e883e57d025,2026-10-25
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|d,6bf51fef98e36bf3d68dc935,gpt-6.1-sol,codexb-20261025-063820-10,w-8e883e57d025,2026-10-25
