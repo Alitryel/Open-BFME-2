@@ -989,17 +989,23 @@ private:
 
 
 // ?rva005B1903@Rva005B1903@@QAEXPAUBfmePod8@@IABU2@@Z @0x005B1903 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x000B02B6.
+// 0x000B02B6 is the BfmeE8 instantiation (its copies are
+// __uninitialized_copy 0x004C3121 and _M_insert_overflow 0x00057C80), so the
+// vector and the incoming record use that spelling; BfmePod8 in this
+// signature is the same 8-byte record under the older placeholder name.
 struct BfmePod8;
+struct BfmeE8;
 class Rva005B1903
 {
 public:
 	void rva005B1903(BfmePod8 *position, unsigned int count, const BfmePod8 &value);
 private:
-	_STL::vector<BfmePod8> m_vector;
+	_STL::vector<BfmeE8> m_vector;
 };
 void Rva005B1903::rva005B1903(BfmePod8 *position, unsigned int count, const BfmePod8 &value)
 {
-	m_vector._M_fill_insert(position, count, value);
+	((_STL::vector<BfmeE8> *)&m_vector)->_M_fill_insert(
+		(BfmeE8 *)position, count, *(const BfmeE8 *)&value);
 }
 
 // ?rva005B1908@Rva005B1908@@QAEXPAUBfmePod20@@IABU2@@Z @0x005B1908 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x005B1748.

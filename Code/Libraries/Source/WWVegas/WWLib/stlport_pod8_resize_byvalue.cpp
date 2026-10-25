@@ -50,12 +50,31 @@ template <> __declspec(dllimport) __forceinline void _Construct<BfmePod8, BfmePo
 struct BfmePod8;
 namespace _STL { template <> BfmePod8 *allocator<BfmePod8>::allocate(size_t, const void *) const; }
 
+// The element retail really holds here is the 8-byte record whose
+// _M_fill_insert is the rowed body at 0x000B02B6, spelled BfmeE8 in that
+// row's family (its own copies are __uninitialized_copy 0x004C3121 and
+// _M_insert_overflow 0x00057C80). This view's BfmePod8 parameter is the same
+// record under the older placeholder spelling, so reach the rowed
+// instantiation through the E8 view of the same three-pointer vector.
+// Retail 0x004C3ACC: this unit owns the 8-byte element's non-trivial copy
+// loop (its _Construct is the rowed 0x004C3A9F body). The vector above moved
+// to the E8 spelling, so instantiate the copy explicitly to keep that row.
+namespace _STL {
+template BfmePod8 *__uninitialized_copy<BfmePod8 *, BfmePod8 *>(BfmePod8 *, BfmePod8 *, BfmePod8 *, const __false_type &);
+}
+
+struct BfmeE8 { int a[2]; };
+namespace _STL {
+// The rowed provider serves the link; declare it so this unit emits no copy.
+template <> void vector<BfmeE8>::_M_fill_insert(BfmeE8 *, unsigned int, const BfmeE8 &);
+}
 void BfmePod8Vector::resize(unsigned int n, BfmePod8 x)
 {
 	if (n < size())
 		erase(begin() + n, end());
 	else
-		_M_fill_insert(end(), n - size(), x);
+		((_STL::vector<BfmeE8> *)this)->_M_fill_insert(
+			(BfmeE8 *)end(), n - size(), *(const BfmeE8 *)&x);
 }
 
 // ?resize@BfmePod8Vector@@QAEXI@Z @ 0x000B0857 (23B). One-argument resize

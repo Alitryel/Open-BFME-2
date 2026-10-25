@@ -119,7 +119,6 @@ struct AudioTriggerArea { int a[2]; };
 struct AudioTriggerAreaSave { int a[2]; };
 
 // Instantiate the matched members without unrelated container operations.
-template void _STL::vector<BfmePod8,_STL::allocator<BfmePod8> >::_M_fill_insert(BfmePod8 *,unsigned int,BfmePod8 const &);
 
 template _STL::vector<BfmePod8,_STL::allocator<BfmePod8> > & _STL::vector<BfmePod8,_STL::allocator<BfmePod8> >::operator=(_STL::vector<BfmePod8,_STL::allocator<BfmePod8> > const &);
 
