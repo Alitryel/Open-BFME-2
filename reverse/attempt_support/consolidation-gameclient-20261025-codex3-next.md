@@ -483,3 +483,8 @@ Sol's prerequisite lane before retrying; the other donor was not applied.
 - `RandomSoundSelectorClientBehaviorXfer.cpp` was rejected into its TU because
   `BfmeXfer.h` reports `C2061: syntax error: identifier 'Snapshot'`. The
   `getSelectedValue` donor passed unchanged; no declaration repair was attempted.
+- `Rva003F9D08Ctor.cpp` was rejected into LivingWorldEyeTower with `no baseline
+  match`; `LivingWorldEyeTowerProcessFrame.cpp` failed with `C2065` for
+  undeclared `m_eye` and `m_target` in the composed class view. Both accepted
+  donors were merged unchanged; `LivingWorldEyeTowerProcessItems.cpp` remains
+  refused by a protected path-keyed register.
