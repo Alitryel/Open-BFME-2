@@ -60,6 +60,30 @@ import checks. The trial is not a baseline regression.
 
 ## Pending-path compatibility audit
 
+TransitionDamageFX adds a second approved TU: seven absorbed files become one
+new file, a net reduction of six, preserving eleven matched rows / 720 bytes.
+The ordinary destination build passed 11/11, its frozen-file check passed,
+EH verification had no missing object and enforced converged-data verification
+judged all ten addresses with no second name. Four rejected donors still need
+Snapshot/include context, iterator-tag or receiver-declaration reconciliation;
+mixed sources remain intact. See `transition-merge.json`.
+
+The extended audit covers both pending merge commits and the staged transition
+merge against fetched origin 777d0ff0aa150ea68a95bdde08bd62173f89873c,
+with merge-base 91fe9709390e5042aa9344a90a9cb10615c87d26 used to distinguish
+this seat's twelve removals from other workers' new paths. The only additional
+active consumer was the existing Destroy<Rva004BA1D0> pin's fold-proof source.
+The pin was removed and re-added through `pin_admission.py --add` with the same
+name and RVA 0x004BA341 and the consolidated source as its proof. Admission
+re-proved it successfully; `pin_consistency.py --symbol` before and `--check`
+after both passed. Pin/hatch totals do not grow and no protected register is
+changed. A tool-side unrelated stale hatch trim was restored to keep this
+change scoped. The admission receipt is `transition-fold-admission.txt`.
+
+Additional basename hits in three Common sources are explanatory provenance
+comments, including a BFME 1 donor path; retain them. All other hits belong to
+the historical categories below. No source include or build consumer changed.
+
 Audited the complete outgoing path delta plus staged merge against fetched
 `origin/master` 51cc7ed5dc56fb85af12bdf7bbc079191f3c4ac4 (local starting
 HEAD 91fe9709390e5042aa9344a90a9cb10615c87d26). All five removed paths,
