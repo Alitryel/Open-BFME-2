@@ -70,9 +70,8 @@ class Gen009D6DD0 { public: void bfmeClose(); };
 class XferSave { public:XferSave();virtual ~XferSave(); unsigned char Open(Xfer*,int,bool);void close();char tail[0x3c];};
 class CreateAHeroData {public:virtual void s0();virtual void s1();virtual void s2();virtual void xfer(Xfer*);CreateAHeroData&operator=(const CreateAHeroData&);};
 class Rva00219251 {public:CreateAHeroData *rva00219251(int,int,int,const UnicodeString&,int,int,int);void rva0021929D(CreateAHeroData**);};
-// TheCreateAHeroManager is only an alias of the owned global TheCreateAHeroManager (ledger names column); this unit reads the owner through its own view type.
+// Read the existing global through its observed callback view at call sites.
 extern class CreateAHeroManager *TheCreateAHeroManager;
-#define TheCreateAHeroManager (*(Rva00219251 * *)&TheCreateAHeroManager)
 class BfmeMade_009CB5F0;
 BfmeMade_009CB5F0*bfmeMake_009CB5F0(void*);
 class BfmeThingEC {public:int bfmeTakeEC(int*);};
@@ -163,7 +162,7 @@ void RecorderClass::startRecording(int difficulty, int gameMode, int rankPoints,
     fwrite(theSlotList.str(),theSlotList.getLength()+1,1,m_file);
     fprintf(m_file,"%d",localIndex); fputc(0,m_file);
     if(TheGameInfo) {
-     CreateAHeroData*hero=TheCreateAHeroManager->rva00219251(0,0,0,UnicodeString::TheEmptyString,-1,0xff707070,-1);
+     CreateAHeroData*hero=reinterpret_cast<Rva00219251 *>(TheCreateAHeroManager)->rva00219251(0,0,0,UnicodeString::TheEmptyString,-1,0xff707070,-1);
      for(unsigned i=0;i<8;++i) {
       GameSlot*slot=TheGameInfo->getSlot(i);
       bool hasHero=(slot->heroPresent?(CreateAHeroData*)((char*)slot+0x64):0)!=0;fwrite(&hasHero,1,1,m_file);
@@ -181,7 +180,7 @@ void RecorderClass::startRecording(int difficulty, int gameMode, int rankPoints,
        operator delete[] ((void*)data);
       }
      }
-     TheCreateAHeroManager->rva0021929D(&hero);
+     reinterpret_cast<Rva00219251 *>(TheCreateAHeroManager)->rva0021929D(&hero);
     }
     fwrite(&difficulty,4,1,m_file); fwrite(&gameMode,4,1,m_file);
     fwrite(&rankPoints,4,1,m_file); fwrite(&maxFPS,4,1,m_file);
@@ -255,7 +254,7 @@ bool Rva0037BBED::rva0037CBB6(Rva0037B5DF&header) {
  if(!ParseAsciiStringToGameInfo(gameInfo,header.options,true)){fclose(m_file);m_file=0;return false;}
  gameInfo->startGame(0);
  AsciiString playerIndex=rva0037B70A();header.localIndex=atoi(playerIndex.str());
- CreateAHeroData*hero=TheCreateAHeroManager->rva00219251(0,0,0,UnicodeString::TheEmptyString,-1,0xff707070,-1);
+ CreateAHeroData*hero=reinterpret_cast<Rva00219251 *>(TheCreateAHeroManager)->rva00219251(0,0,0,UnicodeString::TheEmptyString,-1,0xff707070,-1);
  for(unsigned i=0;i<8;++i) {
   bool hasHero=false;fread(&hasHero,1,1,m_file);
   if(hasHero) {
@@ -267,13 +266,13 @@ bool Rva0037BBED::rva0037CBB6(Rva0037B5DF&header) {
     int unused;
     if(((XferLoad*)&reader)->Open((Rva0060C3C3Stream*)memory,&unused)){hero->xfer((Xfer*)&reader);slot->rva0037AD8D(*hero);}
    }catch(...) {
-    if(hero)TheCreateAHeroManager->rva0021929D(&hero);
+    if(hero)reinterpret_cast<Rva00219251 *>(TheCreateAHeroManager)->rva0021929D(&hero);
     operator delete[](data);((Rva0060C45E*)&reader)->clear();memory->close();return false;
    }
    operator delete[](data);((Rva0060C45E*)&reader)->clear();memory->close();
   }
  }
- TheCreateAHeroManager->rva0021929D(&hero);
+ reinterpret_cast<Rva00219251 *>(TheCreateAHeroManager)->rva0021929D(&hero);
  if(header.localIndex< -1 || header.localIndex>=8){gameInfo->endGame();gameInfo->reset();fclose(m_file);m_file=0;return false;}
  if(header.localIndex>=0){GameSlot*slot=m_gameInfo.getSlot(header.localIndex);m_gameInfo.address=slot->address;}
  if(!header.forPlayback){gameInfo->endGame();gameInfo->reset();fclose(m_file);m_file=0;}
