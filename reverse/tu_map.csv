@@ -6754,9 +6754,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000E6350,55,code,,,-,,Code/GameEngine/Source/Common/Rva000E6350Ctor.cpp
 0x000E6387,57,code,,,-,,Code/GameEngine/Source/Common/Rva000E6387VegetationBinderDtor.cpp
 0x000E63C0,28,code,,,-,,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB01.cpp
-0x000E63DC,42,code,,,-,,Code/GameEngine/Source/Common/Rva000E63DCFinish.cpp
+0x000E63DC,42,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVegetationBufferBase.cpp
 0x000E6406,398,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVegetationBufferBase.cpp,approved,F,F=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVegetationBufferBase.cpp,
-0x000E6594,8,code,,,-,,Code/GameEngine/Source/Common/Rva000E6594.cpp
+0x000E6594,8,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVegetationBufferBase.cpp
 0x000E659C,21,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_hash_map_string_uint_resize.cpp
 0x000E65B1,138,code,,,-,,Code/GameEngine/Source/Common/Rva000E65B1Reset.cpp
 0x000E663B,424,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBuffer.cpp,proposed,K,K=Rva000EC9C6 noncontiguous,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000E663BRenderPasses.cpp
