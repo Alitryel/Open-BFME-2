@@ -11794,7 +11794,7 @@ _luaX_lex,,0x00757C90,1324,Code/Libraries/Source/Lua/llex.c,matched,BFME1 byte-i
 ?Rva004BA431Get@@YAHXZ,,0x004BA431,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf49ec; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BAE7DGet@@YAHXZ,,0x004BAE7D,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf49cc; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BB46AGet@@YAHXZ,,0x004BB46A,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf499c; prev C2-08-00 with 1 vtable ref and no callers; opaque name
-?Rva004BB733Get@@YAHXZ,,0x004BB733,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret c5a160; prev C2-08-00 with 1 vtable ref and no callers; opaque name
+?Rva004BB733Get@@YAHXZ,,0x004BB733,6,Code/GameEngine/Source/GameLogic/Object/Collide/FireWeaponCollide.cpp,matched,B8-6 returner ret c5a160; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BC839Get@@YAHXZ,,0x004BC839,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf4940; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BC969Get@@YAHXZ,,0x004BC969,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf492c; prev C2-08-00 with 1 vtable ref and no callers; opaque name
 ?Rva004BCB07Get@@YAHXZ,,0x004BCB07,6,Code/GameEngine/Source/Common/ConstIntGetters4.cpp,matched,B8-6 returner ret bf4918; prev C2-08-00 with 1 vtable ref and no callers; opaque name
