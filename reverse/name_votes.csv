@@ -6223,3 +6223,4 @@ Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE
 Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD::FormatCPString|tmp,05b9c9e096aabe9271e695dc,gpt-6-astra,codexb2-20261025-070334-10,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|param|Rva0049A64B::getEnterPosition|a,d74983f6b6094aa67fc67feb,gpt-6-astra,codexb2-20261025-070334-10,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|param|Rva0049A64B::isClearToApproach|a,a380432cd9ca7c0e37e5bd07,gpt-6-astra,codexb2-20261025-070334-10,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,242e91ebd6819460f6f33f5a,gpt-6-astra,codexb2-20261025-073232-3,w-d0bdfd8b17e9,2026-10-25
