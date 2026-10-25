@@ -5,9 +5,12 @@
 // Caller 111A05 supplies factors 1,2,4,8,16,32,64 and TileData mip buffers.
 // ZH TileData::doMip guides the averaging; RGB555 and direct source resampling
 // are target-specific facts independently read from this complete body.
+extern "C" void __cdecl Rva001118ECResampleRgb555(
+    const unsigned char *source,int stride,int factor,unsigned short *destination);
+
 template<class T> inline const T &tileMin(const T &lhs,const T &rhs)
 { return lhs<rhs?lhs:rhs; }
-extern "C" void __cdecl Rva001118ECResampleRgb555(
+void __cdecl Rva001118ECResampleRgb555(
     const unsigned char *source,int stride,int factor,unsigned short *destination)
 {
     unsigned char channels[4];
