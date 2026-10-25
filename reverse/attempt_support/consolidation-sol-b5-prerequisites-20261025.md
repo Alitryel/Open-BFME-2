@@ -57,6 +57,22 @@ build/sol-b5-bridge-vector-after.txt. This is a demonstrated three-file subset
 for Luna, not an applied merge or confirmed downstream landing. Other Bridge
 donor failures remain, including the AddBridge Region3D header-adoption queue.
 
+## Bridge constructor prerequisite verified
+
+The seed now declares the existing W3DBridge and W3DBridgeBuffer constructors.
+The constructor donor uses the seed's existing m_c and m_padD7B4 spellings at
++0x0C and +0xD7B4. No field type, offset, body operation or compiler flag was
+changed. Claimed W3DBridgeBufferCtor.cpp and 0x000DE52E in addition to the held
+seed scope. Ordinary builds verify seed plus constructor 13/13 rows; frozen
+checks pass; EH reports EXACT 3 without baseline exceptions or missing objects.
+The normal merge dry run accepts seed, allocator, constructor and loader,
+preserving all 18 rows versus 15 before this prerequisite. Receipts:
+build/sol-b5-bridge-ctor-build.txt and build/sol-b5-bridge-ctor-after.txt.
+No merge or subsequent Luna landing is claimed. Remaining rejected donors
+have the same structural/view failures listed above; they were not retried
+as independent unchanged attempts. Keep the constructor file and parent RVA
+claims until publication as well.
+
 ## Other investigated allocation
 
 W3DPropDraw normal dry run accepts the seed and module-data destructor but

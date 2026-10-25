@@ -144,6 +144,7 @@ class CameraClass;
 class W3DBridge
 {
 public:
+	W3DBridge();
 	void getBridgeInfo(Rva0027C36A *pInfo);
 private:
 	Vector3 m_start;
@@ -197,6 +198,7 @@ class Dict;
 class W3DBridgeBuffer
 {
 public:
+	W3DBridgeBuffer();
 	void rva000DD878(int dummy);
 	void allocateBridgeBuffers(void);
 	void addBridge(Vector3 fromLeft, Vector3 fromRight, AsciiString name, W3DTerrainLogic *pTerrainLogic, Dict *props);

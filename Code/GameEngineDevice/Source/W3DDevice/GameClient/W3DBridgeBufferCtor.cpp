@@ -21,10 +21,10 @@ private:
 	void *m_vertexBridge;
 	void *m_indexBridge;
 	int m_08;
-	int m_curNumBridgeIndices;
+	int m_c;
 	W3DBridge m_bridges[200];
 	int m_numBridges;
-	unsigned char m_flagD7B4;
+	unsigned char m_padD7B4;
 	unsigned char m_flagD7B5;
 	unsigned char m_flagD7B6;
 	unsigned char m_padTail[0xD7C0 - 0xD7B7];
@@ -32,13 +32,13 @@ private:
 
 W3DBridgeBuffer::W3DBridgeBuffer()
 {
-	m_flagD7B4 = 0;
+	m_padD7B4 = 0;
 	m_vertexBridge = 0;
 	m_indexBridge = 0;
 	m_08 = 0;
-	m_curNumBridgeIndices = 0;
+	m_c = 0;
 	m_numBridges = 0;
 	clearAllBridges();
 	allocateBridgeBuffers();
-	m_flagD7B4 = 1;
+	m_padD7B4 = 1;
 }
