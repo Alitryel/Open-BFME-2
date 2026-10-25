@@ -53113,7 +53113,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006C9300,811,code,,,-,,Code/Libraries/Source/WWVegas/WWDownload/urlBuilder.cpp
 0x006C9630,12,code,,,-,,Code/GameEngine/Source/Common/Disp8DwordFieldSetters.cpp
 0x006C9640,229,code,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp,approved,S,S=Code/Libraries/Source/WWVegas/WWDownload/Download.cpp N=Code/GameEngine/Source/GameNetwork/CDownload.cpp,Code/GameEngine/Source/GameNetwork/CDownloadCtorEmit.cpp
-0x006C9730,40,code,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp,approved,S,S=Code/Libraries/Source/WWVegas/WWDownload/Download.cpp N=Code/Libraries/Source/WWVegas/WWDownload/CDownload.cpp,Code/Libraries/Source/WWVegas/WWDownload/CDownloadDtor.cpp
+0x006C9730,40,code,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp,approved,S,S=Code/Libraries/Source/WWVegas/WWDownload/Download.cpp N=Code/Libraries/Source/WWVegas/WWDownload/CDownload.cpp,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp
 0x006C9760,452,code,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/Download.cpp S=Code/Libraries/Source/WWVegas/WWDownload/Download.cpp N=Code/Libraries/Source/WWVegas/WWDownload/CDownload.cpp,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp
 0x006C9930,53,code,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WWDownload/Download.cpp S=Code/Libraries/Source/WWVegas/WWDownload/Download.cpp N=Code/Libraries/Source/WWVegas/WWDownload/CDownload.cpp,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp
 0x006C9970,95,code,,,-,,Code/Libraries/Source/WWVegas/WWDownload/Download.cpp
