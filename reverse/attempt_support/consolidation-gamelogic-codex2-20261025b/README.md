@@ -328,6 +328,60 @@ literals/imports. No source changes or claims; three mixed and three protected
 files remain untouched. Evidence: queueexit-dryrun.txt; attempt recorded through
 re_log.py. No repeated attempt without declaration/environment prerequisites.
 
+## GarrisonContain blocked trial
+
+The scoped queue and current in-memory TU map approve 41 rows. The plan has
+eight mixed donors and two protected-register refusals. The complete dry run
+accepted none. Eligible donors fail on unresolved declaration and access
+prerequisites: for example, GarrisonContainPutObjectAtGarrisonPoint reports
+`Coord3D.h(7): error C2011: 'Coord3D' : 'struct' type redefinition`, then
+`error C2065: 'm_poin...'` in the generated merged TU; other first errors name
+private `ObjectModule::m_object`, protected `GarrisonContain::validateRallyPoint`
+and private `Team::m_id`. Remaining reported failures include duplicate
+`Coord3D`/`GameLogic`/STL declarations and absent donor-specific members. No
+source or ledger changes and no claims were made. Leave these donors for Sol's
+declaration/header reconciliation; do not retry before those prerequisites
+change.
+
+## TunnelContain blocked trial
+
+The current in-memory map plan approves 28 rows, with three mixed files, three
+protected-register refusals and five pull sources. The dry run returned exactly
+`accepted: []`, `rejected: {}`, `blocked: no verified merge of two or more
+donors` without starting a compile trial. No TunnelContain claims or source
+changes were made. Leave this candidate for Sol to investigate why the eligible
+pull set did not reach a verifier trial; do not retry unchanged.
+
+## BridgeBehavior blocked trial
+
+The current plan approves 41 rows; eighteen files are mixed and three files
+are keyed in protected registers. The dry run accepts none. Six clean pull donors
+report `no baseline match`; `BridgeBehaviorListOperations.cpp` reports `bytes`;
+the remaining two compiler failures report duplicate `GameLogic`/`Coord3D`
+declarations and inaccessible BridgeBehavior members (`m_amou...` in the
+truncated tool diagnostic, and protected `handleObjectsOnBridgeOnDie`). No
+source changes or claims. Sol must reconcile the declaration/ABI prerequisites;
+do not retry unchanged.
+
+## OCLUpdate blocked trial
+
+The plan approves nine rows. Two sources are mixed and none are protected. The
+dry run accepts none: `OCLUpdate_getCountdownPercent.cpp` and
+`Rva0049B2A2Xfer.cpp` report `no baseline match`; `OCLUpdate_getRemainingFrames.cpp`
+reports C2039 (`getRemainingFrames` is not a member of `OCLUpdate`), and
+`OCLUpdateBehaviorCtor.cpp` reports C2511 (the constructor signature is not a
+member of the seeded class declaration). No source changes or claims. Leave for
+Sol's baseline and class declaration reconciliation; do not retry unchanged.
+
+## RadiusDecalUpdate blocked trial
+
+The plan approves nine rows, with one mixed source and one protected key. The
+dry run accepts none: `RadiusDecalUpdateCtorThunk.cpp` and
+`RadiusDecalUpdateUpdate.cpp` fail at `error C2061: syntax error: identifier
+'RadiusDecal'`; `RadiusDecalUpdateXfer.cpp` fails because `BfmeXfer.h` cannot
+resolve `Snapshot`. No source changes or claims. Sol must reconcile the missing
+type/Xfer declaration environment; do not retry unchanged.
+
 ## Session handoff
 
 Seven distinct retail TUs consolidated: SubObjectsUpgrade (two passes),
