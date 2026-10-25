@@ -88,6 +88,16 @@ namespace _STL { template <> void *const &vector<void *>::operator[](size_t) con
 // emit. Plain declaration-only form (no __imp_).
 namespace _STL { template <> list<FXNugget *>::iterator list<FXNugget *>::insert(iterator, FXNugget *const &); }
 
+
+// The constructor unit supplies the whole retail 48-byte bucket-count copy.
+// This speed-optimized unit's former 50-byte copy displaced it at link time.
+namespace _STL {
+template <> unsigned int hashtable<pair<NameKeyType const, FXList>, NameKeyType,
+    rts::hash<NameKeyType>, _Select1st<pair<NameKeyType const, FXList> >,
+    rts::equal_to<NameKeyType>, allocator<pair<NameKeyType const, FXList> >
+    >::_M_next_size(unsigned int) const;
+}
+
 // LINK-COMDAT: rts::equal_to<NameKeyType> is kept as the /O1 copy from FXList.cpp;
 // this TU is default-flag (speed) for its _M_new_node row, so its own copy differs.
 // Specialize only the member under "s" so our emitted copy matches the kept /O1 body,

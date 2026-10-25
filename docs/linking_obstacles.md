@@ -259,6 +259,26 @@ authored-byte previews or commit-title gains into a projected headline.
   The vector parent/helper contract in LINK-002 is another concrete example.
 - **Completed:** selective emission has repaired some other families, recorded
   under LINK-001; it does not establish a fix for these remaining cases.
+- **FX-list constructor subset cleared in ordinary preview (2026-10-25,
+  after `feb95824fa`):**
+  [the full dependency proof](../reverse/attempt_support/fxlist-constructor-link-20261025/readme.md)
+  restores allocator/forwarder visibility and replaces the sibling's wrong
+  bucket-count emission with the retail copy. Normal gates prove the complete
+  48/59/64-byte helpers, 19/19 cohort rows, four exact EH graphs and four strict
+  current receipts. All four current units preview cleanly against index
+  `51fde01dff`; the store constructor's 109 authored bytes are now included in
+  that bounded clean scope. The paired evidence distinguishes actual source
+  repair from alias-driven uncertainty in the old control. The broader
+  value-layout and string/container entries remain open; census and executable
+  closure are unclaimed.
+- **Final FX-list provider scope:** the same proof also removes the constructor
+  unit's wrong clear copy in favor of the existing 73-byte owner at 0060CFB6.
+  Expanded verification passes 26 rows across five sources, four exact EH
+  graphs, five strict receipts and zero new identity findings. FXList.cpp's
+  clear operation is verified, while its whole 620-byte unit still has separate
+  particle/terrain/drawable bindings, two nugget tables and list-lifetime
+  blockers, detailed in the proof. Only the original four-unit ordinary-preview
+  scope is cleared; the broader entry remains open.
 - **Remaining / next check:** prove the native provider and inspect all emitted
   symbols, relocations, parent extents and EH graphs with current inputs. Merely
   suppressing a helper or changing an exception declaration can break a matched

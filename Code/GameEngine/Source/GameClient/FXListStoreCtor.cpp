@@ -21,8 +21,10 @@ template <> bool less<unsigned int>::operator()(const unsigned int &a, const uns
 }
 #include "Common/NameKeyGenerator.h"
 // bfme link decl-only begin
-namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
-namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
+// The base constructor is also visible so the compiler can reuse
+// an unused allocator argument instead of reserving an extra local.
+// Keep the forwarding vector constructor visible: retail calls its
+// out-of-line _Vector_base constructor directly.
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
 namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
@@ -34,11 +36,12 @@ namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(voi
 namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
-namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
-namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
+// Keep the trivial end() visible; retail reads the finish pointer inline.
+// Keep the insert wrapper visible; retail calls _M_fill_insert directly.
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
-namespace _STL { template <> allocator<void *>::~allocator(); }
+// Keep the stateless allocator destructor visible: a declaration-only
+// specialization creates a nonretail throwing temporary in the bucket ctor.
 // bfme link decl-only end
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator
@@ -67,13 +70,17 @@ public:
 	virtual ~FXList();
 };
 
-// The node-emission unit supplies this bucket-count helper.
+// Keep the existing retail-verified clear provider from FXList.cpp. This
+// unit constructs an empty table; its partial value view must not emit a
+// competing clear implementation for that provider's name.
 namespace _STL {
-template <> unsigned int hashtable<pair<const NameKeyType, FXList>, NameKeyType,
-    rts::hash<NameKeyType>, _Select1st<pair<const NameKeyType, FXList> >,
-    rts::equal_to<NameKeyType>, allocator<pair<const NameKeyType, FXList> >
-    >::_M_next_size(unsigned int) const;
+template <> void hashtable<pair<NameKeyType const, FXList>, NameKeyType,
+    rts::hash<NameKeyType>, _Select1st<pair<NameKeyType const, FXList> >,
+    rts::equal_to<NameKeyType>, allocator<pair<NameKeyType const, FXList> >
+    >::clear();
 }
+
+// Emit the native bucket-count helper here under the constructor settings.
 
 class FXListStore : public SubsystemInterface
 {
