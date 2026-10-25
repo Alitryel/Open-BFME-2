@@ -3,6 +3,7 @@
 #include "unicode_string.h"
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
 #include "../../../../Libraries/Include/Lib/IRegion2D.h"
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class MetaMapRec;
 
@@ -101,14 +102,17 @@ public:
 	UnicodeString m_displayName;
 };
 
-class MetaMap
+// The rowed constructor/destructor in Common/MetaMap.cpp establish the
+// canonical 12-byte subsystem base and record-list pointer at +0x0C.
+class MetaMap : public SubsystemInterface
 {
 public:
+	virtual ~MetaMap();
+	void *rva001DB66A(unsigned int flags);
 	const MetaMapRec *getFirstMetaMapRec() const { return m_metaMaps; }
 protected:
 	MetaMapRec *getMetaMapRec(GameMessage::Type t);
 private:
-	unsigned char m_00[0x0C];
 	MetaMapRec *m_metaMaps;	// +0x0C
 };
 
