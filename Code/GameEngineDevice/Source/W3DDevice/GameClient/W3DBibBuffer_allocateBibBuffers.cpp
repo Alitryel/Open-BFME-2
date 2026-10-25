@@ -28,13 +28,16 @@ public:
 private:
 	char m_pad[0x18];
 };
+// The seed exposes the slot through the legacy DX8 view used by its lock API.
+// Allocation still constructs the target-proven BFME native buffer.
+class DX8VertexBufferClass;
 class W3DBibBuffer
 {
 protected:
 	void allocateBibBuffers();
 	void freeBibBuffers();
 private:
-	BfmeDynamicNativeVB *m_vertexBib;
+	DX8VertexBufferClass *m_vertexBib;
 	unsigned short m_vertexBibSize;
 	DX8IndexBufferClass *m_indexBib;
 	int m_indexBibSize;
@@ -46,7 +49,7 @@ void W3DBibBuffer::allocateBibBuffers()
 {
 	if (m_vertexBib || m_indexBib)
 		freeBibBuffers();
-	m_vertexBib = new BfmeDynamicNativeVB(0x142, m_vertexBibSize + 4, 1, 0);
+	m_vertexBib = reinterpret_cast<DX8VertexBufferClass *>(new BfmeDynamicNativeVB(0x142, m_vertexBibSize + 4, 1, 0));
 	m_indexBib = new DX8IndexBufferClass((unsigned)m_indexBibSize + 4, DX8IndexBufferClass::USAGE_DYNAMIC);
 	m_curNumBibVertices = 0;
 	m_curNumBibIndices = 0;
