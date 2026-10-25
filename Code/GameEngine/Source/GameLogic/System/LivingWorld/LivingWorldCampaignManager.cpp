@@ -150,7 +150,7 @@ public:
 	void StartNewCampaign(const AsciiString &campaignName);
 	void CallActSubroutine(const AsciiString &name);
 	void StartNewCampaign(Int campaignIndex);			// 0x003B8C06
-	void *UseGenericSpawnArmyForPlayer(Int a, Int b);
+	void *UseGenericSpawnArmyForPlayer(Int a, Int player);
 	Rva0052BFE1 *rva003B8EDC(const AsciiString &name);
 
 private:
@@ -221,12 +221,12 @@ bool LivingWorldCampaignManager::rva003B8CAC()
 // LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer, retail 0x003B8CE0
 // (38 bytes): WB names it (assert at LivingWorldCampaignManager.cpp:318, "no
 // active campaign"); the active campaign answers, NULL without one.
-void *LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer(Int a, Int b)
+void *LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer(Int a, Int player)
 {
 	if (m_campaignIndex >= 0 && (UnsignedInt)m_campaignIndex < m_campaignVector.size())
 	{
 		Rva0052BFE1 *campaign = m_campaignVector[m_campaignIndex];
-		return campaign->rva0052BFE1(*(const StringBase<char> *)a, (const Rva005657FEHolder *)b);
+		return campaign->rva0052BFE1(*(const StringBase<char> *)a, (const Rva005657FEHolder *)player);
 	}
 	return 0;
 }
