@@ -115,3 +115,55 @@ staged moves. Across this batch, active tools, hooks, workflows, source/header
 includes, build inputs and registries have no manual path consumers for the
 absorbed donors. `reverse/link_status.csv`, attempt logs/evidence and the
 TU's source provenance comments keep historical original paths by design.
+
+## Additional scoped trials and TransitionDamageFX merge (2026-10-25)
+
+QueueProductionExitUpdate had no accepted donors. The dtor donor fails C3855:
+`BitFlags` template parameter `NUMBITS` is incompatible with its declaration;
+its Xfer donor reports C2011 `Xfer` redefinition at `BfmeXfer.h(19)`; the
+ExitObjectViaDoor, SetRallyPoint, notifyProductionBurstFinished and
+Rva004A0670Copy donors report C2011 `Coord3D` redefinition in the included
+Coord3D.h. PoolKey, ctor and QueryRallyOverride are protected path-keyed
+refusals. No donor was changed or retried.
+
+TunnelContain has no safe merge: its seed fails under every merged flag set at
+`reference/shims/bfmealloc/stl/_alloc.h(446)` with C2950 (`allocator<char>`
+cannot explicitly instantiate an explicit specialization). Other donor errors
+include C2061 `Snapshot` in `BfmeXfer.h(37)`, missing `removeFromContain`,
+`rva0047DF44` and `rva0047DF81` members, plus a failed cast from
+`ContainModuleInterface *` to `TunnelContain *`. No donor was changed or retried.
+
+Earlier scoped dry runs also remain blocked: GiantBirdAIUpdate ctor and
+FollowPathAppend report C2226 on `AICommandType`; its locomotor, collision and
+waypoint donors report missing class members, and Xfer reports missing
+`Snapshot`. AITNGuard's seed fails with C2143 in GameLogicObjectLookupView.h(37)
+and C2061 at line 113; no donor was accepted. These files were left untouched.
+
+TransitionDamageFX merge applied by the tool after rebasing and regenerating the
+trial: the target plus `TransitionDamageFXModuleDataCtor.cpp` were accepted,
+20 rows were repointed, and the constructor fragment was removed. Build passed
+28/28 rows and six funclet pin verifications; `find_declared_unmatched.py`
+reported all definitions already matched. Staged ownership, CSV, whitespace and
+case checks passed; identity remains shadow and reports three new `divergent`
+bindings from the merged TU to `AsciiString` dtor 0x00036410 for its three
+record types. `data_check.py --staged` had zero findings. Sol should review those
+identity bindings; none were retired here.
+
+TransitionDamageFX donor blockers remain: Xfer fails C2061 `Snapshot` in
+`BfmeXfer.h(37)`; the Rva004B9DA9 and ctor donors reference missing
+`bfmeUseFDE`/record members; CopyRange reports `_STL::random_access_iterator_tag`
+redefinition; EraseRange and ModuleData destructor report missing type/member
+syntax; NeighborIDSubobjectNameDataAppend reports `_strcmpi` linkage
+redefinition and STL allocator conflicts; mapLoadPostProcess reports a second
+`_STL::allocator` definition. Mixed and protected donors remain untouched.
+
+The tooling compatibility audit for the pending range `origin/master..HEAD`
+plus this staged move included the absorbed paths from OneRingPenaltyUpdate,
+FlammableUpdate and SpecialAbilityUpdate, and the TransitionDamageFX ModuleData
+constructor. Searches across active tools, hooks, workflows, source/header
+includes, build inputs, registries and docs found no manual path consumer to
+repair. The merge tool repointed `functions.csv`, `tu_map.csv`,
+`ms_header_queue.tsv` and doxygen inputs. Historical EA-path references were
+preserved. Outstanding shadow identity findings include the three Transition
+bindings and the three SpecialAbility data findings already listed above; this
+batch retires no identity/data/header debt.
