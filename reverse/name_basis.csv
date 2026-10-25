@@ -2186,3 +2186,8 @@ member,Rva00201DC4LODInfo::word08,Rva00201DC4LODInfo::m_maxParticleCount,inferre
 member,Rva00201DC4LODInfo::word20,Rva00201DC4LODInfo::m_maxTankTrackEdges,inferred,agree:nl-c3ab1059acde,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
 member,Rva00201DC4LODInfo::word24,Rva00201DC4LODInfo::m_maxTankTrackOpaqueEdges,inferred,agree:nl-84db0959413c,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
 member,Rva00201DC4LODInfo::word28,Rva00201DC4LODInfo::m_maxTankTrackFadeDelay,inferred,agree:nl-7d639b893157,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+function,?rva004A6A81@Rva004A6A81@@UAE_NXZ,?isCurrentlyFerryingSupplies@Rva004A6A81@@UAE_NXZ,inferred,agree:nl-78b8b76933fa,Code/GameEngine/Source/Common/GapBodiesS3C.cpp,0x004A6A81
+function,?rva001338A0@Rva001338A0@@QBEMXZ,?Width@Rva001338A0@@QBEMXZ,inferred,agree:nl-8504b65058ad,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x001338A0
+function,?rva001338B0@Rva001338A0@@QBEMXZ,?Height@Rva001338A0@@QBEMXZ,inferred,agree:nl-1d2765f62122,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x001338B0
+local,Rva004A6EHolder::rva004A6E8E::h,Rva004A6EHolder::rva004A6E8E::draw,inferred,agree:nl-b3bca436a3ef,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6E8E
+local,Rva004A6EHolder::rva004A6EC6::h,Rva004A6EHolder::rva004A6EC6::draw,inferred,agree:nl-b5696cf49a11,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6EC6

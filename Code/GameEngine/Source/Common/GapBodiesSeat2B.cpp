@@ -227,8 +227,8 @@ int Rva0010E4C6::rva0010E4C6()
 class Rva001338A0
 {
 public:
-	float rva001338A0() const;
-	float rva001338B0() const;
+	float Width() const;
+	float Height() const;
 private:
 	float m_00;
 	float m_04;
@@ -236,7 +236,7 @@ private:
 	float m_bottom;
 };
 
-float Rva001338A0::rva001338A0() const
+float Rva001338A0::Width() const
 {
 	return m_08 - m_00;
 }
@@ -244,7 +244,7 @@ float Rva001338A0::rva001338A0() const
 // --- 0x001338B0 (6B): the sibling difference, the float at +0xC minus the
 // float at +4 (with the one above, the width/height pair of a
 // left/top/right/bottom rectangle; the class is not established).
-float Rva001338A0::rva001338B0() const
+float Rva001338A0::Height() const
 {
 	return m_bottom - m_04;
 }

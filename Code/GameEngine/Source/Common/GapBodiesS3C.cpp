@@ -347,12 +347,12 @@ bool Rva004A9617::rva004A9617()
 class Rva004A6A81
 {
 public:
-	virtual bool rva004A6A81();
+	virtual bool isCurrentlyFerryingSupplies();
 private:
 	Rva004A9617Holder *m_holder;							// +0x04
 };
 
-bool Rva004A6A81::rva004A6A81()
+bool Rva004A6A81::isCurrentlyFerryingSupplies()
 {
 	if (m_holder)
 	{

@@ -2543,3 +2543,6 @@ __ehhandler$?rva0057322B@@YAPAVWaypoint@@VAsciiString@@@Z,0x0079AE79,"Renamed to
 ?addSlot@Rva008063B0Owner@@QAEXHH@Z,0x006723E0,"Renamed to ?addSlot@FeslStateMachine@@QAEXHH@Z by tools/rename.py (inferred)"
 ?rva006CC230@Rva006CC160@@QAEXXZ,0x006CC230,"Renamed to ?reset@Rva006CC160@@QAEXXZ by tools/rename.py (inferred)"
 ?rva0010F5A8@Rva0010F5A8@@QAEXXZ,0x0010F5A8,"Renamed to ?execute@Rva0010F5A8@@QAEXXZ by tools/rename.py (inferred)"
+?rva004A6A81@Rva004A6A81@@UAE_NXZ,0x004A6A81,"Renamed to ?isCurrentlyFerryingSupplies@Rva004A6A81@@UAE_NXZ by tools/rename.py (inferred)"
+?rva001338A0@Rva001338A0@@QBEMXZ,0x001338A0,"Renamed to ?Width@Rva001338A0@@QBEMXZ by tools/rename.py (inferred)"
+?rva001338B0@Rva001338A0@@QBEMXZ,0x001338B0,"Renamed to ?Height@Rva001338A0@@QBEMXZ by tools/rename.py (inferred)"

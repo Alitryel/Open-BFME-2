@@ -21,9 +21,9 @@ bool Rva004A6EHolder::rva004A6E8E()
   Rva004A6EObj* obj = (Rva004A6EObj*)((char*)this - 0x3e0);
   BuildListInfo* info = obj->m_04;
   --m_numberBoxes;
-  Rva002716Holder* h = (Rva002716Holder*)info->getDesiredGatherers();
-  if (!h) return true;
-  h->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_numberBoxes);
+  Rva002716Holder* draw = (Rva002716Holder*)info->getDesiredGatherers();
+  if (!draw) return true;
+  draw->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_numberBoxes);
   return true;
 }
 bool Rva004A6EHolder::rva004A6EC6(int unused)
@@ -33,8 +33,8 @@ bool Rva004A6EHolder::rva004A6EC6(int unused)
   if (obj->m_moduleData && m_numberBoxes >= obj->m_moduleData->m_maxBoxes) return false;
   BuildListInfo* info6 = obj->m_04;
   ++m_numberBoxes;
-  Rva002716Holder* h = (Rva002716Holder*)info6->getDesiredGatherers();
-  if (!h) return true;
-  h->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_numberBoxes);
+  Rva002716Holder* draw = (Rva002716Holder*)info6->getDesiredGatherers();
+  if (!draw) return true;
+  draw->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_numberBoxes);
   return true;
 }
