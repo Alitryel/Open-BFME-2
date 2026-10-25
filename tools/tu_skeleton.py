@@ -146,6 +146,13 @@ def chunks(text):
             out.append(("pp", text[i:k].rstrip()))
             i = start = min(k + 1, n)
             continue
+        if c == "\n" and depth == 0 and code:
+            line = strip(text[start:i]).strip()
+            if MACRO_LINE.match(line) and "{" not in line and not line.startswith("#"):
+                out.append(("decl", text[start:i + 1]))     # NAME(args) generating a body: no `;`, no `{`
+                start, code = i + 1, False
+                i += 1
+                continue
         if not c.isspace():
             code = True
         if c == "{":
@@ -424,8 +431,9 @@ def compose(tu, sk, files, texts, flags, strategy, drop=frozenset(), drop_all=fr
     that donor's own position, so whatever it depends on is already declared.
     """
     parsed = {f: composition_chunks("\n".join(l for l in texts[f].lstrip("\ufeff").splitlines()
-                                  if not l.startswith("// cl:") and l.strip() != "// stlport") + "\n")
-              for f in files}
+                                  if not l.startswith("// cl:") and l.strip() != "// stlport"
+                                  and not l.startswith(MARK) and not l.startswith("// TU ")) + "\n")
+              for f in files}   # a seed's own placeholders and header are regenerated below
     variants = collections.defaultdict(list)
     for f in files:
         for kind, c in parsed[f]:
@@ -1306,8 +1314,14 @@ def split(path, tu, dry_run=False, claim=True):
     own = file_rows(tu) if (ROOT / tu).exists() else []
     if own:
         assigned = _CACHE["assigned"]
-        elsewhere = collections.Counter((assigned.get(int(r["target_rva"], 16)) or "(unplaced)").split("/")[-1]
-                                        for r in own if assigned.get(int(r["target_rva"], 16)) != tu.lower())
+        own_home = {r["name"]: assigned.get(int(r["target_rva"], 16)) for r in own}
+        own_dtors = {m.group(1): r["name"] for r in own if (m := re.match(r"^\?\?1((?:\?\$)?[A-Za-z_]\w*@)", r["name"]))}
+
+        def placed(r):   # a companion row lives where its parent lives
+            p = parent_of(r, own_dtors)
+            return own_home[p] if p and p in own_home else assigned.get(int(r["target_rva"], 16))
+        elsewhere = collections.Counter((placed(r) or "(unplaced)").split("/")[-1]
+                                        for r in own if placed(r) != tu.lower())
         if elsewhere:
             report["blocked"] = ("TU path exists and holds rows the map does not place there (split it first): "
                                  + ", ".join(f"{k} {n}" for k, n in elsewhere.most_common()))
