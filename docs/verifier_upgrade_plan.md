@@ -86,3 +86,125 @@ matching as usual — rows the new checks flag will be served as a queue.
 2. Date for showing the new link-based series next to the current progress bars (step 5).
 3. BFME1 pause on bulk renames and raw dump harvests (step 9).
 4. A word cap for BFME2's AGENTS.md.
+
+## Live rules in detail (moved from AGENTS.md, 2026-10)
+
+AGENTS.md ("Hard rules") states each rule in one line. This is the detail.
+
+### Debt leaves a register only by its own path
+
+`tools/repair_queue.py` `verify-removed` and `verify-missing` judge every removed
+key against staged inputs:
+
+- `reverse/gate_baseline.txt`: delete the line with the fix
+  (`repair_queue.py pass-test "<line>"` does it). The hook rebuilds the row's
+  source and refuses if the row still fails its check. No trailer applies.
+- `reverse/data_check_baseline.txt`, `reverse/code_identity_baseline.tsv`:
+  `repair_queue.py retire data|identity SOURCE`, which deletes only the keys the
+  owning tool no longer finds after a clean build. The hook re-judges them.
+- `reverse/header_queue.tsv`: the row's `header_adopt_lane.py accept` command.
+- A data, identity or header key whose source no longer exists: transfer the same
+  key to the new source, cover every one of the old source's ledger rows in
+  `reverse/deleted_rows.csv`, or, rarely, give a human explanation per key in a
+  `Debt-Retired: <key> <source> <reason>` trailer (the full literal register line,
+  or the class for a header row; at least 20 characters of reason). This trailer
+  covers only that vanished-source case. It is no alternative to a verdict, and
+  `Verifier-Change` never retires a key. `python3 tools/repair_queue.py retired`
+  lists the committed trailers.
+
+### Escape hatches
+
+`tools/hatch_counters.py` counts selectany definitions, hand `/alternatename`,
+`symbols.csv` pins, `object-symbol=` rows, address-named globals,
+`class-gate: allow`, `present-unmatched` markers, `#pragma optimize`, `__emit`
+lines and `.asm` `db` bytes in `reverse/hatch_baseline.tsv`, which is enforced
+(`# mode: enforce`). Most hatches are judged per token (a pin or an alias row per
+address): a file's count of a key may not rise. Growth passes only (a) as a move
+that keeps the hatch total (a renamed file or a moved function;
+`hatch_counters.py --update` writes it), or (b) as an admission a checking tool
+wrote after its own verification: `tools/pin_admission.py --add`,
+`tools/add_match.py --pin`, `tools/name_globals.py` (its kept, byte-verified
+rewrites) and `tools/gen_small.py land` (generator pins that pass admission). An
+`object-symbol=` row naming a compiler label (`$L<n>`, `_$E<n>`), such as a
+`tools/gen_uw.py land` funclet row, is not a hatch. `/alternatename`,
+`present-unmatched` and selectany are keyed by a spelling a rename changes: while
+code identity is in shadow they too are judged per token, and once it is enforced
+at HEAD and in the commit they are judged per file, so a same-count respelling is
+noted, not refused.
+
+Policy goes further than the hooks: prefer removing hatches and never add one by
+hand. A hatch count may rise only through a verified admission by one of the
+tools above, and only where that tool admits it. Running `hatch_counters.py
+--allow` or `--admit` yourself to pass a hand-written hatch is hand-adding.
+
+### Pins
+
+A new `symbols.csv` pin must be an in-image code RVA and may not put a second real
+name on an address that already has one (rename the owner). An ICF-folded
+template instantiation is admitted only with `fold-proof=<ledger source>` in its
+notes, when that unit compiles the name to retail's whole body there with every
+owner row's relocations and the name has no address of its own, a gen-alias twin
+included (`tools/pin_admission.py --add`); a later row or pin giving a
+fold-pinned name another address is refused too. Pins are an additive candidate
+list: the resolver keeps the first pinned address that reproduces retail, so a
+pin naming the wrong function still byte-matches; hence the
+`tools/pin_consistency.py` checks.
+
+### Converged data addresses
+
+Each address in `reverse/data_converged.csv` (TheGameLogic, TheAI,
+TheWritableGlobalData, ...) has one global. Another symbol bound there
+(`g_00DFE78C`, `extern AIView *TheAI`) links as a separate datum and fails
+link_cycle data-back for every row at that address. Declare the real global
+(`class AI; extern AI *TheAI;`) and cast to your view where you use it:
+`((AIView *)TheAI)->m_field`. The list only grows (`tools/data_check.py
+--converged`, after the byte gate).
+
+### Shadow checks
+
+Code identity (`tools/code_identity_gate.py`) runs in shadow on `origin/master`:
+`reverse/code_identity_baseline.tsv` says `# mode: shadow`, findings print and the
+commit passes. A flip to `# mode: enforce` is in progress; from the commit that
+lands it, a finding outside the registers is refused, and the mode never returns
+to shadow. Read the register's mode line rather than trusting this paragraph. The
+other data checks (`tools/data_check.py` outside `--converged`),
+`tools/tu_ownership.py`, `tools/invented_names.py` and link admission
+(`tools/link_check.py --shadow`) also report without refusing.
+`tools/publisher.py` only re-verifies pushed work afterwards.
+
+### Verification runners
+
+The nightly link cycle and measurement belong to the maintainer's scheduled seats:
+`tools/nightly_measure.py` (its builder role runs the gate, `tools/link_cycle.py`,
+boot and `tools/image_ownership.py`; its publisher role records the ownership row)
+and `tools/audit/run_nightly.cmd` run only from those scheduled tasks
+(`docs/nightly_setup.md`). Also maintainer-controlled: a direct or manual
+`tools/link_cycle.py` run, `tools/boot_smoke.py` and the shadow publisher. Seats
+need none of them; they use `python3 tools/link_check.py --fetch-index`,
+`reverse/link_census_history.csv` and `repair_queue.py link`.
+
+### Boot and smoke queues
+
+Served through `repair_queue.py repair` where their files exist; maintainer runs
+write them. Each item's pass test decides who can close it:
+
+- static relayout findings (`build/boot/static_queue.json`): the pass test,
+  `tools/boot_relayout.py findings --overlay rva:RVA --only CHECK --no-write`, runs
+  locally;
+- game-smoke desyncs (`build/game/desync_queue.json`): the pass test links a
+  one-row image (`tools/boot_image.py link --tag one ...`) and runs
+  `tools/game_smoke.py determinism --image one --game-dir SANDBOX` against
+  retail's record. A seat the maintainer has given a sandbox game directory and
+  retail's record may run it locally;
+- start-up crashes (`build/boot/boot_queue.json`): the pass test is a
+  `tools/boot_smoke.py --overlay rva:RVA` run, which is maintainer-controlled.
+  Repair the row and verify it with `./build.sh`, then record it as awaiting the
+  maintainer's boot pass, in a handoff under `reverse/attempt_support/` or as a
+  `re_log.py ... blocked "awaiting boot pass: ..."` entry. A desync item without a
+  sandbox is recorded the same way, as awaiting a game-smoke pass.
+
+`game_smoke.py bisect` needs a relayout image that `boot_smoke` measured,
+retail's record and a game lock script that is not in this repository:
+`python3 tools/game_smoke.py bisect --image TAG --game-dir SANDBOX --lock LOCK.py
+[--record-json RECORD]`. The maintainer provisions SANDBOX and LOCK.py, so seats
+do not run bisect.

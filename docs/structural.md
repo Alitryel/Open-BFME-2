@@ -110,3 +110,43 @@ spend rounds on operand order, driver shape or flag sweeps — all were tried he
 was run on. One run earlier in this work was invalidated by a source change made
 afterwards, and answering the question again took one command against reasoning
 about whether the old result still applied.
+
+## Attempts: reassess, record, bank (moved from AGENTS.md, 2026-10)
+
+Ghidra boundaries, xrefs and vtables are identity evidence; decompiled C is not
+byte-match proof.
+
+After ~120 minutes without meaningful progress, reassess; it is a review point,
+not an automatic stopping time. Continue while testing a new evidence-backed
+hypothesis; identity, layout, dependency and compiler discoveries count as
+progress. Bank and switch when viable hypotheses are exhausted or a concrete
+prerequisite blocks further work. Before declaring a function blocked, reassess
+independent explanations: control flow, variable lifetime, types/layout, callee
+visibility and compiler settings. Exhausting one family of source variations is
+insufficient. Do not repeat disproven trials.
+
+Record the verdict with `python3 tools/re_log.py record <symbol> <rva> <size>
+<status> <evidence>`, citing the real boundary, `t=<minutes>` and your model.
+Walled only by a missing function? Add `blocked-on=0x<rva>`: the queue re-serves
+you as untried once it lands. `add_match` records `landed` and lists deferrals
+citing the body it landed; stage the log with your row.
+
+**Preserve substantial failed work.** Before retrying any function, read its
+attempt-log entries and linked evidence, regardless of how you selected it. For
+substantive attempts ending `blocked` or `partial`, commit a concise handoff under
+`reverse/attempt_support/` and cite its tracked path in the `re_log.py` evidence.
+Include hypotheses tested and ruled out, the exact remaining mismatch or
+prerequisite, the best candidate and useful diagnostic diffs, and relevant input
+revisions/compiler settings. Preserve better existing banks; retain only artifacts
+needed to resume (diagnostic source as patches or `.cpp.txt`). A simple blocker
+needs only a concise log entry.
+
+**Close, not exact? Bank the body:** `partial '<what is wrong>' --stash <your
+.cpp> --score <0..1>` keeps the candidate servable and starts the next agent from
+your body. Both flags are required (a `partial` without a banked body landed 5.1%
+against 7.5% for silence). No body, no `partial`: record `blocked`. Prefer
+batching smaller banked attempts and blocker notes into a single push.
+
+Banked attempts (`reverse/attempts/<rva>.cpp`) are evidence, never progress:
+nothing compiles them, `add_match` deletes one on landing, and `check_csv` flags
+leftovers.

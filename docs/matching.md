@@ -453,3 +453,271 @@ still counts. A file's own codegen flags count only when
 file's codegen flags by hand: run `python3 tools/flag_defaults.py propose
 <source>`, which compiles both ways and records an override only when the
 region default loses a row.
+
+## Reference lanes and donor sweeps (moved from AGENTS.md, 2026-10)
+
+Byte matching of `.text` is complete (`tools/progress.py`), so new matching is
+regression repair, and these lanes now serve as source leads for regressions,
+link repairs and gen-* repoints. They were AGENTS.md's work-selection steps 3–6
+and its sections on coverage-first sweeps and BFME 1 donor compiles; every rule
+below still holds when you use them.
+
+### The reference lanes
+
+Run them before dump or structural reconstruction. They are separate from the
+default picker; a zero result in one is no reason to skip the others.
+
+a. `python3 tools/bfme1_sweep.py scan` when its image, BFME 1 pointer or BFME 2
+   ledger changed (otherwise reuse the scan), then
+   `python3 tools/bfme1_sweep.py ranked` (byte-identical BFME 1 sources) and
+   `python3 tools/bfme1_sweep.py near` (source leads for repair). `ranked` does
+   not read `reverse/re_attempts.log` and re-serves candidates earlier seats
+   refused (`0x0003CCE0` in `Rva0089CompactHelpers.cpp`, a folded T3 guess,
+   was re-served after a rescan): check the log for a candidate's RVA before
+   treating it as work.
+b. Ensure the committed BFME 1 pointer includes `tools/lift_lane.py`, then run
+   `python3 reference/open-bfme-1/tools/lift_lane.py --limit 1000` at the start
+   of the reference pass. It lists BFME 1's named lifted bodies with proven
+   boundaries, same-name ZH definitions first: use each ZH-marked name and
+   readable-body path to prioritize the matching `GeneralsMD/` source. A
+   same-name hit does not prove identity, and lifted bytes are not C++
+   recovery. If the tool is missing at the committed pointer, the BFME 1
+   freshness check (AGENTS.md) is due regardless of its timestamp: complete the
+   verified pointer update; never silently skip or mark this lane exhausted.
+c. `python3 tools/zh_sweep.py compile` when the object cache is missing or its
+   source, headers, toolchain or flags changed (`--force` when those inputs
+   changed), then `python3 tools/zh_sweep.py match` (exact ZH placements) and
+   `python3 tools/zh_sweep.py packets` (near misses for `tools/next_work.py`).
+   Work viable packets from `python3 tools/next_work.py --tier packet`; re-run
+   `match` and `packets` after material ledger or dependency changes. Land only
+   through the identity and full-byte gates.
+
+Then, in order:
+
+- `python3 tools/list_naked_candidates.py Code` serves a byte-true dump from
+  `Code/gen_asm/`, boundary proven (`--claim` claims while selecting).
+- `python3 tools/next_work.py --tier structural|ghidra|anchored|similar|named|harvest`
+  for identity/structural work; `--wb` serves bodies by WorldBuilder name lead;
+  proven fixes: `docs/recipes.md`.
+- `python3 tools/place_bodies.py <sources>` finds, by masked byte search, the
+  other bodies the units the ledger already compiles emit, and reads their call
+  sites for callees. Rescan affected units after an import, repair or
+  shared-dependency fix; land incidental bodies that satisfy the identity,
+  provenance and byte requirements (a placement alone is no recovery); repeat
+  while placements unlock more. Prune what `./build.sh` refuses to a fixpoint and
+  record the refusal in `reverse/place_denylist.txt`.
+
+A tier reporting zero candidates exhausts only that search method; an empty
+byte-match queue does not exhaust reusable reference source. Regenerate with
+`tools/drift_classify.py`, `tools/anchor_unclaimed.py`, `./build.sh`.
+
+A persistent mismatch may reflect a compiler quirk or unexpected instruction
+ordering rather than incorrect logic. Consult `docs/recipes.md`, relevant records
+under `reverse/attempt_support/`, and prior pertinent evidence. When a specific
+mismatch warrants it, systematically test equivalent C++ variants of the
+affected expression or code segment, compare the generated assembly, and
+preserve useful findings for the next agent.
+
+### Prefer coverage-first reference sweeps
+
+Prefer reference-source sweeps first whenever compatible reference units exist;
+optimize for verified unique bytes per effort by batching compatible units,
+especially library families whose dependencies already exist. Escalate before
+abandoning a reference for dump reconstruction:
+
+1. Direct reuse or small evidence-backed repair (constants, declarations,
+   offsets, helper selection, compiler settings) that preserves the verified body
+   and semantics.
+2. Moderate repair of control flow, data access, calls, layouts or compiler
+   shape while identity and relationship stay well supported. Make evidence-backed
+   adaptations; preserve the reference function's established purpose and
+   semantics while reconciling target-specific differences.
+3. Substantial reconstruction from the reference while retail evidence supports
+   identity, ABI, behavior, call relationships and data usage; the reference
+   stays the semantic and structural guide.
+4. Byte-true reconstruction of the `Code/gen_asm/` body as real C++, only once the
+   reference paths are exhausted or no longer applicable.
+
+Use compiler variants from matched siblings, with caching and isolated trials;
+preserve provenance, dependencies and compiler settings; continue through viable
+independent candidates; commit successful imports with their ledger updates
+coherently. Do not force a weak reference: once evidence no longer supports the
+same identity or semantics, or reasonable repairs stop progressing, move on.
+Re-run sweeps as dependencies, identities, compiler configurations and sibling
+matches land.
+
+### Compile BFME 1 donors beyond byte matches
+
+`bfme1_sweep.py` compares retail bytes and cannot find every reusable body.
+Before treating BFME 1 references as exhausted, compile plausible clean C++ donor
+TUs with BFME 2's toolchain and settings (flags from matched siblings) and search
+their emitted bodies in `game.dat` with `tools/place_bodies.py <donor-TU>`, even
+when the BFME 1 bytes have no match. Prioritize supported identities and siblings
+of successful transfers; exclude dumps and retired or refuted candidates unless
+new evidence addresses the earlier finding. This is a read-only lead search:
+never claim the external donor path as BFME 2 source. Port supported bodies into
+an allowed `Code/` TU, preserving the donor revision, flags and dependencies, and
+pass the normal byte and identity gates. A placement proves neither identity nor
+recovery.
+
+### BFME 1 reference updates (moved from AGENTS.md, 2026-10)
+
+AGENTS.md ("BFME 1 reference freshness") says when to check and what may never be
+skipped; this is the full procedure.
+
+Use the `reference/open-bfme-1` submodule for building and donor discovery. On
+initialization, and before BFME 2 work when the last successful check is missing
+or over 72 hours old, fetch official `Open-BFME/Open-BFME-1` `master`, compare
+commit IDs, and preserve dirty or unpublished submodule work.
+
+Initialize cross-repository references without recursion. Do not initialize a
+nested reference back to BFME 1 or BFME 2. Initialize other required build
+dependencies explicitly.
+
+Complete the current layout migration once: reconcile the old `Code/` and
+`reference/` paths with upstream's `game/` and `inputs/reference/`, including
+source `// cl:` flags and other moved inputs, using the existing layout resolver
+where applicable, and check the resolved directories and headers (MSVC silently
+ignores a missing include directory, so compilation alone does not prove the
+intended headers were used). Verify and commit this repair with the updated
+pointer; repeat only if upstream changes its layout again.
+
+For a routine update:
+
+1. Record the previous verified pointer and the checkout revision; update the
+   clean checkout to upstream HEAD, keeping enough to compare old and new inputs
+   at the same BFME 2 revision.
+2. Run BFME 2's full byte verification with valid dependency caches; compare
+   failures with the previous inputs under the same conditions; repair update
+   regressions and report pre-existing failures separately. Never weaken
+   verification or substitute headers silently.
+3. Refresh donor sweeps and compile trials affected by changed source, headers or
+   settings; record the donor revision with cached results; discard or regenerate
+   results whose inputs no longer agree.
+4. Include the verified submodule pointer and any required repairs in the next
+   commit batch: advancing the local checkout does not update what other
+   contributors receive.
+
+Record success in ignored `build/bfme1-last-check.txt` only after verification,
+or when upstream is already at the verified pointer. Do not fetch per transfer. If
+an update is blocked, keep the last verified inputs and report the exact blocker
+and attempted repair; do not mark it successful or suspend future freshness
+checks indefinitely.
+
+## Work selection in detail (moved from AGENTS.md, 2026-10)
+
+AGENTS.md ("Work loop") gives the order; this is how the picker applies it.
+
+### The default pick
+
+`python3 tools/next_work.py --claim` tries gate debt first, then the link, header,
+data and code-identity queues in an order drawn by weight (link 50, header 20,
+data 20, identity 10; `BFME_TIER_WEIGHTS` overrides), falling through when one is
+empty or fully claimed. A standing deferral (blocked, attempted) in
+`reverse/re_attempts.log` comes after all untried debt work, and a recorded dead
+end drops it. Debt whose source no longer exists is served first in its queue, as
+a regression.
+
+After the debt queues come the new-match tiers (Zero Hour packets, reloc-named,
+drift, structural, Ghidra- and string-anchored). Each serves only retail functions
+that no row claims. At 100% they are empty (`next_work.py --ranked` shows 0), so
+anything they serve means a row was lost. Treat it as regression repair: find out
+why the row went (git history, `reverse/deleted_rows.csv`), then land a verified
+row in its unit (`repair_queue.py dest 0xRVA`). Do not write a fresh one-function
+file.
+
+`next_work.py --wb` is served on request only. Its band 0 offers rowed bodies with
+placeholder or pin-only names (`Rva*`, `helper*`) that a WorldBuilder lead can
+name. That is cleanup, not a new match: write the body as real C++ under the real
+name at its home and land it with the `add_match.py` command the picker prints
+(`--replace-rva <rva>` for a placeholder row), under `docs/naming.md`. Band 1
+(unrowed) is empty and, like the new-match tiers, would mean a regression.
+
+### Cleanup lane details
+
+- Generated funclets onto real parents: repoint a `Code/gen_small/uw_gen_*.cpp`
+  row to the `$L` label its matched parent emits, only where `tools/eh_verify.py`
+  finds the parent's EH graph EXACT and binding that label to the retail funclet.
+- Microsoft headers: `python3 tools/repair_queue.py ms-headers [--claim]` lists
+  local copies of CRT, Windows SDK and MS STL definitions. A `drop-in-candidate`
+  is only a candidate, and `./build.sh` byte verification is the authority; a CRT
+  dllimport conflict needs a per-body callee check, never a blanket replacement.
+- DirectX SDK: `next_work.py --tier dx [--claim]` serves a unit to move off the
+  `reference/shims` DirectX stand-ins onto the vendored August 2005 SDK
+  (`vendor/dxsdk-aug2005/`, opted in with a `// dxsdk` line).
+- STLport: a 4.6.2 migration is in progress and has not landed; until it does,
+  STLport rows keep their current sources and rules.
+
+### Work the file, not the row
+
+`next_work.py` lists every other queued candidate in the same source file: that
+file is your unit of work; drain it first (land rate 19.5% solo, 46.5% with ten or
+more siblings landed together). Draining means a sequence of verified changes:
+finish or revert each body or homogeneous batch before starting the next. A shared
+header edit costs a full gate: edit every dependent body, pay once. When several
+files in one subsystem show the same successful repair pattern, prioritize that
+subsystem, checking that each evidence-backed delta applies (folder structure
+alone is not evidence); return to the broad queue when behavior diverges.
+
+### Investigate shared deltas first
+
+When multiple failures suggest the same layout, offset, callee, compiler, ABI or
+wrapper difference, test that shared explanation before retrying each body. Apply
+a shared fix only where target evidence supports it; similar symptoms alone do not
+establish a common cause. Do not repeat attempts blocked on the same unresolved
+dependency: continue with independent candidates and resweep affected units once
+it is resolved.
+
+### Batch homogeneous trivial changes
+
+Atomic does not mean one function per commit. When changes use one established
+pattern and form one coherent, reviewable change (tiny getters/setters, thunks,
+wrappers, global or hatch replacements differing only by verified RVA or offset),
+make, ledger, verify and commit them as one batch, roughly 5–20 entries (a
+guideline, not a quota or hard limit). Similar instruction shapes do not establish
+identity, types, calling convention or layout: verify each member against its own
+evidence. Keep substantive reconstruction, or work needing distinct identity,
+compiler, ABI/layout or reconstruction reasoning, in separate commits. Verify the
+whole batch before committing. If a member fails, determine whether that
+undermines the shared pattern; continue with the remaining members only if their
+evidence and verification still hold, otherwise reassess the batch.
+
+## Frozen files (moved from AGENTS.md, 2026-10)
+
+`find_declared_unmatched` refuses a staged source that defines **any** function
+the ledger does not declare, and nothing re-checks unstaged files, so a file can
+become uneditable. Check before planning work in one (silent means it commits):
+`python3 tools/find_declared_unmatched.py <file>`.
+
+Two remedies, not interchangeable:
+
+- **Row the body**: real work, and the reason the file is frozen.
+- **An `absent-from-retail` marker**, one per definition, only for a body retail
+  dead-stripped; honest only where true, never to hide an over-claim. It must
+  start `// ?` (`// ?<Class::method> absent-from-retail`) or it is silently
+  ignored; the label is free, only the trailing word is read. Do not copy a
+  ledger row's trailing comma into it (`// ?<mangled>,` misses).
+
+Never hand-add a `present-unmatched` marker: it is a counted escape hatch, and the
+enforced hatch gate refuses its unadmitted growth (`tools/hatch_counters.py`;
+regression `tools/tests/test_hatch_counters.py`). Existing ones may be removed.
+
+Read the undeclared definitions the report names. Before adding markers, remove
+stale ones: a marker on a definition that IS matched is reported "still marked
+present-unmatched (stale annotation)", and an add-only pass makes that worse.
+After any marker change, re-run `find_declared_unmatched`
+on that file and revert your whole file attempt if it still refuses (the report
+gives `Class::method` without argument types, so a marker can land on the wrong
+overload). The error message's suggestion of
+`reverse/unclaimed_sources_whitelist.txt` does not apply: that protected list
+(`tools/protected_paths.py`) only exempts sources with zero matched rows and may
+only shrink.
+
+## The build cache trap (moved from AGENTS.md, 2026-10)
+
+Do not compile by hand through `tools/build.py` (`build.compile_source`) to see a
+raw error: it writes the shared cache `build/match/<mangled-source-path>.obj`, and
+later `./build.sh` and `explain_mismatch` runs silently reuse your object (the
+symptom: a body that stops emitting its symbol). The tell is a cached `.obj` whose
+source path no longer exists; delete that `.obj` **and** its `.deps.json`. Read
+raw errors from `build.sh` or the `explain_mismatch` traceback.
