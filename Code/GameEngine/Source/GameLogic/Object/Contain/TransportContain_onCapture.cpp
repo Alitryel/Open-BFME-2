@@ -1,111 +1,74 @@
 // cl: /MD
 // ?onCapture@TransportContain@@UAEXHH@Z @0x004672B7 99B: slot 9 Contain method with early-out plus flag-gated subobject virtuals.
 // Evidence: slots 9 of six Contain vtables 0x00844278 0x00845C38 0x00845EB8 0x00846D28 0x008470F8 0x008474A0, ret 8 two args, flag byte at +0x1c8 bit 0x20 via +0x08, subobject at +0x20 slots 0x80 0x8c 0xa8 0xd8 0xe0.
+// The +0x20 subobject is the interface TransportContain.cpp calls
+// TransportConditionInterface (its slot 60 is 0x004673C0 per the constructor
+// 0x00468559's secondary table); this file spells the same view so the body
+// merges into TransportContain.cpp unchanged.
 
-class Sub20_4672B7
+#define V(n) virtual void slot##n();
+#define CSLOT(n) virtual void cslot##n();
+
+class Object
 {
 public:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void v03();
-	virtual void v04();
-	virtual void v05();
-	virtual void v06();
-	virtual void v07();
-	virtual void v08();
-	virtual void v09();
-	virtual void v10();
-	virtual void v11();
-	virtual void v12();
-	virtual void v13();
-	virtual void v14();
-	virtual void v15();
-	virtual void v16();
-	virtual void v17();
-	virtual void v18();
-	virtual void v19();
-	virtual void v20();
-	virtual void v21();
-	virtual void v22();
-	virtual void v23();
-	virtual void v24();
-	virtual void v25();
-	virtual void v26();
-	virtual void v27();
-	virtual void v28();
-	virtual void v29();
-	virtual void v30();
-	virtual void v31();
-	virtual void v32(int);
-	virtual void v33();
-	virtual void v34();
-	virtual void v35(int);
-	virtual void v36();
-	virtual void v37();
-	virtual void v38();
-	virtual void v39();
-	virtual void v40();
-	virtual void v41();
-	virtual void v42(int);
-	virtual void v43();
-	virtual void v44();
-	virtual void v45();
-	virtual void v46();
-	virtual void v47();
-	virtual void v48();
-	virtual void v49();
-	virtual void v50();
-	virtual void v51();
-	virtual void v52();
-	virtual void v53();
-	virtual bool v54();
-	virtual void v55();
-	virtual int v56();
-	virtual void v57();
-	virtual void v58();
-	virtual void v59();
+	unsigned char m_pad000[0x1C8];
+	unsigned char m_flags1C8;	// bit 0x20 tested by onCapture
 };
 
-struct Obj08_4672B7
-{
-	unsigned char m_pad[0x1c8];
-	unsigned char m_flag;
-};
-
-class TransportContain
+class TransportConditionInterface
 {
 public:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void v03();
-	virtual void v04();
-	virtual void v05();
-	virtual void v06();
-	virtual void v07();
-	virtual void v08();
-	virtual void onCapture(int a1, int a2);
+	CSLOT(00) CSLOT(01) CSLOT(02) CSLOT(03) CSLOT(04) CSLOT(05) CSLOT(06) CSLOT(07) CSLOT(08) CSLOT(09)
+	CSLOT(10) CSLOT(11) CSLOT(12) CSLOT(13) CSLOT(14) CSLOT(15) CSLOT(16) CSLOT(17) CSLOT(18) CSLOT(19)
+	CSLOT(20) CSLOT(21) CSLOT(22) CSLOT(23) CSLOT(24) CSLOT(25) CSLOT(26) CSLOT(27) CSLOT(28) CSLOT(29)
+	CSLOT(30) CSLOT(31)
+	virtual void cslot32(int);
+	CSLOT(33) CSLOT(34)
+	virtual void cslot35(int);
+	CSLOT(36) CSLOT(37) CSLOT(38) CSLOT(39) CSLOT(40) CSLOT(41)
+	virtual void cslot42(int);
+	CSLOT(43) CSLOT(44) CSLOT(45) CSLOT(46) CSLOT(47) CSLOT(48) CSLOT(49)
+	CSLOT(50) CSLOT(51) CSLOT(52) CSLOT(53)
+	virtual bool cslot54();
+	CSLOT(55)
+	virtual int cslot56();
+	CSLOT(57) CSLOT(58) CSLOT(59)
+	virtual void rva004673C0() = 0;	// slot 60
+};
+
+class TransportContainPrimary
+{
+public:
+	V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08)
+	virtual void onCapture(int oldOwner, int newOwner);	// slot 9
+protected:
+	const void *m_moduleData;	// +0x04
+	Object *m_object;			// +0x08
 private:
-	int m_04;
-	Obj08_4672B7 *m_08;
 	unsigned char m_pad0C[0x20 - 0x0C];
-	Sub20_4672B7 m_20;
 };
 
-void TransportContain::onCapture(int a1, int a2)
+class TransportContain : public TransportContainPrimary, public TransportConditionInterface
 {
-	if (a1 == a2)
+public:
+	virtual void onCapture(int oldOwner, int newOwner);
+	virtual void rva004673C0();
+};
+
+void TransportContain::onCapture(int oldOwner, int newOwner)
+{
+	if (oldOwner == newOwner)
 		return;
-	if (m_08->m_flag & 0x20)
+	if (m_object->m_flags1C8 & 0x20)
 	{
-		m_20.v42(0);
+		cslot42(0);
 		return;
 	}
-	m_20.v32(2);
-	if (m_20.v54())
+	cslot32(2);
+	if (cslot54())
 	{
-		if (m_20.v56() != a2)
-			m_20.v35(2);
+		if (cslot56() != newOwner)
+			cslot35(2);
 	}
 }
