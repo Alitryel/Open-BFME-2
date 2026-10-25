@@ -6193,3 +6193,11 @@ Code/GameEngine/Source/Common/Rva005D9CE0.cpp|local|Rva005D9CD5::shouldActivate|
 Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD::FormatCPString|tmp,994990aac7ba2fd841131aca,gpt-6.1-sol,codex4-20261025-061940-10,w-887869184137,2026-10-25
 Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|member|Record52|selected2C,9d977bbc24b9866ee426e13a,gpt-6.1-sol,codex4-20261025-061940-10,w-887869184137,2026-10-25
 Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|param|StrategicVeterancy::Data::AutoResolve::AutoResolve|a,a3740c805f8308bd22b41058,gpt-6.1-sol,codex4-20261025-061940-10,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme30,c9285f8a64fb939ee0a91547,gpt-6.1-sol,codex4-20261025-065020-1,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,0086a5b459aa494601fd39bf,gpt-6.1-sol,codex4-20261025-065020-1,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp|member|Rva004A6EHolder|m_1c,ab47747318216a68e4596f68,gpt-6.1-sol,codex4-20261025-065020-1,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp|function|0x004A6E8E|rva004A6E8E,5a15a711e7e93c77ea16d28b,gpt-6.1-sol,codex4-20261025-065020-1,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp|function|0x004A6EC6|rva004A6EC6,8901ed66eb0ef3004271e72e,gpt-6.1-sol,codex4-20261025-065020-1,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BC53Xfer3|p,b2cacb4f5c9c54db90a94f0b,gpt-6.1-sol,codex4-20261025-065020-3,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv2048.cpp|member|BfmeHostFN|m_bfmeOwnerFN,6b4603290f339b1824c4d000,gpt-6.1-sol,codex4-20261025-065020-4,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/BfmeConv2048.cpp|function|0x0066DC40|bfmeAddFN,26a8d527c8552f125d5fbe2b,gpt-6.1-sol,codex4-20261025-065020-4,w-887869184137,2026-10-25
