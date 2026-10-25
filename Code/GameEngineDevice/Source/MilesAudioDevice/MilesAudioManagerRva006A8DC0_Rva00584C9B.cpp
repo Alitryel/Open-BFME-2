@@ -78,3 +78,8 @@ private:
 // _M_pop_back_aux<PlayingAudioRef>, whose retail body (pinned 0x00054D5A) is
 // rowed under another element name, and the link kept this unit's copy.
 template _STL::deque<PlayingAudioRef, _STL::allocator<PlayingAudioRef> >::iterator _STL::deque<PlayingAudioRef, _STL::allocator<PlayingAudioRef> >::begin();
+
+// The manager calls this existing fold-pinned pointer-copy instantiation.
+// Emit only this helper, preserving the retail body at 0x000A9840 without
+// bringing back the conflicting whole-container instantiations.
+template void _STL::_Construct<PlayingAudioRef, PlayingAudioRef>(PlayingAudioRef *, const PlayingAudioRef &);
