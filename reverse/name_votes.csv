@@ -6440,3 +6440,4 @@ Code/GameEngine/Source/Common/Rva005DCE72.cpp|function|0x005DCE72|rva005DCE72,e3
 Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp|local|Rva0028D796::rva0028D796|b,51cea0b4273a8f392bde8b78,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
 Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,7a5cf81b91c43f93e65aa671,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
 Code/GameEngine/Source/Common/Rva000D3A17.cpp|class||Rva000D3A17Ref,31f065e8507d1243a34e19fd,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
+Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020AC0|Rva00020AC0,8030fd1c95adeb38b653818a,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
