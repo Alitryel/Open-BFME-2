@@ -226,6 +226,12 @@ private:
 	int level;
 private:
 	int maxLevel;
+private:
+	unsigned char pad2C[0x34 - 0x2C];
+private:
+	Object *m_parent;	// +0x34, read by rva0039B315
+private:
+	unsigned int m_experienceSink;	// +0x38, the ObjectID experience is forwarded to
 public:
 	bool rva0039B4EC(int levels, bool flag1, bool flag2);
 public:
