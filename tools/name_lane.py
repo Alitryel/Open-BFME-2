@@ -946,7 +946,7 @@ def main(argv=None, lane=None):
     st.add_argument("--only-labels", metavar="L,L", help="count the waiting keys apply --only-labels would select")
     st.add_argument("--lead", type=int, default=2, help="with --only-labels: the lead apply would use")
     st.add_argument("--min-models", type=int, default=1, help="with --only-labels: the min-models apply would use")
-    placement = sub.add_parser("consolidate", help="draft original-file evidence and consolidation packets; applies nothing")
+    placement = sub.add_parser("consolidate", help="build original-file evidence and consolidation packets; applies nothing")
     import source_layout
     source_layout.configure_parser(placement)
     args = ap.parse_args(argv)

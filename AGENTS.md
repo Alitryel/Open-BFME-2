@@ -9,8 +9,9 @@ or commit message reports an edit to `AGENTS.md`.
 Byte matching of BFME 2's `.text` is complete (`python3 tools/progress.py`:
 BYTE-MATCHED 100%). The open work is making matched units link, retiring debt,
 replacing placeholder and generated rows with real C++ and real names, and
-consolidating files. A retail function with no row means a row was lost:
-restoring it is regression repair.
+consolidating files. Investigate an apparent unrowed body against current
+coverage, existing owners and history before calling it a regression. Restoring
+a lost row is regression repair; identifying an existing placeholder is cleanup.
 
 **Exit test** (`docs/verifier_upgrade_plan.md` step 12): the game links with no
 `/FORCE` and no stubs at a non-retail base, and automated runs
@@ -102,9 +103,12 @@ verified and easy to rebase. Detail for the hook rules:
   `extern AIView *TheAI`). The list only grows.
 - Never add a private copy of a class registered in
   `reverse/canonical_classes.csv` (`tools/class_gate.py`).
-- Move rows only into the address's approved unit in `reverse/tu_map.csv`
-  (`python3 tools/repair_queue.py dest 0xRVA`), including `tu_skeleton.py
-  --merge` and `rehome_rows.py` moves.
+- Move rows only into the address's approved unit in the current TU map,
+  including `tu_skeleton.py --merge` and `rehome_rows.py` moves. The committed
+  `reverse/tu_map.csv` must be fresh; `tu_skeleton.py` can instead rebuild it
+  in memory from current inputs. Never treat a stale assignment or a fallback
+  from `repair_queue.py dest 0xRVA` as approval. Do not commit a regenerated
+  map from the consolidation lane.
 - Read `docs/naming.md` before renaming anything.
 
 ### Source and ledger integrity
@@ -185,6 +189,12 @@ verified and easy to rebase. Detail for the hook rules:
 - Allow at least five minutes between successful pushes by the same GitHub
   account to this repository; share that clock across workers using the
   account, and keep working during the cooldown.
+- If the outgoing batch changes source paths, audit active tooling and other
+  path consumers once across the entire batch immediately before pushing.
+  Update affected consumers and verify them together; repeat only if relevant
+  moves or consumers change. Core ledger repointing still accompanies each
+  applied move. Checklist: `docs/consolidation.md` ("Tooling compatibility audit
+  before pushing").
 - Never start or approve `tools/nightly_measure.py` or
   `tools/audit/run_nightly.cmd` (the maintainer's scheduled tasks,
   `docs/nightly_setup.md`). Ask a maintainer
@@ -207,9 +217,11 @@ An explicit request or assigned lane overrides the queue.
    affected sources and repair regressions.
 1. `python3 tools/next_work.py --claim` serves, in order: regressions and gate
    debt (`python3 tools/repair_queue.py repair`), then link, header, data and
-   code-identity queues by weight. If a new-match tier serves work, a row was
-   lost: land it in its unit (`repair_queue.py dest 0xRVA`), never as a fresh
-   one-function file. `--wb` is served on request only. Lanes and their tools are below; picker
+   code-identity queues by weight. Check any new-match candidate against current
+   covered ranges, generated/alias owners, input freshness and history. Restore
+   a proven lost row in its approved unit, never a fresh one-function file;
+   existing-placeholder identity work stays in the naming/cleanup lanes.
+   `--wb` is served on request only. Lanes and their tools are below; picker
    detail: `docs/matching.md` ("Work selection in detail").
 2. Work the file, not the row: drain the other queued candidates in the same
    source file, finishing or reverting each body or homogeneous batch before the
@@ -272,6 +284,13 @@ An explicit request or assigned lane overrides the queue.
   MFNode); it is no reference sweep. Rules: `reverse/vp6_cleanroom/README.md`.
 
 ## Consolidate files into retail translation units
+
+Start a consolidation or subsystem naming pass with
+`python3 tools/name_lane.py consolidate --under Code/<subsystem>/` and read its
+original-path evidence, alternatives and blockers. Reuse a report only while
+`python3 tools/name_lane.py consolidate --check build/consolidation` passes;
+regenerate it after relevant inputs change. This is the supported evidence
+planner; hints and investigation groups do not approve a TU or a merge.
 
 The one-function files are merged back into the TU retail built them from with
 `tools/tu_skeleton.py`, never by hand: `--queue` picks an approved TU

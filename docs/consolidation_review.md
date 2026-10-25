@@ -1,6 +1,11 @@
-# Adversarial review of the consolidation draft
+# Adversarial review of the consolidation planner
 
-This review challenges whether the draft could nominate the wrong original file,
+The planner is supported for routine evidence gathering and work selection.
+`AGENTS.md` and the consolidation workflow direct contributors to use it;
+actual merges retain the existing `tu_skeleton.py` claims and verification gates.
+The review below records the initial draft and its publication integration.
+
+This review challenges whether the planner could nominate the wrong original file,
 lose rows, overstate reference evidence, or report a stale observation as usable.
 It was performed after the first working scan; the findings below were addressed
 and regression tested before the final scan. No production merge was attempted.
@@ -53,5 +58,35 @@ Remaining boundaries are explicit: donor spelling does not prove target identity
 ROTWK data vocabulary does not prove C++ structure; the existing TU map is stale;
 and compile/declaration/include analysis here is conservative rather than a C++
 semantic model. `report.md`, `groups.json` and `files.jsonl` keep those limitations
-visible in the actual work queue. The draft does not weaken any existing gate,
+visible in the actual work queue. The planner does not weaken any existing gate,
 grant naming authority, apply consolidations, stage files, commit or push.
+
+## Phase 2 instruction integration, 2026-10-25
+
+Reviewed upstream `e041aec055da458a7293c50850dfab7c47547882` after pulling
+the Phase 2 instructions and the accompanying commits. Preserved the focus on
+linking, cleanup, enforced hatch accounting and maintainer-controlled runners.
+Corrected three instruction risks against the existing tools:
+
+- Full byte coverage does not make every apparent picker candidate a proven
+  lost row. Check current owners, boundaries, input freshness and history first;
+  placeholder identity recovery remains naming/cleanup work.
+- WorldBuilder band 0 includes already matched C++ with weak identities.
+  Those names go through `name_evidence.py` and `rename.py`; `add_match.py`
+  remains for actual body recovery, with the ordinary admission rules.
+- A current TU approval can come from `tu_skeleton.py`'s fresh in-memory map.
+  Requiring the stale committed map alone contradicts that execution lane;
+  neither a stale assignment nor a destination heuristic grants approval.
+
+Path-consumer review is one pre-push audit over all outgoing moves, as requested.
+Core ledger updates still accompany each applied move. Promotion changes no
+game source, reconstruction ownership or gate admission rules.
+
+The expanded consolidation tests exposed a Windows-only fixture defect in
+`test_tu_skeleton.py`: `Path.write_text` translated its temporary ledger rows to
+CRLF, and the production LF-only check correctly rejected them. Fixtures now
+request UTF-8/LF explicitly; the production ledger guard remains unchanged.
+
+Promotion validation: 107 tests passed across the planner, naming-lane and
+`tu_skeleton` suites after rebasing onto the Phase 2 changes. The full planner
+scan completed again on that checkout; ledger, case and whitespace checks passed.

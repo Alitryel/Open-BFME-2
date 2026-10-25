@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Draft original-file consolidation packets alongside the naming lanes.
+"""Build original-file consolidation packets alongside the naming lanes.
 
 Read-only with respect to game source, ledgers, the index and references. Outputs
 are restricted to build/consolidation[/...] or reverse/consolidation[/...]. This
 is an evidence catalogue and investigation queue, never an automatic merger.
-See docs/consolidation.md for evidence grades and the eventual admission steps.
+See docs/consolidation.md for evidence grades and the merge admission steps.
 """
 import argparse
 import bisect
@@ -670,7 +670,7 @@ def output_dir(root, value):
         raise ValueError("output escapes the workspace through a symlink/junction")
     for name in (*OUTPUTS, "inputs.json"):
         if (out / name).is_symlink() or not (out / name).resolve().is_relative_to(out):
-            raise ValueError("output artifact redirects outside its draft directory")
+            raise ValueError("output artifact redirects outside its report directory")
     return out
 
 
@@ -714,7 +714,7 @@ def check_snapshot(root, directory):
 
 
 def report(summary, groups, stale, counts):
-    text = ["# Consolidation draft", "", "No source, ledger, git index or reference was changed. No merge is verified.", "",
+    text = ["# Consolidation evidence and work queue", "", "No source, ledger, git index or reference was changed. No merge is verified.", "",
             f"Retail original .cpp paths: **{summary['retail_cpp_paths']}**; header paths: **{summary['retail_header_paths']}**.",
             f"WorldBuilder original paths: **{summary['worldbuilder_paths']}** after case folding (editor and game paths are not interchangeable).",
             f"Catalogue: {summary['catalogue_paths']} paths; active source files surveyed: {summary['source_files']}.",
@@ -733,11 +733,12 @@ def report(summary, groups, stale, counts):
     text += ["", "See groups.json and its files.jsonl packets for exact sources, row identities, evidence, hashes and blockers; queue.csv includes unresolved files.",
              "Before execution, recheck inputs.json, settle routing and class contracts, and run the ordinary byte, EH, data, ownership and link checks.",
              "Use rename.py for proven or agreed identifier changes. This planner grants no canonical name basis and applies nothing.", ""]
+    text += ["Before pushing, audit affected tooling once across all path changes in the outgoing batch; see docs/consolidation.md.", ""]
     return "\n".join(text)
 
 
 def configure_parser(parser):
-    parser.add_argument("--out", default="build/consolidation", help="isolated draft output directory")
+    parser.add_argument("--out", default="build/consolidation", help="isolated report output directory")
     parser.add_argument("--check", metavar="DIRECTORY", help="check a previous snapshot; writes nothing")
     parser.add_argument("--bfme1", help="BFME 1 checkout; default reference/open-bfme-1")
     parser.add_argument("--zh", help="explicit GeneralsMD/Code reference tree")
@@ -839,7 +840,7 @@ def run(args, root=ROOT):
             handle.write(text)
         os.replace(temp, out / name)
     print(json.dumps(summary, sort_keys=True))
-    print(f"Draft written to {out}; no source/ledger edits, staging, commits or pushes.")
+    print(f"Consolidation report written to {out}; no source/ledger edits, staging, commits or pushes.")
     return 0
 
 

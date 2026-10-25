@@ -456,9 +456,11 @@ region default loses a row.
 
 ## Reference lanes and donor sweeps (moved from AGENTS.md, 2026-10)
 
-Byte matching of `.text` is complete (`tools/progress.py`), so new matching is
-regression repair, and these lanes now serve as source leads for regressions,
-link repairs and gen-* repoints. They were AGENTS.md's work-selection steps 3–6
+Byte matching of `.text` is complete (`tools/progress.py`), so these lanes now
+serve as source leads for verified regressions, link repairs and gen-* repoints.
+Coverage alone does not identify every function or prove a candidate lost its
+row: check current owners, aliases, boundaries and input freshness first.
+They were AGENTS.md's work-selection steps 3–6
 and its sections on coverage-first sweeps and BFME 1 donor compiles; every rule
 below still holds when you use them.
 
@@ -619,19 +621,23 @@ end drops it. Debt whose source no longer exists is served first in its queue, a
 a regression.
 
 After the debt queues come the new-match tiers (Zero Hour packets, reloc-named,
-drift, structural, Ghidra- and string-anchored). Each serves only retail functions
-that no row claims. At 100% they are empty (`next_work.py --ranked` shows 0), so
-anything they serve means a row was lost. Treat it as regression repair: find out
-why the row went (git history, `reverse/deleted_rows.csv`), then land a verified
-row in its unit (`repair_queue.py dest 0xRVA`). Do not write a fresh one-function
-file.
+drift, structural, Ghidra- and string-anchored). They should have no new uncovered
+bytes to serve in the current tree. If a candidate appears, first check current
+matched ranges, generated/alias owners, proven boundaries and stale queue inputs.
+Only call it regression repair after history or `reverse/deleted_rows.csv`
+establishes a lost row. Restore that row in its approved unit; a
+`repair_queue.py dest 0xRVA` fallback is a lead, not TU approval. Do not add a
+duplicate claim or a fresh one-function file just because the picker served it.
 
 `next_work.py --wb` is served on request only. Its band 0 offers rowed bodies with
 placeholder or pin-only names (`Rva*`, `helper*`) that a WorldBuilder lead can
-name. That is cleanup, not a new match: write the body as real C++ under the real
-name at its home and land it with the `add_match.py` command the picker prints
-(`--replace-rva <rva>` for a placeholder row), under `docs/naming.md`. Band 1
-(unrowed) is empty and, like the new-match tiers, would mean a regression.
+name. For an existing matched C++ body, grade the lead with `name_evidence.py`
+and use the guarded `rename.py` workflow in `docs/naming.md`; a WorldBuilder
+lead alone does not prove the new name. A generated or dumped body needs actual
+clean C++ recovery through the normal `add_match.py` admission and byte gates
+(`--replace-rva <rva>` where appropriate). Do not reconstruct or replace an
+already recovered body merely to rename it. Band 1 (unrowed) needs the same
+coverage, ownership, freshness and history checks as other apparent gaps.
 
 ### Cleanup lane details
 

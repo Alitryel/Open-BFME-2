@@ -5,15 +5,16 @@ Retail was linked from real translation units, and a TU's functions sit next to
 each other in `.text` in object order. This lane merges the small files back into
 the TU retail built them from, one TU at a time, without losing a matched row.
 
-Three tools do the mechanical part; a seat does the judgement.
+Four tools support the workflow; a seat does the judgement.
 
-The read-only evidence catalogue and naming planner is an opt-in draft, described
-under [Draft evidence catalogue and naming packets](#draft-evidence-catalogue-and-naming-packets).
-Its investigation packets supplement this execution lane; all merges continue
-through `tools/tu_skeleton.py` and the normal verification gates.
+Start a consolidation or subsystem naming pass with the read-only
+[evidence catalogue and naming planner](#evidence-catalogue-and-naming-packets).
+Its investigation packets support work selection and prerequisite repairs;
+merges continue through `tools/tu_skeleton.py` and the normal verification gates.
 
 | Tool | Role |
 |---|---|
+| `tools/name_lane.py consolidate` | The evidence planner: catalogues original paths and donor structure, identifies candidate groups and flags routing, declaration, include and compiler prerequisites. |
 | `tools/tu_map.py` | Which TU each retail function came from: `__FILE__` strings, Zero Hour definitions and class sites, naming inside an anchored address cluster, contiguity. `approved` rows are the only ones a merge moves. |
 | `tools/tu_skeleton.py` | The lane: `--queue`, `--plan`, `--merge`. It verifies every merge by compiling and byte-matching, claims its scope, and repoints the ledger. |
 | `tools/tu_ownership.py` | The commit hook's invariants (a row moved to a file other than its approved TU, a second body for one address). Shadow mode. |
@@ -24,7 +25,10 @@ regenerated `tu_map.csv` from this lane.
 
 ## Workflow per TU
 
-1. **Pick.** `python3 tools/tu_skeleton.py --queue --limit 20` ranks approved TUs by
+1. **Survey and pick.** Run `python3 tools/name_lane.py consolidate --under Code/<subsystem>/`
+   and review its evidence and blockers. An unchanged report can be reused while
+   `python3 tools/name_lane.py consolidate --check build/consolidation` passes.
+   Then `python3 tools/tu_skeleton.py --queue --limit 20` ranks approved TUs by
    how many files a merge would remove and marks those another worker holds
    (`HELD`). Take an unheld one. `removes` is an upper bound: the merge keeps only
    donors that compile together without losing a row.
@@ -54,8 +58,10 @@ regenerated `tu_map.csv` from this lane.
    subject.
 6. **Verify and commit.** `./build.sh TU`, then
    `python3 tools/find_declared_unmatched.py TU`, then commit with the printed
-   subject. The hook byte-verifies the TU again. Publish under AGENTS.md #7: a
-   merge recovers no new bytes, so batch merges and push them together.
+   subject. The hook byte-verifies the TU again. Follow AGENTS.md's Publication
+   rules: a merge recovers no new bytes, so batch merges and push them together. Perform
+   the tooling compatibility audit below once over the full outgoing batch
+   immediately before pushing.
 7. **Name while you are there.** The rows of the TU are a natural naming group:
    rename placeholder rows with `tools/rename.py` (`docs/naming.md`) in separate
    commits. A merged TU path is an approved retail TU, so `rename_files.py` never
@@ -76,7 +82,36 @@ regenerated `tu_map.csv` from this lane.
   has seen it; an existing TU path is previewable. A merge that changes which
   COMDAT copy a link keeps shows up in the next census.
 
-## Draft evidence catalogue and naming packets
+## Tooling compatibility audit before pushing
+
+Run this audit once before each push across **all pending path changes**, so a
+batch with ten moves pays for one review. Source and ledger consistency is still
+verified when each move is applied; the broader consumer audit is batched here.
+
+1. Collect old-to-new paths for moves/renames and destinations for absorbed
+   fragments across the complete outgoing range (`origin/master..HEAD` after
+   fetching). Use `git diff --name-status --find-renames origin/master..HEAD`
+   and the merge plans; a many-to-one consolidation can appear as deletions and
+   additions rather than a detected Git rename.
+2. Search once with the combined old paths, basenames and moved directory names.
+   Review active references in `tools/`, `.githooks/`, `.github/`, source/header
+   includes, build/configuration files, source registries and documentation.
+   Include relative paths, globs and code that derives paths from a directory.
+3. Update affected consumers coherently in the unpublished batch. The merge
+   engine already repoints `rename.PATH_COLUMNS` and the doxygen source list;
+   it cannot infer every hard-coded path or directory assumption in other tools.
+   Extend shared repointing support when another active registry needs it and
+   test that behavior. Protected registers retain their normal admission rules.
+4. Refresh affected generated reports and caches through their owning tools and
+   verify affected consumers at the new paths. Do not treat old compiler receipts
+   as proof for a moved source. Preserve original EA path strings and historical
+   evidence; classify remaining old-path mentions rather than replacing them all.
+5. Finish normal byte, ledger, ownership, include, data, EH and link checks for
+   the changes that need them. Record the audited range and any intentional old
+   references in the batch's handoff. Re-run the audit only if relevant path
+   changes or consumers are added before publishing.
+
+## Evidence catalogue and naming packets
 
 `python3 tools/name_lane.py consolidate` runs BFME 2's own planner in
 `tools/source_layout.py`. It inventories original paths and produces work

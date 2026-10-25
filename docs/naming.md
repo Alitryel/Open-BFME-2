@@ -105,7 +105,9 @@ Before renaming a fragmented subsystem, `python3 tools/name_lane.py consolidate`
 builds original-path and donor evidence packets alongside the naming work.
 It catalogues every retail path, WorldBuilder paths, ZH structure and BFME 1 EA
 file evidence, and flags consolidation prerequisites without editing source or
-granting a name basis. See [the consolidation draft](consolidation.md).
+granting a name basis. See [the consolidation workflow](consolidation.md).
+Before pushing accumulated file renames or merges, audit affected tooling once
+across the entire outgoing batch using that workflow's path-consumer checklist.
 
 Every rename goes through one tool, one rename per invocation. Always plan with `--dry-run` first:
 

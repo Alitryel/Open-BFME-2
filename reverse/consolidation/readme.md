@@ -6,7 +6,7 @@ BFME 2 1.06 `game.dat` baseline. It retains every occurrence of the **173 origin
 string RVA, encoding and exact image SHA-256. It is evidence of path existence,
 not a complete original source map or an approved body-to-file assignment.
 
-The reviewed draft scan found:
+The initial reviewed scan on 2026-10-25 found:
 
 | Measurement | Count |
 |---|---:|
@@ -23,7 +23,7 @@ The reviewed draft scan found:
 
 The current TU map failed freshness; its assignments remain hints. The full
 snapshot passed its input/output freshness check after generation. These counts
-describe this draft, and should be regenerated as naming and reconstruction move.
+describe that snapshot, and should be regenerated as naming and reconstruction move.
 
 The full path union, source queue, per-file packets, investigation groups,
 ROTWK vocabulary and input/output receipts are generated under ignored

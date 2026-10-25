@@ -75,13 +75,14 @@ class RepointTests(unittest.TestCase):
             root = Path(tmp)
             (root / "reverse").mkdir()
             (root / "docs/doxygen").mkdir(parents=True)
+            # Union-merged ledgers require LF on Windows as well as Unix.
             (root / "reverse/functions.csv").write_text(
                 HEADER + "?a@@YAXXZ,,0x00001000,8,Code/A.cpp,matched,\n"
                 "?b@@YAXXZ,,0x00001010,8,Code/B.cpp,matched,keeps Code/A.cpp in notes\n"
-                "?c@@YAXXZ,,0x00001020,8,Code/C.cpp,matched,\n")
+                "?c@@YAXXZ,,0x00001020,8,Code/C.cpp,matched,\n", encoding="utf-8", newline="\n")
             (root / "reverse/data_rows.csv").write_text(
                 "name,address,address_kind,size,section,source,status,evidence,model\n"
-                "?g@@3HA,0x00002000,rva,4,.data,Code/B.cpp,matched,,\n")
+                "?g@@3HA,0x00002000,rva,4,.data,Code/B.cpp,matched,,\n", encoding="utf-8", newline="\n")
             (root / "docs/doxygen/sources.cfg").write_text(
                 "# list\nINPUT += Code/A.cpp\nINPUT += Code/B.cpp\nINPUT += Code/C.cpp\n")
             moved = T.repoint_all(root, ["Code/A.cpp", "Code/B.cpp"], "Code/T.cpp")
