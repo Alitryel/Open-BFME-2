@@ -6429,3 +6429,8 @@ Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptLeafCheck.cpp|member|Rva003B
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptLeafCheck.cpp|member|Rva003B489CEntry|m_val10,16e03f400405d1ecf45a8d68,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p155b,w-b1d23c32cc8a,2026-10-25
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,355ce27bfd17817b28115266,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p174a,w-cc3a4770f037,2026-10-25
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,024d6d6e7e23f789b03d12b1,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p174b,w-8489409de118,2026-10-25
+Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,fd9be020a98fa1aedc0a4fc4,claude-sonnet-5-5,sb-1,w-e00027ee5807,2026-10-25
+Code/GameEngine/Source/GameNetwork/Rva00318333.cpp|local|Rva00318333::rva00318768|o2,f7423e88b64db4a227377496,claude-sonnet-5-5,sa-3,w-2f5ab892d4b3,2026-10-25
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|o,3d0306c479322a92da10a8e7,claude-sonnet-5-5,sb-4,w-e00027ee5807,2026-10-25
+Code/GameEngine/Source/Common/Rva002B37B4.cpp|class||Rva002B37B4P2,33fa362b6fe038989d98a871,claude-sonnet-5-5,sa-5,w-2f5ab892d4b3,2026-10-25
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,eb449021420787f744967a06,claude-sonnet-5-5,sa-6,w-2f5ab892d4b3,2026-10-25
