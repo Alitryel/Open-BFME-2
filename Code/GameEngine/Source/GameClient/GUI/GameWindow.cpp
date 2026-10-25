@@ -537,6 +537,22 @@ public:
 
 class GameWindow
 {
+// Retail vftable 0x0080BBCC, 11 slots: 0 the deleting destructor 0x00314AC4,
+// 3 draw 0x0009DC05, 5 rva0009FD78, 7 __purecall; the other slots hold folded
+// bodies the ledger names after other classes. No row here calls through it.
+protected:
+	virtual ~GameWindow();
+public:
+	virtual void vslot1();
+	virtual void vslot2();
+	virtual Int draw(void *);
+	virtual void vslot4();
+	virtual Int rva0009FD78();
+	virtual void vslot6();
+	virtual void *fetchCreateInstance() = 0;
+	virtual void vslot8();
+	virtual void vslot9();
+	virtual void vslot10();
 public:
 	GameWindow *winPointInChild(int, int, bool, bool = false);
 public:
