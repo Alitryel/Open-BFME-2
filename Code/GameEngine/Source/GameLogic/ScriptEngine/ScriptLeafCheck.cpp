@@ -45,7 +45,7 @@ Bool Rva003B489CHolder::check(const void *arg) const
 
 Int Rva003B489CHolder::rva003B4885(const void *record) const
 {
-	const char *p = (const char *)record;
-	Int index = *(const Int *)(p + 4);
+	const char *recordBytes = (const char *)record;
+	Int index = *(const Int *)(recordBytes + 4);
 	return m_table[index].m_val10 + 4;
 }
