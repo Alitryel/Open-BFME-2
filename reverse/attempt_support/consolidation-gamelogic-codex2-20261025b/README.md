@@ -267,3 +267,21 @@ covers the two newly absorbed paths. Old-path hits are merged provenance,
 ledger notes identifying a historical donor, previous attempt records and
 historical census. No active tool, hook, workflow, include, build/configuration
 input or registry requires repair. No directories removed or EA strings changed.
+
+## Squad merge
+
+Reviewed planner alternatives, compiler/private STL prerequisites and current
+in-memory routing; all five eligible donors pass frozen checks. Both tool
+trials accept Rva004D6C9CAdd and Bfme5CompactVisitor into the new retail Squad
+TU, preserving three rows / 157 bytes (including the companion 16-byte row
+at 0x004D6C9C). Two donors removed and one new TU added: one file removed net.
+Normal build passes 3/3 and literals/imports, frozen and canonical-class checks
+pass. After the build, EH reports zero rows and zero missing objects. Three
+donors remain blocked on duplicate allocator/vector declarations or Xfer
+include ordering. One mixed file remains; no protected register changed.
+
+Compatibility audit refreshed against fetched origin 8983e1f1f1 for all four
+pending absorbed source paths (BattlePlan and Squad). Matches are merged
+provenance, historical donor notes/attempts and census; no active consumer
+requires repair. The new Squad TU is tracked. Common and AI directories stay
+in place; no EA path strings changed. Exact merge report: squad-merge.txt.
