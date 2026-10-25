@@ -26807,9 +26807,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0039AC0C,23,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp
 0x0039AC23,121,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp
 0x0039AC9C,8,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039ACA4,Code/GameEngine/Source/Common/VslotSizedForwarders.cpp
-0x0039ACA4,25,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039ACBD,Code/GameEngine/Source/Common/Rva0039ACA4Method.cpp
-0x0039ACBD,38,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039ACE3,Code/GameEngine/Source/Common/Rva0039ACBDMethod.cpp
-0x0039ACE3,40,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039AD0B,Code/GameEngine/Source/Common/Rva0039ACBDMethod.cpp
+0x0039ACA4,25,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039ACBD,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039ACBD,38,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039ACE3,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039ACE3,40,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039AD0B,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
 0x0039AD0B,58,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AC23..0x0039AD45,Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp
 0x0039AD45,17,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp
 0x0039AD56,89,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AD45..0x0039ADAF,Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp
@@ -26823,27 +26823,27 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0039AE92,42,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039ADB9..0x0039AEBC,Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp
 0x0039AEBC,158,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp
 0x0039AF5A,28,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AEBC..0x0039AF76,Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp
-0x0039AF76,37,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AEBC..0x0039AF9B,Code/GameEngine/Source/Common/Rva0039AF76Method.cpp
-0x0039AF9B,45,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AEBC..0x0039AFC8,Code/GameEngine/Source/Common/Rva0039AF9B.cpp
+0x0039AF76,37,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AEBC..0x0039AF9B,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039AF9B,45,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AEBC..0x0039AFC8,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
 0x0039AFC8,257,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp
 0x0039B0C9,40,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AFC8..0x0039B0F1,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp
 0x0039B0F1,28,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AFC8..0x0039B10D,Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp
 0x0039B10D,56,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AFC8..0x0039B145,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerXfer.cpp
 0x0039B145,42,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039AFC8..0x0039B16F,Code/GameEngine/Source/Common/System/SnapshotXfersBfme.cpp
-0x0039B16F,115,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/Common/ExperienceTracker.cpp,Code/GameEngine/Source/Common/Rva0039AF9B.cpp
+0x0039B16F,115,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/Common/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
 0x0039B1E2,23,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeThingEFC.cpp,Code/GameEngine/Source/Common/BfmeConv813.cpp
 0x0039B1F9,19,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeThingEFC.cpp,Code/GameEngine/Source/Common/Rva0039B1F9Refresh.cpp
-0x0039B20C,27,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B227,Code/GameEngine/Source/Common/Rva0039B20CSetter.cpp
-0x0039B227,31,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B246,Code/GameEngine/Source/Common/Rva0039B20CSetter.cpp
-0x0039B246,9,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B24F,Code/GameEngine/Source/Common/Rva0039B20CSetter.cpp
-0x0039B24F,64,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B28F,Code/GameEngine/Source/Common/Rva0039B24FMethod.cpp
-0x0039B28F,56,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B2C7,Code/GameEngine/Source/GameLogic/System/ExperienceTrackerRva0039B28F.cpp
+0x0039B20C,27,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B227,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039B227,31,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B246,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039B246,9,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B24F,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039B24F,64,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B28F,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039B28F,56,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B2C7,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
 0x0039B2C7,31,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B2E6,Code/GameEngine/Source/Common/Rva0039B548Method.cpp
-0x0039B2E6,47,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B315,Code/GameEngine/Source/Common/Rva0039B2E6Method.cpp
+0x0039B2E6,47,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B315,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
 0x0039B315,188,code-unledgered,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B3D1,
 0x0039B3D1,98,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,C,C=0x0039B1F9..0x0039B438,Code/GameEngine/Source/GameLogic/Object/ExperienceTrackerSetExperience.cpp
-0x0039B438,128,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/System/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/System/ExperienceTrackerRva0039B4EC.cpp
-0x0039B4EC,92,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/System/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/System/ExperienceTrackerRva0039B4EC.cpp
+0x0039B438,128,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/System/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
+0x0039B4EC,92,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp N=Code/GameEngine/Source/GameLogic/System/ExperienceTracker.cpp,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp
 0x0039B548,55,code,Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp,proposed,K,K=Rva003BD306Target,Code/GameEngine/Source/Common/Rva0039B548Method.cpp
 0x0039B632,27,code,,,-,,Code/GameEngine/Source/Common/Rva0039B632Method.cpp
 0x0039B64D,27,code,,,-,,Code/GameEngine/Source/Common/Rva0039B64DMethod.cpp
