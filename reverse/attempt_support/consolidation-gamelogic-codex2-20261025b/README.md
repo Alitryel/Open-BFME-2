@@ -157,3 +157,22 @@ New flank-path hits are only merged provenance and historical link census;
 previous classifications remain valid. No active tools, hooks, workflows,
 includes, build/configuration inputs or registries need repair. No directories
 are removed; EA strings and historical naming/attempt evidence are preserved.
+
+## SubObjectsUpgrade parser prerequisite
+
+Replaced the parser's private allocator/vector declarations with the real
+STLport vector header and begin/end API. Declared the existing specialization
+of one-argument resize, whose byte-verified owner is 0x000C4D34; no new callee,
+name or binding is invented. The first compilation identified the required
+STLport build marker; with that normal include environment the complete 88-byte
+parser passes ./build.sh, string/float/import and frozen checks. Canonical-class
+check passes. No record layout, callback name or ABI changes.
+
+The full pending-path compatibility audit from the flank commit remains valid:
+no path changes or old-path consumers have changed since that audit. The only
+new include is the standard vector header. This prerequisite is separate from
+its subsequent merge acceptance check.
+
+The flank commit gate passed; its shadow identity check reported the Coord3D
+copy constructor definition as divergent. Byte checks and EH remained exact;
+no identity baseline was edited.

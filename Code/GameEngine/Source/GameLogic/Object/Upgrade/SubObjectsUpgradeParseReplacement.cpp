@@ -1,4 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii
+// stlport
 //
 // Target 0x004B5293 (88B), Ghidra boundary FUN_008b5293. Retail derives an
 // eight-byte vector length, appends one record, then reads three INI tokens
@@ -9,6 +10,7 @@
 // are unresolved, so the target symbol remains address-derived.
 
 #include "ascii_string.h"
+#include <vector>
 
 struct BfmeStringRecord000B94D2
 {
@@ -16,22 +18,9 @@ struct BfmeStringRecord000B94D2
 	AsciiString m_second;
 };
 
-namespace _STL
-{
-template <class T> class allocator
-{
-};
-
-template <class T, class A = allocator<T> > class vector
-{
-public:
-	typedef unsigned int size_type;
-	void resize(size_type newSize);
-
-	T *m_start;
-	T *m_finish;
-	T *m_endOfStorage;
-};
+// The existing row at 0x000C4D34 owns this one-argument resize.
+namespace _STL {
+template <> void vector<BfmeStringRecord000B94D2>::resize(unsigned int);
 }
 
 class INI
@@ -44,10 +33,10 @@ void __cdecl rva004B5293(INI *ini, void *instance, void *store, const void *user
 {
 	_STL::vector<BfmeStringRecord000B94D2> *records =
 		(_STL::vector<BfmeStringRecord000B94D2> *)store;
-	unsigned int newSize = (unsigned int)(records->m_finish - records->m_start) + 1;
+	unsigned int newSize = (unsigned int)(records->end() - records->begin()) + 1;
 	records->resize(newSize);
 
-	BfmeStringRecord000B94D2 *record = records->m_finish - 1;
+	BfmeStringRecord000B94D2 *record = records->end() - 1;
 	const char *token = ini->getNextTokenOrNull(0);
 	if (token != 0)
 		record->m_first.set(token);
