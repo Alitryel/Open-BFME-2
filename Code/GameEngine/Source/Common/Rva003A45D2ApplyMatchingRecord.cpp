@@ -106,15 +106,15 @@ struct Rva003A45D2Data
 class Rva003A45D2
 {
 public:
-	void rva003A45D2(void *arg);
+	void rva003A45D2(void *sourceObject);
 	void *m_vtbl;
 	const Rva003A45D2Data *m_data;
 	Object *m_object;
 };
 
-void Rva003A45D2::rva003A45D2(void *arg)
+void Rva003A45D2::rva003A45D2(void *sourceObject)
 {
-	Object *obj = (Object *)arg;
+	Object *obj = (Object *)sourceObject;
 	const Rva003A45D2Data *data = m_data;
 	BfmeFixedStorage128 saved(obj->m_upgrades);
 	for (unsigned int i = 0; i < data->m_recs.size(); ++i)
