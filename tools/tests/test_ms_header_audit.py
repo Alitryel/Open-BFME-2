@@ -5,6 +5,7 @@ tool's own parser, so no toolchain is needed; the real index is validated by
 `ms_header_audit.py index --validate`.
 """
 import sys
+from types import SimpleNamespace
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -175,6 +176,31 @@ def test_extra_root_arguments():
     assert roots[1][0] == "inc"
 
 
+def test_preprocessor_uses_wine_paths_and_compiler_environment(tmp_path, monkeypatch):
+    import build
+    monkeypatch.setattr(mha, "vc71_root", lambda: tmp_path)
+    monkeypatch.setattr(mha.os, "name", "posix")
+    monkeypatch.setattr(build, "compiler_environment", lambda root: {"WINEPATH": "compiler-dlls"})
+    monkeypatch.setattr(build, "wine_path", lambda path: "Z:" + str(path).replace("/", "\\"))
+    calls = []
+    monkeypatch.setattr(mha.subprocess, "run", lambda command, **kw:
+                        calls.append((command, kw)) or SimpleNamespace(returncode=0, stdout="ok", stderr=""))
+    assert mha.run_cl_e(["#include <windows.h>"], [("sdk", tmp_path / "include")], workdir=tmp_path)[0]
+    command, kwargs = calls[0]
+    assert command[0] == "wine" and command[-1].startswith("Z:\\")
+    assert kwargs["env"] == {"WINEPATH": "compiler-dlls", "INCLUDE": "Z:" + str(tmp_path / "include").replace("/", "\\")}
+
+
+def test_preprocessor_line_paths_recover_header_provenance_under_wine(tmp_path, monkeypatch):
+    import build
+    monkeypatch.setattr(mha.os, "name", "posix")
+    monkeypatch.setattr(build, "wine_path", lambda path: "T:\\SDK")
+    roots = [("sdk", tmp_path)]
+    assert mha._label_for("T:\\SDK\\WinDef.h", roots) == "sdk/WinDef.h"
+    assert mha._label_for(str(tmp_path / "WinDef.h"), roots) == "sdk/WinDef.h"
+    assert mha._label_for("T:\\Other\\WinDef.h", roots) is None
+
+
 def test_queue_round_trip_and_repair_queue_lane(tmp_path, monkeypatch, capsys):
     res, _ = scan("typedef unsigned long DWORD;\n#define MAX_PATH 256\n")
     queue, occurrences = tmp_path / "reverse/ms_header_queue.tsv", tmp_path / "occ.tsv"
@@ -194,6 +220,41 @@ def test_queue_round_trip_and_repair_queue_lane(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(next_work, "busy_keys", lambda: set())
     assert repair_queue.main(["ms-headers", "--class", "conflicting"]) == 0
     assert "Code/Game/A.cpp" in capsys.readouterr().out
+
+
+def test_refresh_combines_donors_and_preserves_unrelated_debt(tmp_path):
+    queue, occurrences = tmp_path / "queue.tsv", tmp_path / "occ.tsv"
+    debt = scan("typedef unsigned long DWORD;\n")[0]
+    mha.write_queue({"Code/A.cpp": debt, "Code/B.cpp": debt, "Code/Other.cpp": debt},
+                    INDEX, queue=queue, occurrences=occurrences)
+    untouched = next(line for line in queue.read_bytes().splitlines(keepends=True)
+                     if line.startswith(b"Code/Other.cpp\t"))
+    assert mha.refresh_queue({"Code/T.cpp": debt}, INDEX, ["Code/A.cpp", "Code/B.cpp"],
+                             queue=queue, occurrences=occurrences)
+    rows = mha.read_queue(queue)
+    assert [r["file"] for r in rows] == ["Code/Other.cpp", "Code/T.cpp"]
+    assert rows[1]["defs"] == "1"
+    assert untouched in queue.read_bytes().splitlines(keepends=True)
+    assert "Code/A.cpp" not in occurrences.read_text()
+    assert "Code/B.cpp" not in occurrences.read_text()
+    assert "Code/Other.cpp" in occurrences.read_text()
+    assert "Code/T.cpp" in occurrences.read_text()
+    assert not mha.refresh_queue({"Code/T.cpp": debt}, INDEX,
+                                 queue=queue, occurrences=occurrences)
+
+
+def test_refresh_removes_clean_scope_but_keeps_failed_analysis_queued(tmp_path):
+    queue, occurrences = tmp_path / "queue.tsv", tmp_path / "occ.tsv"
+    debt = scan("typedef unsigned long DWORD;\n")[0]
+    mha.write_queue({"Code/A.cpp": debt, "Code/Other.cpp": debt}, INDEX,
+                    queue=queue, occurrences=occurrences)
+    mha.refresh_queue({"Code/T.cpp": scan("int x;\n")[0]}, INDEX, ["Code/A.cpp"],
+                      queue=queue, occurrences=occurrences)
+    assert [r["file"] for r in mha.read_queue(queue)] == ["Code/Other.cpp"]
+    failed = dict(scan("int x;\n")[0], error="analysis timeout")
+    mha.refresh_queue({"Code/T.cpp": failed}, INDEX, queue=queue, occurrences=occurrences)
+    row = next(r for r in mha.read_queue(queue) if r["file"] == "Code/T.cpp")
+    assert row["class"] == "failed" and "analysis timeout" in row["note"]
 
 
 def test_self_referencing_typedef_terminates():

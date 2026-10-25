@@ -2239,7 +2239,6 @@ Code/GameEngine/Source/Common/InlineDtorDeletingDtors1.cpp	unverified	unverified
 Code/GameEngine/Source/Common/InlineDtorDeletingDtors2.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<new.h>	no	yes	hand			operator new:unverified
 Code/GameEngine/Source/Common/InlineDtorDeletingDtorsC01.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<new.h>	no	yes	hand			operator new:unverified
 Code/GameEngine/Source/Common/InlineDtorDeletingDtorsC02.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<new.h>	no	yes	hand			operator new:unverified
-Code/GameEngine/Source/Common/RTS/ActionManagerGetCanAttackObject.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<windows.h>	yes	yes	hand			TRUE:unverified
 Code/GameEngine/Source/Common/RTS/ScoreKeeperUnhookAll.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<crtdbg.h>	no	yes	hand			free:unverified
 Code/GameEngine/Source/Common/RTS/SpecialPowerStoreCanUseSpecialPower.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<crtdbg.h>	no	yes	hand			free:unverified
 Code/GameEngine/Source/Common/Rva0008A173Copy.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<new.h>	no	yes	hand			operator new:unverified
@@ -3420,3 +3419,4 @@ reference/shims/sweep/mmsystem.h	shim	same	4	4	0	0	0	0	0	0	0	0	0	<windows.h>	yes
 reference/shims/sweep/windowsx.h	shim	unverified	2	0	0	0	2	0	0	0	0	0	0	<WindowsX.h>	yes	no	shim			GlobalAllocPtr:unverified,GlobalFreePtr:unverified
 reference/shims/sweep/comdef.h	shim	abi	1	0	0	0	0	0	1	0	0	0	0	<comutil.h>	no	no	shim			_bstr_t:abi
 reference/shims/sweep/winsock2.h	shim	abi	1	0	0	0	1	0	0	0	0	0	0	<windows.h>	yes	no	shim	96: reference/shims/sweep/winsock.h:9 in_addr(unknown); reference/shims/sweep/winsock.h:15 s_addr(unknown); reference/shims/sweep/winsock.h:18 sockaddr(source)		MAKEWORD:unverified
+Code/GameEngine/Source/Common/RTS/ActionManager.cpp	unverified	unverified	1	0	0	0	1	0	0	0	0	0	0	<windows.h>	yes	yes	hand			TRUE:unverified

@@ -1505,10 +1505,25 @@ def repoint_all(root, gone, tu):
     return moved
 
 
+def refresh_reports(root, gone, tu, text):
+    """Keep the Microsoft-header picker attached to the resulting source."""
+    queue = Path(root) / "reverse/ms_header_queue.tsv"
+    if not queue.exists():
+        return {}
+    import ms_header_audit
+    index = ms_header_audit.load_index()
+    result = ms_header_audit.scan_text(tu, text, index)
+    changed = ms_header_audit.refresh_queue(
+        {tu: result}, index, removed=gone, queue=queue,
+        occurrences=Path(root) / "build/ms_header_audit/occurrences.tsv")
+    return {"reverse/ms_header_queue.tsv": 1} if changed else {}
+
+
 def apply(tu, accepted, text, root=ROOT):
     gone = [f for f in accepted if f != tu]
     moved = repoint_all(root, gone, tu)
     (Path(root) / tu).write_text(text, encoding="utf-8", newline="\n")
+    moved.update(refresh_reports(root, gone, tu, text))
     if gone:
         subprocess.run(["git", "rm", "-q", "--", *gone], cwd=root, check=True)
     subprocess.run(["git", "add", "--", tu, *moved], cwd=root, check=True)

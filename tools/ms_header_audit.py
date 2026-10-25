@@ -69,7 +69,7 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TOOL_VERSION = 12
+TOOL_VERSION = 13
 CACHE_DIR = ROOT / "build" / "ms_header_audit"
 QUEUE = ROOT / "reverse" / "ms_header_queue.tsv"
 OCCURRENCES = CACHE_DIR / "occurrences.tsv"
@@ -1392,6 +1392,11 @@ def index_key(roots):
 
 def _cl_env(roots):
     vc = vc71_root()
+    if os.name != "nt":
+        from build import compiler_environment, wine_path
+        env = compiler_environment(vc)
+        env["INCLUDE"] = ";".join(wine_path(p) for _, p in roots)
+        return env
     env = os.environ.copy()
     env["INCLUDE"] = ";".join(str(p) for _, p in roots)
     env["PATH"] = os.pathsep.join([str(vc / "Vc7" / "bin"), str(vc / "Common7" / "IDE"),
@@ -1412,8 +1417,13 @@ def run_cl_e(lines, roots, lang="cpp", workdir=None):
     with os.fdopen(fd, "w") as handle:
         handle.write("\n".join(lines) + "\n")
     try:
+        if os.name != "nt":
+            from build import wine_path
+            name_arg = wine_path(name)
+        else:
+            name_arg = name
         result = subprocess.run(command + ["-nologo", "-E", "-MD", "-EHsc", "-DWIN32", "-D_WINDOWS",
-                                           "-TP" if lang == "cpp" else "-TC", name],
+                                           "-TP" if lang == "cpp" else "-TC", name_arg],
                                 env=_cl_env(roots), capture_output=True, text=True, errors="replace")
     finally:
         os.unlink(name)
@@ -1448,9 +1458,14 @@ def fit_headers(prefix, candidates, roots, lang):
 def _label_for(path_text, roots):
     norm = path_text.replace("\\", "/").lower()
     for label, root in roots:
-        prefix = str(root).replace("\\", "/").lower().rstrip("/") + "/"
-        if norm.startswith(prefix):
-            return f"{label}/{path_text.replace(chr(92), '/')[len(prefix):]}"
+        paths = [str(root)]
+        if os.name != "nt":
+            from build import wine_path
+            paths.append(wine_path(root))
+        for path in paths:
+            prefix = path.replace("\\", "/").lower().rstrip("/") + "/"
+            if norm.startswith(prefix):
+                return f"{label}/{path_text.replace(chr(92), '/')[len(prefix):]}"
     return None
 
 
@@ -3438,6 +3453,40 @@ def write_queue(results, index, queue=QUEUE, occurrences=OCCURRENCES):
     occurrences.parent.mkdir(parents=True, exist_ok=True)
     occurrences.write_text("\n".join(occ_lines) + "\n", newline="\n")
     return rows
+
+
+def refresh_queue(results, index, removed=(), queue=QUEUE, occurrences=OCCURRENCES):
+    """Rescan a changed scope without dropping unrelated queued debt.
+
+    Consolidation must classify the resulting TU, rather than renaming several
+    donor rows to duplicate destination rows or retaining vanished paths.
+    Unaffected records (including their existing evidence) stay byte-for-byte.
+    Returns whether the tracked queue changed; occurrences are a local cache.
+    """
+    affected = set(results) | set(removed)
+
+    def merge(path, fresh):
+        if not path.exists():
+            return fresh
+        old = path.read_bytes().splitlines(keepends=True)
+        new = fresh.splitlines(keepends=True)
+        if not old or old[0].rstrip(b"\r\n") != new[0].rstrip(b"\r\n"):
+            raise ValueError(f"unexpected Microsoft-header report header: {path}")
+        kept = [line for line in old[1:]
+                if line.split(b"\t", 1)[0].decode("utf-8") not in affected]
+        return old[0] + b"".join(kept + new[1:])
+
+    with tempfile.TemporaryDirectory(prefix="ms-header-refresh-") as tmp:
+        fresh_queue, fresh_occ = Path(tmp) / "queue.tsv", Path(tmp) / "occurrences.tsv"
+        write_queue(results, index, queue=fresh_queue, occurrences=fresh_occ)
+        queue_raw = merge(queue, fresh_queue.read_bytes())
+        occ_raw = merge(occurrences, fresh_occ.read_bytes())
+    changed = not queue.exists() or queue.read_bytes() != queue_raw
+    queue.parent.mkdir(parents=True, exist_ok=True)
+    queue.write_bytes(queue_raw)
+    occurrences.parent.mkdir(parents=True, exist_ok=True)
+    occurrences.write_bytes(occ_raw)
+    return changed
 
 
 def summarize(results, index, rows=None):

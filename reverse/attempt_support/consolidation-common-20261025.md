@@ -218,3 +218,37 @@ merged provenance, historical comments about the placement-copy implementation,
 the census snapshot, naming history and the attempt log. No active tools, hooks,
 workflows, includes, build inputs or registries need repair; previous independent
 BFME 1 evidence retains its earlier classification.
+
+## ActionManager.cpp
+
+Dry run and claimed application accepted six fragments into RTS/ActionManager.cpp,
+preserving eight matched rows and removing five net source files. The ordinary
+build passed 8/8; declared-unmatched and check_csv passed. Six other eligible
+donors remain blocked by baseline compilation, changed bytes or incompatible
+Object/Weapon/SpecialPower private declarations. Five mixed files and one
+protected-register donor remain intact. No committed map regeneration occurred.
+
+The combined pending path audit from 475627d09f through this staged merge
+covered eleven deleted paths. It found an active Microsoft-header queue entry
+for ActionManagerGetCanAttackObject.cpp. The resulting TU retains its TRUE
+macro, so deleting or leaving that entry under a vanished path would conceal
+debt from repair_queue. The merge engine now rescans the destination through
+ms_header_audit and refreshes only affected queue/cache records, preserving
+unrelated debt and keeping incomplete analyses queued. Its Wine preprocessing
+invocation now uses the existing build environment/path helpers; this fixes
+POSIX include/source paths and compiler DLL lookup without changing flags.
+
+Regression validation: 98 tests passed, one skipped, two deselected across
+ms_header_audit, tu_skeleton and gate_exploits. The two deselected tests
+(test_extra_root_arguments, test_included_project_headers_are_inspected) also
+fail with the unchanged HEAD auditor on this Linux setup. The initial auditor
+index attempt with POSIX compiler paths was terminated after diagnosis; a
+corrected live windows.h preprocessing probe passed. Remaining old references
+are historical evidence, source provenance/naming, ledger notes and census
+snapshots; active tools/hooks/workflows/includes/build inputs were reviewed.
+
+The complete corrected live index contains 92,199 preprocessed declarations,
+and all 23 built-in index validation probes passed. Wine line-directive paths
+are mapped back to their indexed header roots; an index version bump prevents
+reuse of older Linux indexes without that provenance. The refreshed queue
+keeps the unresolved TRUE definition under RTS/ActionManager.cpp.

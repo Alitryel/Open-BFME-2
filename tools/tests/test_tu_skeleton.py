@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import tu_skeleton as T
@@ -70,6 +71,25 @@ class EffectiveFlagsTests(unittest.TestCase):
 
 
 class RepointTests(unittest.TestCase):
+    def test_apply_stages_the_refreshed_header_queue(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Code").mkdir()
+            (root / "reverse").mkdir()
+            (root / "reverse/ms_header_queue.tsv").write_text("fixture\n")
+            with patch("ms_header_audit.load_index", return_value={}) as index, \
+                    patch("ms_header_audit.scan_text", return_value={"occ": []}) as scan, \
+                    patch("ms_header_audit.refresh_queue", return_value=True) as refresh, \
+                    patch.object(T.subprocess, "run") as run:
+                moved = T.apply("Code/T.cpp", ["Code/A.cpp"], "int x;\n", root=root)
+            index.assert_called_once()
+            scan.assert_called_once_with("Code/T.cpp", "int x;\n", {})
+            self.assertEqual(refresh.call_args.kwargs["removed"], ["Code/A.cpp"])
+            self.assertEqual(refresh.call_args.kwargs["queue"], root / "reverse/ms_header_queue.tsv")
+            self.assertEqual(moved, {"reverse/ms_header_queue.tsv": 1})
+            self.assertEqual(run.call_args.args[0],
+                             ["git", "add", "--", "Code/T.cpp", "reverse/ms_header_queue.tsv"])
+
     def test_every_path_keyed_column_and_the_doxygen_list_move_to_the_tu(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
