@@ -53479,15 +53479,15 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006D8B60,1462,code,,,-,,Code/GameEngine/Source/Common/BfmeOneHundredTwentySix.cpp
 0x006D9120,130,code,,,-,,Code/GameEngine/Source/Common/R4PerfectHashWordSets.cpp
 0x006D91B0,103,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,U,N=Code/Libraries/Source/Apt/AptObject/AptArray.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
-0x006D9220,188,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp,Code/GameEngine/Source/Common/Rva006D9220Cluster.cpp
+0x006D9220,188,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp,Code/Libraries/Source/Apt/AptArray.cpp
 0x006D92E0,236,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9220..0x006D93D0,Code/GameEngine/Source/Common/Rva008B8B80ReleaseAll.cpp
 0x006D93D0,195,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp N=Code/GameEngine/Source/Common/BfmeAptValue006DCD20.cpp,Code/GameEngine/Source/Common/AptArray_DestroyGCPointers.cpp
 0x006D94A0,92,code,,displaced,-,N=Code/GameEngine/Source/Common/BfmeAptValue006DCD20.cpp,Code/GameEngine/Source/Common/Rva006D94A0AptCluster.cpp
-0x006D9500,210,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp,Code/Libraries/Source/Apt/AptValue/Rva006D9500Finish.cpp
+0x006D9500,210,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp,Code/Libraries/Source/Apt/AptArray.cpp
 0x006D95E0,92,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp N=Code/Libraries/Source/Apt/AptObject/BfmeAptValue006DCD20.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
 0x006D9640,31,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,U,N=Code/Libraries/Source/Apt/AptObject/AptArray.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
 0x006D9660,249,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp N=Code/Libraries/Source/Apt/AptObject/AptArray.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
-0x006D9760,26,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9660..0x006D9780,Code/Libraries/Source/EA/Apt/Rva008B8F80AtoiOrZero.cpp
+0x006D9760,26,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9660..0x006D9780,Code/Libraries/Source/Apt/AptArray.cpp
 0x006D9780,145,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,F,F=Code/Libraries/Source/Apt/AptArray.cpp N=Code/Libraries/Source/Apt/AptValue/BfmeAptValue006DCD20.cpp,Code/Libraries/Source/Apt/AptValue/Rva006D9780Finish.cpp
 0x006D9820,571,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,U,N=Code/Libraries/Source/Apt/AptObject/AptArray.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
 0x006D9A60,240,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,U,N=Code/Libraries/Source/Apt/AptObject/AptArray.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
@@ -53495,7 +53495,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006D9BB0,182,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,U,N=Code/Libraries/Source/Apt/AptObject/AptArray.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
 0x006D9C70,108,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,U,N=Code/Libraries/Source/Apt/AptObject/AptArray.cpp,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp
 0x006D9CE0,143,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9C70..0x006D9D70,Code/GameEngine/Source/Common/Rva006D94A0AptCluster.cpp
-0x006D9D70,203,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9C70..0x006D9F00,Code/Libraries/Source/Apt/AptValue/Rva006D9D70Cluster.cpp
+0x006D9D70,203,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9C70..0x006D9F00,Code/Libraries/Source/Apt/AptArray.cpp
 0x006D9F00,103,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9C70..0x006DA0C0,Code/GameEngine/Source/Common/Rva006D94A0AptCluster.cpp
 0x006DA0C0,97,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9C70..0x006DA130,Code/GameEngine/Source/Common/Rva006D94A0AptCluster.cpp
 0x006DA130,104,code,Code/Libraries/Source/Apt/AptArray.cpp,approved,C,C=0x006D9C70..0x006DA1A0,Code/GameEngine/Source/Common/Rva006D94A0Cluster.cpp
@@ -53698,7 +53698,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006E2560,224,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,F,F=Code/Libraries/Source/Apt/AptCIH.cpp N=Code/Libraries/Source/Apt/AptCIH.cpp noncontiguous,Code/Libraries/Source/Apt/AptCIHMCInfo006E2560.cpp
 0x006E2690,867,code-unledgered,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,C,C=0x006E2560..0x006E2A00 noncontiguous,
 0x006E2A00,101,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,C,C=0x006E2560..0x006E2A70 noncontiguous,Code/Libraries/Source/Apt/AptCIH.cpp
-0x006E2A70,193,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,F,F=Code/Libraries/Source/Apt/AptCIH.cpp noncontiguous,Code/Libraries/Source/Apt/Rva006E2A70Cluster.cpp
+0x006E2A70,193,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,F,F=Code/Libraries/Source/Apt/AptCIH.cpp noncontiguous,Code/Libraries/Source/Apt/AptCIH.cpp
 0x006E2B40,193,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,F,F=Code/Libraries/Source/Apt/AptCIH.cpp N=Code/Libraries/Source/Apt/BfmeNode1279.cpp noncontiguous,Code/Libraries/Source/Apt/BfmeNode1279Finish.cpp
 0x006E2C10,335,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptCIH.cpp noncontiguous,Code/Libraries/Source/Apt/AptCIHJumpToFrame.cpp
 0x006E2D60,383,code,Code/Libraries/Source/Apt/AptCIH.cpp,proposed,N,N=Code/Libraries/Source/Apt/AptCIH.cpp noncontiguous,Code/Libraries/Source/Apt/AptCIHRva006E2D60.cpp
@@ -53801,7 +53801,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006E8F40,131,code,,,-,,Code/GameEngine/Source/Common/Rva008B2BD0ReleaseGlobals.cpp
 0x006E8FD0,309,code-unledgered,,,-,,
 0x006E9580,333,code,Code/Libraries/Source/Apt/AptMiscObjects.cpp,approved,F,F=Code/Libraries/Source/Apt/AptMiscObjects.cpp,Code/GameEngine/Source/Common/Rva006E9580Vslot.cpp
-0x006E96D0,95,code,Code/GameEngine/Source/Common/S4Dtor00587B30.cpp,proposed,N,N=Code/GameEngine/Source/Common/S4Dtor00587B30.cpp,Code/GameEngine/Source/Common/S4TwoMemberDestructors.cpp
+0x006E96D0,95,code,Code/GameEngine/Source/Common/S4Dtor00587B30.cpp,proposed,N,N=Code/GameEngine/Source/Common/S4Dtor00587B30.cpp,Code/Libraries/Source/Apt/AptMiscObjects.cpp
 0x006E9730,102,code,,,-,,Code/Libraries/Source/Apt/Rva006e9730Cluster.cpp
 0x006E97A0,26,code,,,-,,Code/GameEngine/Source/Common/Rva006E97A0Cluster.cpp
 0x006E97C0,51,code,,,-,,Code/GameEngine/Source/Common/SmallGaps/releasePair.cpp
@@ -54004,7 +54004,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006F97F0,201,code,,,-,,Code/Libraries/Source/Apt/AptInputSuffixAdvance.cpp
 0x006F98C0,235,code-unledgered,Code/Libraries/Source/Apt/AptInput.cpp,approved,F,F=Code/Libraries/Source/Apt/AptInput.cpp,
 0x006F99D0,604,code-unledgered,Code/Libraries/Source/Apt/AptInput.cpp,approved,F,F=Code/Libraries/Source/Apt/AptInput.cpp,
-0x006F9C30,77,code,Code/Libraries/Source/Apt/AptInput.cpp,approved,C,C=0x006F99D0..0x006F9CB0,Code/GameEngine/Source/Common/SmallGaps/Rva008BAA60FlagConvert.cpp
+0x006F9C30,77,code,Code/Libraries/Source/Apt/AptInput.cpp,approved,C,C=0x006F99D0..0x006F9CB0,Code/Libraries/Source/Apt/AptInput.cpp
 0x006F9CB0,303,code,Code/Libraries/Source/Apt/AptInput.cpp,approved,C,C=0x006F99D0..0x006F9DE0,Code/GameEngine/Source/Common/BfmeMeshHitTest1290.cpp
 0x006F9DE0,272,code,Code/Libraries/Source/Apt/AptInput.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmePicker1284.cpp,Code/GameEngine/Source/Common/BfmePicker1284.cpp
 0x006F9EF0,194,code,Code/Libraries/Source/Apt/AptInput.cpp,approved,C,C=0x006F9DE0..0x006F9FC0,Code/Libraries/Source/Apt/Rva006F9EF0Cluster.cpp
@@ -54339,7 +54339,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0070E6E0,544,code,Code/Libraries/Source/Apt/BfmeThingXS.cpp,proposed,N,N=Code/Libraries/Source/Apt/BfmeThingXS.cpp,Code/Libraries/Source/Apt/BfmeThingXSApply.cpp
 0x0070E900,1169,code-unledgered,Code/Libraries/Source/Apt/AptMovie.cpp,approved,F,F=Code/Libraries/Source/Apt/AptMovie.cpp,
 0x0070EDC0,584,code,Code/Libraries/Source/Apt/AptMovie.cpp,approved,C,C=0x0070E900..0x0070F010,Code/Libraries/Source/Apt/Rva0070EDC0.cpp
-0x0070F010,33,code,Code/Libraries/Source/Apt/AptMovie.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeF1034.cpp,Code/GameEngine/Source/Common/BfmeConv1034.cpp
+0x0070F010,33,code,Code/Libraries/Source/Apt/AptMovie.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeF1034.cpp,Code/Libraries/Source/Apt/AptMovie.cpp
 0x0070F040,808,code,Code/Libraries/Source/Apt/AptMovie.cpp,approved,F,F=Code/Libraries/Source/Apt/AptMovie.cpp N=Code/Libraries/Source/Apt/AptMovie.cpp,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp
 0x0070F370,592,code,Code/Libraries/Source/Apt/AptMovie.cpp,approved,F,F=Code/Libraries/Source/Apt/AptMovie.cpp N=Code/Libraries/Source/Apt/AptMovie.cpp,Code/Libraries/Source/Apt/AptMovieFrameControls.cpp
 0x0070F5C0,184,code,,,-,,Code/GameEngine/Source/Common/Rva0070F5C0Cluster.cpp
@@ -78443,7 +78443,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x007A8B00,8,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x007A8B08,8,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x007A8B20,15,code-unledgered,,,-,,
-0x007A8B40,8,code,,,-,,Code/GameEngine/Source/Common/Rva006D9220Cluster.cpp
+0x007A8B40,8,code,,,-,,Code/Libraries/Source/Apt/AptArray.cpp
 0x007A8B60,8,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x007A8B80,15,code-unledgered,,,-,,
 0x007A8B8F,15,code-unledgered,,,-,,
@@ -78528,8 +78528,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x007A9090,8,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x007A9098,8,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x007A90B0,15,code-unledgered,,,-,,
-0x007A90D0,8,code,,,-,,Code/Libraries/Source/Apt/Rva006E2A70Cluster.cpp
-0x007A90D8,11,code,,,-,,Code/Libraries/Source/Apt/Rva006E2A70Cluster.cpp
+0x007A90D0,8,code,,,-,,Code/Libraries/Source/Apt/AptCIH.cpp
+0x007A90D8,11,code,,,-,,Code/Libraries/Source/Apt/AptCIH.cpp
 0x007A90F0,15,code-unledgered,,,-,,
 0x007A9110,15,code-unledgered,,,-,,
 0x007A911F,8,code,,,-,,Code/gen_small/uw_gen_006.cpp
@@ -78569,8 +78569,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x007A9338,8,code,,,-,,Code/gen_small/uw_gen_006.cpp
 0x007A9350,8,code,,,-,,Code/gen_small/uw_gen_008.cpp
 0x007A9358,8,code,,,-,,Code/gen_small/uw_gen_006.cpp
-0x007A9370,8,code,,,-,,Code/GameEngine/Source/Common/S4TwoMemberDestructors.cpp
-0x007A9378,11,code,,,-,,Code/GameEngine/Source/Common/S4TwoMemberDestructors.cpp
+0x007A9370,8,code,,,-,,Code/Libraries/Source/Apt/AptMiscObjects.cpp
+0x007A9378,11,code,,,-,,Code/Libraries/Source/Apt/AptMiscObjects.cpp
 0x007A9390,8,code,,,-,,Code/Libraries/Source/Apt/Rva006e9730Cluster.cpp
 0x007A93B0,15,code-unledgered,,,-,,
 0x007A93BF,15,code-unledgered,,,-,,
