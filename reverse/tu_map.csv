@@ -12119,8 +12119,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x001EA0F4,475,code-unledgered,,,-,,
 0x001EA2CF,223,code,,,-,,Code/gen_small/dumps_000.cpp
 0x001EA3AE,70,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Update/Rva001EA3AEFinish.cpp
-0x001EA3F4,25,code,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp N=Code/GameEngine/Source/GameClient/INI.cpp,Code/GameEngine/Source/GameClient/GlobalLanguageAdjustFontSize.cpp
-0x001EA40D,54,code,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp S=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp N=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,Code/GameEngine/Source/GameClient/GlobalLanguageAdjustFontSize.cpp
+0x001EA3F4,25,code,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp N=Code/GameEngine/Source/GameClient/INI.cpp,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp
+0x001EA40D,54,code,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp S=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp N=Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp
 0x001EA443,53,code,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,approved,C,C=0x001EA40D..0x001EA478,Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp
 0x001EA478,61,code,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeStringRecord001EA478.cpp,Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp
 0x001EA4B5,28,code,Code/GameEngine/Source/GameClient/GlobalLanguage.cpp,approved,C,C=0x001EA478..0x001EA4D1,Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp
