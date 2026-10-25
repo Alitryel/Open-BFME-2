@@ -2192,3 +2192,8 @@ function,?rva001338B0@Rva001338A0@@QBEMXZ,?Height@Rva001338A0@@QBEMXZ,inferred,a
 local,Rva004A6EHolder::rva004A6E8E::h,Rva004A6EHolder::rva004A6E8E::draw,inferred,agree:nl-b3bca436a3ef,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6E8E
 local,Rva004A6EHolder::rva004A6EC6::h,Rva004A6EHolder::rva004A6EC6::draw,inferred,agree:nl-b5696cf49a11,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6EC6
 class,BfmePairVJF,FeslUserId,inferred,agree:nl-7de2bf314597,Code/GameEngine/Source/Common/BfmeConv1384.cpp,
+global,?g_Va00A048CC@@3PAVRva00512C88ObjA@@A,?g_disconnectMenuLayout@@3PAVRva00512C88ObjA@@A,inferred,agree:nl-63fa4623d810,Code/GameEngine/Source/Common/Rva00512C88Shutdown.cpp,0x00A048CC
+function,?rva002236F2@Rva002236F2@@QAEAAURva002236F2Value@@ABU2@@Z,?insert@Rva002236F2@@QAEAAURva002236F2Value@@ABU2@@Z,inferred,agree:nl-a6e51f8c5a7e,Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp,0x002236F2
+function,?rva0055B489@Rva0055B39C@@QAEXXZ,?updateAlpha@Rva0055B39C@@QAEXXZ,inferred,agree:nl-5291aeff4522,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055B39C.cpp,0x0055B489
+function,?rva0028EC48@Object@@QAEXHPAX@Z,?setEmotion@Object@@QAEXHPAX@Z,inferred,agree:nl-3a95382db822,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028EBDA.cpp,0x0028EC48
+function,_Rva00812DD0,_CommTAPIConstruct,inferred,agree:nl-df6a5403205d,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,0x0067ECD0
