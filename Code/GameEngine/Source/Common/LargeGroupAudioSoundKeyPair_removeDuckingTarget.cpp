@@ -83,16 +83,16 @@ void LargeGroupAudioSoundKeyPair::removeDuckingTarget(BitRange *host, void *tag)
 		++slot;
 	} while (--left != 0);
 	((Rva00568F04 *)host)->rva00568F04(this);
-	for (DuckingTarget *e = m_begin; e != m_end; ++e) {
+	for (DuckingTarget *duckingTarget = m_begin; duckingTarget != m_end; ++duckingTarget) {
 		Rva0056913DKeyRef *keyRef = (Rva0056913DKeyRef *)*(void **)((char *)host + 0x3C);
 		bool hit;
-		if (asBase(e->m_a).compare(asBase(keyRef->m_key)) == 0 && asBase(e->m_b).compare(asBase(host->rva00568BE2())) == 0)
+		if (asBase(duckingTarget->m_a).compare(asBase(keyRef->m_key)) == 0 && asBase(duckingTarget->m_b).compare(asBase(host->rva00568BE2())) == 0)
 			hit = true;
 		else
 			hit = false;
 		if (hit) {
-			e->m_flags = 0;
-			e->m_active = 0;
+			duckingTarget->m_flags = 0;
+			duckingTarget->m_active = 0;
 			return;
 		}
 	}
