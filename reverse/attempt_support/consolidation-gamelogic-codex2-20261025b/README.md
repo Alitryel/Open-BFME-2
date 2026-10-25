@@ -382,6 +382,14 @@ dry run accepts none: `RadiusDecalUpdateCtorThunk.cpp` and
 resolve `Snapshot`. No source changes or claims. Sol must reconcile the missing
 type/Xfer declaration environment; do not retry unchanged.
 
+## DeletionUpdate blocked trial
+
+The plan approves eight rows, with two mixed files and one protected pool-key
+source. The dry run accepts none: `DeletionUpdate_calcSleepDelay.cpp` reports
+`bytes`; `DeletionUpdateXfer.cpp` reports `error C2039: 'Version1' : is not a
+member of 'Xfer'`. No source changes or claims. Sol must reconcile the body
+baseline and Xfer declaration prerequisite; do not retry unchanged.
+
 ## Session handoff
 
 Seven distinct retail TUs consolidated: SubObjectsUpgrade (two passes),
