@@ -10,6 +10,19 @@
 #define _CRTIMP
 #include "rendobj.h"
 #include "winbase_shim.h"
+// Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E
+// 0x0004554B); it takes the optimization state of the first function that needs it,
+// so this unemitted anchor needs it first, as in hlod.cpp. The private struct is
+// reached by befriending the anchor while hanim.h is first read; layout and names
+// are unchanged.
+struct BfmeWeightInfoVddAnchor;
+#define private private: friend struct BfmeWeightInfoVddAnchor; private
+#include "hanim.h"
+#undef private
+struct BfmeWeightInfoVddAnchor { typedef NamedPivotMapClass::WeightInfoStruct Info; };
+#pragma optimize("gsy", on)
+static void bfmeWeightInfoVddAnchor(BfmeWeightInfoVddAnchor::Info *p) { delete [] p; }
+#pragma optimize("", on)
 #include "hlod.h"
 #include "assetmgr.h"
 #include "hmdldef.h"
