@@ -76,6 +76,6 @@ void Palantir::Impl::TogglePlanningMode()
 		gameMessage->appendIntegerArgument(2);
 		return;
 	}
-	GameMessage *m2 = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);
-	m2->appendIntegerArgument(2);
+	GameMessage *message = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);
+	message->appendIntegerArgument(2);
 }
