@@ -24408,7 +24408,7 @@ _Rva00814520,,0x00680420,17,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,mat
 ?init@FullFadeTransition@@UAEXPAVGameWindow@@@Z,,0x0035F1DF,98,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp,matched,vtable 0x0081663C slot 1 donor BFME1 FullFade init with size pos and percent
 ??_GRva006FBA10@@UAEPAXI@Z,,0x006FB9E0,35,Code/GameEngine/Source/Common/Rva006FBA10DeletingDtor.cpp,matched,vslot 14 of 0x008ED844 calls rowed 0x006FBA10 and pinned pool free 0x006DB270 via 0x00E176E8
 ?Rva0035D1C6@Rva0035D0D1@@UAEXXZ,,0x0035D1C6,33,Code/GameEngine/Source/Common/Rva001DBAC3Derived.cpp,matched,vslot 5 of 0x008163D8; INI StartFrame EndFrame ViewsToFade LeaveSilent; float 1.0f
-?update@FullFadeTransition@@UAEXH@Z,,0x0035F241,114,Code/GameEngine/Source/GameClient/GUI/FullFadeTransitionUpdate.cpp,matched,vtable 0x0081663C slot 2 donor BFME1 FullFade update with winHide row
+?update@FullFadeTransition@@UAEXH@Z,,0x0035F241,114,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp,matched,vtable 0x0081663C slot 2 donor BFME1 FullFade update with winHide row
 ?Rva0035DD9C@MainMenuMediumScaleUpTransition@@UAEXXZ,,0x0035DD9C,33,Code/GameEngine/Source/Common/FamilyTailDtors1DBAC3.cpp,matched,vslot 3 of 0x00816574; hide windows plus 0xC plus 0x44 via rowed winHide
 ?Rva000723FB@W3DVideoBuffer@@UAEXXZ,,0x000723FB,17,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVideoBufferCtorBfme.cpp,matched,vtable 0x007C64D8 slot5 plus rowed cleanup callee plus Owner shape
 ?Rva00072472@W3DVideoBuffer@@UAEXXZ,,0x00072472,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVideoBufferCtorBfme.cpp,matched,vtable 0x007C64D8 slot11 calls slot3 plus flag 0x4A
@@ -27300,7 +27300,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?clear@Rva00053D89@@QAEXXZ,,0x00053D89,26,Code/GameEngine/Source/Common/Rva00053D89Clear.cpp,matched,same shape as clear 0x000A8879 plus dtor pin 0x000A897D
 ?rva0008EEF0@W3DDisplay@@QAEXMMMMMH@Z,,0x0008EEF0,79,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayDrawImageMode.cpp,matched,W3DDisplay wrapper pre D4 post 100 middle E0 via TheDisplay
 ?rva0008EE9E@W3DDisplay@@QAEXMMMMMHH@Z,,0x0008EE9E,82,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayDrawImageMode.cpp,matched,W3DDisplay wrapper pre D4 post 100 middle D8 via TheDisplay
-?draw@FullFadeTransition@@UAEXXZ,,0x0035F369,197,Code/GameEngine/Source/GameClient/GUI/FullFadeTransitionUpdate.cpp,matched,FullFadeTransition draw via fillRect openRect TheDisplay
+?draw@FullFadeTransition@@UAEXXZ,,0x0035F369,197,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp,matched,FullFadeTransition draw via fillRect openRect TheDisplay
 ??4BuildListInfo@@QAEAAV0@ABV0@@Z,,0x003299AD,211,Code/GameEngine/Source/GameLogic/Map/BuildListInfoAssign.cpp,matched,BuildListInfo assign matches pinned copy ctor 0x29DE6 and 0x80 copy loops
 ??$__copy@PAVBuildListInfo@@PAV1@H@_STL@@YAPAVBuildListInfo@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z,,0x00329D64,52,Code/Libraries/Source/WWVegas/WWLib/stlport_copy_buildlistinfo.cpp,matched,STLport copy for BuildListInfo via rowed assign 0x3299AD
 ??$copy@PAVBuildListInfo@@PAV1@@_STL@@YAPAVBuildListInfo@@PAV1@00@Z,,0x0032A40E,29,Code/Libraries/Source/WWVegas/WWLib/stlport_copy_buildlistinfo.cpp,matched,STLport copy for BuildListInfo via rowed __copy 0x329D64
@@ -34971,7 +34971,7 @@ _piConnectFillInUserCallbackA,,0x006A01B0,55,Code/GameEngine/Source/GameNetwork/
 ?SetResult@Impl@DynamicAutoResolveMovieClip@StrategicHUD@@QAEXH@Z,,0x005FBFE5,69,Code/GameEngine/Source/Common/Rva005FBFE5.cpp,matched,"chain via rowed AptCall sibling SetResultState; name per WorldBuilder StrategicHUD::DynamicAutoResolveMovieClip::Impl::SetResult (lead strings), beside the rowed Impl::OnOpen; retail evidence: on a change it fires the same ""SetResultState"" Apt function as the WB twin; its forwarder 0x005FC19E binds the new name"
 ?rva005F0CC1@Rva005F0CC1@@QAEXABVUnicodeString@@@Z,,0x005F0CC1,8,Code/GameEngine/Source/Common/Rva005F0C54.cpp,matched,chain tail jmp to 0x005F0C54 via ptr at plus4
 ?rva00419331@Rva000427195@@QAE?AUInsertRet00419331@@PBX@Z,,0x00419331,124,Code/GameEngine/Source/GameClient/Rva00419331Insert.cpp,matched,hashtable insert same shape as rowed 124B siblings via bucketIndex compare new_node
-?init@TextOnFrameTransition@@UAEXPAVGameWindow@@@Z,,0x0035FA90,62,Code/GameEngine/Source/GameClient/GUI/TextOnFrameTransitionInit.cpp,matched,
+?init@TextOnFrameTransition@@UAEXPAVGameWindow@@@Z,,0x0035FA90,62,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp,matched,
 ?rva00410A86@Rva000427195@@QAEPAXPBX@Z,,0x00410A86,37,Code/GameEngine/Source/Common/Rva00410A86NewNode.cpp,matched,12B hashtable node via rowed allocator 0x307F0 and rowed Construct 0x4109BC caller 0x410E0A same shape as 0x410997
 ?rva00410DDF@Rva000427195@@QAEPAU?$pair@$$CBVAsciiString@@UTreeHintPayload00410A86@@@_STL@@PBU23@@Z,,0x00410DDF,68,Code/GameEngine/Source/GameClient/Rva00410DDFInsert.cpp,matched,hashtable insert via pin 0x212858 rowed 0x223149 pinned twin 0x410A86 caller 0x41117B same shape as 0x410E67
 ??1HordeContain@@UAE@XZ,,0x0046F901,325,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainDtor.cpp,matched,HordeContain dtor 11 vptrs explicit m_2C8 virtual delete plus 10 members plus TransportContain base

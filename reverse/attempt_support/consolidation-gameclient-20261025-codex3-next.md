@@ -230,3 +230,22 @@ call, fetched origin and confirmed the prior three pending moves have no new
 active path consumers. The prospective five-path audit also finds only the
 redundant macro queue rows, historical records and source comments. No further
 path is removed in this prerequisite commit.
+
+## FullFade and TextOnFrame merge
+
+Applied the supported three-file merge into GameWindowTransitionsStyles.cpp:
+eleven rows retained and two actual fragments removed. Fresh ./build.sh checks
+11/11 rows, one string and four floats; find_declared_unmatched and check_csv
+pass. The map diff changes only three source cells, preserving routing evidence.
+No protected register, shared header, compiler flag or hatch is changed.
+
+Fetched origin and audited all five pending absorbed paths across the outgoing
+commits (fork d0c913e6dd through 2753f90c4f) plus this staged merge. Direct
+origin/master..HEAD also shows newer upstream Apt changes in reverse; these
+are unrelated upstream changes, not outgoing moves. Combined full-path,
+basename and stem search covers tools/hooks/workflows, Code includes, root
+build/configuration files, docs and registers. Remaining references are the
+already classified redundant MS-header macro rows, historical census/attempt
+records and source provenance/placeholder/pattern comments. The destination
+macro queue finding remains served; no debt retirement is claimed. No active
+consumer needs repointing. Local evidence: build/gameclient-session2-five-final-audit.txt.
