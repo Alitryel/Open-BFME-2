@@ -196,3 +196,25 @@ BFME 1 independent source/history, existing ledger note text, or the maintainer'
 census snapshot. No active tool, hook, workflow, include, build input or registry
 requires repair. Existing source discovery covers the new destination. Only
 source columns were repointed in the existing TU map and function ledger.
+
+## TerrainTypes.cpp
+
+Dry run and claimed application accepted the TerrainType name setter plus the
+two approved STLport fill/copy instantiations into Common/TerrainTypes.cpp.
+Three matched rows remain, three fragments become one TU (two fewer files).
+The normal build passed 3/3 and declared-unmatched passed. Routing was rebuilt
+in memory; the committed TU map changed only the three source columns.
+The original source explicitly retains the STLport release and separates the
+verified operation from the inferred element identity.
+
+Three eligible donors remain: TerrainTypeCollection's subsystem include sees
+Bool before its typedef after directive lifting; the vector/terrain assignment
+views redefine pair, allocator or __false_type against the included STLport
+headers. Ten mixed donors and one protected register source were left intact.
+
+Fetched origin and repeated the combined pending audit from `475627d09f` through
+the staged TerrainTypes move (five deleted paths). New surviving references are
+merged provenance, historical comments about the placement-copy implementation,
+the census snapshot, naming history and the attempt log. No active tools, hooks,
+workflows, includes, build inputs or registries need repair; previous independent
+BFME 1 evidence retains its earlier classification.
