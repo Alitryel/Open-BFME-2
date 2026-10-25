@@ -4,7 +4,34 @@
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 #define _WIN32_WINNT 0x0400
-#include "thread.h"
+#include "always.h"
+
+// The existing 0x00610430 constructor and lifecycle bodies establish this
+// BFME 2 prefix and three-slot virtual interface. Zero Hour's thread.h adds
+// a running flag and exception-handler argument/field that retail lacks.
+class __declspec(novtable) ThreadClass
+{
+public:
+    ThreadClass(const char *name);
+    virtual ~ThreadClass();
+    virtual void Execute();
+    void Set_Priority(int priority);
+    __declspec(noinline) bool Is_Running();
+    __declspec(noinline) void Stop();
+    void Stop(unsigned ms);
+    static void Sleep_Ms(unsigned ms);
+    static void Switch_Thread();
+    static unsigned _Get_Current_Thread_ID();
+
+protected:
+    virtual void Thread_Function() = 0;
+
+private:
+    char m_name[0x40];
+    unsigned int m_threadId;
+    void *m_handle;
+    int m_priority;
+};
 #include "except.h"
 #include "wwdebug.h"
 #include <process.h>
@@ -118,8 +145,8 @@ void ThreadClass::Stop(unsigned ms)
 		return;
 	#else
 		// BFME's ThreadClass predates the ZH running/exception-handler fields:
-		// its native handle is at +0x48.  Keep the canonical method while using
-		// the retail layout locally so the shared ZH-compatible header stays put.
+		// its native handle is at +0x48. Keep this volatile access so the
+		// asynchronous handle changes remain visible inside the wait loop.
 		volatile unsigned long &bfmeHandle =
 			*(volatile unsigned long *)((char *)this + 0x48);
 		unsigned time=TIMEGETTIME();

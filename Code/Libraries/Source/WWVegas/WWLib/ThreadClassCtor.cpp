@@ -32,6 +32,10 @@ public:
     void Set_Priority(int priority);
     __declspec(noinline) bool Is_Running();
     __declspec(noinline) void Stop();
+    void Stop(unsigned ms);
+    static void Sleep_Ms(unsigned ms);
+    static void Switch_Thread();
+    static unsigned _Get_Current_Thread_ID();
 
 protected:
     virtual void Thread_Function() = 0;
