@@ -56,6 +56,9 @@ private:
 	ExperienceTracker *m_experienceTracker;		// +0x264
 };
 
+// The prefix through +0x28 is ExperienceTracker.cpp's view (rva0039B16F's donor).
+struct ExperienceParent { unsigned char pad[0x5e7]; bool trainable; };
+
 class ExperienceTracker
 {
 public:
@@ -63,9 +66,16 @@ public:
 	void rva0039B16F(float amount, bool a, bool b, bool c, bool d, float mult);	// 0x0039B16F
 
 private:
-	unsigned char m_pad00[0x1C];
-	float m_experienceScalar;			// +0x1C
-	unsigned char m_pad20[0x34 - 0x20];
+	unsigned char pad0[4];
+	ExperienceParent *parent;			// +0x04
+	unsigned char pad8[8];
+	float experience;				// +0x10
+	unsigned char pad14[8];
+	float multiplier;				// +0x1C, the per-tracker experience scalar
+	unsigned char pad20[4];
+	int level;					// +0x24
+	int maxLevel;					// +0x28
+	unsigned char pad2C[0x34 - 0x2C];
 	Object *m_parent;				// +0x34
 	unsigned int m_experienceSink;			// +0x38
 };
@@ -83,7 +93,7 @@ body:
 			goto mult;
 		d = false;
 		c = true;
-		amount *= tracker->m_experienceScalar;
+		amount *= tracker->multiplier;
 		tracker = obj->getExperienceTracker();
 	}
 cond:
