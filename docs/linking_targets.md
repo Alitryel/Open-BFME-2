@@ -4,7 +4,7 @@ Recorded 2026-10-25 from the linking handoff. The census snapshot is
 `ef9c691284`, **2026-10-25 18:23 UTC**, recorded in
 [link_status.csv](../reverse/link_status.csv) and
 [link_census_history.csv](../reverse/link_census_history.csv).
-All 50 named units and their blocker categories were checked against the
+The initial 50 named units and their blocker categories were checked against the
 committed status. Bytes and difficulty/attempt groupings preserve the handoff's
 reported values; they describe leads rather than verified current failures.
 
@@ -102,6 +102,321 @@ Point-group ownership evidence:
 LINK-011 records 157 authored bytes for PolygonTriggerCtor; this checklist retains
 the handoff's 186 matched bytes. Compare the measured scopes when updating it.
 
+## Three or more blockers: all 290 units
+
+Snapshot: `ef9c691284`, 2026-10-25 18:23 UTC. These are historical census
+leads; follow-up starts at **Open / current-input verification pending**.
+Paths retain the census spelling. Resolve current ownership after consolidation
+before claiming a target, and update the follow-up with dated repair evidence.
+
+**Game bytes** attribute unique, nonpadding bytes from the headline's game-code
+partition. Credit the initial 50 and the other 35 one/two-blocker units first,
+then these units in descending standalone byte contribution, breaking ties by
+source path. Assign each remaining byte to its first unit in that order. This
+reconciles overlapping owners and totals **95,078 bytes** across **290 units**.
+A zero means no additional headline game bytes after provenance filtering,
+clean-provider coverage and overlap attribution; the census blockers remain listed.
+The initial shortlist above preserves the handoff's separate reported byte values.
+
+Blocker key: **U** unresolved, **D** duplicate definitions, **C** COMDAT losers,
+**A** address issues, **S** wrong selected providers. Counts come from the
+snapshot's `reverse/link_status.csv`; byte attribution uses its measured ledger
+through `tools/progress.py`'s provenance and retail-byte functions.
+
+| Census source | Game bytes | Blockers | Follow-up |
+| --- | ---: | --- | --- |
+| `Code/gen_small/uw_gen_010.cpp` | 6,639 | 88 (U=88) | Open |
+| `Code/gen_small/uw_gen_011.cpp` | 5,320 | 457 (U=457) | Open |
+| `Code/gen_small/uw_gen_000.cpp` | 3,419 | 95 (U=95) | Open |
+| `Code/gen_small/uw_gen_001.cpp` | 3,406 | 184 (U=184) | Open |
+| `Code/gen_small/uw_gen_013.cpp` | 3,205 | 184 (U=184) | Open |
+| `Code/gen_small/uw_gen_009.cpp` | 2,533 | 113 (U=113) | Open |
+| `Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp` | 2,520 | 49 (U=42, C=4, S=3) | Open |
+| `Code/gen_small/uw_gen_014.cpp` | 2,489 | 271 (U=263, A=8) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeDeferred.cpp` | 2,464 | 3 (U=3) | Open |
+| `Code/gen_small/uw_gen_006.cpp` | 2,448 | 103 (U=103) | Open |
+| `Code/gen_small/uw_gen_012.cpp` | 2,227 | 100 (U=100) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp` | 1,750 | 20 (U=16, C=2, S=2) | Open |
+| `Code/gen_small/uw_gen_004.cpp` | 1,644 | 6 (U=6) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/ObjectCreationList.cpp` | 1,499 | 8 (U=2, C=4, S=2) | Open |
+| `Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleInfoCopyCtors.cpp` | 1,455 | 28 (U=28) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/texture.cpp` | 1,429 | 21 (U=21) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/W3DModelDrawModuleData.cpp` | 1,361 | 11 (U=10, C=1) | Open |
+| `Code/Libraries/Source/STLport/Rva008312E0StringReplace.cpp` | 1,351 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp` | 1,299 | 6 (U=2, C=2, S=2) | Open |
+| `Code/gen_small/uw_gen_005.cpp` | 1,251 | 72 (U=72) | Open |
+| `Code/GameEngine/Source/GameClient/MapUtil.cpp` | 1,182 | 24 (U=12, C=7, S=5) | Open |
+| `Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp` | 941 | 7 (C=3, S=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/Rva0020EE29Clear.cpp` | 938 | 24 (U=23, C=1) | Open |
+| `Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogicCtorBfme.cpp` | 913 | 9 (U=6, C=3) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/WOLBuddyOverlay.cpp` | 899 | 17 (U=12, C=2, S=3) | Open |
+| `Code/GameEngine/Source/Common/UserPreferencesDeferredIgnores.cpp` | 897 | 5 (C=3, S=2) | Open |
+| `Code/GameEngine/Source/Common/RTS/PlayerCtorBFME2.cpp` | 841 | 6 (U=4, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp` | 800 | 22 (U=10, C=8, S=4) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdate.cpp` | 749 | 14 (U=12, C=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/mixfile.cpp` | 748 | 9 (U=7, C=1, S=1) | Open |
+| `Code/gen_small/uw_gen_003.cpp` | 703 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/Rva00170C0Siblings.cpp` | 692 | 48 (U=8, C=20, S=20) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp` | 647 | 8 (U=8) | Open |
+| `Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldManagerCtor.cpp` | 585 | 5 (U=5) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_pod_malloc_deferred_copies.cpp` | 583 | 13 (C=6, S=7) | Open |
+| `Code/GameEngine/Source/GameClient/FXList.cpp` | 581 | 9 (U=3, C=4, S=2) | Open |
+| `Code/GameEngine/Source/GameLogic/ScriptEngine/Scripts.cpp` | 572 | 9 (U=5, C=3, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdate.cpp` | 564 | 13 (U=12, S=1) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/AptPlayerTooltipMap.cpp` | 550 | 4 (U=1, C=2, S=1) | Open |
+| `Code/GameEngine/Source/GameClient/EvaMessageVectorAssign.cpp` | 538 | 6 (U=2, C=2, S=2) | Open |
+| `Code/GameEngine/Source/GameNetwork/GameSpy/Thread/BuddyThread_Unresolved.cpp` | 517 | 9 (U=5, C=2, S=2) | Open |
+| `Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleTemplateClones.cpp` | 501 | 6 (U=6) | Open |
+| `Code/Libraries/Source/STLport/Rva008314E0StringReplace.cpp` | 499 | 4 (C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/Rva005F422CDtor.cpp` | 495 | 9 (U=9) | Open |
+| `Code/GameEngine/Source/Common/V3PolyDeferredCopyCtors.cpp` | 491 | 13 (U=12, C=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0039C415.cpp` | 457 | 11 (C=5, S=6) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/mesh.cpp` | 454 | 6 (U=3, C=2, S=1) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva001041BDASlot1.cpp` | 438 | 7 (U=6, C=1) | Open |
+| `Code/GameEngine/Source/Common/RTS/ProductionPrerequisite.cpp` | 429 | 11 (U=2, C=6, S=3) | Open |
+| `Code/GameEngine/Source/Common/Rva0026E836Derived.cpp` | 428 | 5 (U=3, A=2) | Open |
+| `Code/GameEngine/Source/Common/System/CrateCreationEntryList.cpp` | 417 | 5 (U=1, C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_asciistring_record_deferred.cpp` | 413 | 12 (C=6, S=6) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/SupplyTruckAIUpdateCtor.cpp` | 409 | 9 (U=9) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva005205DA.cpp` | 402 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva002BC47D.cpp` | 398 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_pod_hash_bodies.cpp` | 391 | 14 (C=7, S=7) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/RailroadGuideAIUpdate.cpp` | 361 | 29 (U=22, C=6, S=1) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp` | 352 | 26 (U=14, C=7, S=5) | Open |
+| `Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/Rva005E39F3Ctor.cpp` | 345 | 7 (U=7) | Open |
+| `Code/Libraries/Source/WWVegas/WWMath/tcbspline.cpp` | 340 | 17 (U=15, C=1, S=1) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGameClient.cpp` | 337 | 14 (U=10, C=2, S=2) | Open |
+| `Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBuildingCtor.cpp` | 327 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/decalmsh.cpp` | 326 | 6 (U=6) | Open |
+| `Code/GameEngine/Source/Common/Rva004E0D67Dtor.cpp` | 325 | 4 (U=4) | Open |
+| `Code/GameEngine/Source/Common/RvaMorphInitFamily.cpp` | 309 | 5 (U=5) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva001EBEAB.cpp` | 307 | 5 (U=3, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv1292DeferredWalkers.cpp` | 298 | 6 (U=6) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Damage/BoneFXDamage.cpp` | 290 | 4 (U=3, C=1) | Open |
+| `Code/GameEngine/Source/Common/VslotSmallBodiesAG_Rva00131CF2.cpp` | 286 | 10 (U=10) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp` | 283 | 13 (U=11, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva001DF2D3.cpp` | 281 | 4 (U=2, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00215949.cpp` | 274 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva001524F9.cpp` | 273 | 5 (U=3, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/RvaCloneDeferredValueReturns.cpp` | 272 | 10 (U=4, C=6) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva0017422D.cpp` | 269 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_pod_noexc_deferred_copies.cpp` | 269 | 8 (C=4, S=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva000C225D.cpp` | 264 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva003F53DA.cpp` | 263 | 5 (U=3, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContain.cpp` | 261 | 11 (U=9, C=2) | Open |
+| `Code/GameEngine/Source/Common/Rva007AEA2CArrayInits.cpp` | 249 | 10 (U=10) | Open |
+| `Code/GameEngine/Source/Common/Rva006CBF40Deferred.cpp` | 245 | 14 (C=7, S=7) | Open |
+| `Code/GameEngine/Source/GameLogic/AI/StateMachineDefineState.cpp` | 233 | 4 (C=2, S=2) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp` | 231 | 28 (U=17, C=6, S=5) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/Rva00240230VectorInsertOverflow_Rva00541d10.cpp` | 231 | 8 (U=2, C=3, S=3) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleDtor_Unresolved.cpp` | 230 | 3 (C=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00584405.cpp` | 225 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva001506BF.cpp` | 222 | 8 (C=4, S=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0015079D.cpp` | 222 | 8 (C=4, S=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0015087B.cpp` | 222 | 8 (C=4, S=4) | Open |
+| `Code/gen_small/gthunks_000_admitted.cpp` | 220 | 69 (U=69) | Open |
+| `Code/GameEngine/Source/GameClient/RegionDetailsStructuresIconCtor.cpp` | 217 | 4 (U=4) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/SupplyWarehouseDockUpdate.cpp` | 217 | 9 (U=7, C=2) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Weapon.cpp` | 214 | 22 (U=18, C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/System/SaveGame/SaveMapPreviewCopy.cpp` | 209 | 5 (U=1, C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/Rva0037BCC4DeferredCtorCRC.cpp` | 208 | 3 (U=2, C=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/StealthUpdateCtor.cpp` | 208 | 4 (U=1, C=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva003F318C.cpp` | 206 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0051F7AD.cpp` | 206 | 7 (U=3, C=2, S=2) | Open |
+| `Code/GameEngine/Source/GameNetwork/native_network_BFMENetwork_Ctor.cpp` | 205 | 9 (U=7, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/RvaPayloadValueReturnsUnresolved.cpp` | 204 | 7 (U=3, C=4) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/Rva005776A7Ctor.cpp` | 203 | 8 (U=5, C=2, S=1) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp` | 198 | 20 (U=12, C=5, S=3) | Open |
+| `Code/GameEngine/Source/GameLogic/LargeGroupAudio/LargeGroupAudioKeyList.cpp` | 191 | 3 (U=1, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarRva004C1B60_Rva00405DBC.cpp` | 189 | 5 (U=5) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva00587375_overflow.cpp` | 189 | 8 (U=2, C=4, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWSaveLoad/twiddler.cpp` | 187 | 11 (U=10, C=1) | Open |
+| `Code/GameEngine/Source/Common/Rva00787C20HashOwnerDestructor.cpp` | 186 | 8 (U=4, C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/Thing/ProductionPrerequisiteRecVectorInsertOverflow.cpp` | 183 | 3 (C=1, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00501B33.cpp` | 183 | 5 (U=3, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/Rva00566695Assign.cpp` | 179 | 3 (C=2, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWMath/vehiclecurve.cpp` | 178 | 4 (U=3, C=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Damage/EvacuateDamageCtorModuleFactoryBody.cpp` | 177 | 5 (U=1, C=2, S=2) | Open |
+| `Code/GameEngine/Source/GameLogic/System/GlobalWeatherSystemCtorDeferred.cpp` | 173 | 4 (U=4) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DRopeDrawCtor.cpp` | 164 | 3 (U=1, C=2) | Open |
+| `Code/GameEngine/Source/Common/System/CDManager.cpp` | 154 | 9 (U=7, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/System/SaveGame/GameState.cpp` | 152 | 27 (U=23, C=2, S=2) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/GameWindowManager.cpp` | 151 | 17 (U=16, S=1) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationInfoVectorInsert.cpp` | 149 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva004F8C16.cpp` | 149 | 10 (U=4, C=3, S=3) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DTerrainLogic.cpp` | 145 | 6 (U=6) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_pod8_resize_byvalue.cpp` | 143 | 6 (C=3, S=3) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehavior.cpp` | 142 | 7 (U=7) | Open |
+| `Code/GameEngine/Source/GameLogic/LivingWorld/SplineCameraParseINIBlock.cpp` | 140 | 5 (U=4, C=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00218E09.cpp` | 140 | 7 (U=3, C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/Rva0019D850NestedVectorRelease_Rva002bc339.cpp` | 137 | 4 (C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/Rva002D22CAInit.cpp` | 135 | 7 (U=7) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00332613.cpp` | 135 | 7 (U=3, C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00337D21.cpp` | 135 | 7 (U=3, C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/shattersystem.cpp` | 133 | 8 (U=3, C=2, S=3) | Open |
+| `Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/ArmyHeroIconCtor.cpp` | 130 | 10 (U=10) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp` | 129 | 15 (U=12, C=1, S=2) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv881O1.cpp` | 127 | 4 (U=2, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/DamageFX.cpp` | 126 | 7 (U=4, C=2, S=1) | Open |
+| `Code/GameEngine/Source/Common/Rva006C3CC0Cluster.cpp` | 125 | 3 (U=1, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/Rva006DE1A0Finish.cpp` | 125 | 3 (U=3) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv1950.cpp` | 118 | 4 (U=4) | Open |
+| `Code/GameEngine/Source/Common/Thing/ThingFactory.cpp` | 85 | 13 (U=6, C=6, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp` | 117 | 6 (U=4, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp` | 116 | 61 (U=49, C=6, S=6) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/dynamesh.cpp` | 113 | 28 (U=17, C=8, S=3) | Open |
+| `Code/GameEngine/Source/Common/PAVectorEraseRangeFamily003AF.cpp` | 112 | 4 (U=2, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/Rva00196D90MemberConstructor_Rva0032bde7.cpp` | 112 | 6 (C=3, S=3) | Open |
+| `Code/GameEngine/Source/Common/R5VectorDtorEHFramedPolymorphic_Rva005de870.cpp` | 111 | 7 (U=2, C=2, S=3) | Open |
+| `Code/GameEngine/Source/Common/Rva005BA1FDCtor.cpp` | 108 | 7 (U=7) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp` | 107 | 30 (U=28, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/RTS/Rva000D3FA0Destructor.cpp` | 103 | 4 (C=2, S=2) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTankTruckDraw.cpp` | 103 | 16 (U=12, C=3, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/JetAIUpdate.cpp` | 101 | 53 (U=47, C=3, S=3) | Open |
+| `Code/GameEngine/Source/Common/Rva00415704Ctor.cpp` | 100 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_introsort_loop_s4sortelem20.cpp` | 98 | 3 (U=3) | Open |
+| `Code/GameEngine/Source/Common/System/SaveGame/Rva0052CD81Finish.cpp` | 96 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_istream.cpp` | 90 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva003F40EF.cpp` | 85 | 5 (U=5) | Open |
+| `Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp` | 84 | 1042 (A=1042) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv1879.cpp` | 82 | 5 (U=5) | Open |
+| `Code/GameEngine/Source/Common/RTS/PlayerRelationMapCtor.cpp` | 81 | 3 (C=2, S=1) | Open |
+| `Code/GameEngine/Source/Common/Rva001F4B01Ctor.cpp` | 80 | 13 (U=12, C=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva002BFA86.cpp` | 80 | 4 (U=2, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/collect.cpp` | 79 | 20 (U=14, C=5, S=1) | Open |
+| `Code/GameEngine/Source/Common/System/SaveGame/AerialPathfinder.cpp` | 75 | 3 (U=2, C=1) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/LanGameOptionsMenu.cpp` | 75 | 28 (U=27, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00214B22.cpp` | 73 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005E2857.cpp` | 73 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva003609F7.cpp` | 73 | 4 (C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/S4StlSortHelpers.cpp` | 71 | 21 (U=13, C=5, S=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00212A16.cpp` | 68 | 9 (U=3, C=3, S=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0002CCC3.cpp` | 67 | 4 (U=2, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00218FC2.cpp` | 67 | 4 (U=4) | Open |
+| `Code/GameEngine/Source/Common/RTS/ScoreKeeperPerFrameStatsDefaultResizeDeferred.cpp` | 66 | 4 (U=3, C=1) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0008EF3FProductCtor_Unresolved.cpp` | 66 | 50 (U=50) | Open |
+| `Code/GameEngine/Source/Common/Rva005CEB57Ctor.cpp` | 62 | 3 (U=1, C=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva002F0B8A.cpp` | 61 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva002F0BB5.cpp` | 61 | 4 (C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/MoneyVectorPushBack.cpp` | 59 | 8 (U=3, C=3, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlContainerRva0073E4C0.cpp` | 59 | 5 (U=3, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameClient/SelectionInfo.cpp` | 58 | 4 (U=2, C=2) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/ringobj.cpp` | 57 | 8 (U=7, C=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00058A86.cpp` | 57 | 4 (U=2, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameClient/InGameUI.cpp` | 55 | 9 (U=5, C=3, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Create/LockWeaponCreate.cpp` | 55 | 4 (U=2, C=2) | Open |
+| `Code/GameEngine/Source/Common/RTS/Player.cpp` | 52 | 33 (U=24, C=6, S=3) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/sphereobj.cpp` | 51 | 12 (U=7, C=5) | Open |
+| `Code/GameEngine/Source/Common/Rva003C2F40TreeCtor.cpp` | 50 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWMath/curve.cpp` | 48 | 5 (U=3, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/WeaponStore.cpp` | 47 | 3 (U=2, C=1) | Open |
+| `Code/GameEngine/Source/Common/Thing/ProductionPrerequisiteAssign.cpp` | 45 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva005FE3DC.cpp` | 45 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_unguarded_insertion_sort_s4sortelem20.cpp` | 45 | 3 (U=2, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_numpunct_virtuals.cpp` | 44 | 4 (U=4) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecialPower.cpp` | 40 | 3 (U=2, C=1) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/decalsys.cpp` | 39 | 8 (U=8) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp` | 38 | 15 (U=8, C=6, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/RailedTransportDockUpdate.cpp` | 37 | 10 (U=8, C=2) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/StickyBombUpdate.cpp` | 36 | 15 (U=13, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Behavior/FlightDeckBehavior.cpp` | 35 | 14 (U=8, C=5, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva002CEFAA.cpp` | 35 | 3 (U=3) | Open |
+| `Code/gen_small/thunks_000_admitted.cpp` | 35 | 7 (U=7) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv890.cpp` | 34 | 5 (U=5) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Locomotor.cpp` | 34 | 8 (U=4, C=2, S=2) | Open |
+| `Code/GameEngine/Source/Common/Audio/AudioManagerAdjustPriorityAndVolume.cpp` | 33 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00423EB0.cpp` | 33 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00555D32.cpp` | 33 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00555D53.cpp` | 33 | 4 (C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/wwfont.cpp` | 33 | 4 (U=4) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/Rva0057621ACtor.cpp` | 32 | 15 (U=11, C=3, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdate.cpp` | 32 | 8 (U=6, C=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp` | 32 | 3 (U=1, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv821.cpp` | 31 | 6 (U=6) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv907.cpp` | 31 | 8 (U=8) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_vector_rva005de9c4_ctor.cpp` | 31 | 6 (U=1, C=2, S=3) | Open |
+| `Code/gen_small/uw_gen_007.cpp` | 31 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00013490.cpp` | 30 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva004157BB.cpp` | 29 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00464431.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00540053.cpp` | 29 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00053E34.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0007EA02.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva000B6569.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva000B67BC.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva001DD339.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva001DD356.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00215641.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva002CF594.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0030B378.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0038151E.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva003F447F.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00428421.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00469C85.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva005FE089.cpp` | 29 | 3 (U=1, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB03Deferred.cpp` | 28 | 3 (U=2, C=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehavior.cpp` | 28 | 4 (U=2, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/WeaponSet.cpp` | 28 | 7 (U=4, C=1, S=2) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisual.cpp` | 28 | 30 (U=30) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00406B1D.cpp` | 28 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00406CB7.cpp` | 28 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0042D4EB.cpp` | 28 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0044BE1D.cpp` | 28 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00482A4D.cpp` | 28 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00551B02.cpp` | 28 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005838DC.cpp` | 28 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005AFEDB.cpp` | 28 | 4 (U=4) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005CE7CE.cpp` | 28 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005DA663.cpp` | 28 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005E96DC.cpp` | 28 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00627B10.cpp` | 28 | 6 (U=4, C=1, S=1) | Open |
+| `Code/GameEngine/Source/Common/R5VectorDtorEHFramedPolymorphic.cpp` | 27 | 15 (U=4, C=5, S=6) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionsMenu.cpp` | 27 | 8 (U=8) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva0033A7DC.cpp` | 27 | 5 (U=5) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva0056DDF5.cpp` | 27 | 5 (U=5) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/stlport_valarray_int.cpp` | 27 | 4 (U=1, C=2, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva004DA329.cpp` | 25 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva005F35ED.cpp` | 25 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWMath/lookuptable.cpp` | 24 | 4 (U=2, C=2) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/WOLGameSetupMenu.cpp` | 23 | 12 (U=11, C=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/HelicopterSlowDeathUpdate.cpp` | 22 | 13 (U=12, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/PhysicsUpdate.cpp` | 21 | 19 (U=13, C=5, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW6Rva0016DEC0.cpp` | 21 | 3 (U=1, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/StealthUpdate.cpp` | 16 | 14 (U=13, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DeliverPayloadAIUpdate.cpp` | 14 | 25 (U=17, C=4, S=4) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AnimationSteeringUpdate.cpp` | 14 | 6 (U=4, C=2) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/HordeUpdate.cpp` | 14 | 5 (U=5) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Behavior/DumbProjectileBehavior.cpp` | 13 | 22 (U=12, C=6, S=4) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/EMPUpdate.cpp` | 13 | 6 (U=6) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/HackInternetAIUpdate.cpp` | 10 | 23 (U=21, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/SpectreGunshipUpdate.cpp` | 10 | 20 (U=16, C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/texproject.cpp` | 10 | 12 (U=11, C=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/MobMemberSlavedUpdate.cpp` | 8 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/light.cpp` | 6 | 3 (U=3) | Open |
+| `Code/GameEngine/Source/Common/BfmeConv892_Rva004C121B.cpp` | 0 | 4 (U=2, C=1, S=1) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/Rva00576DF1Ctor.cpp` | 0 | 11 (U=8, C=2, S=1) | Open |
+| `Code/GameEngineDevice/Source/MilesAudioDevice/Rva0006047CSeq.cpp` | 0 | 5 (U=5) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVideoBuffer.cpp` | 0 | 7 (U=5, C=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000AF1C2.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000B0298.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva001DE3E3.cpp` | 0 | 7 (U=3, C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva001FDEBC.cpp` | 0 | 7 (U=3, C=2, S=2) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0022DCDA.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0046AA69.cpp` | 0 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva004F715B.cpp` | 0 | 5 (U=3, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva004F7D7F.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005243FA.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0052BBD7.cpp` | 0 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00569450.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00577EB2.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00587752.cpp` | 0 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005AE78A.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005B09D8.cpp` | 0 | 6 (U=4, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005F9813.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0020F0B8.cpp` | 0 | 5 (U=5) | Open |
+| `Code/gen_small/fam_003_Rva0028688a.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| **Total: 290 units** | **95,078** | | |
+
 ## Broader workstreams
 
 These scopes can overlap the targets above. Their verification and remaining
@@ -128,7 +443,7 @@ diagnostic, with census confirmation pending. It sits outside the 50-unit list.
 | Previously worked one-blocker candidates | 16 | 12,007 |
 | Harder one-blocker candidates | 8 | 1,661 |
 | Listed two-blocker candidates | 10 | 33,987 |
-| **Explicitly listed** | **50** | **50,464** |
+| **Initial shortlist** | **50** | **50,464** |
 
 The committed census contains **85 units with one or two blockers** (40 with
 one, 45 with two). The handoff reports **55,142 matched bytes** for that wider
@@ -136,3 +451,17 @@ set, leaving 35 units / 4,678 reported bytes outside this checklist.
 The three largest listed targets total **30,381 bytes**, about **60.2%** of the
 listed bytes. Size ranks investigation opportunities; current evidence and
 shared-provider dependencies determine the next repair.
+
+
+### Complete headline reconciliation
+
+This uses the census's unique, nonpadding game bytes rather than the initial
+handoff's reported matched-byte values.
+
+| Scope | Units | Unlinked game bytes |
+| --- | ---: | ---: |
+| Initial shortlist | 50 | 50,028 |
+| Other one/two-blocker units | 35 | 4,492 |
+| Three-or-more-blocker table above | 290 | 95,078 |
+| Coverage remainder outside represented rows | - | 14 |
+| **Census total** | **375** | **149,612** |
