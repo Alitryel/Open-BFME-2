@@ -921,9 +921,6 @@ Code/GameEngine/Source/Common/Thing/ModuleFactory.cpp	wrong-name	?dataFieldParse
 Code/GameEngine/Source/Common/Thing/Rva0033B634Image.cpp	wrong-name	?g_00DFE344@@3PAVRva002197A6Host@@A	0x009FE344
 Code/GameEngine/Source/Common/Thing/UpgradeMuxData_getUpgradeActivationMasks.cpp	duplicate-def	_TheUpgradeCenter	0x009FEB60
 Code/GameEngine/Source/Common/Thing/UpgradeMuxData_getUpgradeActivationMasks.cpp	wrong-name	_TheUpgradeCenter	0x009FEB60
-Code/GameEngine/Source/Common/TooltipHide_muse-f8cb.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
-Code/GameEngine/Source/Common/TooltipMove_muse-f8cb.cpp	wrong-name	?TheGuiScale@@3PAVGuiScale@@A	0x009FE4CC
-Code/GameEngine/Source/Common/TooltipMove_muse-f8cb.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
 Code/GameEngine/Source/Common/U4GlobalGuardedNotifies_Rva004ca223.cpp	wrong-name	?g_u4Notify@@3PAVU4Notify@@A	0x00A032D0
 Code/GameEngine/Source/Common/UserPreferencesRva00535CE4.cpp	duplicate-def	_kFactions	0x009BE9B0
 Code/GameEngine/Source/Common/UserPreferencesRva00535CE4.cpp	wrong-name	_kFactions	0x009BE9B0
