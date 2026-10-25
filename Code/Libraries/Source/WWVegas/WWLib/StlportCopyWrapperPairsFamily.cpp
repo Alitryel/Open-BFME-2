@@ -62,9 +62,4 @@ public:
 	void rva0032E538();
 };
 
-void Rva0032E538::rva0032E538()
-{
-	((Rva0032D3D3 *)this)->~Rva0032D3D3();
-}
-
 
