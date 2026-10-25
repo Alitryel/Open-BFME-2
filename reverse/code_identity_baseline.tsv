@@ -341,7 +341,6 @@ Code/GameEngine/Source/GameLogic/Object/WeaponPrivateFireWrappers_O1.cpp	?fireWe
 Code/GameEngine/Source/GameLogic/Object/WeaponPrivateFireWrappers_O1.cpp	?forceFireWeapon@Weapon@@QAEPAVObject@@PBV2@PBUCoord3D@@@Z	?privateFireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H1HHHPAH@Z	0x002CE30A	unowned
 Code/GameEngine/Source/GameLogic/Object/WeaponPrivateFireWrappers_O1.cpp	?rva002CE6C5@Weapon@@QAE_NPBVObject@@H0PAH@Z	?privateFireWeapon@Weapon@@QAE_NPBVObject@@PBUCoord3D@@0H1HHHPAH@Z	0x002CE30A	unowned
 Code/GameEngine/Source/GameLogic/Object/Weapon_getName_Thunk.cpp	?getName@Weapon@@QBE?AVAsciiString@@XZ	?getName@WeaponTemplate@@QBE?AVAsciiString@@XZ	0x0028F940	wrong
-Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptDeleter.cpp	??_GScript@@MAEPAXI@Z	??1Script@@MAE@XZ	0x003B35B1	unowned
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptListNodeZDtor.cpp	??1BfmeNodeZ@@QAE@XZ	??1Script@@MAE@XZ	0x003B35B1	unowned
 Code/GameEngine/Source/GameLogic/System/RankInfoCtor.cpp	??4RankInfo@@QAEAAV0@ABV0@@Z	??4?$vector@HV?$allocator@H@_STL@@@_STL@@QAEAAV01@ABV01@@Z	0x0021C21B	divergent
 Code/GameEngine/Source/GameLogic/System/RankInfoParse.cpp	?friend_parseRankDefinition@RankInfoStore@@SAXPAVINI@@@Z	?push_back@?$vector@PAVRankInfo@@V?$allocator@PAVRankInfo@@@_STL@@@_STL@@QAEXABQAVRankInfo@@@Z	0x004DFCB0	wrong
@@ -402,8 +401,6 @@ Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorClassCtor.cpp	uw_007679e8	?
 Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorDestructor.cpp	?Resize@?$VectorClass@VBfmeHandleCX@@@@UAE_NHPBVBfmeHandleCX@@@Z	??0BfmeHandleCX@@QAE@XZ	0x00326BE6	wrong
 Code/Libraries/Source/WWVegas/WW3D2/MaterialInfoCopyCtor.cpp	uw_00767978	??1MaterialVector@@QAE@XZ	0x0016F580	wrong
 Code/Libraries/Source/WWVegas/WW3D2/MaterialInfoCopyCtor.cpp	uw_00767983	??1TextureVector@@UAE@XZ	0x0016FDB0	wrong
-Code/Libraries/Source/WWVegas/WW3D2/PointGroupClassRender.cpp	?Render@PointGroupClass@@QAEXAAVRenderInfoClass@@H@Z	?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z	0x0017A890	unowned
-Code/Libraries/Source/WWVegas/WW3D2/PointGroupClassRender.cpp	?Render@PointGroupClass@@QAEXAAVRenderInfoClass@@H@Z	?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z	0x0017D770	unowned
 Code/Libraries/Source/WWVegas/WW3D2/PointGroupClassUpdateArrays00917B10.cpp	?rva00917B10@PointGroupClass@@QAEXPAVVector3@@PAVVector4@@PAMPAE3HHPAHH@Z	?rva009148C0@PointGroupClass@@QAEXPAVVector3@@PAMPAEH@Z	0x0017A890	unowned
 Code/Libraries/Source/WWVegas/WW3D2/PointGroupClassUpdateArrays00917B10.cpp	?rva00917B10@PointGroupClass@@QAEXPAVVector3@@PAVVector4@@PAMPAE3HHPAHH@Z	?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z	0x0017D770	unowned
 Code/Libraries/Source/WWVegas/WW3D2/Rva001499D0Cluster.cpp	?Get_Deformed_Vertices@MeshClass@@QAEXPAVVector3@@0@Z	?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@0PBVHTreeClass@@@Z	0x0016BF40	unowned
@@ -847,6 +844,5 @@ Code/Libraries/Source/assetmanager/assetmanager_impl.cpp	?m009F19E0@Q1Receiver01
 Code/Libraries/Source/assetmanager/assetmanager_impl.cpp	?m009F1A60@Q1Receiver0134FAAC@@QAEXH@Z	?refresh@Q1Receiver0134FAAC@@QAEXXZ	0x006227E0	unowned
 Code/Libraries/Source/debug/DebugIOConConstructor.cpp	uw_0075cea0	??1DebugIOConBase@@UAE@XZ	0x0003F320	wrong
 Code/Libraries/Source/subsystem/SubsystemInterface.cpp	?initSubsystem@SubsystemInterfaceList@@QAEXPAVSubsystemInterface@@PAXPBD22PAVXfer@@VAsciiString@@@Z	?push_back@?$vector@U?$pair@PAVSubsystemInterface@@PAX@_STL@@V?$allocator@U?$pair@PAVSubsystemInterface@@PAX@_STL@@@2@@_STL@@QAEXABU?$pair@PAVSubsystemInterface@@PAX@2@@Z	0x00539A2E	wrong
-Code/gen_small/Rva00240167Finish.cpp	?rva00240167@Rva00240167@@QAEPAVAsciiString@@V2@@Z	??1AsciiString@@QAE@XZ	0x00036410	divergent
 Code/gen_small/fam_003_Rva0028688a.cpp	?_M_insert@?$_Rb_tree@UGen_t_00062fa0_mc4@@U?$pair@$$CBUGen_t_00062fa0_mc4@@UGen_t_00062fa0_m4cd@@@_STL@@U?$_Select1st@U?$pair@$$CBUGen_t_00062fa0_mc4@@UGen_t_00062fa0_m4cd@@@_STL@@@3@U?$less@UGen_t_00062fa0_mc4@@@3@V?$allocator@U?$pair@$$CBUGen_t_00062fa0_mc4@@UGen_t_00062fa0_m4cd@@@_STL@@@3@@_STL@@AAE?AU?$_Rb_tree_iterator@U?$pair@$$CBUGen_t_00062fa0_mc4@@UGen_t_00062fa0_m4cd@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBUGen_t_00062fa0_mc4@@UGen_t_00062fa0_m4cd@@@_STL@@@2@@2@PAU_Rb_tree_node_base@2@0ABU?$pair@$$CBUGen_t_00062fa0_mc4@@UGen_t_00062fa0_m4cd@@@2@0@Z	??MGen_t_00062fa0_mc4@@QBE_NABU0@@Z	0x00285672	wrong
 Code/stlport/BasicStringNarrowSizeCtor.cpp	??0?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@PBDIABV?$allocator@D@1@@Z	??$_M_range_initialize@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEXPBD0ABUforward_iterator_tag@1@@Z	0x000078C0	divergent
