@@ -401,14 +401,21 @@ All accepted TUs pass normal build, frozen, canonical-class and EH checks;
 converged data remains clean. Rejected trials preserve their original sources.
 
 Six commits through 8983e1f1f1 were published and their 55 scope keys released.
-Three subsequent merge commits plus this evidence handoff await the runner's
-publication decision. Keep the 39 keys listed in pending-claims.txt until
-publication is confirmed, then release only those BattlePlanUpdate, Squad and
-AssaultTransport scopes and run claims.py release --landed. Older unrelated
-queued claims remain untouched. Combined path audit covers all five pending
-absorbed paths through 0c3b978f0d against fetched origin 27b23d675b8e;
-no further source moves or consumer changes followed that audit.
+Three merge commits and three follow-up evidence commits await publication.
+Keep the 39 keys listed in pending-claims.txt until publication is confirmed,
+then release only those BattlePlanUpdate, Squad and AssaultTransport scopes and
+run claims.py release --landed. Older unrelated queued claims remain untouched.
+The combined path audit covers all five pending absorbed paths through
+0c3b978f0d against fetched origin 27b23d675b8e; no further source moves or
+consumer changes followed that audit.
 
-Final progress.py origin/master: BYTE-MATCHED 100%, LINKING 97.74%
-(7343016 bytes), LINKED 95.24% (7598950 bytes), all deltas zero. Census remains
-2026-10-25 09:42 d2636bb381 retail-truth-4. Maintainer-only runners were not used.
+The 2026-10-25 continuation refreshed the planner and queue, then tried
+GarrisonContain, TunnelContain, BridgeBehavior, OCLUpdate, RadiusDecalUpdate and
+DeletionUpdate. None accepted donors; exact blockers are above. No new claims
+or source changes. The pending commit range remains six commits, with only the
+three merge commits changing source paths.
+
+Final `python3 tools/progress.py origin/master`: BYTE-MATCHED 100%, LINKING
+98.01% (7,363,046 bytes), LINKED 95.38% (7,609,659 bytes), all deltas zero.
+Census 2026-10-25 18:23 ef9c691284 retail-truth-4. Maintainer-only runners were
+not used.
