@@ -44,6 +44,46 @@ class RedefinitionTests(unittest.TestCase):
         self.assertNotIn("struct Coord3D", gone)          # a header owns it
 
 
+class DirectiveCompositionTests(unittest.TestCase):
+    def compose(self, text, skeleton=True):
+        sk = [({"rva": "0x1000", "size": "8"},
+               {"source": "Seed.cpp", "status": "matched"})] if skeleton else []
+        return T.compose("Seed.cpp", sk, ["Seed.cpp"], {"Seed.cpp": text}, [], "first")
+
+    def test_separate_conditional_includes_keep_both_closing_directives(self):
+        first = '#ifdef FIRST\n#include "first.h"\n#endif'
+        second = '#if SECOND\n#if NESTED\n#include "nested.h"\n#else\n#include "second.h"\n#endif\n#endif'
+        out = self.compose(first + "\n" + second + "\nint f() { return 1; }\n")
+        self.assertIn(first, out)
+        self.assertIn(second, out)
+        self.assertEqual(out.count("#endif"), 3)
+
+    def test_a_conditional_definition_keeps_its_branch_and_nested_contents(self):
+        guarded = ('#if DEBUG\nint debug() { return 1; }\n'
+                   '#elif INTERNAL\n#if EXTRA\nint extra() { return 2; }\n#endif\n'
+                   'int internal() { return 3; }\n#else\nint release;\n#endif')
+        out = self.compose(guarded + "\nint f() { return 4; }\n")
+        self.assertIn(guarded, out)
+        self.assertEqual(out.count("int debug()"), 1)
+        self.assertEqual(out.count("#endif"), 2)
+
+    def test_optimization_scopes_and_repeated_resets_stay_in_body_order(self):
+        text = ('#pragma optimize("s", on)\nint f() { return 1; }\n'
+                '#pragma optimize("", on)\n#pragma optimize("t", off)\n'
+                '#pragma optimize("s", on)\nint g() { return 2; }\n'
+                '#pragma optimize("", on)\n')
+        for skeleton in (True, False):
+            out = self.compose(text, skeleton)
+            self.assertEqual(out.count('#pragma optimize("", on)'), 2)
+            self.assertEqual(out.count('#pragma optimize("s", on)'), 2)
+            self.assertIn(text.replace("\n", "\n\n").rstrip(), out)
+
+    def test_unterminated_region_is_not_silently_closed(self):
+        out = self.compose("#ifdef DEBUG\nint f() { return 1; }\n")
+        self.assertIn("#ifdef DEBUG\n", out)
+        self.assertNotIn("#endif", out)
+
+
 class EffectiveFlagsTests(unittest.TestCase):
     def verifier(self, overridden=False):
         v = T.Verifier.__new__(T.Verifier)
