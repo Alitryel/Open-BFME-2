@@ -36,9 +36,9 @@ private:
 // ?check@Rva003B489CHolder@@QBE_NPBX@Z
 Bool Rva003B489CHolder::check(const void *arg) const
 {
-	const char *p = (const char *)arg;
-	Int index = *(const Int *)(p + 4);
-	Int other = *(const Int *)(p + 8);
+	const char *recordBytes = (const char *)arg;
+	Int index = *(const Int *)(recordBytes + 4);
+	Int other = *(const Int *)(recordBytes + 8);
 	Short word = m_table[index].m_word;
 	return (word - other) == 0;
 }
