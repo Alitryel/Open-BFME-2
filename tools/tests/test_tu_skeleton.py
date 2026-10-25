@@ -82,6 +82,20 @@ class DirectiveCompositionTests(unittest.TestCase):
         out = self.compose("#ifdef DEBUG\nint f() { return 1; }\n")
         self.assertIn("#ifdef DEBUG\n", out)
         self.assertNotIn("#endif", out)
+class ComposePreprocessorTests(unittest.TestCase):
+    def test_conditionals_are_not_deduplicated_across_donors(self):
+        texts = {"Seed.cpp": "#ifndef FALSE\n#define FALSE 0\n#endif\nint seed() { return 1; }\n",
+                 "Donor.cpp": "#ifndef NULL\n#define NULL 0\n#endif\nint donor() { return 2; }\n"}
+        out = T.compose("Seed.cpp", [], ["Seed.cpp", "Donor.cpp"], texts, [], "first")
+        self.assertEqual(out.count("#endif"), 2)
+        self.assertEqual(out.count("#ifndef"), 2)
+
+    def test_repeated_includes_are_emitted_once(self):
+        texts = {"Seed.cpp": '#include "a.h"\nint seed() { return 1; }\n',
+                 "Donor.cpp": '#include "a.h"\n#include "b.h"\nint donor() { return 2; }\n'}
+        out = T.compose("Seed.cpp", [], ["Seed.cpp", "Donor.cpp"], texts, [], "first")
+        self.assertEqual(out.count('#include "a.h"'), 1)
+        self.assertEqual(out.count('#include "b.h"'), 1)
 
 
 class EffectiveFlagsTests(unittest.TestCase):

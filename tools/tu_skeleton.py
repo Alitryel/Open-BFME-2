@@ -426,8 +426,11 @@ def compose(tu, sk, files, texts, flags, strategy, drop=frozenset(), drop_all=fr
     for f in files:
         for kind, c in parsed[f]:
             if kind == "pp":
-                if c.strip() not in pps:
-                    pps.append(c.strip())
+                line = c.strip()
+                # only an #include repeats harmlessly; a conditional or a #define
+                # dropped from one donor orphans its #endif or changes a value
+                if line not in pps or not re.match(r"#\s*(include|pragma\s+once)\b", line):
+                    pps.append(line)
             elif kind == "decl":
                 k = key_of(kind, c)
                 if k[0] in ("type", "typedef") and (k[1] in drop_all or (k[1] in drop and f != files[0])):
@@ -580,7 +583,10 @@ def _merge(tu, sk, don, report, dry_run, texts=None, applier=None):
     texts = dict(texts or {})
     for f in don:
         if f not in texts:
-            texts[f] = (ROOT / f).read_text(encoding="utf-8-sig", errors="replace")
+            # a quoted include resolves from the including file's directory: a donor
+            # from another directory is read as it will compile beside the TU
+            texts[f] = relocate_includes((ROOT / f).read_text(encoding="utf-8-sig", errors="replace"),
+                                         posixpath.dirname(f), posixpath.dirname(tu))
     base = {}
     for f in don:
         got = v.matched(texts[f], don[f])
