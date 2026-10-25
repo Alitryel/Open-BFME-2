@@ -315,3 +315,38 @@ notes, attempt evidence and historical census. No active tool, hook, workflow,
 include, build/configuration input or registry requires repair. Upstream-only
 additions in the divergent-tip diff are not local removals. No directories
 removed or EA strings changed; protected registers remain unchanged.
+
+## QueueProductionExitUpdate blocked trial
+
+Final planner snapshot current; original path occurrence is WorldBuilder
+support, not a retail-game source assertion. Current routing independently
+approves seventeen rows; six eligible sources pass frozen checks. Dry-run
+accepts none: Xfer and Common Rva004A0670Copy have no baseline match in the
+trial, while ExitObjectViaDoor, SetRallyPoint and notifyProductionBurstFinished
+collide with canonical Coord3D. Existing TU independently builds 4/4 including
+literals/imports. No source changes or claims; three mixed and three protected
+files remain untouched. Evidence: queueexit-dryrun.txt; attempt recorded through
+re_log.py. No repeated attempt without declaration/environment prerequisites.
+
+## Session handoff
+
+Seven distinct retail TUs consolidated: SubObjectsUpgrade (two passes),
+ProductionUpdate, AIFlankAttackTactic, DetachableRiderUpdate, BattlePlanUpdate,
+Squad and AssaultTransportAIUpdate. Sixteen source files removed net; 37
+matched rows / 3821 retail bytes retained. Parser reconciliation was verified
+separately before its merge. No new matched bytes or census improvement claimed.
+All accepted TUs pass normal build, frozen, canonical-class and EH checks;
+converged data remains clean. Rejected trials preserve their original sources.
+
+Six commits through 8983e1f1f1 were published and their 55 scope keys released.
+Three subsequent merge commits plus this evidence handoff await the runner's
+publication decision. Keep the 39 keys listed in pending-claims.txt until
+publication is confirmed, then release only those BattlePlanUpdate, Squad and
+AssaultTransport scopes and run claims.py release --landed. Older unrelated
+queued claims remain untouched. Combined path audit covers all five pending
+absorbed paths through 0c3b978f0d against fetched origin 27b23d675b8e;
+no further source moves or consumer changes followed that audit.
+
+Final progress.py origin/master: BYTE-MATCHED 100%, LINKING 97.74%
+(7343016 bytes), LINKED 95.24% (7598950 bytes), all deltas zero. Census remains
+2026-10-25 09:42 d2636bb381 retail-truth-4. Maintainer-only runners were not used.
