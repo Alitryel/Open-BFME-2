@@ -6118,3 +6118,8 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b2,ee0e9add20cd78737add024a,gpt-6.1-sol,codex5-20261025-061412-8,w-2d32e7a71cf1,2026-10-25
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b3,55d1b665b66054956628ab26,gpt-6.1-sol,codex5-20261025-061412-8,w-2d32e7a71cf1,2026-10-25
 Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp|param|Rva0006EE7A::Rva0006EE7A#2|b4,91b47c4a4b59d4b4dbfbee11,gpt-6.1-sol,codex5-20261025-061412-8,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0042C936.cpp|member|Rva0042CA4B|m_10,0fca9558bddfed2e490b38bd,gpt-6.1-sol,codex5-20261025-061412-10,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0042C936.cpp|member|Rva0042CA4B|m_14,619d04eb35b634f781a72c19,gpt-6.1-sol,codex5-20261025-061412-10,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0042C936.cpp|function|0x0042C9BA|Rva0042C9BAFactory,af3b0031d41da8edd8d4d1fc,gpt-6.1-sol,codex5-20261025-061412-10,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0042C936.cpp|function|0x0042CA4B|rva0042CA4B,843a64cf5f0527ccf719a9c2,gpt-6.1-sol,codex5-20261025-061412-10,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva0042C936.cpp|param|reset|p,b3deb8cd3df4e16bf4411559,gpt-6.1-sol,codex5-20261025-061412-10,w-2d32e7a71cf1,2026-10-25
