@@ -56,7 +56,7 @@ Follow-up: **Recheck the existing repair and its prerequisites** before retrying
 | `PositionStartSpots.cpp` | 994 | Wrong selected | See LINK-006 map-metadata subset |
 | `SkirmishMapStartSpots.cpp` | 703 | Wrong selected | See LINK-006 map-metadata subset |
 | `stlport_narrow_string_substring_ctor.cpp` | 363 | Unresolved | Recheck repair |
-| `meshmdlio.cpp` | 352 | Wrong selected | Recheck repair |
+| `meshmdlio.cpp` | 352 | Wrong selected | 2026-10-25 at d7fa8a31bf3: paired current-provider preview clears all 352 bytes; 11/11 rows exact; three obsolete hatches retired. [Evidence](../reverse/attempt_support/meshmdlio-hatch-cleanup-20261025-bce2/readme.md), LINK-012; provider residuals and census confirmation remain open. |
 | `GameInfoSetMapSize.cpp` | 343 | Wrong selected | See LINK-006 map-metadata subset |
 | `stlport_narrow_string_substr.cpp` | 277 | Unresolved | Recheck repair |
 | `Rva001ECF66Finish.cpp` | 96 | Unresolved | Recheck repair |

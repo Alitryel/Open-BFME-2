@@ -500,6 +500,19 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
 - **Clearance:** preview scope only (current objects for the listed units).
 - **Census confirmation:** awaiting the next census.
 
+- **Mesh material I/O follow-up (2026-10-25, inspected `d7fa8a31bf3`):**
+  [the bounded cleanup and provider control](../reverse/attempt_support/meshmdlio-hatch-cleanup-20261025-bce2/readme.md)
+  confirms meshmdlio's eleven rows remain exact (352 bytes). Against the
+  `f995f30157` index, checking the current shattersystem object alongside it
+  clears the historical Add blocker before and after the cleanup. This is
+  inherited repair, not new linking credit. The file's obsolete construction
+  anchor and stale matched-destructor annotation are removed, retiring three
+  hatch occurrences through the register tool. The RefCount optimization is
+  retained after an independent removal trial changed Add_Ref's emission.
+  Shattersystem's seven current unresolved/COMDAT/selected findings are
+  unchanged and recorded in the evidence. Only this consumer's ordinary
+  preview scope is cleared; family closure and census confirmation remain open.
+
 ### LINK-013: INI consolidation made a non-retail `set<AsciiString, BfmeStringNoCaseLess>::insert_unique` the kept copy
 
 **Status: Repair landed / awaiting verification. Updated: 2026-10-25; inspected revision: d7fa8a31b.**

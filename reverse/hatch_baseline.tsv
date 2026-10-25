@@ -18671,8 +18671,7 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmatdesc.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmdl_sidehash.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmdl_sidehash.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	"",on	2
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	"gsy",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/motchan.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/motchan.cpp	"gsy",on	1
@@ -23103,7 +23102,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	MeshModelCla
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	MeshModelClass::write_vertex_normals	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	MeshModelClass::write_vertex_shade_indices	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	MeshModelClass::write_vertices	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/meshmdlio.cpp	MeshSaveContextClass::~MeshSaveContextClass	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/motchan.cpp	AdaptiveDeltaMotionChannelClass::Free	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/motchan.cpp	AdaptiveDeltaMotionChannelClass::Get_QuatVector	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/motchan.cpp	AdaptiveDeltaMotionChannelClass::Get_Vector	1
