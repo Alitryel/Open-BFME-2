@@ -7,6 +7,11 @@ the TU retail built them from, one TU at a time, without losing a matched row.
 
 Three tools do the mechanical part; a seat does the judgement.
 
+The read-only evidence catalogue and naming planner is an opt-in draft, described
+under [Draft evidence catalogue and naming packets](#draft-evidence-catalogue-and-naming-packets).
+Its investigation packets supplement this execution lane; all merges continue
+through `tools/tu_skeleton.py` and the normal verification gates.
+
 | Tool | Role |
 |---|---|
 | `tools/tu_map.py` | Which TU each retail function came from: `__FILE__` strings, Zero Hour definitions and class sites, naming inside an anchored address cluster, contiguity. `approved` rows are the only ones a merge moves. |
@@ -70,3 +75,143 @@ regenerated `tu_map.csv` from this lane.
 - **Linking.** `tools/link_check.py` cannot preview a new path before a census
   has seen it; an existing TU path is previewable. A merge that changes which
   COMDAT copy a link keeps shows up in the next census.
+
+## Draft evidence catalogue and naming packets
+
+`python3 tools/name_lane.py consolidate` runs BFME 2's own planner in
+`tools/source_layout.py`. It inventories original paths and produces work
+packets for consolidating fragments while the existing naming lanes recover
+identities. It edits no game source, ledger, reference, git index or claims,
+and does not commit or push. No output is an admission to merge.
+
+```text
+python3 tools/name_lane.py consolidate --out build/consolidation
+python3 tools/name_lane.py consolidate --rotwk C:\GitLab-Runner\rotwk-unofficial-202\source
+python3 tools/name_lane.py consolidate --check build/consolidation
+```
+
+The ROTWK path is optional and machine specific. `--bfme1` accepts another
+checkout; both BFME 1 layouts (`game/` and `Code/`) are recognised. `--zh` selects
+an explicit `GeneralsMD/Code` tree. `--under Code/GameEngine/.../` narrows the
+survey, but a destination outside that ledger scope remains blocked.
+
+### Evidence, without upgrading a hint into proof
+
+The baseline `game.dat` SHA-256 is
+`f008b587570bad693981dc7218588c81d192a1e064b0f7f861539c51156a7640`.
+It contains **173 distinct original `.cpp` paths and 10 header paths**. The
+173 count describes surviving assertions, not the size of the original tree.
+The planner extracts every occurrence, retaining its raw EA spelling, image,
+file offset, string RVA and encoding. Headers are catalogued but cannot become
+translation-unit destinations.
+
+WorldBuilder has considerably more surviving paths, including editor-only
+files. Its path inventory establishes that a file existed in that build; a
+callgraph pairing in `wb_name_leads.csv` supplies a file hint for a BFME 2
+function. Neither fact proves that the retail function belonged in that TU.
+
+Zero Hour supplies actual source/header structure and out-of-line definitions.
+The planner reuses `tu_map.zh_definitions`, rather than matching filenames or
+every occurrence of `Class::method`. Its same-name definitions remain donor
+hints. BFME 1 supplies its EA `ea_evidence.csv` and the existence of reconstructed
+counterparts. Its name/file pairs join **inside BFME 1 first**, then join BFME 2
+by spelling. BFME 1 addresses never become BFME 2 addresses. `wb1-run`,
+`retail-run` and similar propagated routes are preserved in the catalogue but
+cannot nominate a BFME 1 donor home.
+
+Current retail string references are stronger: the referenced path must exist
+in the current image, and the instruction at the xref must be an executable
+`push imm32` or `mov r32,imm32` whose operand points at that exact string.
+This repository's `string_xrefs.tsv` records the owning function's entry; the
+planner uses the existing Capstone dependency to find instruction boundaries
+inside that row's own extent. A short folded twin cannot borrow an instruction
+from a longer row at the same address. Without Capstone, owner-level references
+remain unverified. Unsupported instructions remain unrouted. Header references do not route TUs.
+Several target paths for one body are a conflict, not a vote.
+
+An approved `tu_map.csv` assignment counts as target routing only if
+`tu_map.check_fresh` passes and `approved_tu` finds no contradictory F/Z/S or
+bracketing anchor. A stale map is useful context but has hint strength. Even
+current map approval remains a reconstruction judgement: the packet preserves
+its evidence and requires review before execution.
+
+ROTWK INI module tokens are vocabulary hints, with example file/line citations.
+They never create a C++ path or prove a class, member, ABI or layout. Actual
+source paths are catalogued only when a C/C++ file under a recognisable `Code/`
+path exists. Game `.map`, `.apt`, model and art files are not C++ source evidence.
+
+### Reviewable artifacts
+
+| Artifact | Purpose |
+|---|---|
+| `paths.csv` | Union of retail, WorldBuilder, Zero Hour and BFME 1 EA paths; origins, citations, case variants and current counterparts |
+| `image_paths.jsonl` | Every original image-path occurrence, including all 173 retail `.cpp` paths and the ten headers |
+| `retail_paths.csv` | Compact retail-only occurrence list with exact image hash; suitable for a checked-in evidence snapshot |
+| `queue.csv` | Every selected active source; whole-file, mixed or unresolved routing and static hazards |
+| `groups.json` | Destination groups, source packet keys/hashes, prerequisites and proposed checks |
+| `files.jsonl` | One packet per active source: row names/RVAs/extents, routing evidence, data rows, includers and compile lines |
+| `data_hints.csv` | Optional ROTWK vocabulary, explicitly graded as data only |
+| `report.md` | Counts and the first investigation packets |
+| `inputs.json` | Input and output hashes, reference revisions, gitlink, selection and map freshness |
+
+Default outputs stay under ignored `build/consolidation/`. A review snapshot
+may be written under `reverse/consolidation/`; other output roots are refused.
+The snapshot records the locally selected BFME 1 revision separately from the
+superproject gitlink, preserving an already advanced reference checkout.
+
+The snapshot fingerprints the actual source trees, ZH source contents, images, ledgers,
+flag regions, path-keyed registers and tool versions. Adding a new source or
+header invalidates it. Inputs are checked again before publication to reject a
+scan made during concurrent edits. `--check` checks input and output currency;
+it does not run a compiler, certify evidence or prove merge safety. Regenerate
+after any naming, header adoption, source, ledger or reference change.
+BFME 1's reconstructed tree contributes path existence only, so its inventory
+is fingerprinted; its EA evidence is fingerprinted by content. ROTWK fingerprints
+the inventory and the source/INI text used for hints; unused art payloads are not read.
+
+### Working a packet while naming
+
+1. Recheck the snapshot and run `tools/check_csv.py`. Review every destination
+   alternative and source row, including attached EH funclets. Resolve mixed or
+   incomplete ownership before moving a whole file. Never drop unresolved rows.
+2. Obtain names through `name_evidence.py` and `rename.py`, or the existing blind
+   agreement lane for inferred names. The planner cannot grant `canonical:file`,
+   `canonical:zh`, `canonical:bfme1` or any other canonical basis. Renaming a
+   placeholder can unlock donor evidence on the next scan.
+3. Reconcile duplicate class views through `class_views.py`, `class_contract.py`
+   and `header_adopt_lane.py`. Check real BFME 2 ABI evidence; do not copy BFME 1
+   or ZH offsets. BFME 1's `name_oracle.py` is a reference for building checked
+   witnesses, not an oracle for BFME 2 offsets.
+4. Reconcile compile environments: `// cl:` include paths, macros, runtime/EH
+   flags, current region defaults, per-file overrides and compiler profiles.
+   Equal `// cl:` lines alone are insufficient. Inspect static names, macros,
+   pragmas, relative/quoted includes, source inclusions, `__FILE__`, `__LINE__`
+   and case-sensitive directory spelling. Avoid changing a protected register
+   to make a merge appear admissible.
+5. For an approved TU, run `tools/tu_skeleton.py --merge TU --dry-run`,
+   retain exact source provenance, and compare
+   every affected whole body and relocation against retail. Check EH ownership,
+   data definitions/references, internal symbol collisions and providers and
+   consumers together. A move with different include resolution can compile and
+   still use the wrong declarations.
+6. Only after a successful trial, apply through `tools/tu_skeleton.py --merge TU`
+   under the execution workflow above. Repoint function and data rows and ownership/source
+   registers together; retain names, signatures, pins, parent notes and ICF proof.
+   Drain a fragment completely before deleting it. Run the ordinary byte,
+   declaration, identity, ownership, data, case, EH and local link checks. The
+   maintainer-only runners in `AGENTS.md` still require their normal permission.
+
+`potential_file_reduction` is an unverified upper bound per packet. Mixed files
+may appear in several packets, so those numbers cannot be added. No packet is
+called mergeable; even one with no static blockers requires a compiler trial.
+Changing file count is not recovered-byte progress.
+
+### BFME 1 tooling reviewed
+
+The local reference's `ea_evidence.py`, `ea_queue.py`, `name_oracle.py`,
+`name_lane.py`, `placement_queue.py`, `mergeable_groups.py` and
+`docs/placement_lane.md` informed this design. In particular, BFME 1 found that
+concatenation failed even in groups passing its static checks. Its placement
+lane therefore moves fragments and preserves per-file environments; it does not
+solve consolidation by itself. BFME 2 keeps that distinction and uses its own
+existing guarded naming, TU, class and verification machinery.

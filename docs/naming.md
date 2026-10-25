@@ -101,6 +101,12 @@ shared and refused.
 
 ## The engine: `tools/rename.py`
 
+Before renaming a fragmented subsystem, `python3 tools/name_lane.py consolidate`
+builds original-path and donor evidence packets alongside the naming work.
+It catalogues every retail path, WorldBuilder paths, ZH structure and BFME 1 EA
+file evidence, and flags consolidation prerequisites without editing source or
+granting a name basis. See [the consolidation draft](consolidation.md).
+
 Every rename goes through one tool, one rename per invocation. Always plan with `--dry-run` first:
 
     python3 tools/rename.py function --rva 0x0052F63F --new ClassifyWall \
