@@ -6147,3 +6147,9 @@ Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19A
 Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a2,2815198ceb1229ef7ee1d2d3,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
 Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a3,b5c8084c048c24a43477cafc,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
 Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a4,f8fe9c51c39eca973de7e199,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|class||Rva00431FF2Handler,b465a14789f2a8045ce97585,gpt-6-astra,codexb2-20261025-063846-2,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|class||Rva005FDE81Entry,73686b9f94bc0849969fa334,gpt-6-astra,codexb2-20261025-063846-2,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00664A60|Rva00664A60Handler,3d59a831ab0f93b30ec051d3,gpt-6-astra,codexb2-20261025-063846-3,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00664A70|Rva00664A70Handler,5f1dcb45e4676030ac3e1f11,gpt-6-astra,codexb2-20261025-063846-3,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|DelegateDesc|f,bbed1dd92e3fc0c4eee9cf0b,gpt-6-astra,codexb2-20261025-063846-4,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|MakeBinding|f,77b2b49069312e6238c483a9,gpt-6-astra,codexb2-20261025-063846-4,w-d0bdfd8b17e9,2026-10-25
