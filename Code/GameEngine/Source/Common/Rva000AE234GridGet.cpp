@@ -6,7 +6,7 @@
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-struct Rva000AE234Bytes
+struct ByteVector
 {
 	char *m_begin;
 	char *m_end;
@@ -21,7 +21,7 @@ public:
 	int m_width;
 	int m_height;
 	char m_pad2[0x8C - 0x10];
-	Rva000AE234Bytes m_cells;
+	ByteVector m_cells;
 };
 
 char Rva000AE234::rva000AE234(int xIndex, int yIndex)
@@ -29,7 +29,7 @@ char Rva000AE234::rva000AE234(int xIndex, int yIndex)
 	if (xIndex < 0 || yIndex < 0 || yIndex >= m_height || xIndex >= m_width)
 		return 0;
 	unsigned int i = yIndex * m_width + xIndex;
-	Rva000AE234Bytes &cells = m_cells;
+	ByteVector &cells = m_cells;
 	if (i < cells.size())
 	{
 		_ReadWriteBarrier();

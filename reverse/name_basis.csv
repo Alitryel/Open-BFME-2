@@ -2231,3 +2231,5 @@ local,Rotate::s,Rotate::sinAngle,inferred,agree:nl-7b433e8553ec,Code/GameEngine/
 local,Rotate::c,Rotate::cosAngle,inferred,agree:nl-cd016b040947,Code/GameEngine/Source/Common/Rva005C6CCC.cpp,
 member,LivingWorldGlobalDataView::m_60,LivingWorldGlobalDataView::m_useShadowVolumes,inferred,agree:nl-3d6dfce4410f,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp,
 member,LivingWorldGlobalDataView::m_62,LivingWorldGlobalDataView::m_useShadowMapping,inferred,agree:nl-4c3b3a322f30,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp,
+class,Rva000AE234Bytes,ByteVector,inferred,agree:nl-e19d914e96d7,Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp,
+class,Rva0047B690Row,HordeRow,inferred,agree:nl-16615da29765,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainInitOffsets.cpp,

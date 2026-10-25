@@ -80,7 +80,7 @@ struct MemberOffset
 	unsigned char m_pad8[0x1C - 8];
 };
 
-struct Rva0047B690Row
+struct HordeRow
 {
 	float m_key;
 	float m_orientation;
@@ -104,7 +104,7 @@ private:
 	unsigned char m_pad194[0x30C - 0x194];
 	_STL::vector<Rva0047B35EElement> m_jitter;
 	unsigned char m_pad318[0x6FC - 0x318];
-	Rva0047B690Row m_rows[20];
+	HordeRow m_rows[20];
 	int m_numRows;
 };
 
