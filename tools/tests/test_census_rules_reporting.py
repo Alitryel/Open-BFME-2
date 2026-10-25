@@ -71,6 +71,15 @@ def test_headline_prints_a_rule_change_not_a_loss(monkeypatch, capsys):
     assert f"({link_census.RULES})" in line
 
 
+def test_linked_line_uses_own_source_denominator(monkeypatch, capsys):
+    monkeypatch.setattr(progress, "data_denominator", lambda: 0)
+    split = {"authored": 300, "vendored": 10, "generated": 5, "library": 5, "dump": 100}
+    progress.print_headline(0, 2000, split, split, STRICT, STRICT, [STRICT])
+    line = next(l for l in capsys.readouterr().out.splitlines() if l.startswith("LINKED"))
+    assert "105 bytes" in line
+    assert "( 33.87%)" in line  # 105 linked / (300 authored + 10 vendored)
+
+
 def current(census, authored):
     return {"total": 2000, "census": census, "linked": int(census["linked_bytes"]),
             "linked_authored": authored, "linked_game_code": 1000,

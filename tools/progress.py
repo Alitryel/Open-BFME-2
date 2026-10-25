@@ -13,8 +13,8 @@ libraries and embedded data). LINKING counts executable game code in clean
 files, including generated C++ and assessed reviewed assembly, over the census
 tree's executable game code. Both sides use the same snapshot. Historical
 authored-only totals remain available when inclusive evidence is unavailable.
-LINKED, under them, is all our own source in clean files over all code (the
-chart's linked dots). Every figure counts 0xCC padding out, the way the
+LINKED, under them, is linked own source (authored and vendored) in clean
+files over all own source. Every figure counts 0xCC padding out, the way the
 denominator does, so the breakdown under them adds up to them. Total exact, at
 the end, uses the full .text and includes dumps: bounded coverage, not progress.
 
@@ -909,13 +909,14 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
                 f"executable game code ({game:,} bytes: libraries and embedded data excluded)"))
     print(f"               * {GAME_CPP_ANNOTATION}")
 
-    def census_line(label, field, over_field, note):
+    def census_line(label, field, over_field, note, over_total=None):
         """One census figure over its denominator: `over_field` names the
-        census column holding it, or None for all code (fixed)."""
+        census column holding it, or `over_total`/all code (fixed)."""
         def figure(census):
             if not census or not census.get(field) or (over_field and not census.get(over_field)):
                 return None
-            return int(census[field]), int(census[over_field]) if over_field else denominator
+            return int(census[field]), (int(census[over_field]) if over_field
+                                        else (denominator if over_total is None else over_total))
         now = figure(new_census)
         if now is None:
             print(f"{label:<14} not measured  <- no census stored {field} yet (tools/link_census.py --history)")
@@ -930,7 +931,8 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
             change = (None if field == 'linked_game_executable' and
                       census_rules(old_census) != census_rules(new_census) else
                       census_change(old_census, new_census, field, over_field, list(census_rows) or
-                                    [old_census, new_census], denominator))
+                                    [old_census, new_census],
+                                    denominator if over_total is None else over_total))
             if change is None:
                 delta = (f"delta n/a (census accounting changed: {census_rules(old_census)} -> "
                          f"{census_rules(new_census)}, no like-for-like figure)")
@@ -948,7 +950,8 @@ def print_headline(padding, denominator, old_split, new_split, old_census, new_c
         census_line("LINKING", "linked_authored", "game_code",
                     "legacy authored-only accounting (inclusive census evidence unavailable)")
     print("               (the three figures on the README card and in the daily Discord post)")
-    census_line("LINKED", "linked_bytes", None, "all our own source in files that link cleanly (the chart)")
+    census_line("LINKED", "linked_bytes", None,
+                "linked own source in files that link cleanly", over_total=decompiled(new_split))
 
     print(f"\nreal .text bytes = .text minus {padding:,} bytes of 0xCC padding = {denominator:,} bytes")
     print("  byte-matched, by where its source comes from:")
