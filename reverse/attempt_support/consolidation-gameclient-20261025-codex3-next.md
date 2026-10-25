@@ -365,3 +365,30 @@ until that publication is confirmed, then release them and settle/release
 0x0025C262, 0x0025C378, 0x0025C391, 0x0025C3AA and 0x0025D33B. Earlier accepted
 claims and all rejected/abandoned work are released. Initial untracked gen_asm
 and reverse/zh_sweep files are preserved. No unfinished source edit remains.
+
+## Keyboard merge and follow-up blockers
+
+Fetched origin/master before work; the scoped planner snapshot passed
+`name_lane.py consolidate --check`, then the in-memory TU map queue surfaced a
+fresh Keyboard entry. The approved merge accepted `KeyboardKeyAccessors.cpp`
+and `KeyboardResetKeys.cpp`, preserving 12 rows in `Keyboard.cpp`. Fresh
+`./build.sh Code/GameEngine/Source/GameClient/Input/Keyboard.cpp` verifies 12/12;
+`find_declared_unmatched.py` reports no unmatched definitions. The tool
+repointed three function rows and three TU-map rows. This is mechanical
+consolidation, with no new matched bytes.
+
+Leave the other Keyboard donors for a Sol prerequisite pass. Dry run rejected
+`KeyboardCheckKeyRepeat.cpp` with duplicate `_STL::allocator` and
+`KEY_STATE_DOWN` definitions; `KeyboardRva00232A42.cpp` because `getPrintableKey`
+is absent from `Keyboard` and `KEY_NAMES_COUNT` is undeclared;
+`KeyboardRva00232AE8.cpp` and `rva00232B7BRva00232B7BFarm.cpp` with duplicate
+`_STL::allocator` / `_STL::_Vector_base` template definitions. The plan also
+refuses `KeyboardInitKeyNames.cpp` and `KeyboardInitUpdate.cpp` because they are
+keyed in protected path-keyed registers. No prerequisite was edited here.
+
+Combined pending path audit covers the prior Display merge and this Keyboard
+merge. Searched old source names and stems across active tools, hooks, workflows,
+Code/includes, root configuration, docs and registries. Remaining hits are
+source-provenance comments, historical ledger records, or still-live files; no
+active consumer required a manual repair. Audit range is origin/master..HEAD
+plus the staged Keyboard move. Historical EA paths remain intact.
