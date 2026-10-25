@@ -9252,7 +9252,7 @@ _VP6_AllocateTmpBuffers,,0x001B55E0,179,Code/Libraries/Source/VP6/TmpBuffers.cpp
 ?rva007F4530@Rva007F45E0Aries@@QAEXPAVRva007E8810Message@@@Z,,0x00660FE0,161,Code/GameEngine/Source/GameNetwork/Rva007F4530Fesl.cpp,matched,BFME1 byte-identical donor; b1 0x007F4530
 ?nextAttribute@Rva007F0CB0BlobRecord@@QAE_NPADH0H@Z,,0x0065D1E0,160,Code/GameEngine/Source/GameNetwork/Rva007F03C0BlobRecordNextAttribute.cpp,matched,BFME1 byte-identical donor; b1 0x007F03C0; 2 DIR32 string literal(s) agree
 ?init@Rva007EA9C0Owner@@QAEXXZ,,0x00657960,164,Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp,matched,BFME1 byte-identical donor; b1 0x007EA9C0
-??0GameWindow@@QAE@XZ,,0x003145F0,156,Code/GameEngine/Source/GameClient/GUI/GameWindow_DefaultConstructor.cpp,matched,BFME1 byte-identical donor; b1 0x004792F0
+??0GameWindow@@QAE@XZ,,0x003145F0,156,Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp,matched,BFME1 byte-identical donor; b1 0x004792F0
 ?bfmeGoVFA@BfmeThingVFA@@QAEHPAUBfmeRecVFA@@@Z,,0x00666C80,49,Code/GameEngine/Source/Common/BfmeConv1351.cpp,matched,BFME1 byte-identical donor; b1 0x007FA750
 ?Read_Class_Info@AggregateDefClass@@MAE_NAAVChunkLoadClass@@@Z,,0x001A3560,49,Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp,matched,slot 6 (+0x18) of retail AggregateDefClass vtable 0x007D6C70; bool BFME1 agg_def donor; b1 0x00980550; formerly BfmeThingVFC::bfmeGoVFC
 ?createServiceHubImpl@@YAPAVServiceHubImpl@@PAX00000@Z,,0x00658160,151,Code/GameEngine/Source/GameNetwork/createServiceHubImpl.cpp,matched,BFME1 byte-identical donor; b1 0x007EB1C0; 2 DIR32 string literal(s) agree
