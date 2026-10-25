@@ -20,7 +20,8 @@ public:
 
 int __cdecl Rva00507552Get();
 
-static const FieldParse s_table64180;
+// The 0x00C64180 table INIThinFieldParsers2.cpp defines (data row).
+extern const FieldParse g_00C64180[];
 
 class Rva005088CE
 {
@@ -31,5 +32,5 @@ public:
 void Rva005088CE::buildFieldParse(MultiIniFieldParse &parse)
 {
 	parse.add((const FieldParse *)Rva00507552Get(), 0);
-	parse.add(&s_table64180, 0);
+	parse.add(g_00C64180, 0);
 }
