@@ -27,7 +27,7 @@ public:
 	int bfmeAddFN(const char *name, const char *text);
 
 	void *m_bfmeVfFN;
-	BfmeOwnerFN *m_bfmeOwnerFN;
+	BfmeOwnerFN *m_owner;
 	unsigned char m_bfmeGapFN[8];
 	BfmeBufFN *m_buffers;
 	int m_bufferCount;
@@ -35,7 +35,7 @@ public:
 
 int BfmeHostFN::bfmeAddFN(const char *name, const char *text)
 {
-	int idx = m_bfmeOwnerFN->bfmeFindFN(&m_bfmeOwnerFN->m_bfmeVecFN, name);
+	int idx = m_owner->bfmeFindFN(&m_owner->m_bfmeVecFN, name);
 
 	if (idx == -1)
 		return -106;
