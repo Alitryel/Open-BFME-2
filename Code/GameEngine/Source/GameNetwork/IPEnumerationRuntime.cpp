@@ -1,18 +1,9 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib
-// BFME's implementation follows the released Zero Hour routine, returning
-// the shared empty string when WinSock setup or hostname discovery fails.
+// IPEnumeration destructor: shut down Winsock and release the address list.
+// Only WSACleanup is used here; startup and hostname lookup belong to the
+// machine-name and address-enumeration bodies.
 
-typedef unsigned short WORD;
-
-struct WSADATA
-{
-	WORD wVersion;
-	unsigned char remainder[0x18e];
-};
-
-extern "C" __declspec(dllimport) int __stdcall WSAStartup(WORD version, WSADATA *data);
 extern "C" __declspec(dllimport) int __stdcall WSACleanup(void);
-extern "C" __declspec(dllimport) int __stdcall gethostname(char *name, int length);
 
 void __cdecl operator delete(void *);
 
