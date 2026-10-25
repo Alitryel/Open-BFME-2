@@ -91,7 +91,7 @@ private:
 	void rva000D17BA(int dummy);
 
 public:
-	void rva000D17EF(int a, int b, int c);
+	void rva000D17EF(int oldMtx, int oldPos, int oldAngle);
 
 private:
 	_STL::list<int> m_boneIndices;
@@ -114,7 +114,7 @@ void W3DTornadoDraw::rva000D1743()
 	m_boneIndices.clear();
 }
 
-void W3DTornadoDraw::rva000D17EF(int a, int b, int c)
+void W3DTornadoDraw::rva000D17EF(int oldMtx, int oldPos, int oldAngle)
 {
 	for (_STL::list<int>::iterator it = m_boneIndices.begin(); it != m_boneIndices.end(); ++it) {
 		RadiusDecal *decal = reinterpret_cast<RadiusDecal *>(*it);
