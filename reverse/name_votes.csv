@@ -6377,3 +6377,7 @@ Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::setAr
 Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::clearArmorSetFlag|v,0c14695235ae96f93e5b3855,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p057a,w-1cf958189611,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::setArmorSetFlag|v,03244d9b921145aa0baa830b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p057b,w-2f79f038fb19,2026-10-25
 Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp|param|Object::clearArmorSetFlag|v,0c14695235ae96f93e5b3855,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p057b,w-2f79f038fb19,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp|local|GameWindow::winBringToTop|g,2ea26d42b437fd307f4d1902,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p063a,w-397d6afab09d,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp|local|GameWindow::winActivate|r,cfd99d56da234a10758570d8,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p063a,w-397d6afab09d,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp|local|GameWindow::winBringToTop|g,c518a2fadf3db8afbf86c75b,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p063b,w-78b3b19c7bca,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp|local|GameWindow::winActivate|r,cfd99d56da234a10758570d8,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p063b,w-78b3b19c7bca,2026-10-25

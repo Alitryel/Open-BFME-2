@@ -2093,3 +2093,4 @@ param,Rva0014CE67_Prototype::Rva0014CE67_Prototype::arg1,Rva0014CE67_Prototype::
 param,Rva0014CE67_Prototype::Rva0014CE67_Prototype::arg2,Rva0014CE67_Prototype::Rva0014CE67_Prototype::size,inferred,agree:nl-26b252ff50af,Code/GameEngine/Source/Common/Rva0014CE67Ctor.cpp,0x0014CE67
 param,Object::setArmorSetFlag::v,Object::setArmorSetFlag::ast,inferred,agree:nl-03244d9b9211,Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp,0x0028B78A
 param,Object::clearArmorSetFlag::v,Object::clearArmorSetFlag::ast,inferred,agree:nl-0c14695235ae,Code/GameEngine/Source/GameLogic/Object/ObjectFindModule.cpp,0x0028B79C
+local,GameWindow::winActivate::r,GameWindow::winActivate::returnCode,inferred,agree:nl-7e7f62ef2d1d,Code/GameEngine/Source/GameClient/GUI/GameWindowRva0031475A.cpp,0x003147DA

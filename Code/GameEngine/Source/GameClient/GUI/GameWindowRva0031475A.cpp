@@ -99,9 +99,9 @@ int GameWindow::winBringToTop()
 
 int GameWindow::winActivate()
 {
-	int r = winBringToTop();
-	if (r != 0)
-		return r;
+	int returnCode = winBringToTop();
+	if (returnCode != 0)
+		return returnCode;
 	m_status |= 1;
 	winHide(false);
 	return 0;
