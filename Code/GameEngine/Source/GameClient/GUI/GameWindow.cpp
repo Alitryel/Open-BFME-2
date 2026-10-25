@@ -116,15 +116,26 @@ public:
 	V(8) V(9) V(10) V(11) V(12) V(13) V(14) V(15)
 	V(16) V(17) V(18) V(19) V(20) V(21) V(22) V(23)
 	V(24) V(25) V(26) V(27) V(28) V(29) V(30) V(31)
-	V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39)
-	V(40) V(41) V(42) V(43) V(44) V(45) V(46) V(47)
-	V(48) V(49) V(50) V(51) V(52) V(53) V(54) V(55)
-	V(56) V(57)
+	V(32) V(33) V(34) V(35) V(36)
+	virtual GameWindow *Virtual94() = 0;
+	V(38) V(39)
+	virtual void windowHiding(GameWindow *window) = 0;
+	V(41) V(42) V(43) V(44) V(45) V(46) V(47)
+	virtual GameWindow *winGetFocus() = 0;
+	virtual Int winSetFocus(GameWindow *window) = 0;
+	V(50) V(51) V(52) V(53) V(54) V(55)
+	virtual void VirtualE0(GameWindow *win, GameWindow *parent) = 0;
+	V(57)
 #undef V
 	virtual WindowMsgHandledType winSendSystemMsg(GameWindow *window, UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2) = 0;
+	void linkWindow(GameWindow *win);
+	void unlinkWindow(GameWindow *win);
+	void unlinkChildWindow(GameWindow *win);
 };
 
 extern GameWindowManager *TheWindowManager;
+
+class Gadget210;
 
 class GameWindow
 {
@@ -166,7 +177,9 @@ private:
 	Int m_regionLoY;
 	Int m_regionHiX;
 	Int m_regionHiY;
-	unsigned char m_pad24[0x3C - 0x24];
+	Int m_cursorX;
+	Int m_cursorY;
+	unsigned char m_pad2C[0x3C - 0x2C];
 	unsigned m_style;
 	unsigned char m_pad40[0x18C - 0x40];
 	int m_enabledColor;
@@ -187,6 +200,8 @@ private:
 	GameWindow *m_prev;
 	GameWindow *m_parent;
 	GameWindow *m_child;
+	unsigned char m_pad208[0x210 - 0x208];
+	Gadget210 *m_210;
 };
 
 class BfmeWindowDisplayString
@@ -284,7 +299,7 @@ private:
 // 6d943426). Byte-identical to retail once relocations are masked (unique hit
 // on unclaimed .text). Only the placed body is defined here; the donor's other
 // five setters are omitted.
-BFME_FLAG_BIT_SETTER( Rva004784A0FlagBit, 0x38, 0x2u )
+BFME_FLAG_BIT_SETTER( Rva004784A0FlagBit, 0x38, 0x2u );
 
 class Rva004784F0
 {
