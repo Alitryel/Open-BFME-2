@@ -194,3 +194,49 @@ older trial evidence and historical census. No active path consumer needs
 repair. Prior naming-evidence and directory classifications remain valid;
 upstream-only evidence additions are not local removals. This audit covers
 the entire five-commit pending batch, including the vector prerequisite.
+
+## CaveContain blocked trial
+
+Fresh planner and current routing reviewed; six eligible donors pass frozen
+checks. No two-file verified merge: Xfer include ordering lacks Snapshot and
+other operand declarations, the seed lacks the constructor and onCreate,
+and removing/recalc donors fail layout assertions. Existing TU remains exact
+13/13; no sources or rows moved and dry run acquired no claims. Exact trial
+is cave-dryrun.txt. The initial log entry mistyped the RVA; it was retracted
+through re_log.py void and re-recorded at actual xfer RVA 0x00466577.
+
+## DockUpdate blocked trial
+
+Reviewed original-path packet, compiler/header prerequisites and approved
+retail routing. Nine eligible donor files pass frozen checks. No verified
+merge: allocator<char> explicit-specialization conflicts affect most donors;
+ObjectID enum redefinitions, missing receiver members and Xfer include order
+remain. Two protected and nine mixed sources stay untouched. Dry run acquired
+no claims and changed no rows; exact reasons in dock-dryrun.txt.
+
+DockUpdate existing TU independently passes 6/6 with all literal/import checks.
+
+## DetachableRiderUpdate merge
+
+Reviewed original-path alternatives, private declarations and compiler
+prerequisites; fresh snapshot/current in-memory routing admits all moves.
+The dry run and normal merge accept the existing TU, WeaponTemplateSetCopyCtor,
+Rva004AE877Ctor and StlSweepW5Rva004AE94D. Three files removed, four matched
+rows / 700 retail bytes preserved. Build passes 4/4 with literal/import checks;
+frozen and staged canonical-class checks pass. EH has no rows and no missing
+objects; converged data remains ten addresses, no second names or unjudged rows.
+Only three functions/map source columns repointed; no protected register changed.
+Three donors remain blocked by Xfer include ordering, duplicate _Construct
+template, and DisabledType/receiver members. Two protected and six mixed
+sources remain; exact trial and accepted flags are in detachable-merge.txt.
+
+Full pending/staged compatibility audit refreshed against fetched origin
+9bb8828868ba5f84984d20c5c7f3abf1ef4a06db, covering twelve local absorbed paths
+across four TUs. Whole tracked-tree search finds no active tools, hooks,
+workflows, includes, build inputs or registries requiring repair. HeadCopyCtor
+mentions its former sibling only in a historical compilation comment; the
+helper remains a separate TU. Other hits remain provenance, append-only naming
+evidence, attempt records and historical census. No directories are removed;
+EA paths are preserved. Four upstream-only added artifacts shown by the
+divergent-tip comparison are not local removals. This audit covers all six
+local commits, including the standalone parser prerequisite.
