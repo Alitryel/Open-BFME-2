@@ -4,14 +4,17 @@
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
+enum { WIN_ERR_OK = 0 };
+
+enum { WIN_STATUS_HIDDEN = 0x10 };
+
+enum { GWS_SCROLL_LISTBOX = 0x20 };
+
 enum
 {
-	WIN_ERR_OK = 0,
 	WIN_ERR_INVALID_WINDOW = -2,
-	WIN_STATUS_HIDDEN = 0x10,
 	WIN_STATUS_BORDER = 0x1000,
-	WIN_STATUS_SEE_THRU = 0x10000,
-	GWS_SCROLL_LISTBOX = 0x20
+	WIN_STATUS_SEE_THRU = 0x10000
 };
 
 class GameWindow;
