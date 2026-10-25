@@ -31,8 +31,8 @@ public:
 
 void *Rva00223124::rva00223124(const void *obj)
 {
-	Rva00223124Node *n = (Rva00223124Node *)_STL::allocator<char>().allocate(12, 0);
-	n->_M_next = 0;
-	_STL::_Construct(&n->_M_val, *(const _STL::pair<const AsciiString, AsciiString> *)obj);
-	return n;
+	Rva00223124Node *node = (Rva00223124Node *)_STL::allocator<char>().allocate(12, 0);
+	node->_M_next = 0;
+	_STL::_Construct(&node->_M_val, *(const _STL::pair<const AsciiString, AsciiString> *)obj);
+	return node;
 }
