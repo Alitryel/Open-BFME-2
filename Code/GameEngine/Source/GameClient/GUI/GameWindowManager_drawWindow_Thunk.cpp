@@ -19,11 +19,12 @@ enum
 
 class GameWindow;
 
-class GameWindowDraw
+class GameWindowChild
 {
 public:
 	virtual void drawBorder(GameWindow *window);
 	virtual void draw(GameWindow *window, void *instanceData);
+	virtual void onChildPosition(int curX, int curY, int newX, int newY);
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameClient/GameWindow.h
@@ -41,7 +42,7 @@ public:
 private:
 	friend class GameWindowManager;
 
-	GameWindowDraw *m_draw;
+	GameWindowChild *m_positionSink;
 	UnsignedInt m_status;
 	unsigned char m_pad0c[0x24];
 	unsigned char m_instData[0x1c8];
@@ -60,8 +61,8 @@ protected:
 
 void GameWindow::winDrawBorder()
 {
-	if (m_draw)
-		m_draw->drawBorder(this);
+	if (m_positionSink)
+		m_positionSink->drawBorder(this);
 }
 
 // ?drawWindow@GameWindowManager@@IAEHPAVGameWindow@@@Z
@@ -74,8 +75,8 @@ Int GameWindowManager::drawWindow(GameWindow *window)
 	{
 		if (!(window->m_status & WIN_STATUS_SEE_THRU))
 		{
-			if (window->draw(window->m_instData) != 1 && window->m_draw)
-				window->m_draw->draw(window, window->m_instData);
+			if (window->draw(window->m_instData) != 1 && window->m_positionSink)
+				window->m_positionSink->draw(window, window->m_instData);
 		}
 
 		if (window->winGetStyle() & GWS_SCROLL_LISTBOX)
