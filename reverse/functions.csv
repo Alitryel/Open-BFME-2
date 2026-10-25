@@ -5433,14 +5433,14 @@ _XMP_Move,,0x0061BE10,19,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matched,
 ?Record_DX8_Skin_Polys_And_Vertices@Debug_Statistics@@YAXHH@Z,,0x00129520,28,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsSkin.cpp,matched,add skin polys verts and increment skin renders
 ?Record_Sorting_Polys_And_Vertices@Debug_Statistics@@YAXHH@Z,,0x001295F0,28,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsSorting.cpp,matched,add sorting polys verts and increment draw calls
 ?End_Statistics@Debug_Statistics@@YAXXZ,,0x0012A450,122,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,snapshot last-frame counters then DX8Wrapper End_Statistics
-?Get_DX8_Polygons@Debug_Statistics@@YAHXZ,,0x001295D0,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame DX8 polygon count
-?Get_DX8_Vertices@Debug_Statistics@@YAHXZ,,0x001295E0,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame DX8 vertex count
-?Get_DX8_Skin_Renders@Debug_Statistics@@YAHXZ,,0x001295A0,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame DX8 skin render count
-?Get_DX8_Skin_Polygons@Debug_Statistics@@YAHXZ,,0x001295B0,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame DX8 skin polygon count
-?Get_DX8_Skin_Vertices@Debug_Statistics@@YAHXZ,,0x001295C0,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame DX8 skin vertex count
-?Get_Sorting_Polygons@Debug_Statistics@@YAHXZ,,0x00129610,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame sorting polygon count
-?Get_Sorting_Vertices@Debug_Statistics@@YAHXZ,,0x00129620,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame sorting vertex count
-?Get_Draw_Calls@Debug_Statistics@@YAHXZ,,0x00129630,6,Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsGetters.cpp,matched,return last-frame draw call count
+?Get_DX8_Polygons@Debug_Statistics@@YAHXZ,,0x001295D0,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame DX8 polygon count
+?Get_DX8_Vertices@Debug_Statistics@@YAHXZ,,0x001295E0,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame DX8 vertex count
+?Get_DX8_Skin_Renders@Debug_Statistics@@YAHXZ,,0x001295A0,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame DX8 skin render count
+?Get_DX8_Skin_Polygons@Debug_Statistics@@YAHXZ,,0x001295B0,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame DX8 skin polygon count
+?Get_DX8_Skin_Vertices@Debug_Statistics@@YAHXZ,,0x001295C0,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame DX8 skin vertex count
+?Get_Sorting_Polygons@Debug_Statistics@@YAHXZ,,0x00129610,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame sorting polygon count
+?Get_Sorting_Vertices@Debug_Statistics@@YAHXZ,,0x00129620,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame sorting vertex count
+?Get_Draw_Calls@Debug_Statistics@@YAHXZ,,0x00129630,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame draw call count
 ?getValue@GameClientRandomVariable@@QBEMXZ,,0x002341A1,70,Code/GameEngine/Source/GameClient/ClientRandomValue_getValue.cpp,matched,BFME1 GameClientRandomVariable::getValue transferred; BFME2 CONSTANT/UNIFORM body preserves RandomValue.cpp line 394
 ?IsCRC@Xfer@@UBE_NXZ,,0x0047A699,3,Code/GameEngine/Source/Common/System/Xfer.cpp,matched,BFME1 mode predicate transferred; BFME2 retail folds to xor eax eax / ret
 ?IsLightCRC@Xfer@@UBE_NXZ,,0x0047A699,3,Code/GameEngine/Source/Common/System/Xfer.cpp,matched,BFME1 mode predicate transferred; BFME2 retail folds to xor eax eax / ret
