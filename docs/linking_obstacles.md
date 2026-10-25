@@ -225,6 +225,14 @@ authored-byte previews or commit-title gains into a projected headline.
     destructor folds with the list base). Retype them so they call those
     callees by their own names, then drop both pins. Re-run the 17-unit
     trial before the canonical rename.
+- **INI bucket initializer repaired (2026-10-25, control `349db6dc10`):**
+  [the scoped provider repair](../reverse/attempt_support/ini-bucket-provider-link-20261025/readme.md)
+  makes INI emit the retail 59-byte initializer at `0x00148DDF` and applies its
+  prime-search configuration before the relevant include. INI's wrong-binding
+  count falls from one to zero. All 203 cohort rows and 13 EH graphs pass;
+  the bounded ownership diagnostic clears INI's 2,989 authored bytes. Existing
+  provider debt is recorded in the handoff. This subset is cleared in the
+  scoped diagnostic; global closure and census confirmation remain pending.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and
