@@ -24,17 +24,22 @@ class BfmeObject872Header
 {
 public:
 	BfmeObject872Header(const BfmeObject872Header &src);
+	// Class-scope placement form: no throw() spec, so no null test after it
+	// (retail has none), and no clash with <new> in a unit that includes it.
+	// The class-scope usual delete hides <new>'s placement delete, so the copy
+	// construction gets no unwind cleanup either (retail has no EH frame).
+	static void *operator new(unsigned int, void *place) { return place; }
+	static void operator delete(void *);
 };
 
-inline void *operator new(unsigned int, void *place)
-{
-	return place;
-}
 
-class SlaughterHordeContain
-{
+typedef void (__cdecl *ContainIterateFunc)(Object *, void *);
+// SlaughterHordeContain as SiegeEngineContainIterateRiders.cpp also spells it
+// (qualified-call virtuals only; slot order not asserted).
+class SlaughterHordeContain {
 public:
-	virtual BfmeObject872Header *rva00462CE1(BfmeObject872Header *out, int flag);
+    virtual void rva004635EC(ContainIterateFunc, void *, int);
+    virtual BfmeObject872Header *rva00462CE1(BfmeObject872Header *out, int flag);
 };
 
 class Rva0047CAEBOwner : public SlaughterHordeContain
