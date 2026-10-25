@@ -17,6 +17,7 @@
 // this unit; with it cl keeps this in EDI and the iterator in ESI, as retail
 // does, through Zero Hour's plain TheGameLogic spelling.
 #include <list>
+#include "../../Common/GameLogicObjectLookupView.h"
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper
 // (retail keeps one _List_iterator_base::operator!=; BfmeAptScreenLanLobbyOnInitGadget.cpp pattern).
 namespace _STL {
@@ -30,10 +31,6 @@ typedef bool Bool;
 typedef unsigned int UnsignedInt;
 #define NULL 0
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
 enum Relationship
 {
 	ENEMIES = 0,
@@ -170,10 +167,6 @@ public:
 	Team *m_team; // +0x304
 };
 
-
-#define _GAME_TYPE_H_ 1
-#include "../../Common/GameLogicObjectLookupView.h"
-
 extern GameLogic *TheGameLogic;
 struct TnLookupNode { TnLookupNode *next; ObjectID key; Object *object; };
 struct TnLookupBuckets {
@@ -191,7 +184,7 @@ inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
 }
 inline Object *GameLogic::findObjectByID(ObjectID id)
 {
-	if (id == INVALID_ID)
+	if (id == INVALID_OBJECT_ID)
 		return 0;
 	ObjectIdNode *node = m_map.find(id);
 	if (node == 0)
