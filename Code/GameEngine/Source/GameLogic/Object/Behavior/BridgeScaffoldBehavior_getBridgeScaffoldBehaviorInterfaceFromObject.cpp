@@ -11,55 +11,7 @@
 // sub-object for the scaffold interface at slot 14 (+0x38). Called from the
 // Dozer/Worker scaffolding paths.
 
-class BridgeScaffoldBehaviorInterface;
-
-class BehaviorModuleInterface
-{
-public:
-	virtual void slot00() = 0;
-	virtual void slot01() = 0;
-	virtual void slot02() = 0;
-	virtual void slot03() = 0;
-	virtual void slot04() = 0;
-	virtual void slot05() = 0;
-	virtual void slot06() = 0;
-	virtual void slot07() = 0;
-	virtual void slot08() = 0;
-	virtual void slot09() = 0;
-	virtual void slot10() = 0;
-	virtual void slot11() = 0;
-	virtual void slot12() = 0;
-	virtual void slot13() = 0;
-	virtual BridgeScaffoldBehaviorInterface *getBridgeScaffoldBehaviorInterface() = 0;
-};
-
-class BfmeObjectModule
-{
-public:
-	virtual void slot0() = 0;
-
-private:
-	unsigned int m_data[2];
-};
-
-class BehaviorModule : public BfmeObjectModule, public BehaviorModuleInterface
-{
-};
-
-class Object
-{
-public:
-	__declspec(dllimport) __forceinline BehaviorModule **getBehaviorModules() const { return m_modules244; }
-
-	char m_pad[0x244];
-	BehaviorModule **m_modules244;
-};
-
-class BridgeScaffoldBehavior
-{
-public:
-	static BridgeScaffoldBehaviorInterface *getBridgeScaffoldBehaviorInterfaceFromObject(Object *obj);
-};
+#include "BridgeScaffoldBehaviorView.h"
 
 // ?getBridgeScaffoldBehaviorInterfaceFromObject@BridgeScaffoldBehavior@@SAPAVBridgeScaffoldBehaviorInterface@@PAVObject@@@Z
 BridgeScaffoldBehaviorInterface *BridgeScaffoldBehavior::getBridgeScaffoldBehaviorInterfaceFromObject(Object *obj)

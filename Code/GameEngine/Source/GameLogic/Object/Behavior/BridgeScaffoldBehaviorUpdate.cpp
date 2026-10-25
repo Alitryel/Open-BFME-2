@@ -12,90 +12,9 @@
 // object through GameLogic::destroyObject 0x00242C09 and the new position is
 // set with Thing::setPosition 0x0030AA80.
 
-typedef float Real;
-
-// Coord3D: shared header/view; no private copy.
-#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
-
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_NONE = 1
-};
-
-enum ScaffoldTargetMotion
-{
-	STM_STILL,
-	STM_RISE,
-	STM_BUILD_ACROSS,
-	STM_TEAR_DOWN_ACROSS,
-	STM_SINK
-};
-
-class Thing
-{
-public:
-	void setPosition( const Coord3D *pos );
-};
-
-class Object : public Thing
-{
-public:
-	const Coord3D *getPosition() const { return &m_pos; }
-	unsigned char m_pad00[0x38];
-	Coord3D m_pos;
-};
-
+#include "BridgeScaffoldBehaviorView.h"
 #include "../../../Common/GameLogicObjectLookupView.h"
-
 extern GameLogic *TheGameLogic;
-
-class BehaviorModule
-{
-public:
-	virtual ~BehaviorModule();
-protected:
-	Object *getObject() const { return m_object; }
-private:
-	const void *m_moduleData;
-	Object *m_object;
-	unsigned char m_pad0C[0x10 - 0x0C];
-};
-
-class UpdateModuleInterface
-{
-public:
-	virtual UpdateSleepTime update() = 0;
-};
-
-class UpdateModule : public BehaviorModule, public UpdateModuleInterface
-{
-private:
-	unsigned char m_pad14[0x20 - 0x14];
-};
-
-class BridgeScaffoldBehaviorInterface
-{
-public:
-	virtual void setPositions( const Coord3D *createPos, const Coord3D *riseToPos, const Coord3D *buildPos ) = 0;
-	virtual void setMotion( ScaffoldTargetMotion targetMotion ) = 0;
-};
-
-class BridgeScaffoldBehavior : public UpdateModule, public BridgeScaffoldBehaviorInterface
-{
-public:
-	virtual void setPositions( const Coord3D *createPos, const Coord3D *riseToPos, const Coord3D *buildPos );
-	virtual void setMotion( ScaffoldTargetMotion targetMotion );
-	virtual UpdateSleepTime update();
-
-private:
-	ScaffoldTargetMotion m_targetMotion;
-	Coord3D m_createPos;
-	Coord3D m_riseToPos;
-	Coord3D m_buildPos;
-	Real m_lateralSpeed;
-	Real m_verticalSpeed;
-	Coord3D m_targetPos;
-};
 
 // ------------------------------------------------------------------------------------------------
 /** The update method */
