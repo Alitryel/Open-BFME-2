@@ -8,6 +8,7 @@
 #define BFME_STRINGBASE_PUBLIC_DTOR
 #include "ascii_string.h"
 #include <string.h>
+#define CSLOT(n) virtual void cslot##n();
 
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
 
@@ -106,9 +107,6 @@ public:
 // +0x20, where the constructor 0x00468559 stores its secondary table.
 class TransportContainUpdate : public Rva004640BE { unsigned char m_pad14[0x20 - 0x14]; };
 
-// The +0x20 interface: the constructor 0x00468559's secondary table holds
-// 0x004673C0 at slot 60; onCapture (0x004672B7) calls slots 32/35/42/54/56.
-#define CSLOT(n) virtual void cslot##n();
 class TransportConditionInterface
 {
 public:
@@ -152,26 +150,6 @@ class TransportPayloadCreator
 {
 public:
 	virtual Object *createPayloadMember(const ThingTemplate *, PayloadContainView *, Object *, const char *, int) = 0;
-};
-
-class TransportContain : public OpenContain, public TransportPayloadCreator
-{
-public:
-#define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
-	V(04) V(05) V(06) V(07) V(08)
-	virtual void onCapture(int oldOwner, int newOwner);	// slot 9, 0x004672B7
-	V10(1) V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
-#undef V10
-	virtual void createPayload();		// slot 29 (0x004670D6)
-	virtual void slot30();
-	virtual UpdateSleepTime update();
-	void UpdateUpgradeCreationTriggers();	// 0x00468045
-	virtual void rva004673C0();
-	virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int initial);	// 0x00466FE0
-private:
-	unsigned char m_pad100[0x108 - 0x100];
-	unsigned int m_payloadFrame;		// +0x108
-	bool m_hiddenState;					// +0x10C
 };
 
 class Rva00263895Member
@@ -820,38 +798,6 @@ enum ObjectStatusTypes
 	OBJECT_STATUS_25 = 0x25
 };
 
-class Object
-{
-public:
-	void attemptHealing(float amount, const Object *source);
-public:
-	int getID() const {return m_id;}
-public:
-	void rva0028AE6D();
-public:
-	__forceinline void clearModelConditionBit(int bit) { if (m_modelFlags.testBit(bit) != 0) { m_modelFlags.clearBit(bit); rva0028AE6D(); } }
-public:
-	unsigned char m_pad00[0x74];
-public:
-	int m_id;
-public:
-	unsigned char m_pad78[0x10C-0x78];
-public:
-	TransportContainModelFlags m_modelFlags;
-public:
-	unsigned char m_pad158[0x1C8 - 0x158];
-public:
-	unsigned char m_flags1C8;	// bit 0x20 tested by onCapture
-public:
-	unsigned char m_pad1C9[0x250 - 0x1C9];
-public:
-	ContainModuleInterface *m_contain;
-public:
-	BodyModuleInterface *m_body;
-public:
-	bool testStatus(ObjectStatusTypes status) const;
-};
-
 class StateMachine
 {
 public:
@@ -916,6 +862,83 @@ struct Rva004469D1Receiver
 	char m_pad00[0x288];
 	int m_288;
 };
+
+class Object
+{
+public:
+	void attemptHealing(float amount, const Object *source);
+public:
+	int getID() const {return m_id;}
+public:
+	void rva0028AE6D();
+public:
+	__forceinline void clearModelConditionBit(int bit) { if (m_modelFlags.testBit(bit) != 0) { m_modelFlags.clearBit(bit); rva0028AE6D(); } }
+public:
+	unsigned char m_pad00[0x74];
+public:
+	int m_id;
+public:
+	unsigned char m_pad78[0x10C-0x78];
+public:
+	TransportContainModelFlags m_modelFlags;
+public:
+	unsigned char m_pad158[0x1C8 - 0x158];
+public:
+	unsigned char m_flags1C8;	// bit 0x20 tested by onCapture
+public:
+	unsigned char m_pad1C9[0x250 - 0x1C9];
+public:
+	ContainModuleInterface *m_contain;
+public:
+	BodyModuleInterface *m_body;
+public:
+	bool testStatus(ObjectStatusTypes status) const;
+};
+
+class TransportContainPrimary
+{
+public:
+	V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08)
+	virtual void onCapture(int oldOwner, int newOwner);	// slot 9
+protected:
+	const void *m_moduleData;	// +0x04
+	Object *m_object;			// +0x08
+private:
+	unsigned char m_pad0C[0x20 - 0x0C];
+};
+
+class TransportContain : public OpenContain, public TransportPayloadCreator
+{
+public:
+#define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
+	V(04) V(05) V(06) V(07) V(08)
+	virtual void onCapture(int oldOwner, int newOwner);	// slot 9, 0x004672B7
+	V10(1) V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
+#undef V10
+	virtual void createPayload();		// slot 29 (0x004670D6)
+	virtual void slot30();
+	virtual UpdateSleepTime update();
+	void UpdateUpgradeCreationTriggers();	// 0x00468045
+	virtual void rva004673C0();
+	virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int initial);	// 0x00466FE0
+private:
+	unsigned char m_pad100[0x108 - 0x100];
+	unsigned int m_payloadFrame;		// +0x108
+	bool m_hiddenState;					// +0x10C
+};
+
+// tu-skeleton: 0x00466DA9 19B ?isExitBusy@TransportContain@@UBE_NXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva00466D93ExitReserve.cpp (not merged yet)
+
+// tu-skeleton: 0x00466DBC 73B ?xfer@TransportContain@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E05 5B ?rva00466E05@Rva00466E05@@QAEXPAX@Z -- matched in Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
+
+// TU Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
+
+// The +0x20 interface: the constructor 0x00468559's secondary table holds
+// 0x004673C0 at slot 60; onCapture (0x004672B7) calls slots 32/35/42/54/56.
 
 // tu-skeleton: 0x00466DA9 19B ?isExitBusy@TransportContain@@UBE_NXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva00466D93ExitReserve.cpp (not merged yet)
 
@@ -1468,6 +1491,108 @@ Object *TransportContain::createPayloadMember(const ThingTemplate *what,PayloadC
 // tu-skeleton: 0x004671AC 267B ?isSpecificRiderFreeToExit@TransportContain@@MAE_NPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
 
 // tu-skeleton: 0x004672B7 99B ?onCapture@TransportContain@@UAEXHH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain_onCapture.cpp (not merged yet)
+
+// tu-skeleton: 0x0046731A 166B ?rva0046731A@Rva0046731A@@QAEXPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// tu-skeleton: 0x0046740C 344B ?rva0046740C@TransportContain@@MAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders_Rva0046740C.cpp (not merged yet)
+
+// tu-skeleton: 0x0046760D 222B ?letRidersUpgradeWeaponSet@TransportContain@@MAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// tu-skeleton: 0x004676EB 45B ??$_Construct@UBfmeStringRecord00466E64@@U1@@_STL@@YAXPAUBfmeStringRecord00466E64@@ABU1@@Z -- matched in Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp (not merged yet)
+
+// tu-skeleton: 0x00467718 38B ??$__uninitialized_copy@PBUBfmeStringRecord00466E64@@PAU1@@_STL@@YAPAUBfmeStringRecord00466E64@@PBU1@0PAU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_copy.cpp (not merged yet)
+
+// tu-skeleton: 0x0046773E 37B ??$__uninitialized_fill_n@PAUBfmeStringRecord00466E64@@IU1@@_STL@@YAPAUBfmeStringRecord00466E64@@PAU1@IABU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_fill_n12.cpp (not merged yet)
+
+// tu-skeleton: 0x00467763 45B ?Rva00467763Construct@@YAXPAXPBX@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp (not merged yet)
+
+// tu-skeleton: 0x00467790 9B ??$_Destroy@VRva00466E23@@@_STL@@YAXPAVRva00466E23@@@Z -- matched in Code/GameEngine/Source/Common/DestroyInstances.cpp (not merged yet)
+
+// tu-skeleton: 0x00467799 100B ?rva00467799@Rva00467799@@QAEPAUBfmeStringRecord00466E64@@ABV?$StringBase@D@@@Z -- matched in Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp (not merged yet)
+
+// tu-skeleton: 0x0046781F 665B ?rva0046781F@Rva0046781F@@QAEXPAVObject@@_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnContaining.cpp (not merged yet)
+
+// tu-skeleton: 0x00467AB8 726B ?onRemoving@Rva00467AB8@@QAEXPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnRemoving.cpp (not merged yet)
+
+// tu-skeleton: 0x00467D8E 37B ?insert@?$list@PAVRva00467DB3Obj@@V?$allocator@PAVRva00467DB3Obj@@@_STL@@@_STL@@QAE?AU?$_List_iterator@PAVRva00467DB3Obj@@U?$_Nonconst_traits@PAVRva00467DB3Obj@@@_STL@@@2@U32@ABQAVRva00467DB3Obj@@@Z -- matched in Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp (not merged yet)
+
+// tu-skeleton: 0x00467DB3 26B ?push_back@?$list@PAVRva00467DB3Obj@@V?$allocator@PAVRva00467DB3Obj@@@_STL@@@_STL@@QAEXABQAVRva00467DB3Obj@@@Z -- matched in Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp (not merged yet)
+
+// tu-skeleton: 0x00467DE6 123B ?rva00467DE6@@YAXPAVINI@@PAX1PBX@Z -- matched in Code/GameEngine/Source/Common/Rva00467DE6PayloadParse.cpp (not merged yet)
+
+// tu-skeleton: 0x00467E61 128B ??1TransportContain@@UAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00467EE1 69B ?getModuleNameKey@TransportContain@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainPoolKey.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F26 6B ?name@TransportContain@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F2C 7B ?get@Rva00467F2CDwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F33 8B ?onCapture@TransportContain@@WCA@AEXHH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F3B 145B ?killRidersWhoAreNotFreeToExit@TransportContain@@MAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// tu-skeleton: 0x00467FCC 63B ??1Rva00467FCC@@QAE@XZ -- matched in Code/GameEngine/Source/Common/RvaVectorDtorFamily.cpp (not merged yet)
+
+// tu-skeleton: 0x00468029 28B ??_GTransportContain@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00468045 517B ?UpdateUpgradeCreationTriggers@TransportContain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainUpdateUpgradeCreationTriggers.cpp (not merged yet)
+
+// tu-skeleton: 0x0046824A 183B ?_M_insert_overflow@?$vector@UBfmeStringRecord00466E64@@V?$allocator@UBfmeStringRecord00466E64@@@_STL@@@_STL@@IAEXPAUBfmeStringRecord00466E64@@ABU3@ABU__false_type@2@I_N@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlportVectorInsertOverflowFamily.cpp (not merged yet)
+
+// tu-skeleton: 0x00468301 468B ??0TransportContainModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainModuleDataCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x004684D5 28B ??_GTransportContainModuleData@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/ContainModuleDeletingDtors.cpp (not merged yet)
+
+// tu-skeleton: 0x004684F1 104B ??1TransportContainModuleData@@UAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainModuleDataDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00468559 254B ??0TransportContain@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00468657 242B ?rva00468657@Rva00468657@@QAEXPAVObject@@_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRva00468657.cpp (not merged yet)
+
+// tu-skeleton: 0x004688D1 55B ?push_back@?$vector@UBfmeStringRecord00466E64@@V?$allocator@UBfmeStringRecord00466E64@@@_STL@@@_STL@@QAEXABUBfmeStringRecord00466E64@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackFamily.cpp (not merged yet)
+
+// tu-skeleton: 0x00468908 215B ?Rva00468908Parse@@YAXPAVINI@@PAX1PBX@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva00468908Parse.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E12 17B ??0Rva00466E12@@QAE@XZ -- matched in Code/GameEngine/Source/Common/GapBodiesGE22.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E58 12B ?rva00466E58@Rva00466E58@@QBEEH@Z -- matched in Code/GameEngine/Source/Common/VslotSmallBodiesAM.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E64 67B ??0BfmeStringRecord00466E64@@QAE@ABU0@@Z -- matched in Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp (not merged yet)
+
+// tu-skeleton: 0x00466EA7 27B ??0?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@QAE@ABU01@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_insert_unique_nocase.cpp (not merged yet)
+
+// tu-skeleton: 0x00466EDE 258B ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/slot38Rva00466EDEFarm.cpp (not merged yet)
+
+// tu-skeleton: 0x004670D6 214B ?createPayload@TransportContain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain_createPayload.cpp (not merged yet)
+
+// tu-skeleton: 0x004671AC 267B ?isSpecificRiderFreeToExit@TransportContain@@MAE_NPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain_onCapture.cpp
+
+// ?onCapture@TransportContain@@UAEXHH@Z @0x004672B7 99B: slot 9 Contain method with early-out plus flag-gated subobject virtuals.
+// Evidence: slots 9 of six Contain vtables 0x00844278 0x00845C38 0x00845EB8 0x00846D28 0x008470F8 0x008474A0, ret 8 two args, flag byte at +0x1c8 bit 0x20 via +0x08, subobject at +0x20 slots 0x80 0x8c 0xa8 0xd8 0xe0.
+// The +0x20 subobject is the interface TransportContain.cpp calls
+// TransportConditionInterface (its slot 60 is 0x004673C0 per the constructor
+// 0x00468559's secondary table); this file spells the same view so the body
+// merges into TransportContain.cpp unchanged.
+
+void TransportContain::onCapture(int oldOwner, int newOwner)
+{
+	if (oldOwner == newOwner)
+		return;
+	if (m_object->m_flags1C8 & 0x20)
+	{
+		cslot42(0);
+		return;
+	}
+	cslot32(2);
+	if (cslot54())
+	{
+		if (cslot56() != newOwner)
+			cslot35(2);
+	}
+}
 
 // tu-skeleton: 0x0046731A 166B ?rva0046731A@Rva0046731A@@QAEXPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
 
