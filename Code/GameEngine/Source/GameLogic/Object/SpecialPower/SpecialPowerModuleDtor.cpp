@@ -145,7 +145,7 @@ private:
 class BehaviorModuleInterface
 {
 public:
-	virtual void behaviorAnchor();
+	virtual unsigned int behaviorAnchor();
 };
 
 class BehaviorModule : public ObjectModule, public BehaviorModuleInterface

@@ -164,6 +164,18 @@ authored-byte previews or commit-title gains into a projected headline.
   COMDAT findings). Reconcile those native class/table definitions before
   claiming the family's closed-strict or executable closure; the scoped
   evidence above records the exact names. The broader entry remains open.
+- **Native-interface/debt follow-up (2026-10-25, after `17d211067f`):**
+  [the bounded zero-slot repair and ABI handoff](../reverse/attempt_support/behavior-zero-slot-hatch-20261025/readme.md)
+  replaces one linker alias with a real, whole-body-verified C++ zero-result
+  slot and consistent declarations in the constructor/companion units.
+  All 9 rows, 3 EH graphs and 3 strict receipts pass; the enforced hatch
+  register retires one alias. The 624 already-linked cohort bytes are kept,
+  with the same three remaining provider-table conflicts. No new headline
+  gain or family clearance is claimed. Native table inspection also shows
+  that the indexed ZH-shaped 14/34-slot bases are not the retail contract:
+  the primary native base has 12 slots, and the secondary run/signatures
+  require reconciliation, including the class-contract queue's final slot.
+  Use the handoff's exact table anchors before adopting shared declarations.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and

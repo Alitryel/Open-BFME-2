@@ -147,7 +147,7 @@ private:
 class BehaviorModuleInterface
 {
 public:
-	virtual void behaviorAnchor();
+	virtual unsigned int behaviorAnchor();
 };
 
 class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
@@ -195,4 +195,12 @@ SpecialPowerModule::~SpecialPowerModule()
 										getObject()->getID(),
 										getSpecialPowerModuleData()->m_specialPowerTemplate);
 }
-#pragma comment(linker, "/alternatename:?behaviorAnchor@BehaviorModuleInterface@@UAEXXZ=?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")
+
+// Native BehaviorModule's interface table at VA 0x00BEE9C0 starts with
+// the shared 0x000D43D0 body: zero in EAX, then RET. The original return
+// type and slot name remain unknown; retain the existing structural label
+// and expose only the observed machine-word result, without a linker alias.
+inline unsigned int BehaviorModuleInterface::behaviorAnchor()
+{
+    return 0;
+}
