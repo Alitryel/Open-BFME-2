@@ -11,9 +11,19 @@
 typedef bool Bool;
 class Object;
 
-struct OpenContain
+class ModuleData;
+// OpenContain as HordeSiegeEngineContain.cpp declares it (qualified-call
+// virtuals only; slot order not asserted).
+class OpenContain
 {
-	virtual void removeAllContained(Bool exposeStealthUnits) = 0;
+public:
+	virtual void onDelete();
+	virtual void removeAllContained(bool exposeStealthUnits);
+
+protected:
+	const ModuleData *m_moduleData;
+	Object *m_object;
+	unsigned char m_padding0C[0x100 - 0x0C];
 };
 
 struct Rva0047CD98 : OpenContain
