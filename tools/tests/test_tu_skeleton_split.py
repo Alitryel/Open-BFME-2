@@ -273,8 +273,13 @@ class FuncletDonorTests(unittest.TestCase):
     def test_a_funclet_row_counts_with_its_parent_in_donors(self):
         T._CACHE.clear()
         T._CACHE["ledger"] = rows(("?update@FadeTransition@@UAEXH@Z", "0x0035F43D"),
-                                  ("__ehhandler$?update@FadeTransition@@UAEXH@Z", "0x0077DFFC"))
+                                  ("__ehhandler$?update@FadeTransition@@UAEXH@Z", "0x0077DFFC"),
+                                  ("Unwind@00b636b8", "0x00B636B8"), ("??_GFadeTransition@@UAEPAXI@Z", "0x0035F500"),
+                                  ("??1FadeTransition@@UAE@XZ", "0x0035F4F0"))
+        T._CACHE["ledger"][2]["notes"] = "gen-funclet;parent=?update@FadeTransition@@UAEXH@Z; Matched parent"
         T._CACHE["map"] = [{"rva": "0x0035F43D", "size": "97", "kind": "code", "tu": "Code/T.cpp",
+                            "confidence": "approved", "by": "-", "evidence": "", "source": "Code/X.cpp"},
+                           {"rva": "0x0035F4F0", "size": "16", "kind": "code", "tu": "Code/T.cpp",
                             "confidence": "approved", "by": "-", "evidence": "", "source": "Code/X.cpp"}]
         T._CACHE["stale"] = False
         try:

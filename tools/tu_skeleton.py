@@ -84,6 +84,24 @@ LEDGER = LAYOUT.path("functions.csv")
 MARK = "// tu-skeleton:"
 # an EH funclet row (`__ehhandler$X`, ...) is emitted with its parent X and lives in X's file
 FUNCLET = re.compile(r"^__(?:ehhandler|unwindfunclet|catch|catchsym|tryblocktable|unwindtable)\$(.+)$")
+PARENT_NOTE = re.compile(r"parent=([^;\s]+)")          # gen-funclet;parent=X (`$L5782`, `Unwind@00b636b8`)
+DELETING = re.compile(r"^\?\?_[GE]((?:\?\$)?[A-Za-z_]\w*@)")   # ??_G / ??_E: the deleting destructors of ??1
+
+
+def parent_of(row, dtors=None):
+    """The symbol a companion row is emitted with (EH funclet by name, generated
+    funclet by its `parent=` note, deleting destructor by its class's ??1), or
+    None for an ordinary row. `dtors` maps a class prefix to the ??1 name seen."""
+    m = FUNCLET.match(row["name"])
+    if m:
+        return m.group(1)
+    m = PARENT_NOTE.search(row.get("notes") or "")
+    if m:
+        return m.group(1)
+    m = DELETING.match(row["name"])
+    if m and dtors and m.group(1) in dtors:
+        return dtors[m.group(1)]
+    return None
 
 
 # ---------------------------------------------------------------- chunking
@@ -329,9 +347,11 @@ def donors(tu, sk):
     for f in sorted(cands):
         own = [r for r in by_file[f] if r["status"] == "matched" and "gen-alias" not in (r["notes"] or "")]
         home = {r["name"]: assigned.get(int(r["target_rva"], 16)) for r in own}
-        # an EH funclet is emitted with its parent and lives where the parent lives
-        foreign = [r for r in own if (home.get(m.group(1)) if (m := FUNCLET.match(r["name"])) and m.group(1) in home
-                                      else assigned.get(int(r["target_rva"], 16))) != tu.lower()]
+        dtors = {m.group(1): r["name"] for r in own if (m := re.match(r"^\?\?1((?:\?\$)?[A-Za-z_]\w*@)", r["name"]))}
+        # a companion row (funclet, deleting dtor) is emitted with its parent and lives where it lives
+        foreign = [r for r in own
+                   if (home[p] if (p := parent_of(r, dtors)) and p in home
+                       else assigned.get(int(r["target_rva"], 16))) != tu.lower()]
         if foreign:
             mixed[f] = len(foreign)
         elif own:
@@ -1112,31 +1132,12 @@ def file_rows(path):
             if r["status"] == "matched" and "gen-alias" not in (r["notes"] or "")]
 
 
-PARENT_NOTE = re.compile(r"parent=([^;\s]+)")
-DELETING = re.compile(r"^\?\?_[GE]((?:\?\$)?[A-Za-z_]\w*@)")
-
-
 def companions(rows, parents):
     """Rows that are emitted with a parent in `parents` and live where it lives:
     EH funclets by name (`__ehhandler$X`), generated funclets (`gen-funclet;
     parent=X` in notes) and the deleting destructors of a carved destructor."""
-    dtors = {m.group(1) for p in parents if (m := re.match(r"^\?\?1((?:\?\$)?[A-Za-z_]\w*@)", p))}
-    out = []
-    for r in rows:
-        if r["name"] in parents:
-            continue
-        m = FUNCLET.match(r["name"])
-        if m and m.group(1) in parents:
-            out.append(r)
-            continue
-        m = PARENT_NOTE.search(r["notes"] or "")
-        if m and m.group(1) in parents:
-            out.append(r)
-            continue
-        m = DELETING.match(r["name"])
-        if m and m.group(1) in dtors:
-            out.append(r)
-    return out
+    dtors = {m.group(1): p for p in parents if (m := re.match(r"^\?\?1((?:\?\$)?[A-Za-z_]\w*@)", p))}
+    return [r for r in rows if r["name"] not in parents and (parent_of(r, dtors) in parents)]
 
 
 def debt_keys(path):
@@ -1159,11 +1160,11 @@ def breakdown(path):
                 if r["confidence"] == "approved" and r["kind"].startswith("code") and r["tu"]}
     rows = file_rows(path)
     home = {r["name"]: approved.get(int(r["target_rva"], 16), "") for r in rows}
+    dtors = {m.group(1): r["name"] for r in rows if (m := re.match(r"^\?\?1((?:\?\$)?[A-Za-z_]\w*@)", r["name"]))}
     out = collections.defaultdict(list)
     for r in rows:
-        m = FUNCLET.match(r["name"])
-        tu = home[m.group(1)] if m and m.group(1) in home else home[r["name"]]
-        out[tu].append(r)
+        p = parent_of(r, dtors)
+        out[home[p] if p and p in home else home[r["name"]]].append(r)
     return out
 
 
@@ -1187,7 +1188,8 @@ def split(path, tu, dry_run=False, claim=True):
         return report
     groups = breakdown(path)
     tu = next((k for k in groups if k.lower() == tu.lower()), tu)
-    tu_rows = [r for r in groups.get(tu, []) if not FUNCLET.match(r["name"])]
+    dtors_all = {m.group(1): r["name"] for r in rows if (m := re.match(r"^\?\?1((?:\?\$)?[A-Za-z_]\w*@)", r["name"]))}
+    tu_rows = [r for r in groups.get(tu, []) if not parent_of(r, dtors_all)]
     if not tu_rows:
         report["blocked"] = "no row of that file is approved for that TU"
         return report
