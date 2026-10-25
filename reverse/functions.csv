@@ -12959,8 +12959,8 @@ __Locale_tolower,,0x00021B10,291,Code/Libraries/Source/WWVegas/WWLib/stlport_Loc
 ?Rva008B60B0@@YAPBUR4Word@@PBDI@Z,,0x006F3F60,273,Code/GameEngine/Source/Common/R4PerfectHashWithOverflow.cpp,matched,
 ?xfer@SkirmishGameInfo@@UAEXPAVXfer@@@Z,,0x003FFA3C,272,Code/GameEngine/Source/GameNetwork/SkirmishGameInfoXfer.cpp,matched,Substantial BFME1 GameInfo.cpp:2396 reconstruction; retail drops version checks and strings for flat runs; +0x40 helper pinned at 0x000306327; locals slot/fiveC/count reproduce retail homes first-try
 ??0Rva003AE11B@@QAE@ABV0@@Z,,0x003AE11B,27,Code/GameEngine/Source/Common/V3PolyCopyCtors.cpp,matched,
-?isHuman@GameSlot@@QBE_NXZ,,0x003FF0F1,10,Code/GameEngine/Source/GameNetwork/GameSlotHumanSaveoff.cpp,matched,BFME1 GameInfo.cpp isHuman verbatim; state@4 vs SLOT_PLAYER
-?saveOffOriginalInfo@GameSlot@@QAEXXZ,,0x003FF0D4,19,Code/GameEngine/Source/GameNetwork/GameSlotHumanSaveoff.cpp,matched,BFME1 GameInfo.cpp saveOffOriginalInfo minus DEBUG_LOG; orig triple copy
+?isHuman@GameSlot@@QBE_NXZ,,0x003FF0F1,10,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,matched,BFME1 GameInfo.cpp isHuman verbatim; state@4 vs SLOT_PLAYER
+?saveOffOriginalInfo@GameSlot@@QAEXXZ,,0x003FF0D4,19,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,matched,BFME1 GameInfo.cpp saveOffOriginalInfo minus DEBUG_LOG; orig triple copy
 _Rva0084ECA0,,0x00021E30,61,Code/Libraries/Source/WWVegas/WWLib/stlport_LocaleCodePageQueries.c,matched,vendored=stlport-4.5.3;BFME1 byte-identical donor; b1 0x0084ECA0
 _Rva0084ECE0,,0x00021E70,61,Code/Libraries/Source/WWVegas/WWLib/stlport_LocaleCodePageQueries.c,matched,vendored=stlport-4.5.3;BFME1 byte-identical donor; b1 0x0084ECE0
 ??0Rva004AB7EB@@QAE@ABV0@@Z,,0x004AB7EB,21,Code/GameEngine/Source/Common/V3PolyCopyCtors.cpp,matched,V3Poly 1-int copy-ctor twin of 0x003AE07D shape with distinct vtable; caller 0x004ABB0A re-installs same vptr; B2 address names the body
@@ -26140,8 +26140,8 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ?setState@GameSlot@@QAEXW4SlotState@@VUnicodeString@@PBUGameSlotConnectInfo@@@Z,,0x003FFC28,399,Code/GameEngine/Source/GameNetwork/GameSlotSetState.cpp,matched,BFME1 GameInfo.cpp donor with SLOT_PLAYER 6 and AI state 5 and template -2
 ?clearSlotList@GameInfo@@QAEXXZ,,0x003FFDB7,67,Code/GameEngine/Source/GameNetwork/GameInfoClearSlotList.cpp,matched,BFME1 GameInfo.cpp clearSlotList with CLOSED and TheEmptyString
 ?endGame@GameInfo@@QAEXXZ,,0x003FF296,9,Code/GameEngine/Source/GameNetwork/GameInfoEndGame.cpp,matched,BFME1 GameInfo.cpp endGame clears inGame and inProgress
-?rva003FF1C2@Rva003FF1C2@@QBE_NXZ,,0x003FF1C2,24,Code/GameEngine/Source/GameNetwork/Rva003FF1C2.cpp,matched,honest 16B nonzero check at CC with five callers
-?markPlayerAsPreorder@GameInfo@@QAEXH@Z,,0x003FF1FE,26,Code/GameEngine/Source/GameNetwork/GameInfoMarkPreorder.cpp,matched,BFME1 GameInfo.cpp preorder bit set with mask at 8
+?rva003FF1C2@Rva003FF1C2@@QBE_NXZ,,0x003FF1C2,24,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,matched,honest 16B nonzero check at CC with five callers
+?markPlayerAsPreorder@GameInfo@@QAEXH@Z,,0x003FF1FE,26,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,matched,BFME1 GameInfo.cpp preorder bit set with mask at 8
 ?rva002CEC34@Rva002CEC0A@@QAEXXZ,,0x002CEC34,14,Code/GameEngine/Source/Common/Rva002CEC34Clear.cpp,matched,clears vector at plus4 via rowed erase; same class as dtor 0x002CEC0A
 ?GetBasePathFromPath@@YA?AVAsciiString@@V1@@Z,,0x0044C872,194,Code/GameEngine/Source/Common/GetBasePathFromPath.cpp,matched,BFME1 donor FileTransfer_GetBasePathFromPath reverseFind backslash prefixCallers 8
 ?GetINIFromMap@@YA?AVAsciiString@@V1@@Z,,0x0044CD52,159,Code/GameEngine/Source/Common/GetBasePathFromPath.cpp,matched,BFME1 donor GetINIFromMap via GetBasePath map.ini
@@ -27134,7 +27134,7 @@ uw_0076443a,,0x0076443A,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DD
 ?Rva00447891Write1@@YAPADPADD0@Z,,0x00447891,24,Code/GameEngine/Source/Common/Rva0044780FCopy.cpp,matched,chain calls 0044780F landed this session
 ?Rva00447845WriteU16@@YAPADPADG0@Z,,0x00447845,38,Code/GameEngine/Source/Common/Rva0044780FCopy.cpp,matched,chain calls 0044780F IAT htons callers 447D4A
 ?Rva0044786BWriteU32@@YAPADPADI0@Z,,0x0044786B,38,Code/GameEngine/Source/Common/Rva0044780FCopy.cpp,matched,chain calls 0044780F IAT htonl callers 447CA9
-?setPlayerTemplate@GameSlot@@QAEXH@Z,,0x00400E33,108,Code/GameEngine/Source/GameNetwork/GameSlotSetPlayerTemplate.cpp,matched,BFME1 GameInfo.h donor with faction remap and GlobalData flag
+?setPlayerTemplate@GameSlot@@QAEXH@Z,,0x00400E33,108,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,matched,BFME1 GameInfo.h donor with faction remap and GlobalData flag
 ?setMapCRC@GameInfo@@QAEXI@Z,,0x00400E9F,187,Code/GameEngine/Source/GameNetwork/GameInfoSetMapCRC.cpp,matched,BFME1 GameInfo.cpp setMapCRC donor with inlined availability
 ?setMapSize@GameInfo@@QAEXI@Z,,0x00400F5A,187,Code/GameEngine/Source/GameNetwork/GameInfoSetMapSize.cpp,matched,BFME1 GameInfo.cpp setMapSize twin of setMapCRC
 ??1Rva00355D66@@UAE@XZ,,0x00355D66,73,Code/GameEngine/Source/Common/Rva00355D66Dtor.cpp,matched,vtable 0x00814E5C plus WindowManager slot 0x8C plus base dtor row
@@ -27644,7 +27644,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?isPlayer@GameSlot@@QBE_NVAsciiString@@@Z,,0x003FFEF5,109,Code/GameEngine/Source/GameNetwork/GameSlotIsPlayerAscii.cpp,matched,BFME1 GameSlotIsPlayerAsciiThunk donor with SLOT_PLAYER 6 and m_name at 0x30
 ?Rva000F5D1BGet@@YA?AVAssetReference@@H@Z,,0x000F5D1B,32,Code/GameEngine/Source/Common/Rva000F5D1BGet.cpp,matched,hidden-pointer array getter over 0x00DE1F8C via rowed 0x000424BB caller 0x000F5D9C
 ?rva00507558@Rva00507823@@QAEEPBX@Z,,0x00507558,126,Code/GameEngine/Source/Common/Rva00507823Check.cpp,matched,Rva00507823 masks plus 75D6 774A callers plus vtable 864010
-?isPlayerPreorder@GameInfo@@QAE_NH@Z,,0x003FF1DA,36,Code/GameEngine/Source/GameNetwork/GameInfoMarkPreorder.cpp,matched,BFME1 GameInfo.cpp preorder bit test with mask at 8
+?isPlayerPreorder@GameInfo@@QAE_NH@Z,,0x003FF1DA,36,Code/GameEngine/Source/GameNetwork/GameInfo.cpp,matched,BFME1 GameInfo.cpp preorder bit test with mask at 8
 ??0Rva00469187@@QAE@XZ,,0x00469187,30,Code/GameEngine/Source/Common/Rva004691A5Ctor.cpp,matched,zero int pair plus two rowed 0x4C member ctors at 8 and 54
 ?rva002E6C4D@Rva002E6C4D@@QAEHXZ,,0x002E6C4D,19,Code/GameEngine/Source/Common/Rva002E6C4DGet.cpp,matched,honest ptr-chase bit2 test 1 caller sibling shifts 4 and 3 flags O1
 ??4Rva0014F699@@QAEAAV0@ABV0@@Z,,0x0014F699,127,Code/GameEngine/Source/Common/Rva0014F699Assign.cpp,matched,0x4C element assign 17 dwords plus rowed 0x424D0 callers 0x14F746 0x14FA2A 0x14FA90
