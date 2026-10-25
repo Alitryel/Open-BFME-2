@@ -6138,3 +6138,7 @@ Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD
 Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BC53Xfer3|p,2ae23f8791ab20f433c37ad3,gpt-6.1-sol,codex6-20261025-061940-7,w-bcdd62231570,2026-10-25
 Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BD31Xfer|tmp,0fd422dfec0d739756e66235,gpt-6.1-sol,codex6-20261025-061940-7,w-bcdd62231570,2026-10-25
 Code/GameEngine/Source/Common/Rva000D3A17.cpp|local|Rva000D3A17::rva000D3A17|p,253d5529c7a1694892552ca4,gpt-6.1-sol,codex6-20261025-061940-8,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp|param|Rva0045D7E0Notify|a,b2274c43a97fddfa4da6bd69,gpt-6.1-sol,codex6-20261025-064029-1,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp|param|Rva0045D7E0Notify|b,b79b12715f17762ca13b9ba7,gpt-6.1-sol,codex6-20261025-064029-1,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|DelegateDesc|f,28b2c816c439a3703a3a707b,gpt-6.1-sol,codex6-20261025-064029-2,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|MakeBinding|f,8e9e7b6119a8713602eefbc2,gpt-6.1-sol,codex6-20261025-064029-2,w-bcdd62231570,2026-10-25
