@@ -618,3 +618,22 @@ to the destination, `check_csv.py` passes, and the prior build, declaration,
 staged data and code-identity checks remain the evidence for this merge. The
 five shadow identity findings listed above remain for Sol; no identity debt is
 retired by this move. No other source moves were added to the pending range.
+
+### RepairDockUpdate candidate deferred
+
+`RepairDockUpdateBehaviorCtor.cpp` was the sole unchanged accepted donor (row
+`0x004A118B`, 67 bytes); its trial build and declaration check passed. Before
+publication, the path audit found tool-written/protected `reverse/data_ledger.csv`
+entries whose static symbol identifiers still name this donor (`0x00851C30` and
+`0x00851C80`). `python3 tools/data_ledger.py --check` could not establish a clean
+refresh: 43 matched sources had no object and the register reported stale. A
+manual register repair is outside this seat, so the unpublished merge commit was
+removed and its claims released. No RepairDock source or ledger path change
+remains. Sol should reconcile the data-ledger owner through its normal workflow
+before this unchanged candidate is retried.
+
+Other exact dry-run blockers: the Xfer donor fails C2061 for `Snapshot` in
+`BfmeXfer.h` lines 37/48; the action donor fails C2511 because the composed
+class declaration lacks its constructor overload. Module-data constructor,
+field-parse and pool-key donors are protected-register keyed. Mixed getter and
+base-dtor sources were not split.
