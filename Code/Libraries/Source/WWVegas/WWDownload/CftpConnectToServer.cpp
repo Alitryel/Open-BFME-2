@@ -6,16 +6,6 @@ typedef long HRESULT;
 
 typedef unsigned int SOCKET;
 
-struct in_addr
-{
-	union
-	{
-		unsigned long S_addr;
-	} S_un;
-};
-
-#define s_addr S_un.S_addr
-
 struct sockaddr
 {
 	unsigned short sa_family;
@@ -24,10 +14,10 @@ struct sockaddr
 
 struct sockaddr_in
 {
-	short sin_family;
+	unsigned short sin_family;
 	unsigned short sin_port;
-	in_addr sin_addr;
-	char sin_zero[8];
+	unsigned long sin_addr;
+	unsigned char sin_zero[8];
 };
 
 struct fd_set
@@ -52,15 +42,6 @@ struct timeval
 #define WSAEALREADY 10037
 #define WSAEISCONN 10056
 
-#define FTP_SUCCEEDED 0
-#define FTP_FAILED 0x80040001
-#define FTP_TRYING 0x80040002
-#define FTPSTAT_INIT 0
-#define FTPSTAT_CONNECTING 10
-#define FTPSTAT_WAITINGSERVEROK 15
-#define FTPSTAT_CONNECTED 20
-#define FTPREPLY_SERVEROK 220
-
 #define FD_ZERO(set) (((fd_set *)(set))->fd_count = 0)
 #define FD_SET(socketHandle, set) do { \
 	((fd_set *)(set))->fd_array[((fd_set *)(set))->fd_count++] = \
@@ -75,12 +56,12 @@ extern "C" void *__cdecl memset(void *destination, int value, unsigned int count
 #pragma intrinsic(memset)
 extern "C" unsigned long __stdcall inet_addr(const char *name);
 extern "C" unsigned short __stdcall htons(unsigned short port);
-extern "C" SOCKET __stdcall socket(int addressFamily, int type, int protocol);
+extern "C" int __stdcall socket(int addressFamily, int type, int protocol);
 extern "C" int __stdcall ioctlsocket(
-	SOCKET socketHandle, long command, unsigned long *argument);
+	int socketHandle, long command, unsigned long *argument);
 extern "C" int __stdcall connect(
 	SOCKET socketHandle, const sockaddr *name, int nameLength);
-extern "C" int __stdcall closesocket(SOCKET socketHandle);
+extern "C" int __stdcall closesocket(int socketHandle);
 extern "C" int __stdcall WSAGetLastError(void);
 extern "C" int __stdcall __WSAFDIsSet(SOCKET socketHandle, fd_set *set);
 extern "C" int __stdcall select(
@@ -120,6 +101,17 @@ private:
 // ?ConnectToServer@Cftp@@QAEJPBD@Z
 HRESULT Cftp::ConnectToServer(LPCSTR serverName)
 {
+	enum
+	{
+		FTP_SUCCEEDED = 0,
+		FTP_FAILED = 0x80040001,
+		FTP_TRYING = 0x80040002,
+		FTPSTAT_INIT = 0,
+		FTPSTAT_CONNECTING = 10,
+		FTPSTAT_WAITINGSERVEROK = 15,
+		FTPSTAT_CONNECTED = 20,
+		FTPREPLY_SERVEROK = 220
+	};
 	unsigned long uTemp;
 	char buffer[256];
 	int error;
@@ -140,15 +132,15 @@ HRESULT Cftp::ConnectToServer(LPCSTR serverName)
 			if (((Cftp *)this)->AsyncGetHostByName(m_szServerName, address) == FTP_TRYING)
 				return FTP_TRYING;
 
-			if (address.sin_addr.s_addr == 0)
+			if (address.sin_addr == 0)
 				return FTP_FAILED;
 
 			m_CommandSockAddr = address;
-			serverIP = m_CommandSockAddr.sin_addr.s_addr;
+			serverIP = m_CommandSockAddr.sin_addr;
 		}
 		else
 		{
-			m_CommandSockAddr.sin_addr.s_addr = serverIP;
+			m_CommandSockAddr.sin_addr = serverIP;
 		}
 
 		m_CommandSockAddr.sin_port = htons(21);

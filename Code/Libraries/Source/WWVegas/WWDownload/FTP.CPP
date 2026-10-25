@@ -146,7 +146,7 @@ private:
 
 	int m_iCommandSocket;			// +0x04
 	int m_iDataSocket;			// +0x08
-	unsigned char m_CommandSockAddr[16];	// +0x0C
+	sockaddr_in m_CommandSockAddr;		// +0x0C
 	sockaddr_in m_DataSockAddr;		// +0x1C
 	int m_iFilePos;
 	int m_iBytesRead;
