@@ -150,9 +150,12 @@ import time
 from functools import lru_cache
 from pathlib import Path
 
-# The hooks run HEAD's copy through stdin (an edit cannot approve itself): no __file__ then.
+# The hooks run HEAD's copy through stdin (an edit cannot approve itself): no real __file__
+# then. Python 3.13 sets __file__ to "<stdin>" for `python3 -`, so a pseudo-path counts as none.
+_SCRIPT = globals().get("__file__")
+_HAS_SCRIPT = bool(_SCRIPT) and not str(_SCRIPT).startswith("<")
 ROOT = Path(os.environ.get("REPAIR_ROOT")
-            or (Path(__file__).resolve().parents[1] if "__file__" in globals() else Path.cwd()))
+            or (Path(_SCRIPT).resolve().parents[1] if _HAS_SCRIPT else Path.cwd()))
 BFME1 = (ROOT / "targets" / "game" / "reverse").is_dir()
 REV = "targets/game/reverse" if BFME1 else "reverse"
 LEDGER = f"{REV}/functions.csv"
@@ -586,7 +589,7 @@ LINK_BLOCKERS = ("unresolved", "duplicates", "comdat", "addresses", "selected") 
 def tools_on_path():
     """Put tools/ on sys.path for a lazy import: the hooks run this file through stdin
     (verify-removed) without it."""
-    tools = str(Path(__file__).resolve().parent if "__file__" in globals() else ROOT / "tools")
+    tools = str(Path(_SCRIPT).resolve().parent if _HAS_SCRIPT else ROOT / "tools")
     if tools not in sys.path:
         sys.path.insert(0, tools)
 
@@ -956,7 +959,7 @@ def cycle_items(path):
 def cycle_artifacts():
     """tools/cycle_artifacts.py, imported here, not at the top: the hooks run this file
     through stdin (verify-removed) without tools/ on the path."""
-    tools = str(Path(__file__).resolve().parent if "__file__" in globals() else ROOT / "tools")
+    tools = str(Path(_SCRIPT).resolve().parent if _HAS_SCRIPT else ROOT / "tools")
     if tools not in sys.path:
         sys.path.insert(0, tools)
     import cycle_artifacts as ca
@@ -1649,7 +1652,7 @@ def tu_routes():
     """tools/tu_map.py's map and its tu_at index (with the retail image for boundary
     evidence); imported here, not at the top, because the hooks run this file through
     stdin (verify-removed) without tools/ on the path."""
-    sys.path.insert(0, str(Path(__file__).resolve().parent if "__file__" in globals() else ROOT / "tools"))
+    sys.path.insert(0, str(Path(_SCRIPT).resolve().parent if _HAS_SCRIPT else ROOT / "tools"))
     import tu_map
     m = tu_map.load(ROOT)
     return tu_map, m, tu_map.code_index(m, tu_map.Image.open(tu_map.Layout(ROOT).image))

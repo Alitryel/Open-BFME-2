@@ -2491,3 +2491,22 @@ def test_ms_headers_cli_claim_retries_atomic_file_contention(tmp_path, seats, mo
     assert owners[claims.file_key("Code/GameEngine/Body.cpp")] == "a"
     assert owners[claims.file_key("Code/GameEngine/Loco.cpp")] == "b"
     assert not any(key.startswith("class/") for key in owners)
+
+
+def test_root_from_stdin_uses_cwd_even_when_file_is_a_pseudo_path(tmp_path):
+    """The pre-push hook pipes HEAD's repair_queue.py into `python3 -`. Python 3.13 sets
+    __file__ to "<stdin>" there; resolving it put ROOT one directory above the checkout,
+    so every outgoing debt retirement failed with "cannot read outgoing retirement messages"."""
+    source = (TOOLS / "repair_queue.py").read_text(encoding="utf-8")
+    old = os.getcwd()
+    os.chdir(tmp_path)
+    env_root = os.environ.pop("REPAIR_ROOT", None)
+    try:
+        scope = {"__file__": "<stdin>", "__name__": "repair_queue_stdin_probe"}
+        exec(compile(source, "<stdin>", "exec"), scope)
+        assert Path(scope["ROOT"]).resolve() == tmp_path.resolve()
+    finally:
+        os.chdir(old)
+        if env_root is not None:
+            os.environ["REPAIR_ROOT"] = env_root
+
