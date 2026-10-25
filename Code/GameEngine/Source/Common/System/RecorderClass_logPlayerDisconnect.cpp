@@ -10,7 +10,8 @@ typedef unsigned short WideChar;
 #include "unicode_string.h"
 
 
-struct FILE;
+struct _iobuf;
+typedef _iobuf FILE;
 extern "C" __declspec(dllimport) long __cdecl ftell(FILE *stream);
 extern "C" __declspec(dllimport) int __cdecl fseek(FILE *stream, long offset, int origin);
 extern "C" __declspec(dllimport) unsigned int __cdecl fwrite(const void *buf, unsigned int size, unsigned int count, FILE *stream);
@@ -21,19 +22,19 @@ public:
 	void logPlayerDisconnect(UnicodeString arg, int slot);
 private:
 	char m_pad00[0x10];
-	FILE *m_file10; // +0x10
+	FILE *m_file; // +0x10
 };
 
 void RecorderClass::logPlayerDisconnect(UnicodeString player, int slot)
 {
-	if (m_file10 == 0)
+	if (m_file == 0)
 		return;
 	if (slot < 0 || slot >= 8)
 		return;
-	long pos = ftell(m_file10);
-	if (fseek(m_file10, (long)(slot + 0x1D), 0) == 0) {
+	long pos = ftell(m_file);
+	if (fseek(m_file, (long)(slot + 0x1D), 0) == 0) {
 		unsigned char one = 1;
-		fwrite(&one, 1, 1, m_file10);
+		fwrite(&one, 1, 1, m_file);
 	}
-	fseek(m_file10, pos, 0);
+	fseek(m_file, pos, 0);
 }
