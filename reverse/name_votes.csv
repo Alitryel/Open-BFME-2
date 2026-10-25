@@ -6434,3 +6434,5 @@ Code/GameEngine/Source/GameNetwork/Rva00318333.cpp|local|Rva00318333::rva0031876
 Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|o,3d0306c479322a92da10a8e7,claude-sonnet-5-5,sb-4,w-e00027ee5807,2026-10-25
 Code/GameEngine/Source/Common/Rva002B37B4.cpp|class||Rva002B37B4P2,33fa362b6fe038989d98a871,claude-sonnet-5-5,sa-5,w-2f5ab892d4b3,2026-10-25
 Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,eb449021420787f744967a06,claude-sonnet-5-5,sa-6,w-2f5ab892d4b3,2026-10-25
+Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp|class||Rva00595C79Address,5960051d0e89638a53a4aac9,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,242e91ebd6819460f6f33f5a,claude-opus-5-5,cedric-c,w-553b9b55db02,2026-10-25
