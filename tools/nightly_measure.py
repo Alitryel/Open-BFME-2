@@ -8,6 +8,12 @@ with its installed hash-pinned bundle, validates receipt/core, closure, bundle a
 bound ownership artifacts, signs the ownership row and publishes. Publisher never
 runs hooks, builds, links, boots, or imports code supplied by the builder.
 
+SUPERSEDED for the scheduled nightly by --actions STAGE, the stages of
+.github/workflows/nightly-measure.yml on GitHub-hosted runners (docs/nightly_actions.md):
+handoff-boot and handoff-cycle package a secret-free build job's data; validate, sign,
+publish and history run in the publish job from its own checkout of the same commit.
+The two-account roles below remain for reference until they are removed.
+
 See docs/nightly_setup.md for the mandatory account, ACL and scheduler setup.
 Environment scrubbing is defense in depth; Windows account isolation is the
 credential boundary. --approve is a maintainer-only install operation, never a
@@ -1843,6 +1849,401 @@ class PublisherRun(SplitRun):
             stamp_clock(self.clock, "nightly ownership publication")
 
 
+# ---------------------------------------------------------------- GitHub Actions (docs/nightly_actions.md)
+#
+# .github/workflows/nightly-measure.yml replaces the two Windows accounts above with
+# GitHub-hosted jobs. The build jobs hold no secret and hand over data only; the
+# publish job checks out the same commit, runs only its own tools, and is the one
+# job holding the signing key and the release token. No SID or ACL probe applies:
+# the job boundary is the isolation, and the publisher's code is the commit itself.
+
+ACTIONS_STAGES = ("handoff-boot", "handoff-cycle", "validate", "sign", "publish", "history")
+HANDOFF = "handoff.json"
+BOOT_OUT = "build/boot/nightly"                          # boot_image link --out
+# what a build job may hand over, by place and suffix: data, never a script
+MATCH_SUFFIXES = (".obj", ".deps.json")
+BOOT_SUFFIXES = (".json", ".exe", ".map", ".csv", ".txt", ".log", ".obj", ".lib", ".def", ".exp", ".rsp")
+SNAPSHOT_PARTS = ("match", "link_cycle")                 # compiler_profiles: the publisher extracts its own
+ACTIONS_STATE = "actions.json"
+# The receipt measured this commit's pristine export: its tree manifest is the one this
+# job's own export gives (link_cycle.tree_manifest: path, size and archive mtime per file).
+SNAPSHOT_PROOF = """import sys, json
+sys.path.insert(0, sys.argv[1])
+import publish_cycle as pc
+from pathlib import Path
+snap = Path(sys.argv[2])
+receipt = json.loads((snap / 'build/link_cycle/receipt.json').read_text(encoding='utf-8'))
+ok, why = pc.snapshot_proof(snap, receipt)
+print('snapshot proof: ' + why)
+sys.exit(0 if ok else 1)
+"""
+SIGNERS_ENV = "BFME_OWNERSHIP_ALLOWED_SIGNERS"           # image_ownership.SIGNERS_ENV: the public pin's path
+
+
+def handoff_allowed(kind, rel):
+    """Whether a `kind` handoff may carry `rel` (posix, relative to the handoff root)."""
+    parts = rel.split("/")
+    if kind == "boot":
+        return len(parts) == 2 and (parts[0] == "match" and rel.endswith(MATCH_SUFFIXES)
+                                    or parts[0] == "boot" and rel.endswith(BOOT_SUFFIXES))
+    if kind == "cycle":
+        if parts[0] == "bundle":
+            return len(parts) == 2
+        return (parts[0] == "snapshot" and len(parts) >= 4 and parts[2] in SNAPSHOT_PARTS
+                and PublisherRun.snapshot_product("/".join(parts[1:])))
+    return False
+
+
+def export_actions_handoff(kind, commit, out, sources, report=None):
+    """Copy the allowed files of `sources` ({handoff prefix: directory}) into OUT, bytes only
+    (link_cycle hardlinks are flattened), with their SHA-256 inventory in handoff.json."""
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=False)
+    for prefix, src in sources.items():
+        src = Path(src)
+        for p in sorted(src.rglob("*")):
+            rel = f"{prefix}/{p.relative_to(src).as_posix()}"
+            if p.is_dir() or not handoff_allowed(kind, rel):
+                continue
+            plain_path(p, allow_hardlinks=True)
+            q = out / safe_relative(rel)
+            q.parent.mkdir(parents=True, exist_ok=True)
+            q.write_bytes(p.read_bytes())
+    files = tree_hashes(out)
+    if not files:
+        raise Refused(f"{kind} handoff is empty")
+    write_json(out / HANDOFF, {"schema": 1, "kind": kind, "commit": commit, "report": report, "created": time.time(),
+                               "files": files})
+    return files
+
+
+def load_actions_handoff(kind, path, commit):
+    """The handoff manifest after proving the downloaded directory is exactly it: the
+    commit, every file's hash, nothing extra, nothing outside the kind's allowlist."""
+    path = plain_path(Path(path))
+    meta = read_json(path / HANDOFF)
+    if not isinstance(meta, dict) or meta.get("schema") != 1 or meta.get("kind") != kind:
+        raise Refused(f"{path}: not a {kind} handoff")
+    if meta.get("commit") != commit:
+        raise Refused(f"{kind} handoff measured {meta.get('commit')!r}, not {commit}")
+    files = meta.get("files")
+    if not isinstance(files, dict) or not files:
+        raise Refused(f"{kind} handoff has no artifact inventory")
+    for name in files:
+        rel = safe_relative(name).as_posix()
+        if rel != name or any(part.lower() == ".git" for part in rel.split("/")) or not handoff_allowed(kind, rel):
+            raise Refused(f"{kind} handoff may not carry {name!r}")
+    actual = tree_hashes(path)
+    actual.pop(HANDOFF, None)
+    if actual != files:
+        changed = sorted(set(actual) ^ set(files) | {k for k in files if actual.get(k) not in (None, files[k])})
+        raise Refused(f"{kind} handoff differs from its inventory: {changed[:5]}")
+    return meta
+
+
+def install_tree(source, dest):
+    """Copy downloaded data into a place this job created fresh; never merge."""
+    dest = Path(dest)
+    if dest.exists() and any(dest.iterdir()):
+        raise Refused(f"{dest} already has content; the publisher installs only into a fresh checkout")
+    for p in sorted(Path(source).rglob("*")):
+        if p.is_file():
+            q = dest / safe_relative(p.relative_to(source).as_posix())
+            q.parent.mkdir(parents=True, exist_ok=True)
+            q.write_bytes(p.read_bytes())
+
+
+class ActionsRun:
+    """One step of the nightly workflow. Every stage is a separate process; the
+    publisher stages share only the state directory and the checkout."""
+
+    def __init__(self, args, root, out=print):
+        self.args, self.root, self.say = args, Path(root).resolve(), out
+        self.commit = args.commit
+        self.work = Path(args.state_dir).resolve() if args.state_dir else None
+        self.snapshots = Path(args.snapshot_dir).resolve() if args.snapshot_dir else None
+        self.py = sys.executable
+
+    # -- shared
+    def check_checkout(self):
+        """The publisher's tools are this checkout's: HEAD is the measured commit and nothing
+        that can execute (tools/, .githooks/, vendor/, the BFME 1 pin) differs from it."""
+        if not self.commit or not re.fullmatch(r"[0-9a-f]{40}", self.commit):
+            raise Refused("--commit must be the full measured sha")
+        head = git_out(self.root, "rev-parse", "HEAD")
+        if head != self.commit:
+            raise Refused(f"checkout is at {head}, not the measured {self.commit}")
+        # Ignored files too: bytecode planted under tools/ by one stage would run in the next,
+        # which may hold the key. Checker children write theirs under the state directory.
+        dirty = git_out(self.root, "status", "--porcelain", "--untracked-files=all", "--ignored=matching",
+                        "--", *CODE_PATHS, SUBMODULE)
+        if dirty:
+            raise Refused(f"the checkout's code differs from {head}: {dirty[:300]}")
+
+    def state(self):
+        return read_json(self.work / ACTIONS_STATE, {}) or {}
+
+    def save_state(self, **changes):
+        write_json(self.work / ACTIONS_STATE, {**self.state(), **changes})
+
+    def snapshot(self):
+        return self.snapshots / self.commit[:10]
+
+    def cycle_dir(self):
+        return self.snapshot() / "build" / "link_cycle"
+
+    def executables(self):
+        found = {name: shutil.which(name) for name in ("git", "gh", "ssh-keygen")}
+        if self.args.ssh_keygen:
+            found["ssh-keygen"] = self.args.ssh_keygen
+        missing = [name for name, path in found.items() if not path]
+        if missing:
+            raise Refused(f"no {', '.join(missing)} on PATH")
+        return {name: str(Path(path).resolve()) for name, path in found.items()}
+
+    def env(self, token=False):
+        """Children never see the signing key's variables; the release token only when asked."""
+        env = {k: v for k, v in os.environ.items() if k not in DROP_ENV and not k.startswith("BFME_OWNERSHIP_")
+               and k not in ("GH_TOKEN", "GITHUB_TOKEN", "BFME_RELEASE_TOKEN")}
+        if token:
+            env["GH_TOKEN"] = os.environ.get("BFME_RELEASE_TOKEN") or ""
+            if not env["GH_TOKEN"]:
+                raise Refused("BFME_RELEASE_TOKEN is not set: the publish step has no release token")
+        signers = os.environ.get(SIGNERS_ENV)
+        if signers:   # public: the hooks and check_history need the pin
+            env[SIGNERS_ENV] = signers
+        env.update(PYTHONUNBUFFERED="1", PYTHONIOENCODING="utf-8", PYTHONSAFEPATH="1",
+                   PYTHONPYCACHEPREFIX=str(self.work / "pycache"), GIT_TERMINAL_PROMPT="0",
+                   NM_PUBLISHER_EXECUTABLES=json.dumps(self.executables()),
+                   NM_PUBLISHER_SAFE_CWD=str(self.work / "native-cwd"))
+        return env
+
+    def run(self, name, argv, cwd=None, token=False, guarded=True, ok=(0,)):
+        """One child, its output in <state>/logs/<name>.log; its exit code, StepFailed when not in OK.
+        A guarded Python child may start only git, gh and ssh-keygen (publisher_process_guard)."""
+        (self.work / "native-cwd").mkdir(parents=True, exist_ok=True)
+        (self.work / "logs").mkdir(parents=True, exist_ok=True)
+        argv = [str(a) for a in argv]
+        if guarded:
+            i = argv.index("-c") + 1
+            argv[i] = PUBLISHER_GUARD + "import os; os.chdir(" + repr(str(cwd or self.root)) + ")\n" + argv[i]
+            cwd = self.work / "native-cwd"
+        log = self.work / "logs" / f"{name}.log"
+        self.say(f"nightly_measure: {name}")
+        with open(log, "w", encoding="utf-8", errors="replace") as handle:
+            rc = subprocess.run(argv, cwd=cwd or self.root, stdout=handle, stderr=subprocess.STDOUT,
+                                stdin=subprocess.DEVNULL, env=self.env(token)).returncode
+        self.say(log.read_text(encoding="utf-8", errors="replace").rstrip()[-4000:])
+        if rc not in ok:
+            raise StepFailed(f"{name}: exit {rc} (see {log})")
+        return rc
+
+    def checker(self, code, *args):
+        """An isolated Python running CODE with this checkout's tools/ as its only import dir."""
+        cache = (self.work or Path(tempfile.gettempdir())) / "pycache"
+        return [self.py, "-I", "-u", "-X", "utf8", "-X", f"pycache_prefix={cache}", "-c", code, self.root / "tools",
+                *args]
+
+    def tool(self, script, *args):
+        return self.checker(SCRIPT_BOOT, self.root / "tools" / Path(script).name, *args)
+
+    # -- build jobs (no secrets): package the measurement for the publisher
+    def handoff_boot(self):
+        if git_out(self.root, "rev-parse", "HEAD") != self.commit:
+            raise Refused(f"the build checkout is not at {self.commit}")
+        out = self.root / BOOT_OUT
+        report = out / f"{BOOT_TAG}.json"
+        if not report.is_file():
+            raise Refused(f"no boot report at {report}")
+        export_actions_handoff("boot", self.commit, self.args.out,
+                               {"match": self.root / "build" / "match", "boot": out}, report=f"boot/{report.name}")
+        return EXIT_OK
+
+    def handoff_cycle(self):
+        if not (self.snapshot() / SNAPSHOT_MARK).is_file():
+            raise Refused(f"no link_cycle snapshot at {self.snapshot()}")
+        bundle = Path(self.args.bundle)
+        export_actions_handoff("cycle", self.commit, self.args.out,
+                               {"snapshot": self.snapshot(), "bundle": bundle})
+        return EXIT_OK
+
+    # -- publish job: validate (no secret), sign (the key), publish (the token), history (git)
+    def validate(self):
+        """Install the handoffs as data into this checkout and a snapshot this job
+        exports itself, then run the pinned checks. Nothing here holds a secret."""
+        self.check_checkout()
+        if self.work.exists() and any(self.work.iterdir()):
+            raise Refused(f"state directory {self.work} is not empty")
+        (self.work / "logs").mkdir(parents=True)
+        boot = load_actions_handoff("boot", self.args.boot_handoff, self.commit)
+        load_actions_handoff("cycle", self.args.cycle_handoff, self.commit)
+        cycle = Path(self.args.cycle_handoff)
+        # The snapshot's tracked tree comes from this job's own git, never from the build job;
+        # link_cycle's marker and the receipt must then agree on its tree manifest.
+        self.run("snapshot", self.checker("import sys\nsys.path.insert(0, sys.argv[1])\nimport link_cycle\n"
+                                          "link_cycle.export_snapshot(sys.argv[2], sys.argv[3])\n",
+                                          self.commit, self.snapshots), guarded=False)
+        snap = self.snapshot()
+        install_tree(Path(self.args.boot_handoff) / "match", self.root / "build" / "match")
+        install_tree(Path(self.args.boot_handoff) / "boot", self.root / BOOT_OUT)
+        install_tree(cycle / "snapshot" / "build", snap / "build")
+        bundle = self.work / "builder-bundle"
+        install_tree(cycle / "bundle", bundle)
+        for tree in (self.root, snap):
+            clang_cache(tree)
+        report = self.root / BOOT_OUT / Path(str(boot.get("report") or "")).name
+        if boot.get("report") != f"boot/{BOOT_TAG}.json" or not report.is_file():
+            raise Refused("the boot handoff names no relayout report")
+        PublisherRun.check_artifact_paths(self.paths_view(report))
+        self.run("snapshot-proof", self.checker(SNAPSHOT_PROOF, snap))
+        self.run("handoff-validate", self.checker(PUBLISHER_CHECKS, self.root, snap, bundle, self.commit))
+        self.recompute_rank(bundle)
+        # The bound measurement without the key: a refusal here stops before any secret is written.
+        self.run("ownership-measure", self.checker(PUBLISHER_OWNERSHIP, report, self.work / "image_ownership.json",
+                                                   self.root / HISTORY_CSV, "", "", "measure"))
+        self.save_state(commit=self.commit, report=str(report), bundle=str(bundle), validated_utc=utc())
+        return EXIT_OK
+
+    def paths_view(self, report):
+        """check_artifact_paths' view: this checkout and the report. Receipts stay portable:
+        relative paths inside the checkout; an absolute or escaping one is refused."""
+        view = object.__new__(PublisherRun)
+        view.checkout, view.report = self.root, report
+        return view
+
+    def recompute_rank(self, bundle):
+        view = object.__new__(PublisherRun)
+        view.snapshot_path, view.dir = self.snapshot(), self.work / "logs"   # rank.log is the step's log
+        view.dir.mkdir(parents=True, exist_ok=True)
+        view.cycle_dir = self.cycle_dir
+        view.tool = self.tool
+        view.step = lambda name, argv, cwd=None: self.run(name, argv, cwd=cwd)
+        PublisherRun.recompute_rank(view, bundle)
+
+    def sign(self):
+        """Re-measure the bound artifacts and append the signed history row. The key file
+        is deleted when this stage ends, whatever happens."""
+        key = Path(self.args.signing_key or "")
+        signers = os.environ.get(SIGNERS_ENV)
+        try:
+            self.check_checkout()
+            st = self.state()
+            if st.get("commit") != self.commit or not st.get("validated_utc"):
+                raise Refused("validate has not passed for this commit in this state directory")
+            if not key.is_file():
+                raise Refused("--signing-key names no file")
+            if not signers or not Path(signers).is_file() or Path(signers).resolve().is_relative_to(self.root):
+                raise Refused(f"{SIGNERS_ENV} must name the allowed-signers pin outside the checkout")
+            self.run("ownership-sign", self.checker(PUBLISHER_OWNERSHIP, st["report"], self.work / "image_ownership.json",
+                                                    self.root / HISTORY_CSV, key, signers,
+                                                    "measure" if self.args.no_publish else "record"))
+        finally:
+            # an icacls (R) key still goes: its directory grants this account delete-child
+            key.unlink(missing_ok=True)
+        if not self.args.no_publish:
+            shutil.copyfile(self.root / HISTORY_CSV, self.work / "image_ownership_history.csv")
+        self.save_state(signed_utc=utc())
+        return EXIT_OK
+
+    def wait_and_stamp(self, what):
+        wait_cooldown(self.work / "push_clock.json", self.say)
+        return lambda: stamp_clock(self.work / "push_clock.json", what)
+
+    def publish(self):
+        """The cycle bundle (re-made here with the previous published one) and the
+        separate ownership release, each refused unless immutable and by a PUBLISHER."""
+        self.check_checkout()
+        st = self.state()
+        if not st.get("signed_utc"):
+            raise Refused("sign has not passed in this state directory")
+        repo = ["--repo", self.args.repo]
+        run, store, bundle = self.cycle_dir(), self.work / "cycle_bundles", self.work / "bundle"
+        self.run("validate", self.tool("publish_cycle.py", "validate", run))
+        self.run("closure", self.tool("closure_report.py", "graph", run, "--out", run))
+        rc = self.run("previous", self.tool("cycle_artifacts.py", "fetch", "--latest", "--store", store, *repo),
+                      token=True, ok=(0, EMPTY_STORE))
+        latest = (read_json(store / "current.json") or {}).get("latest_measurement") if rc == 0 else None
+        if rc == 0 and not latest:
+            raise StepFailed(f"previous: fetch succeeded but {store}/current.json names no measurement")
+        previous = ["--previous", store / latest / "bundle"] if latest else ["--first"]
+        self.run("bundle", self.tool("publish_cycle.py", "bundle", run, "--out", bundle, "--rank", "run-dir",
+                                     "--snapshot-root", self.snapshot(), "--producer", self.args.producer, *previous))
+        if self.args.no_publish:
+            self.run("publish", self.checker(PUBLISHER_PUBLISH, "publish", bundle, *repo, "--dry-run"), token=True)
+            return EXIT_OK
+        stamp = self.wait_and_stamp("nightly cycle bundle")
+        try:
+            self.run("publish", self.checker(PUBLISHER_PUBLISH, "publish", bundle, *repo), token=True)
+        finally:
+            stamp()
+        tag = (read_json(bundle / "manifest.json") or {}).get("tag")
+        if not isinstance(tag, str) or not re.fullmatch(r"[A-Za-z0-9_./-]+", tag):
+            raise Refused("the published bundle has no safe release tag")
+        self.publish_ownership(tag, st["report"])
+        self.save_state(published_utc=utc(), cycle_tag=tag)
+        return EXIT_OK
+
+    def publish_ownership(self, cycle_tag, report):
+        tag = "ownership-" + cycle_tag.replace("/", "-")
+        stamp = self.wait_and_stamp("nightly ownership release")
+        argv = [self.executables()["gh"], "release", "create", tag, "--repo", self.args.repo, "--target", self.commit,
+                "--prerelease", "--latest=false", "--title", tag,
+                "--notes", BUILDER_ATTESTATION + "\nSigned ownership evidence for " + cycle_tag,
+                self.work / "image_ownership.json", self.work / "image_ownership_history.csv", report]
+        try:
+            self.run("ownership-release", argv, token=True, guarded=False, cwd=self.work / "native-cwd")
+        finally:
+            stamp()
+
+    def history(self):
+        """Commit the signed row through the repository's own hooks and push it to master.
+        Every downloaded artifact is removed first: the hooks run in a clean checkout."""
+        st = self.state()
+        if not st.get("published_utc"):
+            raise Refused("publish has not passed in this state directory")
+        changed = git_out(self.root, "diff", "--name-only", "HEAD").splitlines()
+        if changed != [HISTORY_CSV]:
+            raise Refused(f"the checkout changed more than {HISTORY_CSV}: {changed[:5]}")
+        for p in (self.root / "build" / "match", self.root / "build" / "boot", self.snapshot()):
+            if p.exists():
+                shutil.rmtree(p)
+        hooks = ("-c", "core.hooksPath=.githooks")
+        steps = [("history-add", ["git", "add", "--", HISTORY_CSV]),
+                 ("history-commit", ["git", *hooks, "commit", "-q", "-m",
+                                     f"image_ownership: nightly measurement at {self.commit[:12]}", "-m",
+                                     f"Measured by .github/workflows/nightly-measure.yml run "
+                                     f"{os.environ.get('GITHUB_RUN_ID', '?')}; link, image and ownership figures "
+                                     "are builder-attested."])]
+        for name, argv in steps:
+            self.run(name, argv, guarded=False)
+        for n in range(1, PUSH_TRIES + 1):
+            self.run(f"history-fetch-{n}", ["git", "fetch", "--quiet", "origin", "master"], guarded=False)
+            try:
+                self.run(f"history-rebase-{n}", ["git", *hooks, "rebase", "--quiet", "FETCH_HEAD"], guarded=False)
+            except StepFailed:
+                self.run("history-abort", ["git", "rebase", "--abort"], guarded=False)
+                raise StepFailed("the row did not rebase onto origin/master; it stays in the ownership release")
+            stamp = self.wait_and_stamp("nightly history push")
+            try:
+                self.run(f"history-push-{n}", ["git", *hooks, "push", "--quiet", "origin", "HEAD:master"],
+                         guarded=False)
+                return EXIT_OK
+            except StepFailed:
+                if n == PUSH_TRIES:
+                    raise
+            finally:
+                stamp()
+        return EXIT_FAILED
+
+    def go(self, stage):
+        if stage in ("validate", "sign", "publish", "history") and not self.work:
+            raise Refused("--state-dir is required")
+        if stage in ("handoff-cycle", "validate", "publish", "history") and not self.snapshots:
+            raise Refused("--snapshot-dir is required")
+        return {"handoff-boot": self.handoff_boot, "handoff-cycle": self.handoff_cycle, "validate": self.validate,
+                "sign": self.sign, "publish": self.publish, "history": self.history}[stage]()
+
+
 def parse(argv):
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--role", choices=("builder", "publisher"), help="required except for maintainer --approve")
@@ -1867,6 +2268,15 @@ def parse(argv):
     ap.add_argument("--no-publish", action="store_true",
                     help="no GitHub write: publish --dry-run, no install, ownership measured but not recorded")
     ap.add_argument("--skip", action="append", default=[], choices=SKIPPABLE, help="leave a step out (repeatable)")
+    gha = ap.add_argument_group("GitHub Actions (.github/workflows/nightly-measure.yml, docs/nightly_actions.md)")
+    gha.add_argument("--actions", choices=ACTIONS_STAGES, help="run one stage of the hosted nightly")
+    gha.add_argument("--commit", help="the full measured sha (the workflow's github.sha)")
+    gha.add_argument("--out", help="handoff-*: the new handoff directory to upload")
+    gha.add_argument("--bundle", help="handoff-cycle: the builder's publish_cycle bundle directory")
+    gha.add_argument("--boot-handoff", help="validate: the downloaded boot handoff")
+    gha.add_argument("--cycle-handoff", help="validate: the downloaded cycle handoff")
+    gha.add_argument("--signing-key", help="sign: the private key file, deleted once the row is signed")
+    gha.add_argument("--ssh-keygen", help="sign: the ssh-keygen that signs (default: PATH)")
     return ap.parse_args(argv)
 
 
@@ -1874,6 +2284,12 @@ def main(argv=None, *, root=None, out=print):
     args = parse(sys.argv[1:] if argv is None else argv)
     try:
         root = Path(root or args.root) if root or args.root else main_root()
+        if args.actions:
+            if args.role or args.approve:
+                raise Refused("--actions runs alone: no --role or --approve")
+            if args.actions in ("publish", "history") and not args.repo:
+                raise Refused("--repo is required for publication")
+            return ActionsRun(args, root, out).go(args.actions)
         if args.approve:
             if args.role == "builder":
                 raise Refused("builder cannot approve or install code")
@@ -1894,9 +2310,12 @@ def main(argv=None, *, root=None, out=print):
             return run.go()
         finally:
             unlock(lock)
-    except (Refused, StepFailed) as e:
+    except Refused as e:
         out(f"nightly_measure: refused: {e}")
         return EXIT_SETUP
+    except StepFailed as e:
+        out(f"nightly_measure: {'failed' if args.actions else 'refused'}: {e}")
+        return EXIT_FAILED if args.actions else EXIT_SETUP
 
 
 if __name__ == "__main__":

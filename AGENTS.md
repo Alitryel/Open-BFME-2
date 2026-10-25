@@ -24,7 +24,8 @@ save/load.
   from `reverse/link_census_history.csv`. Only census figures count;
   `tools/link_check.py` only predicts.
 - **Image ownership**: NOT OURS (`tools/image_ownership.py report`), driven to
-  zero. Only the maintainer's nightly runner records it.
+  zero. Only the nightly workflow (`.github/workflows/nightly-measure.yml`)
+  records it.
 - **Debt**: `reverse/gate_baseline.txt`, the data, code-identity and header
   registers, and the hatch counts in `reverse/hatch_baseline.tsv`.
 
@@ -195,11 +196,11 @@ verified and easy to rebase. Detail for the hook rules:
   moves or consumers change. Core ledger repointing still accompanies each
   applied move. Checklist: `docs/consolidation.md` ("Tooling compatibility audit
   before pushing").
-- Never start or approve `tools/nightly_measure.py` or
-  `tools/audit/run_nightly.cmd` (the maintainer's scheduled tasks,
-  `docs/nightly_setup.md`). Ask a maintainer
-  before a direct `tools/link_cycle.py` run, `tools/boot_smoke.py` or the shadow
-  publisher. Use `python3 tools/link_check.py --fetch-index` and the census
+- Never start, re-run or approve `tools/nightly_measure.py`, the nightly
+  workflow (`.github/workflows/nightly-measure.yml`, `docs/nightly_actions.md`)
+  or `tools/audit/run_nightly.cmd` (the maintainer's scheduled tasks). Ask a
+  maintainer before a direct `tools/link_cycle.py` run, `tools/boot_smoke.py` or
+  the shadow publisher. Use `python3 tools/link_check.py --fetch-index` and the census
   history instead.
 - BFME 1 freshness: before BFME 2 work, when `build/bfme1-last-check.txt` is
   missing or over 72 hours old, check `reference/open-bfme-1` against official

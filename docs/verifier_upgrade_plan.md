@@ -174,11 +174,13 @@ other data checks (`tools/data_check.py` outside `--converged`),
 
 ### Verification runners
 
-The nightly link cycle and measurement belong to the maintainer's scheduled seats:
-`tools/nightly_measure.py` (its builder role runs the gate, `tools/link_cycle.py`,
-boot and `tools/image_ownership.py`; its publisher role records the ownership row)
-and `tools/audit/run_nightly.cmd` run only from those scheduled tasks
-(`docs/nightly_setup.md`). Also maintainer-controlled: a direct or manual
+The nightly link cycle and measurement run on GitHub-hosted runners:
+`.github/workflows/nightly-measure.yml` (`docs/nightly_actions.md`). Its secret-free
+build jobs run the gate, `tools/link_cycle.py`, the boot image and
+`tools/image_ownership.py`. Its publish job (`tools/nightly_measure.py --actions`)
+re-validates, records and publishes the ownership row. The two-account local
+setup (`docs/nightly_setup.md`) is superseded. `tools/audit/run_nightly.cmd`
+runs only from the maintainer's scheduled task. Also maintainer-controlled: a direct or manual
 `tools/link_cycle.py` run, `tools/boot_smoke.py` and the shadow publisher. Seats
 need none of them; they use `python3 tools/link_check.py --fetch-index`,
 `reverse/link_census_history.csv` and `repair_queue.py link`.

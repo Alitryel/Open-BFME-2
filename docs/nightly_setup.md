@@ -1,5 +1,10 @@
 # Nightly builder and publisher setup (maintainer only)
 
+**Superseded** by GitHub-hosted runners: `.github/workflows/nightly-measure.yml`,
+set up as described in `docs/nightly_actions.md`. The nightly no longer depends on
+the maintainer's PC. This two-account design stays here for reference until it is
+removed. Disable its two scheduled tasks after the first green hosted run.
+
 Do this once in an elevated PowerShell, after reviewing the runner and its full
 checker dependency tree. These are instructions, not commands the agent ran.
 Use a separate **standard local account**, never the maintainer token, for the
