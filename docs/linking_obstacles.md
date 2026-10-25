@@ -126,6 +126,16 @@ authored-byte previews or commit-title gains into a projected headline.
   affected provider, consumer and emitted copy. Size equality and a renamed
   template do not prove a shared native type. Clearance and census confirmation
   remain pending.
+- **AerialPathfinder concrete candidate (2026-10-25, `27b23d675b`):**
+  [the native-list bank](../reverse/attempt_support/aerial-native-list-link-20261025/readme.md)
+  identifies a conflation between the constructor's `BfmePod8` destructor pin
+  at 002FECBC and this family's actual cleanup at 004EC395. Private adoption
+  of the canonical subsystem base and the target query's polygon/height entry
+  preserves the 75/59/28-byte parent/wrapper bodies and both exact EH graphs.
+  No production repair was applied: required helper addresses 0014F3C4 and
+  004EC395 were reserved by other workers. Resume through normal folded-body
+  admission and current-input provider/consumer gates when claims permit;
+  preserve the shared pin and do not equate unrelated equal-sized records.
 
 ### LINK-003: residual Zero Hour memory-pool interfaces
 
