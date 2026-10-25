@@ -5441,7 +5441,7 @@ _XMP_Move,,0x0061BE10,19,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matched,
 ?Get_Sorting_Polygons@Debug_Statistics@@YAHXZ,,0x00129610,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame sorting polygon count
 ?Get_Sorting_Vertices@Debug_Statistics@@YAHXZ,,0x00129620,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame sorting vertex count
 ?Get_Draw_Calls@Debug_Statistics@@YAHXZ,,0x00129630,6,Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,matched,return last-frame draw call count
-?getValue@GameClientRandomVariable@@QBEMXZ,,0x002341A1,70,Code/GameEngine/Source/GameClient/ClientRandomValue_getValue.cpp,matched,BFME1 GameClientRandomVariable::getValue transferred; BFME2 CONSTANT/UNIFORM body preserves RandomValue.cpp line 394
+?getValue@GameClientRandomVariable@@QBEMXZ,,0x002341A1,70,Code/GameEngine/Source/Common/RandomValue.cpp,matched,BFME1 GameClientRandomVariable::getValue transferred; BFME2 CONSTANT/UNIFORM body preserves RandomValue.cpp line 394
 ?IsCRC@Xfer@@UBE_NXZ,,0x0047A699,3,Code/GameEngine/Source/Common/System/Xfer.cpp,matched,BFME1 mode predicate transferred; BFME2 retail folds to xor eax eax / ret
 ?IsLightCRC@Xfer@@UBE_NXZ,,0x0047A699,3,Code/GameEngine/Source/Common/System/Xfer.cpp,matched,BFME1 mode predicate transferred; BFME2 retail folds to xor eax eax / ret
 ?IsLoading@Xfer@@UBE_NXZ,,0x0047A699,3,Code/GameEngine/Source/Common/System/Xfer.cpp,matched,BFME1 mode predicate transferred; BFME2 retail folds to xor eax eax / ret
@@ -6814,7 +6814,7 @@ _Rva00815890,,0x00681790,17,Code/Libraries/Source/DirtySock/commsrp.cpp,matched,
 ?Has_X_Translation@HRawAnimClass@@UAE_NH@Z,,0x0018E630,23,Code/Libraries/Source/WWVegas/WW3D2/hrawanim.cpp,matched,X-translation-channel presence; placed by masked whole-text search
 ?Begin@BfmeResourceEnumerator@@QAEXI@Z,,0x00621480,69,Code/GameEngineDevice/Source/W3DDevice/GameClient/Add_Prototype.cpp,matched,Lock and snapshot hashtable begin iterator into cursor then record tag; stlport raw hashtable member
 ?resize@BfmeWordVec@@QAEXIG@Z,,0x000824F9,61,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_word_o1.cpp,matched,Word-vector two-arg resize with by-value fill; stride-2 disproves the serving narrow-string pin; erase and fill-insert callees are ICF twins
-?getValue@GameLogicRandomVariable@@QBEMXZ,,0x00234206,70,Code/GameEngine/Source/Common/GameLogicRandomValue_getValue.cpp,matched,BFME1 game-logic getValue transferred mirroring the matched client twin; CONSTANT falls through and UNIFORM calls the 4-arg helper with line 438
+?getValue@GameLogicRandomVariable@@QBEMXZ,,0x00234206,70,Code/GameEngine/Source/Common/RandomValue.cpp,matched,BFME1 game-logic getValue transferred mirroring the matched client twin; CONSTANT falls through and UNIFORM calls the 4-arg helper with line 438
 ??0?$VectorClass@PAUW3dAggregateSubobjectStruct@@@@QAE@HPBQAUW3dAggregateSubobjectStruct@@@Z,,0x001A36D0,75,Code/Libraries/Source/WWVegas/WW3D2/agg_def.cpp,matched,installs vtable 0xBD6C0C which AggregateDefClass dtor 0x1A3CC0 restores at +8 for its subobject list; was misnamed VectorClass<HAnimComboDataClass*>
 ??0VertexMaterialClass@@QAE@ABV0@@Z,,0x0013DAE0,287,Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp,matched,Unpooled DynD3DMATERIAL8 (plain operator new); UVSource copy loop and material alloc-copy
 ??1BfmeDirtyBase@@UAE@XZ,,0x00658650,7,Code/Libraries/Source/DirtySock/BfmeDirtyBaseDtor.cpp,matched,Shared DirtySock base dtor reinstalling vtable CE0FB8; dedicated TU keeps nine scalar-deleter callers out of line

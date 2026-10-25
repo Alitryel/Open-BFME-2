@@ -62,3 +62,23 @@ TU's provenance comments, append-only `name_basis.csv`, the maintainer's
 Those references are intentionally retained. Generic build/tool source discovery
 continues through the current ledger; the normal build verified the new path.
 The old planner snapshot must be regenerated before selecting further work.
+
+## RandomValue.cpp
+
+After refreshing the planner, the current in-memory TU map approved both
+`ClientRandomValue_getValue.cpp` and `GameLogicRandomValue_getValue.cpp` into
+`Common/RandomValue.cpp`. Both bodies carry the original retail RandomValue.cpp
+path string; the existing GameClient setter source remains mixed (seven foreign
+rows). Dry run and claimed application accepted both getters with no rejection:
+two matched rows preserved, two fragments replaced by one TU (one fewer file).
+`./build.sh` passed 2/2 with both strings and float literals verified;
+`find_declared_unmatched.py` passed.
+
+Repeated the combined pending-move consumer audit from base `91fe970939` through
+the staged RandomValue merge after fetching origin/master. All five deleted
+source paths across Energy and RandomValue have no active consumers requiring
+repair. Retained exact old-path hits are provenance, the census snapshot,
+append-only naming records or independent BFME 1 evidence. Stem-prefix matches
+to the separate `getValueInt.cpp` and `getValueReal.cpp` sources are unchanged
+live sources, not removed paths. The two original EA assertion strings remain
+unchanged and verified.
