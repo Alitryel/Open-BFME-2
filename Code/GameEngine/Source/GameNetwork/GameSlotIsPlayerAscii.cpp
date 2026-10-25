@@ -15,7 +15,7 @@
 typedef int Int;
 typedef bool Bool;
 
-enum
+enum SlotState
 {
 	SLOT_OPEN,
 	SLOT_CLOSED,
@@ -29,26 +29,68 @@ enum
 #include "ascii_string.h"
 #include "unicode_string.h"
 
+struct GameSlotConnectInfo;
+
 
 
 class GameSlot
 {
 public:
-	virtual void reset(void) = 0;
+	void rva003FF5F2(const AsciiString &other);
+	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
+	Bool isHuman() const;
 	Bool isPlayer(AsciiString userName) const;
-
-protected:
+public:
+	void saveOffOriginalInfo();
+private:
+	void *m_vtable;
+private:
 	Int m_state;
-	unsigned char m_gap08[0x30 - 0x08];
-	UnicodeString m_name;
+private:
+	Bool m_isAccepted;
+private:
+	Bool m_hasMap;
+private:
+	Bool m_isMuted;
+private:
+	char m_pad0B[1];
+private:
+	Int m_color;
+private:
+	Int m_startPos;
+private:
+	Int m_bfme14;
+private:
+	Int m_playerTemplate;
+private:
+	Int m_teamNumber;
+private:
+	Int m_bfme20;
+private:
+	Int m_origColor;
+private:
+	Int m_origStartPos;
+private:
+	Int m_origPlayerTemplate;
+public:
+	void setPlayerTemplate(Int playerTemplate);
+private:
+	// Retail isPlayer(AsciiString) reads the UnicodeString at +0x30;
+	// the existing AsciiString setter still uses the separate +0x1A8 word.
+	// text30 is the offset spelling already used by GameSlotCtor.cpp.
+	UnicodeString text30;
+	char m_pad34[0x1A8 - 0x34];
+	AsciiString m_name;
 };
 
+// Use the seed TU field view, retaining the target UnicodeString access
+// at +0x30 and the separate AsciiString member at +0x1A8.
 Bool GameSlot::isPlayer(AsciiString userName) const
 {
 	UnicodeString uName;
 	uName.translate(userName);
 	Bool result;
-	if (m_state == SLOT_PLAYER && m_name.compareNoCase(uName) == 0)
+	if (m_state == SLOT_PLAYER && text30.compareNoCase(uName) == 0)
 		result = true;
 	else
 		result = false;

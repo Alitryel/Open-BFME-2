@@ -103,6 +103,7 @@ public:
 	void rva003FF5F2(const AsciiString &other);
 	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
 	Bool isHuman() const;
+	Bool isPlayer(AsciiString userName) const;
 public:
 	void saveOffOriginalInfo();
 private:
@@ -138,8 +139,11 @@ private:
 public:
 	void setPlayerTemplate(Int playerTemplate);
 private:
-	// Existing TU fields end at +0x30; the AsciiString setter uses +0x1A8.
-	char m_pad30[0x1A8 - 0x30];
+	// Retail isPlayer(AsciiString) reads the UnicodeString at +0x30;
+	// the existing AsciiString setter still uses the separate +0x1A8 word.
+	// text30 is the offset spelling already used by GameSlotCtor.cpp.
+	UnicodeString text30;
+	char m_pad34[0x1A8 - 0x34];
 	AsciiString m_name;
 };
 
