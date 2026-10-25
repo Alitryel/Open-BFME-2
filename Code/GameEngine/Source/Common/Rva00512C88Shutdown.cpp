@@ -56,12 +56,12 @@ void Rva00512C88Shutdown()
 	if (g_Va00A048CC == 0)
 		return;
 	g_Va00A048CC->v3(0);
-	void *p;
+	void *layoutToDelete;
 	if (g_Va00A048CC != 0)
-		p = g_Va00A048CC->v1(0);
+		layoutToDelete = g_Va00A048CC->v1(0);
 	else
-		p = 0;
-	operator delete(p);
+		layoutToDelete = 0;
+	operator delete(layoutToDelete);
 	g_Va00A048CC = 0;
 	(*(Rva00512C88ObjB **)&TheInGameUI)->v94(0);
 }

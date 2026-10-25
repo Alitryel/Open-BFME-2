@@ -2101,3 +2101,4 @@ local,Rva0055B39C::computeAlphaRate::v,Rva0055B39C::computeAlphaRate::targetAlph
 local,Rva00276223::rva00276223::p,Rva00276223::rva00276223::dm,inferred,agree:nl-20fb5dc263ec,Code/GameEngine/Source/Common/Rva00276223Leaf.cpp,0x00276223
 local,Rva00276223::rva00276223::e,Rva00276223::rva00276223::drawModule,inferred,agree:nl-7fe1a36dbd7a,Code/GameEngine/Source/Common/Rva00276223Leaf.cpp,0x00276223
 local,Rva00524B7A::update::v,Rva00524B7A::update::remainingTime,inferred,agree:nl-f5a7714d2346,Code/GameEngine/Source/Common/Rva00524B7AVslot10.cpp,0x00524AE7
+local,Rva00512C88Shutdown::p,Rva00512C88Shutdown::layoutToDelete,inferred,agree:nl-844b86cc7673,Code/GameEngine/Source/Common/Rva00512C88Shutdown.cpp,0x00512C88
