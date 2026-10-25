@@ -142,3 +142,45 @@ by another worker and was not edited. Retain the PingThread.cpp file scope and
 The complete outgoing prerequisite batch still moves no existing source path.
 The new debug view's explicit include path was verified from the standalone
 donors and the approved merge destination; no active path consumer needs a move.
+
+## HTree blocker reassessed against current composition
+
+The refreshed Libraries planner and snapshot check pass. The approved HTree
+plan still offers the seed, Storage, destructor and Capture_Bone as clean files,
+with eleven mixed and four protected candidates retained. A fresh normal trial
+now accepts none: Storage needs the missing HTreeClass::rva00160FC0 declaration,
+while the destructor and Capture_Bone report `bytes`. This supersedes the old
+Capture_Bone C2065/BfmePod36 diagnosis in the earlier HTree handoff; it does not
+prove which composed row differs or justify a speculative declaration edit.
+
+The official standalone build of htree.cpp, HTreeClassDestructor.cpp and
+HTreeClassCaptureBone.cpp passes all 13 rows and seven float references. Thus
+this is a consolidation prerequisite, not lost matched coverage. No HTree
+source was changed and no merge applied. Fresh normal-trial receipt:
+build/htree-sol-capture-before-dry.txt; approved plan: build/htree-sol-plan.txt.
+The next attempt needs row-level composed-byte evidence before choosing a
+source or tooling repair. Both rejected body verdicts were recorded with
+re_log.py; the read-only reassessment's file and RVA scopes are released.
+
+## Batch audit and verified totals
+
+Immediately before the handoff commit, the complete outgoing range
+origin/master..2e2940e95c and this staged evidence were audited against fetched
+origin 27b23d675b8e46e096fc697af711003cf06c29f3. The direct two-endpoint diff
+also includes incoming changes from other seats; the outgoing merge-base diff
+and commit list isolate this batch. It modifies six existing source files and
+adds one local header, without a source deletion, rename, ledger repoint or
+active consumer path change. Tools, hooks, workflows, build inputs, registries
+and historical EA paths require no repointing. Protected registers and the TU
+map are unchanged by this batch. Normal acceptance gates remain required.
+
+The session's eight prerequisites cover 29 existing matched rows/4063 retail
+bytes in standalone verification. The five resulting compatible normal trials
+preserve 51 rows/5320 retail bytes in total. No merge was applied, no source file
+was removed and no new matched bytes, census movement or debt retirement is
+claimed. GameInfo is already published; Laser, Font, debug and PingThread
+prerequisites are a28e194a65, 12bb2947c0, 4d259ff112 and 2e2940e95c before any
+publisher rebase. Retain their exact file/RVA scopes listed above until the
+publisher confirms landing, then release them. The next mechanical pass should
+use current routing and fresh reports, respecting all remaining SDK report,
+Common-donor, mixed and protected boundaries.
