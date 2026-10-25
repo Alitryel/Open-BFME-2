@@ -1986,3 +1986,7 @@ class,Rva00800A40Diag,AssertHandler,inferred,agree:nl-3f55fc5507fc,Code/GameEngi
 member,Rva002616D1Arg::m_94,Rva002616D1Arg::m_status,inferred,agree:nl-cbe1589638c0,Code/GameEngine/Source/Common/VslotSmallBodiesV.cpp,
 function,?rva005F52C0@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToTarget@Rva005F52C0@@QAEXXZ,inferred,agree:nl-e6c4b1e28c92,Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F52C0
 function,?rva005F5331@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToSource@Rva005F52C0@@QAEXXZ,inferred,agree:nl-3661810f7ff8,Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F5331
+param,LivingWorldArmyLine::rva00538F6B::b,LivingWorldArmyLine::rva00538F6B::startObject,inferred,agree:nl-320014933b14,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldArmyLineRva00538F6B.cpp,0x00538F6B
+param,LivingWorldArmyLine::rva00538F6B::c,LivingWorldArmyLine::rva00538F6B::endPosition,inferred,agree:nl-f28b8cdb4320,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldArmyLineRva00538F6B.cpp,0x00538F6B
+param,LivingWorldArmyLine::rva00538F6B::d,LivingWorldArmyLine::rva00538F6B::endObject,inferred,agree:nl-26d7a6f6a781,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldArmyLineRva00538F6B.cpp,0x00538F6B
+local,LivingWorldArmyLine::rva00538F6B::t,LivingWorldArmyLine::rva00538F6B::fraction,inferred,agree:nl-49ba31d68eae,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldArmyLineRva00538F6B.cpp,0x00538F6B

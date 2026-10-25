@@ -43,19 +43,19 @@ struct Rva00538F6BManagerView
 class LivingWorldArmyLine
 {
 public:
-	void rva00538F6B(void *a, void *b, void *c, void *d);
+	void rva00538F6B(void *a, void *startObject, void *endPosition, void *endObject);
 
 private:
 	UnsignedInt m_count; // +0x00
 	Coord3D *m_points; // +0x04
 };
 
-void LivingWorldArmyLine::rva00538F6B(void *a, void *b, void *c, void *d)
+void LivingWorldArmyLine::rva00538F6B(void *a, void *startObject, void *endPosition, void *endObject)
 {
-	if (m_points != 0 && b != d)
+	if (m_points != 0 && startObject != endObject)
 	{
 		const Coord2D *start = reinterpret_cast<const Coord2D *>(a);
-		const Coord2D *end = reinterpret_cast<const Coord2D *>(c);
+		const Coord2D *end = reinterpret_cast<const Coord2D *>(endPosition);
 		Real heightOffset = reinterpret_cast<Rva00538F6BManagerView *>(TheLivingWorldManager)->m_heightOffset;
 		Real step = 1.0f / (Real)(m_count - 1);
 		Coord3D result;
@@ -66,14 +66,14 @@ void LivingWorldArmyLine::rva00538F6B(void *a, void *b, void *c, void *d)
 		for (Int i = 0; i < m_count; ++i)
 		{
 			Coord2D pos;
-			Real t = i * step;
-			pos.x = start->x + (end->x - start->x) * t;
-			pos.y = start->y + (end->y - start->y) * t;
+			Real fraction = i * step;
+			pos.x = start->x + (end->x - start->x) * fraction;
+			pos.y = start->y + (end->y - start->y) * fraction;
 			m_points[i].x = pos.x;
 			m_points[i].y = pos.y;
 
-			if (!reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF935(b, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result))
-				&& !reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF935(d, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result)))
+			if (!reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF935(startObject, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result))
+				&& !reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF935(endObject, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result)))
 			{
 				reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0(reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result));
 			}
