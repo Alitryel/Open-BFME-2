@@ -1,101 +1,13 @@
-// cl: /DNDEBUG /MD /EHsc
-//
-// ??0DX8PolygonRendererClass@@QAE@IPAVMeshModelClass@@PAVDX8TextureCategoryClass@@II_NI@Z
-// at retail 0x00187DE0 (139B). Dedicated TU: the Code/ dx8polygonrenderer.cpp
-// TU is a ZH port whose renderer class lacks the BFME split-table members,
-// so this body cannot live there.
-//
-// Two measured BFME2 repairs vs the BFME1 donor (kept verbatim otherwise):
-// - MeshModelClass::PolygonRendererList sits at +0x9C (retail `add ecx,0x9C`
-//   ahead of the Internal_Add_Tail call), not BFME1's +0xA4. A sibling TU
-//   (MeshModelClass_ComputeRamSize.cpp) independently proves the BFME2
-//   geometry base is 0x8C, 8 less than BFME1's 0x94, so the list is reached
-//   through a TU-local MeshModelClass stand-in with the proven pad.
-// - Retail reads texture_category at +0xC (dtor @0x187CE0 `mov ecx,[esi+0xC]`,
-//   matched in the home TU), i.e. a NULL member precedes mmc exactly as the
-//   inherited MultiListObjectClass::ListNode does; the TU-local renderer
-//   decl mirrors that shape.
-// No new pins: the body's single call decodes to 0x00610820, the MATCHED
-// ?Internal_Add_Tail@GenericMultiListClass (multilist.cpp); the sweep's
-// b_009dbfe0 pin is stale. WWASSERT compiles out under /DNDEBUG.
-
-#define WWASSERT(x) ((void)0)
-
-class MultiListObjectClass
-{
-public:
-	__declspec(dllimport) __forceinline MultiListObjectClass() : ListNode(0) { }
-	virtual ~MultiListObjectClass();
-
-private:
-	void *ListNode;
-};
-
-class MultiListNodeClass
-{
-public:
-	void *Prev;
-	void *Next;
-	void *NextList;
-	void *Object;
-	void *List;
-};
-
-class GenericMultiListClass
-{
-public:
-	virtual ~GenericMultiListClass();
-
-protected:
-	bool Internal_Add_Tail(MultiListObjectClass *obj, bool onlyonce = true);
-
-	friend class DX8PolygonRendererClass;
-
-private:
-	MultiListNodeClass Head;
-};
-
-class DX8PolygonRendererClass;
-class DX8TextureCategoryClass;
-class MeshModelClass;
-
-class DX8PolygonRendererList : public GenericMultiListClass
-{
-};
-
-class MeshModelClass
-{
-public:
-	char _pad[0x9C];
-	DX8PolygonRendererList PolygonRendererList;
-};
-
-class DX8PolygonRendererClass : public MultiListObjectClass
-{
-public:
-	virtual ~DX8PolygonRendererClass();
-	DX8PolygonRendererClass(
-		unsigned index_count_,
-		MeshModelClass *mmc_,
-		DX8TextureCategoryClass *tex_cat,
-		unsigned vertex_offset_,
-		unsigned index_offset_,
-		bool strip_,
-		unsigned pass_);
-
-private:
-	MeshModelClass *mmc;
-	DX8TextureCategoryClass *texture_category;
-	unsigned index_offset;
-	unsigned vertex_offset;
-	unsigned index_count;
-	unsigned min_vertex_index;
-	unsigned vertex_index_range;
-	unsigned min_vertex_index2;
-	unsigned vertex_index_range2;
-	bool strip;
-	unsigned pass;
-};
+// cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /Ireference/shims/bfmerendobj /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// Retail 0x00187DE0..0x00187E6B (139 bytes). The constructor's semantic
+// source is the BFME1 donor; target disassembly proves the split-table fields
+// and MeshModelClass polygon list at +0x9C (the donor uses +0xA4).
+// The current renderer header already has those split-table fields. Share it
+// with the seed instead of duplicating the renderer and list declarations.
+// The explicit list view preserves the target offset independently of the
+// legacy MeshModelClass declaration. Add_Tail inlines to the same existing
+// GenericMultiListClass::Internal_Add_Tail provider at 0x00610820.
+#include "dx8polygonrenderer.h"
 
 // ??0DX8PolygonRendererClass@@QAE@IPAVMeshModelClass@@PAVDX8TextureCategoryClass@@II_NI@Z
 DX8PolygonRendererClass::DX8PolygonRendererClass(
@@ -120,5 +32,5 @@ DX8PolygonRendererClass::DX8PolygonRendererClass(
 	pass(pass_)
 {
 	WWASSERT(index_count);
-	mmc->PolygonRendererList.Internal_Add_Tail(this, true);
+	reinterpret_cast<DX8PolygonRendererList *>(reinterpret_cast<char *>(mmc) + 0x9C)->Add_Tail(this, true);
 }
