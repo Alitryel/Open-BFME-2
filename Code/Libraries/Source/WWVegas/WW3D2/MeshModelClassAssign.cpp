@@ -56,6 +56,7 @@ public:
 	MeshMatDescClass(const MeshMatDescClass &that);
 	~MeshMatDescClass();
 	MeshMatDescClass &operator=(const MeshMatDescClass &that);
+	bool Do_Mappers_Need_Normals();
 
 	int PassCount;
 	int VertexCount;
@@ -72,8 +73,11 @@ public:
 	virtual ~MeshGeometryClass();
 	MeshGeometryClass &operator=(const MeshGeometryClass &that);
 
-private:
-	char m_pad10[0x8C - sizeof(RefCountClass) - sizeof(MultiListObjectClass)];
+protected:
+	// Needs_Vertex_Normals (0x00171850) proves the packed flag byte at +0x19.
+	char m_pad10[0x19 - sizeof(RefCountClass) - sizeof(MultiListObjectClass)];
+	unsigned char m_flagByte;
+	char m_pad1A[0x8C - 0x1A];
 };
 
 class MeshModelClass;
@@ -102,6 +106,10 @@ class MeshModelClass : public MeshGeometryClass
 public:
 	virtual ~MeshModelClass();
 	MeshModelClass &operator=(const MeshModelClass &that);
+	bool Needs_Vertex_Normals();
+	int Get_Flag(int mask) const { return m_flagByte & mask; }
+
+	enum { PRELIT_MASK = 0xE0 };
 
 protected:
 	void clone_materials(const MeshModelClass &srcmesh);
