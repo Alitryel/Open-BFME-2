@@ -13,67 +13,28 @@ class ModuleData;
 class Object
 {
 public:
+	bool getIsUndetectedDefector() const { return (m_privateStatus & 2) != 0; }
 	unsigned char m_pad00[0x438];
 	unsigned char m_privateStatus; // +0x438 bit1
 };
 
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_NONE = 1,
-	UPDATE_SLEEP_FOREVER = 0x3fffffff
-};
+#include "ObjectDefectionHelperView.h"
 
 #include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
-class UpdateModule
-{
-public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData);
-
-protected:
-	void setWakeFrame(Object *obj, UpdateSleepTime when);
-
-	const void *m_vtable;
-	int m_pad04;
-	Object *m_object; // +8
-};
-
-class ObjectHelper : public UpdateModule
-{
-public:
-	ObjectHelper(Thing *thing, const ModuleData *moduleData);
-
-protected:
-	const void *m_p0C;
-	const void *m_p10;
-	unsigned char m_tailPad[0x20 - 0x14];
-};
-
-class ObjectDefectionHelper : public ObjectHelper
-{
-public:
-	void startDefectionTimer(unsigned int arg1, bool arg2);
-
-private:
-	unsigned int m_20;
-	unsigned int m_24;
-	float m_28;
-	bool m_2C;
-};
-
 void ObjectDefectionHelper::startDefectionTimer(unsigned int arg1, bool arg2)
 {
-	Object *obj = m_object;
-	if ((obj->m_privateStatus & 2) == 0) {
+	Object *obj = getObject();
+	if (!obj->getIsUndetectedDefector()) {
 		setWakeFrame(obj, UPDATE_SLEEP_FOREVER);
 		return;
 	}
 	unsigned int cur = TheGameLogic->getFrame();
-	m_20 = cur;
-	m_24 = cur + arg1;
-	m_28 = 0.0f;
-	m_2C = arg2;
+	m_defectionDetectionStart = cur;
+	m_defectionDetectionEnd = cur + arg1;
+	m_defectionDetectionFlashPhase = 0.0f;
+	m_doDefectorFX = arg2;
 	setWakeFrame(obj, UPDATE_SLEEP_NONE);
 }

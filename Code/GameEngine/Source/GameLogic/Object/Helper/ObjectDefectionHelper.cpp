@@ -25,12 +25,6 @@ typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef float Real;
 
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_NONE = 1,
-	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
-};
-
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_IS_FIRING_WEAPON = 13
@@ -122,65 +116,7 @@ public:
 	void rva002D9531(int value);
 };
 
-class BehaviorModuleInterface
-{
-public:
-	virtual void getBehaviorModuleInterface() = 0;
-};
-
-class UpdateModuleInterface
-{
-public:
-	virtual UpdateSleepTime update() = 0;
-};
-
-class ObjectModule
-{
-public:
-	virtual ~ObjectModule();
-
-protected:
-	Object *getObject() const { return m_object; }
-
-private:
-	const void *m_moduleData;
-	Object *m_object;
-};
-
-class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
-{
-public:
-	virtual ~BehaviorModule() {}
-};
-
-class UpdateModule : public BehaviorModule, public UpdateModuleInterface
-{
-public:
-	virtual ~UpdateModule();
-
-private:
-	unsigned int m_nextCallFrameAndPhase;
-	int m_indexInLogic;
-	unsigned int m_updateState;
-};
-
-class ObjectHelper : public UpdateModule
-{
-public:
-	virtual ~ObjectHelper();
-};
-
-class ObjectDefectionHelper : public ObjectHelper
-{
-public:
-	virtual UpdateSleepTime update();
-
-private:
-	UnsignedInt m_defectionDetectionStart;																		///< 0x20
-	UnsignedInt m_defectionDetectionEnd;																			///< 0x24
-	Real m_defectionDetectionFlashPhase;																			///< 0x28
-	Bool m_doDefectorFX;																											///< 0x2C
-};
+#include "ObjectDefectionHelperView.h"
 
 //-------------------------------------------------------------------------------------------------
 UpdateSleepTime ObjectDefectionHelper::update()
