@@ -11,17 +11,14 @@
 #pragma function(memset)
 extern "C" void *memset(void *dst, int value, unsigned int size);
 
-class Snapshot
-{
-public:
-	virtual ~Snapshot();
-	virtual void crc();
-	virtual const char *typeName() const;
-	virtual void xfer();
-};
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class GameSlot : Snapshot
 {
+protected:
+	virtual void loadPostProcess();
+	virtual void crc(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
 public:
 	virtual void unkSlot4();
 	char _pad[0x1AC - 4];

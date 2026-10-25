@@ -21,22 +21,19 @@
 
 #include "ascii_string.h"
 
-extern "C" const void *const vtbl_00BBB554[];  // ??_7BfmeSnapshotBase@@6B@
-
-class Snapshot {
-public:
-    virtual ~Snapshot();
-};
-
-inline Snapshot::~Snapshot()
-{
-	*(const void **)this = reinterpret_cast<const void *>(vtbl_00BBB554);
-}
+// SpawnArmy derives from the canonical Snapshot (vtable 0x00BBB554); its
+// inline destructor restores that table, as the address-named view did.
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class SpawnArmy : public Snapshot {
 public:
     virtual ~SpawnArmy();
     SpawnArmy(const SpawnArmy &other);
+protected:
+    virtual void loadPostProcess();
+    virtual void crc(Xfer *xfer);
+    virtual void xfer(Xfer *xfer);
+public:
 private:
     AsciiString m_04;
     AsciiString m_08;

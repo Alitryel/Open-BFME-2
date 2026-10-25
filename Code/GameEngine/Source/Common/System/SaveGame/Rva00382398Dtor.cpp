@@ -10,23 +10,26 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 class Xfer;
-class Snapshot {
-public:
-    __forceinline virtual ~Snapshot() {}
-    virtual void crc(Xfer *);
-    virtual const char *typeName() const;
-    virtual void xfer(Xfer *);
-};
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 class CreateAHeroData : public Snapshot {
     unsigned char fields[0x13C];
 public:
     CreateAHeroData(const CreateAHeroData &);
     virtual ~CreateAHeroData();
+protected:
+    virtual void loadPostProcess();
+    virtual void crc(Xfer *xfer);
+    virtual void xfer(Xfer *xfer);
 };
 class GameSlot : Snapshot {
 public:
     GameSlot();
     virtual ~GameSlot();
+protected:
+    virtual void loadPostProcess();
+    virtual void crc(Xfer *xfer);
+    virtual void xfer(Xfer *xfer);
+public:
     unsigned int word04;
     unsigned char flag08, flag09, flag0A;
     unsigned int word0C, word10, word14, word18, word1C, word20, word24, word28, word2C;
