@@ -120,3 +120,40 @@ need repair. Old references are merged provenance, historical census records,
 append-only hashed naming votes/agreements/basis and attempt evidence; original
 EA strings are preserved. Two upstream-only newly added evidence files shown as
 deletions by the divergent-tip diff are not local changes or source moves.
+
+## Other blocked trials
+
+FlammableUpdate: nine eligible donors pass frozen checks; unchanged destination
+builds 3/3 with string/float/import checks. Dry run found no verified multi-file
+merge and no granular diagnostics. Nine mixed and four protected files remain.
+BridgeBehavior: eleven eligible donors pass frozen checks. Six donors have no
+destination-context baseline, others meet canonical GameLogic/Coord3D
+redefinitions, missing damage members, protected callback access or list bytes.
+Eighteen mixed and three protected files remain.
+OCLUpdate: five eligible donors pass frozen checks; frame/constructor bodies
+need a coherent receiver declaration, preserving virtual ABI and opaque base
+layout; countdown/xfer do not match in the destination context. The GameLogic
+frame donor is outside the destination scope. Two mixed files remain.
+These dry runs changed no sources and took no claims. Blocked verdicts were
+recorded through re_log.py; exact diagnostics accompany this note. Do not
+repeat unchanged trials without resolving their prerequisites.
+
+## AIFlankAttackTactic
+
+Reviewed planner evidence, private types and flags; snapshot check passed before
+normal application. All five donors pass frozen checks. The accepted existing
+TU plus CanRun and CanRun_Run remove two fragment files, preserving all
+6 matched rows / 981 bytes. Ordinary build passes 6/6, including two
+string references, six float literals and imports. Destination frozen and
+staged canonical-class checks pass; EH one EXACT row, no missing object;
+converged data remains ten addresses with no second name or unjudged row.
+The transfer donor has no destination-context baseline; destructor donor needs
+its m_data receiver reconciled to m_route. Both are in Common outside scope;
+two mixed factory files remain. Exact diagnostics: flank-merge.txt.
+
+Full pending/staged compatibility audit refreshed against
+584f3a434d6ed22f994ae1b2b0a4cfebde4a3b83 for eight absorbed source paths.
+New flank-path hits are only merged provenance and historical link census;
+previous classifications remain valid. No active tools, hooks, workflows,
+includes, build/configuration inputs or registries need repair. No directories
+are removed; EA strings and historical naming/attempt evidence are preserved.
