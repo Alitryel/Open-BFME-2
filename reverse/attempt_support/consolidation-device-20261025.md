@@ -701,3 +701,41 @@ Other exact dry-run blockers: the Xfer donor fails C2061 for `Snapshot` in
 class declaration lacks its constructor overload. Module-data constructor,
 field-parse and pool-key donors are protected-register keyed. Mixed getter and
 base-dtor sources were not split.
+
+### Follow-up pass, 2026-10-25 (codexb3): W3DSmudge trial
+
+The allocated `W3DSmudge.cpp` dry run admitted the destination seed plus
+`W3DSmudgeManagerConstructor.cpp` and `W3DSmudgeManagerReleaseResources.cpp`.
+It rejected `W3DSmudgeManager_ReAcquireResources.cpp` on bytes and
+`W3DSmudge_copyRect.cpp` on `fatal error C1001: INTERNAL COMPILER ERROR`.
+After the normal tool merge reported staging the accepted donor set and three
+row repoints, the destination contained only the seven bytes `compile`; its
+required build failed with `C1004: unexpected end of file found` at line 2.
+The staged trial was restored in full and all acquired source/RVA claims were
+released. No source, ledger or protected register change remains. Do not retry
+unchanged; investigate the merge tool's generated-source write before any later
+attempt.
+
+The `dx8polygonrenderer.cpp` trial passed its 9/9 byte build, frozen-file,
+converged-data, staged-ownership and zero-new-shadow-identity checks. The fresh
+published index retained census entries for both absorbed constructor donors;
+`link_check.py <TU>` consequently predicted those two duplicate providers and
+295 -> 0 linked bytes. `--prepare-current <TU>` byte-verified the current provider,
+but did not update census/index/status as specified. The supported
+`--refresh --current-ledger <TU>` preview refused because 43 other current-ledger
+objects lack receipts. Thus changed provider selection/consumer bindings could
+not be verified with the scoped evidence; no old census result was treated as
+proof. The trial was restored, the donors' old `reverse/link_status.csv` rows
+remain census history, and all acquired claims were released. Do not publish
+this trial until a current supported binding preview is available.
+
+The allocated `GameWindowGlobal.cpp` trial accepted its seed and
+`GameWindowManager_winFindImage.cpp`; its required build matched all 5/5 rows,
+and frozen-file, converged-data, staged-ownership, CSV and zero-new-shadow-
+identity checks passed. The current index still names the absorbed winFindImage
+donor object, so the scoped link preview predicted that method as a duplicate
+and LINKED 147 -> 0. `--refresh --current-ledger <TU>` refused on 43 missing
+current-ledger object receipts (the same blocker as the DX8 polygon trial).
+With selection/bindings unverified, the tool-generated source and ledger trial
+were restored and its acquired claims released. No retry should use the stale
+index as composition proof.
