@@ -21,35 +21,10 @@
 // ?loadPostProcess@RainOfFireUpdate@@MAEXXZ, retail 0x004AC227, 38 bytes.
 // Slot 1 (offset 0x04) of vtable 0x00854C74: base loadPostProcess via pinned
 // 0x0058B03E then secondary +0x20 slot 0 with +0x2C float then setter
-// 0x004AC18D with +0x28 float. Secondary is a +0x20 member (no null-check
+// 0x004AC18D with +0x28 float. Secondary is the +0x20 interface (no null-check
 // lea) holding vtable 0x00C54BA0 per the rowed ctor.
 
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-class Thing;
-class Object;
-
-class ModuleData
-{
-public:
-	unsigned char m_pad[0x14];
-	float m_field14;
-};
+#include "RainOfFireUpdateView.h"
 
 class Display
 {
@@ -71,79 +46,21 @@ public:
 
 extern Display *TheDisplay;
 
-#include "../../../../Include/Common/BfmeXfer.h"
-
-class ObjectModule
-{
-public:
-	ObjectModule(Thing *thing, const ModuleData *moduleData);
-	virtual ~ObjectModule();
-
-protected:
-	const ModuleData *m_moduleData;
-	Object *m_object;
-};
-
-class BehaviorModuleInterface { public: virtual void behaviorSlot(); };
-class UpdateModuleInterface { public: virtual void updateSlot(); };
-
-class UpdateModule : public ObjectModule,
-	public BehaviorModuleInterface, public UpdateModuleInterface
-{
-public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	virtual ~UpdateModule();
-	void xfer(Xfer *xfer);
-
-protected:
-	virtual void loadPostProcess();
-
-private:
-	unsigned int m_nextCallFrameAndPhase;
-	int m_indexInLogic;
-	int m_updateState;
-};
-
-class Secondary20
-{
-public:
-	virtual void setFloat(float v);
-};
-
-class RainOfFireUpdate : public UpdateModule
-{
-public:
-	RainOfFireUpdate(Thing *thing, const ModuleData *moduleData);
-	void rva004AC18D(float value);
-
-protected:
-	virtual void xfer(Xfer *xfer);
-	virtual void loadPostProcess();
-
-private:
-	Secondary20 m_sec20;
-	unsigned int m_frame;
-	float m_state28;
-	float m_state2C;
-	float m_state30;
-	float m_state34;
-};
-
 void RainOfFireUpdate::rva004AC18D(float value)
 {
-	m_state28 = value;
-	if (m_moduleData == 0)
+	darkness = value;
+	if (data == 0)
 		return;
 	if (TheDisplay == 0)
 		return;
-	TheDisplay->setLevel(1.0 - (m_moduleData->m_field14 * m_state2C * value));
+	TheDisplay->setLevel(1.0 - (data->darkness * scale * value));
 }
 
 void RainOfFireUpdate::loadPostProcess()
 {
 	UpdateModule::loadPostProcess();
-	m_sec20.setFloat(m_state2C);
-	rva004AC18D(m_state28);
+	rvaSlot0(scale);
+	rva004AC18D(darkness);
 }
 
 void RainOfFireUpdate::xfer(Xfer *xfer)
@@ -152,9 +69,9 @@ void RainOfFireUpdate::xfer(Xfer *xfer)
 	if (xfer->IsLightCRC())
 		return;
 	xfer->Version1();
-	*xfer == m_frame;
-	*xfer == m_state28;
-	*xfer == m_state2C;
-	*xfer == m_state30;
-	*xfer == m_state34;
+	*xfer == frame;
+	*xfer == darkness;
+	*xfer == scale;
+	*xfer == pending;
+	*xfer == ramp;
 }

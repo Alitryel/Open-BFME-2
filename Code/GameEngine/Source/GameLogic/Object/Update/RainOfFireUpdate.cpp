@@ -23,15 +23,7 @@ template<int N>class RainSlots:public RainSlots<N-1>{public:virtual void gap(cha
 // The camera-position global at DFEA3C is the tactical View, as in the reference.
 class View:public RainSlots<70>{public:virtual void rvaSlot70(Coord3D *)=0;};extern View *TheTacticalView;
 class TerrainLogic:public RainSlots<7>{public:virtual float rvaSlot7(float,float,PathfindLayerEnum,Coord3D *,bool)=0;PathfindLayerEnum getHighestLayerForDestination(const Coord3D *,bool);};extern TerrainLogic *TheTerrainLogic;
-struct RainOfFireUpdateModuleData {char pad[8];unsigned startRainTime,darknessFadeTime;float height,darkness,jitter,dpsMin,dpsMax,rampup;Coord2D offset;};
-class ObjectModule {public:virtual ~ObjectModule();const RainOfFireUpdateModuleData *data;Object *object;};
-class BehaviorModuleInterface {public:virtual void slot0()=0;};
-class BehaviorModule:public ObjectModule,public BehaviorModuleInterface {public:virtual ~BehaviorModule();};
-enum UpdateSleepTime {UPDATE_SLEEP_FOREVER=0x3fffffff};
-class UpdateModuleInterface {public:virtual UpdateSleepTime update()=0;};
-class UpdateModule:public BehaviorModule,public UpdateModuleInterface {public:virtual ~UpdateModule();private:unsigned nextWake;int index,reserved;};
-class Secondary20 {public:virtual void rvaSlot0(float)=0;};
-class RainOfFireUpdate:public UpdateModule,public Secondary20 {public:virtual UpdateSleepTime update();void rva004AC18D(float);unsigned frame;float darkness,scale,pending,ramp;};
+#include "RainOfFireUpdateView.h"
 UpdateSleepTime RainOfFireUpdate::update() {
  Object *obj=object;const RainOfFireUpdateModuleData *rainOfFireUpdateModuleData=data;
  if(!rainOfFireUpdateModuleData)return UPDATE_SLEEP_FOREVER;
