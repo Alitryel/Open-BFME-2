@@ -99,7 +99,8 @@ def test_next_work_similar_tier_is_explicit_only():
     cand = [{"function": "FUN_1", "target_rva": "0x00001000", "size": 64, "similarity": 1.0}]
     assert next_work.selected_queue("similar", [], [], [], [], [], (), cand)[1] == cand
     label, _ = next_work.selected_queue(None, [], [], [], [], [], (), cand)
-    assert label == "validated queue"  # never the default pick
+    assert label == next_work.EMPTY_LABEL == "default order"  # never the default pick
+    assert "similar" not in next_work.DEFAULT_ORDER
     full = next_work.candidate_weight(cand[0])
     half = next_work.candidate_weight(dict(cand[0], similarity=0.5))
     assert full > half >= 1

@@ -22,12 +22,14 @@ def run(monkeypatch):
         monkeypatch.setattr(next_work, "check_ledger", ledger)
         monkeypatch.setattr(dx_migration, "read_queue", lambda: [dict(r) for r in QUEUE])
         monkeypatch.setattr(next_work.claims, "settle", lambda *a, **k: [])
-        if claim:
-            monkeypatch.setattr(next_work.claims, "claim", claim)
-        else:
-            def no_claim(*args, **kwargs):
+        def acquire(keys, work=(), note=""):
+            if claim is None:
                 raise AssertionError("claimed without --claim")
-            monkeypatch.setattr(next_work.claims, "claim", no_claim)
+            # Exercise the shared claim_choice path while keeping the fixture offline.
+            assert work == {next_work.claims.file_key(keys[0][5:])}
+            held, refused = claim(keys, note=note)
+            return next_work.claims.ClaimResult([next_work.claims.key_of(k) for k in held], refused)
+        monkeypatch.setattr(next_work.claims, "acquire", acquire)
         return next_work.main()
     return main
 
@@ -88,3 +90,26 @@ def test_everything_held_serves_nothing(run, capsys):
         return [], [next_work.claims.key_of(keys[0])]
     assert run(["--claim"], claim=claim) == 0
     assert "dx tier: nothing queued" in capsys.readouterr().out
+
+
+def test_dx_reachable_ref_race_never_serves_unclaimed(run, capsys):
+    def claim(keys, note=""):
+        raise next_work.claims.ClaimsUnavailable("origin reachable but refs changing", reachable=True)
+    with pytest.raises(SystemExit, match="no work served"):
+        run(["--claim"], claim=claim)
+    assert "without a shared claim" not in capsys.readouterr().err
+
+
+def test_dx_honors_worker_shards(run, capsys):
+    expected = {}
+    for row in QUEUE:
+        expected.setdefault(next_work.shard_key({"function": row["source"]}) % 2, row["source"])
+    seen = set()
+    for index in range(2):
+        run(["--json", "--shard", f"{index}/2"])
+        output = capsys.readouterr().out
+        if "nothing queued" not in output:
+            source = json.loads(output)["selection"]["source"]
+            assert next_work.shard_key({"function": source}) % 2 == index
+            seen.add(source)
+    assert seen == set(expected.values())

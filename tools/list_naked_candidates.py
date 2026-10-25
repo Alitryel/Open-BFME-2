@@ -423,24 +423,27 @@ def select_candidate(candidates):
 
 
 def claim_choice(candidates):
-    """Claim one tracked draw, retrying after a remote claim race."""
+    """Claim one tracked draw with its file lock (claims.acquire), retrying after a
+    remote claim race."""
     remaining = [item for item in candidates if candidate_rva(item) is not None]
     while remaining:
         selected, meta = select_candidate(remaining)
         rva = candidate_rva(selected)
         try:
-            acquired, refused = claims.claim([rva], note="naked conversion")
+            acquired, refused = claims.acquire([rva], note="naked conversion")
         except claims.ClaimsUnavailable as error:
-            if rva in error.refused:    # origin showed a peer holding it
-                remaining = without_busy(remaining, {rva})
+            if error.unclean:
+                raise SystemExit(f"list_naked_candidates: {error}; partial claims remain") from error
+            if claims.lock_keys(set(error.refused)) & claims.lock_keys({rva}):   # a peer holds it
+                remaining = [item for item in remaining if candidate_rva(item) != rva]
                 continue
             # AGENTS.md: the picker warns and serves the body unclaimed
             print(f"list_naked_candidates: {error}; serving 0x{rva:08X} without a shared claim",
                   file=sys.stderr)
             return selected, meta, list(error.claimed)
-        if rva not in refused:
+        if not refused:
             return selected, meta, acquired
-        remaining = without_busy(remaining, {rva})
+        remaining = [item for item in remaining if candidate_rva(item) != rva]
     return None, {"pool": 0}, []
 
 

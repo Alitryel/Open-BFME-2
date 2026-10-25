@@ -56,8 +56,9 @@ import dup_defs  # noqa: E402
 
 BASELINE = ROOT / "reverse" / "code_identity_baseline.tsv"
 HEADER = ("# Wrong code bindings, keyed source<TAB>row<TAB>symbol<TAB>retail target<TAB>class.\n"
-          "# Shrink-only: written by tools/code_identity_gate.py --write-baseline; lines may be\n"
-          "# deleted by hand once fixed, never added. See tools/allowed_symbols.py for the classes.\n")
+          "# Shrink-only: written by tools/code_identity_gate.py --write-baseline; a line leaves\n"
+          "# only by `tools/repair_queue.py retire identity SOURCE` (the pre-commit hook refuses a\n"
+          "# hand deletion), never added. See tools/allowed_symbols.py for the classes.\n")
 
 
 def git(*args):

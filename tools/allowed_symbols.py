@@ -176,10 +176,16 @@ class _Defs(collections.defaultdict):
     referrers = None
 
 
-def definitions(objs):
+class Unreadable(ValueError):
+    """definitions(strict=True): an object could not be parsed, so what it defines is unknown."""
+
+
+def definitions(objs, strict=False):
     """{name: [(object path, digest, size, exclusive)]} in link order, cached per
     object by (mtime, size) in build/allowed_symbols/defs.pickle; `.referrers`
-    is {name: {object path}} of the objects referencing it undefined."""
+    is {name: {object path}} of the objects referencing it undefined. An object
+    that cannot be parsed defines nothing here, or raises Unreadable with
+    `strict` (a verdict must not mistake it for one that defines nothing)."""
     cache_file = OUT / "defs.pickle"
     cache = {}
     if cache_file.exists():
@@ -191,8 +197,9 @@ def definitions(objs):
     for p in objs:
         st = p.stat()
         stamp[str(p)] = (st.st_mtime_ns, st.st_size)
+    # An empty entry may be an unreadable object an older cache recorded as empty: strict rereads it.
     todo = [p for p in objs if cache.get(str(p), (None,))[0] != stamp[str(p)]
-            or not isinstance(cache[str(p)][1], tuple)]
+            or not isinstance(cache[str(p)][1], tuple) or (strict and cache[str(p)][1] == ({}, frozenset()))]
     if todo:
         workers = build._pool_size()
         if workers > 1 and len(todo) > 64:
@@ -201,12 +208,16 @@ def definitions(objs):
         else:
             found = [_object_defs(p) for p in todo]
         for path, facts in found:
-            cache[path] = (stamp[path], facts or ({}, frozenset()))
+            cache[path] = (stamp[path], facts)          # None: unreadable (re-read next time)
         OUT.mkdir(parents=True, exist_ok=True)
         cache_file.write_bytes(pickle.dumps(cache))
     out = _Defs(list)
     referrers = collections.defaultdict(set)
     for p in objs:
+        if cache[str(p)][1] is None:
+            if strict:
+                raise Unreadable(f"{p} cannot be parsed: what it defines is unknown")
+            continue
         defs, refs = cache[str(p)][1]
         for name, (dg, size, excl) in defs.items():
             out[name].append((str(p), dg, size, excl))
@@ -656,14 +667,15 @@ class Identity:
         return out
 
 
-def load(sources=None):
+def load(sources=None, strict=False):
     """(Identity, rows to check). Definitions cover every object of the tree;
-    the rows checked are all matched rows, or those in `sources`."""
+    the rows checked are all matched rows, or those in `sources`. `strict`:
+    an unparsable object raises Unreadable (definitions)."""
     rows = census.ledger()
     # link_census.objects() also extracts library members; a member not
     # extracted yet defines nothing here, as in the link that needs it
     objs = link_order(rows)
-    ident = Identity(rows, objs, definitions(objs))
+    ident = Identity(rows, objs, definitions(objs, strict=strict))
     if sources:
         want = {s.replace("\\", "/") for s in sources}
         rows = [r for r in rows if r["source"] in want]

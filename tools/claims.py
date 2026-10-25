@@ -16,7 +16,7 @@ a ref only if it is still the owner's. Refs under refs/claims/ are not
 branches: nobody checks them out or merges them, and nothing about pushing to
 master changes.
 
-busy_rvas() includes every live claim, so every picker that asks it
+busy_rvas() includes other seats' live claims, so every picker that asks it
 (next_work, list_naked_candidates, bfme1_sweep, permute) skips claimed
 bodies. `next_work.py --claim` and `list_naked_candidates.py --claim` claim
 what they serve, settling this checkout's published landings first.
@@ -73,8 +73,20 @@ header, draining a source file, re-homing split rows - is claimed by scope:
   master push window that used it was retired for tools/full_gate_receipt.py)
 
 Same refs, same TTL, same compare-and-swap; `list` shows them with the path
-or class. Body pickers only consult RVA claims, so a scope claim is a
-convention between workers: check `list` before starting scope-wide work.
+or class. Mutual exclusion is by FILE (lock_keys): an RVA locks itself and its
+row's file, a file itself. Header work holds class-only refs; class-to-file expansion
+is retained for logical conflict checks without reserving hundreds of refs. acquire() -- what every picker and `claim` use -- pushes each
+acquired lock key as its own create-only ref (sorted, all or nothing: a refusal
+releases what it took), so two seats can never hold colliding work; no
+timestamps are compared. Mixed old and new clients provide RVA-level exclusion
+only; old clients do not participate in the file/class locking protocol. It then re-reads origin and yields to a live claim
+of an older client that took no file locks. busy_rvas() skips every body in
+a locked file; next_work's queues test busy_keys(). A file lock taken for a
+body is a lock-only ref, released once no claim of its owner needs it
+(release_orphans, run by settle and `release`). A claim next_work takes for
+a debt item records its debt lines (`debt=` in the note), and settle()
+releases it once origin/master no longer holds them (settle_scopes); any
+other scope claim is released by hand after the push.
 
 A host whose git proxy only accepts branch pushes keeps claims under a branch
 namespace (`git config bfme.claimNamespace refs/heads/claims/`, or
@@ -89,6 +101,7 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import re
 import socket
 import subprocess
@@ -152,17 +165,19 @@ PENDING = Path("build") / "claims" / "landed_pending.jsonl"
 
 class ClaimsUnavailable(RuntimeError):
     """Origin could not be reached or read back, so the claim is incomplete.
-    `claimed` lists bodies origin DID accept before the failure (the caller
+    `claimed` lists bodies origin accepted or may have accepted before the failure (the caller
     should release them or let them expire); `refused` lists bodies origin was
     seen to hold for another worker before it failed. A caller that falls
     back to working unclaimed must still leave every refused body alone
     (review 2026-10-09: the fallback attempted a donor whose body a peer
     held)."""
 
-    def __init__(self, message, claimed=(), refused=()):
+    def __init__(self, message, claimed=(), refused=(), reachable=False):
         super().__init__(message)
         self.claimed = list(claimed)
         self.refused = list(refused)
+        self.unclean = bool(self.claimed)
+        self.reachable = reachable
 
 
 class ClaimResult(tuple):
@@ -171,8 +186,9 @@ class ClaimResult(tuple):
     refused whose push failed while nobody else held the body) and `worker`,
     the owner string written into each claim."""
 
-    def __new__(cls, claimed, refused, tokens=None, unconfirmed=(), worker="", leases=None):
+    def __new__(cls, claimed, refused, tokens=None, unconfirmed=(), worker="", leases=None, prior=()):
         self = tuple.__new__(cls, (list(claimed), list(refused)))
+        self.prior = set(prior)         # claimed keys this worker already held live (renewed)
         self.tokens = dict(tokens or {})
         # the LEASE id survives renewals (the token rotates every heartbeat),
         # so it is what a queued unit refers to; see lease_holder()
@@ -275,6 +291,7 @@ def _names(who, root=None):
 
 def _mirror(rva, sha, root=None):
     """Record in this worktree's mirror a claim write origin just accepted."""
+    _local_lock_records.cache_clear()
     seen = SEEN + ref_of(rva)[len(NS):]
     _git(*(("update-ref", seen, sha) if sha else ("update-ref", "-d", seen)), cwd=root)
 
@@ -343,11 +360,12 @@ def _ints(rvas):
     return sorted({key_of(r) for r in rvas}, key=_order)
 
 
-def _record(who, ttl_hours, note="", root=None, lease=None, since=None, scope=""):
+def _record(who, ttl_hours, note="", root=None, lease=None, since=None, scope="", lock=False, locks=()):
     """A parentless commit carrying the claim JSON; returns its sha, which is
     the claim's fencing token (the nonce makes every claim's sha unique).
     `lease` and its start time `since` are kept across renewals; a fresh
-    claim starts a new lease. A scope claim records its path or class."""
+    claim starts a new lease. A scope claim records its path or class; a
+    lock-only ref (acquire's file locks) records `lock`."""
     tree = _git("mktree", input_text="", cwd=root).stdout.strip()
     now = time.time()
     nonce = uuid.uuid4().hex
@@ -355,8 +373,12 @@ def _record(who, ttl_hours, note="", root=None, lease=None, since=None, scope=""
               "run": os.environ.get("BFME_RUN_ID", ""), "nonce": nonce,
               "lease": lease or nonce, "since": int(since or now),
               "created": int(now), "expires": int(now + ttl_hours * 3600)}
+    if locks:
+        fields["locks"] = sorted(set(locks), key=_order)
     if scope:
         fields["scope"] = scope
+    if lock:
+        fields["lock"] = True
     body = json.dumps(fields, sort_keys=True)
     made = _git("-c", "user.name=claims", "-c", "user.email=claims@localhost",
                 "commit-tree", tree, "-m", body, cwd=root)
@@ -376,12 +398,58 @@ def configured(root=None):
     return top.returncode == 0 and same and _git("remote", "get-url", REMOTE, cwd=root).returncode == 0
 
 
+_pick_state = threading.local()
+
+
+@contextmanager
+def pick_snapshot():
+    """Reuse one initial claims fetch during a pick; writes still get a fresh recheck."""
+    outer = getattr(_pick_state, "fetched", None)
+    if outer is None:
+        _pick_state.fetched = set()
+        active.cache_clear()
+    try:
+        yield
+    finally:
+        if outer is None:
+            del _pick_state.fetched
+
+
+def _invalidate_snapshot(root=None):
+    fetched = getattr(_pick_state, "fetched", None)
+    if fetched is not None:
+        fetched.discard(str(Path(root or ROOT).resolve()))
+
+
 def fetch(root=None):
-    """Mirror origin's claims in this worktree's refs; False on failure."""
+    """Mirror claims, retrying ref-list/fetch races before reporting failure.
+
+    A peer can delete an advertised ref before upload-pack reads it, including
+    on GitHub. A reachable but moving snapshot must never enable offline work.
+    Only cache a complete, successful fetch.
+    """
+    fetched = getattr(_pick_state, "fetched", None)
+    key = str(Path(root or ROOT).resolve())
+    if fetched is not None and key in fetched:
+        return True
     # A claim marker has no submodule inputs. An inherited submodule.recurse
     # setting must not make this coordination operation fetch donor sources.
-    got = _git("fetch", "-q", "--prune", "--no-tags", "--recurse-submodules=no",
-               REMOTE, *_refspecs(SEEN), cwd=root, timeout=120)
+    for attempt in range(5):
+        got = _git("fetch", "-q", "--prune", "--no-tags", "--recurse-submodules=no",
+                   REMOTE, *_refspecs(SEEN), cwd=root, timeout=120)
+        if got.returncode == 0:
+            break
+        if attempt < 4:
+            time.sleep(random.uniform(0.04, 0.16) * (attempt + 1))
+    if got.returncode and any(text in got.stderr.lower() for text in
+                             ("not our ref", "couldn't find remote ref", "could not find remote ref",
+                              "missing ref", "cannot lock ref")):
+        raise ClaimsUnavailable("claims: origin reachable but claim refs kept changing; retry the pick",
+                                reachable=True)
+    if got.returncode == 0:
+        _local_lock_records.cache_clear()
+        if fetched is not None:
+            fetched.add(key)
     return got.returncode == 0
 
 
@@ -412,8 +480,13 @@ def _read_visible(root=None, seen=SEEN, *, other_only=False):
             continue
         for key, entry in _read_local(root, mirror).items():
             previous = visible.get(key)
-            if previous is None or entry[1].get("expires", 0) > previous[1].get("expires", 0):
-                visible[key] = entry
+            latest = entry if previous is None or entry[1].get("expires", 0) > previous[1].get("expires", 0) else previous
+            # Visibility must retain every live footprint even when two namespaces
+            # use the same key with different persisted file sets.
+            locks = {lock for candidate in (previous, entry) if candidate
+                     and candidate[1].get("expires", 0) > time.time()
+                     for lock in candidate[1].get("locks", ())}
+            visible[key] = (latest[0], dict(latest[1], locks=sorted(locks, key=_order))) if locks else latest
     return visible
 
 
@@ -455,6 +528,8 @@ def active(root=None):
 @lru_cache(maxsize=8)
 def _active(root):
     if not fetch(root):
+        if getattr(_pick_state, "strict_fetch", False):
+            raise ClaimsUnavailable("claims: cannot read the post-push claim snapshot")
         print("claims: could not fetch refs/claims/* from origin; serving without shared claims",
               file=sys.stderr)
         return {}
@@ -492,28 +567,294 @@ def _mirrored(root):
 mirrored.cache_clear = _mirrored.cache_clear
 
 
-def busy_rvas(root=None):
-    """Addresses a picker should skip (BFME2; Open-BFME-1 has
-    eligibility.busy_rvas). One fetch is cached per process."""
+# BFME2 scope locks: body edits reserve their source file atomically. Header work
+# reserves class refs only, avoiding hundreds of long-lived file refs. Logical
+# class-to-file expansion and a fresh post-push check make either kind yield to
+# an intersecting claim. Older clients participate only in RVA-level exclusion.
+# `?member@Scope@@<access>`: member functions (A-X) and static data members (0-2) only;
+# a free function in a namespace (`?f@ns@@YAXXZ`) names no class.
+MEMBER = re.compile(r"^\?(?:\?_?[0-9A-Z]|[A-Za-z_]\w*@)([A-Za-z_]\w*(?:@[A-Za-z_]\w*)*)@@[A-X012]")
+
+
+def member_class(symbol):
+    """The class ('Outer::Inner') a decorated member name belongs to, or None."""
+    m = MEMBER.match(symbol or "")
+    return "::".join(reversed(m[1].split("@"))) if m else None
+
+
+def file_key(source):
+    return key_of("file:" + source)
+
+
+def class_key(name):
+    try:
+        return key_of("class:" + name) if name else None
+    except ValueError:
+        return None
+
+
+def _ledger_stamp(root):
+    try:
+        st = (Path(root or ROOT) / LEDGER).stat()
+        return (st.st_size, st.st_mtime_ns)
+    except OSError:
+        return None
+
+
+@lru_cache(maxsize=4)
+def _scope_index(root, stamp):
+    """(rva -> (file key, class key or None), file key -> {class keys},
+    class key -> {file keys}) over the ledger's matched rows at `root`."""
+    import csv
+    of_rva, classes, files = {}, {}, {}
+    try:
+        handle = (Path(root or ROOT) / LEDGER).open(newline="", encoding="utf-8")
+    except OSError:
+        return of_rva, classes, files
+    with handle:
+        for row in csv.DictReader(handle):
+            if row.get("status") != "matched" or not (row.get("target_rva") or "").startswith("0x"):
+                continue
+            fkey, ckey = file_key(row["source"]), class_key(member_class(row["name"]))
+            of_rva[int(row["target_rva"], 16)] = (fkey, ckey)
+            if ckey:
+                classes.setdefault(fkey, set()).add(ckey)
+                files.setdefault(ckey, set()).add(fkey)
+    return of_rva, classes, files
+
+
+def scope_index(root=None):
+    root = str(Path(root).resolve()) if root else None
+    return _scope_index(root, _ledger_stamp(root))
+
+
+@lru_cache(maxsize=8)
+def _local_lock_records(root):
+    return {k: info for k, (_, info) in live(_read_visible(root)).items()}
+
+
+def lock_keys(keys, root=None, records=None):
+    """The canonical lock keys of work occupying `keys` (claim keys): an RVA is itself
+    and its ledger row's file, a class is itself and every file defining its members,
+    a file or lease is itself. collide(a, b) is lock_keys(a) & lock_keys(b): symmetric."""
+    of_rva, _, files = scope_index(root)
+    records = records if records is not None else _local_lock_records(str(Path(root or ROOT).resolve()))
+    out = set()
+    for key in keys:
+        out.add(key)
+        out.update(key_of(k) for k in records.get(key, {}).get("locks", ()))
+        if isinstance(key, int):
+            fkey = (of_rva.get(key) or (None,))[0]
+            if fkey:
+                out.add(fkey)
+        elif key.startswith("class/"):
+            out.update(files.get(key, ()))
+    return out
+
+
+def work_keys(rva=None, source=None, cls=None, root=None):
+    """The claim keys one piece of work names: its RVA, its source file and the class
+    it works on (lock_keys adds the RVA's file and the class's files)."""
+    keys = set()
+    if rva is not None:
+        keys.add(rva)
+    if source:
+        keys.add(file_key(source))
+    ckey = class_key(cls)
+    if ckey:
+        keys.add(ckey)
+    return keys
+
+
+def live_keys(root=None):
+    """Every live claim key, all namespaces (RVA, file/, class/, lease/), the
+    mirrored remote's RVAs included; empty with BFME_CLAIMS=off."""
     if os.environ.get("BFME_CLAIMS", "on") == "off":
         return set()
-    return {key for key in active(root) if isinstance(key, int)} | set(mirrored(root))
+    return set(active(root)) | set(mirrored(root))
 
 
-def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
+def _blocking_records(root=None, who=None):
+    """Snapshots that block work; foreign namespaces never confer owner authority.
+
+    Inspect each separately: a later own record must not hide a foreign holder
+    or its persisted file locks at the same key.
+    """
+    active(root)  # fetch once per pick, or freshly when conflicts invalidated it
+    names = _names(who or owner(root), root)
+    for namespace, mirror in _namespace_mirrors(SEEN):
+        yield {k: info for k, (_, info) in live(_read_local(root, mirror)).items()
+               if namespace != NS or info.get("owner") not in names}
+    yield mirrored(root)  # the upstream mirror is always read-only
+
+
+def busy_keys(root=None):
+    """The lock keys of every claim that this checkout cannot edit."""
+    if os.environ.get("BFME_CLAIMS", "on") == "off":
+        return set()
+    return {lock for records in _blocking_records(root)
+            for lock in lock_keys(records, root, records=records)}
+
+
+def busy_rvas(root=None):
+    """Addresses a picker should skip (BFME2; Open-BFME-1 has
+    eligibility.busy_rvas): every claimed RVA, and every body whose row lies in a
+    locked file (a file claim, a class claim's files, another body's file). One
+    fetch is cached per process."""
+    if os.environ.get("BFME_CLAIMS", "on") == "off":
+        return set()
+    locks = busy_keys(root)
+    of_rva, _, _ = scope_index(root)
+    return {key for key in locks if isinstance(key, int)} | {
+        rva for rva, (fkey, _) in of_rva.items() if fkey in locks}
+
+
+def conflicts(mine, root=None, who=None):
+    """{key: info} of live claims by OTHER owners whose lock keys meet those of work
+    occupying `mine`. Read fresh (the cache is cleared first): acquire() asks after
+    its push, which catches a claim of an older client that takes no file locks.
+    Empty with BFME_CLAIMS=off."""
+    if os.environ.get("BFME_CLAIMS", "on") == "off":
+        return {}
+    _invalidate_snapshot(root)
+    active.cache_clear()
+    strict = getattr(_pick_state, "strict_fetch", False)
+    _pick_state.strict_fetch = True
+    try:
+        snapshots = list(_blocking_records(root, who))
+    finally:
+        _pick_state.strict_fetch = strict
+    locks = lock_keys(mine, root)
+    return {key: info for records in snapshots for key, info in records.items()
+            if lock_keys({key}, root, records=records) & locks}
+
+
+def acquire(targets, work=(), note="", who=None, root=None, ttl_hours=TTL_HOURS):
+    """Claim one piece of work under mutual exclusion; returns a ClaimResult.
+
+    `targets` are what the work is claimed as (RVAs, `file:`/`class:` scopes),
+    `work` its other keys (next_work.claim_keys). Body edits atomically reserve
+    their RVA and file refs; header reconciliation reserves class refs only.
+    lock_keys expands both logical footprints for the fresh post-push check,
+    so intersecting work yields without reserving every member file for hours. All or nothing: when any ref is refused, or a
+    live claim of another owner still collides after the push (an older client's
+    claim takes no file locks), every ref this call newly took is released and the
+    result claims nothing and refuses the colliding keys. A ref this owner already
+    held is kept. Raises ClaimsUnavailable as claim() does."""
+    spelled = {key_of(t): t for t in targets}
+    logical = set(spelled) | set(work)
+    locks = lock_keys(logical, root)
+    # Header reconciliation holds class refs only. Its file footprint remains in
+    # lock_keys for the mandatory fresh post-push conflict check against body edits.
+    class_work = any(isinstance(k, str) and k.startswith("class/") for k in spelled)
+    if class_work:
+        spelled = {k: v for k, v in spelled.items() if isinstance(k, str) and k.startswith("class/")}
+        acquired_locks = set(spelled)
+    else:
+        acquired_locks = locks
+    extra = sorted(acquired_locks - set(spelled), key=_order)
+    kwargs = {"note": note, "atomic_only": True, "work_locks": locks}
+    for name, value, default in (("who", who, None), ("root", root, None), ("ttl_hours", ttl_hours, TTL_HOURS)):
+        if value != default:
+            kwargs[name] = value
+    if extra:
+        kwargs["locks"] = extra
+    try:
+        result = claim([spelled[k] for k in sorted(spelled, key=_order)] + extra, **kwargs)
+    except ClaimsUnavailable as error:
+        # A lost reply can leave accepted refs even if the subsequent fetch fails.
+        _rollback([k for k in error.claimed if k not in getattr(error, "prior", ())],
+                  getattr(error, "tokens", {}), who, root, error.refused)
+        error.claimed = [k for k in error.claimed if k in getattr(error, "prior", ())]
+        error.unclean = bool(error.claimed)
+        raise
+    claimed, refused = list(result[0]), list(result[1])
+    tokens = getattr(result, "tokens", {})
+    if not refused and tokens:
+        try:
+            refused = sorted(conflicts(locks, root=root, who=who), key=_order)
+        except ClaimsUnavailable as error:
+            # Keep the fencing tokens if rollback itself cannot complete.
+            _rollback([k for k in claimed if k not in result.prior], tokens, who, root)
+            error.claimed = [k for k in claimed if k in result.prior]
+            error.tokens = {k: tokens[k] for k in error.claimed}
+            error.unclean = bool(error.claimed)
+            raise
+    if not refused:
+        return result if isinstance(result, ClaimResult) else ClaimResult(claimed, [])
+    fresh = [k for k in claimed if k not in set(getattr(result, "prior", ()))]
+    _rollback(fresh, tokens, who, root, refused)
+    return ClaimResult([], refused, unconfirmed=getattr(result, "unconfirmed", ()),
+                       worker=getattr(result, "worker", ""))
+
+
+def _rollback(fresh, tokens, who, root, refused=()):
+    if not fresh:
+        return
+    try:
+        done = set(release(fresh, who=who, root=root, tokens=tokens))
+    except ClaimsUnavailable:
+        done = set()  # the accepted tokens still allow a fenced direct rollback
+    for key in fresh:
+        if key in done or key not in tokens:
+            continue
+        ref = ref_of(key)
+        expired = _record(who or owner(root), -1, "released", root) if NS.startswith("refs/heads/") else None
+        spec = f"+{expired}:{ref}" if expired else f":{ref}"
+        for attempt in range(5):
+            if _git("push", "-q", f"--force-with-lease={ref}:{tokens[key]}", REMOTE, spec,
+                    cwd=root, timeout=120).returncode == 0:
+                _mirror(key, expired, root)
+                done.add(key)
+                break
+            if attempt < 4:
+                time.sleep(random.uniform(0.04, 0.16) * (attempt + 1))
+    _invalidate_snapshot(root)
+    active.cache_clear()
+    if len(done) != len(fresh):
+        error = ClaimsUnavailable("claims: partial acquisition could not be rolled back; do not start another item",
+                                  claimed=set(fresh) - done, refused=refused)
+        error.tokens = {k: tokens[k] for k in error.claimed if k in tokens}
+        raise error
+
+
+def release_orphans(root=None, who=None):
+    """Release this owner's lock-only refs (acquire's file locks) that none of its
+    other live claims needs any more: the body landed and settled, or was released
+    by hand. Returns the released keys; origin trouble releases nothing."""
+    if not fetch(root):
+        return []
+    names = _names(who or owner(root), root)
+    mine = {k: v for k, v in live(_read_local(root)).items() if v[1].get("owner") in names}
+    needed = lock_keys({k for k, (_, info) in mine.items() if not info.get("lock")}, root,
+                       records={k: info for k, (_, info) in mine.items()})
+    free = {k: sha for k, (sha, info) in mine.items() if info.get("lock") and k not in needed}
+    return release(list(free), who=who, root=root, tokens=free) if free else []
+
+
+def release_work(keys, who=None, root=None, tokens=None):
+    """release() `keys`, then the file locks they leave unneeded (release_orphans)."""
+    done = release(keys, who=who, root=root, tokens=tokens) if keys else []
+    return list(done) + release_orphans(root=root, who=who)
+
+
+def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None, locks=(), atomic_only=False, work_locks=()):
     """Claim `rvas` on origin. Returns a ClaimResult (claimed, refused).
 
     Tries all-or-nothing first (--atomic); if that fails, claims the rest one
-    by one. A live claim of ours is renewed and KEEPS its lease (and start
+    by one, unless atomic_only (acquire) requires all-or-nothing. Free refs after a
+    failed transaction are retried with jitter, at most four atomic attempts;
+    reachable-origin failures are refused, never reported as offline. A live claim of ours is renewed and KEEPS its lease (and start
     time): a re-claim is how a worker extends a claim, and a fresh lease
     orphaned the landing queued under the old one (review 2026-10-09). An
     expired claim -- ours included -- is taken over by compare-and-swap under
     a new lease. A body counts as claimed only when origin accepted it. A
     body the mirrored remote holds is refused, and so is a legacy-owner claim
     (see legacy_owner). Raises ClaimsUnavailable when origin cannot be
-    fetched, or when no push succeeded and nobody else holds the bodies
-    (network trouble, not a race); its .refused names the bodies origin
-    showed another worker holding."""
+    fetched; its .refused names the bodies origin
+    showed another worker holding. `locks` (acquire's file locks) are written
+    as lock-only refs, which release_orphans frees once no claim needs them; a
+    ref this worker already holds as work stays work."""
     who = who or owner(root)
     scopes = {key_of(r): r[r.index(":") + 1:] for r in rvas if isinstance(r, str) and ":" in r}
     rvas = _ints(rvas)
@@ -529,6 +870,10 @@ def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
     upstream = mirrored(root)
     held |= {r for r in rvas if isinstance(r, int) and r in upstream}   # upstream is on it
     wanted = [r for r in rvas if r not in held]
+    prior = {r for r in wanted if r in current and current[r][1].get("expires", 0) > now}
+    locks = {key_of(k) for k in locks} - {r for r in prior if not current[r][1].get("lock")}
+    if atomic_only and held:
+        return ClaimResult([], sorted(held, key=_order), worker=who)
     fresh = uuid.uuid4().hex
     shas = {}
 
@@ -544,10 +889,13 @@ def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
         # scope) and per lease (a renewed claim keeps its own)
         scope = scopes.get(rva, "")
         lease, since = lease_of(rva)
-        if (scope, lease) not in shas:
-            shas[scope, lease] = _record(who, ttl_hours, note, root, lease=lease, since=since,
-                                         scope=scope)
-        return shas[scope, lease]
+        lock = rva in locks
+        stored = set(current.get(rva, (None, {}))[1].get("locks", ())) | set(work_locks)
+        cache_key = (scope, lease, lock, tuple(sorted(stored, key=_order)))
+        if cache_key not in shas:
+            shas[cache_key] = _record(who, ttl_hours, note, root, lease=lease, since=since,
+                                               scope=scope, lock=lock, locks=stored)
+        return shas[cache_key]
 
     def spec(rva):
         sha = token(rva)
@@ -564,17 +912,35 @@ def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
     claimed, failed = [], []
     if wanted and push(wanted):
         claimed = list(wanted)
+    elif atomic_only:
+        failed = list(wanted)
     else:
         for rva in wanted:              # somebody raced us for part of the batch
             (claimed if push([rva]) else failed).append(rva)
     unconfirmed = []
-    if failed:
+    for attempt in range(4):
+        if not failed:
+            break
         # A failed push is either a lost race or network trouble; origin says which.
-        if not fetch(root):
+        _invalidate_snapshot(root)
+        try:
+            available = fetch(root)
+        except ClaimsUnavailable as error:
+            available = False
+            reachable = error.reachable
+        else:
+            reachable = False
+        if not available:
             active.cache_clear()
-            raise ClaimsUnavailable("claims: push failed and origin cannot be re-read; "
-                                    "only the bodies in .claimed are held", claimed=claimed,
-                                    refused=sorted(held, key=_order))
+            # A failed reply may follow an accepted push. Retain every token
+            # that might be on origin so acquire can fence its rollback.
+            uncertain = set(claimed) | set(failed)
+            error = ClaimsUnavailable("claims: push reply failed and origin cannot be re-read; .claimed tokens may remain",
+                                      claimed=sorted(uncertain, key=_order), refused=sorted(held, key=_order),
+                                      reachable=reachable)
+            error.tokens = {r: token(r) for r in uncertain}
+            error.prior = prior
+            raise error
         after = _read_local(root)
         other = live(_read_visible(root, other_only=True))
         for rva in failed:
@@ -588,11 +954,19 @@ def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
                 unconfirmed.append(rva)
             else:
                 held.add(rva)                           # lost the race to a peer
-        if unconfirmed and not claimed and len(unconfirmed) == len(wanted):
-            active.cache_clear()
-            raise ClaimsUnavailable("claims: origin accepted no claim push and nobody else holds "
-                                    "the bodies; nothing claimed",
-                                    refused=sorted(held, key=_order))
+        if not unconfirmed or claimed or held or attempt == 3:
+            break
+        # A reachable server can reject a free batch because another ref transaction
+        # held its locks. Refresh the leases and retry instead of serving it unclaimed.
+        current = after
+        shas.clear()
+        time.sleep(random.uniform(0.04, 0.16) * (attempt + 1))
+        failed = list(unconfirmed)
+        if push(failed):
+            claimed.extend(failed)
+            unconfirmed = []
+            break
+        unconfirmed = []
     claimed = sorted(claimed, key=_order)
     refused = sorted(set(rvas) - set(claimed), key=_order)
     for rva in claimed:
@@ -600,7 +974,8 @@ def claim(rvas, who=None, ttl_hours=TTL_HOURS, note="", root=None):
     active.cache_clear()
     return ClaimResult(claimed, refused, tokens={r: token(r) for r in claimed},
                        leases={r: lease_of(r)[0] for r in claimed},
-                       unconfirmed=sorted(unconfirmed, key=_order), worker=who)
+                       unconfirmed=sorted(unconfirmed, key=_order), worker=who,
+                       prior=prior & set(claimed))
 
 
 def renew(tokens, who=None, ttl_hours=TTL_HOURS, note="", root=None):
@@ -618,14 +993,24 @@ def renew(tokens, who=None, ttl_hours=TTL_HOURS, note="", root=None):
     if not fetch(root):
         raise ClaimsUnavailable("claims: cannot fetch refs/claims/* to renew")
     current = _read_local(root)
-    # the lease each token belongs to, read from the token's own claim commit
+    # Read the original leases first: an earlier heartbeat's token remains valid
+    # for this lease, and must renew its dependent locks just like the latest token.
     leases = {}
-    for rva, token in tokens.items():
+    for key, token in list(tokens.items()):
         body = _git("log", "-1", "--format=%B", token, cwd=root)
         try:
-            leases[rva] = json.loads(body.stdout).get("lease") if body.returncode == 0 else None
+            leases[key] = json.loads(body.stdout).get("lease") if body.returncode == 0 else None
         except ValueError:
-            leases[rva] = None
+            leases[key] = None
+        entry = current.get(key)
+        same = entry and (entry[0] == token or
+                          (leases[key] and entry[1].get("lease") == leases[key]))
+        if not same or entry[1].get("owner") not in names:
+            continue
+        for lock in lock_keys({key}, root, records={k: info for k, (_, info) in current.items()}):
+            entry_lock = current.get(lock)
+            if entry_lock and entry_lock[1].get("owner") in names:
+                tokens.setdefault(lock, entry_lock[0])
     renewed, lost = {}, []
     for rva, token in sorted(tokens.items(), key=lambda kv: _order(kv[0])):
         entry = current.get(rva)
@@ -637,7 +1022,8 @@ def renew(tokens, who=None, ttl_hours=TTL_HOURS, note="", root=None):
         sha = _record(who, ttl_hours, note or entry[1].get("note", ""), root,
                       lease=entry[1].get("lease") or token,
                       since=entry[1].get("since") or entry[1].get("created"),
-                      scope=entry[1].get("scope", ""))
+                      scope=entry[1].get("scope", ""), lock=entry[1].get("lock", False),
+                      locks=entry[1].get("locks", ()))
         token = entry[0]                                    # the generation we replace
         pushed = _git("push", "-q", f"--force-with-lease={ref_of(rva)}:{token}", REMOTE,
                       f"+{sha}:{ref_of(rva)}", cwd=root, timeout=120)
@@ -737,6 +1123,7 @@ def release(rvas, who=None, force=False, root=None, tokens=None):
         return []
     who = who or owner(root)
     names = _names(who, root)
+    _invalidate_snapshot(root)  # deletion must use a fresh snapshot, even inside a picker
     if not fetch(root):
         print("claims: origin unreachable; releasing nothing (claims expire on their own)", file=sys.stderr)
         return []
@@ -761,8 +1148,12 @@ def release(rvas, who=None, force=False, root=None, tokens=None):
             refs = [f"+{expired}:{ref_of(rva)}" for rva, _ in batch]
         else:
             refs = [f":{ref_of(rva)}" for rva, _ in batch]
-        if _git("push", "-q", "--atomic", *leases, REMOTE, *refs, cwd=root, timeout=120).returncode:
-            return False
+        for attempt in range(5):
+            if _git("push", "-q", "--atomic", *leases, REMOTE, *refs, cwd=root, timeout=120).returncode == 0:
+                break
+            if attempt == 4:
+                return False
+            time.sleep(random.uniform(0.04, 0.16) * (attempt + 1))
         for rva, _ in batch:
             _mirror(rva, expired, root)
         return True
@@ -1217,7 +1608,7 @@ def lease_trailers(sha, root=None):
     return {int(rva, 16): lease for rva, lease in LEASE_TRAILER.findall(body)}
 
 
-def release_landed(sha=None, root=None, who=None, keep_days=1.0, hold=()):
+def release_landed(sha=None, root=None, who=None, keep_days=1.0, hold=(), tip=None):
     """Release claims for bodies that have landed on origin/master.
 
     Every queued landing (queue_landed) with EVIDENCE whose row (_row_key),
@@ -1242,7 +1633,7 @@ def release_landed(sha=None, root=None, who=None, keep_days=1.0, hold=()):
     queue = pending(root)
     if not queue and sha is None:
         return [], []
-    tip = _fetch_master(root)
+    tip = tip or _fetch_master(root)
     if not tip:
         raise ClaimsUnavailable("claims: cannot fetch origin/master")
     rows = _rows_at(tip, root) if queue else set()
@@ -1401,6 +1792,77 @@ def release_landed(sha=None, root=None, who=None, keep_days=1.0, hold=()):
     return sorted(set(released)), sorted(set(waiting) | (unsettled - set(released)) | again)
 
 
+DEBT_TOKEN = re.compile(r"\bdebt=(\S+)")
+
+
+def debt_digest(line):
+    """The 12-hex digest a scope claim's `debt=` note records for one debt line
+    (a baseline key, or a header_queue.tsv `class<TAB>source`)."""
+    return hashlib.sha1(line.strip().encode("utf-8")).hexdigest()[:12]
+
+
+def debt_note(lines_by_path):
+    """`debt=path#digest,...` for a scope claim's note: what settle_scopes waits on."""
+    return "debt=" + ",".join(f"{path}#{debt_digest(line)}" for path, lines in sorted(lines_by_path.items())
+                              for line in lines)
+
+
+def _debt_lines(text, path):
+    """Digests of the debt lines a file holds (header_queue.tsv rows as class<TAB>source;
+    a link census, link_status.csv, as the source of each unit that does not link)."""
+    out = set()
+    if path.endswith("link_status.csv"):
+        import csv
+        import io
+        return {debt_digest(row["source"]) for row in csv.DictReader(io.StringIO(text))
+                if row.get("source") and row.get("linked") != "yes"}
+    for line in text.splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        if path.endswith("header_queue.tsv"):
+            parts = line.split("\t")
+            if len(parts) < 2 or parts[0] == "class":
+                continue
+            line = "\t".join(parts[:2])
+        out.add(debt_digest(line))
+    return out
+
+
+def settle_scopes(root=None, who=None, tip=None, hold=()):
+    """Release this owner's claims (RVA or scope; `hold` and lock-only refs excepted)
+    whose recorded debt lines (the `debt=` note next_work --claim writes for every
+    debt item) origin/master no longer holds: the fix is published, so the work is
+    free. A claim without a `debt=` note (a hand claim, a link-cycle row) is never
+    released here -- release it by hand after the push. Returns the released keys;
+    origin trouble or an unreadable debt file releases nothing (fail closed)."""
+    tip = tip or _fetch_master(root)
+    if tip is None or not fetch(root):
+        return []
+    names = _names(who or owner(root), root)
+    hold = set(hold)
+    texts, free, tokens = {}, [], {}
+    for key, (sha, info) in live(_read_local(root)).items():
+        if (key in hold or info.get("lock") or (isinstance(key, str) and key.startswith("lease/"))
+                or info.get("owner") not in names):
+            continue
+        wanted = [token for match in DEBT_TOKEN.finditer(info.get("note", "")) for token in match[1].split(",")]
+        pairs = [token.rsplit("#", 1) for token in wanted if "#" in token]
+        if not pairs:
+            continue
+        held = False
+        for path, digest in pairs:
+            if path not in texts:
+                shown = _git("show", f"{tip}:{path}", cwd=root, timeout=120)
+                texts[path] = _debt_lines(shown.stdout, path) if shown.returncode == 0 else None
+            if texts[path] is None or digest in texts[path]:   # unreadable: keep (fail closed)
+                held = True
+                break
+        if not held:
+            free.append(key)
+            tokens[key] = sha
+    return release(free, who=who, root=root, tokens=tokens) if free else []
+
+
 def settle(rvas=(), who=None, root=None, tokens=None, hold=()):
     """BFME2 (Open-BFME-1: fleet_run.settle_shared). Release this checkout's
     queued landings that origin/master now holds, then the claims `rvas`
@@ -1414,10 +1876,15 @@ def settle(rvas=(), who=None, root=None, tokens=None, hold=()):
         return []
     try:
         hold = set(hold)    # once: release_landed and `free` both test it
-        released, waiting = release_landed(root=root, hold=hold)
+        tip = _fetch_master(root)
+        if not tip and pending(root):
+            return []
+        released, waiting = release_landed(root=root, hold=hold, tip=tip)
         busy = set(waiting) | set(released)
         free = [k for k in _ints(rvas) if k not in busy and k not in hold]
         done = release(free, who=who, root=root, tokens=tokens) if free else []
+        done = list(done) + (settle_scopes(root=root, who=who, hold=hold, tip=tip) if tip else [])
+        done += release_orphans(root=root, who=who)              # file locks no claim needs now
     except Exception as error:  # noqa: BLE001 -- claims expire on their own
         print(f"{error}; claims kept until published or expired", file=sys.stderr)
         return []
@@ -1445,16 +1912,23 @@ def main(argv=None):
         print(f"{len(claims)} live claim(s)")
         return 0
     if args.action == "claim":
+        # Each key with its file locks (acquire): a body's file is locked with it, and
+        # a key whose file a peer's work holds is refused, as the pickers refuse it.
+        got, refused, unconfirmed = [], [], []
         try:
-            result = claim(args.rvas, note=args.note)
+            for text in args.rvas:
+                result = acquire([text], note=args.note)
+                got += [k for k in result.claimed if k not in got]
+                refused += [key_of(text)] if result.refused else []
+                unconfirmed += result.unconfirmed
         except ClaimsUnavailable as error:
             print(error, file=sys.stderr)
-            if error.claimed:
-                print(f"claimed before the failure: {' '.join(label(r) for r in error.claimed)}")
+            if got or error.claimed:
+                print(f"claimed before the failure: {' '.join(label(r) for r in got + list(error.claimed))}")
             if error.refused:
                 print(f"held by someone else: {' '.join(label(r) for r in error.refused)}")
             return 2
-        got, refused = result
+        result = ClaimResult(got, refused, unconfirmed=unconfirmed)
         print(f"claimed {len(got)}: {' '.join(label(r) for r in got)}")
         if refused:
             print(f"not claimed: {' '.join(label(r) for r in refused)}"
@@ -1504,6 +1978,7 @@ def main(argv=None):
                   f"next time): {' '.join(f'0x{r:08X}' for r in waiting)}")
         return 0
     done = release(args.rvas, force=args.force)
+    done += release_orphans()           # the file locks those claims took, unless another claim needs them
     print(f"released {len(done)}: {' '.join(label(r) for r in done)}")
     return 0
 

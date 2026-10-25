@@ -349,6 +349,37 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
         git show "$local_sha:tools/protected_paths.py" | python3 - --range "$base" "$local_sha" \
             || fail "protected verifier/baseline change in outgoing range (see above)"
     fi
+    # Recheck retirement even when commit-time hooks were skipped. Use the remote
+    # implementation when available, and judge outgoing blobs/messages, not the index.
+    capture debt_changes_out "listing outgoing debt-register changes" \
+        git diff --name-only "$base" "$local_sha" -- reverse/gate_baseline.txt \
+        reverse/data_check_baseline.txt reverse/code_identity_baseline.tsv reverse/header_queue.tsv
+    if [ -s "$debt_changes_out" ]; then
+        debt_checker=$(mktemp)
+        if git cat-file -e "$base:tools/repair_queue.py" 2>/dev/null; then
+            git show "$base:tools/repair_queue.py" > "$debt_checker"
+        else
+            git show "$local_sha:tools/repair_queue.py" > "$debt_checker" \
+                || { rm -f "$debt_checker"; fail "loading outgoing debt checker"; }
+        fi
+        # Bootstrap the range-aware check when the remote predates it. Thereafter
+        # the remote's copy judges its own replacement, like protected_paths above.
+        if ! grep -q 'def verify_debt_range(' "$debt_checker"; then
+            git show "$local_sha:tools/repair_queue.py" > "$debt_checker" \
+                || { rm -f "$debt_checker"; fail "loading range-aware debt checker"; }
+        fi
+        if grep -q 'def verify_debt_range(' "$debt_checker"; then
+            python3 - verify-removed --range "$base" "$local_sha" < "$debt_checker" \
+                || { rm -f "$debt_checker"; fail "retired debt has no passing outgoing verdict (see above)"; }
+            python3 - verify-missing --range "$base" "$local_sha" < "$debt_checker" \
+                || { rm -f "$debt_checker"; fail "disappearing outgoing debt has no accounting (see above)"; }
+        else
+            rm -f "$debt_checker"
+            fail "remote debt checker lacks outgoing-range verification; update the verifier first"
+        fi
+        rm -f "$debt_checker"
+    fi
+    rm -f "$debt_changes_out"
     python3 tools/pin_admission.py --range "$base" "$local_sha" \
         || fail "pin/alias admission across the outgoing range (see above)"
     if git cat-file -e "$base:tools/gate_baseline.py" 2>/dev/null; then

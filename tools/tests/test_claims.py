@@ -204,8 +204,42 @@ def test_a_push_origin_refuses_without_a_holder_is_unconfirmed(hosts, monkeypatc
             return claims.subprocess.CompletedProcess(args, 1, "", "connection reset")
         return real(*args, **kw)
     monkeypatch.setattr(claims, "_git", flaky)
-    with pytest.raises(claims.ClaimsUnavailable):
-        claims.claim([0x100])
+    monkeypatch.setattr(claims.time, "sleep", lambda _: None)
+    result = claims.claim([0x100], atomic_only=True)
+    assert not result.claimed and result.refused == [0x100] and result.unconfirmed == [0x100]
+
+
+def test_atomic_claim_retries_transient_failure_when_origin_is_reachable(hosts, monkeypatch):
+    hosts("a")
+    real = claims._git
+    pushes = []
+    def flaky(*args, **kw):
+        if args[:1] == ("push",):
+            pushes.append(args)
+            if len(pushes) < 3:
+                return subprocess.CompletedProcess(args, 1, "", "ref transaction contention")
+        return real(*args, **kw)
+    monkeypatch.setattr(claims, "_git", flaky)
+    monkeypatch.setattr(claims.time, "sleep", lambda _: None)
+    result = claims.acquire([0x100])
+    assert result.claimed == [0x100] and not result.refused and len(pushes) == 3
+
+
+def test_reachable_push_refusals_never_serve_unclaimed_work(hosts, monkeypatch):
+    import next_work
+    hosts("a")
+    real = claims._git
+    pushes = []
+    def refused(*args, **kw):
+        if args[:1] == ("push",):
+            pushes.append(args)
+            return subprocess.CompletedProcess(args, 1, "", "transaction refused")
+        return real(*args, **kw)
+    monkeypatch.setattr(claims, "_git", refused)
+    monkeypatch.setattr(claims.time, "sleep", lambda _: None)
+    item = {"target_rva": "0x100", "function": "?f@@YAXXZ"}
+    assert next_work.claim_choice([item], "test") == (None, [])
+    assert 2 <= len(pushes) <= 5
 
 
 def test_a_race_lost_after_fetch_is_refused_not_unconfirmed(hosts, monkeypatch):
@@ -746,7 +780,8 @@ def test_the_claim_command_renews_a_landed_claim_without_a_gap(hosts, monkeypatc
     assert claims.claim([0x100]) == ([], [0x100])
     # a later settlement that does not hold it releases it as usual
     hosts("a")
-    assert claims.settle() == [0x100]
+    lock = claims.lock_keys({0x100}) - {0x100}                    # its row's file, locked by `claim`
+    assert lock and claims.settle() == [0x100, *lock]             # and released with it: no claim needs it
 
 
 def test_settle_never_releases_a_held_claim_it_is_asked_to_release(hosts):
@@ -1139,3 +1174,324 @@ def test_other_namespace_snapshots_are_private_to_worktrees(hosts, monkeypatch, 
     assert set(refresh(primary)) == {0x200}
     assert set(claims.live(claims._read_visible(sibling, seen))) == {0x100, 0x200}
     assert set(refresh(sibling)) == {0x200}
+# Round-3 regressions: all origins are the hosts fixture's local bare repository.
+def _review_scope(monkeypatch):
+    f = claims.file_key("Code/A.cpp")
+    monkeypatch.setattr(claims, "scope_index", lambda root=None: ({0x200: (f, "class/C")}, {f: {"class/C"}}, {"class/C": {f}}))
+    return f
+
+
+def test_unrowed_body_keeps_source_lock_through_settlement_and_renewal(hosts, monkeypatch):
+    root = hosts("a")
+    f = claims.file_key("Code/New.cpp")
+    result = claims.acquire([0xDEAD], work={f}, ttl_hours=1)
+    assert claims.active()[0xDEAD]["locks"] == [0xDEAD, f]
+    assert claims.lock_keys({0xDEAD}) == {0xDEAD, f}
+    assert claims.release_orphans() == []
+    old = claims.active()[f]["expires"]
+    renewed, lost = claims.renew({0xDEAD: result.tokens[0xDEAD]}, ttl_hours=5)
+    assert not lost and set(renewed) == {0xDEAD, f}
+    assert claims.active()[f]["expires"] > old
+    renewed, lost = claims.renew_held([0xDEAD], ttl_hours=6)
+    assert not lost and set(renewed) == {0xDEAD, f}
+    assert claims.active()[0xDEAD]["locks"] == [0xDEAD, f]
+    renewed, lost = claims.renew({0xDEAD: result.tokens[0xDEAD]}, ttl_hours=7)
+    assert not lost and set(renewed) == {0xDEAD, f}
+    assert set(claims.release_work([0xDEAD])) == {0xDEAD, f}
+
+
+def test_header_reserves_only_class_but_still_fences_member_files(hosts, monkeypatch):
+    _review_scope(monkeypatch)
+    hosts("a")
+    result = claims.acquire(["class:C"])
+    assert result.claimed == ["class/C"]
+    assert set(claims.active()) == {"class/C"}
+    hosts("b")
+    result = claims.acquire([0x200])
+    assert not result.claimed and result.refused == ["class/C"]
+    assert set(claims.active()) == {"class/C"}
+
+
+def test_acquire_rechecks_after_push_and_rolls_back_new_refs(hosts, monkeypatch):
+    f = _review_scope(monkeypatch)
+    peer = hosts("b")
+    root = hosts("a")
+    real = claims._git
+    injected = []
+
+    def git(*args, **kwargs):
+        result = real(*args, **kwargs)
+        if args[:2] == ("push", "-q") and kwargs.get("cwd") is None and not injected:
+            injected.append(True)
+            assert claims.claim([0x200], root=peer, who="b").claimed == [0x200]
+        return result
+    monkeypatch.setattr(claims, "_git", git)
+    result = claims.acquire(["file:Code/A.cpp"])
+    assert not result.claimed and result.refused == [0x200]
+    assert claims.active() == {0x200: claims.active()[0x200]}
+    assert claims.active()[0x200]["owner"] == "b"
+    assert f not in claims.active()  # kills a missing rollback as well as a missing recheck
+
+
+def test_acquire_rolls_back_claims_unavailable_partial_result(hosts, monkeypatch):
+    hosts("a")
+    real_claim = claims.claim
+
+    def partial(targets, **kwargs):
+        result = real_claim(list(targets)[:1], **kwargs)
+        assert len(result.claimed) == 1  # a failure after only the first ref was accepted
+        error = claims.ClaimsUnavailable("readback unavailable", claimed=result.claimed)
+        error.tokens = result.tokens
+        raise error
+    monkeypatch.setattr(claims, "claim", partial)
+    with pytest.raises(claims.ClaimsUnavailable) as caught:
+        claims.acquire([0x1234], work={claims.file_key("Code/New.cpp")})
+    assert caught.value.claimed == [] and not caught.value.unclean
+    assert claims.active() == {}
+
+
+def test_atomic_acquire_lost_race_has_one_push_and_one_readback(hosts, monkeypatch):
+    peer = hosts("b")
+    root = hosts("a")
+    real = claims._git
+    pushes, fetches, injected = [], [], []
+
+    def git(*args, **kwargs):
+        here = kwargs.get("cwd") in (None, root)
+        if here and args[:2] == ("fetch", "-q"):
+            fetches.append(args)
+        if here and args[:2] == ("push", "-q"):
+            pushes.append(args)
+            if not injected:
+                injected.append(True)
+                assert claims.claim(["file:Code/0.cpp"], root=peer, who="b").claimed
+        return real(*args, **kwargs)
+    monkeypatch.setattr(claims, "_git", git)
+    with claims.pick_snapshot():
+        assert claims.busy_keys() == set()
+        result = claims.acquire([f"file:Code/{i}.cpp" for i in range(30)])
+    assert not result.claimed and result.refused
+    assert len(pushes) == 1 and len(fetches) == 2
+    assert set(claims.active()) == {claims.file_key("Code/0.cpp")}
+
+
+def test_one_initial_fetch_is_shared_by_pick_and_settlement(hosts, monkeypatch):
+    root = hosts("a")
+    _git(root, "commit", "-q", "--allow-empty", "-m", "master")
+    _git(root, "push", "-q", "origin", "HEAD:master")
+    real = claims._git
+    fetches = []
+
+    def git(*args, **kwargs):
+        if args[:2] == ("fetch", "-q"):
+            fetches.append(args)
+        return real(*args, **kwargs)
+    monkeypatch.setattr(claims, "_git", git)
+    with claims.pick_snapshot():
+        assert claims.settle() == []
+        assert claims.busy_keys() == set()
+        assert claims.acquire([0x1234]).claimed == [0x1234]
+    master = [a for a in fetches if "master" in " ".join(a)]
+    claim_fetches = [a for a in fetches if any("claims-seen" in x for x in a)]
+    assert len(master) == 1
+    assert len(claim_fetches) == 2  # one shared initial snapshot plus mandatory post-push recheck
+
+
+def test_busy_keys_leave_own_file_siblings_available(hosts, monkeypatch):
+    f = _review_scope(monkeypatch)
+    hosts("a")
+    assert claims.acquire([0x200]).claimed
+    assert claims.busy_keys() == set() and claims.busy_rvas() == set()
+    hosts("b")
+    assert f in claims.busy_keys() and 0x200 in claims.busy_rvas()
+
+
+def test_module_documents_mixed_client_limit():
+    assert "Mixed old and new clients provide RVA-level exclusion" in claims.__doc__
+
+
+def test_unreadable_post_push_snapshot_rolls_back_instead_of_serving(hosts, monkeypatch):
+    hosts("a")
+    real = claims._git
+    pushed = []
+
+    def git(*args, **kwargs):
+        if pushed and args[:2] == ("fetch", "-q"):
+            return subprocess.CompletedProcess(args, 1, "", "snapshot unavailable")
+        result = real(*args, **kwargs)
+        if args[:2] == ("push", "-q"):
+            pushed.append(True)
+        return result
+    monkeypatch.setattr(claims, "_git", git)
+    with pytest.raises(claims.ClaimsUnavailable, match="post-push"):
+        claims.acquire(["class:C"])
+    monkeypatch.setattr(claims, "_git", real)
+    assert claims.active() == {}
+
+
+@pytest.mark.parametrize("phase", ["initial", "post-push", "release"])
+@pytest.mark.parametrize("message", ["upload-pack: not our ref " + "0" * 40,
+                                    "fatal: couldn't find remote ref refs/claims/0x00000100"])
+def test_fetch_retries_deleted_advertisement_race(hosts, monkeypatch, capsys, phase, message):
+    hosts("a")
+    import next_work
+    real = claims._git
+    pushed, races, sleeps = [], [], []
+    if phase == "release":
+        assert claims.claim([0x100]).claimed == [0x100]
+
+    def transport(*args, **kwargs):
+        inject = phase != "post-push" or pushed
+        if args[:1] == ("fetch",) and inject and len(races) < 2:
+            races.append(True)
+            return subprocess.CompletedProcess(args, 128, "", message)
+        result = real(*args, **kwargs)
+        if args[:1] == ("push",) and result.returncode == 0:
+            pushed.append(True)
+        return result
+
+    monkeypatch.setattr(claims, "_git", transport)
+    monkeypatch.setattr(claims.time, "sleep", sleeps.append)
+    if phase == "release":
+        assert claims.release([0x100]) == [0x100]
+    else:
+        item = {"target_rva": "0x100", "function": "?f@@YAXXZ"}
+        assert next_work.claim_choice([item], "race-test") == (item, [0x100])
+        assert claims.release([0x100]) == [0x100]
+    assert len(races) == len(sleeps) == 2 and all(delay > 0 for delay in sleeps)
+    assert "without a shared claim" not in capsys.readouterr().err
+    assert _git(hosts.origin, "for-each-ref", "--format=%(refname)", "refs/claims/") == ""
+
+
+def test_persistent_ref_race_does_not_enable_offline_pick(hosts, monkeypatch):
+    hosts("a")
+    import next_work
+    real = claims._git
+    fetches = []
+
+    def transport(*args, **kwargs):
+        if args[:1] == ("fetch",):
+            fetches.append(True)
+            return subprocess.CompletedProcess(args, 128, "", "upload-pack: not our ref " + "0" * 40)
+        return real(*args, **kwargs)
+    monkeypatch.setattr(claims, "_git", transport)
+    monkeypatch.setattr(claims.time, "sleep", lambda _: None)
+    with pytest.raises(SystemExit, match="origin reachable"):
+        next_work.claim_choice([{"target_rva": "0x100", "function": "f"}], "race-test")
+    assert len(fetches) == 5
+
+
+@pytest.mark.parametrize("rollback_fails", [False, True])
+@pytest.mark.parametrize("lost_reply", [False, True])
+def test_lost_push_reply_and_readback_keep_tokens_or_rollback(hosts, monkeypatch, rollback_fails, lost_reply):
+    hosts("a")
+    real = claims._git
+    accepted = []
+
+    def transport(*args, **kwargs):
+        if accepted and args[:1] == ("fetch",):
+            return subprocess.CompletedProcess(args, 128, "", "snapshot unavailable")
+        if args[:1] == ("push",):
+            if accepted and rollback_fails:
+                return subprocess.CompletedProcess(args, 128, "", "push unavailable")
+            result = real(*args, **kwargs)
+            if not accepted and result.returncode == 0:
+                accepted.append(True)
+                if lost_reply:
+                    return subprocess.CompletedProcess(args, 128, "", "reply lost after acceptance")
+            return result
+        return real(*args, **kwargs)
+    monkeypatch.setattr(claims, "_git", transport)
+    monkeypatch.setattr(claims.time, "sleep", lambda _: None)
+    with pytest.raises(claims.ClaimsUnavailable) as caught:
+        claims.acquire([0x100])
+    error = caught.value
+    monkeypatch.setattr(claims, "_git", real)
+    if rollback_fails:
+        assert error.unclean and error.claimed == [0x100]
+        assert claims.holds(0x100, error.tokens[0x100])
+        assert claims.release(error.claimed, tokens=error.tokens) == [0x100]
+    else:
+        assert not error.unclean and error.claimed == []
+    assert _git(hosts.origin, "for-each-ref", "--format=%(refname)", "refs/claims/") == ""
+
+
+@pytest.mark.parametrize("writer_ns", ["refs/claims/", "refs/heads/claims/"])
+@pytest.mark.parametrize("same_owner", [False, True])
+@pytest.mark.parametrize("persisted_only", [False, True])
+def test_foreign_namespace_file_locks_block_acquisition(hosts, monkeypatch, writer_ns,
+                                                        same_owner, persisted_only):
+    hosts("a")
+    monkeypatch.setattr(claims, "scope_index", lambda root=None: ({}, {}, {}))
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    f = claims.file_key("Code/Unrowed.cpp")
+    # A persisted-only footprint tests clients that hold a class ref without
+    # separate file refs. The other case tests acquire's lock-only file ref.
+    targets = ["class:C"] if persisted_only else [0xDEAD]
+    result = claims.acquire(targets, work={f})
+    assert result.claimed
+    original = _git(hosts.origin, "for-each-ref", "--format=%(refname) %(objectname)", writer_ns)
+    hosts("b")
+    monkeypatch.setattr(claims, "NS", "refs/heads/claims/" if writer_ns == "refs/claims/" else "refs/claims/")
+    if same_owner:
+        monkeypatch.setenv("BFME_CLAIM_OWNER", "a")
+    assert f in claims.busy_keys()
+    assert f in claims.lock_keys({claims.key_of(targets[0])})
+    assert claims.conflicts({f})
+    blocked = claims.acquire([0xBEEF], work={f})
+    assert not blocked.claimed and blocked.refused
+    assert claims.renew(result.tokens) == ({}, sorted(result.tokens, key=claims._order))
+    assert claims.release_orphans() == []
+    assert claims.release(result.claimed, force=True, tokens=result.tokens) == []
+    assert _git(hosts.origin, "for-each-ref", "--format=%(refname) %(objectname)", writer_ns) == original
+
+    assert not claims.live(claims._read_local())  # branch rollback leaves expired tombstones
+
+
+@pytest.mark.parametrize("writer_ns", ["refs/claims/", "refs/heads/claims/"])
+def test_foreign_namespace_persisted_lock_survives_same_key_shadow(hosts, monkeypatch, writer_ns):
+    hosts("a")
+    monkeypatch.setattr(claims, "scope_index", lambda root=None: ({}, {}, {}))
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    own_file, foreign_file = claims.file_key("Code/Own.cpp"), claims.file_key("Code/Foreign.cpp")
+    assert claims.claim([0x100], work_locks={own_file}, ttl_hours=8).claimed
+    # Seed a concurrent foreign-namespace record directly; normal clients refuse
+    # a pre-existing cross-namespace holder. Same owner must not authorize it.
+    foreign_ns = "refs/heads/claims/" if writer_ns == "refs/claims/" else "refs/claims/"
+    token = claims._record("a", 4, locks={foreign_file})
+    _git(claims.ROOT, "push", "-q", "origin", f"{token}:{foreign_ns}0x00000100")
+    assert claims.fetch()
+    claims.active.cache_clear()
+    assert foreign_file in claims.busy_keys()
+    assert {own_file, foreign_file} <= claims.lock_keys({0x100})
+    result = claims.acquire([0x200], work={foreign_file})
+    assert not result.claimed
+    assert claims.active()[0x100]["owner"] == "a"
+
+
+@pytest.mark.parametrize("writer_ns", ["refs/claims/", "refs/heads/claims/"])
+def test_post_push_foreign_namespace_lock_rolls_back_without_foreign_writes(hosts, monkeypatch, writer_ns):
+    peer = hosts("b")
+    root = hosts("a")
+    monkeypatch.setattr(claims, "NS", writer_ns)
+    monkeypatch.setattr(claims, "scope_index", lambda root=None: ({}, {}, {}))
+    f = claims.file_key("Code/Race.cpp")
+    real_git = claims._git
+    injected = []
+    foreign_ns = "refs/heads/claims/" if writer_ns == "refs/claims/" else "refs/claims/"
+
+    def raced(*args, **kwargs):
+        result = real_git(*args, **kwargs)
+        if args[:2] == ("push", "-q") and kwargs.get("cwd") in (None, root) and not injected:
+            injected.append(True)
+            token = claims._record("a", 4, root=peer, locks={f})
+            _git(peer, "push", "-q", "origin", f"{token}:{foreign_ns}class/C")
+        return result
+
+    monkeypatch.setattr(claims, "_git", raced)
+    result = claims.acquire([0x100], work={f})
+    assert not result.claimed and result.refused == ["class/C"]
+    assert set(claims.active()) == {"class/C"}
+    refs = _git(hosts.origin, "for-each-ref", "--format=%(refname) %(contents:subject)")
+    assert foreign_ns + "class/C" in refs
+    assert not claims.live(claims._read_local())

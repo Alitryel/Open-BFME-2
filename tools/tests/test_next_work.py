@@ -4,6 +4,7 @@
 import csv
 import contextlib
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -15,10 +16,36 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 
+def test_unconfirmed_refusal_keeps_same_file_sibling_servable(monkeypatch):
+    import claims
+    import next_work
+    source = "Code/Siblings.cpp"
+    file_key = claims.file_key(source)
+    monkeypatch.setattr(claims, "scope_index", lambda root=None: (
+        {0x100: (file_key, None), 0x200: (file_key, None)}, {}, {}))
+    monkeypatch.setattr(claims, "_local_lock_records", lambda root: {})
+    items = [{"function": name, "source": source, "target_rva": hex(rva)}
+             for name, rva in (("first", 0x100), ("sibling", 0x200))]
+    monkeypatch.setattr(next_work, "weighted_choice", lambda pool: pool[0])
+    asked = []
+
+    def acquire(targets, *args, **kwargs):
+        asked.append(targets)
+        if targets == [0x100]:
+            return claims.ClaimResult([], [0x100], unconfirmed=[0x100])
+        return claims.ClaimResult([0x200], [])
+    monkeypatch.setattr(claims, "acquire", acquire)
+    assert next_work.claim_choice(items, "test") == (items[1], [0x200])
+    assert asked == [[0x100], [0x200]]
+
+
 def run(args=(), cwd=ROOT, env=None):
+    isolated = {**os.environ, "BFME_CLAIMS": "off"}
+    if env:
+        isolated.update(env)
     return subprocess.run(
         [sys.executable, str(cwd / "tools" / "next_work.py"), *args],
-        cwd=cwd, env=env, capture_output=True, text=True, timeout=60, check=False)
+        cwd=cwd, env=isolated, capture_output=True, text=True, timeout=60, check=False)
 
 
 def get_ranked_json(extra=()):
@@ -64,15 +91,15 @@ def test_plain_run(ranked):
     proc = run()
     assert proc.returncode == 0, f"plain run failed (rc {proc.returncode}):\n{proc.stderr}"
     available = any(ranked[key] for key in
-                    ("reloc_named", "drift_quick_wins", "structural",
-                     "ghidra_absent"))
+                    ("repair", "link", "data_identity", "class_header", "code_identity",
+                     "reloc_named", "drift_quick_wins", "structural", "ghidra_absent"))
     if available:
         assert proc.stdout.count("== selected work:") == 1, proc.stdout
         assert proc.stdout.count("       start:") + proc.stdout.count(
             "then byte-verify:") == 1, proc.stdout
         assert "== 2. drift quick wins" not in proc.stdout, proc.stdout
     else:
-        assert "No validated queue candidates remain." in proc.stdout
+        assert "No candidates remain in the default order" in proc.stdout
     print("PASS plain run: one work unit, no ranked queue dump")
 
 
@@ -212,7 +239,8 @@ def test_explicit_stable_sharding(ranked):
 
 def test_ranked_json_shape(data):
     for key in ("ledger", "drift_quick_wins", "structural",
-                "ghidra_meta", "ghidra_absent", "pointers"):
+                "ghidra_meta", "ghidra_absent", "pointers", "repair", "link",
+                "data_identity", "class_header", "code_identity", "skipped"):
         assert key in data, f"ranked JSON missing key {key!r}"
     for stale in ("slot", "pool", "filtered"):
         assert stale not in data, f"ranked JSON retained sharding field {stale!r}"
@@ -302,6 +330,10 @@ def test_logged_dead_ends_suppressed(ranked):
     # validated over the range it would serve, and restoring the candidates
     # ahead of it in the ranking changes which range that is.
     full = get_ranked_json(["--include-logged"])
+    if not any(full[key] for key in QUEUES):
+        # Matching is complete: the new-match queues are empty when their generated
+        # inputs (drift_report.csv) are absent, so there is no verdict to test here.
+        pytest.skip("the new-match queues are empty (inputs absent); nothing carries a verdict")
     shown = {(name, item_rva(c)) for key in QUEUES for c in ranked[key]
              for name in served_names(c)}
     restored = {(name, item_rva(c)) for key in QUEUES for c in full[key]

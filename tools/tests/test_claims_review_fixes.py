@@ -219,9 +219,29 @@ def _peer_holds_0x200_and_pushes_fail(hosts, monkeypatch):
 
 def test_an_unavailable_claim_names_the_bodies_a_peer_holds(hosts, monkeypatch):
     _peer_holds_0x200_and_pushes_fail(hosts, monkeypatch)
+    real_fetch = claims.fetch
+    reads = []
+    def offline_after_push(root=None):
+        reads.append(1)
+        return real_fetch(root) if len(reads) == 1 else False
+    # A push refusal alone is not offline: only a failed fresh fetch permits
+    # unclaimed fallback. Keep this regression about actual loss of readback.
+    monkeypatch.setattr(claims, "fetch", offline_after_push)
     with pytest.raises(claims.ClaimsUnavailable) as raised:
         claims.claim([0x100, 0x200])
-    assert raised.value.refused == [0x200] and raised.value.claimed == []
+    assert raised.value.refused == [0x200]
+    # With no readback a failed reply cannot prove the server rejected the push.
+    # Preserve the attempted fencing token, and forbid an unclean offline pick.
+    assert raised.value.claimed == [0x100] and raised.value.unclean
+    assert 0x100 in raised.value.tokens
+    assert not claims.holds(0x100, raised.value.tokens[0x100])  # this fake never accepted it
+
+
+def test_reachable_push_failure_preserves_peer_refusals_without_offline_fallback(hosts, monkeypatch):
+    _peer_holds_0x200_and_pushes_fail(hosts, monkeypatch)
+    result = claims.claim([0x100, 0x200])
+    assert result.claimed == [] and result.refused == [0x100, 0x200]
+    assert result.unconfirmed == [0x100]  # 0x200 is positively held, not unconfirmed
 
 
 def test_the_donor_fallback_never_lands_a_body_a_peer_holds(hosts, monkeypatch):

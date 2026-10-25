@@ -453,21 +453,110 @@ def link_ok(sources):
             for s in sources}
 
 
-def accept(name, sources, header=None):
+COMMENTS = re.compile(r"//[^\n]*|/\*.*?(?:\*/|\Z)", re.S)
+INCLUDE = re.compile(r"^[ \t]*#[ \t]*include[ \t]*[<\"]([^>\"\n]+)[>\"]", re.M)
+DIRECTIVE = re.compile(r"^[ \t]*#[ \t]*(\w+)(.*)$")
+
+
+def without_disabled(text):
+    """`text` with every line of an `#if 0` branch blanked (its #else/#elif branch is
+    kept): an #include there is never compiled."""
+    out, depth, dead = [], 0, None              # dead: the depth of the #if 0 being skipped
+    for line in text.split("\n"):
+        m = DIRECTIVE.match(line)
+        word = m[1] if m else ""
+        if word in ("if", "ifdef", "ifndef"):
+            depth += 1
+            if dead is None and word == "if" and m[2].strip() in ("0", "(0)", "false"):
+                dead = depth
+        elif word in ("else", "elif") and dead == depth:
+            dead = None
+            line = ""
+        elif word == "endif":
+            if dead == depth:
+                dead = None
+                line = ""
+            depth -= 1
+        out.append("" if dead is not None else line)
+    return "\n".join(out)
+
+
+def tracked_headers():
+    got = subprocess.run(["git", "ls-files", "-z", "--", "*.h", "*.hpp", "*.inl"], cwd=ROOT, capture_output=True)
+    return [p.decode("utf-8", "replace") for p in got.stdout.split(b"\0") if p]
+
+
+def includes_header(source, header):
+    """Does `source` really #include `header`: a directive outside comments and `#if 0`
+    branches whose spelling resolves beside the source to that file, or is a path
+    suffix of it no other tracked header shares? A basename in a comment, or a
+    same-named header elsewhere, is not it."""
+    text = without_disabled(COMMENTS.sub(lambda m: re.sub(r"[^\n]", " ", m.group()),
+                                         (ROOT / source).read_text(encoding="latin-1")))
+    header = header.replace("\\", "/")
+    want = (ROOT / header).resolve()
+    others = None
+    for spelled in INCLUDE.findall(text):
+        spelled = spelled.strip().replace("\\", "/")
+        if ((ROOT / source).parent / spelled).resolve() == want:
+            return True
+        tail = "/" + spelled.lstrip("./")
+        if ("/" + header).endswith(tail):
+            if others is None:
+                others = tracked_headers()
+            if not [p for p in others if ("/" + p).endswith(tail) and p != header]:
+                return True
+    return False
+
+
+def verdict(name, source, header=None, gate=None):
+    """[problems] of one unit's adoption of `name`'s canonical header ([] = adopted)."""
     header = header or registered().get(name)
-    bad = 0
+    if not (ROOT / source).exists():
+        return [f"{source} does not exist"]
+    if not header or not (ROOT / header).exists():
+        return [f"{name}'s canonical header {header or '(unregistered)'} does not exist"]
+    problems = []
+    if name in class_layouts.class_bodies((ROOT / source).read_text(encoding="latin-1")):
+        problems.append("still declares a private body")
+    if not includes_header(source, header):
+        problems.append(f"does not #include {header}")
+    why = (gate or gate_one)(source)
+    if why:
+        problems.append(why)
+    return problems
+
+
+def retire_rows(done):
+    """Remove the (class, source) rows in `done` from the queue, atomically; the count."""
+    if not done or not QUEUE.exists():
+        return 0
+    with QUEUE.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        cols, rows = reader.fieldnames, list(reader)
+    kept = [r for r in rows if (r["class"], r["source"]) not in done]
+    tmp = QUEUE.with_suffix(".tsv.tmp")
+    with tmp.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, cols, delimiter="\t", lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(kept)
+    os.replace(tmp, QUEUE)
+    return len(rows) - len(kept)
+
+
+def accept(name, sources, header=None, gate=None):
+    """Judge each unit (verdict) and retire every passing unit's queue row: the row
+    leaves only on this verdict, never by a hand deletion."""
+    bad, done = 0, set()
     for source in sources:
-        text = (ROOT / source).read_text(encoding="latin-1")
-        problems = []
-        if name in class_layouts.class_bodies(text):
-            problems.append("still declares a private body")
-        if not header or Path(header).name not in text:
-            problems.append(f"does not include {header}")
-        why = gate_one(source)
-        if why:
-            problems.append(why)
+        problems = verdict(name, source, header, gate)
         print(f"  {'PASS' if not problems else 'FAIL'} {source}" + ("" if not problems else ": " + "; ".join(problems)))
         bad |= bool(problems)
+        if not problems:
+            done.add((name, source))
+    retired = retire_rows(done)
+    if retired:
+        print(f"  retired {retired} row(s) from {QUEUE.relative_to(ROOT).as_posix()}; commit it with the adoption")
     return bad
 
 

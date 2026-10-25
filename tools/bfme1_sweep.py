@@ -1681,17 +1681,20 @@ def do_land(args):
     wanted = ("T1", "T2", "T3") if args.allow_icf else ("T1", "T2")
     rvas = [body["bfme2_rva"] for body in entry["bodies"] if body["tier"] in wanted]
     try:
-        acquired, refused = shared_claims.claim(rvas, note=f"BFME1 donor {entry['source']}")
+        # every body with its file lock, all or nothing (claims.acquire)
+        acquired, refused = shared_claims.acquire(rvas, note=f"BFME1 donor {entry['source']}")
     except shared_claims.ClaimsUnavailable as error:
+        if error.unclean:
+            raise SystemExit(f"bfme1_sweep: {error}; partial claims remain") from error
         # Origin failed mid-claim: land without a shared claim (AGENTS.md),
         # unless origin already showed a peer holding one of the bodies.
         print(f"bfme1_sweep: {error}; landing without a shared claim", file=sys.stderr)
         acquired, refused = list(error.claimed), list(error.refused)
     if refused:
         if acquired:
-            shared_claims.release(acquired)
+            shared_claims.release_work(acquired)
         raise SystemExit("bfme1_sweep: donor body claimed by another worker: " +
-                         " ".join(f"0x{r:08X}" for r in refused))
+                         " ".join(shared_claims.label(r) for r in refused))
     try:
         return _do_land(args, entry=entry)
     finally:
@@ -1700,8 +1703,9 @@ def do_land(args):
             # this landing left in the ledger (its add_match runs had
             # BFME_CLAIMS=off) and keep its claim until origin/master holds
             # it. Release the rest -- refused, unwound or never tried.
-            landed = queue_landed_rows(entry, acquired)
-            shared_claims.settle([rva for rva in acquired if rva not in landed])
+            bodies = [rva for rva in acquired if isinstance(rva, int)]
+            landed = queue_landed_rows(entry, bodies)
+            shared_claims.settle([rva for rva in bodies if rva not in landed])   # and the file locks left unneeded
 
 
 def queue_landed_rows(entry, rvas):

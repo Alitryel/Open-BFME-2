@@ -1210,14 +1210,17 @@ def main(argv=None):
             wanted = [rva for _, _, rva, _ in items
                       if rva not in tried and int(rva, 16) not in busy][:args.next]
         try:
-            got, _refused = claims.claim([int(rva, 16) for rva in wanted], note="permute")
-            claimed = rvas = [f"0x{rva:08x}" for rva in got]
+            # each body with its file lock (claims.acquire); a body a peer's work covers is skipped
+            for rva in wanted:
+                got, _refused = claims.acquire([int(rva, 16)], note="permute")
+                claimed += [f"0x{key:08x}" for key in got if isinstance(key, int)]
+            rvas = list(claimed)
         except claims.ClaimsUnavailable as error:
             print(f"permute: {error}; running unclaimed", file=sys.stderr)
-            claimed = [f"0x{rva:08x}" for rva in error.claimed]
+            claimed += [f"0x{key:08x}" for key in error.claimed if isinstance(key, int)]
             # no network: run unclaimed, but never a body origin showed a peer holding
-            held = set(error.refused)
-            rvas = [rva for rva in wanted if int(rva, 16) not in held]
+            held = claims.lock_keys(set(error.refused))
+            rvas = [rva for rva in wanted if not claims.lock_keys({int(rva, 16)}) & held]
     else:
         rvas = args.rvas or [rva for _, _, rva, _ in items[:args.top]]
     if not rvas:
@@ -1240,7 +1243,7 @@ def main(argv=None):
             # Every claim but a win's is released, even if the batch died;
             # wins stay claimed through --land (add_match queues them) until
             # `claims.py release --landed` sees their rows on origin/master.
-            claims.release([int(rva, 16) for rva in claimed if rva not in won])
+            claims.release_work([int(rva, 16) for rva in claimed if rva not in won])
     print(f"permute: {wins} of {len(rvas)} closed exactly")
     return 0
 

@@ -6,13 +6,35 @@ measured land rate for its size, so concurrent contributors still rarely
 collide but no draw is worth merely the pool average. ``--ranked`` is the human/debug
 view of the available queues. Live claims are fetched from origin; no compiling.
 
+Byte matching of .text is complete, so the open work is linking and cleanup.
+Every default pick tries gate debt (R) first, then L, D, H and I in an order drawn
+by weight (TIER_WEIGHTS: link-heavy, header and data a guaranteed share each), and
+falls through to the next queue when one is empty or every item in it is claimed;
+new matches come only after all of them. Queues are built lazily, only when the
+order reaches them (debt_order, pick_debt). Each item carries a machine pass test
+that is the owning tool's verdict on fresh evidence, never a hand deletion of a
+baseline line; tools/repair_queue.py builds the queues and judges retirements.
+A standing deferral (blocked, attempted) in reverse/re_attempts.log serves a debt
+item only after the untried work of every debt queue; a recorded dead end drops it.
+
 Sections, in priority order:
   0. Ledger health   tools/check_csv.py — a corrupt ledger aborts everything (exit 2)
-  R. Repair       gate debt (reverse/gate_baseline.txt): the check, the row, and a pass
-                  test that deletes the baseline line (tools/repair_queue.py)
-  L. Link repair  rows the last link cycle did not place or wire (link_status.csv)
-  New matches (tiers 1-4) carry `dest`: the unit the row belongs in (address
-  contiguity), never a fresh one-function file.
+  R. Repair       gate debt (reverse/gate_baseline.txt; tier C, diffexec, boot and
+                  game smoke): the check, the row, and a pass test that deletes the
+                  baseline line (--tier repair)
+  L. Link repair  rows the last link cycle did not place or wire, else the committed
+                  census's units that do not link, with the units changed since the
+                  census re-predicted by tools/link_check.py (--tier link)
+  D. Data identity  reverse/data_check_baseline.txt keys: a unit binds or defines a
+                  second name for a data address (--tier data)
+  H. Class header  reverse/header_queue.tsv units that have not adopted their
+                  class's canonical header (--tier header)
+  I. Code identity  reverse/code_identity_baseline.tsv keys: a reference binds a
+                  symbol the link does not resolve to retail's body (--tier identity)
+  New matches (tiers 1-4, then the Zero Hour packets) appear only on regressions
+  now; each is served only when its input file exists, and a tier whose input is
+  absent is skipped with a one-line note, never an exit. They carry `dest`: the
+  unit the row belongs in (address contiguity), never a fresh one-function file.
   1. Reloc-named  an unclaimed function whose mangled name a byte-true call proved
   2. Drift quick wins  immediate-only / imm+reg literal fixes from drift_report.csv
   3. Structural reconciliation  closest source-shape mismatches
@@ -20,6 +42,15 @@ Sections, in priority order:
      (--tier similar: unclaimed functions nearest to matched code in BFME1/BFME2,
       tools/similar.py; served on request only, never by the default pick)
   5. Rest of the ladder (pointer commands only, nothing computed)
+
+--claim takes class-only refs for header reconciliation and divergent class
+identities, and file refs for body edits. claims.lock_keys retains class-to-file
+logical expansion, checked freshly after each push; header work need not reserve
+hundreds of file refs. Body edits take their RVA and source lock atomically.
+Queues skip work whose logical footprint meets another seat's live claims
+(claims.busy_keys). A debt item's claim records its debt
+lines and is released by settle once origin/master no longer holds them; file
+locks go once no claim of their owner needs them.
 
   --tier wb (or --wb) serves WorldBuilder name leads instead: see wb_candidates.
 
@@ -42,11 +73,12 @@ in `prior_attempt` in --json. Text output prints it before the start command,
 including evidence paths; read it before repeating a failed trial.
 
 Usage:
-  python3 tools/next_work.py [--tier structural]
+  python3 tools/next_work.py [--claim] [--tier link|data|header|identity|structural|...]
   python3 tools/next_work.py --wb [--claim] [--ranked]
   python3 tools/next_work.py --ranked [--limit 10] [--json]
 
-Exit codes: 0 ok, 1 missing/bad inputs, 2 ledger corrupt.
+Exit codes: 0 ok, 1 bad inputs (a malformed report; an absent one is skipped),
+2 ledger corrupt.
 """
 import argparse
 import ast
@@ -54,6 +86,8 @@ import bisect
 import csv
 import hashlib
 import json
+import os
+import random
 import re
 import secrets
 import subprocess
@@ -117,7 +151,34 @@ def check_ledger():
     return proc.stdout.strip()
 
 
+# One line per new-match tier skipped because its input file is absent (main prints
+# them; --json carries them as "skipped"). Matching is complete, so the generated,
+# gitignored inputs of those tiers (drift_report.csv above all) are often absent:
+# that skips the tier, it never ends the pick.
+SKIPPED = []
+
+
+def rel_path(path):
+    """PATH relative to the checkout where it lies inside it."""
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def missing_input(path, tier, regen):
+    """True, recording a one-line note in SKIPPED, when TIER's input is absent."""
+    if path.exists():
+        return False
+    note = f"{tier}: {rel_path(path)} absent, tier skipped (regenerate: {regen})"
+    if note not in SKIPPED:
+        SKIPPED.append(note)
+    return True
+
+
 def read_csv(path, regen):
+    """(fieldnames, rows) of a tier's report. Callers check missing_input first; a
+    report that is absent here was removed mid-run, and that is an input error."""
     if not path.exists():
         raise SystemExit(f"{path.relative_to(ROOT)} is missing — regenerate it: {regen}")
     with path.open(newline="") as fh:
@@ -143,6 +204,8 @@ def to_int(value, base, what):
 
 def drift_quick_wins():
     import build
+    if missing_input(DRIFT, "harvest", "python3 tools/drift_classify.py"):
+        return []
     _, rows = read_csv(DRIFT, "python3 tools/drift_classify.py")
     claimed = {int(row["target_rva"], 16)  # check_csv validated these
                for row in build.load_claim_rows(counting_dumps=False, matched_only=False)
@@ -162,7 +225,7 @@ def drift_quick_wins():
                   f"{row['source']} — stale report, skipped", file=sys.stderr)
             continue
         out.append({"function": name, "source": rel,
-                    "class": row["class"], "aligned_pct": int(row["aligned_pct"]),
+                    "drift_class": row["class"], "aligned_pct": int(row["aligned_pct"]),
                     "candidate_rva": row["candidate_rva"], "hint": row["hint"],
                     "command": f"python3 tools/build.py {rel}"})
     out.sort(key=lambda c: (-c["aligned_pct"], c["function"]))
@@ -328,6 +391,8 @@ def padding_snap(rva):
 def structural_candidates(claimed, claimed_names, claimed_ranges, big=False):
     """The manual-RE tier: drifted functions whose source exists but whose code
     shape differs (class structural / register-swap). Workflow: docs/structural.md."""
+    if missing_input(DRIFT, "structural", "python3 tools/drift_classify.py"):
+        return []
     _, rows = read_csv(DRIFT, "python3 tools/drift_classify.py")
     last = {}
     for row in rows:
@@ -371,7 +436,7 @@ def structural_candidates(claimed, claimed_names, claimed_ranges, big=False):
             continue
         crva_hex = f"0x{crva:08X}"
         hint = row["hint"] + (f"; {snap_note}, verify the prologue" if snap_note else "")
-        out.append({"function": name, "source": source, "class": row["class"],
+        out.append({"function": name, "source": source, "drift_class": row["class"],
                     "aligned_pct": int(row["aligned_pct"]), "size": int(row["size"]),
                     "candidate_rva": crva_hex, "hint": hint,
                     "command": (f"python3 tools/explain_mismatch.py '{name}' "
@@ -469,6 +534,8 @@ def ghidra_absent_candidates(claimed, claimed_names):
     if not GHIDRA_FUNCTIONS.exists() or not STRING_XREFS.exists():
         return [], ("Ghidra outputs unavailable — generate them per "
                     "tools/ghidra/README.md")
+    if missing_input(DRIFT, "ghidra", "python3 tools/drift_classify.py"):
+        return [], f"{rel_path(DRIFT)} absent — Ghidra tier skipped"
 
     _, rows = read_csv(DRIFT, "python3 tools/drift_classify.py")
     last = {row["function"]: row for row in rows if row["class"] == "absent"}
@@ -682,32 +749,93 @@ def _candidate_rva(candidate):
     return None
 
 
+def claim_targets(candidate):
+    """What --claim takes for this candidate: its scopes (`class:NAME`, `file:PATH`:
+    the item's `claim` list, set where the fix is wider than one body) when it names
+    any, else its RVA; [] when it has neither."""
+    if candidate.get("claim"):
+        return list(candidate["claim"])
+    rva = _candidate_rva(candidate)
+    return [] if rva is None else [rva]
+
+
+def claim_keys(candidate):
+    """The claim keys this candidate's work names: the scopes it claims, its RVA, its
+    own source file and the class it works on (an item's `class`). claims.lock_keys
+    expands them to every file the work touches; two items collide exactly when
+    their lock keys meet."""
+    keys = {claims.key_of(scope) for scope in candidate.get("claim") or ()}
+    source = candidate.get("source") or ""
+    real = source if source and not source.startswith("(") else None
+    # Reference packets name a donor source; their proposed target unit is the
+    # file a worker edits. Fence it as well, including for unrowed addresses.
+    destination = candidate.get("dest")
+    if destination:
+        keys.add(claims.file_key(destination))
+    return keys | claims.work_keys(_candidate_rva(candidate), real, candidate.get("class"))
+
+
+def busy_keys():
+    """claims.busy_keys(): the lock keys of every live claim in all namespaces (the
+    mirrored remote's RVAs included)."""
+    return claims.busy_keys()
+
+
 def without_busy(candidates, busy):
-    """Keep every queue view consistent with live shared work claims."""
-    return [candidate for candidate in candidates if _candidate_rva(candidate) not in busy]
+    """Keep every queue view consistent with live shared work claims: drop a candidate
+    whose lock keys meet those of `busy` (claim keys)."""
+    locked = claims.lock_keys(busy)
+    return [candidate for candidate in candidates if not claims.lock_keys(claim_keys(candidate)) & locked]
 
 
+def claim_note(label, candidate):
+    """The claim's note: the label, plus `debt=` for every debt item that names its
+    debt lines (debt_lines, else its baseline_line), which claims.settle_scopes
+    releases once origin/master no longer holds them."""
+    lines = candidate.get("debt_lines") or ([candidate["baseline_line"]] if candidate.get("baseline_line") else [])
+    if lines and candidate.get("baseline"):
+        return f"next_work {label} " + claims.debt_note({candidate["baseline"]: lines})
+    return f"next_work {label}"
+
+
+@claims.pick_snapshot()
 def claim_choice(candidates, label):
-    """Claim one draw, trying another RVA if a peer won the claim race."""
+    """Claim one draw (claim_targets) with every file its work touches (claims.acquire:
+    create-only refs, all or nothing), trying another draw -- and dropping whatever
+    collides with the refused keys -- when a peer holds any of them."""
     remaining = list(candidates)
     while remaining:
         candidate = weighted_choice(remaining)
-        rva = _candidate_rva(candidate)
-        if rva is None:
-            raise SystemExit("next_work: selected candidate has no claimable RVA")
+        targets = claim_targets(candidate)
+        if not targets:
+            raise SystemExit("next_work: selected candidate has no claimable RVA or scope")
+        keys = claim_keys(candidate)
+        shown = ", ".join(claims.label(claims.key_of(t)) for t in targets)
         try:
-            acquired, refused = claims.claim([rva], note=f"next_work {label}")
+            result = claims.acquire(targets, keys, note=claim_note(label, candidate))
         except claims.ClaimsUnavailable as error:
-            if rva in error.refused:    # origin showed a peer holding it
-                remaining = without_busy(remaining, {rva})
+            if error.unclean:
+                raise SystemExit(f"next_work: {error}; partial claims remain, refusing a new pick") from error
+            if error.reachable:
+                raise SystemExit(f"next_work: {error}; no work served") from error
+            held = set(error.refused)
+            if claims.lock_keys(held) & claims.lock_keys(keys):     # origin showed a peer holding it
+                remaining = [c for c in without_busy(remaining, held) if c is not candidate]
                 continue
             # AGENTS.md: the picker warns and serves the body unclaimed
-            print(f"next_work: {error}; serving 0x{rva:08X} without a shared claim",
+            print(f"next_work: {error}; serving {shown} without a shared claim",
                   file=sys.stderr)
             return candidate, list(error.claimed)
-        if rva not in refused:
-            return candidate, acquired
-        remaining = without_busy(remaining, {rva})
+        if not result.refused:
+            return candidate, list(result.claimed)
+        why = ("claim push refused by reachable origin" if getattr(result, "unconfirmed", ())
+               else "held by another worker")
+        print(f"next_work: {', '.join(claims.label(k) for k in result.refused)} {why}; "
+              f"skipping {shown}", file=sys.stderr)
+        # An unconfirmed push is no evidence of a peer owning the whole file.
+        # Leave siblings eligible for their own acquisition attempt.
+        held = set(result.refused) - set(getattr(result, "unconfirmed", ()))
+        remaining = [c for c in without_busy(remaining, held) if c is not candidate]
     return None, []
 
 
@@ -720,19 +848,16 @@ def serve_dx(args):
         claims.settle()
     for record in dx_migration.servable():
         scope = "file:" + record["source"]
+        # `class` here is a migration classification, not a C++ class scope.
+        candidate = {"source": record["source"], "function": record["source"], "claim": [scope]}
+        if not apply_shard([candidate], args.shard):
+            continue
         note = ""
         if args.claim:
-            key = claims.key_of(scope)
-            try:
-                _, refused = claims.claim([scope], note="next_work dx")
-            except claims.ClaimsUnavailable as error:
-                if key in error.refused:
-                    continue
-                print(f"next_work: {error}; serving {record['source']} without a shared claim",
-                      file=sys.stderr)
-            else:
-                if key in refused:
-                    continue
+            picked, acquired = claim_choice([candidate], "dx")
+            if picked is None:
+                continue
+            if acquired:
                 note = f"claim: {scope} held on origin"
         if args.json:
             print(json.dumps({"tier": "dx", "selection": record, "claim": note or None}, indent=2))
@@ -939,6 +1064,26 @@ def apply_shard(candidates, shard):
             if shard_key(candidate) % count == index]
 
 
+def debt_rank_factor(candidate):
+    """How much a debt queue's own ranking multiplies a draw: header units by their
+    class's place in DEPENDENCY_ORDER (rank 0 of N weighs N, the last 1: a class is
+    adopted once the types it uses have one definition), data keys by how many keys
+    share their address (one declaration fix, repeated) and doubly for duplicate-def
+    (a link blocker), link units by how few blockers they have left, and debt whose
+    source vanished (a regression) first. 1 for anything else."""
+    if candidate.get("check") == "vanished-source":
+        return 16
+    tier = candidate.get("tier")
+    if tier == "header":
+        return max(1, int(candidate.get("ranks", 1)) - int(candidate.get("rank", 0)))
+    if tier == "data":
+        return min(16, int(candidate.get("keys_at_address", 1))) * (2 if candidate.get("check") == "duplicate-def"
+                                                                    else 1)
+    if tier == "link" and "blockers" in candidate:
+        return max(1, 8 - int(candidate["blockers"]))
+    return 1
+
+
 def candidate_weight(candidate):
     """Selection weight for one candidate: see tools/yield_model.weight.
 
@@ -952,7 +1097,8 @@ def candidate_weight(candidate):
     dominates the draw. The similar tier keeps its resemblance order in the
     draw (score 1.0 keeps the full weight, 0.5 a quarter of it)."""
     weight = yield_model.weight(
-        candidate.get("size") or candidate.get("target_size") or 1)
+        candidate.get("size") or candidate.get("target_size") or candidate.get("credit") or 1)
+    weight *= debt_rank_factor(candidate)
     if "similarity" in candidate:
         weight = max(1, round(weight * candidate["similarity"] ** 2))
     rva = _candidate_rva(candidate)
@@ -1023,8 +1169,8 @@ def anchored_candidates(claimed, claimed_names, claimed_ranges):
     These carry an identity LEAD, not a name: the anchor says which ZH source
     the body came from, and recovering the symbol is the first part of the job.
     """
-    if not ANCHORED.exists():
-        return [], (f"{ANCHORED.relative_to(ROOT)} not generated — "
+    if missing_input(ANCHORED, "anchored", "python3 tools/anchor_unclaimed.py"):
+        return [], (f"{rel_path(ANCHORED)} not generated — "
                     f"run python3 tools/anchor_unclaimed.py")
     _, rows = read_csv(ANCHORED, "python3 tools/anchor_unclaimed.py")
     ranges = sorted(claimed_ranges)
@@ -1082,6 +1228,8 @@ def reloc_named_candidates(claimed, claimed_ranges):
     half the time. Their bytes are already claimed as Code/gen_asm/ dumps, so
     the convert lane serves them with the byte evidence attached instead.
     """
+    if missing_input(RELOC_NAMES, "named", "./build.sh"):
+        return [], f"{rel_path(RELOC_NAMES)} absent — reloc-named tier skipped"
     _, rows = read_csv(RELOC_NAMES, "./build.sh")
     ranges = sorted(claimed_ranges)
     starts = [start for start, _ in ranges]
@@ -1133,7 +1281,7 @@ def packet_candidates(claimed):
     carried so tools/landability.band can serve the best band first, and so the
     selection JSON says what a draw was worth.
     """
-    if not PACKETS.is_dir():
+    if missing_input(PACKETS, "packet", "python3 tools/zh_sweep.py packets"):
         return []
     validator = structural_validator()
     out = []
@@ -1310,11 +1458,24 @@ def similar_candidates(claimed, claimed_ranges):
     return out
 
 
+# The default pick, every turn: wrong code already counted as progress first (gate
+# debt, then what the link cannot place), then the identity and header debt that keeps
+# units from linking, and only then new matches, which appear only on regressions now.
+DEFAULT_ORDER = ("repair", "link", "data", "header", "identity",
+                 "packet", "named", "harvest", "structural", "ghidra", "anchored")
+EMPTY_LABEL = "default order"
+DEBT_LABELS = ("gate-debt repair", "link-cycle repair", "data-identity debt", "class-header adoption",
+               "code-identity debt")
+
+
 def selected_queue(tier, drifts, structural, ghidra_absent, anchored, named,
-                   packets=(), similar=(), repair=(), link=(), repair_turn=True, wb=()):
+                   packets=(), similar=(), repair=(), link=(), wb=(), data=(), header=(), identity=()):
     queues = {
         "repair": ("gate-debt repair", repair),
         "link": ("link-cycle repair", link),
+        "data": ("data-identity debt", data),
+        "header": ("class-header adoption", header),
+        "identity": ("code-identity debt", identity),
         "packet": ("Zero Hour work packet", packets),
         "named": ("reloc-named unclaimed function", named),
         "harvest": ("drift quick win", drifts),
@@ -1326,22 +1487,168 @@ def selected_queue(tier, drifts, structural, ghidra_absent, anchored, named,
     }
     if tier:
         return queues[tier]
-    if not repair_turn:
-        # Repairs are capped (repair_queue.repair_turn): off-turn they wait unless
-        # nothing else is servable, so no seat is ever left idle.
-        order = [name for name in queues if name not in ("repair", "link", "similar", "wb")]
-        for name in order + ["repair", "link"]:
-            label, candidates = queues[name]
-            if candidates:
-                return label, candidates
-        return "validated queue", []
-    # On a repair turn, repairs first: a row a gate excuses, or one the real link cannot place, is
-    # wrong code already counted as progress; fixing it is credited (progress_v2).
-    for name in ("repair", "link", "packet", "named", "harvest", "structural", "ghidra", "anchored"):
+    for name in DEFAULT_ORDER:
         label, candidates = queues[name]
         if candidates:
             return label, candidates
-    return "validated queue", []
+    return EMPTY_LABEL, []
+
+
+DEBT_TIERS = ("repair", "link", "data", "header", "identity")
+TIER_LABELS = dict(zip(DEBT_TIERS, DEBT_LABELS))
+# Shares of the default pick among the debt queues after gate debt (always first: it is
+# wrong code already counted as progress, and usually empty). Link work dominates, but
+# every lane gets capacity, and header and data -- prerequisites of linking: one
+# definition of a class, one name for a datum -- get a guaranteed fifth each.
+# BFME_TIER_WEIGHTS="link=50,header=20,data=20,identity=10" overrides.
+TIER_WEIGHTS = {"link": 50, "header": 20, "data": 20, "identity": 10}
+BUILT = []                  # debt queues this run built, in order (lazy: tests read it)
+_DEBT = {}
+
+
+def tier_weights():
+    weights = dict(TIER_WEIGHTS)
+    for part in filter(None, os.environ.get("BFME_TIER_WEIGHTS", "").split(",")):
+        name, _, value = part.partition("=")
+        if name.strip() in weights and value.strip().isdigit():
+            weights[name.strip()] = int(value)
+    return weights
+
+
+def debt_order(rng=None):
+    """The debt queues in the order this pick tries them: repair, then link, data,
+    header and identity drawn without replacement by tier_weights() (a queue at
+    weight 0 is still tried, last). Every queue after the first is a fallthrough:
+    taken when the ones before it are empty or every item in them is claimed."""
+    rng = rng or random.SystemRandom()
+    weights = tier_weights()
+    left = [name for name in DEBT_TIERS[1:] if weights.get(name, 0) > 0]
+    order = ["repair"]
+    while left:
+        total = sum(weights[name] for name in left)
+        cut = rng.uniform(0, total)
+        for name in left:
+            cut -= weights[name]
+            if cut <= 0:
+                break
+        order.append(name)
+        left.remove(name)
+    return order + [name for name in DEBT_TIERS[1:] if name not in order]
+
+
+def build_debt(name):
+    """(items, note) of one debt queue, built at most once per run (BUILT records it).
+    An absent input file skips the queue with a note (SKIPPED), never an exit."""
+    if name not in _DEBT:
+        BUILT.append(name)
+        if name == "repair":
+            _DEBT[name] = (repair_queue.all_repair_items(), "")
+        elif name == "link":
+            _DEBT[name] = repair_queue.link_items()
+        else:
+            path, builder = repair_queue.DEBT_QUEUES[name]
+            _DEBT[name] = builder()
+            if not (repair_queue.ROOT / path).exists():
+                SKIPPED.append(_DEBT[name][1])
+    return _DEBT[name]
+
+
+def prepare_debt(items, busy, args):
+    """(pool, suppressed): one debt queue as the draw sees it -- live claims fenced out,
+    sharded, a recorded dead end dropped and a standing deferral (blocked, attempted,
+    abandoned) tagged `deferred_attempts`, so weighted_choice serves it only once
+    nothing untried is left -- exactly as the new-match tiers are."""
+    pool = apply_shard(without_busy(items, busy), args.shard)
+    suppressed = 0
+    if not args.include_logged:
+        pool, suppressed = drop_logged(pool)
+    annotate_attempts(pool)
+    return pool, suppressed
+
+
+def pick_debt(order, args, busy):
+    """Draw from the first queue of ORDER that yields an untried candidate (claimed,
+    with --claim), building each queue only when reached; only once every queue's
+    untried work is empty or claimed, the deferred items (a standing blocked or
+    attempted verdict) in the same order. Returns a dict: name, label, pool,
+    candidate, acquired, tried (queues passed over: empty, all claimed or only
+    deferred), suppressed."""
+    tried, suppressed, deferred = [], 0, []
+    for name in order:
+        items, _ = build_debt(name)
+        pool, dropped = prepare_debt(items, busy, args)
+        suppressed += dropped
+        fresh = [c for c in pool if not c.get("deferred_attempts")]
+        if len(fresh) < len(pool):
+            deferred.append((name, pool))
+        if fresh:
+            got = draw_debt(name, fresh, pool, args, tried, suppressed)
+            if got:
+                return got
+        tried.append(name)
+    for name, pool in deferred:
+        got = draw_debt(name, pool, pool, args, tried, suppressed)
+        if got:
+            return got
+    return {"name": None, "label": EMPTY_LABEL, "pool": [], "candidate": None, "acquired": [], "tried": tried,
+            "suppressed": suppressed}
+
+
+def draw_debt(name, draw, pool, args, tried, suppressed):
+    """One draw (claimed, with --claim) from DRAW, a part of queue NAME's POOL; None
+    when every candidate in it was claimed by a peer."""
+    label = TIER_LABELS[name]
+    candidate, acquired = claim_choice(draw, label) if args.claim else (weighted_choice(draw), [])
+    if candidate is None:
+        return None
+    return {"name": name, "label": label, "pool": pool, "candidate": candidate, "acquired": acquired,
+            "tried": list(tried), "suppressed": suppressed}
+
+
+def scope_release_note(candidate, acquired):
+    """How a scope claim without a `debt=` note ends: by hand, after the push."""
+    scopes = [t for t in claim_targets(candidate) if isinstance(t, str)]
+    if not acquired or not scopes or "debt=" in claim_note("", candidate):
+        return None
+    return ("claim: scope claims of link-cycle work are not settled automatically; after your push run "
+            f"python3 tools/claims.py release {' '.join(scopes)}")
+
+
+def emit_debt(args, ledger, picked):
+    """Print (or --json) the debt pick and what it passed over."""
+    candidate, label, pool = picked["candidate"], picked["label"], picked["pool"]
+    meta = {"pool": len(pool), "suppressed_logged": picked["suppressed"],
+            "deferred_pool": sum(1 for c in pool if c.get("deferred_attempts")),
+            "tiers_built": list(BUILT), "tiers_passed_over": picked["tried"],
+            "shard": None if args.shard is None else {"index": args.shard[0], "count": args.shard[1]}}
+    if args.json:
+        if args.claim:
+            meta["claimed"] = bool(picked["acquired"])
+        print(json.dumps({"ledger": ledger, "tier": label, "skipped": SKIPPED,
+                          "selection": candidate, "selection_meta": meta}, indent=2))
+        return
+    print(ledger)
+    for line in SKIPPED:
+        print(f"skipped {line}")
+    if picked["tried"]:
+        print("passed over (empty or every item claimed): " + ", ".join(TIER_LABELS[n] for n in picked["tried"]))
+    if picked["suppressed"]:
+        print(f"re_attempts: {picked['suppressed']} item(s) hidden as recorded dead ends (--include-logged to show)")
+    note = deferred_note(pool)
+    if note:
+        print(note)
+    if candidate is None:
+        print(f"\nNo {TIER_LABELS.get(args.tier, label)} candidates remain.")
+        return
+    if picked["acquired"]:
+        scopes = {claims.key_of(t): t for t in claim_targets(candidate) if isinstance(t, str)}
+        print(f"claim: {', '.join(scopes.get(key) or claims.label(key) for key in picked['acquired'])} held on "
+              "origin; release it if work is abandoned")
+        hint = scope_release_note(candidate, picked["acquired"])
+        if hint:
+            print(hint)
+    print()
+    print_candidate(label, candidate, meta, pool)
 
 
 def cluster_of(candidate, candidates):
@@ -1423,15 +1730,24 @@ def print_packet_candidate(candidate):
 
 def print_candidate(label, candidate, meta, candidates=()):
     print(f"== selected work: {label} (drawn from {meta['pool']}) ==")
-    if label in ("gate-debt repair", "link-cycle repair"):
+    if label in DEBT_LABELS:
         what = candidate.get("check") or ("placed, not self-strict" if candidate.get("placed") else "not placed")
         print(f"  {candidate['size']:>5}B  {what}  {candidate['function']}")
-        print(f"       {candidate['target_rva']} in {candidate['source']}")
+        print(f"       {candidate.get('target_rva') or candidate.get('address') or '(no address)'} "
+              f"in {candidate['source']}")
         print(f"       why: {candidate['why']}")
+        if candidate.get("claim"):
+            print(f"       scope: {' '.join(candidate['claim'])} (what --claim takes)")
         _print_boundary_verdicts(candidate)
-        print(f"       start: fix the row in {candidate['source']}; done when the pass test passes:")
+        print(f"       start: fix it in {candidate['source']}; done when the pass test passes:")
         print(f"       pass test: {candidate['pass_test']}")
-        print(f"       credit: {candidate['credit']:,} bytes (a repair counts: progress_v2 gate debt / link series)")
+        if candidate.get("tier") in ("data", "header", "identity"):
+            print("       done: only when the owning tool's verdict on fresh objects passes and retires the line "
+                  f"from {candidate.get('baseline')} itself; the pre-commit hook refuses a commit that deletes "
+                  "a line without that verdict (repair_queue.py verify-removed)")
+        else:
+            print(f"       credit: {candidate['credit']:,} bytes (a repair counts: progress_v2 gate debt / "
+                  "link series)")
         return
     if candidate.get("dest_basis"):
         print(f"  goes in: {candidate.get('dest') or '(no unit yet)'}  <- {candidate['dest_basis']}")
@@ -1465,7 +1781,7 @@ def print_candidate(label, candidate, meta, candidates=()):
                   f"by calls in that same file")
         return
     if label == "drift quick win":
-        print(f"  {candidate['aligned_pct']:>3}% {candidate['class']:<14} "
+        print(f"  {candidate['aligned_pct']:>3}% {candidate['drift_class']:<14} "
               f"{candidate['function']}")
         print(f"       {candidate['source']} @ {candidate['candidate_rva']}  "
               f"hint: {candidate['hint']}")
@@ -1551,10 +1867,10 @@ def print_ranked(args, ledger, drifts, structural, ghidra_meta, ghidra_absent,
             _print_boundary_verdicts(candidate)
             print(f"       start: {candidate['command']}")
 
-    if args.tier not in ("repair", "link", "named", "structural", "ghidra"):
+    if args.tier in (None, "harvest"):
         print(f"\n== 2. drift quick wins: literal-only diffs ({len(drifts)}) ==")
         for candidate in drifts[:args.limit]:
-            print(f"  {candidate['aligned_pct']:>3}% {candidate['class']:<14} "
+            print(f"  {candidate['aligned_pct']:>3}% {candidate['drift_class']:<14} "
                   f"{candidate['function']}")
             print(f"       {candidate['source']} @ {candidate['candidate_rva']}  "
                   f"hint: {candidate['hint']}")
@@ -1563,7 +1879,7 @@ def print_ranked(args, ledger, drifts, structural, ghidra_meta, ghidra_absent,
             print("       fix the literal in source, then byte-verify: "
                   f"{candidate['command']}")
 
-    if args.tier not in ("repair", "link", "named", "harvest", "ghidra"):
+    if args.tier in (None, "structural"):
         shown = structural[:args.limit]
         print(f"\n== 3. structural reconciliation — manual RE ({len(structural)} "
               f"address(es); workflow: docs/structural.md) ==")
@@ -1631,6 +1947,7 @@ def wb_sizes(rows):
     return sizes
 
 
+@claims.pick_snapshot()
 def main():
     import build
     ap = argparse.ArgumentParser(description=__doc__,
@@ -1642,10 +1959,11 @@ def main():
     ap.add_argument("--ranked", action="store_true",
                     help="show complete ranked queues for humans/debugging")
     ap.add_argument("--claim", action="store_true",
-                    help="claim the selected RVA on origin before serving it; retry a raced selection")
+                    help="claim the selected item on origin before serving it (its class:/file: scope where it "
+                         "names one, else its RVA); retry a raced selection")
     ap.add_argument("--tier",
-                    choices=("repair", "link", "packet", "named", "harvest", "structural", "ghidra", "anchored",
-                             "similar", "wb", "dx"),
+                    choices=("repair", "link", "data", "header", "identity", "packet", "named", "harvest",
+                             "structural", "ghidra", "anchored", "similar", "wb", "dx"),
                     help="choose from only this task lane")
     ap.add_argument("--wb", action="store_const", const="wb", dest="tier",
                     help="shorthand for --tier wb: serve bodies by WorldBuilder name lead")
@@ -1653,9 +1971,6 @@ def main():
                     help="stable zero-based partition for concurrent workers")
     ap.add_argument("--big", action="store_true",
                     help="sort structural candidates by size (byte yield) instead of alignment")
-    ap.add_argument("--repair-every", type=int, metavar="N",
-                    help="serve a repair on about 1 default pick in N, rotated per agent "
-                         "(default BFME_REPAIR_EVERY or 3; 1 = always, 0 = only when nothing else)")
     ap.add_argument("--include-logged", action="store_true",
                     help="keep candidates already recorded no-match in "
                          "reverse/re_attempts.log (they are dropped by default)")
@@ -1667,8 +1982,23 @@ def main():
         return serve_dx(args)
     global repair_queue
     import repair_queue  # after the health check: a corrupt ledger exits first
-    drifts = (drift_quick_wins()
-              if args.tier not in ("packet", "named", "structural", "ghidra", "similar", "wb") else [])
+    # The debt queues first, lazily: each is built only when the weighted order reaches
+    # it, and the new-match tiers below are computed only when every debt queue is empty
+    # or claimed. --ranked builds everything (a human view).
+    settled, debt_suppressed = False, 0
+    if not args.ranked and (args.tier is None or args.tier in DEBT_TIERS):
+        if args.claim:
+            claims.settle()    # release this checkout's landings (and finished scopes) origin/master holds
+            settled = True
+        picked = pick_debt(debt_order() if args.tier is None else [args.tier], args, busy_keys())
+        if picked["candidate"] is not None or args.tier is not None:
+            emit_debt(args, ledger, picked)
+            return
+        debt_suppressed = picked["suppressed"]
+    # A new-match tier is computed only for the default pick or its own --tier, and
+    # skips itself (missing_input) when its input is absent: --tier link never reads
+    # the drift report.
+    drifts = drift_quick_wins() if args.tier in (None, "harvest") else []
     # Every tier below asks "is this address still open work?", and a gen-dump
     # row answers yes: it pins retail's bytes and holds no source. That rule
     # lives in build.load_claim_rows and nowhere else -- deriving it here a
@@ -1683,9 +2013,7 @@ def main():
                 claimed_ranges.append((start, start + int(row["target_size"])))
     structural = (structural_candidates(claimed, claimed_names, claimed_ranges,
                                         big=args.big)
-                  if args.tier not in ("packet", "named", "harvest", "ghidra", "anchored",
-                                       "similar", "wb")
-                  else [])
+                  if args.tier in (None, "structural") else [])
     if args.tier in (None, "named"):
         named, named_note = reloc_named_candidates(claimed, claimed_ranges)
     else:
@@ -1697,8 +2025,7 @@ def main():
         anchored, anchored_note = [], "anchored tier not requested"
     similar_q = (similar_candidates(claimed, claimed_ranges)
                  if args.tier == "similar" else [])
-    if args.tier not in ("packet", "named", "harvest", "structural", "anchored", "similar",
-                         "wb"):
+    if args.tier in (None, "ghidra"):
         ghidra_absent, ghidra_meta = ghidra_absent_candidates(
             claimed, claimed_names)
     else:
@@ -1723,11 +2050,16 @@ def main():
         suppressed = (dropped_named + dropped_drift + dropped_structural
                       + dropped_ghidra + dropped_anchored + dropped_wb + dropped_similar)
 
-    repair = repair_queue.all_repair_items() if args.tier in (None, "repair") else []
-    link, link_note = repair_queue.link_items() if args.tier in (None, "link") else ([], "")
-    busy = claims.busy_rvas()
-    repair = apply_shard(without_busy(repair, busy), args.shard)
-    link = apply_shard(without_busy(link, busy), args.shard)
+    # Debt queues here only for --ranked; the pick drew from them above.
+    shown = {name: build_debt(name) if args.ranked and args.tier in (None, name) else ([], "")
+             for name in DEBT_TIERS}
+    busy = busy_keys()
+    debt, debt_notes = {}, {}
+    for name, (items, queue_note) in shown.items():
+        debt[name], dropped = prepare_debt(items, busy, args) if items else ([], 0)
+        debt_notes[name] = queue_note
+        suppressed += dropped
+    repair, link, link_note = debt.pop("repair"), debt.pop("link"), debt_notes["link"]
     named = without_busy(named, busy)
     drifts = without_busy(drifts, busy)
     structural = without_busy(structural, busy)
@@ -1747,8 +2079,6 @@ def main():
     anchored = apply_shard(anchored, args.shard)
     wb = apply_shard(wb, args.shard)
     similar_q = apply_shard(similar_q, args.shard)
-    for queue in (repair, link):
-        annotate_attempts(queue)
     for queue in (named, drifts, structural, ghidra_absent, anchored, wb, similar_q):
         annotate_attempts(queue)
         annotate_stashes(queue)
@@ -1790,24 +2120,38 @@ def main():
             "wb_leads": wb,
             "similar": similar_q,
             "repair": repair, "link_meta": link_note, "link": link,
+            "data_identity_meta": debt_notes["data"], "data_identity": debt["data"],
+            "class_header_meta": debt_notes["header"], "class_header": debt["header"],
+            "code_identity_meta": debt_notes["identity"], "code_identity": debt["identity"],
             "structural_meta": structural_meta,
             "suppressed_logged": suppressed,
+            "skipped": SKIPPED,
             "shard": shard_meta,
             "pointers": [cmd for cmd, _ in POINTERS],
         }, indent=2))
         return
 
     if args.ranked:
-        if args.tier in (None, "repair", "link"):
-            for title, queue in (("R. gate-debt repairs", repair), ("L. link-cycle repairs", link)):
+        for line in SKIPPED:
+            print(f"skipped {line}")
+        sections = (("repair", "R. gate-debt repairs", repair, ""), ("link", "L. link-cycle repairs", link, link_note),
+                    ("data", "D. data-identity debt", debt["data"], debt_notes["data"]),
+                    ("header", "H. class-header adoption", debt["header"], debt_notes["header"]),
+                    ("identity", "I. code-identity debt", debt["identity"], debt_notes["identity"]))
+        if args.tier in (None, *(name for name, _, _, _ in sections)):
+            for name, title, queue, queue_note in sections:
+                if args.tier not in (None, name):
+                    continue
                 print(f"== {title} ({len(queue)}) ==")
+                if queue_note:
+                    print(f"  {queue_note}")
                 for candidate in queue[:args.limit]:
-                    print(f"  {candidate['size']:>5}B {candidate.get('check', '')} {candidate['target_rva']} "
-                          f"{candidate['function'][:70]}  ({candidate['source']})")
+                    print(f"  {candidate['size']:>5}B {candidate.get('check', '')} "
+                          f"{candidate.get('target_rva') or candidate.get('address', '')} "
+                          f"{candidate['function'][:70]}  ({candidate['source']})"
+                          + (f"  [claims {' '.join(candidate['claim'])}]" if candidate.get("claim") else ""))
                     _print_boundary_verdicts(candidate)
                     print(f"       pass test: {candidate['pass_test']}")
-            if link_note:
-                print(f"  {link_note}")
             print()
         print_ranked(args, ledger, drifts, structural, ghidra_meta,
                      ghidra_absent, suppressed, named, named_note, structural_meta, wb,
@@ -1829,12 +2173,13 @@ def main():
     # name never waits behind an unrowed one.
     if args.tier == "wb":
         wb, wb_aside = wb_band(wb)
-    turn = args.tier is not None or repair_queue.repair_turn(args.repair_every)
     label, candidates = selected_queue(args.tier, drifts, structural, ghidra_absent,
                                        anchored, named, packets, similar_q, repair=repair, link=link,
-                                       repair_turn=turn, wb=wb)
-    if args.claim:
+                                       wb=wb, data=debt["data"], header=debt["header"],
+                                       identity=debt["identity"])
+    if args.claim and not settled:
         claims.settle()    # release this checkout's landings origin/master now holds
+    suppressed += debt_suppressed
     candidate, acquired = (claim_choice(candidates, label) if args.claim else
                            (weighted_choice(candidates) if candidates else None, []))
     deferred = sum(1 for c in candidates if c.get("deferred_attempts"))
@@ -1849,10 +2194,12 @@ def main():
             if candidate else meta
         if args.claim:
             meta["claimed"] = bool(acquired)
-        print(json.dumps({"ledger": ledger, "tier": label,
+        print(json.dumps({"ledger": ledger, "tier": label, "skipped": SKIPPED,
                           "selection": candidate, "selection_meta": meta}, indent=2))
         return
     print(ledger)
+    for line in SKIPPED:
+        print(f"skipped {line}")
     if suppressed:
         print(f"re_attempts: {suppressed} candidate(s) hidden as already "
               f"investigated (--include-logged to show)")
@@ -1871,15 +2218,20 @@ def main():
     if validator_note(structural_meta):
         print(validator_note(structural_meta))
     if candidate is None:
-        print(f"\nNo {label} candidates remain.")
-        print("Convert lane always has work: python3 tools/list_naked_candidates.py Code")
+        if label == EMPTY_LABEL:
+            print("\nNo candidates remain in the default order (repair, link, data identity, class header, "
+                  "code identity, new matches).")
+        else:
+            print(f"\nNo {label} candidates remain.")
+        print("Byte matching is complete: new matches appear only on regressions (./build.sh). "
+              "Linking is the open work: python3 tools/link_rank.py")
         return
     if acquired:
-        print(f"claim: 0x{acquired[0]:08X} held on origin; release it if work is abandoned")
+        scopes = {claims.key_of(t): t for t in claim_targets(candidate) if isinstance(t, str)}
+        print(f"claim: {', '.join(scopes.get(key) or claims.label(key) for key in acquired)} held on origin; "
+              "release it if work is abandoned")
     print()
     print_candidate(label, candidate, meta, candidates)
-    print("\nConvert lane (byte-true dumps in Code/gen_asm/, the largest queue): "
-          "python3 tools/list_naked_candidates.py Code")
 
 
 if __name__ == "__main__":

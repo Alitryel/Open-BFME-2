@@ -37,7 +37,9 @@ def packet_environment(tmp_path, monkeypatch):
     monkeypatch.setattr(next_work, "check_ledger", lambda: "ledger healthy")
     monkeypatch.setattr(build, "load_claim_rows", lambda **kwargs: [
         {"target_rva": "0x0F000500", "target_size": "112", "name": "Landed"}])
-    monkeypatch.setattr(next_work.claims, "busy_rvas", lambda: {0x0F000300})
+    monkeypatch.setattr(next_work.claims, "ROOT", tmp_path)
+    monkeypatch.setattr(next_work.claims, "busy_keys", lambda: {0x0F000300})
+    monkeypatch.setattr(next_work.claims, "_local_lock_records", lambda root: {})
 
     def unexpected_claim(*args, **kwargs):
         raise AssertionError("a ranked view must not take or settle shared claims")
@@ -54,9 +56,9 @@ def packet_environment(tmp_path, monkeypatch):
         monkeypatch.setattr(next_work, name, lambda *args, **kwargs: [])
     for name in ("reloc_named_candidates", "anchored_candidates", "ghidra_absent_candidates"):
         monkeypatch.setattr(next_work, name, lambda *args, **kwargs: ([], "empty fixture"))
-    monkeypatch.setattr(repair_queue, "all_repair_items", lambda: [])
-    monkeypatch.setattr(repair_queue, "link_items", lambda: ([], ""))
-    monkeypatch.setattr(repair_queue, "repair_turn", lambda every: False)
+    # Default/ranked packet views keep every unrelated debt lane empty,
+    # including the data/header/identity lanes added by the picker rework.
+    monkeypatch.setattr(next_work, "build_debt", lambda name: ([], "empty fixture"))
     next_work.re_log._reset()
     try:
         yield packets
@@ -98,7 +100,7 @@ def test_ranked_text_shows_packet_instructions(packet_environment, monkeypatch, 
     output = run_queue(monkeypatch, capsys, *tier, "--ranked", "--limit", str(limit))
     assert "Zero Hour work packets (2)" in output
     assert "Ready" in output
-    assert "reverse/zh_sweep/packets/0x0F000100.md" in output
+    assert "reverse/zh_sweep/packets/0x0F000100.md" in output.replace("\\", "/")
     assert "port GeneralsMD/Ready.cpp" in output
     assert ("Unproven" in output) == (limit > 1)
     assert "Busy" not in output and "Retired" not in output and "Landed" not in output
@@ -134,7 +136,8 @@ def test_packet_lane_is_independent_of_drift_reports(monkeypatch, capsys):
     monkeypatch.setattr(sys, "argv", ["next_work.py", "--tier", "packet", "--json"])
     monkeypatch.setattr(next_work, "check_ledger", lambda: "ledger healthy")
     monkeypatch.setattr(build, "load_claim_rows", lambda **kwargs: [])
-    monkeypatch.setattr(next_work.claims, "busy_rvas", lambda: set())
+    monkeypatch.setattr(next_work.claims, "busy_keys", lambda: set())
+    monkeypatch.setattr(next_work.claims, "_local_lock_records", lambda root: {})
     for name in ["drift_quick_wins", "structural_candidates", "ghidra_absent_candidates",
                  "reloc_named_candidates", "anchored_candidates"]:
         monkeypatch.setattr(next_work, name, unrelated)
@@ -227,11 +230,13 @@ def test_packet_claims_never_escape_the_requested_shard(
         packet_environment, monkeypatch, capsys, shard, expected):
     claimed = []
 
-    def claim(rvas, note=""):
+    def acquire(rvas, work=(), note=""):
         claimed.extend(rvas)
-        return list(rvas), []
+        assert next_work.claims.file_key("Code/PacketHome.cpp") in work
+        assert all(rva in work for rva in rvas)
+        return next_work.claims.ClaimResult(list(rvas), [])
 
-    monkeypatch.setattr(next_work.claims, "claim", claim)
+    monkeypatch.setattr(next_work.claims, "acquire", acquire)
     monkeypatch.setattr(next_work.claims, "settle", lambda: None)
     output = json.loads(run_queue(monkeypatch, capsys, "--tier", "packet", "--claim",
                                   "--json", "--shard", shard))
@@ -241,3 +246,14 @@ def test_packet_claims_never_escape_the_requested_shard(
         assert int(output["selection"]["target_rva"], 16) == expected[0]
     else:
         assert output["selection"] is None
+
+
+def test_packets_with_different_donors_fence_the_same_target_unit(monkeypatch):
+    monkeypatch.setattr(next_work.claims, "scope_index", lambda root=None: ({}, {}, {}))
+    monkeypatch.setattr(next_work.claims, "_local_lock_records", lambda root: {})
+    packets = [{"target_rva": hex(rva), "function": str(rva), "source": source,
+                "dest": "Code/PacketHome.cpp"}
+               for rva, source in ((0x100, "GeneralsMD/A.cpp"), (0x200, "GeneralsMD/B.cpp"))]
+    key = next_work.claims.file_key("Code/PacketHome.cpp")
+    assert key in next_work.claims.lock_keys(next_work.claim_keys(packets[0]))
+    assert next_work.without_busy(packets, {key}) == []

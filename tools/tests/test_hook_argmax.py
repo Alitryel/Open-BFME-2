@@ -262,6 +262,8 @@ def test_build_chunks_passes_every_selector_once_and_stops_at_a_failure(tmp_path
     selectors = [f"Code/GameEngine/Source/{'Deep/' * 20}Unit {i:04d}.cpp" for i in range(3000)]
     (tmp_path / "selectors").write_bytes(b"\0".join(s.encode() for s in selectors) + b"\0")
     harness = f"""set -euo pipefail
+# This pure stub harness tests the default, independent of the outer job cap.
+unset BUILD_POOL
 fail() {{ echo "FAILED: $*" >&2; exit 1; }}
 n=0
 run_build() {{

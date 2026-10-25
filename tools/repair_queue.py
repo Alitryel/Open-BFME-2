@@ -3,6 +3,17 @@
 
 tools/next_work.py serves these as tiers; this module builds them.
 
+Retirement hooks judge the index (or the outgoing tree with --range). Builds and
+verdicts require tracked inputs to equal that tree before and after verification;
+unstaged fixes, deletions and header/ledger edits cannot vouch for staged blobs.
+A vanished source may retire debt only by transferring the same key to a new
+source, covering its removed ledger rows in deleted_rows.csv, or, exceptionally,
+one human explanation per key: `Debt-Retired: <key> <source> <reason>` (at least
+20 characters in the reason). Here <key>
+is the full, literal baseline line (tabs preserved), or the class for a header
+queue row. The source is repeated explicitly, and the reason must be nonempty.
+Verifier-Change explains verifier edits; it never excuses retiring a debt key.
+
   repair  gate debt: one keyed baseline line = one row a gate check excuses
           (BFME2 reverse/gate_baseline.txt; BFME1 body_guard_baseline.csv and
           full_gate_baseline.txt). The item names the check and the row's source.
@@ -31,6 +42,17 @@ tools/next_work.py serves these as tiers; this module builds them.
           row per source, measured at the commit its link_census_history.csv row
           names): units that do not link, with their blockers. PASS TEST: `tools/
           link_check.py SOURCE` says LINKS; the next census records linked=yes.
+          The census can be many commits old: a unit whose source, or a header
+          its build receipt recorded, changed since the census commit is
+          re-predicted by tools/link_check.py's own check and dropped only when
+          that proves it LINKS. A proof needs the index of the census's commit
+          and a current object (no compile, no fresh preprocess) for EVERY unit
+          changed since the index, all refreshed into it: a stale provider would
+          resolve a symbol it no longer defines. Without that the unit is KEPT,
+          with the reason. A unit with no build receipt is labelled "own source
+          unchanged". Verdicts are cached by object digest (cache_dir()).
+          Census units whose source vanished or holds no matched row are
+          counted in the note. A census item claims `file:SOURCE`.
           The output names the source used and the commit it describes; with
           neither, `link` says so and exits 1. A status file may be gzip.
           `link --bundle STORE` reads a PUBLISHED link-cycle bundle instead: the
@@ -63,6 +85,25 @@ tools/next_work.py serves these as tiers; this module builds them.
           on a frozen graph, not a repair proof. PASS TEST: a later published
           bundle no longer lists the root and its beneficiaries are
           closed_strict=1.
+  data    data-identity debt: one reverse/data_check_baseline.txt key (tools/
+          data_check.py: `source<TAB>check<TAB>symbol<TAB>address`). wrong-name: the
+          unit reaches a data address through a symbol that is not the data
+          ledger's global there; duplicate-def: it defines a datum another unit
+          owns. Claims `file:SOURCE`. PASS TEST: `retire data SOURCE` (below).
+  header  class-header queue: reverse/header_queue.tsv units that did not adopt their
+          class's canonical header (tools/header_adopt_lane.py), DEPENDENCY_ORDER
+          classes first. Claims `class:NAME` and `file:SOURCE`. PASS TEST: the
+          row's `accept` command, which retires the row when the unit passes.
+  identity code-identity debt: one reverse/code_identity_baseline.tsv key (tools/
+          code_identity_gate.py, classes in tools/allowed_symbols.py). PASS TEST:
+          `retire identity SOURCE` (below). A `divergent` key of a class member
+          claims `class:NAME`.
+          Each of the three is skipped, with a note, when its file is absent; debt
+          naming a source that no longer exists is served first as a regression.
+  retire  a debt key leaves its register only on the owning tool's verdict on fresh
+          evidence (data_check / allowed_symbols over objects proven current), and
+          the verdict fails closed: see "retiring debt" below. verify-removed
+          applies it to every key or header row a commit deletes.
   dest    for a NEW match: the translation unit the row belongs in. EA evidence of
           the source file first (BFME1 ea_evidence.csv `file` rows), then the
           address's approved TU in tu_map.csv (the one tu_ownership A3 checks, read
@@ -77,16 +118,21 @@ tools/next_work.py serves these as tiers; this module builds them.
 
   python3 tools/repair_queue.py repair [--limit N]
   python3 tools/repair_queue.py link [--limit N] [--bundle STORE [--closure] [--allow-stale] [--local-unpublished]]
+  python3 tools/repair_queue.py data|header|identity [--limit N]
   python3 tools/repair_queue.py dest 0xRVA
   python3 tools/repair_queue.py pass-test "<baseline line>"
+  python3 tools/repair_queue.py retire data|identity SOURCE   # the tool's verdict retires keys
+  python3 tools/repair_queue.py retired [--limit N]  # audit committed Debt-Retired trailers
   python3 tools/repair_queue.py verify-removed     # pre-commit, when a debt line is deleted:
-                                                   # builds each such row's source not already staged
+                                                   # builds and judges each such row against staged inputs;
+                                                   # data/identity keys and header rows: the tool's verdict
 """
 import argparse
 import bisect
 import calendar
 import csv
 import gzip
+import hashlib
 import io
 import json
 import os
@@ -352,12 +398,78 @@ def _git(*args):
                           encoding="utf-8", errors="replace")
 
 
+DEBT_BASE, DEBT_TARGET = "HEAD", ""  # empty ref means the Git index, never the filesystem
+
+
+def _debt_present(source):
+    return _git("cat-file", "-e", f"{DEBT_TARGET}:{source}").returncode == 0
+
+
+def _verification_tree():
+    got = _git("write-tree") if not DEBT_TARGET else _git("rev-parse", f"{DEBT_TARGET}^{{tree}}")
+    if got.returncode:
+        return None
+    return got.stdout.strip()
+
+
+def _verification_problems(tree, sources=()):
+    """Bind the ordinary build's working inputs to staged/outgoing blobs, fail closed.
+
+    Do not overlay or restore user files. Recheck the tree and relevant inputs
+    after judgment, too, so a changed header, provider or ledger invalidates it.
+    """
+    if not tree or _verification_tree() != tree:
+        return ["staged/outgoing tree unavailable or changed during debt verification"]
+    paths = {LEDGER, HEADER_QUEUE, *REGISTERS.values(),
+             *(path for path, _ in baseline_files()),
+             f"{REV}/symbols.csv", f"{REV}/canonical_classes.csv",
+             f"{REV}/data_converged.csv", f"{REV}/deleted_rows.csv",
+             "reference/shims", "inputs/reference/shims"}
+    # Keep headers/shims strict even without an old dependency receipt: a newly
+    # included header must not evade the working-tree/index check.
+    paths.update(f":(glob)**/*.{suffix}" for suffix in ("h", "hpp", "hxx", "inl", "inc"))
+    nested = {}
+    for source in sources:
+        paths.add(source)
+        for dep in unit_deps(source) or ():
+            absolute = (ROOT / dep).resolve()
+            try:
+                rel = absolute.relative_to(ROOT.resolve()).as_posix()
+            except ValueError:  # external SDK inputs have their own build receipts
+                continue
+            paths.add(rel)
+            # Parent diff ignores dirty submodule worktrees. Check just the
+            # headers this source actually read against the pinned gitlink.
+            for parent in absolute.parents:
+                if parent == ROOT.resolve():
+                    break
+                if (parent / ".git").exists():
+                    sub = parent.relative_to(ROOT.resolve()).as_posix()
+                    nested.setdefault(sub, []).append(absolute.relative_to(parent).as_posix())
+                    break
+    got = _git("diff", "--no-ext-diff", "--quiet", "--ignore-submodules=dirty", tree, "--", *sorted(paths))
+    if got.returncode:
+        return ["working inputs differ from staged/outgoing blobs (or git diff failed); stage the fix before retiring debt"]
+    for sub, inputs in nested.items():
+        import claims
+        entry = _git("ls-tree", tree, "--", sub)
+        fields = entry.stdout.split()
+        if entry.returncode or len(fields) < 3 or fields[0] != "160000":
+            return [f"{sub}: staged/outgoing dependency gitlink unavailable"]
+        got = subprocess.run(["git", "-C", str(ROOT / sub), "diff", "--no-ext-diff", "--quiet",
+                              "--ignore-submodules=dirty", fields[2], "--", *inputs],
+                             capture_output=True, text=True, env=claims._git_env(ROOT / sub))
+        if got.returncode:
+            return [f"{sub}: build inputs differ from staged/outgoing dependency blobs"]
+    return []
+
+
 def removed_debt_sources():
     """{source: [baseline lines]} for gate-debt lines the index deletes against HEAD.
     A removal is credited as a repair, so each one is re-verified (rule 5)."""
     out = {}
     for path, kind in baseline_files():
-        old, new = _git("show", f"HEAD:{path}"), _git("show", f":{path}")
+        old, new = _git("show", f"{DEBT_BASE}:{path}"), _git("show", f"{DEBT_TARGET}:{path}")
         if old.returncode or old.stdout == new.stdout:
             continue
         gone = set(old.stdout.splitlines()) - set(new.stdout.splitlines())
@@ -372,20 +484,20 @@ def removed_debt_sources():
 
 
 def verify_removed(build_cmd=None):
-    """Build each removed line's row source the commit does not already stage (the hook's
-    delta verify builds staged ones). Returns the failures."""
+    """Build every removed line's source with inputs bound to staged/outgoing blobs."""
     removed = removed_debt_sources()
     if not removed:
         return []
-    staged = set(_git("diff", "--cached", "--name-only").stdout.split())
+    tree = _verification_tree()
+    problems = _verification_problems(tree, removed)
+    if problems:
+        return problems
     failures = []
     for source, lines in sorted(removed.items()):
-        if source in staged:
-            continue
         cmd = (build_cmd or [sys.executable, str(ROOT / "tools" / "build.py")]) + [source]
         if subprocess.run(cmd, cwd=ROOT).returncode != 0:
             failures.append(f"{source}: removed {lines[0]!r} but the row still fails its check")
-    return failures
+    return failures + _verification_problems(tree, removed)
 
 
 def repair_items_from(path, kind, text):
@@ -461,47 +573,344 @@ def link_source(path=None):
                         f"committed census at {CENSUS_STATUS} with a {CENSUS_HISTORY} row")
 
 
-def census_items(path):
-    """Units the committed census says do not link: one item per source, credited with
-    its matched bytes, nearest to linking (fewest blockers) first."""
+LINK_BLOCKERS = ("unresolved", "duplicates", "comdat", "addresses", "selected")   # link_check.report's
+
+
+def tools_on_path():
+    """Put tools/ on sys.path for a lazy import: the hooks run this file through stdin
+    (verify-removed) without it."""
+    tools = str(Path(__file__).resolve().parent if "__file__" in globals() else ROOT / "tools")
+    if tools not in sys.path:
+        sys.path.insert(0, tools)
+
+
+def changed_since(commit):
+    """The paths whose working copy differs from COMMIT (committed since or edited, a
+    deletion included), or None when this clone cannot compare (it lacks the commit)."""
+    got = _git("diff", "--name-only", "-z", "--no-renames", commit, "--")
+    if got.returncode:
+        return None
+    return {name for name in got.stdout.split("\0") if name}
+
+
+def unit_deps(source):
+    """The repo-relative paths SOURCE's last compile read (its build receipt,
+    `<object>.deps.json`), or None without a readable receipt."""
+    tools_on_path()
+    import build
+    try:
+        meta = json.loads(build._deps_sidecar(build.obj_path(ROOT / source)).read_text())
+        return {dep.replace("\\", "/") for dep in meta.get("deps", {})}
+    except (OSError, ValueError, AttributeError, TypeError):
+        return None
+
+
+def cache_dir():
+    """Where picker verdicts are cached, content-addressed (safe to share): BFME_PICKER_CACHE,
+    else <git common dir>/bfme-picker-cache, shared by every worktree of the clone."""
+    if os.environ.get("BFME_PICKER_CACHE"):
+        return Path(os.environ["BFME_PICKER_CACHE"])
+    common = _git("rev-parse", "--path-format=absolute", "--git-common-dir").stdout.strip()
+    return Path(common or ROOT / ".git") / "bfme-picker-cache"
+
+
+def cached(kind, key, compute):
+    """compute() once per content KEY (a JSON-able value) under cache_dir()/KIND."""
+    digest = hashlib.sha256(json.dumps(key, sort_keys=True).encode()).hexdigest()
+    path = cache_dir() / kind / f"{digest}.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        pass
+    value = compute()
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_suffix(f".{os.getpid()}.tmp")
+        tmp.write_text(json.dumps(value), encoding="utf-8")
+        os.replace(tmp, path)
+    except OSError:
+        pass
+    return value
+
+
+def units_of(rows):
+    """{source: frozenset of (name, target_rva, target_size)} of matched ledger rows:
+    what each unit provides to the link."""
+    out = {}
+    for row in rows:
+        if row.get("status", "matched") != "matched":
+            continue
+        out.setdefault(row["source"], set()).add((row.get("name"), row.get("target_rva"), row.get("target_size")))
+    return {source: frozenset(keys) for source, keys in out.items()}
+
+
+def ledger_units_at(commit):
+    """units_of the ledger at COMMIT, or None when this clone cannot read it."""
+    got = _git("show", f"{commit}:{LEDGER}")
+    return None if got.returncode else units_of(csv.DictReader(io.StringIO(got.stdout)))
+
+
+def digest_of(path):
+    """sha256 of a file's bytes, or None when it cannot be read."""
+    try:
+        return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
+def link_predictions(sources, census_commit):
+    """{source: (verdict, detail)} from tools/link_check.py's own check: True LINKS, False
+    does not link (detail: its blockers), None no verdict (detail: why). A verdict needs
+    every provider as it is now, so it is given only when:
+      * the census index measures census_commit (meta census_commit, else commit);
+      * every ledger unit changed since the index's own commit -- by its source, by a
+        header its build receipt recorded (no receipt: assumed changed), or by its ledger
+        rows -- has an object link_census.object_current proves current WITHOUT a fresh
+        preprocess (allow_fresh=False), and is in the census: a changed provider not
+        refreshed would still resolve a symbol it no longer defines, a false LINKS;
+      * no unit changed since the index was deleted; a unit the index's ledger held and
+        the current one does not is forgotten (lc.forget) before the check;
+      * nothing it read moves while it is checked: the refreshed objects, every
+        provider's and checked unit's source and recorded headers, the ledger, the pins,
+        the index and the checking tools are fingerprinted before and after, and every
+        provider's object is proven current again afterwards.
+    A checked unit whose own ledger rows changed since the index gets no verdict.
+    Otherwise every source gets None, and its item is kept. Nothing is compiled or
+    preprocessed. Verdicts are cached (cached()) by all of those fingerprints."""
+    def none(why):
+        return {s: (None, why) for s in sources}
+    try:
+        tools_on_path()
+        import build
+        import link_census
+        import link_check as lc
+    except (ImportError, SystemExit) as error:
+        return none(f"tools/link_check.py unavailable: {error}")
+    if not lc.INDEX.exists():
+        return none("no census index to predict against (python3 tools/link_check.py --fetch-index)")
+    index_hash = digest_of(lc.INDEX)
+    if index_hash is None:
+        return none("census index unreadable")
+    meta = cached("index-meta", [str(lc.INDEX), index_hash], lambda: lc.index_meta(lc.INDEX))
+    if meta is None:
+        return none(f"{lc.INDEX.name} is not a census index")
+    measured = meta.get("census_commit") or meta["commit"]
+    if not census_commit or measured != census_commit:
+        return none(f"the census index measures commit {measured[:10]}, the census {str(census_commit)[:10]}: "
+                    "fetch the matching one (python3 tools/link_check.py --fetch-index)")
+    moved = changed_since(meta["commit"])
+    if moved is None:
+        return none(f"this clone lacks the index's commit {meta['commit'][:10]}")
+    then = ledger_units_at(meta["commit"])
+    if then is None:
+        return none(f"this clone cannot read the ledger at the index's commit {meta['commit'][:10]}")
+    rows = link_census.ledger()
+    now = units_of(rows)
+    units = sorted(u for u in now if not u.lower().endswith(build.LIB_SUFFIX))
+    rehomed = {u for u in units if u in then and then[u] != now[u]}       # its rows changed since the index
+    dropped = sorted(u for u in then if u not in now and not u.lower().endswith(build.LIB_SUFFIX))
+    headers = {p for p in moved if not p.lower().endswith((".cpp", ".c", ".cc", ".cxx", ".asm"))}
+    providers, unknown, deps_of = [], [], {}
+    for unit in units:
+        deps = deps_of[unit] = unit_deps(unit) if headers or unit in sources or unit in moved else set()
+        if unit in moved or unit in rehomed or (headers and deps is None) or (deps and deps & headers):
+            providers.append(unit)
+    gone = [p for p in moved if p.startswith(SOURCE_PREFIX) and p.lower().endswith((".cpp", ".c", ".asm"))
+            and p not in set(units)]
+    if gone:
+        return none(f"{len(gone)} unit(s) changed since the index hold no ledger row now (e.g. {gone[0]}): "
+                    "their old definitions cannot be retracted here, so LINKS is not provable")
+    objects = {}
+    for unit in providers:
+        obj = build.obj_path(ROOT / unit)
+        if not obj.is_file() or not link_census.object_current(ROOT / unit, obj, allow_fresh=False):
+            unknown.append(unit)
+        else:
+            objects[unit] = obj
+    if unknown:
+        return none(f"{len(unknown)} changed provider unit(s) have no current object (e.g. {unknown[0]}; "
+                    "./build.sh them or python3 tools/link_check.py --refresh), so LINKS is not provable")
+    read = sorted({*providers, *sources} | {d for u in {*providers, *sources} for d in deps_of.get(u) or ()})
+
+    def inputs():
+        """Fingerprints of everything the verdict depends on (compared after the check)."""
+        return {"sources": {rel: digest_of(ROOT / rel) for rel in read},
+                "ledger": hashlib.sha256(json.dumps(link_census.ledger(), sort_keys=True,
+                                                    default=str).encode()).hexdigest(),
+                "ledger_file": digest_of(ROOT / LEDGER), "pins": digest_of(ROOT / f"{REV}/symbols.csv"),
+                "tools": {Path(m.__file__).name: digest_of(m.__file__) for m in (lc, link_census, build)},
+                "picker": digest_of(__file__),
+                "index": digest_of(lc.INDEX),
+                "objects": link_census.object_stamps(list(objects.values()))}
+    try:
+        before = inputs()
+        digests = {unit: lc.object_digest(obj) for unit, obj in objects.items()}
+    except OSError as error:
+        return none(f"objects unreadable: {error}")
+    if (any(value is None for value in before["sources"].values())
+            or any(value is None for value in before["tools"].values())
+            or any(before[name] is None for name in ("ledger_file", "pins", "index", "picker"))):
+        return none("a compiler input, ledger, pin, tool or census index is unreadable")
+
+    def compute():
+        index = lc.load_index()
+        lc.require_common_index(index)
+        outside = [u for u, o in objects.items() if not lc.in_census(index, o.name)]
+        if outside:
+            return {"none": f"{len(outside)} changed unit(s) are not in the census (e.g. {outside[0]}): their "
+                            "definitions are not in the index, so LINKS is not provable"}
+        lc.forget(index, [build.obj_path(ROOT / u).name for u in dropped])
+        truth = link_census.RetailTruth(link_census.ledger())
+        lc.refresh(index, list(objects.values()), truth)
+        out = {}
+        for source in sources:
+            try:
+                result = lc.check_object(objects[source], index, truth, source)
+            except Exception as error:                    # link_census.MissingObject and the like
+                out[source] = [None, f"link_check: {error}"]
+                continue
+            blockers = {kind: len(result[kind]) for kind in LINK_BLOCKERS if result[kind]}
+            out[source] = [not blockers, ", ".join("%s %d" % kv for kv in blockers.items()) or "LINKS"]
+        return out
+    key = {"index": [meta["commit"], meta["date"], measured, before["index"]], "objects": digests,
+           "checked": sorted(sources), "sources": before["sources"], "ledger": before["ledger"],
+           "pins": before["pins"], "tools": before["tools"], "picker": before["picker"], "forgotten": dropped}
+    try:
+        got = cached("link", key, compute)
+        after = inputs()
+        after_digests = {unit: lc.object_digest(obj) for unit, obj in objects.items()}
+    except (SystemExit, Exception) as error:              # no verdict, said so; nothing is guessed
+        return none(f"census index unusable: {error}")
+    moved_after = changed_since(meta["commit"])
+    if (after != before or after_digests != digests or moved_after is None or moved_after != moved
+            or not all(link_census.object_current(ROOT / u, o, allow_fresh=False)
+                       for u, o in objects.items())):
+        moved_now = sorted(k for k in before if before[k] != after[k])
+        if after_digests != digests:
+            moved_now.append("object bytes")
+        if moved_after != moved:
+            moved_now.append("changed source/header paths")
+        if not moved_now:
+            moved_now = ["object currency"]
+        return none(f"inputs moved while they were checked ({', '.join(moved_now)}); retry")
+    if "none" in got:
+        return none(got["none"])
+    out = {s: tuple(got.get(s, (None, "not predicted"))) for s in sources}
+    out.update({s: (None, "its ledger rows changed since the census index: re-census to judge it")
+                for s in sources if s in rehomed})
+    return out
+
+
+def census_items(path, commit=None):
+    """(items, notes): units the committed census says do not link, one item per source,
+    credited with its matched bytes, nearest to linking (fewest blockers) first.
+
+    The census can be many commits old. A unit whose source, or a header its build
+    receipt recorded, changed since the census COMMIT is re-predicted (link_predictions);
+    it is dropped only when link_check proves it LINKS, otherwise served with what
+    link_check said or why it could not say. A unit with no receipt is labelled "own
+    source unchanged" and kept. A census unit whose source is gone, or that holds no
+    matched row now, is counted in the notes, never skipped silently."""
     by_rva, _ = ledger()
     rows_of = {}
     for rva, rows in by_rva.items():
         for row in rows:
             rows_of.setdefault(row["source"], []).append((rva, row))
-    items = []
+    items, vanished, rowless = [], [], []
+    # The committed census is on origin/master: a claim's `debt=` note waits on its row
+    # (claims.settle_scopes releases it once that census says linked=yes).
+    debt = {"baseline": CENSUS_STATUS} if Path(path) == ROOT / CENSUS_STATUS else {}
     with Path(path).open(encoding="utf-8", newline="") as handle:
         for row in csv.DictReader(handle):
-            if row.get("linked") == "yes" or row["source"] not in rows_of:
+            if row.get("linked") == "yes":
+                continue
+            if row["source"] not in rows_of:
+                (rowless if (ROOT / row["source"]).exists() else vanished).append(row["source"])
                 continue
             owned = sorted(rows_of[row["source"]], key=lambda r: r[0])
             blockers = {k: int(row.get(k) or 0) for k in
                         ("unresolved", "duplicates", "comdat_losers", "addresses", "wrong_selected")}
             size = sum(int(r["target_size"] or 0) for _, r in owned)
             items.append({
-                "tier": "link", "target_rva": "0x%08X" % owned[0][0], "function": owned[0][1]["name"],
-                "source": row["source"], "size": size, "credit": size, "placed": False,
-                "blockers": sum(blockers.values()),
+                "tier": "link", "check": "unit-link", "target_rva": "0x%08X" % owned[0][0],
+                "function": owned[0][1]["name"], "source": row["source"], "size": size, "credit": size, "placed": False,
+                "blockers": sum(blockers.values()), "fresh": "",
+                "claim": [f"file:{row['source']}"],              # the unit is the work: one seat per file
                 "why": ("unit does not link (%d matched row(s)): " % len(owned)
                         + (", ".join("%s %d" % kv for kv in blockers.items() if kv[1]) or "linked=no")),
                 "pass_test": f"python3 tools/link_check.py {row['source']}: LINKS (the next census: linked=yes)",
+                **({"debt_lines": [row["source"]], **debt} if debt else {}),
             })
+    notes = []
+    for names, what in ((vanished, "whose source no longer exists"),
+                        (rowless, "whose source holds no matched row now (re-homed?)")):
+        if names:
+            notes.append(f"{len(names)} census unit(s) {what}, not served: " + ", ".join(names[:3])
+                         + (" ..." if len(names) > 3 else ""))
+    changed = changed_since(commit) if commit else None
+    if changed is None:
+        notes.append("freshness not checked: " + (f"census commit {commit[:10]} is not in this clone"
+                                                   if commit else "the census names no commit"))
+        for item in items:
+            item["fresh"] = "not checked against the census commit"
+        items.sort(key=lambda item: (item["blockers"], -item["size"]))
+        return items, notes
+    headers = {p for p in changed if not p.lower().endswith((".cpp", ".c", ".cc", ".cxx", ".asm"))}
+    moved, blind = [], 0
+    for item in items:
+        deps = unit_deps(item["source"]) if headers else set()
+        hit = sorted(deps & headers) if deps else []
+        if item["source"] in changed:
+            item["fresh"] = "its source changed since the census"
+        elif hit:
+            item["fresh"] = f"{len(hit)} header(s) it includes changed since the census (e.g. {hit[0]})"
+        elif deps is None:
+            blind += 1
+            item["fresh"] = "own source unchanged since the census; its headers unchecked (no build receipt)"
+            continue
+        else:
+            item["fresh"] = "its source and recorded headers are unchanged since the census"
+            continue
+        moved.append(item)
+    verdicts = link_predictions([item["source"] for item in moved], commit) if moved else {}
+    counts, unknown = {True: 0, False: 0, None: 0}, []
+    for item in moved:
+        links, detail = verdicts.get(item["source"], (None, "not predicted"))
+        counts[links] += 1
+        if links:
+            item["drop"] = True
+            continue
+        if links is None:
+            unknown.append(detail)
+        item["fresh"] += (f"; link_check now: does not link ({detail})" if links is False
+                          else f"; no link_check verdict, kept: {detail}")
+        item["why"] += "; " + item["fresh"]
+    items = [item for item in items if not item.pop("drop", False)]
+    if moved:
+        notes.append(f"{len(moved)} unit(s) changed since census commit {commit[:10]} (source or recorded "
+                     f"headers): {counts[True]} proven LINKS and dropped, {counts[False]} still do not link, "
+                     f"{counts[None]} kept with no verdict" + (f" ({unknown[0]})" if unknown else ""))
+    if blind:
+        notes.append(f"{blind} unit(s) have no build receipt, so header changes since the census are unchecked "
+                     "(kept)")
     items.sort(key=lambda item: (item["blockers"], -item["size"]))
-    return items
+    return items, notes
 
 
 def link_items(path=None):
     """BFME2 link repairs, with a note naming the source read and the commit it describes:
     a link cycle's rows not placed at retail RVA or placed but not self-strict, else the
-    committed census's units that do not link (link_source)."""
+    committed census's units that do not link (link_source), freshness-filtered against
+    the commit the committed census's history row names."""
     if BFME1:
         return [], "BFME1 has no link cycle yet"
     kind, path, note = link_source(path)
     if kind is None:
         return [], note
     if kind == "census":
-        items = census_items(path)
-        return items, f"{len(items)} unit(s) that do not link, from the {note}"
+        census = stored_census() if Path(path) == ROOT / CENSUS_STATUS else None
+        items, notes = census_items(path, census["commit"] if census else None)
+        return items, "; ".join([f"{len(items)} unit(s) that do not link, from the {note}"] + notes)
     items = cycle_items(path)
     return items, f"{len(items)} row(s) from the {note}"
 
@@ -617,6 +1026,606 @@ def closure_items(bundle, now=None, allow_stale=False, local_unpublished=False):
     return items, notes, bundle_warnings(lines, fr)
 
 
+# ---------------------------------------------------------------- identity and header debt
+
+DATA_BASELINE = f"{REV}/data_check_baseline.txt"          # tools/data_check.py, shrink-only
+HEADER_QUEUE = f"{REV}/header_queue.tsv"                  # tools/header_adopt_lane.py run --apply
+IDENTITY_BASELINE = f"{REV}/code_identity_baseline.tsv"   # tools/code_identity_gate.py, shrink-only
+IDENTITY_WHY = {
+    "wrong": "binds {symbol} at {target}, but the copy of {symbol} the link keeps is not retail's body there",
+    "interior": "binds {symbol}, whose {target} lies inside a row, not at its start",
+    "unowned": "binds {symbol} at {target}, which no ledger row owns (tools/auto_rows.py, or bind the owner)",
+    "divergent": "binds {symbol} at {target}; its copies differ and the kept one is not certified "
+                 "(one shared view of the class)",
+}
+
+
+def class_of(symbol):
+    """The class a decorated member name belongs to ('Outer::Inner'), or None:
+    tools/claims.py member_class (member access codes only; a namespace's free
+    function names no class)."""
+    tools_on_path()
+    import claims
+    return claims.member_class(symbol)
+
+
+def sources_bytes():
+    """{source: matched bytes} from the ledger."""
+    by_rva, _ = ledger()
+    out = {}
+    for rows in by_rva.values():
+        for row in rows:
+            out[row["source"]] = out.get(row["source"], 0) + int(row["target_size"] or 0)
+    return out
+
+
+def gone_note(gone, what):
+    return (f"; {len(gone)} source(s) its {what} name no longer exist, served first as regressions ("
+            + ", ".join(sorted(gone)[:3]) + (" ..." if len(gone) > 3 else "") + ")") if gone else ""
+
+
+def vanished_items(tier, gone, path):
+    """Debt a register still holds for sources that no longer exist: regressions to
+    investigate (the debt went nowhere; deleting a source is not a fix), served first."""
+    retire = {"data": "data", "identity": "identity"}.get(tier)
+    return [{
+        "tier": tier, "check": "vanished-source", "target_rva": "", "function": source, "source": source,
+        "size": 0, "credit": 0, "baseline": path, "debt_lines": sorted(lines), "claim": [f"file:{source}"],
+        "why": (f"{len(lines)} line(s) of {path} name {source}, which no longer exists: find where its rows went "
+                f"(git log --diff-filter=DR -- {source}) and restore or re-home them"),
+        "pass_test": (f"python3 tools/repair_queue.py retire {retire} {source} once the source exists again"
+                      if retire else "the unit exists again and passes tools/header_adopt_lane.py accept"),
+    } for source, lines in sorted(gone.items())]
+
+
+def data_identity_items():
+    """(items, note): one item per reverse/data_check_baseline.txt key
+    (`source<TAB>check<TAB>symbol<TAB>address`; tools/data_check.py). wrong-name: SOURCE
+    reaches the data address through SYMBOL, not the data ledger's name for it;
+    duplicate-def: SOURCE defines SYMBOL at an address another unit owns. Both link as a
+    second datum. duplicate-def first (a link blocker), then wrong-name keys whose
+    address carries the most keys (one declaration fix, repeated). Each claims
+    `file:SOURCE`. PASS TEST: `retire data SOURCE` -- data_check's own verdict on the
+    current objects, which deletes the key (see retiring debt). Keys of a source that no
+    longer exists are served first as regressions. Absent file: skipped, said so."""
+    if not (ROOT / DATA_BASELINE).exists():
+        return [], f"{DATA_BASELINE} absent: data-identity queue skipped"
+    tools_on_path()
+    import data_check
+    keys = sorted(data_check.read_baseline(_read(DATA_BASELINE)))
+    names = {}
+    try:
+        import data_ledger
+        names = data_ledger.load(ROOT / f"{REV}/data_ledger.csv")
+    except (ImportError, OSError, ValueError) as error:
+        print(f"repair_queue: data ledger unreadable ({error}); data items carry no ledger name",
+              file=sys.stderr)
+    per_address = {}
+    for key in keys:
+        if len(key) == 4:
+            per_address[key[3]] = per_address.get(key[3], 0) + 1
+    items, gone = [], {}
+    for key in keys:
+        if len(key) != 4:
+            continue
+        source, check, symbol, address = key
+        line = "\t".join(key)
+        if not (ROOT / source).exists():
+            gone.setdefault(source, []).append(line)
+            continue
+        try:
+            owner = names.get(int(address, 16), {})
+        except ValueError:
+            owner = {}
+        real = owner.get("name") or "(no ledger name)"
+        if check == "duplicate-def":
+            why = (f"defines {symbol} at {address}, which {owner.get('source') or 'another unit'} owns: "
+                   f"declare it extern ({real}) instead of defining it")
+        else:
+            why = (f"reaches {address} through {symbol}; the data ledger's global there is {real}: declare "
+                   f"the real global and cast to your view where you use it")
+        items.append({
+            "tier": "data", "check": check, "target_rva": "", "address": address, "function": symbol,
+            "source": source, "size": 0, "credit": 0, "ledger_name": real, "keys_at_address": per_address[address],
+            "why": why + (f" ({per_address[address]} key(s) at this address)" if per_address[address] > 1 else ""),
+            "baseline": DATA_BASELINE, "baseline_line": line, "debt_lines": [line], "claim": [f"file:{source}"],
+            "pass_test": (f"./build.sh {source} && python3 tools/repair_queue.py retire data {source}: "
+                          "tools/data_check.py's own check of the current objects no longer finds the key and "
+                          "finds nothing new; it then deletes the key (never by hand)"),
+        })
+    items.sort(key=lambda i: (i["check"] != "duplicate-def", -i["keys_at_address"], i["address"], i["source"]))
+    kinds = {}
+    for item in items:
+        kinds[item["check"]] = kinds.get(item["check"], 0) + 1
+    return vanished_items("data", gone, DATA_BASELINE) + items, (
+        f"{len(items)} data-identity key(s) from {DATA_BASELINE} ("
+        + ", ".join(f"{k} {n}" for k, n in sorted(kinds.items())) + ")" + gone_note(gone, "keys"))
+
+
+def header_items():
+    """(items, note): reverse/header_queue.tsv units that did not adopt their class's
+    canonical header (tools/header_adopt_lane.py run --apply queues them), classes in
+    header_adopt_lane.DEPENDENCY_ORDER first (a header is adopted once the types it uses
+    have one definition), then by source; `rank` carries that order into the draw.
+    Each item claims `class:NAME` and includes every queued source of that class in
+    its work footprint, even private views without member rows in the ledger. The
+    first diagnostic is often a member the header lacks, so the fix is class-wide. PASS TEST: the row's
+    acceptance (`header_adopt_lane.py accept`), which retires the row when it passes."""
+    if not (ROOT / HEADER_QUEUE).exists():
+        return [], f"{HEADER_QUEUE} absent: class-header queue skipped"
+    tools_on_path()
+    import header_adopt_lane
+    rank = {name: i for i, (_, names) in enumerate(header_adopt_lane.DEPENDENCY_ORDER) for name in names}
+    credit = sources_bytes()
+    items, gone = [], {}
+    queued = list(csv.DictReader(io.StringIO(_read(HEADER_QUEUE)), delimiter="\t"))
+    class_sources = {}
+    for row in queued:
+        if row.get("class") and row.get("source"):
+            class_sources.setdefault(row["class"], set()).add(row["source"])
+    for row in queued:
+        name, source = row.get("class") or "", row.get("source") or ""
+        if not name or name == "class" or not source:
+            continue
+        if not (ROOT / source).exists():
+            gone.setdefault(source, []).append(f"{name}\t{source}")
+            continue
+        rvas = (row.get("retail_rvas") or "").split()
+        items.append({
+            "tier": "header", "check": "class-header", "class": name, "target_rva": rvas[0] if rvas else "",
+            "function": name, "source": source, "size": 0, "credit": credit.get(source, 0),
+            "header": row.get("header", ""), "rank": rank.get(name, len(rank)), "ranks": len(rank) + 1,
+            "why": f"adopt {row.get('header') or 'the canonical header'} for {name}: {row.get('failure', '')}",
+            "claim": [f"class:{name}"] + [f"file:{s}" for s in sorted(class_sources[name])],
+            "baseline": HEADER_QUEUE,
+            "debt_lines": [f"{name}\t{source}"],
+            "pass_test": (header_adopt_lane.acceptance_command(name, source) + ": the unit #includes the header, "
+                          "declares no private body and byte-matches; the command then retires the row"),
+        })
+    items.sort(key=lambda i: (i["rank"], i["class"], i["source"]))
+    classes = len({i["class"] for i in items})
+    return vanished_items("header", gone, HEADER_QUEUE) + items, (
+        f"{len(items)} unit(s) of {classes} class(es) from {HEADER_QUEUE}" + gone_note(gone, "rows"))
+
+
+def identity_items():
+    """(items, note): one item per reverse/code_identity_baseline.tsv key
+    (`source<TAB>row<TAB>symbol<TAB>retail target<TAB>class`; tools/code_identity_gate.py,
+    classes in tools/allowed_symbols.py): ROW's reference to TARGET binds SYMBOL, which
+    the link does not resolve to retail's body there. `divergent` keys of a class member
+    claim `class:NAME` (the copies are the class's views); the rest claim the row.
+    PASS TEST: `retire identity SOURCE` -- allowed_symbols' own scan of the current
+    objects, which deletes the key (see retiring debt)."""
+    if not (ROOT / IDENTITY_BASELINE).exists():
+        return [], f"{IDENTITY_BASELINE} absent: code-identity queue skipped"
+    tools_on_path()
+    import code_identity_gate
+    keys, mode = code_identity_gate.read_register(_read(IDENTITY_BASELINE))
+    by_rva, _ = ledger()
+    rva_of = {(row["source"], row["name"]): rva for rva, rows in by_rva.items() for row in rows}
+    items, gone = [], {}
+    for line in sorted(keys):
+        parts = line.split("\t")
+        if len(parts) != 5:
+            continue
+        source, name, symbol, target, cls = parts
+        if not (ROOT / source).exists():
+            gone.setdefault(source, []).append(line)
+            continue
+        rva = rva_of.get((source, name))
+        try:
+            owners = [r["name"] for r in by_rva.get(int(target, 16), [])]
+        except ValueError:
+            owners = []
+        scope = class_of(symbol) if cls == "divergent" else None
+        size = next((int(r["target_size"] or 0) for r in by_rva.get(rva, []) if r["name"] == name), 0)
+        items.append({
+            "tier": "identity", "check": cls, "target_rva": "0x%08X" % rva if rva is not None else "",
+            "function": name, "symbol": symbol, "binding_target": target, "source": source,
+            "size": size, "credit": size, "class": scope,
+            "why": (IDENTITY_WHY.get(cls, "binds {symbol} at {target}").format(symbol=symbol, target=target)
+                    + (f"; {target}'s owner: {owners[0]}" if owners else "")),
+            "baseline": IDENTITY_BASELINE, "baseline_line": line, "debt_lines": [line],
+            "claim": [f"class:{scope}"] if scope else ([] if rva is not None else [f"file:{source}"]),
+            "pass_test": (f"./build.sh {source} && python3 tools/repair_queue.py retire identity {source}: "
+                          f"tools/allowed_symbols.py's own scan of the current objects no longer binds {symbol} "
+                          f"at {target} from this row and finds nothing new; it then deletes the key (never by "
+                          "hand)"),
+        })
+    items.sort(key=lambda i: (i["check"] == "unowned", -i["size"], i["source"]))
+    kinds = {}
+    for item in items:
+        kinds[item["check"]] = kinds.get(item["check"], 0) + 1
+    return vanished_items("identity", gone, IDENTITY_BASELINE) + items, (
+        f"{len(items)} code-identity key(s) from {IDENTITY_BASELINE}, mode {mode} ("
+        + ", ".join(f"{k} {n}" for k, n in sorted(kinds.items())) + ")" + gone_note(gone, "keys"))
+
+
+# ---------------------------------------------------------------- retiring debt
+#
+# A debt line leaves its register only on the owning tool's verdict on fresh evidence,
+# never by a hand deletion: `retire data|identity SOURCE` re-runs tools/data_check.py's
+# or tools/allowed_symbols.py's own check of SOURCE against objects build.compile_is_current
+# proves built from the tree as it is, and deletes exactly the keys that check no longer
+# finds. It refuses -- writing nothing -- when it cannot judge: the source is gone, a row
+# the source held at HEAD is gone (lost coverage hides findings), an object is missing,
+# stale or unreadable, a row's symbol is absent, or the check finds anything the register
+# does not already hold (a rename trades one key for another). verify-removed applies the
+# same verdict to every key the index deletes from either register, and header
+# acceptance (tools/header_adopt_lane.py verdict) to every header_queue.tsv row it deletes.
+# .githooks/pre-commit runs it (HEAD's copy, through stdin) whenever a commit stages or
+# deletes any of the three registers: they set baseline_changed like gate_baseline.txt.
+
+
+def problems_note(problems):
+    return "; ".join(problems[:4]) + (f" (+{len(problems) - 4} more)" if len(problems) > 4 else "")
+
+
+@lru_cache(maxsize=1)
+def head_ledger_rows():
+    """{source: {row names}} of the matched rows HEAD's ledger holds ({} when HEAD has none)."""
+    got = _git("show", f"{DEBT_BASE}:{LEDGER}")
+    out = {}
+    if got.returncode:
+        return out
+    for row in csv.DictReader(io.StringIO(got.stdout)):
+        if row.get("status") == "matched" and row.get("target_rva"):
+            out.setdefault(row["source"], set()).add(row["name"])
+    return out
+
+
+def coverage_problems(source, names):
+    """Why SOURCE's rows cannot vouch for a clean verdict: gone, rowless, or rows lost since HEAD."""
+    if not (ROOT / source).exists():
+        return [f"{source} no longer exists: its debt is a regression to investigate (restore or re-home its "
+                "rows), never a fix"]
+    if not names:
+        return [f"{source} holds no matched row: nothing left to judge (lost row coverage)"]
+    lost = sorted(head_ledger_rows().get(source, set()) - set(names))
+    return [f"{len(lost)} row(s) HEAD held are gone from {source} (lost coverage hides findings): "
+            + ", ".join(lost[:3])] if lost else []
+
+
+def data_verdict(source, held):
+    """(problems, found keys) from tools/data_check.py's own check of SOURCE. `held`: the
+    register's keys for SOURCE; a finding outside it is a problem (never silently added)."""
+    tools_on_path()
+    import build
+    import data_check
+    import data_ledger
+    rows = data_check.source_rows([source])
+    problems = coverage_problems(source, {r["name"] for r in rows})
+    if problems:
+        return problems, set()
+    for obj in sorted({build.row_object(r) for r in rows}):
+        if not obj.exists():
+            problems.append(f"no object {obj.name} (./build.sh {source})")
+        elif not source.lower().endswith(build.LIB_SUFFIX) and not build.compile_is_current(ROOT / source, obj):
+            problems.append(f"object {obj.name} is not current for its source and headers (./build.sh {source})")
+    if problems:
+        return problems, set()
+    unread = []
+    facts = data_check.object_facts(rows, unread)
+    problems += [f"row {name} unreadable: {why}" for _, name, why in unread]
+    try:
+        ledger_rows = data_ledger.load()
+    except (OSError, ValueError) as error:
+        return problems + [f"data ledger unreadable: {error}"], set()
+    if not ledger_rows:
+        return problems + ["no data ledger: nothing judges the keys"], set()
+    found = set(data_check.findings(facts, ledger_rows))
+    problems += ["new finding " + "\t".join(k) for k in sorted(found - set(held))]
+    return problems, found
+
+
+def identity_verdict(source, held):
+    """(problems, found keys) from tools/allowed_symbols.py's own scan of SOURCE's rows,
+    failing where scan() would skip silently: a missing or stale object (any ledger
+    object: the kept copy is judged against every definition), an unparsable object, a
+    participating provider (an object defining a name SOURCE's objects reference) not
+    proven current for its own source, a row symbol the object lacks, unreadable retail
+    bytes, a scan error."""
+    tools_on_path()
+    import allowed_symbols as allowed
+    import build
+    try:
+        ident, rows = allowed.load([source], strict=True)
+    except allowed.Unreadable as error:
+        return [f"an object is unreadable, so the kept copies are unknown: {error}"], set()
+    problems = coverage_problems(source, {r["name"] for r in rows})
+    if problems:
+        return problems, set()
+    ledger_rows = allowed.census.ledger()
+    missing = sorted({str(allowed.row_object(r)) for r in ledger_rows
+                      if not r["source"].lower().endswith(".asm") and not allowed.row_object(r).exists()})
+    if missing:
+        problems.append(f"{len(missing)} ledger object(s) missing, so the kept copies are unknown "
+                        f"(e.g. {Path(missing[0]).name}; ./build.sh)")
+    source_of = {}
+    for r in ledger_rows:
+        source_of.setdefault(str(allowed.row_object(r)), r["source"])
+    own = {str(allowed.row_object(r)) for r in rows}
+    referenced = {name for name, users in (ident.defs.referrers or {}).items() if users & own}
+    providers = sorted({p for name in referenced for p, *_ in ident.defs.get(name, ())} - own)
+    stale = [p for p in providers if not source_of.get(p, "").lower().endswith(build.LIB_SUFFIX)
+             and not (p in source_of and build.compile_is_current(ROOT / source_of[p], Path(p)))]
+    if stale:
+        problems.append(f"{len(stale)} provider object(s) of names {source} references are not proven current "
+                        f"(e.g. {Path(stale[0]).name}; ./build.sh {source_of.get(stale[0], '')})")
+    found = set()
+    for row in rows:
+        if row["source"].lower().endswith((".asm", build.LIB_SUFFIX)):
+            continue
+        obj = allowed.row_object(row)
+        if not obj.exists():
+            continue                                         # counted above
+        if not build.compile_is_current(ROOT / source, obj):
+            problems.append(f"object {obj.name} is not current (./build.sh {source})")
+            break
+        symbol = build.ledger_object_symbol(row)
+        o = ident.obj(str(obj))
+        if o.by_name.get(symbol) is None or not o.is_code(o.by_name[symbol]):
+            problems.append(f"row {row['name']}: {obj.name} defines no code symbol {symbol}")
+            continue
+        if ident.read(int(row["target_rva"], 16), int(row["target_size"])) is None:
+            problems.append(f"row {row['name']}: retail bytes unreadable")
+            continue
+        try:
+            refs = ident.row_refs(row)
+        except Exception as error:                           # scan() would skip it silently
+            problems.append(f"row {row['name']}: scan failed: {error}")
+            continue
+        found |= {allowed.key((row,) + ref) for ref in refs if ref[4] in allowed.WRONG}
+    problems += ["new finding " + k for k in sorted(found - set(held))]
+    return problems, found
+
+
+def register_keys(kind, text):
+    """The key set a register text holds: data tuples, identity lines."""
+    tools_on_path()
+    if kind == "data":
+        import data_check
+        return data_check.read_baseline(text)
+    import code_identity_gate
+    return code_identity_gate.read_register(text)[0]
+
+
+def key_source(kind, key):
+    return key[0] if kind == "data" else key.split("\t", 1)[0]
+
+
+def key_line(kind, key):
+    return "\t".join(key) if kind == "data" else key
+
+
+REGISTERS = {"data": DATA_BASELINE, "identity": IDENTITY_BASELINE}
+
+
+def verdict_of(kind, source, held):
+    return (data_verdict if kind == "data" else identity_verdict)(source, held)
+
+
+def retire(kind, source):
+    """Delete from KIND's register exactly the SOURCE keys the owning tool no longer
+    finds, after a clean verdict. Returns (ok, message); writes nothing unless ok."""
+    path = ROOT / REGISTERS[kind]
+    if not path.exists():
+        return False, f"{REGISTERS[kind]} absent"
+    text = path.read_bytes().decode("utf-8")
+    held = {k for k in register_keys(kind, text) if key_source(kind, k) == source}
+    if not held:
+        return False, f"{REGISTERS[kind]} holds no key for {source}"
+    problems, found = verdict_of(kind, source, held)
+    if problems:
+        return False, f"REFUSED, nothing retired: {problems_note(problems)}"
+    fixed = {key_line(kind, k) for k in held - found}
+    if not fixed:
+        return False, f"all {len(held)} key(s) of {source} are still found; nothing retired"
+    eol = "\r\n" if "\r\n" in text else "\n"
+    kept = [line for line in text.split(eol) if line.rstrip("\r") not in fixed]
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_bytes(eol.join(kept).encode("utf-8"))
+    os.replace(tmp, path)
+    return True, (f"PASS: {len(fixed)} key(s) of {source} no longer found and retired from {REGISTERS[kind]} "
+                  f"({len(held) - len(fixed)} still found); commit the register with the fix")
+
+
+def removed_keys(kind):
+    """({source: [keys]} the index deletes from KIND's register against HEAD, staged keys)."""
+    rel = REGISTERS[kind]
+    old, new = _git("show", f"{DEBT_BASE}:{rel}"), _git("show", f"{DEBT_TARGET}:{rel}")
+    if old.returncode or old.stdout == new.stdout:
+        return {}, set()
+    staged = register_keys(kind, new.stdout) if new.returncode == 0 else set()
+    out = {}
+    for key in register_keys(kind, old.stdout) - staged:
+        out.setdefault(key_source(kind, key), []).append(key)
+    return out, staged
+
+
+def removed_header_rows():
+    """[(class, source)] header_queue.tsv rows the index deletes against HEAD."""
+    old, new = _git("show", f"{DEBT_BASE}:{HEADER_QUEUE}"), _git("show", f"{DEBT_TARGET}:{HEADER_QUEUE}")
+    if old.returncode or old.stdout == new.stdout:
+        return []
+
+    def rows(text):
+        return {(r.get("class") or "", r.get("source") or "")
+                for r in csv.DictReader(io.StringIO(text), delimiter="\t") if r.get("class")}
+    return sorted(rows(old.stdout) - (rows(new.stdout) if new.returncode == 0 else set()))
+
+
+def _staged_text(path):
+    got = _git("show", f"{DEBT_TARGET}:{path}")
+    return got.stdout if got.returncode == 0 else ""
+
+
+def _debt_transferred(kind, source, keys, staged):
+    """Only newly added debt under another source is a transfer; old duplicates prove nothing."""
+    if kind == "header":
+        def rows(text):
+            return {(r.get("class"), r.get("source")) for r in
+                    csv.DictReader(io.StringIO(text), delimiter="\t")}
+        old = _git("show", f"{DEBT_BASE}:{HEADER_QUEUE}")
+        added = rows(_staged_text(HEADER_QUEUE)) - rows(old.stdout)
+        return all(any(name == key and dest and dest != source and _debt_present(dest)
+                       for name, dest in added) for key in keys)
+    old = _git("show", f"{DEBT_BASE}:{REGISTERS[kind]}")
+    added = set(staged) - register_keys(kind, old.stdout)
+    tails = {key_line(kind, k).split("\t", 1)[1] for k in added
+             if key_source(kind, k) != source and _debt_present(key_source(kind, k))}
+    return all(key_line(kind, k).split("\t", 1)[1] in tails for k in keys)
+
+
+def _removed_source_accounted(kind, source, keys, staged, message=""):
+    """A disappearing unit must transfer its debt, tombstone all rows, or be explained."""
+    lines = message.splitlines()
+    def explained(key):
+        prefix = f"Debt-Retired: {key if kind == 'header' else key_line(kind, key)} {source} "
+        return any(line.startswith(prefix) and len(line[len(prefix):].strip()) >= 20 for line in lines)
+    if keys and all(explained(key) or _debt_transferred(kind, source, [key], staged) for key in keys):
+        return True
+    old = _git("show", f"{DEBT_BASE}:{LEDGER}")
+    before = [r for r in csv.DictReader(io.StringIO(old.stdout)) if r.get("source") == source]
+    after = {(r.get("name"), r.get("target_rva")) for r in
+             csv.DictReader(io.StringIO(_staged_text(LEDGER)))}
+    deleted = {(r.get("name"), r.get("target_rva")) for r in
+               csv.DictReader(io.StringIO(_staged_text("reverse/deleted_rows.csv"))) if r.get("reason")}
+    return bool(before) and all((r.get("name"), r.get("target_rva")) in deleted
+                               and (r.get("name"), r.get("target_rva")) not in after for r in before)
+
+
+def verify_missing_debt(message=""):
+    """Commit-msg completes the disappearing-source checks deferred by pre-commit."""
+    failures = []
+    tree = _verification_tree()
+    for kind in ("data", "identity"):
+        removed, staged = removed_keys(kind)
+        for source, keys in removed.items():
+            if _debt_present(source):
+                failures += _verification_problems(tree, [source])
+            elif not _removed_source_accounted(kind, source, keys, staged, message):
+                failures.append(f"{source}: removed {kind} debt needs a transfer, deleted_rows coverage or per-key Debt-Retired trailer")
+    for name, source in removed_header_rows():
+        if _debt_present(source):
+            failures += _verification_problems(tree, [source])
+        elif not _removed_source_accounted("header", source, [name], (), message):
+            failures.append(f"{source}: vanished unit ({name}) needs a transfer, deleted_rows coverage or per-key Debt-Retired trailer")
+    return failures
+
+
+def _head_header_verdict(name, source):
+    """Load acceptance and layout helpers from the trusted base, never the edit being judged."""
+    import types
+    saved = {name: sys.modules.get(name) for name in ("class_contract", "class_layouts")}
+    try:
+        modules = {}
+        for module_name in ("class_layouts", "class_contract", "header_adopt_lane"):
+            path = f"tools/{module_name}.py"
+            got = _git("show", f"{DEBT_BASE}:{path}")
+            if got.returncode:
+                return [f"{DEBT_BASE}:{path} unavailable"]
+            module = types.ModuleType(module_name)
+            module.__file__ = str(ROOT / path)
+            if module_name != "header_adopt_lane":
+                sys.modules[module_name] = module
+            exec(compile(got.stdout, module.__file__, "exec"), module.__dict__)
+            modules[module_name] = module
+        return modules["header_adopt_lane"].verdict(name, source)
+    finally:
+        for module_name, previous in saved.items():
+            if previous is None:
+                sys.modules.pop(module_name, None)
+            else:
+                sys.modules[module_name] = previous
+
+
+def verify_removed_debt(build_cmd=None, header_verdict=None, defer_missing=False, message=""):
+    """Failures for identity and header debt the index deletes: each removed data or
+    identity key's source is built, then judged (the verdict against the staged
+    register plus the removed keys: each removed key must be gone, nothing new found);
+    each removed header_queue.tsv row must pass header acceptance."""
+    failures = []
+    tree = _verification_tree()
+    judged = set()
+    for kind in ("data", "identity"):
+        removed, staged = removed_keys(kind)
+        for source, keys in sorted(removed.items()):
+            if _debt_transferred(kind, source, keys, staged):
+                continue
+            present = _debt_present(source)
+            if not present and (defer_missing or
+                    _removed_source_accounted(kind, source, keys, staged, message)):
+                continue
+            if not present:
+                failures.append(f"{source}: removed {kind} debt without a staged/outgoing source or retirement accounting")
+                continue
+            if present:
+                problems = _verification_problems(tree, [source])
+                if problems:
+                    failures += [f"{source}: {problem}" for problem in problems]
+                    continue
+                judged.add(source)
+                cmd = (build_cmd or [sys.executable, str(ROOT / "tools" / "build.py")]) + [source]
+                if subprocess.run(cmd, cwd=ROOT).returncode != 0:
+                    failures.append(f"{source}: removed {len(keys)} {kind} key(s) but the source does not build")
+                    continue
+            held = {k for k in staged if key_source(kind, k) == source} | set(keys)
+            problems, found = verdict_of(kind, source, held)
+            problems += [f"still found: {key_line(kind, k)}" for k in keys if k in found]
+            if problems:
+                failures.append(f"{source}: removed {len(keys)} {REGISTERS[kind]} key(s) without the tool's "
+                                f"verdict: {problems_note(problems)}")
+    for name, source in removed_header_rows():
+        if _debt_transferred("header", source, [name], ()):
+            continue
+        if not _debt_present(source):
+            if defer_missing or _removed_source_accounted("header", source, [name], (), message):
+                continue
+            failures.append(f"{source}: its {HEADER_QUEUE} row ({name}) went with the source; a vanished unit is "
+                            "a regression to investigate, not an adoption")
+            continue
+        if header_verdict is None:
+            header_verdict = _head_header_verdict
+        problems = _verification_problems(tree, [source])
+        if problems:
+            failures += [f"{source}: {problem}" for problem in problems]
+            continue
+        judged.add(source)
+        problems = header_verdict(name, source)
+        if problems:
+            failures.append(f"{source}: {HEADER_QUEUE} row ({name}) removed but acceptance fails: "
+                            + "; ".join(problems))
+    return failures + (_verification_problems(tree, judged) if judged else [])
+
+
+def verify_debt_range(base, target, missing=False):
+    """Judge the outgoing net retirement, independently of the local index.
+
+    Read explanations only from actual outgoing commit messages. The ordinary
+    build must match the outgoing tree, just as the rest of pre-push requires.
+    """
+    global DEBT_BASE, DEBT_TARGET
+    previous = DEBT_BASE, DEBT_TARGET
+    try:
+        DEBT_BASE, DEBT_TARGET = base, target
+        messages = _git("log", "--format=%B", f"{base}..{target}")
+        if messages.returncode:
+            return ["cannot read outgoing retirement messages"]
+        head_ledger_rows.cache_clear()
+        if missing:
+            return verify_missing_debt(messages.stdout)
+        return verify_removed() + verify_removed_debt(message=messages.stdout)
+    finally:
+        DEBT_BASE, DEBT_TARGET = previous
+        head_ledger_rows.cache_clear()
+
+
+# {tier: (input file, builder)}: tools/next_work.py serves them in this order.
+DEBT_QUEUES = {"data": (DATA_BASELINE, data_identity_items), "header": (HEADER_QUEUE, header_items),
+               "identity": (IDENTITY_BASELINE, identity_items)}
+
+
 # ---------------------------------------------------------------- destination
 
 @lru_cache(maxsize=1)
@@ -695,41 +1704,6 @@ def neighbour_dest(rva):
                                    "class's file, never a new one-function file"}
 
 
-REPAIR_EVERY = 3
-ROTATION = "build/next_work_rotation.json"
-
-
-def repair_turn(every=None, owner=None):
-    """Is this default pick a repair turn? About 1 pick in EVERY (--repair-every, else
-    BFME_REPAIR_EVERY, else 3; 1 = every pick, 0 = never first), rotated per agent
-    (BFME_CLAIM_OWNER) by a counter in the untracked build/next_work_rotation.json and
-    phase-shifted by the owner's name, so seats sharing a clock do not all repair at once."""
-    import hashlib
-    import json
-    if every is None:
-        env = os.environ.get("BFME_REPAIR_EVERY", "").strip()
-        every = int(env) if env.isdigit() else REPAIR_EVERY
-    if every <= 0:
-        return False
-    if every == 1:
-        return True
-    owner = owner or os.environ.get("BFME_CLAIM_OWNER") or "default"
-    path = ROOT / ROTATION
-    try:
-        state = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        state = {}
-    count = int(state.get(owner, 0))
-    state[owner] = count + 1
-    try:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(state, sort_keys=True), encoding="utf-8")
-    except OSError:
-        pass
-    phase = int(hashlib.sha256(owner.encode()).hexdigest(), 16) % every
-    return (count + phase) % every == 0
-
-
 def annotate_dest(candidates):
     """Add dest/dest_basis to queue candidates (new matches)."""
     for candidate in candidates:
@@ -745,7 +1719,7 @@ def annotate_dest(candidates):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("repair", "link"):
+    for name in ("repair", "link", "data", "header", "identity"):
         p = sub.add_parser(name)
         p.add_argument("--limit", type=int, default=20)
         if name == "link":
@@ -761,10 +1735,49 @@ def main(argv=None):
                                 "UNAUTHENTICATED (a producer inspecting its own bundle; never for shared work)")
     sub.add_parser("dest").add_argument("rva")
     sub.add_parser("pass-test").add_argument("line")
-    sub.add_parser("verify-removed", help="hook: re-verify rows whose debt lines the index deletes")
+    verify_parser = sub.add_parser("verify-removed", help="hook: re-verify rows whose debt lines the index deletes")
+    verify_parser.add_argument("--defer-missing", action="store_true",
+                               help="pre-commit: commit-msg will check disappearing sources with the actual message")
+    verify_parser.add_argument("--range", nargs=2, metavar=("BASE", "REV"))
+    missing_parser = sub.add_parser("verify-missing", help="commit-msg: account for disappearing sources")
+    missing_parser.add_argument("message_file", nargs="?")
+    missing_parser.add_argument("--range", nargs=2, metavar=("BASE", "REV"))
+    p = sub.add_parser("retired", help="list committed Debt-Retired trailers with their commit IDs")
+    p.add_argument("--limit", type=int, default=20, help="maximum commits with retirement trailers")
+    p = sub.add_parser("retire", help="delete the SOURCE keys the owning tool no longer finds (fail closed)")
+    p.add_argument("kind", choices=sorted(REGISTERS))
+    p.add_argument("source")
     args = ap.parse_args(argv)
+    if args.cmd == "retired":
+        got = _git("log", "--format=%h%x00%(trailers:key=Debt-Retired,only)%x00",
+                   "--grep=^Debt-Retired:")
+        if got.returncode:
+            print("repair_queue: cannot read retirement history", file=sys.stderr)
+            return 1
+        records = got.stdout.split("\0")
+        shown = 0
+        for sha, trailers in zip(records[::2], records[1::2]):
+            if trailers.strip() and shown < max(0, args.limit):
+                for line in trailers.splitlines():
+                    if line.strip():
+                        print(f"{sha.strip()} {line.strip()}")
+                shown += 1
+        return 0
+    if args.cmd in ("verify-removed", "verify-missing") and args.range:
+        failures = verify_debt_range(*args.range, missing=args.cmd == "verify-missing")
+        for line in failures:
+            print(f"repair_queue: {line}", file=sys.stderr)
+        return 1 if failures else 0
+    if args.cmd == "verify-missing":
+        if not args.message_file:
+            ap.error("verify-missing needs a message file or --range BASE REV")
+        failures = verify_missing_debt(Path(args.message_file).read_text(encoding="utf-8"))
+        for line in failures:
+            print(f"repair_queue: {line}", file=sys.stderr)
+        return 1 if failures else 0
     if args.cmd == "verify-removed":
-        failures = verify_removed()
+        failures = verify_removed() + (verify_removed_debt(defer_missing=True) if args.defer_missing
+                                       else verify_removed_debt())
         for line in failures:
             print(f"repair_queue: {line}", file=sys.stderr)
         return 1 if failures else 0
@@ -772,6 +1785,10 @@ def main(argv=None):
         got = dest_tu(int(args.rva, 16))
         print(f"{got['dest'] or '(no unit)'}  <- {got['basis']}")
         return 0
+    if args.cmd == "retire":
+        ok, message = retire(args.kind, args.source.replace("\\", "/"))
+        print(message)
+        return 0 if ok else 1
     if args.cmd == "pass-test":
         ok, message = pass_test(args.line)
         print(message)
@@ -799,6 +1816,8 @@ def main(argv=None):
               "(tools/cycle_artifacts.py fetch): the closure roots exist only in a published bundle; nothing else "
               "is served in their place", file=sys.stderr)
         return 1
+    elif args.cmd in DEBT_QUEUES:
+        items, note = DEBT_QUEUES[args.cmd][1]()
     else:
         items, note = (all_repair_items(), f"{len(parse_debt())} baseline line(s), plus tier C / diffexec / boot, game and static queues") if args.cmd == "repair" else link_items()
         if args.cmd == "link" and not BFME1 and link_source()[0] is None:
@@ -806,7 +1825,8 @@ def main(argv=None):
             return 1
     print(note)
     for item in items[:args.limit]:
-        print(f"  {item['size']:>6}B {item.get('check', '')} {item['target_rva']} {item['function'][:80]}")
+        print(f"  {item['size']:>6}B {item.get('check', '')} {item['target_rva'] or item.get('address', '')} "
+              f"{item['function'][:80]}" + (f"  [claims {' '.join(item['claim'])}]" if item.get("claim") else ""))
         print(f"         {item['source']}: {item['why'][:400 if item.get('tier') == 'closure' else 160]}")
         print(f"         pass test: {item['pass_test']}")
     return 0
