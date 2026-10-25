@@ -2056,3 +2056,14 @@ param,Rva0053FE64Get::t3,Rva0053FE64Get::keyTime3,inferred,agree:nl-72f20fcd36d3
 param,NAT::gotTargetMangledPort::c,NAT::gotTargetMangledPort::mangledAddress,inferred,agree:nl-4b12c431c352,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
 param,DelegateDesc#2::o,DelegateDesc#2::target,inferred,agree:nl-db4c62d279ec,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,
 param,LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer::a,LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer::playerName,inferred,agree:nl-102f86b88fb2,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp,0x003B8CE0
+function,?rva000276B0@BfmeThingPF@@QAEHPBDII@Z,?findFirstOf@BfmeThingPF@@QAEHPBDII@Z,inferred,agree:nl-99c88b9a2960,Code/GameEngine/Source/Common/BfmeConv1460.cpp,0x000276B0
+carry,BfmeThingPF::rva000276B0::count,BfmeThingPF::findFirstOf::count,inferred,scope renamed by Rename rva000276B0 to findFirstOf (inferred),Code/GameEngine/Source/Common/BfmeConv1460.cpp,0x000276B0
+carry,BfmeThingPF::rva000276B0::characters,BfmeThingPF::findFirstOf::characters,inferred,scope renamed by Rename rva000276B0 to findFirstOf (inferred),Code/GameEngine/Source/Common/BfmeConv1460.cpp,0x000276B0
+function,?rva0018C822@Rva0018C822@@QAEXHHH@Z,?assign@Rva0018C822@@QAEXHHH@Z,inferred,agree:nl-adbf9bbbae2c,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C822
+carry,Rva0018C822::rva0018C822::first,Rva0018C822::assign::first,inferred,scope renamed by Rename rva0018C822 to assign (inferred),Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C822
+carry,Rva0018C822::rva0018C822::last,Rva0018C822::assign::last,inferred,scope renamed by Rename rva0018C822 to assign (inferred),Code/GameEngine/Source/Common/EbpParamForwarders.cpp,0x0018C822
+function,?rva000AD711@Rva000AD711@@QAEPAGH@Z,?getElement@Rva000AD711@@QAEPAGH@Z,inferred,agree:nl-e18141de2670,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x000AD711
+function,?rva000B3F5B@Rva000B3F5B@@QAEPAURva000B3F5BRecord@@H@Z,?getRecord@Rva000B3F5B@@QAEPAURva000B3F5BRecord@@H@Z,inferred,agree:nl-055fed965f94,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,0x000B3F5B
+function,?rva00332F81@Rva00332F5B@@QBE_NABV1@@Z,?equals@Rva00332F5B@@QBE_NABV1@@Z,inferred,agree:nl-be2fbc172671,Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp,0x00332F81
+function,?Rva00506BADDistSqr@@YAMPBURva00506BADCoord@@0@Z,?distanceSquared@@YAMPBURva00506BADCoord@@0@Z,inferred,agree:nl-b034cb0c16a5,Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,0x00506BAD
+carry,Rva00506BADDistSqr::delta,distanceSquared::delta,inferred,scope renamed by Rename Rva00506BADDistSqr to distanceSquared (inferred),Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,0x00506BAD

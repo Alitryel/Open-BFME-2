@@ -9,12 +9,12 @@
 class Rva000AD711
 {
 public:
-	unsigned short *rva000AD711(int index);
+	unsigned short *getElement(int index);
 private:
 	unsigned short *m_items;
 };
 
-unsigned short *Rva000AD711::rva000AD711(int index)
+unsigned short *Rva000AD711::getElement(int index)
 {
 	return &m_items[index];
 }
@@ -29,12 +29,12 @@ struct Rva000B3F5BRecord
 class Rva000B3F5B
 {
 public:
-	Rva000B3F5BRecord *rva000B3F5B(int index);
+	Rva000B3F5BRecord *getRecord(int index);
 private:
 	Rva000B3F5BRecord *m_records;
 };
 
-Rva000B3F5BRecord *Rva000B3F5B::rva000B3F5B(int index)
+Rva000B3F5BRecord *Rva000B3F5B::getRecord(int index)
 {
 	return &m_records[index];
 }

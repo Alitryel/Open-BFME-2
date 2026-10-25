@@ -15,7 +15,7 @@ class Rva000B664E {public:void rva0033394D(AsciiString);};
 class WeaponTemplateSetHead {public:char bytes[76];};
 class Rva00332F5B {public:
  Rva00332F5B(const WeaponTemplateSetHead &,const WeaponTemplateSetHead &);
- bool rva00332F81(const Rva00332F5B &)const;
+ bool equals(const Rva00332F5B &)const;
  int m_nameKey;
  WeaponTemplateSetHead m_required;
  WeaponTemplateSetHead m_excluded;
@@ -23,7 +23,7 @@ class Rva00332F5B {public:
 // Visible copies of the rowed predicates 0x00045473 and 0x00332F81: with both bodies in the unit,
 // cl proves the comparator cannot throw, so the caller tests its result as a plain temporary.
 __declspec(noinline) inline bool Rva00045473Equal(const void *a,const void *b) {return memcmp(a,b,0x4c)==0;}
-__declspec(noinline) inline bool Rva00332F5B::rva00332F81(const Rva00332F5B &other)const
+__declspec(noinline) inline bool Rva00332F5B::equals(const Rva00332F5B &other)const
 {
  return m_nameKey==other.m_nameKey&&Rva00045473Equal(&m_required,&other.m_required)&&Rva00045473Equal(&m_excluded,&other.m_excluded);
 }
@@ -83,7 +83,7 @@ void LuaScriptEngine::rva002E9680ParseModelConditionEvent(BfmeLexEAN *parser)
   reinterpret_cast<EventFlagEntry *>(&record)->setKeyFromName(name.str());
 
   for(Rva00336AB2Element *it=m_modelConditionEvents.begin();it!=m_modelConditionEvents.end();++it) {
-   if(record.rva00332F81(*reinterpret_cast<Rva00332F5B *>(it))) {found=true;break;}
+   if(record.equals(*reinterpret_cast<Rva00332F5B *>(it))) {found=true;break;}
   }
   if(!found)m_modelConditionEvents.push_back(*reinterpret_cast<Rva00336AB2Element *>(&record));
   else return;

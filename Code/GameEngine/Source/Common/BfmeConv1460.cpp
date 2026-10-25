@@ -15,10 +15,10 @@ public:
  char *m_end;   // +4
  __forceinline char *begin() const { return m_begin; }
  __forceinline char *end() const { return m_end; }
- int rva000276B0(const char *characters, unsigned pos, unsigned count);
+ int findFirstOf(const char *characters, unsigned pos, unsigned count);
 };
 
-int BfmeThingPF::rva000276B0(const char *characters, unsigned pos, unsigned count)
+int BfmeThingPF::findFirstOf(const char *characters, unsigned pos, unsigned count)
 {
  const char *found;
  Rva00026E40Tag tag;

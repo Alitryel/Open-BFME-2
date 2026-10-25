@@ -1,5 +1,5 @@
 // cl: /O1 /MD
-// ?Rva00506BADDistSqr@@YAMPBURva00506BADCoord@@0@Z retail 0x00506BAD (47 B,
+// ?distanceSquared@@YAMPBURva00506BADCoord@@0@Z retail 0x00506BAD (47 B,
 // cdecl): squared distance between two float triples, kept on the x87 stack.
 // Unreferenced in the image; the name is address-derived. The sum is spelled
 // (x*x + z*z) + y*y: retail evaluates the rightmost term first and then the
@@ -9,7 +9,7 @@ struct Rva00506BADCoord
 	float x, y, z;
 };
 
-float Rva00506BADDistSqr(const Rva00506BADCoord *lhs, const Rva00506BADCoord *rhs)
+float distanceSquared(const Rva00506BADCoord *lhs, const Rva00506BADCoord *rhs)
 {
 	Rva00506BADCoord delta;
 	delta.x = lhs->x - rhs->x;

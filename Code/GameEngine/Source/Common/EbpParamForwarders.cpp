@@ -32,10 +32,10 @@ public:
 class Rva0018C822
 {
 public:
-	void rva0018C822(int first, int last, int c);
+	void assign(int first, int last, int c);
 };
 
-void Rva0018C822::rva0018C822(int first, int last, int c)
+void Rva0018C822::assign(int first, int last, int c)
 {
 	((Rva0018C73C *)this)->rva0018C73C(first, last, (char *)&last + 3);
 }

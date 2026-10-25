@@ -19,17 +19,17 @@ class BfmeThingPF
 public:
  char *m_begin; // +0
  char *m_end;   // +4
- int rva000276B0(const char *, unsigned, unsigned);
+ int findFirstOf(const char *, unsigned, unsigned);
  int rva00028C10(const BfmeRangePF *, unsigned);
  int rva00028C40(char *, unsigned);
 };
 
 int BfmeThingPF::rva00028C10(const BfmeRangePF *span, unsigned pos)
 {
- return rva000276B0(span->m_bfmeAt, pos, span->m_bfmeEnd - span->m_bfmeAt);
+ return findFirstOf(span->m_bfmeAt, pos, span->m_bfmeEnd - span->m_bfmeAt);
 }
 
 int BfmeThingPF::rva00028C40(char *s, unsigned pos)
 {
- return rva000276B0(s, pos, bfmeMakeOX(s));
+ return findFirstOf(s, pos, bfmeMakeOX(s));
 }
