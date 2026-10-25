@@ -51,14 +51,14 @@ struct StateMachine {
 };
 class Rva00341796 : public FXParticleSystem::WindModuleInfo {
 public:
-	virtual void onExit(int arg);
+	virtual void onExit(int status);
 private:
 	Rva003418EAMember *m_20;
 };
 void __cdecl operator delete(void *);
-void Rva00341796::onExit(int arg)
+void Rva00341796::onExit(int status)
 {
-	(void)arg;
+	(void)status;
 	if (m_20) {
 		m_20->v15();
 		void *memory;
