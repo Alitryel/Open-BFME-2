@@ -119,6 +119,13 @@ Verifier-Change explains verifier edits; it never excuses retiring a debt key.
   python3 tools/repair_queue.py repair [--limit N]
   python3 tools/repair_queue.py link [--limit N] [--bundle STORE [--closure] [--allow-stale] [--local-unpublished]]
   python3 tools/repair_queue.py data|header|identity [--limit N]
+  ms-headers  Microsoft-header copies from reverse/ms_header_queue.tsv, ranked by
+          the audit's per-unit configuration and include closure. Static candidates
+          need ./build.sh byte verification; CRT dllimport conflicts need per-body
+          callee checks. Explicit lane only (not a next_work tier); --claim takes
+          file:SOURCE through next_work's lock_keys/acquire selection path.
+
+  python3 tools/repair_queue.py ms-headers [--class drop-in-candidate|adapt|unverified|conflicting|shim|failed] [--limit N] [--claim]
   python3 tools/repair_queue.py dest 0xRVA
   python3 tools/repair_queue.py pass-test "<baseline line>"
   python3 tools/repair_queue.py retire data|identity SOURCE   # the tool's verdict retires keys
@@ -1716,6 +1723,55 @@ def annotate_dest(candidates):
     return candidates
 
 
+def ms_header_items(cls=None):
+    """Audit-ranked file work; classification is not a C++ class lock."""
+    tools_on_path()
+    import ms_header_audit
+    rows = ms_header_audit.read_queue(ROOT / "reverse/ms_header_queue.tsv")
+    rows = [row for row in rows if cls in (None, row["class"])
+            and (ROOT / row["file"]).is_file()]
+    rows.sort(key=lambda row: (ms_header_audit.CLASS_ORDER[row["class"]], -int(row["defs"]), row["file"]))
+    return [{"tier": "ms-headers", "source": row["file"], "function": row["file"],
+             "target_rva": "", "size": 0, "claim": ["file:" + row["file"]],
+             "classification": row["class"], "audit": row,
+             "pass_test": "./build.sh " + row["file"]} for row in rows]
+
+
+def serve_ms_headers(args):
+    """Use the shared picker's symmetric locks and atomic acquisition, not raw refs."""
+    import next_work
+    if args.claim:
+        next_work.claims.settle()
+    items = next_work.without_busy(ms_header_items(args.cls), next_work.busy_keys())
+    limit = args.limit if args.limit is not None else (1 if args.claim else 20)
+    print(f"{len(items)} available file(s) define Microsoft-header names locally; "
+          "include the real header, delete the copy, prove with ./build.sh: byte gate is the authority. "
+          "CRT dllimport conflicts need per-body callee checks")
+    shown = 0
+    for item in items:
+        if shown >= max(0, limit):
+            break
+        acquired = []
+        if args.claim:
+            picked, acquired = next_work.claim_choice([item], "ms-headers")
+            if picked is None:
+                continue
+        row = item["audit"]
+        print(f"  {row['class']:<17} {row['defs']:>4} defs  {row['file']}")
+        if args.claim:
+            print("         " + ("claim held: " + " ".join(item["claim"]) if acquired
+                                  else "UNCLAIMED: origin unavailable"))
+        print(f"         {row['headers']}{'  (needs // platformsdk)' if row['platformsdk'] == 'yes' else ''}: "
+              f"{row['names'][:160]}")
+        if row.get("closure"):
+            print(f"         via includes: {row['closure'][:160]}")
+        if row.get("note"):
+            print(f"         NOTE: {row['note']}")
+        print(f"         pass test: {item['pass_test']}")
+        shown += 1
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -1747,7 +1803,14 @@ def main(argv=None):
     p = sub.add_parser("retire", help="delete the SOURCE keys the owning tool no longer finds (fail closed)")
     p.add_argument("kind", choices=sorted(REGISTERS))
     p.add_argument("source")
+    p = sub.add_parser("ms-headers", help="explicit Microsoft-header migration lane (file locks)")
+    p.add_argument("--limit", type=int, help="files to serve (default: 20, or 1 with --claim)")
+    p.add_argument("--claim", action="store_true", help="atomically claim each selected file and its locks")
+    p.add_argument("--class", dest="cls", type=lambda v: "drop-in candidate" if v in ("drop-in", "drop-in-candidate") else v,
+                   choices=("drop-in candidate", "adapt", "unverified", "conflicting", "shim", "failed"))
     args = ap.parse_args(argv)
+    if args.cmd == "ms-headers":
+        return serve_ms_headers(args)
     if args.cmd == "retired":
         got = _git("log", "--format=%h%x00%(trailers:key=Debt-Retired,only)%x00",
                    "--grep=^Debt-Retired:")

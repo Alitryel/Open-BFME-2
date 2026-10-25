@@ -2439,3 +2439,55 @@ def test_debt_can_follow_a_rehomed_row_while_old_source_still_exists(tmp_path, m
     assert (tmp_path / source).exists()
     monkeypatch.setattr(rq, "verdict_of", lambda *a: pytest.fail("unchanged source was treated as a repair"))
     assert rq.verify_removed_debt(header_verdict=lambda *a: pytest.fail("transfer mistaken for adoption")) == []
+
+
+# Microsoft-header migrations use the same logical file locks as the debt picker.
+def ms_header_fixture(tmp_path):
+    import csv
+    import ms_header_audit
+    files = [("Code/GameEngine/Body.cpp", "// body\n"), ("Code/GameEngine/Loco.cpp", "// loco\n")]
+    rq, rev, _ = load(tmp_path, "bfme2", LEDGER, files)
+    rows = [("Code/GameEngine/Loco.cpp", "adapt", "20"),
+            ("Code/Missing.cpp", "drop-in candidate", "100"),
+            ("Code/GameEngine/Body.cpp", "drop-in candidate", "2")]
+    with (rev / "ms_header_queue.tsv").open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=ms_header_audit.QUEUE_HEADER, delimiter="\t")
+        writer.writeheader()
+        for source, classification, defs in rows:
+            writer.writerow(dict(file=source, **{"class": classification}, defs=defs,
+                                 headers="<windows.h>", platformsdk="yes", names="DWORD:same"))
+    return rq
+
+
+def test_ms_header_items_rank_real_files_and_fence_rvas(tmp_path, fenced):
+    import claims
+    import next_work
+    rq = ms_header_fixture(tmp_path)
+    items = rq.ms_header_items()
+    assert [i["classification"] for i in items] == ["drop-in candidate", "adapt"]
+    assert "class" not in items[0]  # a migration category must never become class:drop-in candidate
+    assert items[0]["claim"] == ["file:Code/GameEngine/Body.cpp"]
+    assert rq.ms_header_items("adapt") == [items[1]]
+    fenced[0x2000] = {"owner": "peer"}
+    assert next_work.without_busy(items, claims.busy_keys()) == [items[1]]
+    assert "./build.sh" in items[0]["pass_test"]
+
+
+def test_ms_headers_cli_claim_retries_atomic_file_contention(tmp_path, seats, monkeypatch, capsys):
+    import claims
+    import next_work
+    rq = ms_header_fixture(tmp_path)
+    items = rq.ms_header_items()
+    seats("a")
+    assert next_work.claim_choice([items[0]], "ms-headers")[0] == items[0]
+    seats("b")
+    monkeypatch.setattr(claims, "settle", lambda: None)
+    monkeypatch.setattr(next_work, "busy_keys", lambda: set())  # stale view; acquire must arbitrate
+    assert rq.main(["ms-headers", "--claim"]) == 0
+    out = capsys.readouterr()
+    assert "held by another worker" in out.err
+    assert "claim held: file:Code/GameEngine/Loco.cpp" in out.out
+    owners = seats.on_origin()
+    assert owners[claims.file_key("Code/GameEngine/Body.cpp")] == "a"
+    assert owners[claims.file_key("Code/GameEngine/Loco.cpp")] == "b"
+    assert not any(key.startswith("class/") for key in owners)

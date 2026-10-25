@@ -7,8 +7,8 @@
 // exception constructor's g_bfmeFormatBuffer is the distinct VA 0x0130C650.
 // .bss VA 0x00E073F8; the next datum starts 0x800 bytes later.
 char Rva0134D4B8FormatBuffer[2048];
-extern "C" __declspec(dllimport) int __cdecl _vsnprintf(char *, unsigned int, const char *, va_list);
-void *__cdecl operator new[](unsigned int size);
+#include <stdio.h>
+#include <new>
 
 struct BfmeFormattedText
 {

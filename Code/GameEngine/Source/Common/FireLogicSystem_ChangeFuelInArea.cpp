@@ -10,8 +10,7 @@
 // The scale and rounding bias are the 0.1f and 0.5 literals; the banked
 // attempt read them through float/double globals, which hoisted the scale
 // load ahead of the coordinate and shifted every fmul operand.
-extern "C" __declspec(dllimport) double __cdecl floor(double);
-extern "C" __declspec(dllimport) double __cdecl ceil(double);
+#include <math.h>
 
 __forceinline long FloatToLong(float f)
 {

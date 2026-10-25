@@ -6,8 +6,7 @@
 // then Add_Prototype(obj) (rowed 0x0061EF90, null-tolerant). Caller at
 // 0x0012CDDC unblocks 0x0012CB67.
 bool __cdecl Render_Obj_Exists(const char *name);
-void *__cdecl operator new(unsigned int size) throw();
-void __cdecl operator delete(void *p);
+#include <new>
 void __cdecl Add_Prototype(void *proto);
 
 class Rva001803D3

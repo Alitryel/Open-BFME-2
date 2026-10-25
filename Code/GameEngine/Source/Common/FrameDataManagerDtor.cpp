@@ -21,8 +21,7 @@ private:
 	char m_pad[0x14];
 };
 
-void *operator new[](unsigned int size);
-void operator delete[](void *p);
+#include <new>
 
 extern int FRAME_DATA_LENGTH;
 

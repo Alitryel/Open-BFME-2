@@ -1,4 +1,5 @@
 // cl: /EHsc /MD /O1
+// platformsdk
 // ??0WaterDrawFXShaderParameterSourceNamespace@@QAE@XZ @0x0007EBFB 73B WaterDraw registering ctor with vtable plus two members.
 // Evidence: stores 0x007C6F80/5C/64 then Register WaterDraw; empty base arms EH state 0. Precedents Rva000E6350Ctor.cpp Rva0018BEC7Ctor.cpp.
 //
@@ -49,7 +50,7 @@
 void __cdecl Rva00153565Register(const char *name, void *obj);
 void __cdecl Rva001532E1Erase(const char *name);
 void __cdecl Rva001530E9Parse(const char *name, void *volatile path);
-extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *);
+#include <windows.h>
 
 struct IDirect3DBaseTexture8;
 
@@ -85,9 +86,6 @@ public:
 };
 
 typedef const char *D3DXHANDLE;
-typedef int BOOL;
-#define FALSE 0
-#define TRUE 1
 
 struct ID3DXEffect
 {

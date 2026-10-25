@@ -34,9 +34,7 @@
 
 #define PI 3.14159265359f
 
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
-extern "C" double __cdecl tan(double);
+#include <math.h>
 
 enum NameKeyType
 {

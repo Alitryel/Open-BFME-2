@@ -1,12 +1,11 @@
 // cl: /MD
+// platformsdk
 // ?rva0073F778@Rva0073F778@@QAE_NP6GIPAX@Z0HIH0@Z @0x0073F778 129B.
 // Creates a suspended thread via _beginthreadex, sets priority from an index,
 // optionally resumes, and reports success. Evidence: unlock lane packet;
 // IAT imports via dllimport; switch maps 0-6 to priorities.
-extern "C" __declspec(dllimport) unsigned __cdecl _beginthreadex(void *security, unsigned stackSize, unsigned (__stdcall *start)(void *), void *arglist, unsigned initflag, unsigned *thrdaddr);
-extern "C" __declspec(dllimport) int __stdcall SetThreadPriority(void *hThread, int nPriority);
-extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void *hThread);
-extern "C" __declspec(dllimport) unsigned long __stdcall SuspendThread(void *hThread);
+#include <windows.h>
+#include <process.h>
 class Rva0073F778 {
     char _pad[4];
     void *m_handle;
