@@ -6277,3 +6277,8 @@ Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,e
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|arg,8e422cc1fb82b052c2c5eb4f,gpt-6.1-sol,codex8-20261025-064219-6,w-de56e563a50b,2026-10-25
 Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|param|LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer|a,5a92e5be692896ea1f2b50d4,gpt-6.1-sol,codex8-20261025-064219-6,w-de56e563a50b,2026-10-25
 Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_254,ab25c56c7998e8919e1012b5,gpt-6.1-sol,codex8-20261025-064219-7,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/GapBodiesGE38.cpp|function|0x005DBB7A|rva005DBB7A,50b0cbc8a4d76dee1c99fc58,gpt-6.1-sol,codex8-20261025-064219-8,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r1,75619d2a780b93d36fe599ff,gpt-6.1-sol,codex8-20261025-064219-9,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r2,c9509abae5b63fd235f73663,gpt-6.1-sol,codex8-20261025-064219-9,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BC53Xfer3|p,2ae23f8791ab20f433c37ad3,gpt-6.1-sol,codex8-20261025-064219-10,w-de56e563a50b,2026-10-25
+Code/GameEngine/Source/Common/System/Rva0060BC53.cpp|local|Rva0060BD31Xfer|tmp,bd3142837977fa41858424c1,gpt-6.1-sol,codex8-20261025-064219-10,w-de56e563a50b,2026-10-25
