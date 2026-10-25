@@ -21,9 +21,7 @@ struct Rva0027EA49 {
 	int m_00;
 	TargetRef00217D4C *m_04;
 };
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> _Rb_tree_node<Rva0027EA49> * _Rb_tree<Rva0027EA49,Rva0027EA49,_Identity<Rva0027EA49>,less<Rva0027EA49>,allocator<Rva0027EA49> >::_M_create_node(Rva0027EA49 const &); }
-// Retail's erase(key) 0x005C6C2D calls 0x006F1C89, the equal_range ICF-shared
+// Retail's erase(key) 0x005C6C2D calls 0x002F1C89, the equal_range ICF-shared
 // with map<int, int>'s: elements order by the int at +0.
 inline bool operator<(const Rva0027EA49 &a, const Rva0027EA49 &b) { return a.m_00 < b.m_00; }
 typedef _STL::_Rb_tree<Rva0027EA49, Rva0027EA49, _STL::_Identity<Rva0027EA49>, _STL::less<Rva0027EA49>, _STL::allocator<Rva0027EA49> > Rva0027EA49Tree;
@@ -32,6 +30,10 @@ template void Rva0027EA49Tree::_M_erase(Rva0027EA49Tree::_Link_type);
 
 template void Rva0027EA49Tree::clear();
 
-// Whole-class instantiation of this tree. It reproduces erase (retail 0x005C6BAC)
-// byte for byte; their calls read the tree's matched STL helpers.
-template class _STL::_Rb_tree<Rva0027EA49,Rva0027EA49,_STL::_Identity<Rva0027EA49>,_STL::less<Rva0027EA49>,_STL::allocator<Rva0027EA49> >;
+// Instantiate the rowed erase operations without unrelated insertion members.
+// This unit has no retail insertion body or node-construction provider.
+template void Rva0027EA49Tree::erase(Rva0027EA49Tree::iterator,
+                                    Rva0027EA49Tree::iterator);
+template void Rva0027EA49Tree::erase(Rva0027EA49Tree::iterator);
+template Rva0027EA49Tree::size_type Rva0027EA49Tree::erase(const Rva0027EA49 &);
+template void _STL::_Destroy<Rva0027EA49>(Rva0027EA49 *);
