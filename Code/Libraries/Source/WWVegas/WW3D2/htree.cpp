@@ -23,6 +23,9 @@
 #pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
 #include <new>
 #include <vector>
+#include "../../../../../reference/shims/bfme2htree/htree.h"
+#include <iterator>
+#include <stl/_algobase.h>
 
 // Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E
 // 0x0004554B); it takes the optimization state of the first function that needs it,
@@ -106,6 +109,104 @@ template Elem36 *_STL::__copy_backward<Elem36 *,Elem36 *,int>(Elem36 *,Elem36 *,
 struct BfmePod36{int Index;CapturedTransform Transform;bool WorldSpace;};
 
 template BfmePod36 *_STL::__copy<BfmePod36 *,BfmePod36 *,int>(BfmePod36 *,BfmePod36 *,BfmePod36 *,const _STL::random_access_iterator_tag &,int *);
+
+// This compact target view is independent of the older pivot.h matrix layout.
+// Scale consumes only its +24 translation and the target-proven 58-byte stride.
+struct HTreeScalePivotView
+{
+public:
+	char Name[16];
+	HTreeScalePivotView *Parent; // +0x10
+	float m_rot[4]; // +0x14
+	float m_tx; // +0x24
+	float m_ty; // +0x28
+	float m_tz; // +0x2C
+	unsigned char m_bfme30[0x58 - 0x30];
+};
+
+// This record view keeps the target-decoded 36-byte stride independently
+// of the shared HTree header. The seed stores its vector words at +1C/+20.
+struct CapturedBone {int Index;Quaternion Rotation;Vector3 Translation;bool WorldSpaceTranslation;};
+
+namespace _STL {
+template <class _RandomAccessIter, class _OutputIter, class _Distance>
+_OutputIter __copy(_RandomAccessIter __first, _RandomAccessIter __last, _OutputIter __result,
+	const random_access_iterator_tag &, _Distance *);
+}
+
+typedef BfmePod36 BfmeRva00161350Elem;
+
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+typedef _STL::vector<Elem36, _STL::allocator<Elem36> > Elem36Vector;
+
+// _Construct<Elem36> is the pinned copy construct at 0x001610F0: declare it so this unit calls it
+// rather than emitting the only other copy of that name.
+namespace _STL { template <> void _Construct<Elem36, Elem36>(Elem36 *__p, const Elem36 &__val); }
+
+template _STL::vector<Elem36>::iterator _STL::vector<Elem36>::insert(Elem36 *, const Elem36 &);
+
+// tu-skeleton: 0x001606E0 1144B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
+
+// tu-skeleton: 0x00160B60 68B ?Get_Bone_Index@HTreeClass@@QBEHPBD@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
+
+// tu-skeleton: 0x00160BB0 22B ?Get_Bone_Name@HTreeClass@@QBEPBDH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
+
+// tu-skeleton: 0x00160BD0 35B ?Get_Parent_Index@HTreeClass@@QBEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassScale.cpp
+
+//
+// ?Scale@HTreeClass@@QAEXM@Z,
+// retail 0x00160C00 (110 bytes).
+//
+// Pivot-translation scaler: no-op for a 1.0 factor, otherwise multiplies
+// every pivot's translation triple by the factor and folds it into
+// ScaleFactor. Ported from Open-BFME-1 (Code/Libraries/Source/WWVegas/
+// WW3D2/htree.cpp), whose body is the same shape including the
+// `factor == 1.0f` early-out; the BFME2 adaptation is the data path:
+// BFME1 round-trips each translation through Get_Translation /
+// Set_Translation calls while retail scales the three floats at pivot
+// +0x24 in place with SSE (the second half of the +0x14 28-byte block,
+// matching the landed 0x58-byte PivotClass model: Name[16], Parent at
+// +0x10, rotation-plus-translation blocks at +0x14/+0x30, Index at +0x4C).
+// The loop homes the pivot address through a float pointer: spelling the
+// three stores through trans[0..2] folds the +0x24 into one leading lea
+// with [eax+0/4/8] stores, while three member stores (or a reference
+// alone) keep the +0x24 on every memory operand.
+// HTree layout repeats the BoneLookup unit: Name[16], NumPivots at +0x10,
+// Pivot at +0x14, ScaleFactor at +0x18.
+
+// ?Scale@HTreeClass@@QAEXM@Z
+void HTreeClass::Scale(float factor)
+{
+	if (factor == 1.0f) {
+		return;
+	}
+
+	for (int i = 0; i < NumPivots; i++) {
+		HTreeScalePivotView &piv = reinterpret_cast<HTreeScalePivotView *>(Pivot)[i];
+		float *trans = &piv.m_tx;
+		trans[0] *= factor;
+		trans[1] *= factor;
+		trans[2] *= factor;
+	}
+
+	ScaleFactor *= factor;
+}
+
+// tu-skeleton: 0x00160CB0 770B ?Slave_Update@HTreeClass@@QAEXPBV1@ABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
+
+// tu-skeleton: 0x00160FC0 142B ?rva00160FC0@HTreeClass@@QAEXPAVRva00160FC0Input@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/Rva00160FC0Storage.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
+
+// TU Code/Libraries/Source/WWVegas/WW3D2/htree.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 
 // tu-skeleton: 0x001606E0 1144B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
 
@@ -652,6 +753,187 @@ HTreeClass * HTreeClass::Create_Interpolated(const HTreeClass * tree_base,
 // tu-skeleton: 0x00166570 55B ?push_back@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEXABUElem36@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
 
 // tu-skeleton: 0x001665B0 288B ?insert@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEPAUElem36@@PAU3@ABU3@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/Rva001665B0Finish.cpp (not merged yet)
+
+// tu-skeleton: 0x001666D0 267B ?Init_Default@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassInitDefault.cpp (not merged yet)
+
+// tu-skeleton: 0x001667E0 26B ??1HTreeClass@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassDestructor.cpp (not merged yet)
+
+// tu-skeleton: 0x00166800 371B ?Load_W3D@HTreeClass@@QAEHAAVChunkLoadClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassLoadW3D.cpp (not merged yet)
+
+// tu-skeleton: 0x00166980 229B ?Capture_Bone@HTreeClass@@QAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCaptureBone.cpp (not merged yet)
+
+// tu-skeleton: 0x001610A0 23B ?size@?$vector@URunwayInfo@ParkingPlaceBehavior@@V?$allocator@URunwayInfo@ParkingPlaceBehavior@@@_STL@@@_STL@@QBEIXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp (not merged yet)
+
+// tu-skeleton: 0x001610C0 34B ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@_STL@@QBEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@2@IPBX@Z -- matched in Code/GameEngine/Source/Common/System/ArchiveFile.cpp (not merged yet)
+
+// tu-skeleton: 0x00161150 45B ?rva00161150CopyWalk@@YAPAUElem36@@PAU1@00@Z -- matched in Code/GameEngine/Source/Common/ElementStrideWalks.cpp (not merged yet)
+
+// tu-skeleton: 0x00161180 43B ??$__uninitialized_fill_n@PAUElem36@@IU1@@_STL@@YAPAUElem36@@PAU1@IABU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
+
+// tu-skeleton: 0x001614F0 526B ?read_pivots@HTreeClass@@AAE_NAAVChunkLoadClass@@_N@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
+
+// tu-skeleton: 0x00161700 2338B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NPAVHAnimClass@@HMABVMatrix3D@@PAV3@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassIsBoneCaptured.cpp
+
+//
+// Use the same target HTree and math declarations as the destination TU.
+
+// ?Is_Bone_Captured@HTreeClass@@QBE_NH@Z
+bool HTreeClass::Is_Bone_Captured(int boneindex) const
+{
+	BfmePod36 *bone = reinterpret_cast<BfmePod36 *>(OwnedSequence1C[0]);
+	while (bone != reinterpret_cast<BfmePod36 *>(OwnedSequence1C[1]) && bone->Index < boneindex) ++bone;
+	return bone != reinterpret_cast<BfmePod36 *>(OwnedSequence1C[1]) && bone->Index == boneindex;
+}
+
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/htree_control.cpp
+
+// BFME2 Control_Bone uses sorted 36-byte captured-bone records at this+1C/20.
+// Each record stores index, quaternion, translation, and world-space flag.
+// Original capture-record type name is unknown. The preceding tree fields
+// are opaque here; only the independently decoded capture-buffer layout is used.
+// Complete112-byte RET12 boundary; the sole call is held Build_Quaternion360.
+
+void HTreeClass::Control_Bone(int boneindex,const Matrix3D &relative_tm,bool world_space_translation)
+{
+ CapturedBone *bone=reinterpret_cast<CapturedBone *>(OwnedSequence1C[0]);
+ while(bone!=reinterpret_cast<CapturedBone *>(OwnedSequence1C[1]) && bone->Index<boneindex) ++bone;
+ if(bone==reinterpret_cast<CapturedBone *>(OwnedSequence1C[1]) || bone->Index!=boneindex) return;
+ bone->WorldSpaceTranslation=world_space_translation;
+ bone->Rotation=Build_Quaternion(relative_tm);
+ bone->Translation.X=relative_tm.Get_X_Translation();
+ bone->Translation.Y=relative_tm.Get_Y_Translation();
+ bone->Translation.Z=relative_tm.Get_Z_Translation();
+}
+
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClass_Get_Bone_Control.cpp
+
+// ?Get_Bone_Control@HTreeClass@@QBEXHAAVMatrix3D@@@Z
+// ?Get_Bone_Control@HTreeClass@@QBEXHAAVMatrix3D@@@Z
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
+
+// HTreeClass::Control_Bone (0x00162060) is rowed in htree_control.cpp.
+
+void HTreeClass::Get_Bone_Control(int index,Matrix3D &out) const
+{
+ // Target Matrix3D is twelve row-major floats. A scalar view keeps this
+ // body from emitting a second Matrix3D accessor under its own flags.
+ typedef float MatrixWords[3][4];
+ MatrixWords &matrix=*reinterpret_cast<MatrixWords *>(&out);
+ CapturedBone *bone=reinterpret_cast<CapturedBone *>(OwnedSequence1C[0]);
+ while(bone!=reinterpret_cast<CapturedBone *>(OwnedSequence1C[1]) && bone->Index<index) ++bone;
+ if(bone==reinterpret_cast<CapturedBone *>(OwnedSequence1C[1]) || bone->Index!=index) {
+  matrix[0][0]=1.0f;matrix[0][1]=0.0f;matrix[0][2]=0.0f;matrix[0][3]=0.0f;
+  matrix[1][0]=0.0f;matrix[1][1]=1.0f;matrix[1][2]=0.0f;matrix[1][3]=0.0f;
+  matrix[2][0]=0.0f;matrix[2][1]=0.0f;matrix[2][2]=1.0f;matrix[2][3]=0.0f;
+  return;
+ }
+ {
+  const Quaternion &quaternion=bone->Rotation;
+  float xx=quaternion.X*quaternion.X*2.0f;
+  float xy=__vref(quaternion.X)*quaternion.Y*2.0f;
+  float xz=quaternion.X*quaternion.Z*2.0f;
+  float xw=quaternion.X*quaternion.W*2.0f;
+  float yy=quaternion.Y*quaternion.Y*2.0f;
+  float yz=quaternion.Y*quaternion.Z*2.0f;
+  float yw=quaternion.Y*quaternion.W*2.0f;
+  float zz=quaternion.Z*quaternion.Z*2.0f;
+  float zw=quaternion.Z*quaternion.W*2.0f;
+  matrix[0][0]=1.0f-yy-zz; matrix[0][1]=xy-zw; matrix[0][2]=yw+xz;
+  matrix[1][0]=zw+xy; matrix[1][1]=1.0f-zz-xx; matrix[1][2]=yz-xw;
+  matrix[2][0]=xz-yw; matrix[2][1]=yz+xw; matrix[2][2]=1.0f-yy-xx;
+  matrix[0][3]=bone->Translation.X;matrix[1][3]=bone->Translation.Y;matrix[2][3]=bone->Translation.Z;
+ }
+}
+
+// tu-skeleton: 0x00162290 18B ?rva00162290@HTreeClass@@QBEHXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x001622B0 1335B ?Capture_Update@HTreeClass@@QAEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x001627F0 7B ?get_allocator@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QBE?AV?$allocator@G@2@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_wide_string_default_ctor.cpp (not merged yet)
+
+// tu-skeleton: 0x00162800 86B ??0?$_Vector_base@URva00162800Record@@V?$allocator@URva00162800Record@@@_STL@@@_STL@@QAE@IABV?$allocator@URva00162800Record@@@1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp (not merged yet)
+
+// tu-skeleton: 0x00162860 32B ??$__copy_backward_ptrs@PAUElem36@@PAU1@@_STL@@YAPAUElem36@@PAU1@00ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp (not merged yet)
+
+// tu-skeleton: 0x00162880 32B ??$__copy_ptrs@PAUBfmePod36@@PAU1@@_STL@@YAPAUBfmePod36@@PAU1@00U__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
+
+// tu-skeleton: 0x001628A0 769B ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x00162BB0 3785B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x00163A80 2850B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHRawAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x001645B0 4715B ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x00165820 2277B ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReleaseBone.cpp
+
+// Use the same target HTree and math declarations as the destination TU.
+
+//
+// ?Release_Bone@HTreeClass@@QAEXH@Z, retail 0x001661F0, 70 bytes.
+//
+// BFME 2 rewrote Zero Hour's per-pivot IsCaptured flag clear as a sorted
+// vector erase of 36-byte captured-bone records (Begin at +0x1C, End at
+// +0x20, Index first). Same record model as the landed Is_Bone_Captured unit
+// (HTreeClassIsBoneCaptured.cpp) and Control_Bone (htree_control.cpp); the
+// tail copy reaches the same random-access copy helper at 0x00161350 the
+// vector erase at 0x001661C0 and Free's clear use, with by-reference tag and
+// null distance pointer. Identity: pin at 0x001661F0 read from the REL32 at
+// the byte-verified Animatable3DObjClass forwarder 0x001A4EE0 (jmp at
+// 0x001A4EEA in animobj.cpp). Donor Zero Hour htree.cpp Release_Bone only
+// clears a flag; retail follows the vector-erase shape.
+// Retail reloads End after the find loop; the volatile read reproduces that
+// second load, which /O2+G7 would otherwise CSE away.
+// The copy helper 0x00161350 is rowed as STLport's random-access __copy over
+// 36-byte BfmePod36 records (int distance); declared only, so the call keeps
+// that name. The element and tag take those spellings here.
+
+void HTreeClass::Release_Bone(int boneindex)
+{
+    BfmeRva00161350Elem *p = reinterpret_cast<BfmeRva00161350Elem *>(OwnedSequence1C[0]);
+    BfmeRva00161350Elem *end = reinterpret_cast<BfmeRva00161350Elem *>(OwnedSequence1C[1]);
+    if (p == end)
+        return;
+    do {
+        if (p->Index == boneindex)
+            goto found;
+        ++p;
+    } while (p != end);
+    return;
+found:
+    BfmeRva00161350Elem *finish = *(BfmeRva00161350Elem * volatile *)&OwnedSequence1C[1];
+    BfmeRva00161350Elem *next = p + 1;
+    if (next != finish) {
+        _STL::random_access_iterator_tag tag;
+        _STL::__copy(next, finish, p, tag, (int *)0);
+    }
+    OwnedSequence1C[1] -= sizeof(BfmeRva00161350Elem);
+}
+
+// tu-skeleton: 0x00166240 43B ?erase@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@QAEPAUBfmePod36@@PAU3@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
+
+// tu-skeleton: 0x001662A0 285B ??0HTreeClass@@QAE@ABV0@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCopyConstructor.cpp (not merged yet)
+
+// tu-skeleton: 0x00166510 90B ?Free@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFree.cpp (not merged yet)
+
+// tu-skeleton: 0x00166570 55B ?push_back@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEXABUElem36@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/Rva001665B0Finish.cpp
+
+// ?insert@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEPAUElem36@@PAU3@ABU3@@Z
+//
+// ?insert@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEPAUElem36@@PAU3@ABU3@@Z @0x001665B0 288B:
+// STLport vector<Elem36> single insert. Same 0x24 stride stand-in as
+// stlport_vector_elem36_push_back.cpp (dword + 16-byte block + three dwords +
+// byte); callees rowed/pinned (_Construct 0x001610F0 copy-ctor 0x00161050
+// copy_backward 0x001611B0 overflow 0x001663F0); called from 0x00166A1B.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
 
 // tu-skeleton: 0x001666D0 267B ?Init_Default@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassInitDefault.cpp (not merged yet)
 
