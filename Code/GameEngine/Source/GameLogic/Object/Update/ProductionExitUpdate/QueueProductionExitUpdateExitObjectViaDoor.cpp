@@ -44,6 +44,7 @@
 //    (status 90) cleared.
 
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 typedef bool Bool;
 typedef int Int;
@@ -71,10 +72,6 @@ class ThingTemplate;
 class LocomotorSet;
 class Team;
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
 
 enum ExitDoorType
 {
@@ -311,12 +308,6 @@ private:
 
 int Rva002EDE5B(void *obj, Coord3D *pos);
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void rva0023D0C2(Object *obj, Int value);
-};
 
 extern GameLogic *TheGameLogic;
 

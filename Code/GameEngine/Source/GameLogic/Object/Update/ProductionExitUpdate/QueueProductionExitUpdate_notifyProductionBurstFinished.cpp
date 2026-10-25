@@ -2,6 +2,7 @@
 // ?notifyProductionBurstFinished@QueueProductionExitUpdate@@QAEXXZ @0x004A0547 297B chain via 0x4A0403.
 // Evidence: QueueProductionExitUpdate rally logic via rowed bfmeQueryRallyOverride 0x4A0403; TheGameLogic findObjectByID row; setStatus rows; getControllingPlayer row; TheSkirmishAIManager plus rva002A8AB1 pin; rva00346C53 pin; AI rva0036EBB8 row; v8 rally coord; v31/v4/v145 virtuals; neighbours SetRallyPoint /O1.
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../Common/GameLogicObjectLookupView.h"
 class Object;
 Object *bfmeQueryRallyOverride(Object *obj, const Coord3D *pos);
 class Iface31
@@ -97,15 +98,6 @@ public:
 	Iface31 *m_250;
 	char m_pad2[4];
 	AICommandInterface *m_258;
-};
-enum ObjectID
-{
-	OID_NONE = 0
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 struct Unk1C
