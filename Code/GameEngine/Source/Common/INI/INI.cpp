@@ -48,6 +48,12 @@ vector<void *>::const_iterator vector<void *>::begin() const
 template <> __declspec(dllimport) __forceinline
 vector<void *>::size_type vector<void *>::size() const
 { return size_type(this->_M_finish - this->_M_start); }
+// The bucket lookup in hashtable::_M_find<AsciiString> inlines this too; left out of
+// line, this unit's _M_find copy differs from retail's 0x0002C9E7 and, first in link
+// order, would be the one the link keeps.
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_reference vector<void *>::operator[](size_type __n) const
+{ return *(begin() + __n); }
 }
 
 struct BfmeStringNoCaseLess
