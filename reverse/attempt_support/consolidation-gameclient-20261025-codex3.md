@@ -48,3 +48,16 @@ WOLLoginMenu dry-run accepts two donors / three rows, but Rva005CA53EFinish has 
 GameFont dry-run accepts eighteen files / eighteen rows, but Rva002186EBDtor has the sole Rva0007DF07 header-adoption queue item at that source. Its acceptance command would point to a deleted file. No merge applied; retain canonical-header debt until its owner supports the move or adoption succeeds through its normal path. Logs: build/gamefont-merge-dry-run.txt and build/gamefont-path-audit.txt. The remaining two donors fail a private element member and duplicate STLport declarations.
 
 Blocked Snow and Drawable records above were made on BFME_MODEL=gpt-6.1-sol; their initial log evidence omitted the model suffix. All blocked trials were dry runs without new claims. Accepted merge file/RVA claims remain held while the batch awaits publication.
+
+
+## Transition handler, EyeTower, MetaEvent and animation trials
+
+GameWindowTransitions dry-run accepts four files / seven rows; EyeTower accepts Aim + PushBack / two rows. Both would delete a source with the sole MS-header audit item at that path (critical-section imports and atan2 respectively), so neither was applied. These are consumer blockers in addition to remaining private-view/baseline failures. Refining the empty-header probe with build.compiler_environment's WINEPATH changes the failure to cl D2021 for the raw POSIX temporary filename, proving the owning tool also needs Wine argument handling. No tool, queue or shared environment was changed.
+
+MetaEvent dry-run accepts no merge: the composed MetaMap needs record declarations before getFirstMetaMapRec, and the deleting donor lacks its member declaration. ProcessAnimateWindow accepts no merge: duplicate ICoord2D and missing finished member. Its grandfathered present-unmatched definitions and hatch register were untouched. Frozen checks report existing bodies as matched; no source changes or new claims were made for either trial. Do not repeat these unchanged trials without their declaration/header prerequisites.
+
+## WindowLayout merge and expanded audit
+
+The supported merge writes WindowLayout.cpp from BfmeQuickMatchScreenBaseSlot4.cpp and Rva00538B2FFind.cpp: two matched rows preserved, one net source removed. The differently named window_layout.cpp remains protected and separate; mixed sources are unchanged. Rva00538ADCFinish fails incompatible private BfmeQuickMatchScreenBase members and remains separate. Current in-memory routing approves both moves despite unresolved/stale planner hints; the planner itself does not approve them.
+
+Fetched and reviewed origin/master..HEAD (five locally outgoing commits 3e23ecd519..34ec8d11f7) plus staged WindowLayout moves, with cumulative own changes from 91fe970939. Extended the same combined consumer audit to all sixteen absorbed paths. The two new old paths have no live consumers except the source ledgers the merge repoints. No protected register, header queue or name-basis key is changed. Historical census, attempts, original EA evidence and provenance comments are retained. The new destination needs the fresh byte/frozen checks and normal hooks before commit. Claims for accepted merges remain held until confirmed publication; rejected donors are released.

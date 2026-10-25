@@ -24522,7 +24522,7 @@ _Rva00814520,,0x00680420,17,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,mat
 ?xfer@Rva004839D3@@MAEXPAVXfer@@@Z,,0x00483BDF,59,Code/GameEngine/Source/Common/Rva004839D3Xfer.cpp,matched,slot3 of vtable 0x849AC8 via UpdateModule base plus Version1 plus 2 uints
 ??1RainOfFireUpdate@@UAE@XZ,,0x004AC24D,91,Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdateDtor.cpp,matched,dtor reinstalls 4 vtables plus zeroes 0x2C plus setter 0 plus rowed base 0x24A797
 ??1GeometryUpgradeModuleData@@UAE@XZ,,0x004B6F81,114,Code/GameEngine/Source/GameLogic/Object/Upgrade/GeometryUpgradeModuleDataDtor.cpp,matched,ModuleData dtor with 3 strings via 0x36410 and 2 vectors via 0x2CC70 matching vtable 0xBBB554 and ctor 0x4B6EE2
-?rva00538AB0@BfmeQuickMatchScreenBase@@UAEX_N@Z,,0x00538AB0,44,Code/GameEngine/Source/GameClient/GUI/BfmeQuickMatchScreenBaseSlot4.cpp,matched,slot4 hide loop via winHide plus next getter plus flag store
+?rva00538AB0@BfmeQuickMatchScreenBase@@UAEX_N@Z,,0x00538AB0,44,Code/GameEngine/Source/GameClient/GUI/WindowLayout.cpp,matched,slot4 hide loop via winHide plus next getter plus flag store
 ??_GRainOfFireUpdate@@UAEPAXI@Z,,0x004AC5D9,28,Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdateDtor.cpp,matched,slot 0 of vtable 0x00854C74 calls rowed 0x004AC24D plus rowed delete; rehomed from FamilyDeletingDtors_muse-e81b.cpp: RainOfFireUpdateDtor.cpp owns ~RainOfFireUpdate and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
 ?xfer@Rva004B8732@@MAEXPAVXfer@@@Z,,0x004B87A3,64,Code/GameEngine/Source/Common/Rva004B8732Xfer.cpp,matched,slot3 of vtable 0x8591EC via Version12 gated base plus bool
 ??_GGeometryUpgradeModuleData@@UAEPAXI@Z,,0x004B6F65,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-63c1.cpp,matched,deleting dtor slot 0 of vtable 0x8589F0 calls rowed 0x4B6F81 plus delete 0x2FD60
@@ -28227,7 +28227,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva0029AA27@Rva0029AA27@@QAEXPBUS12_0029AA27@@@Z,,0x0029AA27,24,Code/GameEngine/Source/Common/Rva0029AA27Copy.cpp,matched,guarded 12B copy via movsd caller 0x432145
 ?Rva00212AD6Get@@YAXPAURva002115C5@@0@Z,,0x00212AD6,25,Code/GameEngine/Source/GameClient/Rva00212AD6Loop.cpp,matched,chain range 0x10 calling 0x002115C5 callers 2
 ?rva005DB004@Rva005DB004@@QAEXXZ,,0x005DB004,31,Code/GameEngine/Source/Common/Rva005DB004Copy.cpp,matched,three-field copy to struct at 38
-?rva00538B2F@Rva00538B2F@@QAEPAURva0052A28EDwordField@@PAU2@@Z,,0x00538B2F,25,Code/GameEngine/Source/Common/Rva00538B2FFind.cpp,matched,list search via head plus next getter
+?rva00538B2F@Rva00538B2F@@QAEPAURva0052A28EDwordField@@PAU2@@Z,,0x00538B2F,25,Code/GameEngine/Source/GameClient/GUI/WindowLayout.cpp,matched,list search via head plus next getter
 ?Rva004E400DEnable@@YAXXZ,,0x004E400D,43,Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp,matched,unlock one-shot enabler twin plus 8 callers
 ?Rva004E40A6Enable@@YGXH@Z,,0x004E40A6,33,Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp,matched,chain guarded enabler stdcall plus dead arg
 ?rva005DB023@Rva005DB023@@QAEXXZ,,0x005DB023,16,Code/GameEngine/Source/Common/Rva005DB023Chain.cpp,matched,call 39B246 tail to 5DB004
