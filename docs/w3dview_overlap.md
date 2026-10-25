@@ -39,6 +39,36 @@ Other numbers:
 - `Max2w3d.dle` from the same SDK has relocations and a donor (`Tools/WW3D/max2w3d`).
 - `AssetCacheBuilder.exe` is small and comes from an older branch, so it is not worth it.
 
+## Folded functions (ICF)
+
+W3DView was linked incrementally, so the linker did not fold identical functions.
+game.dat did.
+
+- game.dat has 6,268 addresses with two or more names (ledger rows plus pins).
+- W3DView has two or more separate copies of the body for 1,493 of them.
+- For 1,153 of those, at least two copies are each called from code identical to game.dat.
+- Conservative count (2–5 copies, bodies of 32 B or more): 392 groups with 1,218 names.
+
+Use: a shared caller calls one specific copy in W3DView. The caller's matched source
+says which name it calls, so this can show which names really belong to a folded body.
+That last step (reading the names from the caller's relocations) has not been done.
+
+## Dead code
+
+- W3DView keeps about 320 KB of unreferenced functions.
+- game.dat also keeps about 500 KB of unreferenced code: no call or pointer refers to it,
+  probably from units not built as separate COMDATs.
+- The `absent-from-retail` markers in WWVegas are mostly helpers that force template
+  instantiation, so W3DView cannot be used to check them.
+- About 90 KB of W3DView's unreferenced code is not in game.dat: leads for source
+  functions the game never linked.
+
+## WorldBuilder for comparison
+
+- `worldbuilder.exe` is a debug build. It matches only 6% of game.dat's matched WWVegas
+  bytes (3% for bodies of 64 B or more), against 81% for W3DView.
+- WorldBuilder stays useful for names (its asserts); W3DView is the better source for bytes.
+
 ## How it was measured
 
 - Function bodies were compared with relocations masked (call targets and in-image addresses).
