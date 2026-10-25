@@ -168,3 +168,31 @@ The declared-unmatched check passes. No names, pins, layouts or flags changed.
 
 This prerequisite adds no path changes or consumers. The combined eleven-path
 audit through the TunnelTracker merge remains applicable to the pending batch.
+
+## PlayerList.cpp
+
+After the first batch landed at `475627d09f`, the scoped trial for the existing
+RTS destination reported 34 approved rows, ten eligible donors, eight mixed
+sources and one protected-register donor. Every eligible donor passed the
+declared-unmatched check. The ordinary dry run returned exit 2 with no accepted
+files and `no verified merge of two or more donors`; it did not identify a
+successful declaration/flag combination. No source or ledger changes were made,
+and no claims were acquired. Recorded the blocked verdict for reset at
+0x002A7AA0 in `re_attempts.log`; do not repeat this unchanged trial. Reconcile
+private declarations or compile settings individually before retrying.
+
+## ResourceGatheringManager.cpp
+
+After the prerequisite, both dry run and claimed application accepted the
+removal-list and insertion fragments into the approved RTS destination. Four
+matched rows remain, two fragments become one TU (one fewer file). The normal
+build passed 4/4 and declared-unmatched/check_csv passed. The deleting-destructor
+donor still loses its byte match; the transfer donor still sees undeclared
+Snapshot/AsciiString after directive lifting. Three mixed sources remain intact.
+
+Fetched origin and audited the new pending batch from `475627d09f` through the
+staged merge, covering both deleted paths. All old-path hits are provenance,
+BFME 1 independent source/history, existing ledger note text, or the maintainer's
+census snapshot. No active tool, hook, workflow, include, build input or registry
+requires repair. Existing source discovery covers the new destination. Only
+source columns were repointed in the existing TU map and function ledger.
