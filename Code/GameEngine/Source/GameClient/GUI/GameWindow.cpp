@@ -66,11 +66,15 @@ class GameFont;
 
 class DisplayString;
 
-enum { GWS_SCROLL_LISTBOX=0x20, GWS_COMBO_BOX=0x8000, GWS_ENTRY_FIELD=0x40, GWS_STATIC_TEXT=0x80 };
+enum { GWS_SCROLL_LISTBOX = 0x20 };
+
+enum { GWS_COMBO_BOX=0x8000, GWS_ENTRY_FIELD=0x40, GWS_STATIC_TEXT=0x80 };
 
 struct WindowPickCoord { int x; int y; };
 
-enum { WIN_STATUS_TAB_STOP = 0x100, WIN_STATUS_HIDDEN = 0x10 };
+enum { WIN_STATUS_TAB_STOP = 0x100 };
+
+enum { WIN_STATUS_HIDDEN = 0x10 };
 
 typedef unsigned int UnsignedInt;
 
@@ -82,9 +86,10 @@ enum WindowMsgHandledType
 	MSG_HANDLED
 };
 
+enum { WIN_ERR_OK = 0 };
+
 enum
 {
-	WIN_ERR_OK = 0,
 	WIN_ERR_INVALID_PARAMETER = -3,
 	GGM_RESIZED = 16388
 };
