@@ -1813,7 +1813,6 @@ address_global	Code/GameEngine/Source/GameClient/Rva004114EFWalk.cpp	g_Va00E02FE
 address_global	Code/GameEngine/Source/GameClient/Rva00511F73.cpp	g_Va00E048C4	3
 address_global	Code/GameEngine/Source/GameClient/Rva0052A295BannerSteps.cpp	g_Va00C68440	3
 address_global	Code/GameEngine/Source/GameClient/Rva0052A295BannerSteps.cpp	g_Va00C6847C	3
-address_global	Code/GameEngine/Source/GameClient/Rva0057C04FDtor.cpp	g_Va007C9260	1
 address_global	Code/GameEngine/Source/GameClient/Rva006042B6.cpp	g_Rva0107301CEmptyString	2
 address_global	Code/GameEngine/Source/GameClient/Rva00BCF670CameraSettings.cpp	g_Va00E00944	6
 address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleSystemInfoCtor.cpp	g_Va00BBB8D8	2
@@ -3908,14 +3907,11 @@ alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptRowListC
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadOnButtonSave.cpp	??BBFME2WideConcatPair@@QAE?AVUnicodeString@@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00435819.cpp	??BBFME2WideConcatPair@@QAE?AVUnicodeString@@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks.cpp	_strcpy	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptScoreScreenCallbacks_AptScoreScreen.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptTimeLineCallbacks.cpp	_strcpy	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptTimeLineCallbacks_CaHAwardNumber.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptTributePageCallbacks.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/ControlBarCallback.cpp	?DebugGetDefaultCommands@@YAPBDXZ	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionPreferences_mapFind.cpp	?find@CustomPreferenceMapShim@@QAEPAUCustomMapNodeShim@@PAUCustomAsciiStringShim@@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionPreferences_mapFind.cpp	?find@SkirmishFindMap@@QBEPAUSkirmishFindNode@@ABVAsciiString@@@Z	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/WOLLoginMenu_GameSpyLoginPreferences_getPasswordForEmail.cpp	?TheEmptyString@AsciiString@@2V1@A	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBoxInit00325199.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStyles.cpp	??1FullFadeTransition@@UAE@XZ	1
@@ -3935,11 +3931,9 @@ alternatename	Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/BannerUIUpda
 alternatename	Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/BannerUIUpdate.cpp	?rva0023D096@GameLogicFwd@@QAEMH@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/BannerUIUpdate.cpp	?rva0023D0AC@GameLogicFwd@@QAEHH@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Palantir/AptPalantirCallbacks.cpp	_strcpy	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/Palantir/AptPalantirCallbacks_Rva00528AC3.cpp	_strcpy	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Palantir/BfmeObserverDispatchYU_Rva002d4f2d.cpp	??0AsciiStringYU@@QAE@PBD@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Palantir/BfmeObserverDispatchYU_Rva002d4f2d.cpp	??1AsciiStringYU@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Rva00427157Ctor.cpp	?g_00DC85C4@@3PAPBDA	1
-alternatename	Code/GameEngine/Source/GameClient/GUI/Rva0043D193ScienceVectorDestructor.cpp	?Rva00030830FreeAllocation@@YAXPAX@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Rva0043D1C9Destructor.cpp	?Rva00030830FreeAllocation@@YAXPAX@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Rva0043D1C9Destructor.cpp	?erase@?$vector@PAURva0043D1C9Entry@@V?$allocator@PAURva0043D1C9Entry@@@_STL@@@_STL@@QAEPAPAURva0043D1C9Entry@@PAPAU3@0@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/Rva00441DBFPop.cpp	?Rva00441DBFPop@@YAXPAPAX00PAXVRva0043FE9A@@H@Z	1
@@ -3988,7 +3982,6 @@ alternatename	Code/GameEngine/Source/GameClient/Rva00224818.cpp	?g_00BBFDDC@@3QB
 alternatename	Code/GameEngine/Source/GameClient/Rva00224818.cpp	?g_00BBFDE0@@3QBDB	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00224C95Ctor.cpp	?init@Rva00224C95Table@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/Rva0029B2E7Zero.cpp	??0BfmeElemVVD@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameClient/Rva0057C04FDtor.cpp	?g_Va007C9260@@3QBGB	1
 alternatename	Code/GameEngine/Source/GameClient/Rva005E2237PageCtor.cpp	??0Rva0022167C@@QAE@ABVAsciiString@@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/Rva005E2237PageCtor.cpp	??1Rva0022167C@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/ScreenFilterRva000F8348Ctor.cpp	?init@Rva000F8348@@UAEHXZ	1
@@ -4315,7 +4308,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Body/PorcupineFormationBod
 alternatename	Code/GameEngine/Source/GameLogic/Object/Body/PorcupineFormationBodyModuleDataCtor.cpp	_vfn_0047A69C	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Body/PorcupineFormationBodyModuleDataCtor.cpp	_vfn_0050B5C6	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Body/PorcupineFormationBodyModuleSlots.cpp	?Rva004C20D5IsWithin@PorcupineFormationBodyModule@@QAE_NMPBUCoord3D@@0@Z	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Body/PorcupineFormationBodyModuleSlots_AttemptDamage.cpp	?Rva004C20D5IsWithin@PorcupineFormationBodyModule@@QAE_NMPBUCoord3D@@0@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Collide/CollideModuleCtor.cpp	?getCollide@CollideModule@@UAEPAVCollideModuleInterface@@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/SalvageCrateCollideModuleDataDtor.cpp	??1CrateCollideModuleData@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Collide/FireWeaponCollideModuleDataCtor.cpp	_vtbl_00C4ED70	1
@@ -5320,10 +5312,7 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenFilterRva0
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenFilterRva007D85C0Set.cpp	?ScreenShaderDirty@@3_NA	2
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva000F0F2BFinish.cpp	_Rva000F0F2BDispatchTable	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowManagerRva0010C2D5.cpp	?slot0@W3DProjectedShadow@@UAEXXZ	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/TextureAssetGet.cpp	?bfmeDoBNH@@YAXPAVBfmeThingBNH@@PAXHH@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayStringDtor.cpp	?pad02@DisplayString@@UAEXXZ	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DFileSystem.cpp	_strcat	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DFileSystem.cpp	_strcpy	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DFontLibraryRva002CEF6C.cpp	??0Rva0050CBA2@@QAE@PAX@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGameClient.cpp	?m_needUpdate@W3DStatusCircle@@1_NA	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DRoadBuffer.cpp	?Release_Ref@W3DRoadBufferRef18Target@@QAEXXZ	1

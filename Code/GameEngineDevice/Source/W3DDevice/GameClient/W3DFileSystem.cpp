@@ -322,7 +322,3 @@ void W3DFileSystem::Return_File( FileClass *file )
 	::delete file;
 }
 
-// Retail's call sites in this unit's matched rows land on bodies rowed under
-// other spellings at the same addresses (same ABI). Bind the spellings used here.
-#pragma comment(linker, "/alternatename:_strcat=?ji_0062988c@@YAXXZ")
-#pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")

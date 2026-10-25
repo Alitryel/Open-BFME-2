@@ -35,4 +35,3 @@ public: ~Rva0043D193();virtual void f0();virtual void f1();virtual void f2();
 private: int unknown4;_STL::vector<ScienceType> sciences;int unknown14;
 };
 Rva0043D193::~Rva0043D193() {}
-#pragma comment(linker,"/alternatename:?Rva00030830FreeAllocation@@YAXPAX@Z=_free")

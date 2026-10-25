@@ -523,7 +523,6 @@ AptScoreScreen::AptScoreScreen(void *context)
 }
 
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.
-#pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
 
 
 

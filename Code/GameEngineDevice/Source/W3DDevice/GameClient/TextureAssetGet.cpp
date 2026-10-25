@@ -174,9 +174,6 @@ BFME2ParticleTextureHandle TextureAsset::Get(
 	return BFME2ParticleTextureHandle((TextureClass *)texture.Ptr, BFME2ParticleTextureHandle::ACQUIRE_INLINE);
 }
 
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeDoBNH@@YAXPAVBfmeThingBNH@@PAXHH@Z=?Get@TextureAsset@@SA?AVBFME2ParticleTextureHandle@@PBDHH@Z")
 
 // 0x00131DCB..0x00131DFC: typed owning handle starts empty and delegates to
 // the established TEX-tag assignment. Its exception cleanup is the existing
