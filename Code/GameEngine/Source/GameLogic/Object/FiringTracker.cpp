@@ -72,108 +72,9 @@ Int FiringTracker::getNumConsecutiveShotsAtVictim( const Object *victim ) const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?FiringTracker::shotFired present-unmatched
-void FiringTracker::shotFired(const Weapon* weaponFired, ObjectID victimID)
-{
-	UnsignedInt now = TheGameLogic->getFrame();
-	Object *me = getObject();
-	const Object *victim = TheGameLogic->findObjectByID(victimID); // May be null for ground shot
-
-	if( victim && victim->testStatus(OBJECT_STATUS_FAERIE_FIRE) )
-	{
-		if( !me->testWeaponBonusCondition(WEAPONBONUSCONDITION_TARGET_FAERIE_FIRE) )
-		{
-			// We shoot faster at guys marked thusly
-			me->setWeaponBonusCondition(WEAPONBONUSCONDITION_TARGET_FAERIE_FIRE);
-		}
-	}
-	else
-	{
-		// A ground shot or the lack of the status on the target will clear this
-		if( me->testWeaponBonusCondition(WEAPONBONUSCONDITION_TARGET_FAERIE_FIRE) )
-		{
-			me->clearWeaponBonusCondition(WEAPONBONUSCONDITION_TARGET_FAERIE_FIRE);
-		}
-	}
-
-	if( victimID == m_victimID )
-	{
-		// Shooting at the same guy
-		++m_consecutiveShots;
-	}
-	else if( now < m_frameToStartCooldown )
-	{
-		// Switching targets within the coast time is valid, and we will not spin down
-		++m_consecutiveShots;
-		m_victimID = victimID;
-	}
-	else
-	{
-		// Start the count over for the new guy
-		m_consecutiveShots = 1;
-		m_victimID = victimID;
-	}
-
- 	// Push back the time that we should force a reload with each shot
- 	UnsignedInt autoReloadDelay = weaponFired->getAutoReloadWhenIdleFrames();
- 	if( autoReloadDelay > 0 )
- 		m_frameToForceReload = now + autoReloadDelay;
-
-	UnsignedInt coast = weaponFired->getContinuousFireCoastFrames();
-	if (coast)
-		m_frameToStartCooldown = weaponFired->getPossibleNextShotFrame() + coast;
-	else
-		m_frameToStartCooldown = 0;
-
-	Int shotsNeededOne = weaponFired->getContinuousFireOneShotsNeeded();
-	Int shotsNeededTwo = weaponFired->getContinuousFireTwoShotsNeeded();
-
-	if( me->testWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN ) )
-	{
-		// Can either go up or down from here.
-		if( m_consecutiveShots < shotsNeededOne )
-			coolDown();
-		else if( m_consecutiveShots > shotsNeededTwo )
-			speedUp();
-	}
-	else if( me->testWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_FAST ) )
-	{
-		// Only place I can go here from here is all the way down
-		if( m_consecutiveShots < shotsNeededTwo )
-		{
-			coolDown();
-		}
-	}
-	else
-	{
-		// Check to go up
-		if( m_consecutiveShots > shotsNeededOne )
-			speedUp();
-	}
-
-	UnsignedInt fireSoundLoopTime = weaponFired->getFireSoundLoopTime();
-	if (fireSoundLoopTime != 0)
-	{
-		// If the sound has stopped playing, then we need to re-add it.
-		if (m_frameToStopLoopingSound == 0 || !TheAudio->isCurrentlyPlaying(m_audioHandle))
-		{
-			AudioEventRTS audio = weaponFired->getFireSound();
-			audio.setObjectID(getObject()->getID());
-			m_audioHandle = TheAudio->addAudioEvent( &audio );
-		}
-		m_frameToStopLoopingSound = now + fireSoundLoopTime;
-	}
-	else
-	{
-		AudioEventRTS fireAndForgetSound = weaponFired->getFireSound();
-		fireAndForgetSound.setObjectID(getObject()->getID());
-		TheAudio->addAudioEvent(&fireAndForgetSound);
-		m_frameToStopLoopingSound = 0;
-	}
-
-
-	setWakeFrame(me, calcTimeToSleep());
-}
+// FiringTracker::shotFired: BFME 2's (Weapon, ObjectID, Coord3D, bool) body is
+// the row in FiringTrackerXfer.cpp (0x004DEECB); Zero Hour's two-argument copy
+// here (unmatched, unreferenced) called APIs BFME 2 lacks and was dropped.
 
 //-------------------------------------------------------------------------------------------------
 // FiringTracker::update is defined with its retail-matched BFME2 body in
@@ -187,44 +88,9 @@ void FiringTracker::shotFired(const Weapon* weaponFired, ObjectID victimID)
 // FiringTracker::speedUp is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/FiringTrackerXfer.cpp (0x004DEDD2).
 
 //-------------------------------------------------------------------------------------------------
-// ?FiringTracker::coolDown present-unmatched
-void FiringTracker::coolDown()
-{
-	ModelConditionFlags clr, set;
-
-	if( getObject()->testWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_FAST ) 
-	 || getObject()->testWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN ))
-	{
-
-		// Straight to zero from wherever it is
-		set.set(MODELCONDITION_CONTINUOUS_FIRE_SLOW);
-		
-		getObject()->clearWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_FAST );
-		getObject()->clearWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN );
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_FAST);
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_MEAN);
-
-
-	}
-	else // we stop, now
-	{
-
-		getObject()->clearWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_FAST );
-		getObject()->clearWeaponBonusCondition( WEAPONBONUSCONDITION_CONTINUOUS_FIRE_MEAN );
-		// Just chillin, nothing to change
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_FAST);
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_MEAN);
-		clr.set(MODELCONDITION_CONTINUOUS_FIRE_SLOW);
-
-		m_frameToStartCooldown = 0;
-	}
-
-	getObject()->clearAndSetModelConditionFlags(clr, set);
-
-	// Start everything over
-	m_consecutiveShots = 0;
-	m_victimID = INVALID_ID;
-}
+// FiringTracker::coolDown: BFME 2's coolDown(bool) is the row in
+// FiringTrackerXfer.cpp (0x004DEC88); Zero Hour's no-argument copy was dropped
+// with its only caller, shotFired.
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
@@ -254,3 +120,7 @@ void FiringTracker::loadPostProcess( void )
 // the inline Object::testStatus. That is out of line now (reference/shims/sweep/GameLogic/Object.h),
 // so instantiate it explicitly.
 template bool _STL::bitset<45>::_Unchecked_test(size_t) const;
+
+// bitset<117>::_Unchecked_set (retail 0x004D0F39) is rowed here; its user was
+// the dropped Zero Hour coolDown, so instantiate it explicitly.
+template _STL::bitset<117> &_STL::bitset<117>::_Unchecked_set(size_t, int);
