@@ -20,6 +20,8 @@ class WindowLayout;
 
 typedef void (*WindowLayoutInitFunc)(WindowLayout *layout, void *userData);
 
+class Rva00DFF024Registry;
+
 class FunctionLexicon
 {
 public:
@@ -41,6 +43,7 @@ public:
 	WindowLayoutInitFunc winLayoutInitFunc(NameKeyType key, TableIndex index = TABLE_ANY);
 
 protected:
+	friend class Rva00DFF024Registry;
 	void *keyToFunc(NameKeyType key, TableEntry *table);
 	void *findFunction(NameKeyType key, TableIndex index);
 

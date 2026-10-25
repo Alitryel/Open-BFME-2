@@ -11,14 +11,38 @@ enum NameKeyType { NAMEKEY_INVALID = 0 };
 // The registry is TheFunctionLexicon; its lookup is FunctionLexicon::findFunction
 // 0x002D225F (rowed in Common/System/FunctionLexicon.cpp), reached through
 // this unit's forwarding view.
+class WindowLayout;
+typedef void (*WindowLayoutInitFunc)(WindowLayout *layout, void *userData);
+
 class Rva00DFF024Registry;
 class FunctionLexicon
 {
 public:
-	enum TableIndex { TABLE_ANY = -1 };
+	struct TableEntry
+	{
+		NameKeyType key;
+		const char *name;
+		void *func;
+	};
+
+	enum TableIndex
+	{
+		TABLE_ANY = -1,
+		TABLE_WIN_LAYOUT_INIT = 7,		// BFME2 slots, from winLayoutInitFunc
+		TABLE_WIN_LAYOUT_DEVICEINIT = 8,
+		MAX_FUNCTION_TABLES = 12		// BFME2: findFunction's loop bound
+	};
+
+	WindowLayoutInitFunc winLayoutInitFunc(NameKeyType key, TableIndex index = TABLE_ANY);
+
 protected:
-	void *findFunction(NameKeyType key, TableIndex index);	// 0x002D225F
 	friend class Rva00DFF024Registry;
+	void *keyToFunc(NameKeyType key, TableEntry *table);
+	void *findFunction(NameKeyType key, TableIndex index);
+
+private:
+	unsigned char m_subsystem[0xC];			// SubsystemInterface base (BFME2 size)
+	TableEntry *m_tables[MAX_FUNCTION_TABLES];	// +0x0C
 };
 
 class Rva00DFF024Registry
