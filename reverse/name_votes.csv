@@ -6142,3 +6142,8 @@ Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp|param|Rva0045D7E0N
 Code/GameEngine/Source/GameLogic/Object/Rva0045D7E0Notify.cpp|param|Rva0045D7E0Notify|b,b79b12715f17762ca13b9ba7,gpt-6.1-sol,codex6-20261025-064029-1,w-bcdd62231570,2026-10-25
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|DelegateDesc|f,28b2c816c439a3703a3a707b,gpt-6.1-sol,codex6-20261025-064029-2,w-bcdd62231570,2026-10-25
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|MakeBinding|f,8e9e7b6119a8713602eefbc2,gpt-6.1-sol,codex6-20261025-064029-2,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a0,9942d8e5ff60a94e10448f01,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a1,46c940f2d4d627507d9ac5db,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a2,2815198ceb1229ef7ee1d2d3,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a3,b5c8084c048c24a43477cafc,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a4,f8fe9c51c39eca973de7e199,gpt-6.1-sol,codex6-20261025-064029-5,w-bcdd62231570,2026-10-25
