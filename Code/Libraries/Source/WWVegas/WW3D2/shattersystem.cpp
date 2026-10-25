@@ -14,6 +14,14 @@
 #include "always.h"
 #undef W3DMPO_GLUE
 #define W3DMPO_GLUE(ARGCLASS)
+// The ZH vector.h Add copy differs from retail's folded owner (0x001A3A60) and
+// would be the copy the link keeps: call the BFME owner instead. Declared
+// before matinfo.h, whose inline Add_Vertex_Material instantiates it.
+#include "vector.h"
+class VertexMaterialClass;
+// bfme link decl-only begin
+template <> bool DynamicVectorClass<VertexMaterialClass *>::Add(VertexMaterialClass * const &);
+// bfme link decl-only end
 // Reuse the verified BFME2 base layout so emitted MeshModelClass
 // helpers read CurMatDesc at +0x94, as their retail providers do.
 #include "../../../../../reference/shims/meshgeom/meshgeometry.h"

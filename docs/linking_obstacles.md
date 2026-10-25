@@ -473,6 +473,33 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
 - **Remaining / next check:** await confirmation in the maintainer's next link census run.
 - **Clearance / census confirmation:** cleared in ordinary-preview scope; census confirmation pending.
 
+### LINK-012: shattersystem.cpp's Zero Hour WW3D2 views emit divergent shared COMDATs
+
+**Status: Open (partial repair landed). Updated: 2026-10-25; inspected revision: 70d32d864.**
+
+- **Evidence / scope:** `Code/Libraries/Source/WWVegas/WW3D2/shattersystem.cpp` compiles
+  against Zero Hour's `WWLib/Vector.H`, `WW3D2/matinfo.h` and the `meshmatdesclayout`
+  shim, and emitted a 75-byte `DynamicVectorClass<VertexMaterialClass*>::Add` while
+  retail's folded owner (0x001A3A60, 77 B) is what the six BFME 1-header units emit.
+  The census (ef9c691284) kept shattersystem's copy, so every user of that `Add` failed
+  `wrong_selected`: MeshLoadContextAddLegacyMaterial.cpp (2,714 B),
+  MaterialCollectorDestructor.cpp (1,588 B), MaterialCollectorCollectMaterials.cpp
+  (1,489 B), MeshModelReadVertexMaterials.cpp (270 B) and meshmdlio.cpp (352 B).
+- **Completed:** shattersystem.cpp declares the `Add` specialization decl-only (before
+  matinfo.h, whose inline `Add_Vertex_Material` instantiates it), so it emits no copy.
+  `./build.sh` 1/1; `tools/link_check.py` with shattersystem.cpp and each consumer:
+  all five consumers LINK (0 -> 6,413 B predicted).
+- **Remaining / next check:** shattersystem.cpp still emits non-retail
+  `MaterialInfoClass::Add_Vertex_Material` (out-of-line `Add` call where retail 0x00189670
+  inlines BFME's `Add`) and `MeshMatDescClass::Peek_Single_Material` (material array at
+  +0xA8 in the `meshmatdesclayout` view; retail 0x002C8ECF reads +0xA4). Those keep
+  dynamesh.cpp (owner of both rows) and shattersystem.cpp itself from linking. The two
+  `Add` bodies are textually identical, so the difference is the views' class layouts:
+  reconcile shattersystem.cpp onto the BFME 1 WWLib/WW3D2 headers dynamesh.cpp uses,
+  checking its 0x00074643 `Matrix3D::Scale` row.
+- **Clearance:** preview scope only (current objects for the listed units).
+- **Census confirmation:** awaiting the next census.
+
 ## Investigation-specific validation limitation
 
 The initial investigation preserved a pre-existing BFME 1 checkout at
