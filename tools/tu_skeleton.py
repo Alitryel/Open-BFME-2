@@ -33,10 +33,22 @@ written, so a merge never carries a regenerated map and two merges never
 conflict over it.
 
 A donor is refused, not absorbed, when deleting it is not mechanical: it is
-untracked, vendored, keyed in a protected path-keyed register (a
-Verifier-Change commit re-keys those), #included by another file, or expands
-__FILE__ (its path reaches its bytes). These are tools/rename_files.py's
-refusals, read from the same tree.
+untracked, vendored, #included by another file, or expands __FILE__ (its path
+reaches its bytes). These are tools/rename_files.py's refusals, read from the
+same tree.
+
+A donor keyed in a protected path-keyed register (rename.PROTECTED_PATH_KEYED)
+is absorbed, and its keys travel with its code in the merge commit (carry()):
+code_identity_baseline.tsv and data_check_baseline.txt lines are re-keyed to the
+TU (a transfer, which repair_queue verify-removed, code_identity_gate, data_check
+and protected_paths accept), data_ledger.csv `source` and `name@source` cells
+follow, flag_overrides.csv entries become one TU entry with summed counts (the
+merge is then verified under those flags, and no donor may lose a row it matches
+under its own build), and hatch_baseline.tsv is rewritten by `hatch_counters.py
+--update` (a total-keeping move). A merge that would leave any of them keyed to
+a deleted donor is refused. The commit needs the `Verifier-Change:` trailer the
+merge prints. A key the merged TU no longer produces leaves only by its owner's
+fresh verdict, in a later commit (the printed follow-up).
 
 Applying a merge claims `file:` for the TU and every donor plus each moved
 row's RVA first (BFME_CLAIM_OWNER; nothing is written when another worker
@@ -324,7 +336,8 @@ def tree():
 
 # rename_files.Tree reasons that do not apply to absorbing a donor: its name is
 # not kept either way, and its rows keep theirs.
-NOT_REFUSALS = ("an approved retail TU path", "recorded canonical")
+NOT_REFUSALS = ("an approved retail TU path", "recorded canonical",
+                "keyed in a protected path-keyed register")   # carry() moves the keys with the code
 
 
 def refusal(f, rows):
@@ -535,10 +548,16 @@ class Verifier:
     real file gets its region's. The verifier therefore writes the flags the
     build will use: the region holding most bytes of the rows being judged
     (flag_defaults' own rule for a TU), or the TU's own flags when the TU path
-    is in flag_overrides.csv, and compiles with region defaults off."""
+    is in flag_overrides.csv, and compiles with region defaults off. A merge that
+    carries a flag override (carry()) passes its managed flags as FLAGS: every
+    candidate then compiles under them, and the written TU spells them. REGION
+    judges under the region default even when the TU path is overridden (a
+    donor's own build, which the override must not lose rows against)."""
 
-    def __init__(self, tu):
+    def __init__(self, tu, flags=None, region=False):
         import build as B
+        self.flags = flags
+        self.region = region
         self.B = B
         self.fd = B.flag_defaults
         self.tu_rel = tu
@@ -553,7 +572,9 @@ class Verifier:
     def effective(self, text, rows):
         """`text` with the `// cl:` line the build would use for these rows."""
         fd = self.fd
-        if self.tu_rel in fd.overrides():
+        if getattr(self, "flags", None) is not None:
+            return self.with_tokens(text, self.flags.split())
+        if self.tu_rel in fd.overrides() and not getattr(self, "region", False):
             return text
         weights = {}
         for r in rows:
@@ -569,11 +590,16 @@ class Verifier:
         if not weights:
             return text
         region = max(sorted(weights.items()), key=lambda item: item[1][0])[1][1]
+        return self.with_tokens(text, fd.region_tokens(region))
+
+    def with_tokens(self, text, tokens):
+        """`text` whose `// cl:` codegen tokens are `tokens`; every other token is kept."""
+        fd = self.fd
         lines = text.split("\n")
         at = next((i for i, l in enumerate(lines) if l.startswith("// cl:")), None)
         own = lines[at][len("// cl:"):].split() if at is not None else []
         keep = [t for t in own if not fd.MANAGED.match(t.replace("/", "-", 1) if t.startswith("/") else t)]
-        line = "// cl: " + " ".join(["/" + t[1:] for t in fd.region_tokens(region)] + keep)
+        line = "// cl: " + " ".join(["/" + t[1:] for t in tokens] + keep)
         if at is None:
             lines.insert(0, line)
         else:
@@ -660,13 +686,38 @@ def _merge(tu, sk, don, report, dry_run, texts=None, applier=None):
             # from another directory is read as it will compile beside the TU
             texts[f] = relocate_includes((ROOT / f).read_text(encoding="utf-8-sig", errors="replace"),
                                          posixpath.dirname(f), posixpath.dirname(tu))
+    # A flag override travels with its donor (carry()): the merge is verified under its
+    # flags, the TU's when the TU has one, else the most rows'; a donor overridden with
+    # other flags stays out (split path: the carve keeps its own flag handling).
+    ov = {} if applier else {f: e for f in don if (e := v.fd.overrides().get(f))}
+    if ov:
+        weight = collections.Counter()
+        for e in ov.values():
+            weight[e["flags"]] += int(e["rows"] or 0)
+        v.flags = ov[tu]["flags"] if tu in ov else sorted(weight.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]
+        for f, e in sorted(ov.items()):
+            if e["flags"] != v.flags:
+                report["rejected"][f] = f"its flag override '{e['flags']}' is not the carried '{v.flags}'"
+        don = {f: r for f, r in don.items() if f not in report["rejected"]}
+        ov = {f: e for f, e in ov.items() if f in don}
     base = {}
     for f in don:
         got = v.matched(texts[f], don[f])
         base[f] = got or set()
+    if ov:   # nobody may lose a row its own build matches under the region default
+        rv = Verifier(tu, region=True)
+        for f in [f for f in don if f not in ov and base[f]]:
+            lost = (rv.matched(texts[f], don[f]) or set()) - base[f]
+            if lost and f == tu:
+                report["blocked"] = f"the TU file loses {len(lost)} row(s) under the carried flag override"
+                return report
+            if lost:
+                report["rejected"][f] = f"loses {len(lost)} row(s) under the carried flag override '{v.flags}'"
+                base[f] = set()
+                don = {g: r for g, r in don.items() if g != f}
     good = [f for f in don if base[f]]
     if tu in don and tu not in good:
-        report["rejected"] = {f: "no baseline match" for f in don if f not in good}
+        report["rejected"].update({f: "no baseline match" for f in don if f not in good})
         report["blocked"] = "the TU file's own rows do not match under the verifier"
         return report
     weight = collections.Counter()
@@ -747,13 +798,25 @@ def _merge(tu, sk, don, report, dry_run, texts=None, applier=None):
             (f"; the seed itself fails under every merged flag set: {seed_error[:300]}" if seed_error and not best else "")
         return report
     score, acc, rej, flags = best
+    if ov and not set(acc) & set(ov):   # verified under flags no accepted donor carries: redo without them
+        report["rejected"].update({f: "its flag override is not carried by the verified merge" for f in ov})
+        return _merge(tu, sk, {f: r for f, r in don.items() if f not in ov}, report, dry_run, texts, applier)
     text = attempt(acc, flags)
+    if ov:   # the TU spells the override's flags (flag_defaults check)
+        text = v.effective(text, [r for f in acc for r in don[f]])
     report.update(accepted=acc, flags=flags, rows=score)
     report["rejected"].update(rej)
+    carry = None
+    if applier is None:
+        carry = Carry(ROOT, tu, acc, texts, text, v.flags)
+        report.update(carry.report())
+        if carry.problems:
+            report["blocked"] = "protected registers: " + "; ".join(carry.problems[:5])
+            return report
     if dry_run:
         report["text"] = text
         return report
-    moved = (applier or apply)(tu, acc, text)
+    moved = applier(tu, acc, text) if applier else apply(tu, acc, text, carry=carry)
     report["repointed"] = moved
     report["stage"] = "staged: " + " ".join([tu] + sorted(moved) + [f for f in acc if f != tu])
     report["subject"] = (f"Merge {len(acc)} files into {posixpath.basename(tu)} "
@@ -1557,6 +1620,213 @@ def apply_split(tu, text, path, residual, rvas, hatches, root=ROOT, data_moved=(
     return moved
 
 
+# ---------------------------------------------------------------- protected registers
+# How each protected path-keyed register (rename.PROTECTED_PATH_KEYED) names a unit, and
+# so how a merge carries an absorbed donor's keys to the TU in the merge commit.
+KEYED_LINES = ("reverse/code_identity_baseline.tsv",   # source<TAB>row<TAB>symbol<TAB>target<TAB>class
+               "reverse/data_check_baseline.txt")      # source<TAB>check<TAB>symbol<TAB>address
+HATCH_REGISTER = "reverse/hatch_baseline.tsv"          # hatch<TAB>path<TAB>token<TAB>count: --update
+OVERRIDES = "reverse/flag_overrides.csv"               # source,flags,rows,default_lost,reason
+DATA_LEDGER = "reverse/data_ledger.csv"                # source column; names cells name@source
+RETIRE = {"reverse/code_identity_baseline.tsv": "identity", "reverse/data_check_baseline.txt": "data"}
+
+
+def _eol(raw):
+    return "\r\n" if b"\r\n" in raw else "\n"
+
+
+def carry_lines(raw, gone, tu):
+    """(raw, moved, collapsed): every source<TAB>key line of a gone donor re-keyed to
+    the TU, each key once. `collapsed` lists the donor lines whose key the register
+    already held under the TU: no transfer can show for them (verify-removed counts
+    a key added under the TU), so each needs the printed per-key Debt-Retired line."""
+    eol = _eol(raw)
+    lines = raw.decode("utf-8").split(eol)
+    held = set(lines)
+    out, seen, moved, collapsed = [], set(), 0, []
+    for line in lines:
+        source, sep, key = line.partition("\t")
+        if not sep or line.startswith("#") or source not in gone:
+            out.append(line)
+            continue
+        moved += 1
+        new = f"{tu}\t{key}"
+        if new in held:
+            collapsed.append(line)
+        elif new not in seen:
+            seen.add(new)
+            out.append(new)
+    return eol.join(out).encode("utf-8"), moved, collapsed
+
+
+def carry_overrides(raw, gone, tu, flags):
+    """(raw, moved): the absorbed donors' and the TU's flag_overrides.csv entries as
+    one TU entry spelling FLAGS, the flags the merge was verified under, with their
+    summed row counts (the register's totals are kept)."""
+    eol = _eol(raw)
+    reader = csv.DictReader(io.StringIO(raw.decode("utf-8"), newline=""))
+    rows = list(reader)
+    mine = [r for r in rows if r["source"] in gone or r["source"] == tu]
+    moved = sum(r["source"] in gone for r in mine)
+    if not moved:
+        return raw, 0
+    if any(r["flags"] != flags for r in mine):
+        raise ValueError(f"{OVERRIDES}: carried entries disagree with the verified flags '{flags}'")
+    reasons = {r["reason"] for r in mine}
+    entry = {"source": tu, "flags": flags,
+             "rows": str(sum(int(r["rows"] or 0) for r in mine)),
+             "default_lost": str(sum(int(r["default_lost"] or 0) for r in mine)),
+             "reason": reasons.pop() if len(reasons) == 1 else "region default loses rows"}
+    out = io.StringIO()
+    writer = csv.DictWriter(out, fieldnames=reader.fieldnames, lineterminator=eol)
+    writer.writeheader()
+    writer.writerows(sorted([r for r in rows if r not in mine] + [entry], key=lambda r: r["source"]))
+    return out.getvalue().encode("utf-8"), moved
+
+
+def carry_data_ledger(raw, gone, tu):
+    """(raw, moved): data_ledger.csv's `source` cells and `name@source` names of the
+    gone donors spell the TU (the definitions now live there); other bytes kept."""
+    eol = _eol(raw)
+    lines = raw.decode("utf-8").split(eol)
+    header = next(csv.reader([lines[0]]))
+    at_source, at_names = header.index("source"), header.index("names")
+    moved = 0
+    for i in range(1, len(lines)):
+        if not any(g in lines[i] for g in gone):
+            continue
+        cells = next(csv.reader([lines[i]]))
+        before = list(cells)
+        if cells[at_source] in gone:
+            cells[at_source] = tu
+        names = []
+        for n in cells[at_names].split(";") if cells[at_names] else []:
+            name, sep, where = n.rpartition("@")
+            names.append(f"{name}@{tu}" if sep and where in gone else n)
+        cells[at_names] = ";".join(names)
+        if cells != before:
+            out = io.StringIO()
+            csv.writer(out, lineterminator="").writerow(cells)
+            lines[i] = out.getvalue()
+            moved += 1
+    return eol.join(lines).encode("utf-8"), moved
+
+
+def vanished(raws, gone):
+    """[(register, line)] of register lines still naming a deleted donor."""
+    out = []
+    for rel, raw in sorted(raws.items()):
+        for line in raw.decode("utf-8", errors="replace").splitlines():
+            if not line.startswith("#") and {t.strip('"') for t in re.split(r"[\t,;@]", line)} & gone:
+                out.append((rel, line))
+    return out
+
+
+def hatch_growth(tu, acc, texts, text):
+    """(hatch, token) keys whose occurrences in the merged TU exceed the absorbed files'."""
+    import hatch_counters as H
+
+    def totals(path, t):
+        out = collections.Counter()
+        for (hatch, _p, token), n in H.scan(path, t).items():
+            out[(hatch, token)] += n
+        return out
+    before = collections.Counter()
+    for f in acc:
+        before += totals(f, texts[f])
+    after = totals(tu, text)
+    return sorted(k for k in after if after[k] > before[k]), bool(before or after)
+
+
+class Carry:
+    """What a merge does to the protected path-keyed registers, decided before
+    anything is written: new register bytes, counts, refusals."""
+
+    def __init__(self, root, tu, acc, texts, text, flags=None):
+        self.root, self.tu = Path(root), tu
+        self.gone = {f for f in acc if f != tu}
+        self.raws, self.new, self.moved, self.collapsed, self.problems = {}, {}, {}, [], []
+        for rel in rename.PROTECTED_PATH_KEYED:
+            p = self.root / rel
+            if p.exists():
+                self.raws[rel] = p.read_bytes()
+        for rel in KEYED_LINES:
+            if rel in self.raws:
+                raw, n, collapsed = carry_lines(self.raws[rel], self.gone, tu)
+                self.record(rel, raw, n)
+                self.collapsed += [(rel, line) for line in collapsed]
+        if OVERRIDES in self.raws:
+            try:
+                raw, n = carry_overrides(self.raws[OVERRIDES], self.gone, tu, flags)
+                self.record(OVERRIDES, raw, n)
+            except ValueError as e:
+                self.problems.append(str(e))
+        if DATA_LEDGER in self.raws:
+            self.record(DATA_LEDGER, *carry_data_ledger(self.raws[DATA_LEDGER], self.gone, tu))
+        self.hatch = False
+        if HATCH_REGISTER in self.raws:
+            grown, scanned = hatch_growth(tu, acc, texts, text)
+            if grown:
+                self.problems.append("the merged TU holds more escape-hatch occurrences than its donors: "
+                                     + ", ".join(f"{h} {t}" for h, t in grown[:5]))
+            keyed = {line.split("\t")[1] for line in self.raws[HATCH_REGISTER].decode("utf-8").splitlines()
+                     if line.count("\t") >= 3 and not line.startswith("#")}
+            self.hatch = scanned or bool(keyed & set(acc))
+            if self.hatch:
+                self.moved[HATCH_REGISTER] = "hatch_counters --update"
+        # hatch_counters --update rescans the staged tree, so a deleted donor's lines go
+        left = {rel: raw for rel, raw in self.after().items() if not (rel == HATCH_REGISTER and self.hatch)}
+        for rel, line in vanished(left, self.gone):
+            self.problems.append(f"{rel} would still key a deleted donor: {line[:160]}")
+
+    def record(self, rel, raw, n):
+        if n:
+            self.new[rel], self.moved[rel] = raw, n
+
+    def after(self):
+        return {rel: self.new.get(rel, raw) for rel, raw in self.raws.items()}
+
+    def trailer(self):
+        return (f"Verifier-Change: tu_skeleton --merge carried the protected-register keys of "
+                f"{len(self.gone)} absorbed donor(s) to {self.tu} (transfer; totals kept)") if self.moved else None
+
+    def retired(self):
+        """The per-key Debt-Retired lines a collapsed key needs (repair_queue's exact form)."""
+        return [f"Debt-Retired: {line} {line.split(chr(9), 1)[0]} merged into {self.tu}, which already "
+                "holds this key" for _rel, line in self.collapsed]
+
+    def follow_up(self):
+        out = [f"after committing the merge and ./build.sh {self.tu}: python3 tools/repair_queue.py retire "
+               f"{kind} {self.tu} (retires only keys the owner's fresh verdict no longer finds)"
+               for rel, kind in RETIRE.items() if rel in self.moved]
+        if OVERRIDES in self.moved:
+            out.append(f"python3 tools/flag_defaults.py propose {self.tu} (drops the override when the region "
+                       "default keeps every row)")
+        return out
+
+    def report(self):
+        out = {}
+        if self.moved:
+            out["carried"] = dict(self.moved)
+            out["trailer"] = self.trailer()
+        if self.collapsed:
+            out["debt-retired"] = self.retired()
+        if self.follow_up():
+            out["follow-up"] = self.follow_up()
+        return out
+
+    def write(self):
+        for rel, raw in self.new.items():
+            (self.root / rel).write_bytes(raw)
+        return sorted(self.new)
+
+
+def dirty_others(root, allowed):
+    lines = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no", "--ignore-submodules"],
+                           cwd=root, capture_output=True, text=True).stdout.splitlines()
+    return [l[3:] for l in lines if l[3:] not in allowed]
+
+
 # ---------------------------------------------------------------- apply
 def claim_keys(tu, don):
     keys = [f"file:{tu}"] + [f"file:{f}" for f in sorted(don) if f != tu]
@@ -1684,14 +1954,34 @@ def refresh_reports(root, gone, tu, text):
     return moved
 
 
-def apply(tu, accepted, text, root=ROOT):
+def apply(tu, accepted, text, root=ROOT, carry=None):
     gone = [f for f in accepted if f != tu]
+    if carry and carry.hatch:
+        # hatch_counters --update rewrites the register from the whole tree
+        others = dirty_others(root, set(accepted) | {tu})
+        if others:
+            raise SystemExit("tu_skeleton: the hatch register is rewritten from the whole tree; commit or stash "
+                             "the other modified files first: " + ", ".join(others[:5]))
     moved = repoint_all(root, gone, tu)
+    if carry:
+        moved.update({rel: carry.moved[rel] for rel in carry.write()})
     (Path(root) / tu).write_text(text, encoding="utf-8", newline="\n")
     moved.update(refresh_reports(root, gone, tu, text))
     if gone:
         subprocess.run(["git", "rm", "-q", "--", *gone], cwd=root, check=True)
     subprocess.run(["git", "add", "--", tu, *moved], cwd=root, check=True)
+    if carry and carry.hatch:   # escape-hatch counts moved between units: a total-keeping move
+        subprocess.run([sys.executable, "tools/hatch_counters.py", "--update"], cwd=root, check=True)
+        subprocess.run(["git", "add", "--", HATCH_REGISTER], cwd=root, check=True)
+        moved[HATCH_REGISTER] = "updated"
+    if carry:
+        raws = {rel: (Path(root) / rel).read_bytes() for rel in rename.PROTECTED_PATH_KEYED
+                if (Path(root) / rel).exists()}
+        left = vanished(raws, set(gone))
+        if left:
+            raise SystemExit("tu_skeleton: the staged merge still keys deleted donors in protected registers "
+                             "(unstage it with git restore --staged --worktree): "
+                             + "; ".join(f"{rel}: {line[:120]}" for rel, line in left[:5]))
     _CACHE.clear()
     return moved
 
@@ -1794,10 +2084,13 @@ def main(argv=None):
         rep = merge(a.merge, a.dry_run, claim=not a.no_claim)
         text = rep.pop("text", None)
         for k, val in rep.items():
-            print(f"{k}: {val}")
+            if k in ("debt-retired", "follow-up"):   # lines to paste or run, one per line
+                print(f"{k}:" + "".join(f"\n  {line}" for line in val))
+            else:
+                print(f"{k}: {val}")
         if text and a.dry_run:
             print(text)
-        return 0 if rep.get("accepted") else 2
+        return 0 if rep.get("accepted") and not rep.get("blocked") else 2
     return 0
 
 

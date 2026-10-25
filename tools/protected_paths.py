@@ -126,6 +126,64 @@ SHRINK_ONLY = {
 }
 
 
+# A debt key re-keyed from a unit that is gone to the unit that absorbed its rows is a
+# move, not growth: tools/tu_skeleton.py --merge carries each donor's keys to the TU in
+# the merge commit. A grown line is such a transfer only when the identical key (the line
+# past its source field) leaves under a source the new tree no longer has, that source
+# held ledger rows in the old tree, none of them stays under it, and every one of them is
+# now under the grown line's source, which the new tree has. code_identity_gate and
+# data_check --staged apply the same rule; repair_queue's verify-removed already accepts
+# the removal as a transfer.
+LEDGER = "reverse/functions.csv"
+TRANSFER_KEYED = {"reverse/data_check_baseline.txt", "reverse/code_identity_baseline.tsv"}
+_LEDGERS = {}
+
+
+def exists(rev, path):
+    return git("cat-file", "-e", f":{path}" if rev == ":" else f"{rev}:{path}").returncode == 0
+
+
+def ledger_by_source(rev):
+    """{source: {(name, target_rva)}} of the ledger at `rev` (':' = the index)."""
+    if rev not in _LEDGERS:
+        import csv
+        import io
+        out = {}
+        for row in csv.DictReader(io.StringIO(blob(rev, LEDGER))):
+            if row.get("target_rva"):
+                out.setdefault(row.get("source") or "", set()).add((row.get("name"), row["target_rva"]))
+        _LEDGERS[rev] = out
+    return _LEDGERS[rev]
+
+
+def transferred(old_rev, new_rev, added, removed):
+    """The `added` register lines (source<TAB>key) that transfer a `removed` line's key
+    from a vanished unit to the unit holding all of its rows (see above)."""
+    def split(line):
+        source, _, key = line.strip().partition("	")
+        return source, key
+    gone = {}
+    for line in removed:
+        source, key = split(line)
+        if key:
+            gone.setdefault(key, set()).add(source)
+    candidates = [line for line in added if split(line)[1] in gone]
+    if not candidates:
+        return set()
+    old, new = ledger_by_source(old_rev), ledger_by_source(new_rev)
+    out = set()
+    for line in candidates:
+        dest, key = split(line)
+        if not new.get(dest) or not exists(new_rev, dest):
+            continue
+        for source in sorted(gone[key] - {dest}):
+            rows = old.get(source)
+            if rows and source not in new and not exists(new_rev, source) and rows <= new[dest]:
+                out.add(line)
+                break
+    return out
+
+
 def git(*args, check=False):
     got = subprocess.run(["git", *args], capture_output=True, text=True, encoding="utf-8",
                          errors="replace")
@@ -176,7 +234,11 @@ def growth(old_revs, new_rev, touched, excused):
         new = blob(new_rev, path)
         grown = None
         for old in old_revs:
-            items = measure(blob(old, path), new)
+            before = blob(old, path)
+            items = measure(before, new)
+            if path in TRANSFER_KEYED and items:
+                moved = transferred(old, new_rev, items, lines_set(before) - lines_set(new))
+                items = {k: v for k, v in items.items() if k not in moved}
             grown = items if grown is None else {k: v for k, v in grown.items() if k in items}
         if grown:
             out.append((path, sorted(grown.values())))

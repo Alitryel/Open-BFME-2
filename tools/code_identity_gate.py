@@ -189,7 +189,11 @@ def check(sources, staged_names, *, full=False, staged=False, notes=None):
         if rel in staged_names:
             head = show(f"HEAD:{rel}")
             if head:
-                grown = reader(show(f":{rel}") or "") - reader(head)
+                new = reader(show(f":{rel}") or "")
+                grown = new - reader(head)
+                if grown and reg == BASELINE:   # a vanished unit's key carried to the unit holding its rows
+                    import protected_paths
+                    grown -= protected_paths.transferred("HEAD", ":", grown, reader(head) - new)
                 if grown and head_mode == "enforce":
                     problems.append(f"{rel} grew by {len(grown)} key(s); an enforced register only shrinks "
                                     "(fix the binding instead; tools/allowed_symbols.py explains the classes)")

@@ -34,8 +34,8 @@ regenerated `tu_map.csv` from this lane.
    donors that compile together without losing a row.
 2. **Read the plan.** `--plan TU` lists every approved row in retail order and what
    happens to it: `pull` (a clean donor), `mixed` (its file also holds rows of
-   another TU), `refused` (deleting the file is not mechanical: vendored, keyed in
-   a protected register, `#include`d by another file, or expanding `__FILE__`), or
+   another TU), `refused` (deleting the file is not mechanical: vendored,
+   `#include`d by another file, or expanding `__FILE__`), or
    a placeholder comment (unmatched; it compiles to nothing and is never credited).
 3. **Dry run.** `--merge TU --dry-run` composes and verifies without writing.
    `accepted` donors merge as they are. Each `rejected` donor carries the compile
@@ -54,11 +54,12 @@ regenerated `tu_map.csv` from this lane.
    nothing when another worker holds one of them. Then it writes the TU, deletes
    the absorbed donors, repoints `functions.csv`, `data_rows.csv`, `tu_map.csv`
    and `body_owners.csv` `source` columns and the `docs/doxygen/sources.cfg`
-   inputs, and stages the result. It prints the paths it staged and a commit
-   subject.
+   inputs, carries the donors' protected-register keys to the TU (below), and
+   stages the result. It prints the paths it staged and a commit subject.
 6. **Verify and commit.** `./build.sh TU`, then
    `python3 tools/find_declared_unmatched.py TU`, then commit with the printed
-   subject. The hook byte-verifies the TU again. Follow AGENTS.md's Publication
+   subject, plus the printed `trailer:` and any `debt-retired:` lines when the
+   merge carried register keys. The hook byte-verifies the TU again. Follow AGENTS.md's Publication
    rules: a merge recovers no new bytes, so batch merges and push them together. Perform
    the tooling compatibility audit below once over the full outgoing batch
    immediately before pushing.
@@ -69,6 +70,41 @@ regenerated `tu_map.csv` from this lane.
 8. **Release** the `file:` claims after the push
    (`python3 tools/claims.py release file:<path> ...`) and let
    `python3 tools/claims.py release --landed` settle the RVAs.
+
+## Protected registers travel with the merge
+
+A donor keyed in a protected path-keyed register (`rename.PROTECTED_PATH_KEYED`)
+is absorbed, and the merge commit carries its debt to the TU, so no key is left
+on a deleted file and no follow-up `Debt-Retired:` cleanup is needed:
+
+| Register | Key layout | What the merge does |
+|---|---|---|
+| `code_identity_baseline.tsv` | `source<TAB>row<TAB>symbol<TAB>target<TAB>class` | source rewritten to the TU; a key two donors share is kept once |
+| `data_check_baseline.txt` | `source<TAB>check<TAB>symbol<TAB>address` | same |
+| `hatch_baseline.tsv` | `hatch<TAB>path<TAB>token<TAB>count` | `hatch_counters.py --update` after staging (a total-keeping move); the merged text may not hold more occurrences than its donors; refused on a tree with other modified files |
+| `flag_overrides.csv` | `source,flags,rows,default_lost,reason` | the donors' (and TU's) entries become one TU entry with summed counts; the merge is verified under those flags (the TU's own when it has one, else the most rows'), the TU spells them, a donor overridden with other flags is rejected, and a donor that would lose a row its region-default build matches is rejected |
+| `data_ledger.csv` | `source` column; `name@source` in `names` | rewritten to the TU |
+
+The hooks read a re-keyed line as a transfer: a grown key counts as moved only
+when the identical key leaves under a source the commit deletes, that source's
+ledger rows all move to the new key's source, and that source exists
+(`protected_paths.transferred`, used by `protected_paths.py`,
+`code_identity_gate.py --staged` and `data_check.py --staged`;
+`repair_queue.py verify-removed` already accepts it). Any other re-keying stays
+growth. The merge refuses, writing nothing, when a register would still name a
+deleted donor. It prints:
+
+- `trailer:` the exact `Verifier-Change: tu_skeleton --merge carried the
+  protected-register keys of N absorbed donor(s) to TU (transfer; totals kept)`
+  line the commit needs (the registers are protected paths);
+- `debt-retired:` one `Debt-Retired: <key> <donor> merged into TU, which already
+  holds this key` line per donor key the TU already held (no transfer can show
+  for it), to add to the same commit message;
+- `follow-up:` keys the merged TU may no longer produce leave only on the owning
+  tool's fresh verdict, in a later commit: after `./build.sh TU`,
+  `repair_queue.py retire identity|data TU`, and `flag_defaults.py propose TU`
+  for a carried override. Retiring in the merge commit itself would hide the
+  transfer from verify-removed.
 
 ## Carving a mixed file (the split lane)
 
