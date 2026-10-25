@@ -2089,3 +2089,5 @@ param,W3DTornadoDraw::rva000D17EF::c,W3DTornadoDraw::rva000D17EF::oldAngle,infer
 local,Rva008063B0Owner::addSlot::s,Rva008063B0Owner::addSlot::slot,inferred,agree:nl-77bac0445e86,Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp,0x006723E0
 local,bfmeGoVJF::g,bfmeGoVJF::txn,inferred,agree:nl-89dc2afb7069,Code/GameEngine/Source/Common/BfmeConv1384.cpp,0x0065E930
 param,BfmeMgrVPE::rva007F9A40GetOrCreateSlot::a5,BfmeMgrVPE::rva007F9A40GetOrCreateSlot::context,inferred,agree:nl-3c64ae798843,Code/GameEngine/Source/Common/SmallGaps/Rva007F9A40GetOrCreateSlot.cpp,0x00665FB0
+param,Rva0014CE67_Prototype::Rva0014CE67_Prototype::arg1,Rva0014CE67_Prototype::Rva0014CE67_Prototype::offset,inferred,agree:nl-3685c5f3b4d4,Code/GameEngine/Source/Common/Rva0014CE67Ctor.cpp,0x0014CE67
+param,Rva0014CE67_Prototype::Rva0014CE67_Prototype::arg2,Rva0014CE67_Prototype::Rva0014CE67_Prototype::size,inferred,agree:nl-26b252ff50af,Code/GameEngine/Source/Common/Rva0014CE67Ctor.cpp,0x0014CE67

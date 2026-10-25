@@ -33,7 +33,7 @@ public:
 class Rva0014CE67_Prototype : public GenBase009EB7D0
 {
 public:
-	Rva0014CE67_Prototype(const char *name, int arg1, int arg2);
+	Rva0014CE67_Prototype(const char *name, int offset, int size);
 
 	char m_pad04[0x10]; // +0x04..+0x13, untouched by this body
 	PrototypeTreeRef *m_tree; // +0x14
@@ -43,9 +43,9 @@ public:
 };
 
 // ??0Rva0014CE67_Prototype@@QAE@PBDHH@Z
-Rva0014CE67_Prototype::Rva0014CE67_Prototype(const char *name, int arg1, int arg2)
+Rva0014CE67_Prototype::Rva0014CE67_Prototype(const char *name, int offset, int size)
 	: m_tree(0), m_name(name, false)
 {
-	m_arg1C = arg1;
-	m_arg20 = arg2;
+	m_arg1C = offset;
+	m_arg20 = size;
 }
