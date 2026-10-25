@@ -19,11 +19,8 @@
 // clone_materials tail (0x001881C0). BFME 2 has no GapFiller copy here: its
 // GapFiller is released by the context helper in the head.
 
-typedef unsigned int size_t;
-void *__cdecl operator new(size_t bytes);
-void __cdecl operator delete(void *block);
-
-#define NULL 0
+#include <new>
+#include <stddef.h>
 
 class W3DMPO
 {

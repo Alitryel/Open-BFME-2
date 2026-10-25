@@ -37,6 +37,19 @@ No recovered/linked bytes, file reduction or identity retirement is claimed.
 Keep file claims for meshmdl.cpp, MeshModelClassAssign.cpp and this handoff,
 plus RVAs 0x00171850 and 0x00171E60, until publication is confirmed.
 
+## Standard-header prerequisite
+
+A separate cleanup replaces the assignment donor's four private CRT names
+(size_t, allocation/deallocation prototypes and NULL) with <new>/<stddef.h>.
+The three assignment/EH rows still byte-match, EH remains EXACT, and the
+declared-unmatched check passes. The owning Microsoft-header refresh finds
+zero local definitions and removes its former four-definition queue row.
+Code/data identity report zero new findings; code-binding verdicts remain
+owner/eh/alias. The normal after dry run still accepts seed plus assignment
+with four rows and composed C++. Receipts: build/sol-meshmdl-sdk-build.txt
+and build/sol-meshmdl-sdk-after.txt. No path change, identity-key retirement,
+file reduction or recovered-byte claim is added by this cleanup.
+
 ## Font-library investigation boundary
 
 The current normal W3DGameFont.cpp dry run accepts the seed, vector destructors
