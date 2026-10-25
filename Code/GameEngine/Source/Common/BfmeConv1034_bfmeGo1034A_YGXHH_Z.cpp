@@ -17,10 +17,10 @@ BfmeX1034 * __stdcall bfmeFind1034(int a, int n);
 
 void __stdcall bfmeGo1034A(int a, int b)
 {
-	BfmeX1034 *x = bfmeFind1034(a, 0);
+	BfmeX1034 *entry = bfmeFind1034(a, 0);
 
-	if (x != 0)
-		x->m_bfmeSub.bfmeAdd1034(b);
+	if (entry != 0)
+		entry->m_bfmeSub.bfmeAdd1034(b);
 }
 
 // Each retail call in this body reads an address the ledger already carries
