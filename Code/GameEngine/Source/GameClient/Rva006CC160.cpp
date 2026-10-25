@@ -13,7 +13,7 @@ struct Rva006CC160 {
     unsigned int m_1C;
     Rva006CC160 operator+(const Rva006CC160 &other);
     Rva006CC160 &operator+=(const Rva006CC160 &other);
-    void rva006CC230();
+    void reset();
 };
 Rva006CC160 Rva006CC160::operator+(const Rva006CC160 &other)
 {
@@ -45,9 +45,9 @@ Rva006CC160 &Rva006CC160::operator+=(const Rva006CC160 &other)
     return *this;
 }
 
-// ?rva006CC230@Rva006CC160@@QAEXXZ, retail 0x006CC230 (26B). Ghidra-unlisted
+// ?reset@Rva006CC160@@QAEXXZ, retail 0x006CC230 (26B). Ghidra-unlisted
 // reset that zeroes all eight fields in the sibling field order; address name.
-void Rva006CC160::rva006CC230()
+void Rva006CC160::reset()
 {
     m_00=0;
     m_04=0;

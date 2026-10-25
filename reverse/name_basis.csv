@@ -2167,3 +2167,7 @@ class,Rva008063B0Owner,FeslStateMachine,inferred,agree:nl-09aec132acde,Code/Game
 carry,Rva008063B0Owner::addSlot::slot,FeslStateMachine::addSlot::slot,inferred,scope renamed by Rename Rva008063B0Owner to FeslStateMachine (inferred),Code/GameEngine/Source/Common/SmallGaps/Rva008063B0AddSlot.cpp,0x006723E0
 class,Rva00338E52Envelope,OpacityEnvelope,inferred,agree:nl-409e8c82896c,Code/GameEngine/Source/Common/System/INI_Rva00338E52ParseEnvelope.cpp,
 class,Rva0027F4F8Entry,WaterHandleEntry,inferred,agree:nl-7265b55a3160,Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp,
+member,Rva002D2F32Mid::m_750,Rva002D2F32Mid::m_planningMode,inferred,agree:nl-6dbd5740b206,Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirTogglePlanningMode.cpp,
+param,LivingWorldArmyLine::rva00538F6B::a,LivingWorldArmyLine::rva00538F6B::m_StartPosition,inferred,agree:nl-d73c5f740f2b,Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldArmyLineRva00538F6B.cpp,0x00538F6B
+function,?rva006CC230@Rva006CC160@@QAEXXZ,?reset@Rva006CC160@@QAEXXZ,inferred,agree:nl-288851d67b81,Code/GameEngine/Source/GameClient/Rva006CC160.cpp,0x006CC230
+local,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::arg,ToggleDeploySpecialAbilityUpdate::rva004AE6D7::m_targetObject,inferred,agree:nl-7febd7a4a74b,Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp,0x004AE6D7

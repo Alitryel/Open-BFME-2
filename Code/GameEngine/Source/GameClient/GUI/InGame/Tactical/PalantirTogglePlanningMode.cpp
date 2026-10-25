@@ -15,7 +15,7 @@ extern GameLogic *TheGameLogic;
 struct Rva002D2F32Mid
 {
 	char m_pad[0x750];
-	int m_750;
+	int m_planningMode;
 };
 
 class PlayerList
@@ -70,7 +70,7 @@ void Palantir::Impl::TogglePlanningMode()
 	if (m_128 == 0)
 		return;
 	Rva002D2F32Mid *mid = ThePlayerList->m_mid;
-	if (mid != 0 && mid->m_750 == 2) {
+	if (mid != 0 && mid->m_planningMode == 2) {
 		GameMessage *gameMessage = TheMessageStream->appendMessage(GameMessage::MSG_RVA469);
 		gameMessage->appendIntegerArgument(0);
 		gameMessage->appendIntegerArgument(2);

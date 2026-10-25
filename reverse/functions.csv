@@ -73780,7 +73780,7 @@ __ehhandler$?Rva004617CFFind@@YAPAVBehaviorModule@@PAUFakePortalObjectView@@@Z,,
 ?rva006C1710@GeneralAllocatorDebug@@QAEXHHH@Z,,0x006C1710,24,Code/GameEngine/Source/Common/Rva006C20A0DebugField.cpp,matched,Ghidra-unlisted gap body; three-value store at +14/+18/+1C; address name
 ?rva006C1770@GeneralAllocatorDebug@@QAEHF@Z,,0x006C1770,22,Code/GameEngine/Source/Common/Rva006C20A0DebugField.cpp,matched,Ghidra-unlisted gap body; option 11 reads 0 else the +67C word; address name
 ?rva006CBD60@AptMath@@SA_NXZ,,0x006CBD60,59,Code/Libraries/Source/Apt/AptMathClipStack.cpp,matched,Ghidra-unlisted gap body; AptMath.h line 101 count assert then stack-empty test; address name
-?rva006CC230@Rva006CC160@@QAEXXZ,,0x006CC230,26,Code/GameEngine/Source/GameClient/Rva006CC160.cpp,matched,Ghidra-unlisted gap body; zeroes the eight fields in sibling order; address name
+?reset@Rva006CC160@@QAEXXZ,,0x006CC230,26,Code/GameEngine/Source/GameClient/Rva006CC160.cpp,matched,Ghidra-unlisted gap body; zeroes the eight fields in sibling order; address name
 ?rva006D3670@EAStringC@@QBEHPBD@Z,,0x006D3670,66,Code/Libraries/Source/Apt/string/EAStringCompare.cpp,matched,Ghidra-unlisted gap body; pStrText assert EAString.cpp 0x447 then rowed _strcmpi thunk; address name
 ?rva006D3920@EAStringC@@QAEHPBD@Z,,0x006D3920,81,Code/Libraries/Source/EA/Apt/AptString/EAStringCFind.cpp,matched,Ghidra-unlisted gap body; unimplemented stub: pStrText assert 0x2E7 and false assert 0x2E8 then 0; address name
 ?rva006D3980@EAStringC@@QAEHH@Z,,0x006D3980,39,Code/Libraries/Source/EA/Apt/AptString/EAStringCFind.cpp,matched,Ghidra-unlisted gap body; unimplemented stub: false assert EAString.cpp 0x300 then 0 (ret 4); address name

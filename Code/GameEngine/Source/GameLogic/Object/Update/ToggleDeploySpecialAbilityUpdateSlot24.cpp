@@ -221,11 +221,11 @@ void ToggleDeploySpecialAbilityUpdate::rva004AE6D7(void *argVoid)
 {
 	if (!m_p20.v08(0))
 		return;
-	Rva004AE5B8Arg *arg = (Rva004AE5B8Arg *)argVoid;
-	DeployStyleAIUpdate *ds = arg->m_258;
+	Rva004AE5B8Arg *m_targetObject = (Rva004AE5B8Arg *)argVoid;
+	DeployStyleAIUpdate *ds = m_targetObject->m_258;
 	if (!ds)
 		return;
-	if ((unsigned char)((Object *)arg)->rva0028B7C8() || ds->v111()) {
+	if ((unsigned char)((Object *)m_targetObject)->rva0028B7C8() || ds->v111()) {
 		((AICommandInterface *)((char *)ds + 0x20))->aiIdle(kCommandSourceAI);
 	}
 	BfmeAudioEventPrefix136 tmp(*(OpaqueRefElement4 *)((char *)m_owner + 0xC8), 0);
