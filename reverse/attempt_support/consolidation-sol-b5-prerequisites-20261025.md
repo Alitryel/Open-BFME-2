@@ -361,3 +361,56 @@ Outgoing audit through this handoff: no source moves, ledger repoints or
 protected-register changes in this seat's batch. Source restoration is
 verified before commit. Active path consumers need no repair; historical
 EA paths remain intact. Buddy diagnostic gains are excluded from progress.
+
+## Session close and publication recovery
+
+Three new verified prerequisites in this session: GameSlot state declarations,
+TreeBuffer's existing type-record view, and GameInfo's exact slot-lookup
+overloads. Combined normal dry-runs accept GameInfo ten files/50 rows versus
+eight/37 before these repairs, and TreeBuffer six files/23 rows versus
+five/22. These are demonstrated composition improvements, not applied merges
+or confirmed downstream Luna landings. BridgeBuffer's four files/18 rows are
+inherited work, reverified here rather than attributed to these new repairs.
+Recovered C++ bytes, files removed and identity debt keys retired are each
+zero. BuddyThread's diagnostic twelve-row result is excluded.
+
+Until publication is confirmed, retain these pending file scopes (paths
+relative to their indicated GameNetwork or W3DDevice/GameClient directory):
+GameInfo.cpp, GameInfoSetMapSize.cpp, GameInfoSlotView.h, GameSlotCtor.cpp,
+GameSlotSetState.cpp, GameInfoGetSlotNum.cpp, Rva00621350GameInfoMapPath.cpp;
+W3DBridgeBuffer.cpp, W3DBridgeAllocateBridgeBuffers.cpp,
+W3DBridgeBufferLoadBridges.cpp, W3DBridgeBufferCtor.cpp, W3DTreeBuffer.cpp,
+W3DTreeBufferRva000ECDF5.cpp; and this handoff. Outstanding RVA scopes:
+0x000DD8B8, 0x000DE52E, 0x000DFB3C, 0x000ECDF5, 0x003FFC28,
+0x0040009A, 0x00400898. After runner publication, release the file scopes
+and settle RVAs with claims.py release --landed. The blocked BuddyThread
+scope is already released; no other attempted target remains claimed.
+
+Final outgoing path audit covers the merge-base-to-HEAD batch plus this
+staged handoff: only existing source modifications, this new evidence file
+and the attempt log. No source renames/deletions, ledger repoints, tool/hook/
+workflow changes or protected-register edits. Existing active includes,
+build inputs, registries and historical EA paths need no repoints.
+
+Final progress.py origin/master receipt (build/sol-b5-final-progress.txt):
+BYTE-MATCHED 7,978,500 bytes, 100.00%; LINKING 7,267,914 bytes, 96.74%;
+LINKED 7,518,133 bytes, 97.51%. All deltas zero, using the 2026-10-25
+21:36 census at f995f30157. No new ownership receipt or census measurement
+is claimed. The prerequisite improvements above are verified separately
+by scoped checks and normal composition trials.
+
+Final allocated fallback: W3DProjectileStreamDraw.cpp. Current planner under
+GameClient/Drawable/Draw passes its snapshot check; --plan reports 14 approved
+rows in four donors, three mixed donors and three protected sources. Normal
+--merge --dry-run completes successfully and accepts only seed plus
+W3DProjectileStreamDrawModuleDataDtor.cpp: two files/six rows. Constructor
+trial fails C2504, DrawModule base undefined; destructor trial fails C2143,
+missing semicolon before '*'. Existing private views disagree about the base
+class and drawable member placement, texture member representation and scene
+types. A repair needs an evidence-backed shared lifetime/base view across the
+seed, constructor and destructor, with their consumers verified together;
+moving declarations speculatively is not an accepted prerequisite. ModuleData
+destructor is already compatible for Luna. Protected constructor/module/key
+sources and mixed donors remain untouched. No source edit, new claim or
+recovered bytes from this read-only review. Receipts:
+build/sol-b5-projectile-{planner,plan,before}.txt. No running trial remains.
