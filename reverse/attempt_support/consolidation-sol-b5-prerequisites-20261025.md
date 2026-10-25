@@ -277,3 +277,43 @@ through its dependency closure and verified 56/56 rows over all four sources;
 its direct includes remain the three Network sources documented above.
 File reduction: zero; identity debt retired: zero; recovered retail bytes:
 zero. Retain TreeBuffer seed/donor/RVA claims until confirmed publication.
+
+
+## GameInfo slot lookup declaration prerequisite (2026-10-25)
+
+Allocated GameInfo.cpp remains the target. Claimed the seed/shared view,
+GameInfoGetSlotNum.cpp and 0x0040009A; the current network planner retains
+GameInfo.cpp as a placement hint, with normal TU resolution approving the
+move. Added existing nonvirtual getConstSlot/getSlotNum declarations to the
+seed and the exact by-value UnicodeString isPlayer overload to the shared
+GameSlot view. No body, layout, virtual slot, flags or provider changed.
+The Unicode overload resolves the earlier chosen-view failure rather than
+retrying the same incomplete declaration set.
+
+Baseline lookup build: 4/4 rows. After declarations: 33/33 across GameInfo,
+GameSlotCtor, GameSlotSetState and GameInfoGetSlotNum, six string literals,
+four EXACT EH graphs. Frozen and canonical-class checks pass. Normal merge
+dry-run now accepts ten files/50 rows, retaining all nine files/46 rows
+from the state repair and adding all four lookup rows. Remaining rejected
+single-owner donor is GameInfoDtor.cpp: incomplete member/lifetime view
+(m_C8). Twelve mixed and two protected donors remain untouched. No merge
+or downstream Luna landing is claimed. Receipts:
+build/sol-b5-slotnum-{before,after}-build.txt,
+build/sol-b5-gameinfo-after-slotnum.txt, and
+build/sol-b5-slotnum-after-eh.txt.
+
+Scoped allowed-symbol scan: 44 references, 34 owner/6 alias/4 EH, zero
+wrong bindings. Existing standalone lookup body is unchanged, including
+its getConstSlot and Unicode isPlayer targets. Code-identity check covers
+33 rows, no binding or selected-definition findings (shadow). Data checks:
+zero findings; converged ten addresses, zero second names or unjudged rows.
+No identity debt retired. The shared-header consumer closure is also
+verified by the full commit hook (including Eva.cpp).
+
+Complete outgoing path audit: pending commits plus this staged change
+contain no source moves/deletions. No active tools, hooks, workflows,
+includes, build inputs or registries require path repoints. Divergent
+origin-only changes are not outgoing path changes. The full staged diff
+contains only existing method declarations and this evidence. File
+reduction, identity keys retired and recovered C++ bytes are each zero.
+Hold all still-unpublished file/RVA claims until confirmed publication.

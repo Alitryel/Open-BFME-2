@@ -62,6 +62,8 @@ public:
 	virtual void closeOpenSlots();
 
 	GameSlot *getSlot(Int slotNum);
+	const GameSlot *getConstSlot(Int slotNum) const;
+	Int getSlotNum(AsciiString userName) const;
 	void setSlot(Int slotNum, GameSlot slotInfo);
 	void setMapSize(UnsignedInt mapSize);
 	Int getMaxPlayers();
