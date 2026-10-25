@@ -63,7 +63,10 @@ pushed work afterwards.
   decoder source (On2, Winamp, ffdshow, MFNode): it may not be redistributed, and
   this lane is no reference sweep. Rules: `reverse/vp6_cleanroom/README.md`.
 - *Verification runners* (`tools/link_cycle.py`, `tools/audit/run_nightly.cmd`,
-  `tools/boot_smoke.py`, the shadow publisher): ask a maintainer before starting one.
+  `tools/boot_smoke.py`, the shadow publisher, `tools/nightly_measure.py`): ask a
+  maintainer before starting one. `nightly_measure.py` runs only from the
+  maintainer's scheduled builder/publisher tasks (`docs/nightly_setup.md`); no
+  agent seat starts or approves it.
 
 Full plan and evidence: `docs/verifier_upgrade_plan.md`.
 
