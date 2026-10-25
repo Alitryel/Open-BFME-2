@@ -185,7 +185,7 @@ public:
 struct Rva002616D1Arg
 {
 	char m_pad00[0x94];
-	Rva0026157E m_94;
+	Rva0026157E m_status;
 };
 class Rva002616D1
 {
@@ -199,11 +199,11 @@ private:
 };
 bool Rva002616D1::rva002616D1(const Rva002616D1Arg *arg) const
 {
-	return arg->m_94.testMasks(m_08, m_18);
+	return arg->m_status.testMasks(m_08, m_18);
 }
 Int Rva002616D1::rva002616EB(const Rva002616D1Arg *arg) const
 {
-	return !arg->m_94.testMasks(m_08, m_18);
+	return !arg->m_status.testMasks(m_08, m_18);
 }
 
 // 0x00131C63 (texture tables beside 0x00131CA5): a new 0x58-byte surface at
