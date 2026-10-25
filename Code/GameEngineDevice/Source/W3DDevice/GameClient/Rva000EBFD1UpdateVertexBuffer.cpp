@@ -189,9 +189,14 @@ private:
 class Rva000EDA94Ref
 {
 public:
+	virtual void Delete_This();
+	void Release_Ref() { if (--m_refs == 0) Delete_This(); }
 	Rva000EBFD1Model *Peek_Model(void) const { return m_model; }
 private:
-	unsigned char m_head[0xc4];
+	// Reconcile the seed's existing count-at-4 and virtual slot 0 with
+	// this body's existing model-at-C4 view; neither offset changes.
+	int m_refs;
+	unsigned char m_pad08[0xc4 - 8];
 	Rva000EBFD1Model *m_model;
 };
 
