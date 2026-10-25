@@ -524,6 +524,14 @@ def merge(tu, dry_run=False, log=print, claim=True):
         if held:
             report["blocked"] = "held by another worker: " + ", ".join(held[:5])
             return report
+        report = _merge(tu, sk, don, report, dry_run)
+        if "blocked" in report:   # nothing was written: give the scope back
+            claims.release(claim_keys(tu, don))
+        return report
+    return _merge(tu, sk, don, report, dry_run)
+
+
+def _merge(tu, sk, don, report, dry_run):
     v = Verifier(tu)
     texts = {f: (ROOT / f).read_text(encoding="utf-8-sig", errors="replace") for f in don}
     base = {}

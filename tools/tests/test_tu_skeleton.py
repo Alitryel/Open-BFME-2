@@ -125,6 +125,23 @@ class ClaimTests(unittest.TestCase):
         self.assertEqual(held, ["file:Code/A.cpp"])
         self.assertEqual(len(calls), 1)
 
+    def test_a_merge_blocked_after_claiming_releases_its_scope(self):
+        don = {"Code/T.cpp": [{"target_rva": "0x00001000", "status": "matched"}],
+               "Code/A.cpp": [{"target_rva": "0x00001010", "status": "matched"}]}
+        released = []
+        saved = (T.skeleton, T.donors, T.claim_scope, T._merge, T.claims.release)
+        T.skeleton = lambda tu: []
+        T.donors = lambda tu, sk: (don, {}, {})
+        T.claim_scope = lambda tu, d: []
+        T._merge = lambda tu, sk, d, report, dry_run: dict(report, blocked="no verified merge")
+        T.claims.release = lambda keys, **kw: released.append(keys)
+        try:
+            report = T.merge("Code/T.cpp")
+        finally:
+            T.skeleton, T.donors, T.claim_scope, T._merge, T.claims.release = saved
+        self.assertEqual(report["blocked"], "no verified merge")
+        self.assertEqual(released, [T.claim_keys("Code/T.cpp", don)])
+
 
 if __name__ == "__main__":
     unittest.main()
