@@ -40,38 +40,43 @@ struct Rva000EB2EFType
 	char m_pad24[0x5c - 0x24];
 };
 
+// Retain the existing native-offset view independently of the destination's
+// canonical record types; this view is used only to access the rowed fields.
+struct Rva000EB2EFBufferView
+{
+    char m_pad00[0x5c0];
+    Rva000EB2EFTree m_trees[1200];
+    Int m_numTrees;
+    char m_pad44544[0x44558 - 0x44544];
+    Rva000EB2EFType m_treeTypes[64];
+};
+
 class W3DTreeBuffer
 {
 public:
-	void rva000EB2EF(Int treeIndex);
-	void rva000EB0E6(Int index);
-
-private:
-	char m_pad00[0x5c0];
-	Rva000EB2EFTree m_trees[1200];
-	Int m_numTrees;
-	char m_pad44544[0x44558 - 0x44544];
-	Rva000EB2EFType m_treeTypes[64];
+    void rva000EB2EF(Int treeIndex);
+    void rva000EB0E6(Int index);
 };
 
 void W3DTreeBuffer::rva000EB2EF(Int treeIndex)
 {
-	if (treeIndex >= m_numTrees)
+	Rva000EB2EFBufferView *buffer = reinterpret_cast<Rva000EB2EFBufferView *>(this);
+	if (treeIndex >= buffer->m_numTrees)
 		return;
-	Int treeType = m_trees[treeIndex].m_treeType;
+	Int treeType = buffer->m_trees[treeIndex].m_treeType;
 	if (treeType < 0)
 		return;
 
-	if (m_trees[treeIndex].m_flagc4 || m_trees[treeIndex].m_field80 != 0) {
+	if (buffer->m_trees[treeIndex].m_flagc4 || buffer->m_trees[treeIndex].m_field80 != 0) {
 		rva000EB0E6(treeIndex);
 		return;
 	}
-	--m_trees[treeIndex].m_sinkFrames;
-	Real progress = (Real)m_trees[treeIndex].m_sinkFrames / (Real)m_treeTypes[treeType].m_data->m_toppleFrames;
-	if (m_trees[treeIndex].m_topple)
-		Rva0010E87A_SetOpacity(m_trees[treeIndex].m_topple, progress);
-	if (m_trees[treeIndex].m_pushAside)
-		Rva0010E87A_SetOpacity(m_trees[treeIndex].m_pushAside, 1.0f - progress);
-	if (m_trees[treeIndex].m_sinkFrames == 0)
+	--buffer->m_trees[treeIndex].m_sinkFrames;
+	Real progress = (Real)buffer->m_trees[treeIndex].m_sinkFrames / (Real)buffer->m_treeTypes[treeType].m_data->m_toppleFrames;
+	if (buffer->m_trees[treeIndex].m_topple)
+		Rva0010E87A_SetOpacity(buffer->m_trees[treeIndex].m_topple, progress);
+	if (buffer->m_trees[treeIndex].m_pushAside)
+		Rva0010E87A_SetOpacity(buffer->m_trees[treeIndex].m_pushAside, 1.0f - progress);
+	if (buffer->m_trees[treeIndex].m_sinkFrames == 0)
 		rva000EB0E6(treeIndex);
 }
