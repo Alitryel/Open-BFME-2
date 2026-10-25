@@ -52,6 +52,7 @@ class OpenContain
 {
 public:
 	virtual void onDelete();
+	virtual void removeAllContained(bool exposeStealthUnits);
 
 protected:
 	const ModuleData *m_moduleData;
