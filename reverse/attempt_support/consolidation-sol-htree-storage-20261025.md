@@ -57,3 +57,24 @@ only CaptureBone with `bytes`. Receipts: `build/sol-htree-dtor-probe.txt` and
 `build/sol-htree-dtor-after.txt`. The wider header gate remains required.
 Keep the destructor file and 0x001667E0 claims until publication as well.
 This is another prerequisite commit, with no path moves or file reduction.
+
+## Follow-up: CaptureBone specialization conflict cleared
+
+The CaptureBone body itself matched in every combined probe. Its redundant
+explicit insert specialization declaration suppressed the seed's 0x001665B0
+insert definition. Removing that declaration emitted insert, but its overflow
+specialization declaration then changed insert to 293 bytes (retail 288),
+adding a zero store to the empty dispatch tag. Removing both redundant
+declarations preserves the existing custom push_back and lets the seed's
+primary-template instantiations compile in their original context.
+
+Acceptance: standalone CaptureBone remains 229 bytes exact (1/1), and its
+frozen-file check passes. All four composition strategies preserve the seed
+and CaptureBone rows (`build/sol-htree-capture-probe-after2.txt`). The normal
+full dry-run now accepts seed, storage, destructor and CaptureBone with no
+rejected whole donors, preserving all 14 rows
+(`build/sol-htree-all-after.txt`). These donors are ready for Luna; mixed and
+protected donors remain separate. No path moves, identity retirement, file
+reduction or recovered C++ bytes occur. The combined outgoing path-consumer
+audit still has no moved paths. Hold the CaptureBone file and 0x00166980
+claims with the other queued prerequisite claims until publication.

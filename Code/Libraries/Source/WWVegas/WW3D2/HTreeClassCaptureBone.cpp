@@ -47,8 +47,6 @@ template<> void _Construct<Elem36, Elem36>(Elem36 *, const Elem36 &);
 }
 #include <vector>
 namespace _STL {
-template<> Elem36 *vector<Elem36>::insert(Elem36 *, const Elem36 &);
-template<> void vector<Elem36>::_M_insert_overflow(Elem36 *, const Elem36 &, const __false_type &, unsigned int, bool);
 // STLport's normal append algorithm, with an uninitialized empty dispatch
 // tag: retail does not zero the tag byte, and the tag carries no value.
 // Scoped here to preserve the independently verified shared providers.
