@@ -119,7 +119,23 @@ void GadgetComboBoxSetIMECompositeTextColors(GameWindow *, int, int);
 
 typedef WindowMsgHandledType (*GameWinInputFunc)(GameWindow *, UnsignedInt, WindowMsgData, WindowMsgData);
 
-class WinInstanceData;
+class WinInstanceData
+{
+public:
+	WinInstanceData();
+	unsigned char m_pad00[0x0C];
+	unsigned m_style;
+	unsigned char m_pad10[0x15C - 0x10];
+	int m_enabledColor;
+	int m_enabledBorderColor;
+	int m_disabledColor;
+	int m_disabledBorderColor;
+	int m_hiliteColor;
+	int m_hiliteBorderColor;
+	int m_imecompositeColor;
+	int m_imecompositeBorderColor;
+	unsigned char m_pad17C[0x1A8 - 0x17C];
+};
 
 typedef void (*GameWinDrawFunc)(GameWindow *, WinInstanceData *);
 
@@ -681,25 +697,25 @@ class GameWindow
 protected:
 	virtual ~GameWindow();
 public:
-	virtual void vslot1();
+	virtual void vslot1() = 0;
 public:
-	virtual void vslot2();
+	virtual void vslot2() = 0;
 public:
 	virtual Int draw(void *);
 public:
-	virtual void vslot4();
+	virtual void vslot4() = 0;
 public:
 	virtual Int rva0009FD78();
 public:
-	virtual void vslot6();
+	virtual void vslot6() = 0;
 public:
 	virtual void *fetchCreateInstance() = 0;
 public:
-	virtual void vslot8();
+	virtual void vslot8() = 0;
 public:
-	virtual void vslot9();
+	virtual void vslot9() = 0;
 public:
-	virtual void vslot10();
+	virtual void vslot10() = 0;
 public:
 	GameWindow *winPointInChild(int, int, bool, bool = false);
 public:
@@ -767,39 +783,25 @@ private:
 private:
 	Int m_cursorY;
 private:
-	unsigned char m_pad2C[0x3C - 0x2C];
+	void *m_userData;
 private:
-	unsigned m_style;
+	WinInstanceData m_instData;
 private:
-	unsigned char m_pad40[0x18C - 0x40];
+	void *m_inputData;
 private:
-	int m_enabledColor;
-private:
-	int m_enabledBorderColor;
-private:
-	int m_disabledColor;
-private:
-	int m_disabledBorderColor;
-private:
-	int m_hiliteColor;
-private:
-	int m_hiliteBorderColor;
-private:
-	int m_imecompositeColor;
-private:
-	int m_imecompositeBorderColor;
-private:
-	unsigned char m_pad1AC[0x1E0 - 0x1AC];
+	void *m_bfmeInputExtra;
 private:
 	GameWinInputFunc m_inputFunc;
 private:
-	unsigned char m_pad1E4[0x1E8 - 0x1E4];
+	void *m_system;
 private:
 	GameWinDrawFunc m_drawFunc;
 private:
 	GameWinTooltipFunc m_tooltipFunc;
 private:
-	unsigned char m_pad1F0[0x1F8 - 0x1F0];
+	void *m_bfmeCallbackExtra;
+private:
+	int m_bfmeCallbackExtra2;
 private:
 	GameWindow *m_next;
 private:
@@ -809,9 +811,13 @@ private:
 private:
 	GameWindow *m_child;
 private:
-	unsigned char m_pad208[0x210 - 0x208];
+	void *m_nextLayout;
+private:
+	void *m_prevLayout;
 private:
 	Gadget210 *m_210;
+private:
+	void *m_editData;
 public:
 	int winBringToTop();
 public:
@@ -1142,33 +1148,33 @@ GameWindow *GameWindow::winPointInAnyChild( Int x, Int y, bool ignoreHidden, boo
 
 void GameWindow::winSetEnabledTextColors(int color, int borderColor)
 {
-	m_enabledColor = color;
-	m_enabledBorderColor = borderColor;
-	if (m_style & 0x8000)
+	m_instData.m_enabledColor = color;
+	m_instData.m_enabledBorderColor = borderColor;
+	if (m_instData.m_style & 0x8000)
 		GadgetComboBoxSetEnabledTextColors(this, color, borderColor);
 }
 
 void GameWindow::winSetDisabledTextColors(int color, int borderColor)
 {
-	m_disabledColor = color;
-	m_disabledBorderColor = borderColor;
-	if (m_style & 0x8000)
+	m_instData.m_disabledColor = color;
+	m_instData.m_disabledBorderColor = borderColor;
+	if (m_instData.m_style & 0x8000)
 		GadgetComboBoxSetDisabledTextColors(this, color, borderColor);
 }
 
 void GameWindow::winSetHiliteTextColors(int color, int borderColor)
 {
-	m_hiliteColor = color;
-	m_hiliteBorderColor = borderColor;
-	if (m_style & 0x8000)
+	m_instData.m_hiliteColor = color;
+	m_instData.m_hiliteBorderColor = borderColor;
+	if (m_instData.m_style & 0x8000)
 		GadgetComboBoxSetHiliteTextColors(this, color, borderColor);
 }
 
 void GameWindow::winSetIMECompositeTextColors(int color, int borderColor)
 {
-	m_imecompositeColor = color;
-	m_imecompositeBorderColor = borderColor;
-	if (m_style & 0x8000)
+	m_instData.m_imecompositeColor = color;
+	m_instData.m_imecompositeBorderColor = borderColor;
+	if (m_instData.m_style & 0x8000)
 		GadgetComboBoxSetIMECompositeTextColors(this, color, borderColor);
 }
 
