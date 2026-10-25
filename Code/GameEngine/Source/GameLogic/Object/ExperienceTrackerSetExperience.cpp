@@ -5,15 +5,19 @@
 #include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class ExperienceTracker { public: int rva0039AC23(bool); };
-struct BfmeThingEFC {
-    char pad[0x0C]; int level;
+class BfmeThingEFC {
+public:
+    void rva0039B1F9(void);
     void bfmeUpdate(int);
+    char pad[0x0C]; int level;
 };
 struct ExperienceParentView { char pad[0x5E7]; bool trainable; };
-class Rva003BD306Target : public ExperienceTracker {
+// The ExperienceTracker receiver under its call-view name; ExperienceTracker.cpp
+// reads the level at +0x0C through the same view (rva0039B28F).
+class Rva003BD306Target {
 public:
     char pad0[4]; ExperienceParentView *parent;
-    char pad08[8]; float experience;
+    char pad08[4]; int m_level; float experience;
     char pad14[0x2C-0x14]; BfmeThingEFC *handle;
     char pad30[8]; ObjectID sink; bool enable;
     void rva0039B3D1(float value,bool feedback);
@@ -30,6 +34,6 @@ void Rva003BD306Target::rva0039B3D1(float value,bool feedback)
     }
     if (!parent->trainable) return;
     experience=value;
-    int level=rva0039AC23(enable);
+    int level=reinterpret_cast<ExperienceTracker *>(this)->rva0039AC23(enable);
     if (feedback && level && level!=handle->level) handle->bfmeUpdate(level);
 }
