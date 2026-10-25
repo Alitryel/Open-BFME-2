@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /ICode/GameEngine/Source/Common
 // Native Ghidra 0047BA10..0047BA69, 89B, RET8. This is the contain-interface
 // receiver; accesses at this-1C/-18 are module data and the owner Object.
 // Concrete contain class remains unresolved; the method is the contain
@@ -13,7 +13,7 @@
 // Both are rowed (GameLogic::deselectObject / selectObject) and are called
 // through the shared GameLogic view.
 
-#include "../../../Common/GameLogicObjectLookupView.h"
+#include "GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Rva0046781F
