@@ -70,10 +70,14 @@ protected:
 	unsigned char m_padding0C[0x100 - 0x0C];
 };
 
+// Virtuals below are the ones the HordeSiegeEngineContain.cpp unit calls by
+// qualified name; their relative slot order is not asserted (no vtable is
+// emitted from this view).
 class TransportContain : public OpenContain
 {
 public:
 	virtual void onContaining(Object *rider, bool wasSelected);
+	virtual bool slot38(Object *obj, int a, int b);
 
 private:
 	unsigned char m_padding100[0x11C - 0x100];
