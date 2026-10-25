@@ -77,10 +77,10 @@ void Rva0055B39C::computeAlphaRate()
 		m_result = 0.0f;
 		return;
 	}
-	float v = m_pairs[idx + 1].value;
+	float targetAlpha = m_pairs[idx + 1].value;
 	unsigned int prev = m_pairs[idx + 1].frame;
 	unsigned int delta = next - prev;
-	float alphaDelta = v - m_time;
+	float alphaDelta = targetAlpha - m_time;
 	float frameDelta = (float)delta;
 	m_result = alphaDelta / frameDelta;
 }
