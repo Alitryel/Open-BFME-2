@@ -474,3 +474,12 @@ Sol's prerequisite lane before retrying; the other donor was not applied.
   is not a member of 'Shell'` and `C2065: 'm_60': undeclared identifier`.
   ShellAudioPredicate.cpp passed unchanged and was merged; no class repair was
   attempted for the rejected donor.
+- `Rva00538ADCFinish.cpp` was rejected into WindowLayout with `C2039:
+  'rva00538AB0' is not a member of 'BfmeQuickMatchScreenBase'` and
+  `C2065: 'm_head': undeclared identifier`; its default constructor donor
+  separately failed `C2600` because the composed class view does not declare
+  that constructor. No donor was accepted or changed; `window_layout.cpp` rows
+  remain protected-register refusals.
+- `RandomSoundSelectorClientBehaviorXfer.cpp` was rejected into its TU because
+  `BfmeXfer.h` reports `C2061: syntax error: identifier 'Snapshot'`. The
+  `getSelectedValue` donor passed unchanged; no declaration repair was attempted.
