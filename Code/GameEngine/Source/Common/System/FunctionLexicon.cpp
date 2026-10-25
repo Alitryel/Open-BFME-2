@@ -93,6 +93,16 @@ private:
 	void *m_tables[12];
 };
 
+class Rva00DFF024Registry
+{
+public:
+    __declspec(dllimport) __forceinline void *lookup(int a, int b) { return ((FunctionLexicon *)(void *)this)->findFunction((NameKeyType)a, (FunctionLexicon::TableIndex)b); }
+    void *lookup56(int a, int b);
+    void *lookup34(int a, int b);
+};
+
+// ---- from Code/GameEngine/Source/Common/System/FunctionLexicon.cpp
+
 // ---- from Code/GameEngine/Source/Common/System/FunctionLexicon.cpp
 
 void *FunctionLexicon::keyToFunc(NameKeyType key, TableEntry *table)
@@ -150,10 +160,6 @@ WindowLayoutInitFunc FunctionLexicon::winLayoutInitFunc(NameKeyType key, TableIn
 	return (WindowLayoutInitFunc)findFunction(key, index);
 }
 
-// tu-skeleton: 0x002D22AC 30B ??0Rva002D22CA@@QAE@XZ -- matched in Code/GameEngine/Source/Common/Rva002D22CACtor.cpp (not merged yet)
-
-// tu-skeleton: 0x002D22CA 11B ??1Rva002D22CA@@UAE@XZ -- matched in Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/Common/Rva002D22CAValidate.cpp
 
 bool Rva002D22CA::rva002D22D5()
@@ -188,6 +194,30 @@ bool Rva002D22CA::rva002D22D5()
 	return ok;
 }
 
-// tu-skeleton: 0x002D2341 48B ?lookup34@Rva00DFF024Registry@@QAEPAXHH@Z -- matched in Code/GameEngine/Source/Common/Rva00DFF024RegistryLookup56.cpp (not merged yet)
+// tu-skeleton: 0x002D22AC 30B ??0Rva002D22CA@@QAE@XZ -- matched in Code/GameEngine/Source/Common/Rva002D22CACtor.cpp (not merged yet)
 
-// tu-skeleton: 0x002D2371 48B ?lookup56@Rva00DFF024Registry@@QAEPAXHH@Z -- matched in Code/GameEngine/Source/Common/Rva00DFF024RegistryLookup56.cpp (not merged yet)
+// tu-skeleton: 0x002D22CA 11B ??1Rva002D22CA@@UAE@XZ -- matched in Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/Rva00DFF024RegistryLookup56.cpp
+
+void *Rva00DFF024Registry::lookup56(int a, int b)
+{
+    if (b == -1) {
+        void *r = lookup(a, 5);
+        if (r)
+            return r;
+        return lookup(a, 6);
+    }
+    return lookup(a, b);
+}
+
+void *Rva00DFF024Registry::lookup34(int a, int b)
+{
+    if (b == -1) {
+        void *r = lookup(a, 3);
+        if (r)
+            return r;
+        return lookup(a, 4);
+    }
+    return lookup(a, b);
+}

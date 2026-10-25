@@ -20610,8 +20610,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002D22AC,30,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,C,C=0x002D225F..0x002D22CA,Code/GameEngine/Source/Common/Rva002D22CACtor.cpp
 0x002D22CA,11,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,C,C=0x002D225F..0x002D22D5,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp
 0x002D22D5,108,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,C,C=0x002D225F..0x002D2341,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp
-0x002D2341,48,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,C,C=0x002D225F..0x002D2371,Code/GameEngine/Source/Common/Rva00DFF024RegistryLookup56.cpp
-0x002D2371,48,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,C,C=0x002D225F..0x002D23A1,Code/GameEngine/Source/Common/Rva00DFF024RegistryLookup56.cpp
+0x002D2341,48,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,C,C=0x002D225F..0x002D2371,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp
+0x002D2371,48,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,C,C=0x002D225F..0x002D23A1,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp
 0x002D23A1,48,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,approved,Z,Z=Code/GameEngine/Source/Common/System/FunctionLexicon.cpp S=Code/GameEngine/Source/Common/System/FunctionLexicon.cpp N=Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp
 0x002D23D1,28,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,proposed,K,K=Rva002D22CA,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp
 0x002D23ED,106,code,Code/GameEngine/Source/Common/System/FunctionLexicon.cpp,proposed,K,K=Rva002D22CA,Code/GameEngine/Source/Common/Rva002D22CARegister.cpp
