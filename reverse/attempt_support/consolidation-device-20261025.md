@@ -350,3 +350,16 @@ fails byte verification, and Xfer hits duplicate `StringBase` template
 definitions; the other candidate rows are mixed or protected-register keyed.
 The final planner snapshot and queue show no other accepted in-prefix donors
 beyond work recorded above.
+
+Publication handoff: commit `150906143e` is locally verified and waiting in the
+runner's shared publish batch. The path audit covered both moves
+(`W3DSnowManager.cpp` to `W3DSnow.cpp`, and `W3DWaypointBufferDestructor.cpp`
+to `W3DWaypointBuffer.cpp`) and the outgoing ledger changes; the follow-up
+documentation commit adds no path changes. Keep these claims until landing:
+RVA `0x00762F44`; file claims for `W3DSnow.cpp`, `W3DSnowManager.cpp`,
+`W3DSnowManagerRender.cpp`, `W3DSnowManagerRenderSubBox.cpp`,
+`W3DSnowBlendPhase.cpp`, `Rva0009322DLightning.cpp`,
+`W3DSnowManager_reset.cpp`, `W3DSnowStateTransition.cpp`,
+`W3DWaypointBuffer.cpp`, `W3DWaypointBufferDestructor.cpp`,
+`W3DWaypointBufferDrawWaypoints.cpp`, and this handoff file. No claim was
+released for either verified merge because publication has not yet occurred.
