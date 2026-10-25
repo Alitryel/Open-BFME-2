@@ -11,7 +11,8 @@
 typedef int Int; typedef bool Bool;
 #define NULL 0
 #define BitTest(value,mask) (((value)&(mask))!=0)
-enum { WIN_STATUS_ABOVE=0x20, WIN_STATUS_BELOW=0x40, WIN_STATUS_HIDDEN=0x10, WIN_STATUS_ENABLED=8, WIN_STATUS_NO_INPUT=0x200 };
+enum { WIN_STATUS_ABOVE=0x20, WIN_STATUS_BELOW=0x40, WIN_STATUS_ENABLED=8, WIN_STATUS_NO_INPUT=0x200 };
+enum { WIN_STATUS_HIDDEN = 0x10 };
 struct CursorCoord { int x,y; };
 struct CursorRegion { CursorCoord lo,hi; };
 class Rva003141BCWindowView {
