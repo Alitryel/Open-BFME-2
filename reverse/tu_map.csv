@@ -4763,7 +4763,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000933AD,170,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WWMath/WWMath.cpp,Code/Libraries/Source/WWVegas/WWMath/WWMathO1Inlines.cpp
 0x00093457,176,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp,approved,C,C=0x0009322D..0x00093507,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093457Finish.cpp
 0x00093507,957,code-unledgered,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp,approved,C,C=0x0009322D..0x000938C4,
-0x000938C4,75,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp,approved,C,C=0x0009322D..0x0009390F,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowManager.cpp
+0x000938C4,75,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp,approved,C,C=0x0009322D..0x0009390F,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp
 0x0009390F,444,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowManager.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp
 0x00093ACB,116,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp N=Code/GameEngine/Source/GameClient/W3DSnowManager.cpp,Code/GameEngine/Source/GameClient/Rva00093ACBFinish.cpp
 0x00093B3F,28,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowManager.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowManager_reset.cpp
@@ -6608,7 +6608,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000DFCB6,23,code,,displaced,-,N=Code/Libraries/Source/WWVegas/WWMath/Coord3D.cpp,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp
 0x000DFCCD,8,code,,displaced,-,S=Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp N=Code/GameEngine/Source/GameLogic/AI/AIUpdateInterface.cpp,Code/GameEngine/Source/GameLogic/AI/AIFollowPathStateMethods.cpp
 0x000DFCD5,260,code-unledgered,,,-,,
-0x000DFDD9,88,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3dWaypointBuffer.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3dWaypointBuffer.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3dWaypointBuffer.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DWaypointBuffer.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DWaypointBufferDestructor.cpp
+0x000DFDD9,88,code,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3dWaypointBuffer.cpp,approved,Z,Z=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3dWaypointBuffer.cpp S=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3dWaypointBuffer.cpp N=Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DWaypointBuffer.cpp,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DWaypointBuffer.cpp
 0x000DFE31,588,code-unledgered,,,-,,
 0x000E007D,32,code,,,-,,Code/GameEngine/Source/Common/Rva000E007DEqual.cpp
 0x000E009D,7,code,,,-,,Code/GameEngine/Source/Common/Disp32DwordFieldGetters.cpp

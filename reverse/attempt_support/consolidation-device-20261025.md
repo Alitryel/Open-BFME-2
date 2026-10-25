@@ -281,3 +281,72 @@ open; no success receipt or pointer update was invented.
 (100.00%), LINKING 7,343,016 (97.74%), LINKED 7,598,950 (95.24%). All three deltas
 are zero. Linking figures remain the census dated 2026-10-25 09:42 at
 d2636bb381; no new census was run. Local receipt: `build/device-session-progress.txt`.
+
+## Follow-up pilot pass, 2026-10-25
+
+The scoped planner was regenerated and `name_lane.py consolidate --check
+build/consolidation` passed. `tu_skeleton.py --queue --under
+Code/GameEngineDevice/Source --limit 20` rebuilt its TU routing in memory; no
+regenerated map was committed.
+
+Two accepted, unchanged donor merges were verified:
+
+- `W3DSnowManager.cpp` was merged into `W3DSnow.cpp` (14 rows in the tool's
+  merge receipt; the destination build verified 15/15 matched rows). Four
+  path-keyed function rows and one TU-map entry were repointed. `build.sh`,
+  `find_declared_unmatched.py`, and `check_csv.py` passed. The source count fell
+  by one. The path audit found no active consumer requiring a manual change;
+  source discovery remains recursive and the original EA path provenance stays
+  in the ledgers.
+- `W3DWaypointBufferDestructor.cpp` was merged into `W3DWaypointBuffer.cpp`
+  (8 rows). `build.sh` verified 8/8; declaration and CSV checks passed. Eight
+  function rows and one TU-map entry were repointed. The donor became the
+  canonical TU file path, so this move did not change the source-file count.
+  `W3DWaypointBufferDrawWaypoints.cpp` remains untouched: the dry run rejected
+  it with C2143 syntax errors in the combined TU.
+
+Fresh rejected prerequisites, with no edits to those donors:
+
+- BibBuffer: destructor donor fails byte verification; allocator donor has
+  C2440 converting `BfmeDynamicNativeVB *` to `DX8VertexBufferClass *`; the
+  constructor hits MSVC C1001.
+- FlatHeightMap: the two in-prefix partial/frame donors fail C1001 and byte
+  verification. Its accepted external Common donors are outside this pilot.
+- TreeBuffer: the dry run accepted one in-prefix destructor together with
+  three Common donors outside this pilot. An accidental tool application
+  briefly staged that cross-prefix merge; it was fully restored before commit,
+  its 68 claims were released, and no TreeBuffer change remains. The reset
+  donor also fails on missing `Rva000E6AC0::rva000E65B1` and `m_dirty`.
+- Smudge: constructor needs `m_probeColor` (C2065), release has a pointer
+  conversion error (C2440), reacquire fails byte verification, and copyRect
+  hits C1001.
+- DisplayStringManager: accepted donors are outside this pilot; remaining
+  declarations fail on `rva00090381` and `m_14`.
+- ProjectileStreamDraw: the seed fails at `BfmeXfer.h(37)` with C2061 for
+  `Snapshot`; the in-scope mixed split trial could carve no row because the
+  definition did not spell its name.
+- Snow mixed split: carving `0x00093CC3` would leave matched row `0x00083BD4`
+  behind, so the split was refused.
+
+Previously recorded blockers for Shrub (HELD), Bridge, WaterTracks, Laser,
+GameFont, Ghost, TreeDraw, PropDraw, and BufferManager remain unchanged in the
+sections above. No identity debt retirement is claimed. Fresh planner/queue
+reports and these exact dry-run results are the evidence for the Sol follow-up.
+
+The staged path audit for `origin/master..HEAD` plus both staged moves found no
+active consumer requiring repair. The planner reports 1,025 source files after
+the pass, down from 1,026 at its start: Snow removed one source file and the
+waypoint donor was renamed to its canonical TU path without changing the
+count. Remaining mentions of the absorbed Snow
+source are `reverse/name_basis.csv` provenance, the historical
+`reverse/link_status.csv` receipt, and the retained source-origin comment in
+`W3DSnow.cpp`. The waypoint donor name remains in historical `reverse` attempt
+evidence and the related Common destructor comment. These were preserved as
+evidence/comments; active recursive source discovery and the build inputs use
+the consolidated files. The `Win32LocalFileSystem` dry run accepted only the
+Common family outside this pilot; its in-prefix wide file-list donor was
+rejected with C2511. Debris accepted no donors: its in-prefix React donor
+fails byte verification, and Xfer hits duplicate `StringBase` template
+definitions; the other candidate rows are mixed or protected-register keyed.
+The final planner snapshot and queue show no other accepted in-prefix donors
+beyond work recorded above.
