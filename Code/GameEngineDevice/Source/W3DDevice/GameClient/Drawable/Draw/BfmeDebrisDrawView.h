@@ -1,6 +1,6 @@
 #pragma once
 
-// Shared declaration for the rowed debris animation and transfer bodies.
+// Shared declaration for the rowed debris animation, transfer and transform bodies.
 // Field order and the second interface at +0x0C are the transfer donor's
 // existing BFME 2 view, backed by ctor 0x000B1C41 and dtor 0x000B1CE2.
 // Animation names and INITIAL/FLYING/FINAL come from setAnimNames' existing
@@ -36,16 +36,24 @@ class Object;
 class HAnimClass;
 class RenderObjClass;
 class Shadow;
-class ObjectModule {
+class Matrix3D;
+struct Coord3D;
+class Drawable {
 public:
-	ObjectModule(Thing *thing, const ModuleData *moduleData);
-	virtual ~ObjectModule();
+	const Matrix3D *getTransformMatrix() const;
+};
+// The transform donor uses DrawableModule: its drawable is at +0x08.
+class DrawableModule {
+public:
+	DrawableModule(Thing *thing, const ModuleData *moduleData);
+	virtual ~DrawableModule();
 	void xfer(Xfer *xfer);
 protected:
 	const ModuleData *m_moduleData;
-	Object *m_object;
+	Drawable *m_drawable;
+	Drawable *getDrawable() { return m_drawable; }
 };
-class DrawModule : public ObjectModule {
+class DrawModule : public DrawableModule {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
 protected:
@@ -59,6 +67,7 @@ public:
 class W3DDebrisDraw : public DrawModule, public DebrisDrawInterface {
 public:
 	W3DDebrisDraw(Thing *thing, const ModuleData *moduleData);
+	virtual void reactToTransformChange(const Matrix3D *oldMtx, const Coord3D *oldPos, float oldAngle);
 	virtual void setModelName(AsciiString name, Color color, ShadowType type);
 	virtual void setAnimNames(AsciiString initial, AsciiString flying, AsciiString final, const FXList *finalFX);
 protected:

@@ -68,3 +68,47 @@ handoff, plus RVAs 0x000B1DC3, 0x007614A1, 0x007614A9 and 0x007614B1 until
 publication is confirmed. The publisher may retain this batch; the inherited
 AptString split handoff lists its separate outstanding claims. Release file
 claims after landing and settle RVAs with claims.py release --landed.
+
+Follow-up: transform declaration reconciliation
+---------------------------------------------
+
+The separate follow-up removes ReactToTransformChange's unused legacy game
+headers and uses the same BfmeDebrisDrawView.h and existing bfme2renderobj shim.
+The former transfer-only ObjectModule stand-in becomes DrawableModule, matching
+the transform donor's actual drawable-bearing base: one vptr, module data at
++4 and drawable at +8. Its inline accessor and Drawable::getTransformMatrix
+signature come from the donor's existing declarations; the row's load at +8
+and the existing constructor/transfer layout retain target evidence. The
+transform override uses the same float type previously named Real. No body,
+layout offset, pin or ledger row changes. No canonical class is copied.
+
+./build.sh on all three sources preserves 10/10 rows; the standalone transform
+row is 35 bytes. All three objects' external code definitions, digests, sizes,
+COMDAT exclusivity and undefined references are identical to their before
+snapshot (sol-debris-react-objects-{before,after}.json). data_check reports zero
+findings; code_identity_gate.check reports ten rows and zero new problems in
+shadow; EH remains EXACT 2, no missing object. Frozen and class checks pass.
+The ordinary merge dry run now accepts all three sources with ten rows and
+no rejected donors. This demonstrates one additional compatible row, with
+no actual merge or recovered bytes. The protected donors and mixed module
+source remain prerequisites. Leave the compatible merge for Luna.
+
+Receipts: build/sol-debris-react-{before-build,build,final,data,eh,identity}.txt
+and the before/after object snapshots. The final trial object is checked
+against the exact union of the baseline providers and references. No changed
+binding or provider variant needs a separate consumer rebuild. The scoped
+planner is refreshed after the final trial, avoiding a temporary-source race.
+
+The complete outgoing batch still has no source moves/deletions; only the
+previous AptString prerequisite and the two debris declaration prerequisites.
+The source/header include audit finds no path consumer to repoint. Protected
+registers and tu_map.csv stay untouched. File reduction, identity keys retired
+and recovered bytes remain zero. Also retain the ReactToTransformChange file
+claim and RVA 0x000B1A14 until publication; release after landing.
+
+Final composed receipt: build/tu_skeleton/b7b211881b2e93ab.obj has exactly the
+baseline union of providers and references (sol-debris-react-composition-bindings.txt).
+The scoped Microsoft-header scan/queue refresh changes no register. It sees
+the existing placement-new configuration macro and unresolved legacy virtual
+include roots; it does not certify those headers' definitions. The ordinary
+compiler and byte gate resolve those roots through their supported mapping.
