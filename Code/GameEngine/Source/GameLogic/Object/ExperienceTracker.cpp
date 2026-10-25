@@ -101,6 +101,8 @@ struct ExperienceParent { unsigned char pad[0x5e7]; bool trainable; };
 // rowed rva0039B1F9 at 0x0039B1F9. Evidence: chain from just-landed 0xB1F9;
 // four callers pass [input+0xFC] with no extra args.
 
+class BfmeThingEFC;
+
 class BfmeThingEFC
 {
 public:
