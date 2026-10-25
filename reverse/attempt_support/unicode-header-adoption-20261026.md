@@ -44,6 +44,21 @@ ledger was changed; no verifier, pin or alias was adjusted to hide the failures.
 The AudioFileCache cleanup at 0x00760BC6 remains a future metadata-cleanup lead:
 its exact parent graph binds it to freeUnusedSamples at 0x000A81BE.
 
+Commit `92f1df9c15` passed the complete normal hook: 98,252 function rows,
+2,210 data rows, all reference checks and the no-op image check. The enforced
+converged-data audit also passed all 23,127 sources for its ten registered
+addresses. This is verification evidence, not a new link census.
+
+## Other string consumers
+
+- `OptionPreferences_getGameSpyIPAddress.cpp`: removed the unused private
+  BfmeStringData and wide StringBase/UnicodeString declarations and included
+  the registered UnicodeString header alongside AsciiString. The 194-byte
+  online-address body passes its normal byte/reference gate; its EH graph
+  is EXACT, the frozen-file check passes, and ordinary preview preserves
+  194 -> 194 authored bytes against the same index. The header lane accepts
+  and retires this source's one queue row.
+
 ## Reference freshness check
 
 Official BFME 1 `d80f952c24` was fetched and tested at unchanged BFME 2

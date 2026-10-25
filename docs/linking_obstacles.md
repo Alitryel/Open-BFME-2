@@ -247,6 +247,9 @@ authored-byte previews or commit-title gains into a projected headline.
   authored bytes. The header lane accepts and retires one queue row. This
   clears that adoption obstacle only; no new census or executable closure
   is claimed, and the broader provider family remains open.
+  The online-address preference consumer additionally adopts the shared
+  UnicodeString declaration: its 194-byte body and EH graph pass, ordinary
+  preview keeps 194 -> 194 bytes, and the header lane retires another row.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and
