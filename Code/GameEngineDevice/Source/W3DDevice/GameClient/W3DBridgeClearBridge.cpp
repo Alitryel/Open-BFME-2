@@ -78,7 +78,7 @@ private:
 	void *m_vertexBridge;
 	void *m_indexBridge;
 	int m_08;
-	Int m_curNumBridgeIndices;
+	Int m_c;
 	W3DBridge m_bridges[200];
 	Int m_numBridges;
 };
@@ -87,6 +87,6 @@ void W3DBridgeBuffer::clearAllBridges(void)
 {
 	for (Int i = 0; i < m_numBridges; ++i)
 		m_bridges[i].clearBridge();
-	m_curNumBridgeIndices = 0;
+	m_c = 0;
 	m_numBridges = 0;
 }

@@ -83,10 +83,23 @@ struct De5d2Mid
 	De5d2Inner *m_inner;
 };
 
-class MeshClass
+// Reference-count prefix used by the already verified bridge clear methods.
+class RefCountClass
 {
 public:
-	char _pad[0xC4];
+	virtual void Delete_This(void) = 0;
+	void Release_Ref(void)
+	{
+		if (--NumRefs == 0)
+			Delete_This();
+	}
+	int NumRefs;
+};
+
+class MeshClass : public RefCountClass
+{
+public:
+	char _pad[0xC4 - 8];
 	De5d2Mid *m_mid;
 };
 
@@ -132,13 +145,25 @@ private:
 private:
 	float m_scale;
 private:
-	char m_pad1C[0x6C - 0x1C];
+	char m_pad1C[0x38 - 0x1C];
+private:
+	MeshClass *m_leftMesh;
+private:
+	char m_pad3C[0x6C - 0x3C];
 private:
 	float m_minY;
 private:
 	float m_maxY;
 private:
-	unsigned char m_pad74[0x104 - 0x74];
+	unsigned char m_pad74[0x7C - 0x74];
+private:
+	MeshClass *m_sectionMesh;
+private:
+	unsigned char m_pad80[0xB8 - 0x80];
+private:
+	MeshClass *m_rightMesh;
+private:
+	unsigned char m_padBC[0x104 - 0xBC];
 public:
 	unsigned char m_visible;
 private:
