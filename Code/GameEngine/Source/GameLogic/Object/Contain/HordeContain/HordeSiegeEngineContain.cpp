@@ -40,7 +40,9 @@ class Object
 {
 public:
 	bool testStatus(ObjectStatusTypes) const;
-	unsigned char unknown00[0x274];
+	unsigned char unknown00[0x10C];
+	unsigned m_modelConditionFlags[19];	// +0x10C condition words (TransportContainRemovalFlags.cpp)
+	unsigned char m_pad158[0x274 - 0x158];
 	Object *m_containedBy274;
 };
 
@@ -57,8 +59,14 @@ protected:
 	unsigned char m_padding0C[0x100 - 0x0C];
 };
 
+// Virtuals below are the ones this unit's bodies call by qualified name; their
+// relative slot order is not asserted (no vtable is emitted from this view).
 class TransportContain : public OpenContain
 {
+public:
+	virtual void onContaining(Object *rider, bool wasSelected);
+	virtual bool slot38(Object *obj, int a, int b);
+
 private:
 	unsigned char m_padding100[0x11C - 0x100];
 };
@@ -68,6 +76,7 @@ class HordeTransportContain : public TransportContain
 public:
 	void rva00463A4D(ContainmentList riders, int arg);	// 0x00463A4D
 	void redeployOccupants();					// 0x00477513
+	virtual bool isValidContainerFor(Object *obj, bool a, bool b);	// 0x004771EB
 
 private:
 	unsigned char m_padding11C[0x128 - 0x11C];
