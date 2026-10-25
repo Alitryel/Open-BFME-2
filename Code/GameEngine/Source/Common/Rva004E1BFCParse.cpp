@@ -81,3 +81,24 @@ Rva004E1B00::~Rva004E1B00() {}
 const char *Rva004E1B00::GetSnapshotName() { return "MoveArmy"; }
 
 void Rva004E1B00::LoadPostProcess() {}
+
+// ?Rva004E1BFCParse@@YAXPAVINI@@PAX1PBX@Z
+void Rva004E1BFCParse(INI *ini, void *instance, void *, const void *)
+{
+	if (ini && instance)
+	{
+		Rva004E1B00 record;
+		ini->initFromINI(&record, g_00C61830);
+		((Rva00566537Owner *)instance)->append(*(const Rva0052BDE6 *)&record);
+	}
+	else
+	{
+		INIException e(3, "ParseMoveArmyBlockAndAddToLivingWorldCampaignAct::Invalid data passed in.");
+		_CxxThrowException(&e, &__identifier("_TI1?AVINIException@@"));
+		__assume(0);
+	}
+}
+
+// Native C6CD50 FieldParse registration uses the four-argument callback ABI.
+// Preserve the witnessed body and existing address binding; both trailing
+// parameters are unused. No function-pointer cast or alternate callee pin.

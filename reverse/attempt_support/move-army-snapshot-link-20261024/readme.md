@@ -103,3 +103,10 @@ the exact copy77 body and the final provider-consumer family link proof.
 The parser now forward-declares Xfer only; its unused Version definition and
 BfmeXfer dependency were removed without changing constructor17. The actual
 DoXfer TU retains its required Version definition.
+
+The real LoadPostProcess override is a complete C3 with no relocations; native
+C61DB4 slot1 points to B3FD0. Ordinary add_match --icf-owner admitted it against
+the adjacent Snapshot record and verified all owner bytes. The TU-ownership
+shadow A1 second-row diagnostic is the shared empty-code address classification,
+not a second physical body or an enforced refusal. No ownership/register rule
+is suppressed and this folded method claims zero new unique bytes.
