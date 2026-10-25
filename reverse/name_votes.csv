@@ -6153,3 +6153,4 @@ Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00664A
 Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|function|0x00664A70|Rva00664A70Handler,5f1dcb45e4676030ac3e1f11,gpt-6-astra,codexb2-20261025-063846-3,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|DelegateDesc|f,bbed1dd92e3fc0c4eee9cf0b,gpt-6-astra,codexb2-20261025-063846-4,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|MakeBinding|f,77b2b49069312e6238c483a9,gpt-6-astra,codexb2-20261025-063846-4,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/GameLogic/Object/SpecialPower/Rva00254D0BFree.cpp|function|0x00254D0B|rva00254D0B,f47e8d0299e78d1442d8a531,gpt-6-astra,codexb2-20261025-063846-5,w-d0bdfd8b17e9,2026-10-25
