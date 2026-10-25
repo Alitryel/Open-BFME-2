@@ -5,15 +5,22 @@
 // Layout from GameInfoGetSlotNum (pad 0x10 then inGame): two mov byte 0 + ret.
 
 typedef bool Bool;
+typedef int Int;
 
 class GameInfo
 {
 public:
 	void enterGame();
 	void endGame();
+	Bool isPlayerPreorder(Int index);
+	void markPlayerAsPreorder(Int index);
 
 private:
-	char m_pad[0x10];
+	// GameInfo.cpp's verified preorder methods use +0x08. Preserve the
+	// in-game flags at +0x10/+0x11 while making both views agree.
+	char m_pad[0x08];
+	Int m_preorderMask;
+	char m_pad0C[4];
 	Bool m_inGame;      // +0x10
 	Bool m_inProgress;  // +0x11
 };
