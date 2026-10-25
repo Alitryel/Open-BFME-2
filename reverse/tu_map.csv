@@ -33536,11 +33536,11 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00466D93,22,code-unledgered,,,-,,
 0x00466DBC,73,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp S=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainXfer.cpp
 0x00466E0A,8,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466DBC..0x00466E23,Code/GameEngine/Source/Common/VslotSmallBodiesAG.cpp
-0x00466E23,53,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466DBC..0x00466E58,Code/GameEngine/Source/GameLogic/Object/Contain/Rva00466E23Dtor.cpp
+0x00466E23,53,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466DBC..0x00466E58,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
 0x00466E58,12,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466DBC..0x00466E64,Code/GameEngine/Source/Common/VslotSmallBodiesAM.cpp
 0x00466E64,67,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeStringRecord00466E64.cpp,Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp
 0x00466EA7,27,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466E64..0x00466EC2,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_insert_unique_nocase.cpp
-0x00466EC2,28,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466E64..0x00466EDE,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-04-466E23.cpp
+0x00466EC2,28,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466E64..0x00466EDE,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
 0x00466EDE,258,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466E64..0x00466FE0,
 0x00466FE0,246,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00466E64..0x004670D6,
 0x004670D6,214,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp S=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain_createPayload.cpp
@@ -33555,19 +33555,19 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0046773E,37,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467763,Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_fill_n12.cpp
 0x00467763,45,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467799,Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp
 0x00467799,100,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x004677FD,Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp
-0x004677FD,34,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x0046781F,Code/Libraries/Source/WWVegas/WWLib/Rva004677FDCreateNode.cpp
+0x004677FD,34,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x0046781F,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
 0x0046781F,665,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467AB8,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnContaining.cpp
 0x00467AB8,726,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467D8E,
 0x00467D8E,37,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467DB3,Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp
 0x00467DB3,26,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467DCD,Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp
-0x00467DCD,25,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467E61,Code/GameEngine/Source/GameLogic/Object/Contain/Rva00467DCDDestroy.cpp
+0x00467DCD,25,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x0046760D..0x00467E61,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
 0x00467E61,128,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp S=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp
 0x00467EE1,69,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainPoolKey.cpp
 0x00467F26,6,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00467EE1..0x00467F2C,Code/GameEngine/Source/Common/ModuleNameGetters.cpp
 0x00467F2C,7,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00467EE1..0x00467F3B,Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp
 0x00467F3B,145,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp S=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp
 0x00467FCC,63,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00467F3B..0x0046800B,Code/GameEngine/Source/Common/RvaVectorDtorFamily.cpp
-0x0046800B,30,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00467F3B..0x00468029,Code/GameEngine/Source/GameLogic/Object/Contain/Rva0046800BClear.cpp
+0x0046800B,30,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00467F3B..0x00468029,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
 0x00468029,28,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,N,N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp
 0x00468045,517,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00468029..0x0046824A,
 0x0046824A,183,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00468029..0x00468301,Code/Libraries/Source/WWVegas/WWLib/StlportVectorInsertOverflowFamily.cpp
@@ -33579,7 +33579,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00468749,392,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00468559..0x004688D1,
 0x004688D1,55,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00468559..0x00468908,Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackFamily.cpp
 0x00468908,215,code-unledgered,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,C,C=0x00468559..0x004689DF,
-0x004689DF,27,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp S=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainModuleDataParse.cpp
+0x004689DF,27,code,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,approved,Z,Z=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp S=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp N=Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
 0x004689FA,10,code,,,-,,Code/GameEngine/Source/Common/R1SmallFieldInitialisersOs.cpp
 0x00468A1C,7,code,,,-,,Code/GameEngine/Source/Common/Disp8PtrChaseDwordGetters.cpp
 0x00468A23,7,code,,,-,,Code/GameEngine/Source/Common/Disp8PtrChaseDwordGetters.cpp
