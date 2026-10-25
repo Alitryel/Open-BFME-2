@@ -228,3 +228,52 @@ File reduction, retired identity keys and recovered retail bytes are each
 zero. Hold these file scopes and parent until publication is confirmed.
 
 Scoped Microsoft-header audit scanned the header and all three consumers: zero local Microsoft declarations or findings; no relevant queue rows to refresh.
+
+
+## TreeBuffer type-lookup prerequisite verified
+
+Target W3DTreeBuffer.cpp is allocated to this shard. Planner review retains
+GameClient/W3DTreeBuffer.cpp as the lookup's path alternative, while normal
+TU routing approves it; mixed/protected donors stay untouched. Claimed the
+seed, W3DTreeBufferRva000ECDF5.cpp and 0x000ECDF5. The original normal dry
+run accepts five files/22 rows. Moving the existing bfme2_ascii include path
+first clears StringBase redefinitions for five donors, but by itself adds
+no accepted rows (build/sol-b5-tree-include-after.txt). Their next failures
+are private declarations/member views, not additional duplicate templates.
+
+The lookup donor now uses the existing registered Rva000EC67F type record,
+its m_string4C/m_string50 fields, and the seed's m_typeCount/m_44556 names.
+The seed declares the two existing nonvirtual lookup/add-type signatures.
+The donor adds the seed's WWMath include directory for the canonical record's
+Coord2D include. No registered header, field offset, virtual slot, operation,
+name ownership or optimization flag changed. No donor-source naming inference
+was added. The new canonical include resolves beside both sources.
+
+Ordinary builds verify seed+lookup 18/18 rows (17+1), two literals and one
+empty-string reference. Frozen and class gates pass. EH: EXACT 2, no missing
+objects or exceptions. Before binding reports sum to 40 references (35
+owner/3 alias/2 EH); after the combined scan has the same counts, zero wrong.
+Code-identity/selected-definition checks show no findings before or after;
+data checks: zero findings, converged ten addresses with no second names
+or unjudged rows. Neither file has a relevant identity/data/header/SDK queue
+key, and no debt key was retired. The unchanged canonical header is not
+hand-edited. Receipts: build/sol-b5-tree-type-{before,after}-*.txt.
+
+Final normal merge dry run (build/sol-b5-tree-type-after.txt) accepts six
+files/23 rows, preserving the prior five-file set and adding the lookup.
+This is a demonstrated one-row unblock for Luna, not a merge or confirmed
+landing. Remaining toppling/reset/morph/add/xfer donors retain their view,
+base declaration, lifetime or protected-register blockers; EA327's prior
+array/codegen attempts were not repeated. Common donors are outside this
+seat's scope. The five include-blocked donors need those structural repairs
+before they count as accepted rows.
+
+Rebased the complete inherited range onto current origin/master. Incoming
+source changes did not touch either target or their donors. The outgoing
+range plus staged edit still has no path moves/deletions, so tools, hooks,
+workflows, includes, build inputs and registries need no repoint. Historical
+EA strings remain intact. The GameSlot header hook additionally reaches Eva.cpp
+through its dependency closure and verified 56/56 rows over all four sources;
+its direct includes remain the three Network sources documented above.
+File reduction: zero; identity debt retired: zero; recovered retail bytes:
+zero. Retain TreeBuffer seed/donor/RVA claims until confirmed publication.

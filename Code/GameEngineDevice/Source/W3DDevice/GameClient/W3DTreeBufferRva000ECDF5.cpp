@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // W3DTreeBuffer method at retail 0x000ECDF5 (309 bytes, ret 0xC, called from
 // addTree 0x000ECF79): finds or adds the tree type for a template's tree
 // draw module data and returns its index, or -2; a template without that
@@ -11,6 +11,7 @@
 // types are 0x5C bytes at +0x44558 (count +0x45C58), and the type-added flag
 // is +0x44556.
 #include "ascii_string.h"
+#include "W3DTreeTypeRecord.h"
 
 typedef int Int;
 
@@ -84,14 +85,6 @@ extern Debug *theDebug;
 bool bfmeRva000387C0();
 void _bfme_debugRecordCallsite(int kind);
 
-struct Rva000ECDF5TreeType
-{
-	unsigned char prefix[0x4c];
-	AsciiString m_modelName;
-	AsciiString m_nameC;
-	unsigned char suffix[0x5c - 0x54];
-};
-
 class W3DTreeBuffer
 {
 public:
@@ -101,10 +94,10 @@ public:
 
 private:
 	unsigned char prefix[0x44556];
-	bool m_needUpdate;
+	unsigned char m_44556;
 	unsigned char alignment[1];
-	Rva000ECDF5TreeType m_treeTypes[64];
-	Int m_numTreeTypes;
+	Rva000EC67F m_types[64];
+	Int m_typeCount;
 };
 
 Int W3DTreeBuffer::rva000ECDF5(const AsciiString &asciiString, Int shadowKind, const AsciiString &textureName)
@@ -129,9 +122,9 @@ Int W3DTreeBuffer::rva000ECDF5(const AsciiString &asciiString, Int shadowKind, c
 	}
 
 	Int index = -2;
-	for (Int i = 0; i < m_numTreeTypes; ++i) {
-		if (((const StringBase<char> &)m_treeTypes[i].m_modelName).compareNoCase(*(const StringBase<char> *)&data->m_modelName) == 0 &&
-			((const StringBase<char> &)m_treeTypes[i].m_nameC).compareNoCase(*(const StringBase<char> *)&data->m_nameC) == 0) {
+	for (Int i = 0; i < m_typeCount; ++i) {
+		if (((const StringBase<char> &)m_types[i].m_string4C).compareNoCase(*(const StringBase<char> *)&data->m_modelName) == 0 &&
+			((const StringBase<char> &)m_types[i].m_string50).compareNoCase(*(const StringBase<char> *)&data->m_nameC) == 0) {
 			index = i;
 			break;
 		}
@@ -139,7 +132,7 @@ Int W3DTreeBuffer::rva000ECDF5(const AsciiString &asciiString, Int shadowKind, c
 	if (index < 0) {
 		index = addTreeType(data->m_modelName, data->m_nameC, data, shadowKind, textureName, asciiString);
 		if (index >= 0)
-			m_needUpdate = true;
+			m_44556 = true;
 	}
 	return index;
 }
