@@ -180,3 +180,37 @@ consumer. The earlier pin-fold proof and header queue transfers remain the
 only active consumer fixes. No regenerated TU map or debt register is committed;
 map edits only repoint source columns. Historical names, attempts and EA paths
 remain intact. New destination receipts and normal gates verify the moved code.
+
+
+## AITNGuard and session handoff
+
+Fresh planning and in-memory routing approve 33 rows, six eligible files,
+eight mixed files and two protected refusals. All six donor frozen checks
+passed; the dry run found no verified merge of two or more donors and did not
+supply per-donor rejection details. No source edits or claims were made. The
+unchanged destination ordinary build passed 1/1 including string, float and
+import checks. See `guard-dryrun.txt` and the blocked attempt entry. Further
+work needs independently verified private-view/include/compiler prerequisites.
+
+Final audit base: origin ae10f71a0a767d8b7fe84b51612a99a1ba76d30d; own outgoing range starts after
+91fe9709390e5042aa9344a90a9cb10615c87d26. The final handoff adds no code path
+changes, so the eighteen-path compatibility classification above still applies.
+All five merged TUs passed ordinary byte and frozen-file checks; their normal
+commit gates passed EH and converged-data checks. The header queue repointing
+regression suites passed 97 tests with one pre-existing skip. Existing census
+and shadow identity/ownership findings do not establish new linked-byte credit.
+
+The five approved TUs remove fifteen files net and preserve thirty-five matched
+rows / 2,204 retail bytes. Authored C++ and byte-matched coverage do not grow.
+Blocked SidesList, GarrisonContain, SupplyWarehouseDockUpdate and AITNGuard
+trials are recorded; PoisonedBehavior was skipped on peer claims, and all its
+partial claims were released. No unverified source attempt is left in Code/.
+
+Publication was deferred by the runner's shared slot for the preceding commits.
+`pending-claims.json` records all 133 currently held keys, including
+57 file scopes, until publication is confirmed.
+If the final publisher also defers, the runner must publish this audited batch;
+then settle RVAs with `claims.py release --landed` and release the listed file
+scopes and unused donor RVAs. Raw `file/<hash>` entries are already canonical
+claim keys. Do not release another owner's successor lease. If publication
+succeeds in this session, the runner finish metadata records settlement.
