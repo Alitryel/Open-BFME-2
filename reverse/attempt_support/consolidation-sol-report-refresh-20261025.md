@@ -121,3 +121,32 @@ build/sol-laser-after-sdk.txt. The ready subset is left for Luna. No source
 paths move in this commit or its pending predecessors, so the combined audit
 again requires no path-consumer changes. File reduction and identity retirement
 remain zero for these prerequisite repairs.
+
+## Laser range include prerequisite cleared
+
+`RefCountPtrTextureDestroyRange.cpp` now resolves the existing BFME streak
+`ref_ptr.h` through its include directory, rather than a source-relative path
+that fails after placement beside W3DLaserDraw.cpp. It also uses the existing
+`__PLACEMENT_VEC_NEW_INLINE` integration setting beside the include: always.h
+owns array placement new/delete, while the module-data donor includes `<new>`.
+Keeping this setting in the source preserves it when the composer chooses
+another donor's compiler flags. No shared header or template layout changed.
+
+Acceptance: the complete 25-byte row at 0x000C99F9 is byte-exact under
+`./build.sh`, the frozen-file check passes, and the normal Laser dry run now
+accepts five files / six rows, retaining all four files / five rows accepted
+before this repair. Receipt: build/sol-laser-after-range-source-new.txt. Leave
+this expanded subset for the mechanical seat.
+
+The remaining Common Rva000C9A12VectorDtor.cpp rejection is independently
+reproduced as C1083: its source-relative `ref_ptr.h` path cannot resolve from the
+Laser destination directory. That source is outside this pool; no edit or claim
+was taken. Scratch reproducer: build/sol-laser-vector-diagnose.py. The normal
+trial reports only this clean donor rejected, as `no baseline match`.
+
+Batch consumer audit: the outgoing merge-base range b439739e42..274ecc6c41 plus
+this staged prerequisite contains no source moves or deletions, so tools,
+hooks, workflows, includes, build inputs and registries need no path repoints.
+The double-dot comparison against fetched origin/master (e9a1ead7b2) also shows
+an incoming-only handoff; it is not a deletion in this batch. Existing EA path
+strings remain intact. No files were removed and no identity debt was retired.
