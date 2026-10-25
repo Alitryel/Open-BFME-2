@@ -277,6 +277,20 @@ workflow, build, include, or registry consumer requiring a path edit. Mentions
 in `reverse/link_status.csv` and old-path comments are history/provenance. The
 current donor deletions and TU-map source repoints are staged with the merge;
 routing remains approved and unchanged.
+
+`ArmorUpgrade.cpp` accepted unchanged `ArmorUpgradeDtor.cpp` and
+`ArmorUpgradeConstructor.cpp` (three distinct rows). The TU build matched 3/3;
+`find_declared_unmatched.py`, CSV, staged data check, staged link new-variant
+check, TU ownership and header ordering passed. The upgrade implementation
+donor remains rejected with C2039 (`upgradeImplementation` missing from
+`ArmorUpgrade`) and C2065 (`m_object`); its mixed name getter and protected
+module-name-key donor were not split or changed. Across the complete pending
+path set, the active-consumer search found no tools, hooks, workflows, build,
+include or registry path dependency on the absorbed donor filenames. The old
+`ArmorUpgradeDtor.cpp` mention in `ArmorUpgradeXfer.cpp` is explanatory source
+provenance. No data-ledger or code-identity key was moved or retired. The
+planner snapshot used to choose this TU is now stale after the applied merge and
+must be regenerated before another planner decision.
   environment. It needs the owning canonical-header/declaration acceptance path.
 - BIG/Laser/Font: the header-audit/path-keyed prerequisites documented above are
   unchanged. Ghost's byte/vector-view blockers and Shadow's lack of a verified
