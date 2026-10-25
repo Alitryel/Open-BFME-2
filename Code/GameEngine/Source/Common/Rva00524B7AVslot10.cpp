@@ -81,14 +81,14 @@ void Rva00524B7A::update()
 		_ReadWriteBarrier();
 		int remain = (int)(total + (unsigned int)m_fadeStartTime);
 		remain = remain - (int)now;
-		unsigned int v;
+		unsigned int remainingTime;
 		if (remain > 0)
-			v = (unsigned int)remain;
+			remainingTime = (unsigned int)remain;
 		else
-			v = 0;
+			remainingTime = 0;
 		_ReadWriteBarrier();
-		v = v > total ? total : v;
-		unsigned int alpha = (v * 255u) / total;
+		remainingTime = remainingTime > total ? total : remainingTime;
+		unsigned int alpha = (remainingTime * 255u) / total;
 		unsigned char alphaByte = (unsigned char)alpha;
 		m_color = (int)(((unsigned int)alphaByte << 24) | 0xFFFFFF);
 	}
