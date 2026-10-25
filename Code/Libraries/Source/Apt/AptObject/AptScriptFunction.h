@@ -45,6 +45,7 @@ public:
     bool isArray() const;
     int toInteger() const;
     void toString(EAStringC &) const;
+    void rva006DE870(char *) const;
     AptArray *c_array() const;
     AptString *c_string() const;
     bool isUndefined() const;
