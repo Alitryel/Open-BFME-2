@@ -15352,7 +15352,7 @@ __heap_abort,,0x000398A0,80,Code/Libraries/Source/WWVegas/WWDebug/DebugHeapAbort
 ?bfmeUpdate@Gen009D6330@@QAEXPAXPBXI@Z,,0x0060D4FA,107,Code/Libraries/Source/xfer/xfer_crc.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??4Rva0014A470@@QAEAAV0@ABV0@@Z,,0x002FDAAE,150,Code/GameEngine/Source/Common/Rva0014A470Assign.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ?shutdown@Rva007D6B70@@QAEHXZ,,0x000F70EB,156,Code/GameEngine/Source/Common/Rva007D6B70FilterShutdown.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
-?clearBridge@W3DBridge@@QAEXXZ,,0x000DD816,76,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeClearBridge.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
+?clearBridge@W3DBridge@@QAEXXZ,,0x000DD816,76,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ?rva007AEC10@W3DProjectedShadow@@QAEXXZ,,0x001088F6,59,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowRva007AEC10.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??1W3DWaypointBuffer@@QAE@XZ,,0x000DFDD9,88,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DWaypointBufferDestructor.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ?getWidth@W3DDisplayString@@UAEHH@Z,,0x0010657E,91,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayString.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
@@ -35586,7 +35586,7 @@ _VP6_readTSC,,0x001B8E70,29,Code/Libraries/Source/VP6/CopyHelpers.cpp,matched,Cl
 ??0Rva006FC240@@QAE@XZ,,0x006FC240,134,Code/Libraries/Source/Apt/Rva006FC1D0Ctor.cpp,matched,Apt error ctor with two Error strings via MI bits base
 ?init@W3DBridge@@QAEXVVector3@@0VAsciiString@@@Z,,0x000DDB17,125,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeInit.cpp,matched,ZH donor W3DBridgeBuffer.h init Vector3 AsciiString by-value
 ?allocateBridgeBuffers@W3DBridgeBuffer@@QAEXXZ,,0x000DD8B8,144,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeAllocateBridgeBuffers.cpp,matched,BFME1 donor allocateBridgeBuffers VB 8004 IB 16004
-?clearAllBridges@W3DBridgeBuffer@@QAEXXZ,,0x000DD948,55,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeClearBridge.cpp,matched,retail stride 0x114 bridges at 0x10 counts cleared
+?clearAllBridges@W3DBridgeBuffer@@QAEXXZ,,0x000DD948,55,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer.cpp,matched,retail stride 0x114 bridges at 0x10 counts cleared
 ?rva000DD878@W3DBridgeBuffer@@QAEXH@Z,,0x000DD878,64,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeBuffer.cpp,matched,W3DBridgeBuffer method via neighbours and caller 0x000DF745
 ?rva0052A36A@Rva0052A36A@@QAEXPAUOut0052A36A@@@Z,,0x0052A36A,29,Code/GameEngine/Source/Common/Rva0052A36A.cpp,matched,leaf array fetch base plus idx times 20 float int to out
 ?Rva005DB335Get@@YAHH@Z,,0x005DB335,53,Code/GameEngine/Source/Common/Rva005DB335Get.cpp,matched,unlock free func 0-3 via global 0x00E05FB4 virtuals plus0x10 plus0x14
