@@ -60,6 +60,8 @@ public:
 
 class MapCache : public _STL::map<AsciiString, MapMetaData>
 {
+public:
+	AsciiString getMapExtension() const;
 };
 
 extern MapCache *TheMapCache;

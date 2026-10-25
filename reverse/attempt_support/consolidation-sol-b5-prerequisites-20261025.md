@@ -90,12 +90,42 @@ and LadderDefs are also already ready per the projectile handoff. NAT retains
 cross-family declaration dependencies. No claim or source change was made for
 these read-only plans.
 
-GameInfo normal dry run accepts seven files and 28 rows (including one Common
+GameInfo initial normal dry run accepted seven files and 28 rows (including one Common
 donor); no merge applied. Remaining rejects: GameSlotSetState lacks isAI and
 m_connectInfo in the chosen view; GetSlotNum differs in bytes; map-path donor
 has TheGameState declaration ordering; destructor expects m_C8. Mixed and
 protected donors remain. Receipt: build/sol-b5-gameinfo-before.txt. No source
-edit or claim for this read-only investigation.
+edit or claim for this initial read-only investigation.
+
+## GameInfo path prerequisite verified
+
+Claimed GameNetwork seed, Rva00621350GameInfoMapPath.cpp, its 0x00400898
+parent, and GameInfoSetMapSize.cpp. The Common portable-path donor stays
+untouched. A GameState forward declaration in the seed allows the earlier
+TheGameState pointer declaration while the combined view is emitted later.
+The GameNetwork GameState view also declares the Common donor's two already
+matched portable-path methods. MapCache's map-based view in SetMapSize now
+declares the existing getMapExtension method used by the path donor. These
+three declaration-only edits preserve layouts, flags, bodies and providers.
+
+The forward-only trial accepted 34 rows but displaced SetMapSize. Declaring
+both GameState path directions then exposed MapCache's missing inherited
+find/end interface in the selected view; the MapCache reconciliation above
+retains the map-based view and its extension method together. Final normal
+dry run accepts all eight files and 37 rows, keeping every file in the old
+28-row accepted set and adding the nine-row map-path donor. Receipt:
+build/sol-b5-gameinfo-allpath-final.txt. This is ready for Luna; no merge or
+downstream landing is claimed. SetState still needs isAI/m_connectInfo;
+GetSlotNum's current chosen view lacks its declaration; destructor needs the
+complete GameInfo lifetime/layout view. Mixed/protected rows stay in place.
+
+Ordinary builds verify seed plus map-path donor 19/19 rows and SetMapSize
+3/3 rows, including the original EH companions. Frozen-file checks pass
+(the seed retains its existing one unclaimed definition). EH: EXACT 1 for
+the map-path donor, EXACT 2 for SetMapSize, no exceptions/missing objects.
+No applicable identity/header/data-debt keys were found or retired. No file
+path changed; the outgoing compatibility audit still requires no repoints.
+Keep these three source file scopes and 0x00400898 until publication.
 
 ## Reference freshness and outgoing audit
 

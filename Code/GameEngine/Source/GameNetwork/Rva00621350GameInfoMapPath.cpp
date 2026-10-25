@@ -37,6 +37,8 @@ static inline void concatStringBase(AsciiString &asciiString, const AsciiString 
 class GameState
 {
 public:
+	AsciiString realMapPathToPortableMapPath(const AsciiString &in) const;
+	AsciiString packPortableMapPath(const AsciiString &in) const;
 	AsciiString unpackPortableMapPath(const AsciiString &path) const;
 	AsciiString portableMapPathToRealMapPath(const AsciiString &path) const;
 };

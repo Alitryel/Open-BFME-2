@@ -8,6 +8,8 @@
 
 class GameSlot;
 
+class GameState;
+
 class UnicodeString;
 
 struct GameSlotConnectInfo;
