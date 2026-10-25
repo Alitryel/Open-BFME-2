@@ -5738,12 +5738,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??0DX8VertexBufferClass@@QAE@IGW4UsageType@0@I@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??0WriteLock@BfmeSortingVBAccess@@QAE@PAU1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	??1WriteLock@BfmeSortingVBAccess@@QAE@XZ	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?BfmeCurrentCaps@@3PAEA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A	2
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A	2
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicVBInUse@@3PA_NA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?bfmeDynamicVBOffsets@@3PAGA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/camera_projection.cpp	?ProjectionDepthBias@DX8Wrapper@@1MA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8caps.cpp	?Is_Valid_Display_Format@BfmeEnumerationCaps@@QAE_NHHW4_D3DFORMAT@@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	??0BfmeSortingIBAccess@@QAE@GG@Z	1

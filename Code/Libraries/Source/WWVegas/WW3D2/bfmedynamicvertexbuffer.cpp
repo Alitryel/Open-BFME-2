@@ -39,7 +39,20 @@ struct BfmeDynamicCapsPrefix {
  unsigned char d3dCaps[304];
  bool supportTnL,supportDXTC,supportGamma,supportNPatches;
 };
-extern BfmeDynamicCapsPrefix *bfmeDynamicCaps;
+struct IDirect3DDevice8;
+class DX8Caps;
+class Vector3;
+class Vector4;
+struct DX8Wrapper {
+ __declspec(dllimport) __forceinline static IDirect3DDevice8 *Get_D3D_Device() { return D3DDevice; }
+ __declspec(dllimport) __forceinline static DX8Caps *Get_Current_Caps() { return CurrentCaps; }
+ static __declspec(dllimport) __forceinline unsigned int Convert_Color(const Vector3 &color, float alpha);
+ static __forceinline unsigned int Convert_Color(const Vector4 &color);
+protected:
+ static IDirect3DDevice8 *D3DDevice;
+ static DX8Caps *CurrentCaps;
+};
+#define bfmeDynamicCaps ((BfmeDynamicCapsPrefix *)DX8Wrapper::Get_Current_Caps())
 class BfmeDynamicVBRefCount {
 public:
  BfmeDynamicVBRefCount():references(1) {}
@@ -104,11 +117,14 @@ public:
 };
 typedef char BfmeDynamicVBBaseSize[(sizeof(BfmeDynamicVBBase)==28)?1:-1];
 typedef char BfmeDynamicNativeVBSize[(sizeof(BfmeDynamicNativeVB)==32)?1:-1];
-extern bool bfmeDynamicVBInUse[15];
+extern bool BfmeDynamicDX8VertexBufferInUse[15];
+#define bfmeDynamicVBInUse BfmeDynamicDX8VertexBufferInUse
 // The pool slot is owned by DynamicVBAccessClassDeinit.cpp; cast only the access view.
 class BfmeDynamicVB;
 extern BfmeDynamicVB *bfmeDynamicVBs[15];
-extern unsigned short bfmeDynamicVBSizes[15],bfmeDynamicVBOffsets[15];
+extern unsigned short bfmeDynamicVBSizes[15];
+extern unsigned short BfmeDynamicDX8VertexBufferOffset[15];
+#define bfmeDynamicVBOffsets BfmeDynamicDX8VertexBufferOffset
 // bfmeDynamicFVFs: matched references place it at VA 0xbd2f04 (retail .rdata contents).
 // Entry 10 is position, normal, diffuse and four texture coordinate sets, the
 // last three of them three-component (D3DFVF_TEXCOORDSIZE3(1..3)).
@@ -353,8 +369,7 @@ struct BfmeDynamicDevice9 {
     virtual HRESULT __stdcall CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer, HANDLE* pSharedHandle) = 0;
 };
 
-extern BfmeDynamicDevice9 *bfmeDynamicDevice;
-inline BfmeDynamicDevice9 *bfmeGetDynamicDevice() { return bfmeDynamicDevice; }
+inline BfmeDynamicDevice9 *bfmeGetDynamicDevice() { return (BfmeDynamicDevice9 *)DX8Wrapper::Get_D3D_Device(); }
 
 class WW3D { public:static void _Invalidate_Mesh_Cache(); };
 __declspec(noinline) void bfmeEvictManagedResources();
@@ -545,9 +560,7 @@ struct VertexFormatXYZNDUV1
 // the Vector3-plus-alpha form whose __asm body sets truncate rounding,
 // scales by 255 and shifts the four bytes together. Force-inline here so no
 // call survives: retail's Copy bodies inline it per vertex.
-struct DX8Wrapper
-{
-	static __declspec(dllimport) __forceinline unsigned int Convert_Color(const Vector3 &color, float alpha)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector3 &color, float alpha)
 	{
 		const float scale = 255.0;
 		// Retail zeroes this slot before the asm block writes it back, so the
@@ -611,11 +624,10 @@ struct DX8Wrapper
 		return col;
 	}
 
-	static __forceinline unsigned int Convert_Color(const Vector4 &color)
+	__forceinline unsigned int DX8Wrapper::Convert_Color(const Vector4 &color)
 	{
 		return Convert_Color(reinterpret_cast<const Vector3 &>(color), color[3]);
 	}
-};
 
 // upstream layout: dx8fvf.h VertexFormatXYZDUV1 (24 bytes).
 struct VertexFormatXYZDUV1
@@ -887,16 +899,7 @@ void WW3D::_Invalidate_Mesh_Cache()
   TheDX8MeshRenderer->Invalidate(false);
 }
 
-// ?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A: the global at this VA is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
-#pragma comment(linker, "/alternatename:?g_bfmeObjTDB@@3PAUBfmeObjTDB@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
-// ?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A: the global at this VA is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
-#pragma comment(linker, "/alternatename:?BfmeCurrentCaps@@3PAEA=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
-// ?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A: the global at VA 0xdeda34 is ?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A.
-#pragma comment(linker, "/alternatename:?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A=?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A")
-// ?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A: the global at VA 0xdeda7c is ?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A.
-#pragma comment(linker, "/alternatename:?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A=?CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A")
+
 
 // Callers elsewhere reach bodies in this unit through spellings pinned to the same
 // retail address (same cdecl/thiscall ABI); bind them here.
@@ -908,7 +911,4 @@ void WW3D::_Invalidate_Mesh_Cache()
 #pragma comment(linker, "/alternatename:??0WriteLock@BfmeSortingVBAccess@@QAE@PAU1@@Z=??0WriteLock@DynamicVBAccessClass@@QAE@PAV1@@Z")
 #pragma comment(linker, "/alternatename:??1WriteLock@BfmeSortingVBAccess@@QAE@XZ=??1WriteLock@DynamicVBAccessClass@@QAE@XZ")
 
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeDynamicVBInUse@@3PA_NA=?BfmeDynamicDX8VertexBufferInUse@@3PA_NA")
-#pragma comment(linker, "/alternatename:?bfmeDynamicVBOffsets@@3PAGA=?BfmeDynamicDX8VertexBufferOffset@@3PAGA")
+

@@ -1848,12 +1848,6 @@ Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	duplicate-def	_b
 Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	duplicate-def	_bfmeSortingVBInUse	0x009F2A88
 Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	duplicate-def	_bfmeSortingVBOffset	0x009F2A94
 Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	duplicate-def	_bfmeSortingVBSize	0x009F2A90
-Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	?bfmeDynamicCaps@@3PAUBfmeDynamicCapsPrefix@@A	0x009EDA7C
-Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	?bfmeDynamicDevice@@3PAUBfmeDynamicDevice9@@A	0x009EDA34
-Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	?bfmeDynamicFVFDescriptors@@3PAUBfmeFVFDescriptor@@A	0x009F2AA0
-Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	?bfmeDynamicVBInUse@@3PA_NA	0x009F29F0
-Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	?bfmeDynamicVBOffsets@@3PAGA	0x009F2A44
-Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	?bfmeDynamicVBs@@3PAPAVBfmeDynamicNativeVB@@A	0x009F2A04
 Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	__VertexBufferCount	0x009F2A40
 Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	__VertexBufferTotalSize	0x009F2A00
 Code/Libraries/Source/WWVegas/WW3D2/bfmedynamicvertexbuffer.cpp	wrong-name	__VertexBufferTotalVertices	0x009F2A84
