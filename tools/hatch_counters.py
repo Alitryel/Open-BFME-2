@@ -146,8 +146,8 @@ RESPELLABLE = frozenset(("alternatename", "present_unmatched", "selectany"))
 COMPILER_LABEL = re.compile(r"\$L\d+|_\$E\d+")
 
 SELECTANY = re.compile(r"__declspec\s*\(\s*selectany\s*\)")
-ALTNAME = re.compile(r"/alternatename:([^=\s\"]+)=([^\s\"]+)", re.IGNORECASE)
-PRAGMA_OPT = re.compile(r"^\s*#\s*pragma\s+optimize\s*\(([^)]*)\)")
+ALTNAME = re.compile(r"[/-]alternatename:([^=\s\"]+)=([^\s\"]+)", re.IGNORECASE)
+PRAGMA_OPT = re.compile(r"(?:^\s*#\s*pragma\s+|\b__pragma\s*\(\s*)optimize\s*\(([^)]*)\)")
 EMIT = re.compile(r"\b__emit\b")
 ADDR_GLOBAL = re.compile(r"(?<![A-Za-z0-9_])g_\w*?(?:Va|VA|Rva|RVA|DAT_?)[0-9A-Fa-f]{6,8}\w*")
 CLASS_ALLOW = re.compile(r"class-gate:\s*allow\s+(\S+)")
@@ -171,6 +171,15 @@ def relevant(path):
 def _strip_comment(line):
     i = line.find("//")
     return line if i < 0 else line[:i]
+
+
+def join_linker_literals(line):
+    """Apply C++ adjacent-string concatenation on pragma comment(linker) lines."""
+    if re.search(r"#\s*pragma\s+comment\s*\(\s*linker\b", line):
+        literal = r'"(?:\\.|[^"\\])*"'
+        line = re.sub(literal + r'(?:[ \t]*' + literal + r')+',
+                      lambda m: '"' + ''.join(s[1:-1] for s in re.findall(literal, m[0])) + '"', line)
+    return line
 
 
 def _db_bytes(arg):
@@ -207,11 +216,18 @@ def alias_of(cells):
     # (BfmeAptValue006DCD20::rva006DCF60), so binding one to another symbol stays a hatch.
     if COMPILER_LABEL.fullmatch(alias) or CLONE_LOCAL.sub("", alias) == CLONE_LOCAL.sub("", name):
         return None
-    return None if DUP_PLACEHOLDER.match(name) else alias
+    dup = DUP_PLACEHOLDER.fullmatch(name)
+    if dup:
+        try:
+            if int(dup[1], 16) == int(cells[2], 16):
+                return None
+        except (ValueError, IndexError):
+            pass
+    return alias
 
 
 CLONE_LOCAL = re.compile(r"\?A0x[0-9A-Fa-f]{8}")                       # build.CLONE_LOCAL_RE
-DUP_PLACEHOLDER = re.compile(r"^\?dup_[0-9A-Fa-f]{8}@@YAXXZ$")         # build.DUP_ALIAS_ANYCASE_RE
+DUP_PLACEHOLDER = re.compile(r"^\?dup_([0-9A-Fa-f]{8})@@YAXXZ$")       # build.DUP_ALIAS_ANYCASE_RE
 
 
 def scan(path, text):
@@ -243,14 +259,13 @@ def scan(path, text):
             out[("class_gate_allow", path, m.group(1))] += 1
         for m in PRESENT.finditer(line):
             out[("present_unmatched", path, m.group(1).lstrip("/?") or "?")] += 1
-        code = _strip_comment(line)
+        code = join_linker_literals(_strip_comment(line))
         if "__" in code or "#" in code or "/" in code:
             if SELECTANY.search(code):
                 out[("selectany", path, " ".join(code.split())[:160])] += 1
             for m in ALTNAME.finditer(code):
                 out[("alternatename", path, m.group(1))] += 1
-            m = PRAGMA_OPT.match(code)
-            if m:
+            for m in PRAGMA_OPT.finditer(code):
                 out[("pragma_optimize", path, "".join(m.group(1).split()))] += 1
             n = len(EMIT.findall(code))
             if n:

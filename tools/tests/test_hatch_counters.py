@@ -837,7 +837,7 @@ def test_alias_hatch_agrees_with_build_is_alias_row():
     import build
     for line in PARITY_ROWS + GEN_ROWS:
         cells = next(csv.reader([line]))
-        row = {"name": cells[0], "notes": cells[6]}
+        row = {"name": cells[0], "target_rva": cells[2], "notes": cells[6]}
         gen = line in GEN_ROWS
         assert gen == bool(build.GEN_PLACEHOLDER_RE.search(cells[0])), line
         assert (hc.alias_of(cells) is not None) == (gen or build.is_alias_row(row)), line

@@ -69,6 +69,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import build  # noqa: E402
 import link_census as census  # noqa: E402
 import pin_admission  # noqa: E402
+from hatch_counters import join_linker_literals  # noqa: E402
 
 OUT = ROOT / "build" / "allowed_symbols"
 TIERS = ROOT / "reverse" / "name_tiers.csv"
@@ -78,7 +79,7 @@ EXTERNAL, STATIC, WEAK_EXTERNAL = 2, 3, 105
 COMDAT, CODE = 0x1000, 0x20
 EH_PREFIX = ("__ehhandler$", "__unwindfunclet$", "__catch$", "__tryend$")
 WRONG = ("wrong", "interior", "unowned", "divergent")
-ALTERNATENAME = re.compile(r'/alternatename:([^=\s"]+)=([^\s"]+)', re.I)
+ALTERNATENAME = re.compile(r'[/-]alternatename:([^=\s"]+)=([^\s"]+)', re.I)
 
 
 # ---------------------------------------------------------------- COFF
@@ -719,8 +720,9 @@ def pragma_alternatenames(paths):
             text = (ROOT / p).read_text(encoding="utf-8", errors="replace")
         except OSError:
             continue
-        for m in ALTERNATENAME.finditer(text):
-            out.append((p, m.group(1), m.group(2)))
+        for line in text.splitlines():
+            for m in ALTERNATENAME.finditer(join_linker_literals(line)):
+                out.append((p, m.group(1), m.group(2)))
     return out
 
 

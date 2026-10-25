@@ -118,7 +118,7 @@ def added_alternatenames():
         if line.startswith("+++ "):
             path = line[6:] if line.startswith("+++ b/") else None
         elif line.startswith("+") and path:
-            for m in allowed.ALTERNATENAME.finditer(line):
+            for m in allowed.ALTERNATENAME.finditer(allowed.join_linker_literals(line[1:])):
                 out.append((path, m.group(1), m.group(2)))
     return out
 
