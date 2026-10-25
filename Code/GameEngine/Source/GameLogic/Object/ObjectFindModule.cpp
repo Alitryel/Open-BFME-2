@@ -61,7 +61,7 @@ protected:
 	Module *findModule(NameKeyType key) const;
 public:
 	void setArmorSetFlag(ArmorSetType ast);
-	void clearArmorSetFlag(ArmorSetType v);
+	void clearArmorSetFlag(ArmorSetType ast);
 	void setSelectable(bool selectable);
 };
 
@@ -101,9 +101,9 @@ void Object::setArmorSetFlag(ArmorSetType ast)
 // ?clearArmorSetFlag@Object@@QAEXW4ArmorSetType@@@Z, retail 0x0028B79C, 18 bytes.
 // Sibling of 0x0028B78A in the same TU: same body at +0x254, same int arg
 // shape, tail-jumps to slot 0x34. Callers pass 6/9 at 0x0049927D 0x004ADFD5.
-void Object::clearArmorSetFlag(ArmorSetType v)
+void Object::clearArmorSetFlag(ArmorSetType ast)
 {
 	BodyFwd *bodyFwd = m_body;
 	if (bodyFwd != 0)
-		bodyFwd->slot13(v);
+		bodyFwd->slot13(ast);
 }
