@@ -457,3 +457,16 @@ accepted none; `GameWindowManager_winFindImage.cpp` failed compilation with
 `C2039: 'winMakeColor' is not a member of 'GameWindowManager'` in the composed
 TU. No files were changed or claimed. Reconcile the declarations/header view in
 Sol's prerequisite lane before retrying; the other donor was not applied.
+
+## Additional dry-run blockers from this seat
+
+- `SwayClientUpdate_xfer.cpp` was rejected in the composed TU: `BfmeXfer.h`
+  reports `C2061: syntax error: identifier 'Snapshot'`. No donor was accepted;
+  its constructor and pool-key files remain refused by protected registers.
+- `Rva001DB66ADelete.cpp` was rejected into MetaEvent: `C2039: 'rva001DB66A'
+  is not a member of 'MetaMap'`, followed by `C2673` for that global function.
+  No donor was accepted; two other files remain refused by protected registers.
+- `Rva00356413Method.cpp` was rejected into LoadScreen: `C2143: syntax error:
+  missing ';' before '*'` and `C2501: 'TheWindowManager': missing
+  storage-class or type specifiers`. No source repair was attempted; the other
+  donor passed unchanged and was merged separately.
