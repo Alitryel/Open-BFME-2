@@ -101,3 +101,24 @@ writer generated the row under build/ and only that row replaced its former
 entry in the tracked queue; unrelated entries are unchanged. The new dry-run
 accepts udp.cpp plus this destructor (11 rows); all other UDP donors still
 fail on private member declarations or sendto C-linkage signatures.
+
+## Applied UDP merge and expanded batch audit
+
+After the separate destructor prerequisite, the normal merge tool absorbed it
+into udp.cpp. All 11 rows (738 retail bytes) pass the byte gate, 24 named import
+references, declared-unmatched and EH (zero missing objects). One source file
+was removed and one 69-byte row repointed. This brings the batch to four TUs,
+seven net files removed, 14 repointed rows (752 bytes), with 24 affected TU rows
+(1,421 bytes) verified. Existing UDP seed rows are not recovered bytes.
+
+The stale committed map still shows UDPDrain as proposed, but the current
+in-memory routing approved udp.cpp for every moved row. Only the source column
+was repointed; no map regeneration was committed. The refreshed SDK report now
+names udp.cpp with the same classification. Audited all four pending moves plus
+the SDK-report consumer: no active tool/hook/workflow/include/build input loads
+the deleted destructor path. Retained historical census and fragment provenance.
+The SDK index passes its owning `index --validate` check (223,085 names from
+954 headers). UDP's nonblocking and broadcast placeholder rows share addresses
+with existing real seed rows: they are existing alias cleanup, not missing-body
+regressions. Rejected scopes were released; accepted-row claims remain until
+publication, including any shared RVA also represented by a rejected alias.

@@ -15397,7 +15397,7 @@ __heap_abort,,0x000398A0,80,Code/Libraries/Source/WWVegas/WWDebug/DebugHeapAbort
 ??0LANPlayer@@QAE@ABV0@@Z,,0x0044A901,101,Code/GameEngine/Source/GameNetwork/LANPlayer_copy.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??0Anim2DTemplate@@QAE@VAsciiString@@@Z,,0x002D6CDE,101,Code/GameEngine/Source/GameClient/System/Anim2DTemplate.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??4Rva00630D60@@QAEAAV0@ABV0@@Z,,0x00381E9B,105,Code/GameEngine/Source/Common/Rva00630D60Assign.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
-??1UDP@@QAE@XZ,,0x00594918,69,Code/GameEngine/Source/GameNetwork/UDPDrainDestructor.cpp,matched,Zero Hour UDP::~UDP: if fd != INVALID_SOCKET shutdown then drain recvfrom then closesocket. BFME1 donor (/O1); deleted through it by Transport slot clear 004D5133 (004D5176) and the drain-slot clears 0059510D 0059534A
+??1UDP@@QAE@XZ,,0x00594918,69,Code/GameEngine/Source/GameNetwork/udp.cpp,matched,Zero Hour UDP::~UDP: if fd != INVALID_SOCKET shutdown then drain recvfrom then closesocket. BFME1 donor (/O1); deleted through it by Transport slot clear 004D5133 (004D5176) and the drain-slot clears 0059510D 0059534A
 ??1Rva001DB3E0List@@QAE@XZ,,0x004DE657,44,Code/GameEngine/Source/Common/Rva001DB3E0ListDestructor.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??0PlayerInfo@@QAE@XZ,,0x003822C4,118,Code/GameEngine/Source/Common/PlayerInfo.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??1Open2Dtor4793C0@@QAE@XZ,,0x002218D0,80,Code/GameEngine/Source/Common/Open2Destructors.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
