@@ -7727,8 +7727,8 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ?Has_Material_Data@MeshMatDescClass@@QAE_NH@Z,,0x00187FE0,37,Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadVertexMaterialIds.cpp,matched,Placed out-of-line copy of the co-lane TU inline Has_Material_Data via place_bodies. Material plus MaterialArray. Leaf.
 ?read_texture_stage@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z,,0x0018B080,247,Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadTextureStage.cpp,matched,BFME1 MeshModelVertexColors port of their 247B row at 0x0096ED60; same size. Bool direct returns with error var plus return-error idiom. PER_FACE is inline Seek-if-size-matches via Seek pin 0x6150C0. read_texture_ids via pin 0x189140. /O2 /G7 frameless no-EH.
 ?validate@ThingTemplate@@QAEXXZ,,0x0033B4CD,108,Code/GameEngine/Source/Common/Thing/ThingTemplateValidate.cpp,matched,BFME2 rewrite of ZH validate; shadow default via usePluralShadowName plus two wide-string fallbacks; all callees pre-resolved
-?scanReal@INI@@QAEMPBD@Z,,0x0002EDA5,107,Code/GameEngine/Source/Common/System/INI_scanReal.cpp,matched,
-?scanInt@INI@@QAEHPBD@Z,,0x0002ECCF,107,Code/GameEngine/Source/Common/System/INI_scanInt.cpp,matched,
+?scanReal@INI@@QAEMPBD@Z,,0x0002EDA5,107,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
+?scanInt@INI@@QAEHPBD@Z,,0x0002ECCF,107,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
 ?parsePrerequisiteScience@@YAXPAVINI@@PAX1PBX@Z,,0x0033EABD,93,Code/GameEngine/Source/Common/Thing/ThingTemplateParsePrerequisiteScience.cpp,matched,BFME1 thunk shape; getNextToken0 plus outlined science push_back; 4 pins same batch
 ?parsePrerequisiteUnit@@YAXPAVINI@@PAX1PBX@Z,,0x0033EA47,118,Code/GameEngine/Source/Common/Thing/ThingTemplateParsePrerequisiteUnit.cpp,matched,BFME1 unit-thunk shape; in-place AsciiString temp; addUnitPrereq pin same batch
 ?friend_parseRankDefinition@RankInfoStore@@SAXPAVINI@@@Z,,0x0020038E,269,Code/GameEngine/Source/GameLogic/System/RankInfoParse.cpp,matched,BFME1 RankInfoParse verbatim plus BFME2 scanInt TABLE literal and filler throws; late home via storedInfo copy (probe v8/v11: defining store pins early but copy sinks late)
@@ -7770,7 +7770,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ?usesSystemMapDir@OptionPreferences@@QAE_NXZ,,0x002E4653,92,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionPreferences_usesSystemMapDir.cpp,matched,ZH getter verbatim twin of saveCameraInReplays; UseSystemMapDir key; same plumbing
 ?allocate@?$allocator@UAngleFXInfo@@@_STL@@QBEPAUAngleFXInfo@@IPBX@Z,,0x006258E0,30,Code/GameEngine/Source/GameLogic/Object/Update/AngleFXInfoVectorInsertOverflow.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?rva000363102@LaserUpdate@@SA?AW4NameKeyType@@XZ,,0x00363102,69,Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdatePoolKey.cpp,matched,
-?scanBool@INI@@QAE_NPBD@Z,,0x0002D14A,101,Code/GameEngine/Source/Common/System/INI_scanBool.cpp,matched,
+?scanBool@INI@@QAE_NPBD@Z,,0x0002D14A,101,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
 ?getModuleNameKey@GiantBirdAIUpdate@@UBE?AW4NameKeyType@@XZ,,0x0036B89B,69,Code/GameEngine/Source/GameLogic/Object/Update/GiantBirdAIUpdatePoolKey.cpp,matched,cached pool-name key; pool string GiantBirdAIUpdate; /O1 static-guard EH; nameToKey row
 ?rva000373CCA@StealthUpdate@@SA?AW4NameKeyType@@XZ,,0x00373CCA,69,Code/GameEngine/Source/GameLogic/Object/Update/StealthUpdatePoolKey.cpp,matched,cached pool-name key; pool string StealthUpdate; /O1 static-guard EH; nameToKey row
 ?getModuleNameKey@FadeAndDieOrnamentUpdate@@UBE?AW4NameKeyType@@XZ,,0x003A4358,69,Code/GameEngine/Source/GameLogic/Object/Update/FadeAndDieOrnamentUpdatePoolKey.cpp,matched,cached pool-name key; pool string FadeAndDieOrnamentUpdate; /O1 static-guard EH; nameToKey row
@@ -7898,7 +7898,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??$sort@PAUS4SortElem8@@US4Cmp00625BB0@@@_STL@@YAXPAUS4SortElem8@@0US4Cmp00625BB0@@@Z,,0x00626940,74,Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8.cpp,matched,BFME1 sort-driver depth shape; matched intro 0x626780 plus matched final 0x6266A0; no new pins
 ?getModuleNameKey@GateOpenAndCloseBehavior@@UBE?AW4NameKeyType@@XZ,,0x00498857,69,Code/GameEngine/Source/GameLogic/Object/Behavior/GateOpenAndCloseBehaviorPoolKey.cpp,matched,cached pool-name key; pool string GateOpenAndCloseBehavior; /O1 static-guard EH; nameToKey row
 ??$sort@PAUS4SortElem8@@US4Cmp00625C10@@@_STL@@YAXPAUS4SortElem8@@0US4Cmp00625C10@@@Z,,0x00626990,74,Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8_desc.cpp,matched,Descending twin; matched intro 0x626860 plus matched final 0x6266F0; no new pins
-?scanUnsignedInt@INI@@QAEIPBD@Z,,0x0002ED3A,107,Code/GameEngine/Source/Common/System/INI_scanUnsignedInt.cpp,matched,
+?scanUnsignedInt@INI@@QAEIPBD@Z,,0x0002ED3A,107,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
 ?getModuleNameKey@HordeAIUpdate@@UBE?AW4NameKeyType@@XZ,,0x0049A67C,69,Code/GameEngine/Source/GameLogic/Object/Update/HordeAIUpdatePoolKey.cpp,matched,cached pool-name key; pool string HordeAIUpdate; /O1 static-guard EH; nameToKey row
 ?dup_002EE10@INI@@QAEMPBD@Z,,0x0002EE10,18,Code/GameEngine/Source/Common/System/INI_dup002EE10.cpp,matched,
 ??$__pop_heap_aux@PAUS4SortElem8@@U1@US4Cmp00625BB0@@@_STL@@YAXPAUS4SortElem8@@00US4Cmp00625BB0@@@Z,,0x00626010,57,Code/Libraries/Source/WWVegas/WWLib/stlport_pop_heap_aux_s4sortelem8.cpp,matched,
@@ -7923,22 +7923,22 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ?parseAngleReal@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F0D5,34,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
 ?dup_002F0F7@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F0F7,39,Code/GameEngine/Source/Common/System/INI_dup002F0F7.cpp,matched,
 ?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F11E,60,Code/GameEngine/Source/Common/System/INI_parseAsciiString.cpp,matched,
-?getNextSubToken@INI@@QAEPBDPBD@Z,,0x0002E06B,94,Code/GameEngine/Source/Common/System/INI_getNextSubToken.cpp,matched,
+?getNextSubToken@INI@@QAEPBDPBD@Z,,0x0002E06B,94,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
 ?parseCoord3D@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F507,81,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
 ?parseCoord2D@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F558,58,Code/GameEngine/Source/Common/INI/INI.cpp,matched,
 ?DebugReAllocMemory@@YAPAXPAXI@Z,,0x0003E4B0,189,Code/Libraries/Source/debug/DebugReAllocMemory.cpp,matched,
 ?ProfileReAllocMemory@@YAPAXPAXI@Z,,0x006C54B0,186,Code/Libraries/Source/profile/profile.cpp,matched,
 ?parseRGBColor@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F259,165,Code/GameEngine/Source/Common/System/INI_parseRGBColor.cpp,matched,BFME1 parseRGBColor verbatim plus BFME2 filler-throw and reciprocal scale
-?parseRGBAColorInt@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F2FF,254,Code/GameEngine/Source/Common/System/INI_parseRGBAColorInt.cpp,matched,BFME1 parseRGBAColorInt verbatim plus BFME2 sepsColon member and filler-throws
-?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F3FE,264,Code/GameEngine/Source/Common/System/INI_parseColorInt.cpp,matched,BFME1 parseColorInt verbatim plus BFME2 sepsColon member filler-throws and Horner ARGB pack
+?parseRGBAColorInt@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F2FF,254,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parseRGBAColorInt verbatim plus BFME2 sepsColon member and filler-throws
+?parseColorInt@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F3FE,264,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parseColorInt verbatim plus BFME2 sepsColon member filler-throws and Horner ARGB pack
 ?Resize@?$VectorClass@UWeightInfoStruct@NamedPivotMapClass@@@@UAE_NHPBUWeightInfoStruct@NamedPivotMapClass@@@Z,,0x00197270,375,Code/Libraries/Source/WWVegas/WW3D2/hanim_weight_vector_resize.cpp,matched,
-?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z,,0x0002EB38,277,Code/GameEngine/Source/Common/System/INI_parseBitString32.cpp,matched,BFME1 parseBitString32 verbatim plus member scanIndexList and filler-throws
+?parseBitString32@INI@@SAXPAV1@PAX1PBX@Z,,0x0002EB38,277,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parseBitString32 verbatim plus member scanIndexList and filler-throws
 ?parseBitString8@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F1DC,62,Code/GameEngine/Source/Common/System/INI_parseBitString8.cpp,matched,BFME1 parseBitString8 via landed parseBitString32 plus throw-1
 ?parseBitString16@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F21A,63,Code/GameEngine/Source/Common/System/INI_parseBitString16.cpp,matched,BFME1 parseBitString16 verbatim via landed parseBitString32
 ?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z,,0x0002EC4E,32,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parseIndexList one-liner through member scanIndexList
 ?parseLookupList@INI@@SAXPAV1@PAX1PBX@Z,,0x0002ECAF,32,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parseLookupList one-liner through member scanLookupList
 ?parseBitInInt32@INI@@SAXPAV1@PAX1PBX@Z,,0x0002E86C,42,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parseBitInInt32 verbatim
-?parsePercentToReal@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F1BA,34,Code/GameEngine/Source/Common/System/INI_parsePercentToReal.cpp,matched,BFME1 parsePercentToReal via sepsPercent member and 0.01 helper
+?parsePercentToReal@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F1BA,34,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parsePercentToReal via sepsPercent member and 0.01 helper
 ?parseICoord2D@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F5BA,58,Code/GameEngine/Source/Common/INI/INI.cpp,matched,BFME1 parseICoord2D verbatim; XY literals folded with parseCoord2D
 ?getModuleNameKey@ObjectDefectionHelper@@UBE?AW4NameKeyType@@XZ,,0x0028C992,69,Code/GameEngine/Source/GameLogic/AI/ObjectDefectionHelperPoolKey.cpp,matched,cached pool-name key; pool string ObjectDefectionHelper; /O1 static-guard EH; nameToKey row
 ?scanLookupList@INI@@QAEHPBDPBULookupListRec@@@Z,,0x0002BD85,108,Code/GameEngine/Source/Common/System/INI_scanLookupList.cpp,matched,BFME1 scanLookupList as BFME2 member plus filler-throws
@@ -23618,7 +23618,7 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ??0Rva003AF34F@@QAE@ABV0@@Z,,0x003AF34F,77,Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleTemplateCopyCtors.cpp,matched,Particle-module template copy via rowed base 0x3AF50D plus rowed Cylindrical sub-copy 0x3A7501 at plus 0x18 plus dual vtable pairs
 ?Rva00028DC0FreeSized@@YAXPAXI@Z,,0x00028DC0,44,Code/GameEngine/Source/Common/BfmeSizedFreeRva.cpp,matched,sized free twin of bfmeFreePM; big 0x237A0 plus small 0x27B40 via pins; Rva owner
 ??0Rva003AF3F9@@QAE@ABV0@@Z,,0x003AF3F9,77,Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleTemplateCopyCtors.cpp,matched,Particle-module template copy via rowed base 0x3AF50D plus rowed Cylindrical sub-copy 0x3A7501 at plus 0x18 plus dual vtable pairs
-?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F196,36,Code/GameEngine/Source/Common/System/INI_parseAsciiStringVector.cpp,matched,shared vector parser via rowed erase 0x2CCFC plus append 0x2E896
+?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F196,36,Code/GameEngine/Source/Common/INI/INI.cpp,matched,shared vector parser via rowed erase 0x2CCFC plus append 0x2E896
 ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@ABU?$pair@$$CBHVMultiplayerColorDefinition@@@2@@Z,,0x00380EE6,34,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp,matched,STLport reference adaptation; caller 0x380F31 REL32 plus rowed pair _Construct 0x380E07 prove typed identity; strict exact C++
 ?parseFontDesc@GlobalLanguage@@SAXPAVINI@@PAX1PBX@Z,,0x0037691C,108,Code/GameEngine/Source/GameClient/GlobalLanguageParseFontDesc.cpp,matched,ZH font entry parser; quoted name plus int size plus bool bold; FontDesc 0 plus4 plus8
 ?parseQuotedAsciiString@INI@@SAXPAV1@PAX1PBX@Z,,0x0002F15A,60,Code/GameEngine/Source/Common/INI/INI.cpp,matched,ZH quoted-string parser via rowed 0x2E93F plus op 0x366F0
