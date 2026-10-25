@@ -102,6 +102,25 @@ class ComposeRegenerationTests(unittest.TestCase):
         self.assertEqual(kinds[2][0], "def")
 
 
+class IncludeOrderTests(unittest.TestCase):
+    def test_seed_includes_come_first_and_spellings_dedupe(self):
+        # the include-list rule lives inline in _merge; exercise it the way _merge does
+        texts = {"Code/Zed/Seed.cpp": "// cl: /MD /Ireference/shims/seed /Ireference/shims/common\n",
+                 "Code/Alpha/Donor.cpp": "// cl: /MD -Ireference/shims/common/ /Ireference/open-bfme-1/game/WWLib\n"}
+        good = sorted(texts)                       # alphabetical puts the donor first
+        tu = "Code/Zed/Seed.cpp"
+        incs, seen = [], set()
+        for f in ([tu] if tu in good else []) + [f for f in good if f != tu]:
+            for x in T.flags_of(texts[f]):
+                if x.lower().startswith(("/i", "-i")):
+                    d = x[2:].replace("\\", "/").rstrip("/")
+                    if d not in seen:
+                        seen.add(d)
+                        incs.append(x)
+        self.assertEqual(incs, ["/Ireference/shims/seed", "/Ireference/shims/common",
+                                "/Ireference/open-bfme-1/game/WWLib"])
+
+
 class ComposePreprocessorTests(unittest.TestCase):
     def test_conditionals_are_not_deduplicated_across_donors(self):
         texts = {"Seed.cpp": "#ifndef FALSE\n#define FALSE 0\n#endif\nint seed() { return 1; }\n",

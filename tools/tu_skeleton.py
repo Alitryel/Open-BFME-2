@@ -635,11 +635,16 @@ def _merge(tu, sk, don, report, dry_run, texts=None, applier=None):
                   and not v.fd.MANAGED.match(x.replace("/", "-", 1) if x.startswith("/") else x))
         weight[k] += len(base[f])
         cands.setdefault(k, None)
-    incs = []
-    for f in good:
+    # include directories: the seed's first (its shims must shadow a donor's), then
+    # each donor's in order, one spelling per directory (`/I` and `-I` are the same)
+    incs, seen_dirs = [], set()
+    for f in ([tu] if tu in good else []) + [f for f in good if f != tu]:
         for x in flags_of(texts[f]):
-            if x.lower().startswith(("/i", "-i")) and x not in incs:
-                incs.append(x)
+            if x.lower().startswith(("/i", "-i")):
+                d = x[2:].replace("\\", "/").rstrip("/")
+                if d not in seen_dirs:
+                    seen_dirs.add(d)
+                    incs.append(x)
     flag_sets = [list(k) + incs for k, _ in weight.most_common()]
 
     def attempt(files, flags):
@@ -676,19 +681,21 @@ def _merge(tu, sk, don, report, dry_run, texts=None, applier=None):
               sorted(good, key=lambda f: (-len(texts[f]), first[f]))]
     if tu in good:   # an existing file at the TU path is always the seed
         orders = [[tu] + [f for f in o if f != tu] for o in orders]
-    best = None
+    best, seed_error = None, None
     for flags in flag_sets[:3]:
         for o in orders:
             acc, rej = greedy(o, flags)
             score = sum(len(base[f]) for f in acc)
             if (tu in good and tu not in acc):
+                seed_error = seed_error or rej.get(tu) or "the seed does not verify under the merged flags"
                 continue
             if best is None or score > best[0]:
                 best = (score, acc, rej, flags)
     report["rejected"].update({f: "no baseline match" for f in don if f not in good})
     if not best or len(best[1]) < 2 and not (len(best[1]) == 1 and best[1][0] != tu):
         report["rejected"].update(best[2] if best else {})
-        report["blocked"] = "no verified merge of two or more donors"
+        report["blocked"] = "no verified merge of two or more donors" + \
+            (f"; the seed itself fails under every merged flag set: {seed_error[:300]}" if seed_error and not best else "")
         return report
     score, acc, rej, flags = best
     text = attempt(acc, flags)
