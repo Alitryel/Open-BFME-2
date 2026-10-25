@@ -40,3 +40,35 @@ Retain file:Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DL
 0x000C92A0 and 0x000C92E8 until this prerequisite is confirmed published. Then
 release the file scope and settle the RVAs (release --landed, explicit release
 for unchanged ledger rows if needed).
+
+## Font template declaration blocker cleared
+
+The normal Font trial reproduced the private SimpleDynVecClass primary-template
+collision against the seed's included Zero Hour simplevec.h (C2953/C2913).
+simpledynvec_uint_add.cpp now includes that existing header and defines the
+already-rowed unsigned Add as an explicit specialization. The target's +4/+8/+C
+field accesses, four-byte element and existing BfmePod4 Grow callee are unchanged.
+The small BfmePod4 specialization/friend remains the existing declaration, not a
+new pin or alias. No shared/reference header or protected register changed.
+
+`./build.sh simpledynvec_uint_add.cpp` preserves its one 51-byte row and
+`find_declared_unmatched.py` passes. The normal Font dry-run now accepts all
+three eligible files, six rows/227 retail bytes, with no rejected donors.
+Receipts: build/font-sol-before-dry.txt and build/font-sol-after-dry.txt.
+The Rva00090034SimpleVecDtors.cpp Microsoft-header queue entry still needs its
+owning refresh before that donor path can be deleted. This prerequisite is
+ready for the mechanical seat after that refresh; no merge was applied here.
+
+No pending source moves or path consumers were added by the Laser/Font batch.
+Retain file:Code/Libraries/Source/WWVegas/WWLib/simpledynvec_uint_add.cpp,
+file:Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp and
+0x0009014A until publication is confirmed; claims.py claimed the approved
+destination together with this donor/RVA. Release those scopes after landing.
+
+TreeDraw's unchanged trial still rejects ModuleNameKey because the seed lacks
+the virtual declaration. Retail table 0x00BCCCF8 places that method at slot 4;
+the seed constructor deliberately suppresses compiler vtables and explicitly
+stores its existing address global. A complete compatible DrawModule virtual
+prefix and constructor/vtable repair is still needed; a slot-0 virtual or a
+partial emitted table would not establish the retail ABI. No source attempt
+or new hatch was retained for that unchanged blocker.
