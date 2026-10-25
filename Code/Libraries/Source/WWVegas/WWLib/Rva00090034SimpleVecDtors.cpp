@@ -9,7 +9,7 @@
 // existing address-derived pin names instead of a SimpleVecClass<T> spelling.
 // Scalar deleting dtors at 0x000900AB / 0x000900C7 call these bodies.
 
-void __cdecl operator delete[](void *) throw();
+#include <new>
 
 class Rva0090034
 {

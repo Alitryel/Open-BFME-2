@@ -64,3 +64,37 @@ Luna can apply that six-donor merge through tu_skeleton. Mixed/protected donors
 remain outside that acceptance scope. This prerequisite commit removes no files
 and retires no identity debt. No source paths move in the outgoing batch, so the
 consumer audit requires no path updates.
+
+## Font SDK prerequisite cleared
+
+`Code/Libraries/Source/WWVegas/WWLib/Rva00090034SimpleVecDtors.cpp` now includes
+`<new>` instead of privately declaring array delete. Its four existing rows
+remain byte-exact, including both scalar deleting destructors; frozen-file
+checking passes. The current SDK scan reports no local declarations and no
+analysis error. `ms_header_audit.refresh_queue` removes precisely this source's
+obsolete operator-delete report row. No identity key is retired.
+
+This clears the dangling Microsoft-header report prerequisite recorded by the
+Device mechanical seat for this donor. The normal Font trial accepts the seed
+and both eligible donors, preserving six rows with no rejection. Receipt:
+build/sol-font-after-sdk.txt. This subset is ready for the mechanical seat.
+BIG's separate sprintf report on the Common init donor and Laser's game-free
+ABI report remain; the BIG declaration repair above does not clear that report.
+
+## BuddyThread composer false rejection
+
+The fresh Network planner succeeds after the compiler trial has ended. A normal
+BuddyThread trial accepts nothing. Composing the unchanged seed alone under
+all four strategies drops the semicolon after `static enum CallbackType`,
+yielding C2628/C2561 at callbackWrapper. The tracked declaration ends in `};`.
+This is another declaration-chunking reproducer for the existing tooling owner,
+not a source regression. No source was changed. Scratch receipts are
+build/sol-buddy-{first,union-first,union-longest,longest}.cpp. The false rejection
+is recorded at 0x00551FB3; its body and automatic file claim were released.
+
+The fresh Libraries plan/trial still accepts the previously repaired nine-file
+debug-exception subset; its one byte rejection is the unchanged Common record
+initializer outside this seat. That ready subset remains for the mechanical
+seat. No source paths move anywhere in this prerequisite batch; the combined
+outgoing and staged path audit needs no consumer updates. Inherited naming
+vote/agreement edits remain unstaged and untouched.
