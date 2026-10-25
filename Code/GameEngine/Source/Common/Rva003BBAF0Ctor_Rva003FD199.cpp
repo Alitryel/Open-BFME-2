@@ -6,7 +6,7 @@
 // This declaration view represents its vptr explicitly. Return-this precedes
 // the <1 clamp, just as in the former donor-guided initializer.
 
-extern "C" void *__identifier("??_7BfmeBaseVNH@@6B@");
+extern "C" const void *const __identifier("??_7BfmeBaseVNH@@6B@")[8] = { 0 };
 #define g_bfmeVtaVNE __identifier("??_7BfmeBaseVNH@@6B@")
 
 // Retail 0x003BB860 (31 bytes): the scaling as its own file static. The
@@ -29,7 +29,7 @@ public:
 // ??0BfmeBaseVNH@@QAE@ID@Z
 BfmeBaseVNH::BfmeBaseVNH(unsigned w, char f)
 {
-	m_bfme00 = &g_bfmeVtaVNE;
+	m_bfme00 = (void *)&g_bfmeVtaVNE;
 	m_bfme08 = f;
 	m_bfme04 = rva003BB860Scale(w);
 	if (m_bfme04 < 1)
