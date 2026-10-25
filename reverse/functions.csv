@@ -26576,7 +26576,7 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ?getFrameCommandList@FrameDataManager@@QAEPAVNetCommandList@@I@Z,,0x0058B6F5,32,Code/GameEngine/Source/Common/FrameDataManagerCounts.cpp,matched,BFME1 FrameDataManager getFrameCommandList donor plus FrameData getCommandList pin 0x0030F45F plus caller 0x004D007C
 ?doRetryMetrics@Connection@@IAEXXZ,,0x0058BA7B,44,Code/GameEngine/Source/GameNetwork/ConnectionRetryMetrics.cpp,matched,BFME1 Connection doRetryMetrics donor plus timeGetTime IAT plus 10s window plus caller 0x0058BC71
 ?resetFrame@FrameDataManager@@QAEXI_N@Z,,0x0058B715,54,Code/GameEngine/Source/Common/FrameDataManagerCounts.cpp,matched,BFME1 resetFrame donor calls init not reset plus m_isLocal plus caller 0x004D009D
-??0Connection@@QAE@XZ,,0x0058BDA0,90,Code/GameEngine/Source/GameNetwork/ConnectionCtor.cpp,matched,BFME1 Connection ctor donor plus 200 latencies plus caller 0x004D16DB
+??0Connection@@QAE@XZ,,0x0058BDA0,90,Code/GameEngine/Source/GameNetwork/Connection.cpp,matched,BFME1 Connection ctor donor plus 200 latencies plus caller 0x004D16DB
 ?rva0073A2A0@Gen_008F7CD0@@QAEXPAPAVBfmeCellFD@@0HHH@Z,,0x0073A2A0,135,Code/GameEngine/Source/Common/BfmeCellAt.cpp,matched,Gen008F7CD0 row-range sibling of bfmeAt same 0xA8 stride
 ??0Rva006D6360@@QAE@HH@Z,,0x006D6360,86,Code/Libraries/Source/Apt/Rva006D6360Ctor.cpp,matched,vtable 0x008EA228; base BfmeAptValue plus AptNativeHash at +8; 7 callers; EH state 0
 ??0Rva006D6470Owner@@QAE@HH@Z,,0x006D6410,43,Code/Libraries/Source/Apt/Rva006D6360Ctor.cpp,matched,vtable 0x008EA264; calls base 0x006D6360; m_bits at +0x1C; dtor row 0x006D6470

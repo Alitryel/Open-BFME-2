@@ -1380,8 +1380,7 @@ Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaign.cpp	drop
 Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogicSnapshotStreams.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator new:same
 Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldPlayerDtor.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memset:same
 Code/GameEngine/Source/GameNetwork/BFMEConnectionManager_sendCommands.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	timeGetTime:same
-Code/GameEngine/Source/GameNetwork/Connection.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	timeGetTime:same
-Code/GameEngine/Source/GameNetwork/ConnectionCtor.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<time.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	time_t:same
+Code/GameEngine/Source/GameNetwork/Connection.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	1	0	<windows.h>,<time.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	timeGetTime:same,time_t:same
 Code/GameEngine/Source/GameNetwork/ConnectionManagerParseUserList.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<stdlib.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	atoi:same
 Code/GameEngine/Source/GameNetwork/ConnectionManager_processAck.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/GameEngine/Source/GameNetwork/ConnectionManager_sendFile.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete [ ]:same

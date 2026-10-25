@@ -122,3 +122,21 @@ The SDK index passes its owning `index --validate` check (223,085 names from
 with existing real seed rows: they are existing alias cleanup, not missing-body
 regressions. Rejected scopes were released; accepted-row claims remain until
 publication, including any shared RVA also represented by a rejected alias.
+
+## Connection blocker cleared
+
+With the SDK audit invocation repaired locally, reran the current planner,
+plan and dry-run, then applied seed + ConnectionCtor through the normal merge
+tool. All three approved rows (123 bytes) match; named imports,
+declared-unmatched and EH pass with zero missing objects. Refreshed both prior
+queue entries into one owner-generated Connection.cpp row: two local SDK
+names are classified same, with the pre-existing collision advisory retained.
+The earlier reverted attempt above is history; its report-refresh prerequisite
+is now cleared. Net one source file removed, one 90-byte row repointed.
+
+The combined five-TU batch audit adds ConnectionCtor to the four earlier
+moves. Only the generated SDK queue required a current-path update; other
+mentions are provenance, historical census, or unrelated LivingWorld names.
+UDP's merge hook also reports two shadow identity findings for its retained
+htonl/htons import aliases (unreferenced directives). All 11 rows and 24 named
+imports pass; no new alias or baseline exemption was added.
