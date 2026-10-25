@@ -2260,3 +2260,6 @@ local,~Rva0055BCD2::b08,~Rva0055BCD2::categoryModuleInfo,inferred,agree:nl-4a687
 member,Rva002EBA88::m_0,Rva002EBA88::m_nodesPerBlock,inferred,agree:nl-fee9a234f9ab,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,
 member,Rva002EBA88::m_4,Rva002EBA88::m_blockList,inferred,agree:nl-057a037e532b,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,
 param,Rva002EBA88::rva002EBA88::a1,Rva002EBA88::rva002EBA88::nodesPerBlock,inferred,agree:nl-b2491028a20c,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
+class,Rva005E51D3Inner,VirtualBaseTable,inferred,agree:nl-dd4af533a996,Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp,
+carry,Rva005E51D3Inner::m_virtualBaseOffset,VirtualBaseTable::m_virtualBaseOffset,inferred,scope renamed by Rename Rva005E51D3Inner to VirtualBaseTable (inferred),Code/GameEngine/Source/Common/Rva005E51D3Wrap.cpp,
+class,Rva0055BCF1Src,ColorModuleTemplate,inferred,agree:nl-8533e9390172,Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0055BCF1ColorModuleCtor.cpp,

@@ -75,7 +75,7 @@ Rva003AC9AFModule *Rva003AC9AFTemplate::rva003AC9AF(unsigned int arg)
 	return new Rva003AC9AFModule(arg, *(Src0055F840 *)this);
 }
 
-struct Rva0055BCF1Src;
+struct ColorModuleTemplate;
 struct LifeInput413D;
 struct Rva003A59C3Src;
 
@@ -86,7 +86,7 @@ static int s_vtD03B_00, s_vtD03B_08, s_vtD03B_0C;
 class Rva0055BCF1
 {
 public:
-	Rva0055BCF1(unsigned int arg, const Rva0055BCF1Src *src);
+	Rva0055BCF1(unsigned int arg, const ColorModuleTemplate *src);
 protected:
 	const void *m_vtable00;
 	unsigned char m_pad04[4];
@@ -97,7 +97,7 @@ protected:
 class Rva003AC93EModule : public Rva0055BCF1
 {
 public:
-	__forceinline Rva003AC93EModule(unsigned int arg, const Rva0055BCF1Src *src)
+	__forceinline Rva003AC93EModule(unsigned int arg, const ColorModuleTemplate *src)
 		: Rva0055BCF1(arg, src)
 	{
 		m_vtable00 = &s_vt93E_00;
@@ -117,7 +117,7 @@ public:
 };
 Rva003AC93EModule *Rva003AC93ETemplate::rva003AC93E(unsigned int arg)
 {
-	return new Rva003AC93EModule(arg, (const Rva0055BCF1Src *)this);
+	return new Rva003AC93EModule(arg, (const ColorModuleTemplate *)this);
 }
 
 class Rva003AE0D5

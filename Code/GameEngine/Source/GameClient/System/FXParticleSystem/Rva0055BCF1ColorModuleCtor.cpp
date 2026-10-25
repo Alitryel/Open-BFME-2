@@ -1,6 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// ??0Rva0055BCF1@@QAE@IPBURva0055BCF1Src@@@Z, retail 0x0055BCF1 (504 bytes).
+// ??0Rva0055BCF1@@QAE@IPBUColorModuleTemplate@@@Z, retail 0x0055BCF1 (504 bytes).
 // FXParticleSystem colour module constructor, the colour sibling of the
 // rowed alpha module constructor 0x0055B52E. Sole caller 0x003AC96F (after a
 // 0xB0-byte allocation; the caller then stores its own primary vtable).
@@ -40,7 +40,7 @@ public:
 	float m_high;
 };
 
-struct Rva0055BCF1Src
+struct ColorModuleTemplate
 {
 	char m_pad00[0x20];
 	RGBColorKeyframe m_colorKey[8]; // +0x20
@@ -90,13 +90,13 @@ public:
 class Rva0055BCF1 : public Rva0055BCD2, public Rva0055BC8B
 {
 public:
-	Rva0055BCF1(unsigned int system, const Rva0055BCF1Src *src);
+	Rva0055BCF1(unsigned int system, const ColorModuleTemplate *src);
 	RGBColor m_color; // +0x94
 	RGBColor m_colorRate; // +0xA0
 	int m_colorTargetKey; // +0xAC
 };
 
-Rva0055BCF1::Rva0055BCF1(unsigned int system, const Rva0055BCF1Src *src)
+Rva0055BCF1::Rva0055BCF1(unsigned int system, const ColorModuleTemplate *src)
 	: Rva0055BCD2(system)
 {
 	for (int i = 0; i < 8; ++i)

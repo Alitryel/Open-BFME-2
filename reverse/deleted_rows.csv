@@ -2618,3 +2618,5 @@ _Rva00812DD0,0x0067ECD0,"Renamed to _CommTAPIConstruct by tools/rename.py (infer
 ?BfmeAnimationField8@@3QBDB,0x007CA4B0,"Renamed to ?g_fadeBeginFrameField@@3QBDB by tools/rename.py (inferred)"
 ?BfmeAnimationField9@@3QBDB,0x007CA4A0,"Renamed to ?g_fadeEndFrameField@@3QBDB by tools/rename.py (inferred)"
 ?BfmeAnimationField10@@3QBDB,0x007CA494,"Renamed to ?g_fadingInField@@3QBDB by tools/rename.py (inferred)"
+??0Rva0055BCF1@@QAE@IPBURva0055BCF1Src@@@Z,0x0055BCF1,"Renamed to ??0Rva0055BCF1@@QAE@IPBUColorModuleTemplate@@@Z by tools/rename.py (inferred)"
+__ehhandler$??0Rva0055BCF1@@QAE@IPBURva0055BCF1Src@@@Z,0x007997FA,"Renamed to __ehhandler$??0Rva0055BCF1@@QAE@IPBUColorModuleTemplate@@@Z by tools/rename.py (inferred)"

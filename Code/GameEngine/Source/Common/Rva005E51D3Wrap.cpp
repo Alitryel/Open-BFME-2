@@ -2,7 +2,7 @@
 // ?rva005E51D3@Rva005E51D3@@QAEXXZ @0x005E51D3 31B lea-call-push-call.
 // Same shape as twins 0x005E3E41/0x005E4389 but first is empty 0x00B3FD0.
 // Address-derived.
-class Rva005E51D3Inner
+class VirtualBaseTable
 {
 public:
 	int m_pad0;
@@ -30,8 +30,8 @@ public:
 void Rva005E51D3::rva005E51D3()
 {
 	unsigned char *th = (unsigned char *)this;
-	Rva005E51D3Inner **ppOuter = (Rva005E51D3Inner **)(th - 0x14);
-	Rva005E51D3Inner *pOuter = *ppOuter;
+	VirtualBaseTable **ppOuter = (VirtualBaseTable **)(th - 0x14);
+	VirtualBaseTable *pOuter = *ppOuter;
 	int inner4 = pOuter->m_virtualBaseOffset;
 	Rva000B3FD0Empty *pFirst = (Rva000B3FD0Empty *)(inner4 + (int)th - 0x14);
 	pFirst->rva000B3FD0Empty();
