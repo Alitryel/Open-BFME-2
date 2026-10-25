@@ -2048,3 +2048,11 @@ param,q4Notify002CC841::c,q4Notify002CC841::store,inferred,agree:nl-df658b0feb30
 param,Rva0028867DCaller::p,Rva0028867DCaller::level,inferred,agree:nl-d0504418acb3,Code/GameEngine/Source/Common/Rva0028867DCheck.cpp,
 param,vector::a,vector::alloc,inferred,agree:nl-ca2eaeb5d4e2,Code/GameEngine/Source/GameClient/DrawablePhysicsXformHugeFourLegs.cpp,
 member,Rva004A6EHolder::m_1c,Rva004A6EHolder::m_numberBoxes,inferred,agree:nl-33499af52d52,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,
+param,bfmeAnchorRva00332F81::p,bfmeAnchorRva00332F81::record,inferred,agree:nl-26c8b41dcaca,Code/GameEngine/Source/Common/Rva00332F5BCtor.cpp,
+param,Rva0053FE64Get::t0,Rva0053FE64Get::keyTime0,inferred,agree:nl-136900cfbdfa,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+param,Rva0053FE64Get::t1,Rva0053FE64Get::keyTime1,inferred,agree:nl-b0956e9c4153,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+param,Rva0053FE64Get::t2,Rva0053FE64Get::keyTime2,inferred,agree:nl-bc4bc1e95e46,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+param,Rva0053FE64Get::t3,Rva0053FE64Get::keyTime3,inferred,agree:nl-72f20fcd36d3,Code/GameEngine/Source/Common/Rva0053FE64.cpp,0x0053FE64
+param,NAT::gotTargetMangledPort::c,NAT::gotTargetMangledPort::mangledAddress,inferred,agree:nl-4b12c431c352,Code/GameEngine/Source/Common/Rva005A8666Box.cpp,0x005A86C0
+param,DelegateDesc#2::o,DelegateDesc#2::target,inferred,agree:nl-db4c62d279ec,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,
+param,LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer::a,LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer::playerName,inferred,agree:nl-102f86b88fb2,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp,0x003B8CE0

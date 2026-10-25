@@ -16,7 +16,7 @@ extern "C" __declspec(dllimport) int __cdecl _snprintf(char *, unsigned int, con
 class AptCommandTarget {};
 struct DelegateDesc {
  template<class T> DelegateDesc(T *o,void(T::*m)(const char*)) : object(o),method(reinterpret_cast<void(AptCommandTarget::*)(const char*)>(m)) {}
- template<class T> DelegateDesc(T *o,void(T::*m)(int,char*,bool)) : object(o),method(reinterpret_cast<void(AptCommandTarget::*)(const char*)>(m)) {}
+ template<class T> DelegateDesc(T *target,void(T::*m)(int,char*,bool)) : object(target),method(reinterpret_cast<void(AptCommandTarget::*)(const char*)>(m)) {}
  void *object; void(AptCommandTarget::*method)(const char*);
 };
 class Rva00579E47 {public:Rva00579E47(const DelegateDesc&);private:void *ptr;};

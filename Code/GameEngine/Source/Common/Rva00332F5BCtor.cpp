@@ -44,4 +44,4 @@ __declspec(noinline) inline bool Rva00332F5B::rva00332F81(const Rva00332F5B &oth
 }
 // Select-any: LuaScriptEngineParseModelConditionEvent.cpp compiles an identical copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorRva00332F81 absent-from-retail
-void bfmeAnchorRva00332F81(const Rva00332F5B *p) { p->rva00332F81(*p); }
+void bfmeAnchorRva00332F81(const Rva00332F5B *record) { record->rva00332F81(*record); }
