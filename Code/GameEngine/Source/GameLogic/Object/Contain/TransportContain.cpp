@@ -9,6 +9,9 @@
 #include "ascii_string.h"
 #include <string.h>
 #define CSLOT(n) virtual void cslot##n();
+#include <bitset>
+#include "Lib/Coord3D.h"
+#include "GameLogicObjectLookupView.h"
 
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
 
@@ -865,11 +868,92 @@ struct Rva004469D1Receiver
 	int m_288;
 };
 
-enum DisabledType { DISABLED_HELD = 3 };
-
 class Drawable;
 
 class AIUpdateInterface;
+
+class TransportContainPrimary
+{
+public:
+	V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08)
+	virtual void onCapture(int oldOwner, int newOwner);	// slot 9
+protected:
+	const void *m_moduleData;	// +0x04
+	Object *m_object;			// +0x08
+private:
+	unsigned char m_pad0C[0x20 - 0x0C];
+};
+
+class TransportContain : public TransportContainOpenBase, public TransportPayloadCreator
+{
+public:
+#define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
+	V(04) V(05) V(06) V(07) V(08)
+	virtual void onCapture(int oldOwner, int newOwner);	// slot 9, 0x004672B7
+	V10(1) V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
+#undef V10
+	virtual void createPayload();		// slot 29 (0x004670D6)
+	virtual void slot30();
+	virtual UpdateSleepTime update();
+	void UpdateUpgradeCreationTriggers();	// 0x00468045
+	virtual void rva004673C0();
+	virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int initial);	// 0x00466FE0
+private:
+	unsigned char m_pad100[0x108 - 0x100];
+	unsigned int m_payloadFrame;		// +0x108
+	bool m_hiddenState;					// +0x10C
+};
+
+namespace _STL 
+{
+ template<> _List_base<int,allocator<int> >::~_List_base();
+ // Preserve constant-folded bit tests without emitting an incompatible helper.
+ template <> __declspec(dllimport) __forceinline
+ unsigned long _Base_bitset<4>::_S_maskbit(unsigned int pos)
+ { return 1UL << (pos % 32); }
+ 
+}
+
+class Matrix3D;
+
+class Player;
+
+extern float BfmeClientFramesPerMillisecond;
+
+enum DisabledType { DISABLED_HELD = 3 };
+
+class Drawable 
+{
+ public:
+ int getPristineBonePositions(const char *,int,Coord3D *,Matrix3D *,int,int) const;
+ void rva00274445(float);
+ void fadeIn(unsigned);
+ 
+}
+;
+
+class Thing 
+{
+ public:
+ void convertBonePosToWorldPos(const Coord3D *,const Matrix3D *,Coord3D *,Matrix3D *) const;
+ void setPosition(const Coord3D *);
+ void setOrientation(float);
+ float getOrientation() const 
+ {
+  return *reinterpret_cast<const float *>(reinterpret_cast<const char *>(this)+0x44);
+  
+ }
+ 
+}
+;
+
+class AIUpdateInterface 
+{
+ public: void rva0026DE3B(int);
+ void rva00262FFF();
+ 
+}
+;
 
 class Object
 {
@@ -924,37 +1008,170 @@ public:
 	bool testStatus(ObjectStatusTypes status) const;
 };
 
-class TransportContainPrimary
+class Rva002716Holder 
 {
-public:
-	V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08)
-	virtual void onCapture(int oldOwner, int newOwner);	// slot 9
-protected:
-	const void *m_moduleData;	// +0x04
-	Object *m_object;			// +0x08
-private:
-	unsigned char m_pad0C[0x20 - 0x0C];
+ public: void Rva002716D3Broadcast(int);
+ 
+}
+;
+
+class Rva0055A88BDwordField 
+{
+ public: int get() const;
+ 
+}
+;
+
+class Rva2225E0Filter 
+{
+ public: bool accepts(Object *,Player *);
+ 
+}
+;
+
+class Rva00464B96 
+{
+ public: void rva00464B96(Object *);
+ 
+}
+;
+
+class OpenContain 
+{
+ public: virtual void onRemoving(Object *);
+ 
+}
+;
+
+template<int N> class Rva00467AB8Slots:public Rva00467AB8Slots<N-1> 
+{
+ public: virtual void gap(char (*)[N]);
+ 
+}
+;
+
+template<> class Rva00467AB8Slots<0> 
+{
+ 
+}
+;
+
+// Slot B0 returns sixteen bytes: retail462CE1 copies them through2CF108.
+// WB removeFromContain witnesses the101-bit status mask and test61.
+struct Rva00467AB8ModelFlags 
+{
+ _STL::bitset<101> bits;
+ 
+}
+;
+
+class Rva00467AB8First44:public Rva00467AB8Slots<44> 
+{
+ public: virtual Rva00467AB8ModelFlags flags(Object *);
+ 
+}
+;
+
+template<int N> class Rva00467AB8After45:public Rva00467AB8After45<N-1> 
+{
+ public: virtual void gap(char (*)[N+45]);
+ 
+}
+;
+
+template<> class Rva00467AB8After45<0>:public Rva00467AB8First44 
+{
+ 
+}
+;
+
+class Rva00467AB8First60:public Rva00467AB8After45<15> 
+{
+ public: virtual void refresh();
+ 
+}
+;
+
+template<int N> class Rva00467AB8After61:public Rva00467AB8After61<N-1> 
+{
+ public: virtual void gap(char (*)[N+61]);
+ 
+}
+;
+
+template<> class Rva00467AB8After61<0>:public Rva00467AB8First60 
+{
+ 
+}
+;
+
+class Rva00467AB8Provider:public Rva00467AB8Slots<67> 
+{
+ public: virtual void fill(_STL::list<int> *);
+ 
+}
+;
+
+struct Rva00467AB8Data
+{
+ char unknown00[0xA0];
+ AsciiString m_exitBone;
+ char unknownA4[0xAC-0xA4];
+ unsigned exitDelay;
+ char unknownB0[0x13F-0xB0];
+ bool m_orient;
+ bool m_attitude;
+ bool m_mood;
+ char unknown142[0x168-0x142];
+ Rva2225E0Filter m_filter;
+ char unknown169[0x16D-0x169];
+ bool m_fade;
+ char unknown16E[0x174-0x16E];
+ float m_fadeTime;
+ char unknown178[0x17C-0x178];
+ float m_drawableValue;
+ const AsciiString &exitBone() const { return m_exitBone; }
+ bool orient() const { return m_orient; }
+ bool attitude() const { return m_attitude; }
+ bool mood() const { return m_mood; }
+ bool fade() const { return m_fade; }
+ float fadeTime() const { return m_fadeTime; }
+ float drawableValue() const { return m_drawableValue; }
+ Rva2225E0Filter *filter() const { return const_cast<Rva2225E0Filter *>(&m_filter); }
 };
 
-class TransportContain : public TransportContainOpenBase, public TransportPayloadCreator
+class Rva00467AB8:public Rva00467AB8After61<8> 
 {
-public:
-#define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
-	V(04) V(05) V(06) V(07) V(08)
-	virtual void onCapture(int oldOwner, int newOwner);	// slot 9, 0x004672B7
-	V10(1) V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
-#undef V10
-	virtual void createPayload();		// slot 29 (0x004670D6)
-	virtual void slot30();
-	virtual UpdateSleepTime update();
-	void UpdateUpgradeCreationTriggers();	// 0x00468045
-	virtual void rva004673C0();
-	virtual Object *createPayloadMember(const ThingTemplate *what, PayloadContainView *contain, Object *parent, const char *name, int initial);	// 0x00466FE0
-private:
-	unsigned char m_pad100[0x108 - 0x100];
-	unsigned int m_payloadFrame;		// +0x108
-	bool m_hiddenState;					// +0x10C
-};
+ public:
+ virtual int count(int) const;
+ void onRemoving(Object *);
+ Rva00467AB8Data *data() const 
+ {
+  return *reinterpret_cast<Rva00467AB8Data *const *>(reinterpret_cast<const char *>(this)-0x1C);
+  
+ }
+ Object *object() const 
+ {
+  return *reinterpret_cast<Object *const *>(reinterpret_cast<const char *>(this)-0x18);
+  
+ }
+ private:
+ char unknown04[0xE0-4];
+ unsigned extraSlots;
+ unsigned exitFrame;
+ 
+}
+;
+
+// tu-skeleton: 0x00466DA9 19B ?isExitBusy@TransportContain@@UBE_NXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva00466D93ExitReserve.cpp (not merged yet)
+
+// tu-skeleton: 0x00466DBC 73B ?xfer@TransportContain@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E05 5B ?rva00466E05@Rva00466E05@@QAEXPAX@Z -- matched in Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp
+
+// TU Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 
 // tu-skeleton: 0x00466DA9 19B ?isExitBusy@TransportContain@@UBE_NXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva00466D93ExitReserve.cpp (not merged yet)
 
@@ -1644,6 +1861,168 @@ void TransportContain::onCapture(int oldOwner, int newOwner)
 // tu-skeleton: 0x0046781F 665B ?rva0046781F@Rva0046781F@@QAEXPAVObject@@_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnContaining.cpp (not merged yet)
 
 // tu-skeleton: 0x00467AB8 726B ?onRemoving@Rva00467AB8@@QAEXPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnRemoving.cpp (not merged yet)
+
+// tu-skeleton: 0x00467D8E 37B ?insert@?$list@PAVRva00467DB3Obj@@V?$allocator@PAVRva00467DB3Obj@@@_STL@@@_STL@@QAE?AU?$_List_iterator@PAVRva00467DB3Obj@@U?$_Nonconst_traits@PAVRva00467DB3Obj@@@_STL@@@2@U32@ABQAVRva00467DB3Obj@@@Z -- matched in Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp (not merged yet)
+
+// tu-skeleton: 0x00467DB3 26B ?push_back@?$list@PAVRva00467DB3Obj@@V?$allocator@PAVRva00467DB3Obj@@@_STL@@@_STL@@QAEXABQAVRva00467DB3Obj@@@Z -- matched in Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp (not merged yet)
+
+// tu-skeleton: 0x00467DE6 123B ?rva00467DE6@@YAXPAVINI@@PAX1PBX@Z -- matched in Code/GameEngine/Source/Common/Rva00467DE6PayloadParse.cpp (not merged yet)
+
+// tu-skeleton: 0x00467E61 128B ??1TransportContain@@UAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00467EE1 69B ?getModuleNameKey@TransportContain@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainPoolKey.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F26 6B ?name@TransportContain@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F2C 7B ?get@Rva00467F2CDwordField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/DispDwordFieldGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F33 8B ?onCapture@TransportContain@@WCA@AEXHH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00467F3B 145B ?killRidersWhoAreNotFreeToExit@TransportContain@@MAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// tu-skeleton: 0x00467FCC 63B ??1Rva00467FCC@@QAE@XZ -- matched in Code/GameEngine/Source/Common/RvaVectorDtorFamily.cpp (not merged yet)
+
+// tu-skeleton: 0x00468029 28B ??_GTransportContain@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00468045 517B ?UpdateUpgradeCreationTriggers@TransportContain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainUpdateUpgradeCreationTriggers.cpp (not merged yet)
+
+// tu-skeleton: 0x0046824A 183B ?_M_insert_overflow@?$vector@UBfmeStringRecord00466E64@@V?$allocator@UBfmeStringRecord00466E64@@@_STL@@@_STL@@IAEXPAUBfmeStringRecord00466E64@@ABU3@ABU__false_type@2@I_N@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlportVectorInsertOverflowFamily.cpp (not merged yet)
+
+// tu-skeleton: 0x00468301 468B ??0TransportContainModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainModuleDataCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x004684D5 28B ??_GTransportContainModuleData@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/ContainModuleDeletingDtors.cpp (not merged yet)
+
+// tu-skeleton: 0x004684F1 104B ??1TransportContainModuleData@@UAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainModuleDataDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00468559 254B ??0TransportContain@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00468657 242B ?rva00468657@Rva00468657@@QAEXPAVObject@@_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRva00468657.cpp (not merged yet)
+
+// tu-skeleton: 0x004688D1 55B ?push_back@?$vector@UBfmeStringRecord00466E64@@V?$allocator@UBfmeStringRecord00466E64@@@_STL@@@_STL@@QAEXABUBfmeStringRecord00466E64@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlportVectorPushBackFamily.cpp (not merged yet)
+
+// tu-skeleton: 0x00468908 215B ?Rva00468908Parse@@YAXPAVINI@@PAX1PBX@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva00468908Parse.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E12 17B ??0Rva00466E12@@QAE@XZ -- matched in Code/GameEngine/Source/Common/GapBodiesGE22.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E58 12B ?rva00466E58@Rva00466E58@@QBEEH@Z -- matched in Code/GameEngine/Source/Common/VslotSmallBodiesAM.cpp (not merged yet)
+
+// tu-skeleton: 0x00466E64 67B ??0BfmeStringRecord00466E64@@QAE@ABU0@@Z -- matched in Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp (not merged yet)
+
+// tu-skeleton: 0x00466EA7 27B ??0?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@QAE@ABU01@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_insert_unique_nocase.cpp (not merged yet)
+
+// tu-skeleton: 0x00466EDE 258B ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/slot38Rva00466EDEFarm.cpp (not merged yet)
+
+// tu-skeleton: 0x004670D6 214B ?createPayload@TransportContain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain_createPayload.cpp (not merged yet)
+
+// tu-skeleton: 0x004671AC 267B ?isSpecificRiderFreeToExit@TransportContain@@MAE_NPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// tu-skeleton: 0x0046731A 166B ?rva0046731A@Rva0046731A@@QAEXPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// tu-skeleton: 0x0046740C 344B ?rva0046740C@TransportContain@@MAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders_Rva0046740C.cpp (not merged yet)
+
+// tu-skeleton: 0x0046760D 222B ?letRidersUpgradeWeaponSet@TransportContain@@MAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainRiders.cpp (not merged yet)
+
+// tu-skeleton: 0x004676EB 45B ??$_Construct@UBfmeStringRecord00466E64@@U1@@_STL@@YAXPAUBfmeStringRecord00466E64@@ABU1@@Z -- matched in Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp (not merged yet)
+
+// tu-skeleton: 0x00467718 38B ??$__uninitialized_copy@PBUBfmeStringRecord00466E64@@PAU1@@_STL@@YAPAUBfmeStringRecord00466E64@@PBU1@0PAU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_copy.cpp (not merged yet)
+
+// tu-skeleton: 0x0046773E 37B ??$__uninitialized_fill_n@PAUBfmeStringRecord00466E64@@IU1@@_STL@@YAPAUBfmeStringRecord00466E64@@PAU1@IABU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_uninitialized_fill_n12.cpp (not merged yet)
+
+// tu-skeleton: 0x00467763 45B ?Rva00467763Construct@@YAXPAXPBX@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp (not merged yet)
+
+// tu-skeleton: 0x00467790 9B ??$_Destroy@VRva00466E23@@@_STL@@YAXPAVRva00466E23@@@Z -- matched in Code/GameEngine/Source/Common/DestroyInstances.cpp (not merged yet)
+
+// tu-skeleton: 0x00467799 100B ?rva00467799@Rva00467799@@QAEPAUBfmeStringRecord00466E64@@ABV?$StringBase@D@@@Z -- matched in Code/GameEngine/Source/Common/StringRecordCopyBFME2.cpp (not merged yet)
+
+// tu-skeleton: 0x0046781F 665B ?rva0046781F@Rva0046781F@@QAEXPAVObject@@_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnContaining.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnRemoving.cpp
+
+// ?onRemoving@Rva00467AB8@@QAEXPAVObject@@@Z, retail 0x00467AB8..0x00467D8E (726 B),
+// TransportContain::onRemoving by the WB twin 0x01159EA0, with its EH handler.
+// Module data fields are real members (the loop fadeIn reads m_fadeTime directly,
+// g*fadeTime as the WB twin), the scatter test is the plain owner-dead && !rider-dead
+// form, and clearCondition tests the condition dword and clears the byte (the same bit),
+// which drops rider's allocation priority below the bone-address CSE temporary so c2
+// splits rider (EDI early, EBX after the bone block) and the frame is 0x24, as retail.
+// Clean reference transfer: BFME1 9cbfb551fe20,
+// game/GameEngine/Source/GameLogic/Object/Contain/TransportContainOnRemoving.cpp.
+// WB01159EA0 names TransportContain::onRemoving. Native00467AB8..00467D8E
+// proves the secondary contain receiver, owner-18, data-1C, virtual calls,
+// exit placement, condition bits87..89, AI state and passenger fade.
+// Keep the admitted neutral binding until the complete class ABI is reconciled.
+// The local one-word STLport list is a pointer-payload ABI view through the
+// existing integer-list providers; its original element constness is unknown.
+
+void Rva00467AB8::onRemoving(Object *rider)
+
+{
+ reinterpret_cast<OpenContain *>(this)->OpenContain::onRemoving(rider);
+ rider->clearDisabled(DISABLED_HELD);
+ rider->clearCondition(89);
+ const Rva00467AB8Data *module=data();
+ Object *owner=object();
+
+ Drawable *ownerDrawable=owner->getDrawable();
+ if (!reinterpret_cast<const StringBase<char> &>((module->exitBone())).isEmpty()) 
+ {
+  Drawable *draw=object()->getDrawable();
+  if (draw) 
+  {
+   Coord3D bonePosition,worldPosition;
+   if (draw->getPristineBonePositions((module->exitBone()).str(),0,&bonePosition,0,1,0)==1) 
+   {
+    reinterpret_cast<Thing *>(object())->convertBonePosToWorldPos(&bonePosition,0,&worldPosition,0);
+    reinterpret_cast<Thing *>(rider)->setPosition(&worldPosition);
+    
+   }
+   
+  }
+  
+ }
+ if (module->orient()) reinterpret_cast<Thing *>(rider)->setOrientation(reinterpret_cast<Thing *>(object())->getOrientation());
+ extraSlots -= rider->getTransportSlotCount()-1;
+ if (count(0)==0) owner->clearCondition(87);
+ rider->clearCondition(88);
+ AIUpdateInterface *ai=rider->ai;
+ if (module->attitude() && ai) ai->rva0026DE3B(2);
+ if ((reinterpret_cast<const unsigned char *>(object())[0x438]&1) && !(reinterpret_cast<const unsigned char *>(rider)[0x438]&1))
+ reinterpret_cast<Rva00464B96 *>(reinterpret_cast<char *>(this)-0x20)->rva00464B96(rider);
+ if (module->mood() && ai) ai->rva00262FFF();
+ exitFrame=TheGameLogic->getFrame()+module->exitDelay;
+ Drawable *riderDrawable=rider->getDrawable();
+ if (!flags(0).bits.test(61) && ownerDrawable && riderDrawable) 
+ {
+  reinterpret_cast<Rva002716Holder *>(ownerDrawable)->Rva002716D3Broadcast(reinterpret_cast<Rva0055A88BDwordField *>(riderDrawable)->get());
+  riderDrawable->rva00274445(module->drawableValue());
+  
+ }
+ refresh();
+ if (module->fade() && riderDrawable && module->fadeTime()!=0.0f && module->filter()->accepts(rider,0)) 
+ {
+  const unsigned char *templateBytes=*reinterpret_cast<const unsigned char *const *>(reinterpret_cast<const char *>(rider)+4);
+  if ((templateBytes[0x115]&0x20) && rider->rva0028C197()) 
+  {
+   _STL::list<int> objects;
+   reinterpret_cast<Rva00467AB8Provider *>(rider->rva0028C197())->fill(&objects);
+   for (_STL::list<int>::iterator it=objects.begin();it._M_node!=objects.end()._M_node;++it) 
+   {
+    Object *o=reinterpret_cast<Object *>(*it);
+    if (o) 
+    {
+     Drawable *draw=o->getDrawable();
+     if (draw) draw->fadeIn(static_cast<unsigned>(BfmeClientFramesPerMillisecond*module->m_fadeTime));
+     
+    }
+    
+   }
+   
+  }
+  else riderDrawable->fadeIn(static_cast<unsigned>(BfmeClientFramesPerMillisecond*module->m_fadeTime));
+  
+ }
+ 
+}
 
 // tu-skeleton: 0x00467D8E 37B ?insert@?$list@PAVRva00467DB3Obj@@V?$allocator@PAVRva00467DB3Obj@@@_STL@@@_STL@@QAE?AU?$_List_iterator@PAVRva00467DB3Obj@@U?$_Nonconst_traits@PAVRva00467DB3Obj@@@_STL@@@2@U32@ABQAVRva00467DB3Obj@@@Z -- matched in Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp (not merged yet)
 
