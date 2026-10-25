@@ -9602,7 +9602,7 @@ _luaG_symbexec,,0x0074CEF0,437,Code/Libraries/Source/Lua/ldebug.c,matched,BFME1 
 ?get@Rva007E9240SubAccounts@@QAE_NPADH@Z,,0x00656230,104,Code/GameEngine/Source/GameNetwork/Rva007E90C0Names.cpp,matched,BFME1 donor b1 0x007E9240
 ?get@Rva007E91D0Names@@QAE_NPADH@Z,,0x00656120,104,Code/GameEngine/Source/GameNetwork/Rva007E90C0Names.cpp,matched,BFME1 donor b1 0x007E91D0; ICF-folds to twin at same address
 ?go@Rva00803620Host@@QAEXPAVRva00803620Getter@@@Z,,0x0066F660,172,Code/GameEngine/Source/GameNetwork/Rva00803620FeslAttrs.cpp,matched,BFME1 near-miss donor b1 0x00803620 immediate-only drift
-?copy@Rva005A4660@@QBEXPAI0@Z,,0x001EE035,27,Code/GameEngine/Source/Common/Bfme/Rva005A4660Copy.cpp,matched,BFME1 byte-identical donor; b1 0x005A4660; ICF-folded in BFME1 single pick; words at retail +0x4F0C/+0x4F10
+?copy@Rva005A4660@@QBEXPAI0@Z,,0x001EE035,27,Code/GameEngine/Source/GameClient/Input/Mouse.cpp,matched,BFME1 byte-identical donor; b1 0x005A4660; ICF-folded in BFME1 single pick; words at retail +0x4F0C/+0x4F10
 ?set@Gen_00727030@@QAEX_N@Z,,0x000729DA,17,Code/GameEngineDevice/Source/W3DDevice/GameClient/Gen_00727030_SetFlag.cpp,matched,BFME1 byte-identical donor; b1 0x00727030; ICF-folded in BFME1 so the name is this sweep single pick among twins
 ??$_Construct@U?$pair@$$CBW4NameKeyType@@VDamageFX@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBW4NameKeyType@@VDamageFX@@@0@ABU10@@Z,,0x00360917,34,Code/GameEngine/Source/Common/DamageFX_pairConstruct.cpp,matched,BFME1 near-miss donor b1 0x00066A40; immediate-only drift; pair payload 0x780 vs 0x400 so rep count 0x1E0 vs 0x100
 ?Rva006C1650@@YAXPAURva006C1650Interface@@HH@Z,,0x006C1650,20,Code/GameEngine/Source/Common/Rva14AA50VirtualDispatch.cpp,matched,Opaque slot-9 dispatch forwarder; BFME1 donor b1 0x0014AA50 folds 8 twins; address-derived name
@@ -40951,7 +40951,7 @@ rva007916E1_constructor_unwind,,0x007916E1,11,Code/GameEngine/Source/Common/INI/
 ?rva007B9A2D@@YAXXZ,,0x007B9A2D,10,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,
 ?rva007B9CA8@@YAXXZ,,0x007B9CA8,10,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,matched,
 ?readSlotBits@Rva00421A4B@@QBEII@Z,,0x00421A4B,12,Code/GameEngine/Source/Common/RvaSmallLeafTransfers.cpp,matched,BFME1 donor 5cc75ddda6455c338a5068307e587a793f96d6b3 Bfme5ClearsWithTails whole TU compiled with native settings; native separate 12-byte indexed slot reader between ret8 and next Ghidra function; address-qualified read-only bit view only; original vector identity and pointee/index types unknown; no pins
-?rva001EDDC6@Rva001EDDC6@@QAEXE@Z,,0x001EDDC6,57,Code/GameEngine/Source/Common/Rva001EDDC6Store.cpp,matched,caller 0x0051B48B plus prev next neighbours
+?rva001EDDC6@Rva001EDDC6@@QAEXE@Z,,0x001EDDC6,57,Code/GameEngine/Source/GameClient/Input/Mouse.cpp,matched,caller 0x0051B48B plus prev next neighbours
 ??1Rva005FE750@@UAE@XZ,,0x005FE750,87,Code/Libraries/Source/WWVegas/WWLib/Rva005FE750.cpp,matched,vtable plus StringBase plus Rva members plus wide vector dtor
 ??1Rva005FE7FA@@UAE@XZ,,0x005FE7FA,59,Code/Libraries/Source/WWVegas/WWLib/Rva005FE7FA.cpp,matched,derived vtable plus wide string plus base Rva005FE750 dtor
 ??_GRva005FE750@@UAEPAXI@Z,,0x005FE937,28,Code/Libraries/Source/WWVegas/WWLib/Rva005FE750.cpp,matched,deleting dtor from own dtor unit via base dtor plus delete
@@ -52750,7 +52750,7 @@ _Rva00850560,,0x000236F0,159,Code/Libraries/Source/WWVegas/WWLib/stlport_LocaleC
 ?rva0028F6BC@Rva0028F6BC@@QAE_NPBD@Z,,0x0028F6BC,47,Code/GameEngine/Source/Common/System/Rva0028F6BCBitSet.cpp,matched,sibling Rva0028F733 shape with BitFlags11 callee
 _Rva00814770,,0x00680670,1511,Code/Libraries/Source/DirtySock/Y4CommTickIdle.c,matched,bfme1 DirtySock small-unit exact placement; extent raised to cover the /GZ RTC frame-var descriptor (locals addr/addrlen named by retail's descriptor strings)
 ?rva003F8F94@PhaseSession@LivingWorldTutorial@@QAEXXZ,,0x003F8F94,30,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldTutorial.cpp,matched,PhaseSession method identity from caller and offsets from adjacent task creation
-?rva001EDE45@Rva001EDE45@@QAEPAXXZ,,0x001EDE45,7,Code/GameEngine/Source/GameClient/Rva001EDE45Getter.cpp,matched,abuts prev next honest address getter
+?rva001EDE45@Rva001EDE45@@QAEPAXXZ,,0x001EDE45,7,Code/GameEngine/Source/GameClient/Input/Mouse.cpp,matched,abuts prev next honest address getter
 ?Rva00301E7BNotEqual@@YAHABUBfmeKeySX@@0@Z,,0x00301E7B,21,Code/GameEngine/Source/Common/BfmeConv1814.cpp,matched,logical negation of rowed bfmeEqualSX plus caller
 ?rva0059AE94@Rva0059AE94@@QAE_NXZ,,0x0059AE94,40,Code/GameEngine/Source/Common/Rva0059ADB9.cpp,matched,byte flag plus float gate via rowed 0x0033A9E2 and 0x0041950A
 ?rva0059AEBC@LivingWorldAutoResolveUnit@@QAEMXZ,,0x0059AEBC,22,Code/GameEngine/Source/Common/Rva0059ADB9.cpp,matched,level via rowed 0x0033A65E into rowed 0x00418573
