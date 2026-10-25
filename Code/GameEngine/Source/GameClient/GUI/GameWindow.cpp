@@ -250,6 +250,7 @@ struct BfmeWindowFontLayout
 class Rva0031455E
 {
 public:
+    Rva0031455E();
     virtual ~Rva0031455E();
     virtual void Rva0031455ELink(Rva0031455E *arg);
     virtual void Rva00314581Unlink();
