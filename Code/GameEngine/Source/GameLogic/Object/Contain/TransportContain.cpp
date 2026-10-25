@@ -129,8 +129,10 @@ public:
 };
 
 // OpenContain's share of the object: the four interfaces above and its data
-// up to +0xFC (the members themselves are not recovered here).
-class OpenContain : public BehaviorModule, public BehaviorModuleInterface,
+// up to +0xFC (the members themselves are not recovered here). Named apart
+// from OpenContain: donors reach OpenContain's bodies through their own
+// qualified-call views of that class.
+class TransportContainOpenBase : public BehaviorModule, public BehaviorModuleInterface,
 	public TransportContainUpdate, public TransportConditionInterface
 {
 public:
@@ -863,6 +865,12 @@ struct Rva004469D1Receiver
 	int m_288;
 };
 
+enum DisabledType { DISABLED_HELD = 3 };
+
+class Drawable;
+
+class AIUpdateInterface;
+
 class Object
 {
 public:
@@ -892,6 +900,27 @@ public:
 public:
 	BodyModuleInterface *m_body;
 public:
+	AIUpdateInterface *ai;	// +0x258
+public:
+	bool clearDisabled(DisabledType);
+public:
+	int getTransportSlotCount();
+public:
+	void *rva0028C197() const;
+public:
+	Drawable *getDrawable() const;
+public:
+	// Tests the condition dword and clears the byte (the same bit), as the
+	// matched onRemoving 0x00467AB8 needs for its register allocation.
+	__forceinline void clearCondition(unsigned bit)
+	{
+		if (m_modelFlags.m_bits[bit / 32] & (1U << (bit % 32)))
+		{
+			reinterpret_cast<unsigned char *>(m_modelFlags.m_bits)[bit / 8] &= ~(1U << (bit % 8));
+			rva0028AE6D();
+		}
+	}
+public:
 	bool testStatus(ObjectStatusTypes status) const;
 };
 
@@ -907,7 +936,7 @@ private:
 	unsigned char m_pad0C[0x20 - 0x0C];
 };
 
-class TransportContain : public OpenContain, public TransportPayloadCreator
+class TransportContain : public TransportContainOpenBase, public TransportPayloadCreator
 {
 public:
 #define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
