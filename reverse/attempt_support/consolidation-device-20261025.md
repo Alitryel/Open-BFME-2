@@ -367,7 +367,8 @@ released for either verified merge because publication has not yet occurred.
 TreeBuffer follow-up in this seat: the current dry run and apply accepted the
 seed plus four in-scope donors, absorbing `Rva000EADA7Copy.cpp`,
 `Rva000EB08CCheck.cpp`, `Rva000EB3D1.cpp`, and `Rva000EDA94Dtor.cpp` into
-`W3DTreeBuffer.cpp` (16 rows; 13 function rows repointed). The final TU build
+`W3DTreeBuffer.cpp` (15 rows; 12 function rows repointed in this commit).
+The final TU build
 reported 17/17 matched rows, `find_declared_unmatched.py` passed, and
 `check_csv.py` passed. The planner's pre-merge source count was 1,025, so this
 merge removes four source files; it recovers no bytes.
@@ -407,3 +408,34 @@ historical `reverse` evidence. The moved sources had no code-identity or data
 baseline keys; the merge tool retained queue accounting and moved every
 accepted ledger source. The current TU passed its byte/declaration checks; no
 source provider or consumer binding was changed by the composition.
+
+ShrubBuffer follow-up in this seat: the tool accepted the seed and five in-scope
+ donors, absorbing `W3DShrubBufferRva000E7140.cpp`, `W3DShrubBufferRva000E75F5.cpp`,
+`W3DShrubBufferRva000E7A40.cpp`, `W3DShrubBufferRva000E912A.cpp`, and the Common
+`Rva000E73FCCopy.cpp` into `W3DShrubBuffer.cpp` (11 rows; 6 function rows
+repointed). The final TU build reported 11/11 matched rows, `find_declared_unmatched.py`
+passed, and `check_csv.py` passed. Five donor source files are removed; no bytes
+are recovered.
+
+Rejected ShrubBuffer donors remain for Sol, with the exact dry-run errors:
+
+- `W3DShrubBufferRva000E72B3.cpp`: C2039, `rva000E7140` is not a member of
+  `W3DShrubBuffer`; C2065, `m_count` undeclared.
+- `W3DShrubBufferUnitMoved.cpp` and `W3DShrubBufferUpdateTexture.cpp`: C2039,
+  `rva000E7A40` is not a member; the generated constructor then reports C2600.
+- `W3DShrubBuffer_loadShrubsInVertexAndIndexBuffers.cpp`: C2950,
+  `_STL::allocator<char>` cannot explicitly instantiate an explicit
+  specialization; the same missing-member error is also reported.
+- `W3DShrubBufferRemoveShrubsForConstruction.cpp`: C2084, placement array new
+  already has a body.
+- `W3DShrubBufferRva000E8365.cpp` remains refused because it is keyed in a
+  protected path-keyed register.
+- The other rejected candidates in the dry-run output remain untouched; no
+  declaration, signature, layout, linkage, or body repair was attempted.
+
+The path audit for the pending range and these moves searched active tools,
+hooks, workflows, includes, build inputs and registries. It found no active
+consumer requiring a manual change. The Common copy donor carried the shrub
+constructor row, so it was kept out of the preceding TreeBuffer commit and is
+included here with its matching TU ledger move. No identity or data debt was
+retired.
