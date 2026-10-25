@@ -20,51 +20,26 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 
-struct Elem36Block16
+// Same target-decoded record fields as the HTree seed. Let the normal
+// copy algorithm instantiate this assignment instead of redeclaring a
+// specialization after the seed has already instantiated it.
+struct BfmeCapturedBoneRotation
 {
-	float m_words[4];
+    float X, Y, Z, W; BfmeCapturedBoneRotation &operator=(const BfmeCapturedBoneRotation &q){X=q.X;Y=q.Y;Z=q.Z;W=q.W;return *this;}
 };
 
-struct Elem36Tail
+struct BfmeCapturedBoneTranslation
 {
-	Elem36Block16 m_block;
-	float m_word14;
-	float m_word18;
-	float m_word1C;
-
-	Elem36Tail &operator=(const Elem36Tail &other)
-	{
-		m_block.m_words[0] = other.m_block.m_words[0];
-		m_block.m_words[1] = other.m_block.m_words[1];
-		m_block.m_words[2] = other.m_block.m_words[2];
-		m_block.m_words[3] = other.m_block.m_words[3];
-		m_word14 = other.m_word14;
-		m_word18 = other.m_word18;
-		m_word1C = other.m_word1C;
-		return *this;
-	}
+    float X, Y, Z;
+    BfmeCapturedBoneTranslation() {}
+    BfmeCapturedBoneTranslation &operator=(const BfmeCapturedBoneTranslation &v){X=v.X;Y=v.Y;Z=v.Z;return *this;}
+    BfmeCapturedBoneTranslation(const BfmeCapturedBoneTranslation &v)
+        : X(v.X), Y(v.Y), Z(v.Z) {}
 };
 
-struct Rva00161050 { Rva00161050(const Rva00161050 &); };
+struct CapturedTransform{BfmeCapturedBoneRotation Rotation;BfmeCapturedBoneTranslation Translation;};
 
-struct Elem36
-{
-	int m_word00;
-	Elem36Tail m_tail;
-	bool m_flag20;
-
-	// The copy is the rowed ??0Rva00161050 (same 0x24-byte record), reached by a qualified call.
-	__declspec(dllimport) __forceinline Elem36(const Elem36 &other) { ((Rva00161050 *)this)->Rva00161050::Rva00161050(*(const Rva00161050 *)&other); }
-	Elem36 &operator=(const Elem36 &other)
-	{
-		m_word00 = other.m_word00;
-		m_tail = other.m_tail;
-		m_flag20 = other.m_flag20;
-		return *this;
-	}
-};
-// Bind to the kept retail copy instead of emitting this unit's own.
-namespace _STL { template <> Elem36 * __copy_backward<Elem36 *,Elem36 *,int>(Elem36 *,Elem36 *,Elem36 *,random_access_iterator_tag const &,int *); }
+struct Elem36{int Index;CapturedTransform Transform;bool WorldSpace;};
 
 typedef _STL::vector<Elem36, _STL::allocator<Elem36> > Elem36Vector;
 // _Construct<Elem36> is the pinned copy construct at 0x001610F0: declare it so this unit calls it
