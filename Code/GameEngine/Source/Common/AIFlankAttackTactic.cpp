@@ -29,14 +29,16 @@ public:
 
 private:
 	unsigned char m_pad[0x54];
-	Rva005AA55DData *m_data;
+	Rva005AA55DData *m_route;
 };
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline AIFlankAttackTactic::~AIFlankAttackTactic()
 {
-	Rva005AA55DData *data = m_data;
+	// The destination's existing +0x58 owner is m_route. Keep the destructor's
+	// observed two-word prefix view when composed with its vector owner.
+	Rva005AA55DData *data = reinterpret_cast<Rva005AA55DData *>(m_route);
 	if (data != 0) {
 		if (data->m_buf != 0)
 			free(data->m_buf);
