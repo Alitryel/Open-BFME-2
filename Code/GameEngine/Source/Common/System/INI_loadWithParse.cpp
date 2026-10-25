@@ -62,7 +62,7 @@ class INIException
 public:
 	INIException(int argCount, const char *format, ...);
 	char *mFailureMessage;
-	int m_argCount;
+	int mErrorCode;
 	INIException(const INIException &that);
 	~INIException();
 };
@@ -96,7 +96,7 @@ void INI::load(AsciiString filename, INILoadType loadType, Xfer *pXfer, INIBlock
 					{
 						const char *name = m_filename.str();
 						char *msg = iNIException.mFailureMessage;
-						int argCount = iNIException.m_argCount;
+						int argCount = iNIException.mErrorCode;
 						throw INIException(argCount, "%s\n\nError parsing INI block '%s' in file '%s'.",
 							msg, token, name);
 					}
@@ -117,7 +117,7 @@ void INI::load(AsciiString filename, INILoadType loadType, Xfer *pXfer, INIBlock
 	}
 	catch (INIException &iNIException)
 	{
-		throw INIException(iNIException.m_argCount, iNIException.mFailureMessage);
+		throw INIException(iNIException.mErrorCode, iNIException.mFailureMessage);
 	}
 	catch (...)
 	{
