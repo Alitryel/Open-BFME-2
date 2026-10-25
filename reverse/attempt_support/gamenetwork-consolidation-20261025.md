@@ -184,3 +184,54 @@ the owning SDK scan finds zero local Microsoft declarations, so no report row
 is added. This is a separate prerequisite for a further normal UDP merge, not
 new recovered bytes. There are no unpublished path changes at this prerequisite
 commit (origin/master..HEAD was empty after fetching).
+
+
+## Final UDP merge and session handoff
+
+After the constructor prerequisite, the normal tool merges it into udp.cpp.
+All twelve TU rows (773 bytes), 24 named imports, declared-unmatched, EH and
+ledger checks pass. The owner-generated SDK report was refreshed and is
+byte-for-byte identical to the tracked UDP row, so no queue edit is needed.
+Four other donors retain the already-recorded declaration conflicts. Their
+file scopes and nonshared RVAs are released; the nonblocking/broadcast shared
+RVAs stay held because the accepted seed owns real methods at those addresses.
+
+Final consolidation result: six retail TUs, fourteen absorbed source files,
+three new destination files, eleven net source files removed. Twenty existing
+matched rows (1,145 retail bytes) were repointed; all 33 affected TU rows
+(2,081 bytes) remain byte-exact. Two separately verified UDP declaration
+prerequisites were committed before their merges. No protected baseline or
+register admission was changed, and no regenerated TU map was committed.
+
+The final audit covers fe5ad4e7b3..96bcc89c86 plus this staged move, compared
+with freshly fetched upstream ae10f71a0a. It includes all pending path changes
+in origin/master..HEAD and the staged deletion. No active tool, hook, workflow,
+include or build input consumes Rva005948F5Ctor.cpp. Remaining old mentions are
+historical census, FirewallHelper's target-evidence comment and seed fragment
+provenance (including an inert old skeleton comment). The current functions
+ledger owns the constructor in udp.cpp; the map's pre-existing routing columns
+remain stale, and only the tool's source-column repoint is committed.
+
+The scoped final queue has eight remaining TUs, all previously investigated:
+FirewallHelper, DisconnectManager, GameResultsThread, NAT, UDP, GameInfo,
+PingThread and IPEnumeration. Their evidence and prerequisites are above;
+Connection and FrameDataManager have drained. IPEnumeration's Windows
+prototypes/member view and the in-scope isolated class declarations remain
+possible next prerequisites; out-of-scope STL/private-view repairs and the
+DisconnectManager selection issue need their owning seats. Do not repeat
+unchanged trial failures as a recovery pass.
+
+Required progress.py origin/master passed: BYTE-MATCHED 100%, GAME CODE C++
+100%, LINKING 97.74%, LINKED 95.24%, all deltas zero. Census receipt remains
+2026-10-25 09:42 at d2636bb381; this session claims file consolidation, not new
+recovered/linked bytes or an ownership measurement.
+
+The first seven commits are confirmed published through fe5ad4e7b3. The final
+constructor prerequisite (96bcc89c86) and this merge are verified local work
+for the runner's final batch if publish holds them. After that batch lands,
+release file:Code/GameEngine/Source/GameNetwork/udp.cpp and
+file:Code/GameEngine/Source/GameNetwork/Rva005948F5Ctor.cpp, run claims.py
+release --landed, and release any accepted seed claims still held. Accepted
+RVA claims retained for this unpublished merge:
+
+`0x005948F5` `0x00594918` `0x0059495D` `0x00594976` `0x005949AB` `0x00594A7C` `0x00594AA6` `0x00594AD0` `0x00594AFF` `0x00594B2E` `0x00594B56` `0x00594C7F`
