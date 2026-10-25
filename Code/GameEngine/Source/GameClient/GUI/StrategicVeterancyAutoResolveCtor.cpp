@@ -54,7 +54,7 @@ struct S4SortElem8B { void *first; const ThingTemplate *second; };
 struct BfmeE8 { int a, b; };
 class Rva005ECD8C { public: void rva005ECD8C(_STL::vector<S4SortElem8B> *,int); };
 class Rva002B2B66 {public: int rva002B2B66();};
-struct Record52 { char unknown[0x2c]; int selected2C; int player30; };
+struct Record52 { char unknown[0x2c]; int m_sideIndex; int player30; };
 struct Records52 { Record52 *first,*last; };
 class Rva004F92E3 { public: void rva004F92E3(void *); };
 class Rva005ECA91 { public: Rva005ECA91(); protected: virtual ~Rva005ECA91(); private: char observed04[24]; };
@@ -75,7 +75,7 @@ StrategicVeterancy::Data::AutoResolve::AutoResolve(void *a,void *b,void *c) {
  int index=0;
  Records52 *records=(Records52 *)c;
  for(Record52 *record=records->first;record!=records->last;++record) {
-  if(record->player30==player) { selected=record->selected2C;break; }
+  if(record->player30==player) { selected=record->m_sideIndex;break; }
   ++index;
  }
  _STL::vector<Rva004F77E0Element> units[2];

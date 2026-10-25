@@ -6188,3 +6188,8 @@ Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t0,1e0c64400a
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t1,72124ef1e7eb77df90342c17,gpt-6.1-sol,codex4-20261025-061940-7,w-887869184137,2026-10-25
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t2,c1bd09df46608b29c6e924a9,gpt-6.1-sol,codex4-20261025-061940-7,w-887869184137,2026-10-25
 Code/GameEngine/Source/Common/Rva0053FE64.cpp|param|Rva0053FE64Get|t3,075a31c6ec359b0a50bf9ea3,gpt-6.1-sol,codex4-20261025-061940-7,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/InGame/InGameNotificationBoxMovieClip.cpp|local|InGameNotificationBoxMovieClip::RenderMessage|w,dcd8f1bbb13ef324afeb624c,gpt-6.1-sol,codex4-20261025-061940-8,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/Rva005D9CE0.cpp|local|Rva005D9CD5::shouldActivate|v,03f5e265ae2773534aae3725,gpt-6.1-sol,codex4-20261025-061940-9,w-887869184137,2026-10-25
+Code/GameEngine/Source/Common/StrategicHUD_FormatCPString.cpp|local|StrategicHUD::FormatCPString|tmp,994990aac7ba2fd841131aca,gpt-6.1-sol,codex4-20261025-061940-10,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|member|Record52|selected2C,9d977bbc24b9866ee426e13a,gpt-6.1-sol,codex4-20261025-061940-10,w-887869184137,2026-10-25
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|param|StrategicVeterancy::Data::AutoResolve::AutoResolve|a,a3740c805f8308bd22b41058,gpt-6.1-sol,codex4-20261025-061940-10,w-887869184137,2026-10-25
