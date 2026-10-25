@@ -6094,3 +6094,10 @@ Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|class||Rva0010F5A8,3f51e369b
 Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|a,157c8d08c01df99a04dc099b,gpt-6-astra,codexb2-20261025-061132-8,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|class||Rva000E7140Record,162e66251199237eb3b84066,gpt-6-astra,codexb2-20261025-061132-9,w-d0bdfd8b17e9,2026-10-25
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E7140.cpp|function|0x000E7140|rva000E7140,7895009a304cde6346a6dfe5,gpt-6-astra,codexb2-20261025-061132-9,w-d0bdfd8b17e9,2026-10-25
+Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,f5369ff659f1c0e28a966fcb,gpt-6.1-sol,codex5-20261025-061412-1,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,01ccd16f3a018235b73be840,gpt-6.1-sol,codex5-20261025-061412-2,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|class||Rva005E6ED6Counted,e816f21f6efce46e821a736e,gpt-6.1-sol,codex5-20261025-061412-3,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|class||Rva005F4C8ERef,d226314faf88041689102532,gpt-6.1-sol,codex5-20261025-061412-3,w-2d32e7a71cf1,2026-10-25
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|local|Rva00136794::rva00135E6D|p,eb11d1fcd6cd5b9b6b41f32b,gpt-6.1-sol,codex5-20261025-061412-3,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r1,75619d2a780b93d36fe599ff,gpt-6.1-sol,codex5-20261025-061412-4,w-2d32e7a71cf1,2026-10-25
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r2,c9509abae5b63fd235f73663,gpt-6.1-sol,codex5-20261025-061412-4,w-2d32e7a71cf1,2026-10-25
