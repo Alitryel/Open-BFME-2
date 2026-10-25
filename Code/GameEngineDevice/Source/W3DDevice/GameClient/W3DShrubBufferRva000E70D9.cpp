@@ -16,7 +16,7 @@ public:
 private:
 	char m_pad[0x4FB58];
 	Int m_count;
-	unsigned char m_dirty;
+	unsigned char m_4fb5c;
 };
 
 void W3DShrubBuffer::rva000E70D9(Int key)
@@ -37,7 +37,7 @@ void W3DShrubBuffer::rva000E70D9(Int key)
 				*(Real *)(row + 0x44) = 0;
 				*(Real *)(row + 0x48) = 0;
 				*(Real *)(row + 0x4C) = 1.0f;
-				m_dirty = 1;
+				m_4fb5c = 1;
 			}
 			++i;
 			row += 0xA0;
