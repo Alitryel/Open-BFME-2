@@ -15,36 +15,7 @@ public:
 	Drawable *getDrawable() const;
 };
 
-class ThingTemplate
-{
-public:
-	char m_pad00[0x10C];
-};
-
-template <int N> class AiSlots : public AiSlots<N - 1>
-{
-public:
-	virtual void gap(char (*)[N]) = 0;
-};
-
-template <> class AiSlots<0>
-{
-};
-
-class AI : public AiSlots<110>
-{
-public:
-	virtual bool isIdle();
-};
-
-class Object
-{
-public:
-	void *m_vtable;
-	ThingTemplate *m_template;
-	char m_pad08[0x258 - 0x08];
-	AI *m_ai;
-};
+#include "../../Behavior/ClickReactionObjectView.h"
 
 class PadBase
 {
@@ -74,7 +45,7 @@ private:
 int Rva0045969F::update()
 {
 	Drawable *drawable = (*(Thing **)((char *)this - 8))->getDrawable();
-	AI *ai = (*(Object **)((char *)this - 8))->m_ai;
+	AIUpdateInterface *ai = (*(Object **)((char *)this - 8))->m_ai;
 	if (drawable == 0 || ai == 0)
 		return 0x3fffffff;
 	if (m_14 > 0)
