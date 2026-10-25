@@ -194,6 +194,37 @@ authored-byte previews or commit-title gains into a projected headline.
   the primary native base has 12 slots, and the secondary run/signatures
   require reconciliation, including the class-contract queue's final slot.
   Use the handoff's exact table anchors before adopting shared declarations.
+- **`AudioEventRTS` destruction/assignment subset (2026-10-25, inspected
+  `b620cdb046`):**
+  - The shared names are two pins:
+    `??1AudioEventRTS@@UAE@XZ` -> `0x004EC395` (the folded STLport
+    `_List_base` destructor) and `??4AudioEventRTS@@QAEAAV0@ABV0@@Z` ->
+    `0x000366F0` (`StringBase<char>::set`).
+  - `tools/name_dependents.py` finds 17 units, compiled against Zero Hour
+    headers, whose objects reference them. Trial: drop both pins and build
+    all 17. 15 units stay exact; exactly 2 rows fail:
+    - `??4DynamicAudioEventRTS@@QAEAAV0@ABV0@@Z` (`0x00200BC0`, 25 B,
+      `ThingFactory.cpp`). Retail copies only a `StringBase<char>` at +4 via
+      `StringBase::set`, so this body is not an `AudioEventRTS` assignment.
+      The masked-search placement is no identity proof.
+    - `??1?$pair@VAsciiString@@VAudioEventRTS@@@_STL@@QAE@XZ` (`0x002A12E1`,
+      `ThingTemplate.cpp`). Retail destroys `second` at +4 through the folded
+      list destructor `0x004EC395`, then `first` through
+      `StringBase<char>::~StringBase` (`0x00036410`), so the BFME 2 map value
+      is not a 0x88 event.
+  - These two pins block naming the canonical 0x88 class
+    (`BfmeAudioEventPrefix136`, `Code/GameEngine/Include/Common/BfmeAudioEventPrefix136.h`)
+    `AudioEventRTS`. The retail `AudioEventRTS.cpp` `__FILE__` string is
+    referenced at `0x002D9ADC`, inside that class's translation unit
+    (`0x002D94CE..0x002DAB18`). With the rename, its virtual destructor
+    (`0x002D9A43`) would share a mangled name with the pin at `0x004EC395`.
+    `pin_consistency` refuses that, and the link would select one body for
+    both.
+  - **Next check:** re-identify the two rows' real BFME 2 types (a
+    {+0, `StringBase<char>` +4} class with assignment; a map value whose
+    destructor folds with the list base). Retype them so they call those
+    callees by their own names, then drop both pins. Re-run the 17-unit
+    trial before the canonical rename.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and
