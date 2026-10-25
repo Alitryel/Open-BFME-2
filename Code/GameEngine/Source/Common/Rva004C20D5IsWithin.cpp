@@ -12,12 +12,7 @@ struct Coord3DBase
 	float z;
 };
 
-struct Coord2D
-{
-	float GetLength() const;
-	float x;
-	float y;
-};
+#include "../../../Libraries/Include/Lib/Coord2D.h"
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 

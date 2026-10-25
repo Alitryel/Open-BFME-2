@@ -15,18 +15,7 @@
 extern "C" double __cdecl sin(double angle);
 extern "C" double __cdecl cos(double angle);
 
-struct Coord2DBase
-{
-    float x;
-    float y;
-};
-
-class Coord2D : public Coord2DBase
-{
-public:
-    Coord2D &Rotate(const Coord2D &that, float angle);
-    Coord2D &Rotate(float angle);
-};
+#include "../../../Include/Lib/Coord2D.h"
 
 Coord2D &Coord2D::Rotate(const Coord2D &that, float angle)
 {
