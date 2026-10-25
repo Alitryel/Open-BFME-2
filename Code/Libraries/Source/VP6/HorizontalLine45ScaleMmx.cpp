@@ -5,11 +5,16 @@
 // weights. Tail replicates the last source byte via a psrlq/pand/psllq rotate,
 // same trick as bfmeExpandMmx.
 
+// The shared native coefficient tables are owned by VerticalBandInterpMmx.cpp.
+extern "C"
+{
+	extern const unsigned short g_bfmeW128c[4];
+}
+
 namespace
 {
 	__declspec(align(8)) const unsigned short g_bfmeW4A[4] = { 51, 102, 154, 205 };
 	__declspec(align(8)) const unsigned short g_bfmeW4B[4] = { 205, 154, 102, 51 };
-	__declspec(align(8)) const unsigned short g_bfmeRound8b[4] = { 128, 128, 128, 128 };
 	__declspec(align(8)) const unsigned char g_bfmeTailMask[8] = { 0, 0, 0, 0, 0, 0, 255, 0 };
 }
 
@@ -23,7 +28,7 @@ extern "C" void __cdecl HorizontalLine_4_5_Scale_MMX(const void *source, int byt
 		lea edx, [esi+ecx-8]
 		movq mm5, g_bfmeW4A
 		movq mm6, g_bfmeW4B
-		movq mm4, g_bfmeRound8b
+		movq mm4, g_bfmeW128c
 		pxor mm7, mm7
 	bfmeNext:
 		movq mm0, qword ptr [esi]

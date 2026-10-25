@@ -6,13 +6,14 @@
 // The 16-bit weight tables are the retail constants at image 0x00BD9910 (51),
 // 0x00BD9920 (102), 0x00BD9930 (154), 0x00BD9940 (205) and 0x00BD9950 (128).
 
-namespace
+// The shared native coefficient tables are owned by VerticalBandInterpMmx.cpp.
+extern "C"
 {
-	__declspec(align(8)) const unsigned short g_bfmeW51[4] = { 51, 51, 51, 51 };
-	__declspec(align(8)) const unsigned short g_bfmeW102[4] = { 102, 102, 102, 102 };
-	__declspec(align(8)) const unsigned short g_bfmeW154[4] = { 154, 154, 154, 154 };
-	__declspec(align(8)) const unsigned short g_bfmeW205[4] = { 205, 205, 205, 205 };
-	__declspec(align(8)) const unsigned short g_bfmeW128[4] = { 128, 128, 128, 128 };
+	extern const unsigned short g_bfmeW51c[4];
+	extern const unsigned short g_bfmeW102c[4];
+	extern const unsigned short g_bfmeW154c[4];
+	extern const unsigned short g_bfmeW205c[4];
+	extern const unsigned short g_bfmeW128c[4];
 }
 
 // RVA 0x001D22C0
@@ -31,13 +32,13 @@ extern "C" void __cdecl LastVerticalBand_4_5_Scale_MMX(void *band, int pitch, in
 		movq mm1, qword ptr [esi+ecx]
 		movq mm2, mm0
 		punpcklbw mm0, mm7
-		movq mm5, g_bfmeW51
+		movq mm5, g_bfmeW51c
 		punpckhbw mm2, mm7
 		pmullw mm0, mm5
 		movq mm3, mm1
 		punpcklbw mm1, mm7
 		pmullw mm2, mm5
-		movq mm6, g_bfmeW205
+		movq mm6, g_bfmeW205c
 		movq mm4, mm1
 		pmullw mm4, mm6
 		punpckhbw mm3, mm7
@@ -45,17 +46,17 @@ extern "C" void __cdecl LastVerticalBand_4_5_Scale_MMX(void *band, int pitch, in
 		pmullw mm5, mm6
 		paddw mm0, mm4
 		paddw mm2, mm5
-		paddw mm0, g_bfmeW128
-		paddw mm2, g_bfmeW128
+		paddw mm0, g_bfmeW128c
+		paddw mm2, g_bfmeW128c
 		psrlw mm0, 8
 		psrlw mm2, 8
 		packuswb mm0, mm2
 		movq qword ptr [esi+ecx], mm0
 		movq mm0, qword ptr [esi+ecx*2]
-		movq mm5, g_bfmeW102
+		movq mm5, g_bfmeW102c
 		movq mm2, mm0
 		pmullw mm1, mm5
-		movq mm6, g_bfmeW154
+		movq mm6, g_bfmeW154c
 		punpcklbw mm0, mm7
 		pmullw mm3, mm5
 		movq mm4, mm0
@@ -65,8 +66,8 @@ extern "C" void __cdecl LastVerticalBand_4_5_Scale_MMX(void *band, int pitch, in
 		pmullw mm5, mm6
 		paddw mm1, mm4
 		paddw mm3, mm5
-		paddw mm1, g_bfmeW128
-		paddw mm3, g_bfmeW128
+		paddw mm1, g_bfmeW128c
+		paddw mm3, g_bfmeW128c
 		psrlw mm1, 8
 		psrlw mm3, 8
 		packuswb mm1, mm3
@@ -74,7 +75,7 @@ extern "C" void __cdecl LastVerticalBand_4_5_Scale_MMX(void *band, int pitch, in
 		movq mm1, qword ptr [edi]
 		movq qword ptr [edi+ecx], mm1
 		pmullw mm0, mm6
-		movq mm5, g_bfmeW102
+		movq mm5, g_bfmeW102c
 		movq mm3, mm1
 		pmullw mm2, mm6
 		punpcklbw mm1, mm7
@@ -85,8 +86,8 @@ extern "C" void __cdecl LastVerticalBand_4_5_Scale_MMX(void *band, int pitch, in
 		pmullw mm6, mm5
 		paddw mm0, mm4
 		paddw mm2, mm6
-		paddw mm0, g_bfmeW128
-		paddw mm2, g_bfmeW128
+		paddw mm0, g_bfmeW128c
+		paddw mm2, g_bfmeW128c
 		psrlw mm0, 8
 		psrlw mm2, 8
 		packuswb mm0, mm2

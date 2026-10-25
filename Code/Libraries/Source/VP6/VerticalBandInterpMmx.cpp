@@ -9,13 +9,15 @@
 // constants at image 0x00BD9910 (51), 0x00BD9920 (102), 0x00BD9930 (154),
 // 0x00BD9940 (205) and 0x00BD9950 (128).
 
-namespace
+// One native table per address, shared by the horizontal and vertical scalers.
+// Each has four 16-bit lanes; native alignment padding is not part of the array.
+extern "C"
 {
-	__declspec(align(8)) const unsigned short g_bfmeW51c[4] = { 51, 51, 51, 51 };
-	__declspec(align(8)) const unsigned short g_bfmeW102c[4] = { 102, 102, 102, 102 };
-	__declspec(align(8)) const unsigned short g_bfmeW154c[4] = { 154, 154, 154, 154 };
-	__declspec(align(8)) const unsigned short g_bfmeW205c[4] = { 205, 205, 205, 205 };
-	__declspec(align(8)) const unsigned short g_bfmeW128c[4] = { 128, 128, 128, 128 };
+	__declspec(align(8)) extern const unsigned short g_bfmeW51c[4] = { 51, 51, 51, 51 };
+	__declspec(align(8)) extern const unsigned short g_bfmeW102c[4] = { 102, 102, 102, 102 };
+	__declspec(align(8)) extern const unsigned short g_bfmeW154c[4] = { 154, 154, 154, 154 };
+	__declspec(align(8)) extern const unsigned short g_bfmeW205c[4] = { 205, 205, 205, 205 };
+	__declspec(align(8)) extern const unsigned short g_bfmeW128c[4] = { 128, 128, 128, 128 };
 }
 
 extern "C" void __cdecl VerticalBand_4_5_Scale_MMX(void *source, unsigned int stride, unsigned int bytes)
@@ -117,15 +119,6 @@ extern "C" void __cdecl VerticalBand_4_5_Scale_MMX(void *source, unsigned int st
 	}
 }
 
-namespace
-{
-	__declspec(align(8)) const unsigned short g_bfmeW51d[4] = { 51, 51, 51, 51 };
-	__declspec(align(8)) const unsigned short g_bfmeW102d[4] = { 102, 102, 102, 102 };
-	__declspec(align(8)) const unsigned short g_bfmeW154d[4] = { 154, 154, 154, 154 };
-	__declspec(align(8)) const unsigned short g_bfmeW205d[4] = { 205, 205, 205, 205 };
-	__declspec(align(8)) const unsigned short g_bfmeW128d[4] = { 128, 128, 128, 128 };
-}
-
 extern "C" void __cdecl VerticalBand_3_5_Scale_MMX(void *source, unsigned int stride, unsigned int bytes)
 {
 	__asm
@@ -141,13 +134,13 @@ extern "C" void __cdecl VerticalBand_3_5_Scale_MMX(void *source, unsigned int st
 		movq mm1, qword ptr [esi+ecx]
 		movq mm2, mm0
 		punpcklbw mm0, mm7
-		movq mm5, g_bfmeW102d
+		movq mm5, g_bfmeW102c
 		punpckhbw mm2, mm7
 		pmullw mm0, mm5
 		movq mm3, mm1
 		punpcklbw mm1, mm7
 		pmullw mm2, mm5
-		movq mm6, g_bfmeW154d
+		movq mm6, g_bfmeW154c
 		movq mm4, mm1
 		pmullw mm4, mm6
 		punpckhbw mm3, mm7
@@ -155,51 +148,51 @@ extern "C" void __cdecl VerticalBand_3_5_Scale_MMX(void *source, unsigned int st
 		pmullw mm5, mm6
 		paddw mm0, mm4
 		paddw mm2, mm5
-		paddw mm0, g_bfmeW128d
-		paddw mm2, g_bfmeW128d
+		paddw mm0, g_bfmeW128c
+		paddw mm2, g_bfmeW128c
 		psrlw mm0, 8
 		psrlw mm2, 8
 		packuswb mm0, mm2
 		movq qword ptr [esi+ecx], mm0
 		movq mm0, qword ptr [esi+ecx*2]
 		movq mm4, mm1
-		pmullw mm1, g_bfmeW205d
+		pmullw mm1, g_bfmeW205c
 		movq mm5, mm3
-		pmullw mm3, g_bfmeW205d
+		pmullw mm3, g_bfmeW205c
 		movq mm2, mm0
-		pmullw mm4, g_bfmeW51d
+		pmullw mm4, g_bfmeW51c
 		punpcklbw mm0, mm7
-		pmullw mm5, g_bfmeW51d
+		pmullw mm5, g_bfmeW51c
 		movq mm6, mm0
 		punpckhbw mm2, mm7
-		pmullw mm6, g_bfmeW51d
+		pmullw mm6, g_bfmeW51c
 		movq mm7, mm2
-		pmullw mm7, g_bfmeW51d
+		pmullw mm7, g_bfmeW51c
 		paddw mm1, mm6
 		paddw mm3, mm7
 		movq mm6, mm0
-		pmullw mm6, g_bfmeW205d
+		pmullw mm6, g_bfmeW205c
 		movq mm7, mm2
-		pmullw mm7, g_bfmeW205d
+		pmullw mm7, g_bfmeW205c
 		paddw mm4, mm6
 		paddw mm5, mm7
-		paddw mm1, g_bfmeW128d
-		paddw mm3, g_bfmeW128d
+		paddw mm1, g_bfmeW128c
+		paddw mm3, g_bfmeW128c
 		psrlw mm1, 8
 		psrlw mm3, 8
 		packuswb mm1, mm3
 		movq qword ptr [esi+ecx*2], mm1
-		paddw mm4, g_bfmeW128d
-		paddw mm5, g_bfmeW128d
+		paddw mm4, g_bfmeW128c
+		paddw mm5, g_bfmeW128c
 		psrlw mm4, 8
 		psrlw mm5, 8
 		packuswb mm4, mm5
 		movq qword ptr [edi], mm4
 		pxor mm7, mm7
 		movq mm1, qword ptr [edi+ecx*2]
-		movq mm5, g_bfmeW154d
+		movq mm5, g_bfmeW154c
 		pmullw mm0, mm5
-		movq mm6, g_bfmeW102d
+		movq mm6, g_bfmeW102c
 		movq mm3, mm1
 		pmullw mm2, mm5
 		punpcklbw mm1, mm7
@@ -208,8 +201,8 @@ extern "C" void __cdecl VerticalBand_3_5_Scale_MMX(void *source, unsigned int st
 		paddw mm0, mm1
 		pmullw mm3, mm6
 		paddw mm2, mm3
-		paddw mm0, g_bfmeW128d
-		paddw mm2, g_bfmeW128d
+		paddw mm0, g_bfmeW128c
+		paddw mm2, g_bfmeW128c
 		psrlw mm0, 8
 		psrlw mm2, 8
 		packuswb mm0, mm2

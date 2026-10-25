@@ -5,11 +5,16 @@
 // linear interpolator. Tail shuffles the last over-read so the final store
 // stays in-lane without a second loop.
 
+// The shared native coefficient tables are owned by VerticalBandInterpMmx.cpp.
+extern "C"
+{
+	extern const unsigned short g_bfmeW128c[4];
+}
+
 namespace
 {
 	__declspec(align(8)) const unsigned short g_bfmeW3A[4] = { 102, 205, 51, 154 };
 	__declspec(align(8)) const unsigned short g_bfmeW3B[4] = { 154, 51, 205, 102 };
-	__declspec(align(8)) const unsigned short g_bfmeRound8[4] = { 128, 128, 128, 128 };
 }
 
 extern "C" void __cdecl HorizontalLine_3_5_Scale_MMX(const void *source, int bytes, void *destination)
@@ -23,7 +28,7 @@ extern "C" void __cdecl HorizontalLine_3_5_Scale_MMX(const void *source, int byt
 		lea edx, [esi+ecx-3]
 		movq mm5, g_bfmeW3A
 		movq mm6, g_bfmeW3B
-		movq mm4, g_bfmeRound8
+		movq mm4, g_bfmeW128c
 		pxor mm7, mm7
 	bfmeNext:
 		mov eax, dword ptr [esi]

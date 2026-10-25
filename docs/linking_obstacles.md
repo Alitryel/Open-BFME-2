@@ -343,11 +343,17 @@ authored-byte previews or commit-title gains into a projected headline.
   self-strict; six are also closed-strict, together with the FilterBlock2d
   caller. The independent closure report reproduces all 98,202 status rows.
   This is scoped closure evidence, not a new census headline.
+- **Scaler coefficients repaired (2026-10-25, inspected `d0c913e6dde`):**
+  [the six-scaler ownership repair](../reverse/attempt_support/vp6-scale-tables-link-20261025/readme.md)
+  gives the five shared native coefficient addresses one owner each instead of
+  22 private copies. Normal controls pass 6/6 bodies (1,739 bytes), all five
+  eight-byte data owners and all 64 native DIR32 targets. No instruction or
+  alignment-padding ownership changes. The controlled authoritative comparison
+  is pending; no new closed-strict credit or census gain is claimed yet.
 - **Remaining / next check:** shader/filter root-object ownership remains
-  open. InitPostProcessing is now self-strict but still closure-blocked through
-  PostProcMachineSpecificConfig and its scaling helpers; the retained witness
-  reaches HorizontalLine_3_5_Scale_MMX. Inspect those actual prerequisites
-  rather than retrying the cleared filter-pointer split. Verify storage
+  open. Verify the scaler repair's complete closure and InitPostProcessing's
+  dependency path through PostProcMachineSpecificConfig in the pending fixed
+  comparison; do not repeat the cleared filter-pointer split. Verify storage
   extents, initial bytes, relocations and dependent closure through the existing
   gates. Family clearance and later census confirmation remain pending.
   Preserve the no-stubs/no-`/FORCE` runtime exit requirements.
