@@ -7,28 +7,11 @@
 // then 3 floats via Xfer slot 0x70 at +0x20 +0x2C +0x30 plus int via slot 0x7C at +0x28.
 // Layout follows W3DLaserDrawBfmeDoDraw (+0x20 aspect +0x28 +0x2C +0x30) and FriendNew news 0x5C.
 
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
+#include "BfmeDrawXferPrefix.h"
+
 class Thing;
 class ModuleData;
 class Drawable;
-
-#include "../../../../../../GameEngine/Include/Common/BfmeXfer.h"
 
 class Xfer::Version
 {
