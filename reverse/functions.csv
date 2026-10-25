@@ -2990,7 +2990,7 @@ _XMP_Is_Prime,,0x0061DA50,75,Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp,matc
 ?isPlayerConnected@BFMEConnectionManager@@QAE_NH@Z,,0x004CF083,35,Code/GameEngine/Source/Common/ConnectionManagerPlayerPredicates.cpp,matched,BFME2 local-or-open-connection predicate used by frame-stall state checks
 ?isPlayerSlotActive@BFMEConnectionManager@@QAEHH@Z,,0x004CF0CD,46,Code/GameEngine/Source/Common/ConnectionManagerPlayerPredicates.cpp,matched,BFME2 active-player predicate: accept states 1 through 3 and require a local or open connection
 ?init@BFMEConnectionManager@@QAEXXZ,,0x004CF032,81,Code/GameEngine/Source/Common/ConnectionManagerInit.cpp,matched,BFME2 connection-manager init/reset path: reset frame rings and clear frame-ceiling and per-player frame arrays
-?reset@FrameDataManager@@QAEXXZ,,0x0058B666,69,Code/GameEngine/Source/Common/FrameDataManagerReset.cpp,matched,
+?reset@FrameDataManager@@QAEXXZ,,0x0058B666,69,Code/GameEngine/Source/GameNetwork/FrameDataManager.cpp,matched,
 ?getNextPacketRouterSlot@BFMEConnectionManager@@QAEII@Z,,0x004CFAC0,37,Code/GameEngine/Source/Common/ConnectionManagerNextRouter.cpp,matched,
 ?bfmeSetMapDescription@AptMapPreview@@QAEXPAVMapMetaData@@@Z,,0x0057C892,63,Code/GameEngine/Source/GameClient/GUI/AptMapPreviewSetMapDescription.cpp,matched,clean C++; resets list at preview+0x2C then appends first map.str line; full boundary between ret4 at 0x57C88F and title setter at 0x57C8D1
 ?bfmeCreateMapPictureImage@@YAPAVImage@@ABVAsciiString@@@Z,,0x0057CDC3,328,Code/GameEngine/Source/GameClient/GUI/AptMapPreviewPictureImage.cpp,matched,clean C++; full328B picture loader derives _pic.tga and constructs retained texture image; caller at 0x57D10F owns image at preview+0x5C
@@ -7604,7 +7604,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ?getColor@MultiplayerSettings@@QAEPAVMultiplayerColorDefinition@@H@Z,,0x00381373,68,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,matched,BFME1-shape lazy numColors refill with retail offsets and address-taken key helper (pinned opaque lookup); scoped Os plus gotos converge the shared ret and NULL store
 ?rva00625300@PartitionManager@@QAEXPBURegion3D@@@Z,,0x00625300,8,Code/GameEngine/Source/GameLogic/Object/PartitionManagerShroudThunks.cpp,matched,opaque region thunk (const-correct PBU spelling; PAU pin retired); pin-to-row upgrade
 ?init@FrameData@@QAEXXZ,,0x005DA4F9,101,Code/GameEngine/Source/GameNetwork/FrameData.cpp,matched,BFME1 FrameData.cpp shape minus the init call with double reset on the fresh list; layout +0/+4/+8/+0xC/+0x10; /O1 outlined EH prologue; row moved home from FrameData_init.cpp
-?zeroFrames@FrameDataManager@@QAEXII@Z,,0x0058B7AF,62,Code/GameEngine/Source/Common/FrameDataManagerZeroFrames.cpp,matched,BFME1 verbatim in dedicated TU; opaque zeroFrame decl forces esi homing; G7 imul; upfront jbe from for-shape
+?zeroFrames@FrameDataManager@@QAEXII@Z,,0x0058B7AF,62,Code/GameEngine/Source/GameNetwork/FrameDataManager.cpp,matched,BFME1 verbatim in dedicated TU; opaque zeroFrame decl forces esi homing; G7 imul; upfront jbe from for-shape
 ??_GNetCommandList@@MAEPAXI@Z,,0x0058B50F,34,Code/GameEngine/Source/GameNetwork/NetCommandListDeleter.cpp,matched,BFME1 dtor recipe with MAE access; O1 pop-cleanup; dtor present-unmatched
 ??0NetCommandList@@QAE@XZ,,0x0058B06A,20,Code/GameEngine/Source/GameNetwork/NetCommandListCtor.cpp,matched,vtable via matched deleter row; O1; pin coexists
 ?Get_HTree@@YAPAVHTreeClass@@PBD@Z,,0x0017FC7C,179,Code/Libraries/Source/WWVegas/WW3D2/GetHTree.cpp,matched,free hierarchy lookup via BFME1 GetHTree shape; h-star key plus registry ref plus slot10/11 plus tree at +0x14
@@ -41391,7 +41391,7 @@ uw_0075c910,,0x0075C910,8,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_str
 ?rva001DD276@Rva001DD240@@QAEXE@Z,,0x001DD276,49,Code/GameEngine/Source/Common/Rva001DD240Record.cpp,matched,unlock lane caller 0x003BCA5D data g_00BBB9AC honest address name
 ?Rva0008F755Create@@YGPAVRva000A4916@@PAX@Z,,0x0008F755,58,Code/GameEngine/Source/Common/Rva0008F755Create.cpp,matched,chain lane same 58B new+ctor shape as siblings
 ?Rva0008F877Create@@YGPAVRva000A43A4@@PAX@Z,,0x0008F877,58,Code/GameEngine/Source/Common/Rva0008F877Create.cpp,matched,chain lane same 58B new+ctor shape as siblings
-?addNetCommandMsg@FrameDataManager@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z,,0x0058B6AB,38,Code/GameEngine/Source/Common/FrameDataManagerAddNetCommandMsg.cpp,matched,donor FrameDataManager addNetCommandMsg ring mod stride 0x14
+?addNetCommandMsg@FrameDataManager@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z,,0x0058B6AB,38,Code/GameEngine/Source/GameNetwork/FrameDataManager.cpp,matched,donor FrameDataManager addNetCommandMsg ring mod stride 0x14
 ?rva005EFD39@Rva005EFD39@@QAEXXZ,,0x005EFD39,26,Code/GameEngine/Source/Common/Rva005EFD39.cpp,matched,clear of Rva005EFB05 ptr at plus0 via rowed dtor and delete
 ?rva002C943B@Rva002C943B@@QAEXPBURva002C943BSrc@@@Z,,0x002C943B,39,Code/GameEngine/Source/Common/Rva002C943BCopy.cpp,matched,unlock five-field copy via 0x04 plus 0x0C caller 0x002C8D2A
 ??1Rva005EFDDB@@UAE@XZ,,0x005EFDDB,14,Code/GameEngine/Source/Common/Rva005EFD39.cpp,matched,dtor stores vtable then clears inner Rva005EFD39 at plus4

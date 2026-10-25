@@ -177,7 +177,7 @@ decoded retail bodies at RVAs `0x0058B826`, `0x0058B74B`, and `0x0058B78F`.
 
 The frame-ring reset at RVA `0x0058B666` is now recovered as a 69-byte exact
 `FrameDataManager::reset` in
-`Code/GameEngine/Source/Common/FrameDataManagerReset.cpp`. It initializes each
+`Code/GameEngine/Source/GameNetwork/FrameDataManager.cpp`. It initializes each
 `0x14`-byte ring entry, writes an unknown expected-command count (`-1`) for a
 local manager, then clears the quit frame and quitting flag. The ring length is
 read from the retail global at `0x00DD2DB8`; the entry helpers are pinned to
