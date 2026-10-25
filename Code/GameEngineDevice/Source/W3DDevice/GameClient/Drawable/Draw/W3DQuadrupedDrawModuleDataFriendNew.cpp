@@ -15,7 +15,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void W3DQuadrupedDrawModuleDataParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -26,6 +25,7 @@ public:
 class W3DQuadrupedDrawModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	W3DQuadrupedDrawModuleData();
 	virtual ~W3DQuadrupedDrawModuleData();
 
@@ -44,6 +44,6 @@ ModuleData *W3DQuadrupedDraw::friend_newModuleData(INI *ini)
 {
 	W3DQuadrupedDrawModuleData *data = new W3DQuadrupedDrawModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, W3DQuadrupedDrawModuleDataParse);
+		ini->initFromINIMultiProc(data, W3DQuadrupedDrawModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

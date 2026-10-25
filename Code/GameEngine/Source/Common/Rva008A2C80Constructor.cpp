@@ -15,7 +15,7 @@ class Rva00894D80Accessor
 public:
     static unsigned int increment(unsigned int *p);
 };
-void bfmeDropA(void *p);
+void bfmeDropVGO(void *p);
 struct Rva008A2BA0Payload
 {
     unsigned int m_refs;
@@ -34,14 +34,14 @@ public:
     ~Rva008A2BA0Handle()
     {
         if (m_ptr && !Rva00894D90Accessor::decrement((unsigned int *)m_ptr))
-            bfmeDropA(m_ptr);
+            bfmeDropVGO(m_ptr);
     }
     void operator=(const Rva008A2BA0Handle &other)
     {
         if (&other != this)
         {
             if (m_ptr && !Rva00894D90Accessor::decrement((unsigned int *)m_ptr))
-                bfmeDropA(m_ptr);
+                bfmeDropVGO(m_ptr);
             m_ptr = other.m_ptr;
             if (m_ptr) Rva00894D80Accessor::increment((unsigned int *)m_ptr);
         }

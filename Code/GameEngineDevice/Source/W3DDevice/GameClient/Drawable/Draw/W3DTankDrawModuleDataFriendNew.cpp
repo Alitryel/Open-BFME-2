@@ -14,7 +14,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void W3DTankDrawModuleDataParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -25,6 +24,7 @@ public:
 class W3DTankDrawModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	W3DTankDrawModuleData();
 	virtual ~W3DTankDrawModuleData();
 
@@ -43,6 +43,6 @@ ModuleData *W3DTankDraw::friend_newModuleData(INI *ini)
 {
 	W3DTankDrawModuleData *data = new W3DTankDrawModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, W3DTankDrawModuleDataParse);
+		ini->initFromINIMultiProc(data, W3DTankDrawModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

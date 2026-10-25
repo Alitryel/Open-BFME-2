@@ -5,12 +5,12 @@
 extern void *g_bfmeTableSWA[27];
 
 void bfmeWriteSXA(void *sink, ...);
-void bfmeFlushSXA(void);
+void DX8_Assert(void);
 
 void bfmeGoSXA(int a, int b, int c, int d)
 {
 	bfmeWriteSXA(g_bfmeTableSWA[2], c, d, g_bfmeTableSWA[b], c, d, a);
-	bfmeFlushSXA();
+	DX8_Assert();
 }
 
 extern "C" __declspec(dllimport) void __cdecl abort(void);

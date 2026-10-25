@@ -85,7 +85,7 @@ extern "C" void __cdecl FilterBlockBil_8_mmx(void);
 extern "C" void __cdecl FilterBlockBil_8_C(void);	// rowed C body (was address-named Rva009A8110)
 extern "C" void __cdecl CopyBlock(void);	// rowed C body (was address-named Rva009A74D0)
 extern "C" void __cdecl ClearMmx(void);	// rowed C body (was address-named Rva009C6D20)
-extern void __cdecl Rva009A7030(void);
+extern void __cdecl DX8_Assert(void);
 extern "C" void __cdecl AverageBlock_C(void);
 extern "C" void __cdecl FilterBlock_mmx(void *, void *, void *, int, int, int, int);
 extern "C" void __cdecl FilterBlock_C(const unsigned char *, const unsigned char *, unsigned short *, unsigned int, int, int, int);
@@ -225,7 +225,7 @@ extern "C" void __cdecl UtilMachineSpecificConfig(void)
 				*cell = tail;
 		}
 
-		g_bfmeSlotB48 = (void *)&Rva009A7030;
+		g_bfmeSlotB48 = (void *)&DX8_Assert;
 		g_bfmeSlotD8C = (void *)&ScalarReconIntra;
 		g_bfmeSlotD84 = (void *)&ScalarReconInter;
 		g_bfmeSlotB58 = (void *)&ScalarReconInterHalfPixel2;

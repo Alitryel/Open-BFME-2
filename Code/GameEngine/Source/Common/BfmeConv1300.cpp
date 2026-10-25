@@ -6,10 +6,10 @@
 void *g_bfmeSinkSTA = (void *)"%s(%d): STL assertion failure : %s\n";
 
 void bfmeWriteSTA(void *sink, int a, int b, int c);
-void bfmeFlushSTA(void);
+void DX8_Assert(void);
 
 void bfmeGoSTA(int a, int b, int c)
 {
 	bfmeWriteSTA(g_bfmeSinkSTA, b, c, a);
-	bfmeFlushSTA();
+	DX8_Assert();
 }

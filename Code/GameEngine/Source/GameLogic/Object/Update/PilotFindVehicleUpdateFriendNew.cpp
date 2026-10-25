@@ -16,7 +16,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void PilotFindVehicleUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -29,6 +28,7 @@ class __declspec(novtable) EvaAnnounceClientCreateModuleData
 public:
 	EvaAnnounceClientCreateModuleData();
 	virtual ~EvaAnnounceClientCreateModuleData();
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
 
 private:
@@ -45,6 +45,6 @@ ModuleData *EvaAnnounceClientCreateModuleData::friend_newModuleData(INI *ini)
 {
 	EvaAnnounceClientCreateModuleData *data = new EvaAnnounceClientCreateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, PilotFindVehicleUpdateParse);
+		ini->initFromINIMultiProc(data, EvaAnnounceClientCreateModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

@@ -432,10 +432,6 @@ void HordeDispatchSpecialPowerParse_25287D(MultiIniFieldParse &parse)
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?RepairSpecialPowerParse_252768@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@RepairSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z")
-#pragma comment(linker, "/alternatename:?UntamedAllegianceSpecialPowerParse_2524B2@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@UntamedAllegianceSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z")
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?DefectorSpecialPowerModuleDataParse_251DCC@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@ScavengerSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z")
-#pragma comment(linker, "/alternatename:?AIUpdateInterfaceParse@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@CombineHordeSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z")

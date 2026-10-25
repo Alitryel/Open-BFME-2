@@ -16,7 +16,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void CleanupHazardUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -27,6 +26,7 @@ public:
 class BeaconClientUpdateModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	BeaconClientUpdateModuleData();
 	virtual ~BeaconClientUpdateModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -42,6 +42,6 @@ ModuleData *BeaconClientUpdateModuleData::friend_newModuleData(INI *ini)
 {
 	BeaconClientUpdateModuleData *data = new BeaconClientUpdateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, CleanupHazardUpdateParse);
+		ini->initFromINIMultiProc(data, BeaconClientUpdateModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

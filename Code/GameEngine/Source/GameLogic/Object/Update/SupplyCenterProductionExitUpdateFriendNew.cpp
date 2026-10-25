@@ -17,7 +17,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void SupplyCenterProductionExitUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -28,6 +27,7 @@ public:
 class StoreObjectsSpecialPowerModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	StoreObjectsSpecialPowerModuleData();
 	virtual ~StoreObjectsSpecialPowerModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -41,6 +41,6 @@ ModuleData *StoreObjectsSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
 	StoreObjectsSpecialPowerModuleData *data = new StoreObjectsSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, SupplyCenterProductionExitUpdateParse);
+		ini->initFromINIMultiProc(data, StoreObjectsSpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

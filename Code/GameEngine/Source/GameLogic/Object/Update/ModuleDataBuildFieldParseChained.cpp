@@ -1895,10 +1895,6 @@ void FellBeastSwoopPowerModuleData::buildFieldParse(MultiIniFieldParse &parse)
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?SpyVisionUpdateParse@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@CurseSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z")
-#pragma comment(linker, "/alternatename:?SpecialAbilityUpdateParse@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@TeleportToCasterSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z")
-#pragma comment(linker, "/alternatename:?SupplyCenterProductionExitUpdateParse@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@StoreObjectsSpecialPowerModuleData@@SAXAAVMultiIniFieldParse@@@Z")
-#pragma comment(linker, "/alternatename:?SupplyWarehouseDockUpdateModuleDataParse@@YAXAAVMultiIniFieldParse@@@Z=?buildFieldParse@SupplyWarehouseDockUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z")
 
 // These functions are header inlines; their ordinary owner definitions
 // collided with select-any copies. The anchor keeps this unit's row copies;

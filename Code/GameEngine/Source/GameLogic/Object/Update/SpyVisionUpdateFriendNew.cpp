@@ -17,7 +17,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void SpyVisionUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -28,6 +27,7 @@ public:
 class CurseSpecialPowerModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	CurseSpecialPowerModuleData();
 	virtual ~CurseSpecialPowerModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -41,6 +41,6 @@ ModuleData *CurseSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
 	CurseSpecialPowerModuleData *data = new CurseSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, SpyVisionUpdateParse);
+		ini->initFromINIMultiProc(data, CurseSpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

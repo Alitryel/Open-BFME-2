@@ -30,8 +30,8 @@ class Rva007FCF80Object;
 
 BfmeThingUNB *bfmeNewUNB(void);
 void *Gen007F0130(unsigned int size);
-unsigned Rva007FBC00(void);
-unsigned Rva007FD060(void);
+int Rva00668100Get(void);
+int Rva00669530Get(void);
 Rva007FBB20Object *Rva007FBB20(void *payload);
 Rva007FCF80Object *Rva007FCF80(void *payload);
 
@@ -88,7 +88,7 @@ void Rva007EAA70Owner::prepare()
 		adj = 0;
 	m_268->attach(adj);
 	m_26C->setPeer(m_268);
-	m_26C->m_24 = Rva007FBC00();
+	m_26C->m_24 = Rva00668100Get();
 	void *svc = m_26C;
 	if (svc)
 		svc = (char *)svc + 8;
@@ -116,7 +116,7 @@ void Rva007EAB40Owner::prepare()
 		adj = 0;
 	m_284->attach(adj);
 	m_288->setPeer(m_284);
-	m_288->m_24 = Rva007FD060();
+	m_288->m_24 = Rva00669530Get();
 	void *svc = m_288;
 	if (svc)
 		svc = (char *)svc + 8;

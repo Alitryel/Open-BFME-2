@@ -103,7 +103,7 @@ struct Rva00808CB0Advert;
 extern "C" void Rva0080EF50( Rva00808CB0Advert *advert,
 	const char *address, char *name, const char *port );
 
-void Rva007E8640Copy( char *dest, unsigned int size, const char *source );
+void Rva00655700( char *dest, unsigned int size, const char *source );
 
 class Rva00803620Sink
 {
@@ -137,7 +137,7 @@ void Rva00803620Sink::apply( int tid, char *name, int port,
 	strncpy( m_game->m_name, name, sizeof( m_game->m_name ) );
 
 	if( ugid != 0 && strlen( ugid ) != 0 )
-		Rva007E8640Copy( m_game->m_ugid, sizeof( m_game->m_ugid ), ugid );
+		Rva00655700( m_game->m_ugid, sizeof( m_game->m_ugid ), ugid );
 
 	char portText[ 0x100 ];
 	sprintf( portText, "%d", port );

@@ -16,9 +16,6 @@
 
 extern const int g_emptyFieldParseTable[4];
 #pragma comment(linker, "/alternatename:?Rva007E9B70Get@@YAPAURva007E9B70Obj@@XZ=?Rva00656B60Get@@YAHXZ")
-#pragma comment(linker, "/alternatename:?Rva007FBC00@@YAIXZ=?Rva00668100Get@@YAHXZ")
-#pragma comment(linker, "/alternatename:?Rva007FD060@@YAIXZ=?Rva00669530Get@@YAHXZ")
-#pragma comment(linker, "/alternatename:?Rva007F8FB0@@YAIXZ=?Rva006655E0Get@@YAHXZ")
 #pragma comment(linker, "/alternatename:?opaqueCall@Rva00507552@@SAPAXXZ=?Rva00507552Get@@YAHXZ")
 #pragma comment(linker, "/alternatename:?opaqueCall@Rva005088C8@@SAPAXXZ=?Rva005088C8Get@@YAHXZ")
 

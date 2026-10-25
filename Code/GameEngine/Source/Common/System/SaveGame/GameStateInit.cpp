@@ -26,8 +26,7 @@ class GameState : public SnapshotSubsystemPrefix, public Snapshot {
 public: virtual void init();
 private: void addSnapshotBlock(AsciiString, Snapshot *, SnapshotType); char opaque10[0xE08]; bool m_isInLoadGame;
 };
-void *Rva0043CCC2GetRoute(); void *Rva004E4312GetRoute();
-#pragma comment(linker, "/alternatename:?Rva0043CCC2GetRoute@@YAPAXXZ=?Rva0043C9B3Get@@YAPAXXZ")
+void *Rva0043CCC2Get(); void *Rva004E4312GetRoute();
 class Rva002BA8F1Logic; 
 class AudioManager; extern AudioManager *TheAudio;
 class GameState; extern GameState *TheGameState;
@@ -93,7 +92,7 @@ void GameState::init()
     addSnapshotBlock("CHUNK_SkirmishAISystem", (Snapshot *)(SnapshotSubsystemView *)TheSkirmishAIManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_MineshaftPortalNetworkManager", (Snapshot *)(SnapshotSubsystemView *)TheMineshaftPortalNetworkManager, (SnapshotType)0);
     addSnapshotBlock("CHUNK_AiOrdersManager", (Snapshot *)(SnapshotSubsystemView *)TheAiOrdersManager, (SnapshotType)0);
-    addSnapshotBlock("CHUNK_SpellStore", (Snapshot *)Rva0043CCC2GetRoute(), (SnapshotType)0);
+    addSnapshotBlock("CHUNK_SpellStore", (Snapshot *)Rva0043CCC2Get(), (SnapshotType)0);
     addSnapshotBlock("CHUNK_ObjectivesMenu", (Snapshot *)Rva004E4312GetRoute(), (SnapshotType)0);
     addSnapshotBlock("CHUNK_MissionObjectives", (Snapshot *)(SnapshotSubsystemView *)TheMissionObjectiveTracker, (SnapshotType)0);
     addSnapshotBlock("CHUNK_FireLogicSystem", (Snapshot *)(SnapshotSubsystemView *)TheTriggerManager, (SnapshotType)0);

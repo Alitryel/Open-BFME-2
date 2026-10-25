@@ -30,7 +30,7 @@ class BfmeThingDGG;
 
 BfmeThingUNB *bfmeNewUNB(void);
 void *Gen007F0130(unsigned int size);
-unsigned Rva007F8FB0(void);
+int Rva006655E0Get(void);
 BfmeThingDGG *bfmeGoDGG(void *a);
 int Rva007EB380Startup(char *params);
 
@@ -74,7 +74,7 @@ void Rva007EA9C0Owner::init()
 		adj = 0;
 	m_250->attach(adj);
 	m_254->setPeer(m_250);
-	m_254->m_24 = Rva007F8FB0();
+	m_254->m_24 = Rva006655E0Get();
 	void *svc = m_254;
 	if (svc)
 		svc = (char *)svc + 8;

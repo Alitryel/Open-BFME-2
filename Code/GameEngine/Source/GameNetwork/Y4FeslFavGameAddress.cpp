@@ -100,7 +100,7 @@ public:
 void *Rva007F93E0( void *message, void *route, void *owner );
 char * __cdecl ji_009f70ba( char *dest, const char *src, unsigned count );
 
-void Rva007E8640Copy(char *dest, unsigned int capacity, const char *source);
+void Rva00655700(char *dest, unsigned int capacity, const char *source);
 
 class Rva00808900Owner
 {

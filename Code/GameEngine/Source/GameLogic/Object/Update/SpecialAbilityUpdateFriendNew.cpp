@@ -17,7 +17,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void SpecialAbilityUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -28,6 +27,7 @@ public:
 class TeleportToCasterSpecialPowerModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	TeleportToCasterSpecialPowerModuleData();
 	virtual ~TeleportToCasterSpecialPowerModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -41,6 +41,6 @@ ModuleData *TeleportToCasterSpecialPowerModuleData::friend_newModuleData(INI *in
 {
 	TeleportToCasterSpecialPowerModuleData *data = new TeleportToCasterSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, SpecialAbilityUpdateParse);
+		ini->initFromINIMultiProc(data, TeleportToCasterSpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

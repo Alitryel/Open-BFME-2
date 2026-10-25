@@ -16,7 +16,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void AIUpdateInterfaceParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -27,6 +26,7 @@ public:
 class CombineHordeSpecialPowerModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	CombineHordeSpecialPowerModuleData();
 	virtual ~CombineHordeSpecialPowerModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -40,6 +40,6 @@ ModuleData *CombineHordeSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
 	CombineHordeSpecialPowerModuleData *data = new CombineHordeSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, AIUpdateInterfaceParse);
+		ini->initFromINIMultiProc(data, CombineHordeSpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

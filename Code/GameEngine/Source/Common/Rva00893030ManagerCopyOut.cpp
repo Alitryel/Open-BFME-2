@@ -37,7 +37,7 @@ public:
 	static unsigned int decrement(unsigned int *value);
 };
 
-void bfmeDropA(void *value);
+void bfmeDropVGO(void *value);
 
 class BfmeDropObjectA;
 
@@ -53,7 +53,7 @@ public:
 	~BfmeElemCU()
 	{
 		if (m_value && Rva00894D90Accessor::decrement((unsigned int *)m_value) == 0)
-			bfmeDropA(m_value);
+			bfmeDropVGO(m_value);
 	}
 
 	BfmeElemCU &operator=(const BfmeElemCU &other)
@@ -61,7 +61,7 @@ public:
 		if (&other != this)
 		{
 			if (m_value && Rva00894D90Accessor::decrement((unsigned int *)m_value) == 0)
-				bfmeDropA(m_value);
+				bfmeDropVGO(m_value);
 			m_value = other.m_value;
 			if (m_value)
 				Rva00894D80Accessor::increment((unsigned int *)m_value);

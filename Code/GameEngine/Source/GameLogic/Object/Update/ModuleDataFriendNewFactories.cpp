@@ -22,7 +22,6 @@ public:
 
 // 0x0024AF5C: news 0x0C, ctor ??0LockWeaponCreateModuleData (rowed 0x254C8E),
 // parse proc 0x8598E1.
-void LockWeaponCreateModuleDataParse_24AF5C(MultiIniFieldParse &parse);
 
 class LockWeaponCreateModuleData
 {
@@ -37,6 +36,7 @@ private:
 class SiegeDockingBehaviorModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
@@ -45,17 +45,17 @@ ModuleData *SiegeDockingBehaviorModuleData::friend_newModuleData(INI *ini)
 {
 	LockWeaponCreateModuleData *data = new LockWeaponCreateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, LockWeaponCreateModuleDataParse_24AF5C);
+		ini->initFromINIMultiProc(data, SiegeDockingBehaviorModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
 // 0x0024CF56: news 0x10, ctor ??0FireWeaponUpdateModuleData (rowed 0x48BC03),
 // parse proc 0x88C0B4.
-void FireWeaponUpdateParse_24CF56(MultiIniFieldParse &parse);
 
 class FireWeaponUpdateModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	FireWeaponUpdateModuleData();
 	virtual ~FireWeaponUpdateModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -69,13 +69,12 @@ ModuleData *FireWeaponUpdateModuleData::friend_newModuleData(INI *ini)
 {
 	FireWeaponUpdateModuleData *data = new FireWeaponUpdateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, FireWeaponUpdateParse_24CF56);
+		ini->initFromINIMultiProc(data, FireWeaponUpdateModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
 // 0x0024FC08: news 0x0C, ctor ??0RadarUpdateModuleData (rowed 0x3ECC80),
 // parse proc 0x7ECC91.
-void RadarUpdateModuleDataParse_24FC08(MultiIniFieldParse &parse);
 
 class RadarUpdateModuleData
 {
@@ -90,6 +89,7 @@ private:
 class ThreatFinderUpdateModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
@@ -98,21 +98,20 @@ ModuleData *ThreatFinderUpdateModuleData::friend_newModuleData(INI *ini)
 {
 	RadarUpdateModuleData *data = new RadarUpdateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, RadarUpdateModuleDataParse_24FC08);
+		ini->initFromINIMultiProc(data, ThreatFinderUpdateModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
 // 0x002524B2 / 0x002526DF / 0x00252768 / 0x0025287D: all news 0x7C with the
 // one folded ctor ??0UntamedAllegianceSpecialPowerModuleData (rowed 0x4C72D3);
 // parse procs 0x8C7AEB, 0x8C856F, 0x8C8699, 0x8C89CB.
-void UntamedAllegianceSpecialPowerParse_2524B2(MultiIniFieldParse &parse);
 void ManTheWallsSpecialPowerParse_2526DF(MultiIniFieldParse &parse);
-void RepairSpecialPowerParse_252768(MultiIniFieldParse &parse);
 void HordeDispatchSpecialPowerParse_25287D(MultiIniFieldParse &parse);
 
 class UntamedAllegianceSpecialPowerModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	UntamedAllegianceSpecialPowerModuleData();
 	virtual ~UntamedAllegianceSpecialPowerModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -130,6 +129,7 @@ public:
 class RepairSpecialPowerModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
@@ -144,7 +144,7 @@ ModuleData *UntamedAllegianceSpecialPowerModuleData::friend_newModuleData(INI *i
 {
 	UntamedAllegianceSpecialPowerModuleData *data = new UntamedAllegianceSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, UntamedAllegianceSpecialPowerParse_2524B2);
+		ini->initFromINIMultiProc(data, UntamedAllegianceSpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
@@ -162,7 +162,7 @@ ModuleData *RepairSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
 	UntamedAllegianceSpecialPowerModuleData *data = new UntamedAllegianceSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, RepairSpecialPowerParse_252768);
+		ini->initFromINIMultiProc(data, RepairSpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
 
@@ -177,11 +177,11 @@ ModuleData *HordeDispatchSpecialPowerModuleData::friend_newModuleData(INI *ini)
 
 // 0x00252C13: news 0x14, ctor ??0ModelConditionSoundSelectorClientBehaviorModuleData (rowed 0x4CAEE6),
 // parse proc 0x8CB0F3.
-void ModelConditionSoundSelectorClientBehaviorParse_252C13(MultiIniFieldParse &parse);
 
 class ModelConditionSoundSelectorClientBehaviorModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	ModelConditionSoundSelectorClientBehaviorModuleData();
 	virtual ~ModelConditionSoundSelectorClientBehaviorModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -195,7 +195,7 @@ ModuleData *ModelConditionSoundSelectorClientBehaviorModuleData::friend_newModul
 {
 	ModelConditionSoundSelectorClientBehaviorModuleData *data = new ModelConditionSoundSelectorClientBehaviorModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, ModelConditionSoundSelectorClientBehaviorParse_252C13);
+		ini->initFromINIMultiProc(data, ModelConditionSoundSelectorClientBehaviorModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
 

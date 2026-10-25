@@ -16,7 +16,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void DynamicGeometryInfoUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -27,6 +26,7 @@ public:
 class CritterEmitterUpdateModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	CritterEmitterUpdateModuleData();
 	virtual ~CritterEmitterUpdateModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -43,6 +43,6 @@ ModuleData *CritterEmitterUpdateModuleData::friend_newModuleData(INI *ini)
 {
 	CritterEmitterUpdateModuleData *data = new CritterEmitterUpdateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, DynamicGeometryInfoUpdateParse);
+		ini->initFromINIMultiProc(data, CritterEmitterUpdateModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

@@ -3865,7 +3865,6 @@ float bfmeProjectionBias;
 #pragma comment(linker, "/alternatename:?Device_Reset_Hook@BfmeResetMeshRenderer@@QAEXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:_bfmeDirectXErrorName@4=_DXGetErrorString9A@4")
 #pragma comment(linker, "/alternatename:??1BfmeCellFC@@QAE@XZ=?DX8_Assert@@YAXXZ")
-#pragma comment(linker, "/alternatename:?Rva009A7030@@YAXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:?bfmeReset@Gen_008812D0@@QAEXXZ=?DX8_Assert@@YAXXZ")
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
@@ -3884,8 +3883,6 @@ float bfmeProjectionBias;
 #pragma comment(linker, "/alternatename:?bfmeLengthErrorQX@BfmeThingQX@@QAEXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:??1DebugMember@@QAE@XZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:_bfmeDtorCbDMC=?DX8_Assert@@YAXXZ")
-#pragma comment(linker, "/alternatename:?bfmeFlushSXA@@YAXXZ=?DX8_Assert@@YAXXZ")
-#pragma comment(linker, "/alternatename:?bfmeFlushSTA@@YAXXZ=?DX8_Assert@@YAXXZ")
 
 // Retail's data references in this unit's matched rows land on globals defined
 // under other spellings at the same addresses (addend-corrected DIR32). Bind them.

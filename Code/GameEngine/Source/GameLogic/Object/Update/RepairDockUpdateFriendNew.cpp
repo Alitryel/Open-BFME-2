@@ -15,7 +15,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void RepairDockUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -26,6 +25,7 @@ public:
 class ModelConditionAudioLoopClientBehaviorModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	ModelConditionAudioLoopClientBehaviorModuleData();
 	virtual ~ModelConditionAudioLoopClientBehaviorModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -40,6 +40,6 @@ ModuleData *ModelConditionAudioLoopClientBehaviorModuleData::friend_newModuleDat
 {
 	ModelConditionAudioLoopClientBehaviorModuleData *data = new ModelConditionAudioLoopClientBehaviorModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, RepairDockUpdateParse);
+		ini->initFromINIMultiProc(data, ModelConditionAudioLoopClientBehaviorModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

@@ -26,7 +26,6 @@ public:
 
 // 0x00251DCC: news 0x80, ctor ??0DefectorSpecialPowerModuleData (rowed 0x4C2A6A),
 // parse proc 0x8C4338.
-void DefectorSpecialPowerModuleDataParse_251DCC(MultiIniFieldParse &parse);
 
 class DefectorSpecialPowerModuleData
 {
@@ -41,6 +40,7 @@ private:
 class ScavengerSpecialPowerModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	static ModuleData *friend_newModuleData(INI *ini);
 };
 
@@ -49,7 +49,7 @@ ModuleData *ScavengerSpecialPowerModuleData::friend_newModuleData(INI *ini)
 {
 	DefectorSpecialPowerModuleData *data = new DefectorSpecialPowerModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, DefectorSpecialPowerModuleDataParse_251DCC);
+		ini->initFromINIMultiProc(data, ScavengerSpecialPowerModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
 

@@ -24,7 +24,7 @@ void (__cdecl *g_aptBackgroundCallback)(int) = 0;
 // Retail VA 0xE17784 is four zero-filled bytes before callback registration.
 // Retain the existing ABI/name without asserting the conflicting donor role.
 void (__cdecl *g_bfmeAptFreeAtE17784)(void *,int) = 0;
-void AptDebuggerPrint(int,const char *,...);
+void Rva006CC110Log(int,const char *,...);
 #define CHECK(c,l,s) if(!(c)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMovie.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}
 struct AptFrame; class AptDisplayList; class AptPseudoDisplayList;
 class AptMovie {public:int nFrames;AptFrame *frames; void doFrameControls(AptDisplayList *,AptCIH *,int); void DoTemporaryFrameControls(AptPseudoDisplayList *,int);};
@@ -72,7 +72,7 @@ void AptMovie::doFrameControls(AptDisplayList *display,AptCIH *inst,int frame) {
    case 3: inst->inst->character->parent->animation.ExecuteInitActions(inst,control->place.character);display->placeObject(&control->place,inst);break;
    case 4: display->removeObject(&control->value);break;
    case 6: g_bfmeAptFreeAtE17784(inst->inst->character->parent->animation.characters[control->value]->sound,0);break;
-   case 7: AptDebuggerPrint(3,"warning: soundstream level is always 0\n");break;
+   case 7: Rva006CC110Log(3,"warning: soundstream level is always 0\n");break;
    case 1:case 2:case 8:break;
    default: CHECK(0,0x178,"NOT_REACHED");
   }
@@ -81,7 +81,6 @@ void AptMovie::doFrameControls(AptDisplayList *display,AptCIH *inst,int frame) {
 
 #pragma comment(linker, "/alternatename:?rva007002C0@Rva007002C0@@QAEXHPAXH0@Z=?runStream@AptActionInterpreter@@QAEPBEPBEPAVAptCIH@@HPAUAptCharacterInst@@@Z")
 #pragma comment(linker, "/alternatename:?removeObject@AptDisplayList@@QAEXPAH@Z=?bfmeForward1279@AptDisplayList@@QAEXPAUBfmeInput1279@@@Z")
-#pragma comment(linker, "/alternatename:?AptDebuggerPrint@@YAXHPBDZZ=?Rva006CC110Log@@YAXHPBDZZ")
 
 // Temporary controls: donor semantic guide; native preserves old always-true
 // (flags & 1 | 0x98) clause removed in later source. PDB node remains20B.

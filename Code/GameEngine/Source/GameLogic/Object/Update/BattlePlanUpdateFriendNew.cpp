@@ -15,7 +15,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void BattlePlanUpdateParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -26,6 +25,7 @@ public:
 class UpgradeSoundSelectorClientBehaviorModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	UpgradeSoundSelectorClientBehaviorModuleData();
 	virtual ~UpgradeSoundSelectorClientBehaviorModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -40,6 +40,6 @@ ModuleData *UpgradeSoundSelectorClientBehaviorModuleData::friend_newModuleData(I
 {
 	UpgradeSoundSelectorClientBehaviorModuleData *data = new UpgradeSoundSelectorClientBehaviorModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, BattlePlanUpdateParse);
+		ini->initFromINIMultiProc(data, UpgradeSoundSelectorClientBehaviorModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }

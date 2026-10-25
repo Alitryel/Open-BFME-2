@@ -15,7 +15,6 @@ class ModuleData;
 class INI;
 class MultiIniFieldParse;
 
-void SupplyWarehouseDockUpdateModuleDataParse(MultiIniFieldParse &parse);
 
 class INI
 {
@@ -26,6 +25,7 @@ public:
 class SupplyWarehouseDockUpdateModuleData
 {
 public:
+	static void buildFieldParse(MultiIniFieldParse &parse);
 	SupplyWarehouseDockUpdateModuleData();
 	virtual ~SupplyWarehouseDockUpdateModuleData();
 	static ModuleData *friend_newModuleData(INI *ini);
@@ -39,6 +39,6 @@ ModuleData *SupplyWarehouseDockUpdateModuleData::friend_newModuleData(INI *ini)
 {
 	SupplyWarehouseDockUpdateModuleData *data = new SupplyWarehouseDockUpdateModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, SupplyWarehouseDockUpdateModuleDataParse);
+		ini->initFromINIMultiProc(data, SupplyWarehouseDockUpdateModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
