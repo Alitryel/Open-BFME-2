@@ -17,8 +17,8 @@ public:
     bool rva000ECF2A(unsigned key, int mode);
     void startMorph(int index, int mode);
     unsigned char pad00[0x5C0];
-    TreeLookupRecord records[1200];
-    int count;
+    TreeLookupRecord m_records[1200];
+    int m_count;
 };
 // ?rva000ECF2A@W3DTreeBuffer@@QAE_NIH@Z retail 0x000ECF2A..0x000ECF79.
 // Identity: destructor 0x000EDA94 installs vtable 0x007CEEA4, whose +8
@@ -32,7 +32,8 @@ bool W3DTreeBuffer::rva000ECF2A(unsigned key, int mode)
 {
     if (!key)
         return false;
-    for (int index = 0; index < count; ++index)
+    TreeLookupRecord *records = reinterpret_cast<TreeLookupRecord *>(m_records);
+    for (int index = 0; index < m_count; ++index)
     {
         if (records[index].key == key && records[index].state <= 0 && records[index].guard == 0)
         {

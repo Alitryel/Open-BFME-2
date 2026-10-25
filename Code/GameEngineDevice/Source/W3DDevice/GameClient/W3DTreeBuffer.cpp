@@ -283,6 +283,8 @@ private:
 public:
 	void rva000EB2EF(int index);
 	void rva000EB0E6(int index);
+	bool rva000ECF2A(unsigned key, int mode);
+	void startMorph(int index, int mode);
 };
 
 class Rva000EB3D1
