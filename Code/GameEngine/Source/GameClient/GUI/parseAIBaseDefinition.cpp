@@ -23,7 +23,8 @@ class INI {public:void initFromINI(void*,const FieldParse*);static void parseAsc
 // Native table is exactly five entries at C3AF18..C3AF68; the following
 // bytes are unrelated code pointers and the Unnamed string, not a zero
 // terminator. Preserve that observed extent instead of adding a sentinel.
-static const FieldParse fields[]={
+// Named for its address: the rowed getter 0x0041E6B8 returns it too.
+extern const FieldParse g_00C3AF18[]={
  {"Side",INI::parseAsciiString,0,0},{"Map",INI::parseAsciiString,0,4},{"GameMapToUseOn",INI::parseAsciiString,0,8},{"PlayerPositions",INI::Rva004E8EFF_ParseDisabledSlots,0,12},{"AllowsArbirtaryRotation",INI::parseBool,0,24}};
 class Rva0041E732 {public:Rva0041E732() throw();AsciiString side,map;char rest[32];};
 class Rva0041E875 {public:~Rva0041E875();};
@@ -57,7 +58,7 @@ class Rva0022BD9ASubsystem;extern Rva0022BD9ASubsystem*TheBaseTemplateLibrary;
 struct Rva0041EC73View {char prefix[12];char map0C[20];_STL::hash_map<int,_STL::vector<ScienceType> >map20;};
 void parseAIBaseDefinition(INI*ini){
  Rva0041E732*value=new Rva0041E732;
- ini->initFromINI(value,fields);
+ ini->initFromINI(value,g_00C3AF18);
  int sideKey=TheNameKeyGenerator->nameToKey(value->side);
 
  if(reinterpret_cast<ArmorHashtable*>(&reinterpret_cast<Rva0041EC73View*>(TheBaseTemplateLibrary)->map20)->contains(reinterpret_cast<const NameKeyType&>(sideKey))==false){

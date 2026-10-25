@@ -29,15 +29,6 @@ int Rva001DB686Get(void)
 }
 
 
-// ?Rva0041E6B8Get@@YAHXZ @ 0x0041e6b8 (6B): returns 0x00c3af18.
-// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva0041E6B8Get(void)
-{
-	return 0x00c3af18;
-}
-
-
 // ?Rva0011C460Get@@YAHXZ @ 0x0011c460 (6B): returns 0x00dec5e8.
 // int3-padded both sides, no direct callers. Opaque address-derived name.
 int Rva0011C460Get(void)
@@ -55,31 +46,6 @@ int Rva0033A7BBGet(void)
 }
 
 
-// ?Rva00418060Get@@YAHXZ @ 0x00418060 (6B): returns 0x00c3a730.
-// Follows a leave plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva00418060Get(void)
-{
-	return 0x00c3a730;
-}
-
-// ?Rva0041901DGet@@YAHXZ @ 0x0041901d (6B): returns 0x00c3a9a8.
-// Follows a leave plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva0041901DGet(void)
-{
-	return 0x00c3a9a8;
-}
-
-// ?Rva00419663Get@@YAHXZ @ 0x00419663 (6B): returns 0x00c3aac8.
-// Follows a leave plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva00419663Get(void)
-{
-	return 0x00c3aac8;
-}
-
-
 // ?Rva00611030Get@@YAHXZ @ 0x00611030 (6B): returns 0x00e08c58.
 // int3-padded both sides, no direct callers. Opaque address-derived name.
 int Rva00611030Get(void)
@@ -87,9 +53,3 @@ int Rva00611030Get(void)
 	return (int)__identifier("?ProcessorString@CPUDetectClass@@0PADA");
 }
 
-// ?Rva006882D0Get@@YAHXZ @ 0x006882d0 (6B): returns 0x00ce43b0.
-// int3-padded both sides, no direct callers. Opaque address-derived name.
-int Rva006882D0Get(void)
-{
-	return 0x00ce43b0;
-}

@@ -732,3 +732,51 @@ int Rva0041F71AGet(void)
 {
 	return reinterpret_cast<int>(TheArmyDefinitionFields);
 }
+
+// Field-parse tables INIThinFieldParsers2.cpp defines; the getters below return them.
+extern const FieldParse g_00C3A730[];
+extern const FieldParse g_00C3A9A8[];
+extern const FieldParse g_00C3AAC8[];
+extern const FieldParse g_00CE43B0[];
+
+// ?Rva00418060Get@@YAHXZ @ 0x00418060 (6B): returns 0x00c3a730.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva00418060Get(void)
+{
+	return reinterpret_cast<int>(g_00C3A730);
+}
+
+// ?Rva0041901DGet@@YAHXZ @ 0x0041901d (6B): returns 0x00c3a9a8.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva0041901DGet(void)
+{
+	return reinterpret_cast<int>(g_00C3A9A8);
+}
+
+// ?Rva00419663Get@@YAHXZ @ 0x00419663 (6B): returns 0x00c3aac8.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva00419663Get(void)
+{
+	return reinterpret_cast<int>(g_00C3AAC8);
+}
+
+// ?Rva006882D0Get@@YAHXZ @ 0x006882d0 (6B): returns 0x00ce43b0.
+// int3-padded both sides, no direct callers. Opaque address-derived name.
+int Rva006882D0Get(void)
+{
+	return reinterpret_cast<int>(g_00CE43B0);
+}
+
+// The field-parse table parseAIBaseDefinition.cpp defines; the getter below returns it.
+extern const FieldParse g_00C3AF18[];
+
+// ?Rva0041E6B8Get@@YAHXZ @ 0x0041e6b8 (6B): returns 0x00c3af18.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva0041E6B8Get(void)
+{
+	return reinterpret_cast<int>(g_00C3AF18);
+}

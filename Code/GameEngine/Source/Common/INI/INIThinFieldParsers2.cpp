@@ -209,3 +209,48 @@ void Rva004FCB23Parse(INI *ini, void *instance, void *store, const void *userDat
 	for (unsigned int i = 0; i < list.size(); ++i)
 		--list[i];
 }
+
+// Four more retail FieldParse tables, each N 16-byte entries plus the retail
+// null terminator (16 zero bytes, then string data); every parser is a rowed
+// code owner. The six-byte getters 0x00418060, 0x0041901D, 0x00419663 and
+// 0x006882D0 return their addresses.
+extern "C" {
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva00418F7DParse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseDamagePerRoundIntoTable@LivingWorldAutoResolveWeaponTemplate@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva004195ECParse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseFromINI@Rva00417DFB@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva00417FF0Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva006882E0Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseSubtitleText@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseSubtitleLineTable@@YAXPAVINI@@PAX1PBX@Z")();
+}
+// 0x00C3A730: Affects / AffectsHigherLevelFirst / BonusForLevel.
+extern const FieldParse g_00C3A730[] = {
+    { "Affects", (FieldParseProc)&__identifier("?parseFromINI@Rva00417DFB@@SAXPAVINI@@PAX1PBX@Z"), 0, 4 },
+    { "AffectsHigherLevelFirst", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 20 },
+    { "BonusForLevel", (FieldParseProc)&__identifier("?Rva00417FF0Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 8 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C3A9A8: the AutoResolve attack-priority Target entry.
+extern const FieldParse g_00C3A9A8[] = {
+    { "Target", (FieldParseProc)&__identifier("?Rva00418F7DParse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0 },
+    { 0, 0, 0, 0 }
+};
+// 0x00C3AAC8: the LivingWorld AutoResolve weapon fields.
+extern const FieldParse g_00C3AAC8[] = {
+    { "DamagePerRound", (FieldParseProc)&__identifier("?parseDamagePerRoundIntoTable@LivingWorldAutoResolveWeaponTemplate@@SAXPAVINI@@PAX1PBX@Z"), 0, 20 },
+    { "LevelBonus", (FieldParseProc)&__identifier("?Rva004195ECParse@@YAXPAVINI@@PAX1PBX@Z"), 0, 4 },
+    { "ReduceAttackWhenHurt", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 52 },
+    { "MissPercentChance", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 16 },
+    { 0, 0, 0, 0 }
+};
+// 0x00CE43B0: the subtitle font/type fields.
+extern const FieldParse g_00CE43B0[] = {
+    { "FontName", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 12 },
+    { "FontPitch", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 16 },
+    { "SubTitleType", (FieldParseProc)&__identifier("?Rva006882E0Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 32 },
+    { "SubTitle", (FieldParseProc)&__identifier("?parseSubtitleText@@YAXPAVINI@@PAX1PBX@Z"), 0, 20 },
+    { "LineTable", (FieldParseProc)&__identifier("?parseSubtitleLineTable@@YAXPAVINI@@PAX1PBX@Z"), 0, 36 },
+    { 0, 0, 0, 0 }
+};
