@@ -23,6 +23,8 @@ typedef int Int;
 
 typedef bool Bool;
 
+typedef unsigned int UnsignedInt;
+
 enum SlotState
 {
 	SLOT_OPEN = 0,
@@ -63,7 +65,7 @@ public:
 	virtual void slot28() = 0;
 	virtual void slot2c() = 0;
 	virtual void slot30() = 0;
-	virtual void slot34() = 0;
+	virtual Int getLocalSlotNum() const = 0;
 	virtual void slot38() = 0;
 	virtual void slot3c() = 0;
 	virtual void slot40() = 0;
@@ -71,6 +73,8 @@ public:
 
 	GameSlot *getSlot(Int slotNum);
 	void setSlot(Int slotNum, GameSlot slotInfo);
+	void setMapSize(UnsignedInt mapSize);
+	Int getMaxPlayers();
 	void clearSlotList();
 	void enterGame();
 	void endGame();
@@ -87,6 +91,10 @@ private:
 	Bool m_inProgress;
 	char m_pad12[6];
 	GameSlot *m_slot[MAX_SLOTS];
+	char m_pad38[0x08];
+	AsciiString m_mapName;
+	UnsignedInt m_mapCRC;
+	UnsignedInt m_mapSize;
 };
 
 // map<int,int> empty, tree-iterator ++/-- and != are expanded inline here; their
@@ -105,6 +113,9 @@ template <> __declspec(dllimport) __forceinline
 _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
 _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator--()
 { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; }
+}
+
+namespace _STL {
 template <class T, class LeftTraits, class RightTraits>
 static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits> &a, const _Rb_tree_iterator<T, RightTraits> &b)
 { return a._M_node != b._M_node; }

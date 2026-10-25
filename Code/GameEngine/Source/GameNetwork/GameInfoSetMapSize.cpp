@@ -14,8 +14,7 @@
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
 template <class T, class LeftTraits, class RightTraits>
-static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
-                              const _Rb_tree_iterator<T, RightTraits>& b)
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits> &a, const _Rb_tree_iterator<T, RightTraits> &b)
 { return a._M_node != b._M_node; }
 }
 
@@ -65,19 +64,28 @@ class MapCache : public _STL::map<AsciiString, MapMetaData>
 
 extern MapCache *TheMapCache;
 
-class GameSlot
+#include "unicode_string.h"
+
+class GameSlot;
+struct GameSlotConnectInfo;
+
+enum SlotState
 {
-public:
-	Bool isHuman() const { return m_state == 6; }
-	void *m_vtable;
-	Int m_state;
-	Bool m_isAccepted;
-	Bool m_hasMap;
+	SLOT_OPEN = 0,
+	SLOT_CLOSED = 1,
+	SLOT_EASY_AI = 2,
+	SLOT_MED_AI = 3,
+	SLOT_BRUTAL_AI = 4,
+	SLOT_AI_5 = 5,
+	SLOT_PLAYER = 6
 };
+
+enum { MAX_SLOTS = 8 };
 
 class GameInfo
 {
 public:
+	// Vtable 0x008193C8 slot 17 (+0x44); the others are not reconstructed here.
 	virtual void slot00() = 0;
 	virtual void slot04() = 0;
 	virtual void slot08() = 0;
@@ -92,17 +100,95 @@ public:
 	virtual void slot2c() = 0;
 	virtual void slot30() = 0;
 	virtual Int getLocalSlotNum() const = 0;
+	virtual void slot38() = 0;
+	virtual void slot3c() = 0;
+	virtual void slot40() = 0;
+	virtual void closeOpenSlots();
+
 	GameSlot *getSlot(Int slotNum);
+	void setSlot(Int slotNum, GameSlot slotInfo);
 	void setMapSize(UnsignedInt mapSize);
 	Int getMaxPlayers();
+	void clearSlotList();
+	void enterGame();
+	void endGame();
+	Bool isPlayerPreorder(Int index);
+	void markPlayerAsPreorder(Int index);
+
 private:
-	char m_pad0C[0x0C];
+	// The existing TU verifies the preorder mask at +0x08 and the game
+	// state flags at +0x10/+0x11. The slot array remains at +0x18.
+	char m_pad[0x04];
+	Int m_preorderMask;
+	char m_pad0C[4];
 	Bool m_inGame;
-	char m_pad11[0x2F];
+	Bool m_inProgress;
+	char m_pad12[6];
+	GameSlot *m_slot[MAX_SLOTS];
+	char m_pad38[0x08];
 	AsciiString m_mapName;
 	UnsignedInt m_mapCRC;
 	UnsignedInt m_mapSize;
 };
+
+class GameSlot
+{
+	friend class GameInfo;
+public:
+	GameSlot &rva002DBAB9(const GameSlot &other);
+	GameSlot();
+	GameSlot(const GameSlot &);
+	virtual ~GameSlot();
+	Bool isOccupied() const;
+	void rva003FF5F2(const AsciiString &other);
+	void setState(SlotState state, UnicodeString name, const GameSlotConnectInfo *connectInfo);
+	Bool isHuman() const;
+	Bool isPlayer(AsciiString userName) const;
+public:
+	void saveOffOriginalInfo();
+private:
+	Int m_state;
+private:
+	Bool m_isAccepted;
+private:
+	Bool m_hasMap;
+private:
+	Bool m_isMuted;
+private:
+	char m_pad0B[1];
+private:
+	Int m_color;
+private:
+	Int m_startPos;
+private:
+	Int m_bfme14;
+private:
+	Int m_playerTemplate;
+private:
+	Int m_teamNumber;
+private:
+	Int m_bfme20;
+private:
+	Int m_origColor;
+private:
+	Int m_origStartPos;
+private:
+	Int m_origPlayerTemplate;
+public:
+	void setPlayerTemplate(Int playerTemplate);
+private:
+	// Retail isPlayer(AsciiString) reads the UnicodeString at +0x30;
+	// the existing AsciiString setter still uses the separate +0x1A8 word.
+	// text30 is the offset spelling already used by GameSlotCtor.cpp.
+	UnicodeString text30;
+	char m_pad34[0x1A8 - 0x34];
+	AsciiString m_name;
+};
+
+inline Bool GameSlot::isHuman() const
+{
+	return m_state == SLOT_PLAYER;
+}
 
 Int GameInfo::getMaxPlayers()
 {

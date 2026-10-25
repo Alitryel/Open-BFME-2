@@ -76,3 +76,41 @@ compile rejection among the current eligible donors. This is another standalone
 prerequisite; no fragments have been absorbed yet. Pending path-change audit
 remains empty. Retain file:Code/GameEngine/Source/GameNetwork/GameInfo_setSlot.cpp
 and 0x003FFDFA through publication as well.
+
+## setMapSize/getMaxPlayers donor unblocked
+
+The duplicate iterator != definition is now in its own identical namespace
+block in the seed and donor, so the normal composer deduplicates it without a
+tooling change. The participating GameInfo declaration combines the existing
+verified +0x40 map name, +0x44 CRC and +0x48 size with the seed's earlier fields.
+Slot 13 uses the existing donor's getLocalSlotNum signature. No vtable entries
+are inserted. The donor's isHuman inline uses the seed's exact same definition;
+the pre-existing hasMap accesses retain their target +0x09 offset.
+
+`./build.sh` passes **18/18 existing ledger rows** across all five eligible
+sources. Declared-unmatched and whitespace checks pass. The normal dry-run
+build/gameinfo-sol-mapsize-dry.txt accepts GameInfo.cpp plus **all four**
+remaining eligible donors, with an empty rejected dictionary. These are eight
+additional existing rows (including three EH handlers), 723 retail bytes, ready
+for the next mechanical merge. This repair itself removes no source files and
+adds zero recovered bytes. Mixed/protected files remain untouched.
+
+All four private-view/compile prerequisites recorded by the prior Luna handoff
+are now cleared for this eligible subset. The mechanical seat should rerun the
+current scoped planner and --plan, then use tu_skeleton.py --merge normally.
+No handwritten merge or preparation patch is needed. This seat leaves the
+compatible donors intact for that pass.
+
+The audit of origin/master..HEAD and these staged edits contains no source-path
+changes. Current names, EA path strings, ledgers and protected registers are
+unchanged. Additional pending claims are
+file:Code/GameEngine/Source/GameNetwork/GameInfoSetMapSize.cpp, 0x00400F5A and
+0x0040203C. Release all five file scopes and the five body RVAs listed in this
+handoff only after the runner confirms publication; settle landed rows through
+claims.py release --landed.
+
+The latest origin/master fetch also includes another seat's Device changes;
+the double-dot inventory shows those differences, but the merge-base outgoing
+inventory and explicit local commit list confirm this batch has no path moves.
+The staged map-size prerequisite also changes declarations only. No changed
+path consumer requires repair. AGENTS.md has no incoming change.
