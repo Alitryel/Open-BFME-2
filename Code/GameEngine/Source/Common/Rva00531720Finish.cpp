@@ -26,10 +26,10 @@ public:
 };
 unsigned char PathfindZoneManager::rva00531720(unsigned int a, unsigned int idx)
 {
-	unsigned int t = a;
+	unsigned int flags = a;
 	unsigned char m[2];
-	m[0] = (unsigned char)((t >> 1) & 1);
-	m[1] = (unsigned char)((t >> 2) & 1);
+	m[0] = (unsigned char)((flags >> 1) & 1);
+	m[1] = (unsigned char)((flags >> 2) & 1);
 	const unsigned char *element = &m_elems[idx].b0;
 	if (m[0] && (element[1] & 0x80))
 		return 0;
