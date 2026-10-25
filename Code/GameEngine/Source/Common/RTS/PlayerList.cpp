@@ -132,7 +132,7 @@ void PlayerList::teamAboutToBeDeleted(Team* team)
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// PlayerList::setLocalPlayer is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/PlayerList_setLocalPlayer_Rva002A7B34.cpp (0x002A7B34).
+// PlayerList::setLocalPlayer is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/PlayerList_setLocalPlayer.cpp (0x002A7B34).
 
 //-----------------------------------------------------------------------------
 

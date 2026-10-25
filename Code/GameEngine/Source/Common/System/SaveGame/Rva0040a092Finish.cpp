@@ -4,7 +4,7 @@
 // Evidence: chain lane; calls rowed findCommandButton 0x0031BE3C via g_bfmeWorldRV,
 // INI getNextToken 0x2DF97 getFilename 0x2C005 getLineNum 0x2BBED, INIException
 // 0x2F681 throw via pinned _CxxThrowException; stores found button into out[index];
-// prev Rva00409FCC.cpp same flags/layout.  ZH donor CommandSet::parseCommandButton
+// prev CommandSet.cpp same flags/layout.  ZH donor CommandSet::parseCommandButton
 // (ControlBar.cpp) is the same token/find/store shape.  The last byte is the
 // getFilename temp: writing `ini->getFilename().str()` and `ini->getLineNum()`
 // inline in the throw (rather than through named locals) makes the compiler keep
