@@ -177,3 +177,54 @@ A fresh official BFME 1 fetch now finds local c0385ef6ba2031d152781f9a8343bfef40
 behind upstream 967c7e1cf5bbda24ea52f802caffa7164c1368ff. The checkout is clean.
 Retained these existing inputs; full reference-update verification is still
 pending outside this prerequisite lane. No freshness success receipt written.
+
+
+## GameSlot state shared-view prerequisite verified
+
+Target GameNetwork/GameInfo.cpp remains allocated to Sol B shard 1/2. The
+current planner's original-path alternatives point to GameInfo.cpp (hints,
+not merge approval); the normal TU resolver approves the donor. Claimed the
+seed, GameSlotCtor.cpp, GameInfoSlotView.h, GameSlotSetState.cpp and 0x003FFC28.
+The header has only those three source consumers after this adoption.
+
+GameSlotSetState now includes the existing shared slot view instead of its
+private GameSlot/SlotState/connect-info declarations. Added only the existing
+nonvirtual isAI declaration; the body uses the view's text30 and connect38
+names for its already-proven +0x30/+0x38 accesses. No layout or virtual slot
+changed, and no new real field-name inference is claimed.
+
+Before/after ordinary builds verify 29/29 rows across all three consumers,
+six string literals, and three EXACT EH graphs. Frozen checks pass (the seed
+retains its existing informational unclaimed definition). Class gate passes.
+Normal merge dry run increases eight files/37 rows to nine files/46 rows,
+retaining every previously accepted donor and adding all nine SetState rows.
+Receipts: build/sol-b5-slot-{before,after}-build.txt and
+build/sol-b5-gameinfo-{before,after}-slot.txt (the before receipt is named
+sol-b5-gameinfo-before-slot.txt). No merge applied or Luna landing claimed.
+
+Code identity checks have no binding/selected-definition findings before or
+after (shadow, 29 rows). Direct allowed-symbol reports have zero wrong
+bindings and identical alias receipts. The raw reference count falls 40 to
+33 solely because seven existing SetState local funclet labels renumber;
+the byte gate resolves each through the exact parent EH graph. Applying
+build.located_funclet in memory to the scoped allowed-symbol scan recovers
+all twelve consumer cleanup references: 45 total, 37 owner/5 alias/3 EH,
+zero wrong. All seven state cleanups bind UnicodeString's destructor at
+0x005B804E. Receipt: build/sol-b5-slot-eh-bindings.txt; no ledger pins edited.
+Data checks have zero findings; converged: 10 addresses, zero second names
+or unjudged rows. No relevant identity/data/header/SDK register key was
+present or retired. Remaining GameInfo donor blockers are GetSlotNum's
+missing declarations/chosen view and the destructor's incomplete lifetime
+view; mixed and protected donors remain untouched.
+
+Outgoing compatibility review: this prerequisite and the five inherited
+pending commits contain no source-path changes. Incoming origin commits
+must be excluded from a divergent-tip diff when identifying our outgoing
+moves; the merge-base-to-HEAD range has only the seven earlier source edits,
+this header/state edit and evidence. Active tools/hooks/workflows/includes,
+build inputs and registries need no path repoints. The new quoted include
+resolves beside the donor and all its consumers were verified together.
+File reduction, retired identity keys and recovered retail bytes are each
+zero. Hold these file scopes and parent until publication is confirmed.
+
+Scoped Microsoft-header audit scanned the header and all three consumers: zero local Microsoft declarations or findings; no relevant queue rows to refresh.

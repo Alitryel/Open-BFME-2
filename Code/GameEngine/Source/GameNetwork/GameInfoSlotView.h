@@ -1,7 +1,7 @@
 #ifndef BFME2_GAME_INFO_SLOT_VIEW_H
 #define BFME2_GAME_INFO_SLOT_VIEW_H
 
-// Private view shared by GameInfo.cpp and its GameSlot construction donor.
+// Private view shared by GameInfo.cpp and its GameSlot construction/state donors.
 // The existing target bodies establish a 0x1AC-byte slot, the Snapshot
 // vtable order, and the owning members at +0x30, +0x34, +0x64 and +0x1A8.
 #include "ascii_string.h"
@@ -65,6 +65,7 @@ public:
 	bool isOccupied() const;
 	void rva003FF5F2(const AsciiString &other);
 	bool isHuman() const;
+	bool isAI() const;
 	bool isPlayer(AsciiString userName) const;
 	void saveOffOriginalInfo();
 	void setPlayerTemplate(int playerTemplate);
