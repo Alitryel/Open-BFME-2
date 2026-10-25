@@ -40,10 +40,3 @@ public:
 	virtual void _slot015();
 	virtual unsigned getWidth();
 };
-
-// ??0ProcessAnimateWindowSpiral@@QAE@XZ @0x005C4FFF
-ProcessAnimateWindowSpiral::ProcessAnimateWindowSpiral( void )
-{
-	m_maxR = reinterpret_cast<BFMEDisplayWidthSlot *>(TheDisplay)->getWidth() / 2;
-	m_deltaTheta = .33f;
-}
