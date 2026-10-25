@@ -1,12 +1,15 @@
 // ?rva00160FC0@HTreeClass@@QAEXPAVRva00160FC0Input@@@Z
-// cl: /O2 /G7 /DNDEBUG /MD /EHsc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfme2htree /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// stlport
 // Native00160FC0..0016104E RET4. Input+58 holds six-pointer records;
 // visit five pointers in each record after the first. Virtual slots34/8
 // provide the record count and byte counts. Receiver28/2C/30 holds the input
-// cache and byte storage/capacity. Original class and method identities unknown.
+// cache and byte storage/capacity. Original method and input identities unknown.
 // Volatile record-pointer access preserves the native repeated loads; the
 // original source qualifier is unknown. Explicit array allocation preserves
 // the target array operators rather than VC7.1 trivial-array scalar lowering.
+#include "../../../../../reference/shims/bfme_matrix3d_full_link/matrix3d_full_link.h"
+#include "../../../../../reference/shims/bfme2htree/htree.h"
 #include <string.h>
 void *operator new[](unsigned int);
 void operator delete[](void *);
@@ -37,20 +40,19 @@ public:
     char unknown04[0x54];
     Rva00160FC0Item **records;
 };
-class HTreeClass
+struct HTreeStorageFields
 {
-    char unknown00[0x28];
     Rva00160FC0Input *input;
     unsigned char *storage;
     unsigned int capacity;
-public:
-    void rva00160FC0(Rva00160FC0Input *next);
 };
 void HTreeClass::rva00160FC0(Rva00160FC0Input *next)
 {
-    if (next != input)
+    // Interpret only the three trailing words proved by this native body.
+    HTreeStorageFields &cache = *reinterpret_cast<HTreeStorageFields *>(&Unknown28);
+    if (next != cache.input)
     {
-        input = next;
+        cache.input = next;
         unsigned int size = 0;
         Rva00160FC0Item *volatile *record = next->records + 6;
         int left = next->count() - 1;
@@ -61,12 +63,12 @@ void HTreeClass::rva00160FC0(Rva00160FC0Input *next)
                     size += record[i]->bytes();
             record += 6;
         }
-        if (size > capacity)
+        if (size > cache.capacity)
         {
-            operator delete[](storage);
-            capacity = size;
-            storage = static_cast<unsigned char *>(operator new[](size));
+            operator delete[](cache.storage);
+            cache.capacity = size;
+            cache.storage = static_cast<unsigned char *>(operator new[](size));
         }
-        memset(storage, 0xFF, size);
+        memset(cache.storage, 0xFF, size);
     }
 }

@@ -56,6 +56,7 @@ class MeshClass;
 class ChunkLoadClass;
 class ChunkSaveClass;
 class HRawAnimClass;
+class Rva00160FC0Input;
 
 /*
 
@@ -89,6 +90,8 @@ public:
 	HTreeClass(void);
 	HTreeClass(const HTreeClass & src);
 	~HTreeClass(void);
+	// Native 0x00160FC0 caches input and byte storage at +28/+2C/+30.
+	void rva00160FC0(Rva00160FC0Input *next);
 	
 	int					Load_W3D(ChunkLoadClass & cload);
 	void					Init_Default(void);
