@@ -13,7 +13,7 @@ The donor's wrapper expressions, signatures and bodies are unchanged. These are
 existing BFME2 row facts, not an external layout/name claim. No pin, hatch, flag,
 global or register changed.
 
-`./build.sh` verifies all six rows (seed four, donor two), 421 retail bytes.
+`./build.sh` verifies all six rows (seed four, donor two), 371 retail bytes.
 `find_declared_unmatched.py` passes for both. The ordinary supported
 `tu_skeleton.py --merge ... --dry-run` now accepts both sources and six rows;
 previous protected-access rejection is cleared. Leave the compatible donor for

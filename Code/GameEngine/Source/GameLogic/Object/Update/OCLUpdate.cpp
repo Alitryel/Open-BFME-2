@@ -29,6 +29,11 @@ class OCLUpdate
 {
 public:
 	virtual NameKeyType getModuleNameKey() const;
+	unsigned int getRemainingFrames() const;
+
+private:
+	char m_pad[0x1C]; // primary vptr plus padding places the timer at +0x20
+	int m_20;
 };
 
 // ?getModuleNameKey@OCLUpdate@@UBE?AW4NameKeyType@@XZ
