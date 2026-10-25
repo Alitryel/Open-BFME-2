@@ -19,7 +19,7 @@ struct sockaddr_in
 };
 
 extern "C" int __stdcall getsockname(
-	unsigned int socket, void *name, int *nameLength);
+	int socket, void *name, int *nameLength);
 extern "C" int __stdcall gethostname(
 	char *name, int length);
 extern "C" struct hostent *__stdcall gethostbyname(
