@@ -55,7 +55,7 @@ public:
 	void rva0028EC48(int index, void *source);
 	void rva0028EC68(int index, void *source, int delay);
 	void rva0028EC88(int index);
-	void forceEmotion(int index, float value, int arg);
+	void forceEmotion(int index, float value, int source);
 protected:
 	Module *findModule(NameKeyType key) const;
 private:
@@ -110,7 +110,7 @@ void Object::rva0028EC88(int index)
 		((Rva004B0DA0Holder *)obj->m_emotionTracker24C)->rva004B0DA0(index);
 }
 
-void Object::forceEmotion(int index, float value, int arg)
+void Object::forceEmotion(int index, float value, int source)
 {
 	Object *obj = this;
 	while (!obj->m_emotionTracker24C)
@@ -119,5 +119,5 @@ void Object::forceEmotion(int index, float value, int arg)
 		if (!obj)
 			return;
 	}
-	obj->m_emotionTracker24C->ForceEmotion(index, value, arg);
+	obj->m_emotionTracker24C->ForceEmotion(index, value, source);
 }
