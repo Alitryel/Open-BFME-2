@@ -39,15 +39,15 @@ public:
 class Rva002B280C
 {
 public:
-	bool rva002B280C(Arg54 *a);
+	bool rva002B280C(Arg54 *army);
 };
 
-bool Rva002B280C::rva002B280C(Arg54 *a)
+bool Rva002B280C::rva002B280C(Arg54 *army)
 {
 	if ((unsigned char)((Rva002B254F *)this)->rva002B254F() != 0)
 	{
 		void *campaign = ((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8BAA();
-		if (!((LookupVirt14 *)campaign)->check(a))
+		if (!((LookupVirt14 *)campaign)->check(army))
 			return false;
 	}
 	return true;
