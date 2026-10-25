@@ -45,15 +45,15 @@ private:
 
 void Rva001F529D::rva001F529D(Vec2001F529D *out)
 {
-	float a = 0.0f;
-	float b = 0.0f;
+	float xValue = 0.0f;
+	float yValue = 0.0f;
 	Provider001F529D *provider = m_ptr;
 	if (provider != 0)
 	{
 		const Data001F529D *coordinates = provider->fetch();
-		a = coordinates->x;
-		b = coordinates->y;
+		xValue = coordinates->x;
+		yValue = coordinates->y;
 	}
-	out->x = a;
-	out->y = b;
+	out->x = xValue;
+	out->y = yValue;
 }

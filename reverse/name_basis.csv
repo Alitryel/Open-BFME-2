@@ -1980,5 +1980,7 @@ member,Rva00498DF3Arg::m_mid258,Rva00498DF3Arg::m_ai,inferred,agree:nl-e98ae0a91
 function,?rva00452E00@Rva00452E00@@UAEHPAM@Z,?getValue@Rva00452E00@@UAEHPAM@Z,inferred,agree:nl-ce9573b61af9,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x00452E00
 class,Rva002D36AEMid,PalantirImpl,inferred,agree:nl-70d6f3a3333a,Code/GameEngine/Source/Common/System/Rva002D36AE.cpp,
 function,?rva005D9CE0@Rva005D9CD5@@UAE_NPAVObject@@@Z,?shouldActivate@Rva005D9CD5@@UAE_NPAVObject@@@Z,inferred,agree:nl-acdfb15415a6,Code/GameEngine/Source/Common/Rva005D9CE0.cpp,0x005D9CE0
+local,Rva001F529D::rva001F529D::a,Rva001F529D::rva001F529D::xValue,inferred,agree:nl-ade26535a8fd,Code/GameEngine/Source/Common/Rva001F529D.cpp,0x001F529D
+local,Rva001F529D::rva001F529D::b,Rva001F529D::rva001F529D::yValue,inferred,agree:nl-f24b666a3d70,Code/GameEngine/Source/Common/Rva001F529D.cpp,0x001F529D
 function,?rva005F52C0@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToTarget@Rva005F52C0@@QAEXXZ,inferred,agree:nl-e6c4b1e28c92,Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F52C0
 function,?rva005F5331@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToSource@Rva005F52C0@@QAEXXZ,inferred,agree:nl-3661810f7ff8,Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F5331
