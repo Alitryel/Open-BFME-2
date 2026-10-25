@@ -43,18 +43,18 @@ struct Rva00538F6BManagerView
 class LivingWorldArmyLine
 {
 public:
-	void rva00538F6B(void *m_StartPosition, void *startObject, void *endPosition, void *endObject);
+	void rva00538F6B(void *a, void *startObject, void *endPosition, void *endObject);
 
 private:
 	UnsignedInt m_count; // +0x00
 	Coord3D *m_points; // +0x04
 };
 
-void LivingWorldArmyLine::rva00538F6B(void *m_StartPosition, void *startObject, void *endPosition, void *endObject)
+void LivingWorldArmyLine::rva00538F6B(void *a, void *startObject, void *endPosition, void *endObject)
 {
 	if (m_points != 0 && startObject != endObject)
 	{
-		const Coord2D *start = reinterpret_cast<const Coord2D *>(m_StartPosition);
+		const Coord2D *start = reinterpret_cast<const Coord2D *>(a);
 		const Coord2D *end = reinterpret_cast<const Coord2D *>(endPosition);
 		Real heightOffset = reinterpret_cast<Rva00538F6BManagerView *>(TheLivingWorldManager)->m_heightOffset;
 		Real step = 1.0f / (Real)(m_count - 1);
