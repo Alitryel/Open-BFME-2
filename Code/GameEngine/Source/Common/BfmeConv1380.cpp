@@ -80,10 +80,10 @@ void rva007FF100Encode(unsigned int length, const char *source, void *destinatio
 
 void BfmeThingVIY::bfmeGoVIY(BfmeMsgVIX *m, void *a, void *b, void *c, void *d, void *e)
 {
-	void *g = g_bfmeGVIY;
+	void *txn = g_bfmeGVIY;
 	((Rva007E8810Message *)m)->reset();
 	m->m_bfme1c = 0x626c6f62;
-	((Rva007E8810Message *)m)->addString("TXN", (const char *)g);
+	((Rva007E8810Message *)m)->addString("TXN", (const char *)txn);
 	((Rva007E8810Message *)m)->addInt64("blobId", *(__int64 *)&a);
 	bfmeSubVIY(m, c, d);
 	((Rva007E8810Message *)m)->addString("version", (const char *)e);

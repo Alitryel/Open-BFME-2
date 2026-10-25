@@ -2080,3 +2080,4 @@ member,Rva002A8F24Data::m_874,Rva002A8F24Data::m_expansionRadius,inferred,agree:
 local,DiscreteCircle::generateEdgePairs::x,DiscreteCircle::generateEdgePairs::xOffset,inferred,agree:nl-9a35be3c8085,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
 local,DiscreteCircle::generateEdgePairs::y,DiscreteCircle::generateEdgePairs::yOffset,inferred,agree:nl-ce2338f03b0b,Code/GameEngine/Source/Common/discrete_circle.cpp,0x002DF8CF
 local,bfmeGoVIX::g,bfmeGoVIX::txn,inferred,agree:nl-ab222ea7ae0c,Code/GameEngine/Source/Common/BfmeConv1380.cpp,0x006568F0
+local,BfmeThingVIY::bfmeGoVIY::g,BfmeThingVIY::bfmeGoVIY::txn,inferred,agree:nl-d9456a6456ba,Code/GameEngine/Source/Common/BfmeConv1380.cpp,0x0065E270
