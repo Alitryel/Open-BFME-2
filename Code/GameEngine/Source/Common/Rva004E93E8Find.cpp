@@ -18,15 +18,15 @@ public:
 void *AIGameTeam::getMasterPlayer()
 {
     void *found = 0;
-    Elem004E93E8 **p = m_begin;
+    Elem004E93E8 **playerIt = m_begin;
     Elem004E93E8 **playersEnd = m_end;
     for (;;) {
-        if (p == playersEnd)
+        if (playerIt == playersEnd)
             break;
-        Elem004E93E8 *cur = *p;
+        Elem004E93E8 *cur = *playerIt;
         if (cur->m_playerType == 1 || ((Glob004E93E8 *)TheSkirmishAIManager)->m_860 != 0)
             found = cur;
-        ++p;
+        ++playerIt;
         if (found == 0)
             continue;
         break;

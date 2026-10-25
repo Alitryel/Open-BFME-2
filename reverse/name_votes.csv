@@ -6421,3 +6421,5 @@ Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|class||Rva004E50C8,165da68e726
 Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|local|Rva004E52DC::rva004E52DC|n,bae5b7a49cb63cd67b1d54a3,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p096b,w-ea849f70fbd9,2026-10-25
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp|local|shrubPosition|r,6245790eb6845b99360bed5e,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p107a,w-e467907722e3,2026-10-25
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferDoXfer.cpp|local|shrubPosition|r,6245790eb6845b99360bed5e,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p107b,w-eb96be56f9d8,2026-10-25
+Code/GameEngine/Source/Common/Rva004E93E8Find.cpp|member|Glob004E93E8|m_860,afdd8d83250f8c2b0575c405,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p136a,w-ae45857e113d,2026-10-25
+Code/GameEngine/Source/Common/Rva004E93E8Find.cpp|member|Glob004E93E8|m_860,ee534664b33cededfd9d1281,deepseek-v4.1-flash-1017-deepinfra-agentic,di26p136b,w-cfa54965f72a,2026-10-25
