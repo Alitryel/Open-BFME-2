@@ -2291,3 +2291,5 @@ function,?rva00043BF9@W3DDisplay@@QAEXXZ,?drawAnimStats@W3DDisplay@@QAEXXZ,infer
 carry,W3DDisplay::rva00043BF9::width,W3DDisplay::drawAnimStats::width,inferred,scope renamed by Rename rva00043BF9 to drawAnimStats (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9
 carry,W3DDisplay::rva00043BF9::height,W3DDisplay::drawAnimStats::height,inferred,scope renamed by Rename rva00043BF9 to drawAnimStats (inferred),Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayRva00043BF9.cpp,0x00043BF9
 local,BFME2Encoding1MotionChannel::rva001B230A::p,BFME2Encoding1MotionChannel::rva001B230A::deltaData,inferred,agree:nl-db37459ecac7,Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp,0x001B230A
+member,Rva00431FF2::m_05,Rva00431FF2::m_eatNextRightClick,inferred,agree:nl-0f75e301168a,Code/GameEngine/Source/Common/GapBodiesGE12.cpp,
+local,rva0006653B::t,rva0006653B::heightData,inferred,agree:nl-48363408eea6,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,

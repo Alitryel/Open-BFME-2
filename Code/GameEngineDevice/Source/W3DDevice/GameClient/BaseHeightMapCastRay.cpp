@@ -56,8 +56,8 @@ public:
 		else if (b >= m_yExtent)
 			b = m_yExtent - 1;
 		int d = m_xExtent;
-		unsigned short *t = m_data24;
-		return t[d * b + a];
+		unsigned short *heightData = m_data24;
+		return heightData[d * b + a];
 	}
 	char m_pad00[8];
 	Int m_xExtent;

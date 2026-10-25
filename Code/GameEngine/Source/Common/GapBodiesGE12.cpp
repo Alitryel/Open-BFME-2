@@ -67,7 +67,7 @@ public:
 private:
 	int m_00;
 	bool m_04;
-	bool m_05;
+	bool m_eatNextRightClick;
 	char m_pad06[2];
 	Rva00431FF2Handler *m_handler;							// +0x08
 };
@@ -75,9 +75,9 @@ private:
 int Rva00431FF2::translateGameMessage(Rva00431FF2Message *msg)
 {
 	bool first = m_04;
-	bool second = m_05;
+	bool second = m_eatNextRightClick;
 	m_04 = false;
-	m_05 = false;
+	m_eatNextRightClick = false;
 	switch (msg->m_type)
 	{
 	case 23:
