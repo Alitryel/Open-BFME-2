@@ -281,6 +281,17 @@ authored-byte previews or commit-title gains into a projected headline.
   but changed a static guard name outside the data baseline. Both experiments
   were restored, the false reject was logged and source claims released. No
   source repair, merge unblock, debt retirement or census gain is claimed.
+- **FireSpreadUpdate minimal retry (2026-10-26):** the separate cache fix permits
+  the ordinary seed/pool dry run to accept six rows / 286 bytes after a
+  TU-scoped declaration view adds the existing pool member. All five standalone
+  objects and 31 binding facts are unchanged; 11/11 rows and three EH graphs
+  pass. Composition preserves 56 code/547 external data definitions and all
+  external bindings, but renumbers two local static guards. Their independent
+  storage/parent/retail addresses are verified; existing data debt is preserved.
+  Guard identity/transfer remains an actual-merge prerequisite alongside the
+  other receiver/Coord3D/PartitionManager/mixed-source blockers. See the same
+  handoff for exact checks. No merge, debt retirement or measured gain claimed.
+
 - **HeaderTemplate provider inspection (2026-10-26):**
   [The scoped inspection](../reverse/attempt_support/consolidation-headertemplate-pushfront-prerequisite-20261026-codex.md)
   confirms 3/3 exact creation rows but an incorrect typed node-provider chain:

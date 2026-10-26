@@ -42,7 +42,7 @@
 #include "GameLogic/Object.h"
 #include "GameLogic/ObjectCreationList.h"
 #include "GameLogic/PartitionManager.h"
-#include "GameLogic/Module/FireSpreadUpdate.h"
+#include "FireSpreadUpdateView.h"
 #include "GameLogic/Module/FlammableUpdate.h"
 
 //-------------------------------------------------------------------------------------------------
