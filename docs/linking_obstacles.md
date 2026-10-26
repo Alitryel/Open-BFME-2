@@ -236,6 +236,14 @@ authored-byte previews or commit-title gains into a projected headline.
   stale cached diagnostics, reproducing the FireSpread/DebugIOCon verifier
   defect. The source is restored and the false reject logged; fix the cache
   separately before retrying. No accepted merge or source repair is claimed.
+- **BridgeTower interface retry (2026-10-26):** after the separate verifier
+  cache fix, the ordinary dry run accepts seed plus interface donor (6 rows,
+  266 bytes). Both providers pass strict preparation and 6/6 byte checks;
+  composition preserves 69 code/558 data definitions, COMDATs, aliases and
+  external bindings. This clears the interface private-helper/layout prerequisite
+  only; pool, Xfer, damage/healing and mixed-source blockers remain. The donor
+  stays separate for Luna; no measured linking gain or debt retirement is claimed.
+  See `reverse/attempt_support/consolidation-bridgetower-interface-prerequisite-20261026-codex.md`.
 - **Consolidation diagnostic-cache prerequisite (2026-10-26):**
   [The separate verifier repair](../reverse/attempt_support/consolidation-verifier-cache-prerequisite-20261026-codex.md)
   restores each cached compile's own diagnostics and clears stale errors after

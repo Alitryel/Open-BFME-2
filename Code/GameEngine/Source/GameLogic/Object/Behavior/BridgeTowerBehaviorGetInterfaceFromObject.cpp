@@ -43,26 +43,22 @@ class BehaviorModule : public BfmeObjectModule, public BehaviorModuleInterface
 {
 };
 
-class ThingTemplate
-{
-public:
-	bool isBridgeTower() const { return (m_kindOfByte10B & 1) != 0; }
+class Object;
 
-private:
+// These views expose only the measured template/module pointers and kind-of byte.
+// These partial views do not require private Object/ThingTemplate helpers
+// to be redeclared when this body joins the original translation unit.
+struct BridgeTowerKindOfView
+{
 	char m_pad[0x10B];
 	unsigned char m_kindOfByte10B;
 };
 
-class Object
+struct BridgeTowerObjectTemplateView
 {
-public:
-	virtual void slot0();
-	bool isBridgeTower() const { return m_template->isBridgeTower(); }
-	__declspec(dllimport) __forceinline BehaviorModule **getBehaviorModules() const { return m_modules244; }
-
-private:
-	const ThingTemplate *m_template;
-	char m_pad[0x244 - 8];
+	char m_pad[4];
+	const BridgeTowerKindOfView *m_template;
+	char m_remaining[0x244 - 8];
 	BehaviorModule **m_modules244;
 };
 
@@ -76,13 +72,13 @@ public:
 BridgeTowerBehaviorInterface *BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject(Object *obj)
 {
 	// sanity
-	if (obj == 0 || obj->isBridgeTower() == false)
+	if (obj == 0 || (((const BridgeTowerObjectTemplateView *)obj)->m_template->m_kindOfByte10B & 1) == 0)
 		return 0;
 
 	// get the bridge tower behavior module
 	BehaviorModule **bmi;
 	BridgeTowerBehaviorInterface *bbi;
-	for (bmi = obj->getBehaviorModules(); *bmi; ++bmi)
+	for (bmi = ((const BridgeTowerObjectTemplateView *)obj)->m_modules244; *bmi; ++bmi)
 	{
 		bbi = (*bmi)->getBridgeTowerBehaviorInterface();
 		if (bbi)

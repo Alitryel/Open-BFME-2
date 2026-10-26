@@ -1,4 +1,4 @@
-# BridgeTower interface prerequisite: blocked trial (2026-10-26, codex)
+# BridgeTower interface prerequisite and retry (2026-10-26, codex)
 
 Allocated family-A shard 0/2 target:
 `Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp`.
@@ -85,3 +85,43 @@ No source-file reduction, recovered C++ bytes, debt retirement, census gain or
 confirmed Luna landing is claimed. Retain file claims until publication is
 confirmed, including the inherited five GameMemory/register claims. The two blocked source
 claims are released; only this handoff claim remains pending publication.
+
+## Verified retry after separate verifier repair
+
+The diagnostic-cache fix is a separate commit, fc3e3896ff. After fresh allocation
+approval, file claims, frozen checks and a regenerated scoped naming plan, the
+banked source repair was reapplied. Ordinary `tu_skeleton.py --merge TU --dry-run`
+now accepts the seed and interface donor: six existing rows, 266 retail bytes.
+This demonstrates a prerequisite unblock, not a confirmed Luna merge. The pool,
+Xfer, damage/healing and mixed-source blockers listed above remain.
+
+`./build.sh TU DONOR` passes 6/6. `link_check.py --prepare-current TU DONOR`
+passes strict reusable receipts for both explicit providers; `--new-variants
+--paths-from build/codex-bridgetower-sources.txt` reports no new variants.
+`allowed_symbols.py --source TU --source DONOR` reports zero references and zero
+wrong bindings. Staged code identity reports one row, zero new findings; staged
+data and TU ownership pass. Frozen-file/class checks and converged-data checks
+also pass. No key is retired and no register is edited.
+
+The ordinary trial's scratch object, 4536603498fb23fc.obj, preserves the input
+union's 69 external code definitions including byte/relocation identity and
+COMDAT selections. Its 558 external data definitions preserve bytes, relocations
+and selections, as do data facts and aliases. Undefined symbols are identical
+after resolving definitions inside each composition. The two apparent destructor
+references are already present alongside their own definitions in the seed;
+they do not introduce external dependencies. The only standalone provider delta
+is removal of the two unused private helpers documented above. Both have no
+external referrers in the upstream object graph. No selected consumer changes.
+Receipts: build/codex-bridgetower-{retry-build,prepare,variants,allowed}.txt and
+build/codex-bridgetower-composition-proof.json, plus the paired section/data/
+reference/provider receipts. No scratch source was compiled through build.py.
+
+Before this commit, the complete pending range plus staged source was audited.
+There are no existing source path moves; the only pending source addition remains
+GameMemoryGuardView.h with its two verified includes. The existing combined
+active-tool/hook/workflow/include/build/doxygen/registry search remains current.
+All source/ledger names and historical paths are retained. Source-file reduction,
+recovered bytes, identity debt retirement and measured linking gain are all zero.
+Keep the reclaimed seed/interface claims and earlier pending file claims until
+publication is confirmed. Luna may apply the ordinary merge after publication,
+using its normal protected-register transfer and full batch checks.
