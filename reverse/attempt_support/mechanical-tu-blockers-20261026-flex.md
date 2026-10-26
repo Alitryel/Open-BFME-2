@@ -116,3 +116,37 @@ branches`. A subsequent explicit `git pull --rebase origin master` fetched
 `5db17fb47684656adf2563faf60b3c9e4872f069` and rebased the complete 14-commit
 pending batch cleanly. No merge conflict or source change resulted; publication
 is still pending.
+
+## Flex seat follow-up — Luna session 2026-10-26
+
+Two tool-accepted unchanged merges landed in the verified staging set:
+
+- `MoneyCrateCollidePoolKey.cpp` merged into `CrateCollide/MoneyCrateCollide.cpp`;
+  four matched rows were byte-verified. The ctor remains rejected: C2511,
+  `MoneyCrateCollide(Thing *, const ModuleData *)` is absent from the target
+  class view. The merge tool transferred its data-check and data-ledger keys;
+  converged data check passes, while shadow data check still reports two
+  wrong-name local-static keys at `0x00A04058` and `0x00A04054`.
+- `SupplyCenterProductionExitUpdateExitDoor.cpp` merged into
+  `ProductionExitUpdate/SupplyCenterProductionExitUpdate.cpp`; three matched
+  rows were byte-verified. The pool key remains rejected because
+  `getModuleNameKey` is absent from the class view (C2039); the behavior ctor
+  lacks the `UpdateModule` base declaration (C2504).
+
+Both destination builds and `find_declared_unmatched.py` pass. The staged
+TU-ownership check, `repair_queue.py verify-removed`, and converged data check
+pass. Staged code-identity shadow audit reports two new divergent-definition
+findings (`??0Vector3@@QAE@ABV0@@Z` and `??AMatrix3D@@QBEABVVector4@@H@Z`);
+no identity key was retired.
+
+Further allocated unchanged trials accepted no donors and remain for a source
+prerequisite pass: `StealthUpgrade.cpp` (ctor overload absent; pool key and
+upgrade methods absent), `DockUpdate.cpp` (member declarations/fields absent,
+duplicate `ObjectID`/`GameLogic` definitions, and special-member destructor
+cannot be declared), `FireWeaponCollide.cpp` (`CollideModule` base and several
+member declarations absent), `HealContain.cpp` (`getModuleNameKey` and `xfer`
+absent), and `TunnelContain.cpp` (ctor/member declarations and destructor
+special member absent). For `RiderChangeContain.cpp`, no donor merged; its
+`ModuleNameGetters.cpp` carve matches alone but donor composition fails with
+C2953 `StringBase` template redefinition. The `DockUpdate.cpp` dry run was
+allowed to finish; no second compiler trial was started.

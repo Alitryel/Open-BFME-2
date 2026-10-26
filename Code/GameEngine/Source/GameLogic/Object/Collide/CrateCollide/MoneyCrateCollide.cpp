@@ -138,6 +138,14 @@ protected:
 	Object *m_object;		// +0x08
 };
 
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey(const char *name);
+};
+
+extern NameKeyGenerator *TheNameKeyGenerator;
+
 class MoneyCrateCollide : public CrateCollide
 {
 public:
@@ -157,9 +165,19 @@ private:
 
 // tu-skeleton: 0x004BC96F 25B ??1Rva004BC96F@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva004BC4FCDerived.cpp (not merged yet)
 
-// tu-skeleton: 0x004BC988 69B ?getModuleNameKey@MoneyCrateCollide@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Collide/MoneyCrateCollidePoolKey.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/GameLogic/Object/Collide/MoneyCrateCollidePoolKey.cpp
+
+// ?getModuleNameKey@MoneyCrateCollide@@UBE?AW4NameKeyType@@XZ
+NameKeyType MoneyCrateCollide::getModuleNameKey() const
+{
+	static NameKeyType TheMoneyCrateCollidePoolKey =
+		TheNameKeyGenerator->nameToKey("MoneyCrateCollide");
+	return TheMoneyCrateCollidePoolKey;
+}
 
 // tu-skeleton: 0x004BC9CD 28B ??_GRva004BC96F@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva004BC4FCDerived.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/MoneyCrateCollide.cpp
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/MoneyCrateCollideExecute.cpp
 

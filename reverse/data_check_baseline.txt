@@ -552,7 +552,7 @@ Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/ShroudCrateCollideP
 Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/VeterancyCrateCollidePoolKey.cpp	wrong-name	?$S1@?1??rva0004BCE7B@VeterancyCrateCollide@@SA?AW4NameKeyType@@XZ@4IA	0x00A04074
 Code/GameEngine/Source/GameLogic/Object/Collide/FireWeaponCollidePoolKey.cpp	wrong-name	?$S1@?1??rva00004BB755@FireWeaponCollide@@SA?AW4NameKeyType@@XZ@4IA	0x00A04008
 Code/GameEngine/Source/GameLogic/Object/Collide/HealCrateCollidePoolKey.cpp	wrong-name	?$S1@?1??rva00004BC858@HealCrateCollide@@SA?AW4NameKeyType@@XZ@4IA	0x00A04050
-Code/GameEngine/Source/GameLogic/Object/Collide/MoneyCrateCollidePoolKey.cpp	wrong-name	?$S1@?1??rva00004BC988@MoneyCrateCollide@@SA?AW4NameKeyType@@XZ@4IA	0x00A04058
+Code/GameEngine/Source/GameLogic/Object/Collide/CrateCollide/MoneyCrateCollide.cpp	wrong-name	?$S1@?1??rva00004BC988@MoneyCrateCollide@@SA?AW4NameKeyType@@XZ@4IA	0x00A04058
 Code/GameEngine/Source/GameLogic/Object/Collide/SalvageCrateCollidePoolKey.cpp	wrong-name	?$S1@?1??rva00004BD220@SalvageCrateCollide@@SA?AW4NameKeyType@@XZ@4IA	0x00A0407C
 Code/GameEngine/Source/GameLogic/Object/Collide/UnitCrateCollidePoolKey.cpp	wrong-name	?$S1@?1??rva00004BCC5C@UnitCrateCollide@@SA?AW4NameKeyType@@XZ@4IA	0x00A04068
 Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainPoolKey.cpp	wrong-name	?$S1@?1??rva00047B51E@AODHordeContain@@SA?AW4NameKeyType@@XZ@4IA	0x00A036F8
