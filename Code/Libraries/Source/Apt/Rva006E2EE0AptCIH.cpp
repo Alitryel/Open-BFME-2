@@ -52,7 +52,7 @@ class Rva006DBB30SarDwordField { public: int get() const; };
 class Rva006DBB60ShrNAndField { public: int get() const; };
 class Rva006CFCD0 { public: bool isSpriteInstBase() const; };
 
-class AptNativeHash
+struct AptNativeHash
 {
 public:
 	void Set__Proto__(AptValue *const proto);

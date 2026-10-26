@@ -42,7 +42,7 @@ struct BfmeM1208{float m_w[6];};extern BfmeM1208 g_aptBoxAtE180C4;
 struct AptColorTransformWords{float m_w[8];};AptColorTransformWords g_aptIdentityColorTransform;
 class Rva00898D60Target;extern Rva00898D60Target*g_Rva01337A20;class EAStringC{void *data;};extern EAStringC g_00E18650;
 extern AptValue*g_shutdownAtE18070,*g_shutdownAtE180B8,*g_shutdownAtE18068,*g_shutdownAtE180BC,*g_shutdownAtE18360,*g_shutdownAtE180AC;
-class AptNativeHash;extern AptNativeHash*g_bfmeAptHashAtE180E4;
+struct AptNativeHash;extern AptNativeHash*g_bfmeAptHashAtE180E4;
 extern AptValue *g_shutdownAtE180A8,*g_shutdownAtE18080,*g_shutdownAtE18084,*g_shutdownAtE180B4,*g_shutdownAtE18074,*g_shutdownAtE1806C,*g_shutdownAtE180E8;
 int g_aptInitializerCounters[4];
 void _constructBuiltInObjects();
