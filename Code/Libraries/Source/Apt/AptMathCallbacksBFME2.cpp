@@ -191,9 +191,9 @@ AptValue *aptMathAtan2(void *self, int argc)
         return reinterpret_cast<AptValue *>((*(BfmeAptValue006DCD20 * *)&gpUndefinedValue));
     BfmeAptValue006DCD20 *top = g_aptDateInterpreter.stack.At(0);
     BfmeAptValue006DCD20 *second = g_aptDateInterpreter.stack.At(1);
-    float x = second->rva006DD460();
-    float y = top->rva006DD460();
-    return Rva008A4EA0MakeFloat((float)atan2((double)y, (double)x));
+    float xCoordinate = second->rva006DD460();
+    float yCoordinate = top->rva006DD460();
+    return Rva008A4EA0MakeFloat((float)atan2((double)yCoordinate, (double)xCoordinate));
 }
 
 class AptInteger { public: static AptValue *Create(int value); };

@@ -199,7 +199,7 @@ public:
 	void rva00509DF8(Int a, Rva00509DF8Arg *b);
 private:
 	char m_pad04[0x128];
-	Real m_12C;
+	Real m_shockWaveRadius;
 };
 void Rva00509DF8::rva00509DF8(Int a, Rva00509DF8Arg *b)
 {
@@ -207,7 +207,7 @@ void Rva00509DF8::rva00509DF8(Int a, Rva00509DF8Arg *b)
 	{
 		if (v01(a, b))
 			v15(a, b);
-		if (m_12C > 0.0f)
+		if (m_shockWaveRadius > 0.0f)
 			v06(a, &b->m_38);
 	}
 }

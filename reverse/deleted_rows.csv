@@ -2637,3 +2637,4 @@ __ehhandler$??1SpecialPowerModule@@MAE@XZ,0x0078CE1C,"Respelled back to the publ
 ?rva0010F42A@Rva0010F42A@@QAEXXZ,0x0010F42A,"Renamed to ?execute@Rva0010F42A@@QAEXXZ by tools/rename.py (inferred)"
 ?Rva005CD841Find@@YA_NPAX@Z,0x005CD841,"Renamed to ?hasListeners@@YA_NPAX@Z by tools/rename.py (inferred)"
 __ehhandler$?Rva005CD841Find@@YA_NPAX@Z,0x007A157D,"Renamed to __ehhandler$?hasListeners@@YA_NPAX@Z by tools/rename.py (inferred)"
+?Rva0055D686Compute@@YGXPAVCoord3D@@PAVCoord2D@@MM@Z,0x0055D686,"Renamed to ?computeCylinderEmissionPosition@@YGXPAVCoord3D@@PAVCoord2D@@MM@Z by tools/rename.py (inferred)"

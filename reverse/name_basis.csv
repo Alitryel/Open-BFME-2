@@ -2390,3 +2390,9 @@ class,Rva0041FA34Node,HashtableNode,inferred,agree:nl-eced53e87f33,Code/GameEngi
 member,Rva0044E7A8Req::m_b6,Rva0044E7A8Req::m_disableWhenWearingTheRing,inferred,agree:nl-397d10967474,Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp,
 local,W3DVolumetricShadowV2::W3DVolumetricShadowV2::x,W3DVolumetricShadowV2::W3DVolumetricShadowV2::maxX,inferred,agree:nl-81441539bada,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp,0x0010811E
 local,W3DVolumetricShadowV2::W3DVolumetricShadowV2::y,W3DVolumetricShadowV2::W3DVolumetricShadowV2::maxY,inferred,agree:nl-779b755bb88b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp,0x0010811E
+member,Rva00509DF8::m_12C,Rva00509DF8::m_shockWaveRadius,inferred,agree:nl-8b00bd8247f8,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,
+function,?Rva0055D686Compute@@YGXPAVCoord3D@@PAVCoord2D@@MM@Z,?computeCylinderEmissionPosition@@YGXPAVCoord3D@@PAVCoord2D@@MM@Z,inferred,agree:nl-819347728d54,Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,0x0055D686
+carry,Rva0055D686Compute::normalizedDirection,computeCylinderEmissionPosition::normalizedDirection,inferred,scope renamed by Rename Rva0055D686Compute to computeCylinderEmissionPosition (inferred),Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,0x0055D686
+carry,Rva0055D686Compute::scaledDirection,computeCylinderEmissionPosition::scaledDirection,inferred,scope renamed by Rename Rva0055D686Compute to computeCylinderEmissionPosition (inferred),Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,0x0055D686
+local,aptMathAtan2::x,aptMathAtan2::xCoordinate,inferred,agree:nl-59816ae96741,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp,0x006E85D0
+local,aptMathAtan2::y,aptMathAtan2::yCoordinate,inferred,agree:nl-a6038059f4b3,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp,0x006E85D0
