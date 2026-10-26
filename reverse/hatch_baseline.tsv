@@ -18773,8 +18773,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugCmdInterfaceDebugCtor
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugCmdInterfaceDebugCtor.cpp	"y",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp	"ty",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIONetConstructorThunk.cpp	"y",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIONetPipeDestructorThunk.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIONet_Create.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds_Create.cpp	"y",off	1
@@ -19546,6 +19544,7 @@ pragma_optimize	Code/Libraries/Source/assetmanager/assetmanager_impl.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/assetmanager/assetmanager_impl.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/debug/debug_io_con.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/debug/debug_io_con.cpp	"y",on	1
+pragma_optimize	Code/Libraries/Source/debug/debug_io_net.cpp	"y",off	2
 pragma_optimize	Code/Libraries/Source/partitionmanager/PartitionManagerGetObjectsInRange.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/partitionmanager/PartitionManagerGetObjectsInRange.cpp	"s",on	1
 pragma_optimize	reference/shims/banked_segline/matrix4.h	"",on	1
@@ -23455,8 +23454,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp	Toggle_Movie_Capt
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp	Toggle_Windowed@WW3D@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp	Update_Pixel_Center@WW3D@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/DebugCmdInterfaceDebugCtor.cpp	Delete@DebugCmdInterfaceDebug@@UAEXXZ	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/debug_io_net.cpp	DebugIONet::Delete	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/debug_io_net.cpp	EmergencyFlush@DebugIONet@@UAEXXZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	0Signature@DebugStackwalk@@QAE@ABV01@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	1DebugStackwalk@@AAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	GetSymbol@Signature@@	1
@@ -23785,6 +23782,8 @@ present_unmatched	Code/Libraries/Source/debug/debug_debug.cpp	SkipNext@Debug@@SA
 present_unmatched	Code/Libraries/Source/debug/debug_debug.cpp	UpdateFrameStatus@Debug@@EAEXAAUFrameHashEntry@1@@Z	1
 present_unmatched	Code/Libraries/Source/debug/debug_io_con.cpp	DebugIOCon::Delete	1
 present_unmatched	Code/Libraries/Source/debug/debug_io_con.cpp	Write@DebugIOCon@@UAEXW4StringType@DebugIOInterface@@PBD1@Z	1
+present_unmatched	Code/Libraries/Source/debug/debug_io_net.cpp	DebugIONet::Delete	1
+present_unmatched	Code/Libraries/Source/debug/debug_io_net.cpp	EmergencyFlush@DebugIONet@@UAEXXZ	1
 present_unmatched	Code/Libraries/Source/profile/profile_funclevel.cpp	EnumThreads@ProfileFuncLevel@@SA_NIAAVThread@1@@Z	1
 present_unmatched	Code/Libraries/Source/profile/profile_funclevel.cpp	GetAddress@Id@ProfileFuncLevel@@QBEIXZ	1
 present_unmatched	Code/Libraries/Source/profile/profile_funclevel.cpp	GetFunction@Id@ProfileFuncLevel@@QBEPBDXZ	1
