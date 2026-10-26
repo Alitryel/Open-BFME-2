@@ -22,9 +22,21 @@ public:
 
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-class W3DDefaultDraw
+class Thing;
+class ModuleData;
+
+class DrawModule
 {
 public:
+	DrawModule(Thing *thing, const ModuleData *moduleData);
+protected:
+	virtual ~DrawModule();
+};
+
+class W3DDefaultDraw : public DrawModule
+{
+public:
+	W3DDefaultDraw(Thing *thing, const ModuleData *moduleData);
 	virtual NameKeyType getModuleNameKey() const;
 };
 

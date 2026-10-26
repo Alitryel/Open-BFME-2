@@ -10,10 +10,12 @@ char g_00BC98B0;
 //
 // Shape: frameless single-base ctor over the DrawModule base 0xB19A1 with the
 // derived vtable stored explicitly in the body via pointer cast after the
-// base call (W3DTreeDraw precedent: no virtuals are declared anywhere so no
-// vtable is emitted here; the immediate is DIR32-masked in comparison). Zero
+// base call (W3DTreeDraw precedent: the dead compiler vtable store is removed,
+// so no vtable is emitted here; the immediate is DIR32-masked in comparison). Zero
 // new pins (base resolves via the existing DrawModule pin). Row supersedes
 // the ctor pin.
+
+enum NameKeyType { NK_UNKNOWN = 0 };
 
 class Thing;
 class ModuleData;
@@ -22,12 +24,16 @@ class DrawModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
+protected:
+	// Keep the matched base vfptr at +0 when hosting the virtual name key.
+	virtual ~DrawModule();
 };
 
 class W3DDefaultDraw : public DrawModule
 {
 public:
 	W3DDefaultDraw(Thing *thing, const ModuleData *moduleData);
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 // ??0W3DDefaultDraw@@QAE@PAVThing@@PBVModuleData@@@Z @0xB21B3
