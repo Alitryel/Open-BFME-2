@@ -67,14 +67,7 @@ public:
 	int m_source;
 };
 
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
-
-class Object
-{
-public:
-	char m_pad000[0x38];
-	Coord3D m_pos;		// +0x38
-};
+#include "AITNGuardObjectView.h"
 
 class PartitionManager
 {
