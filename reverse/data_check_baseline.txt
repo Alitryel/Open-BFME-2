@@ -347,8 +347,6 @@ Code/GameEngine/Source/Common/T2CtypeTableFacets.cpp	duplicate-def	?g_ctypeUpper
 Code/GameEngine/Source/Common/T2CtypeTableFacets.cpp	wrong-name	?g_ctypeLowercaseMap@@3QBDB	0x007BC2E0
 Code/GameEngine/Source/Common/T2CtypeTableFacets.cpp	wrong-name	?g_ctypeUppercaseMap@@3QBDB	0x007BC1E0
 Code/GameEngine/Source/Common/TerrainLogicRva00283262.cpp	wrong-name	?g_defaultStorage009FEFA4@@3VBfmeFixedStorage0004543D@@B	0x009FEFA4
-Code/GameEngine/Source/Common/UserPreferencesWinsLossesVs.cpp	duplicate-def	_kFactions	0x009BE9B0
-Code/GameEngine/Source/Common/UserPreferencesWinsLossesVs.cpp	wrong-name	_kFactions	0x009BE9B0
 Code/GameEngine/Source/Common/VersionDestructor.cpp	wrong-name	?$S1@?1??initializeBuildMetadata@Version@@QAEXXZ@4IA	0x009FE778
 Code/GameEngine/Source/Common/VslotSmallBodiesK.cpp	wrong-name	?g_rva00318A95Source@@3VAsciiString@@A	0x00A01CF0
 Code/GameEngine/Source/Common/VslotSmallBodiesK.cpp	wrong-name	?g_rva00318A95Target@@3VAsciiString@@A	0x00A01CF4

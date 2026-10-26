@@ -92,7 +92,7 @@ void UserPreferences::rva0053740C(AsciiString a, const AsciiString &asciiString,
 	setInt(a, v);
 }
 
-static const char *kFactions[] = { "Men", "Elves", "Dwarves", "Isengard", "Mordor", "Wild" };
+extern const char *g_rva0033A3F4Table[];
 
 AsciiString UserPreferences::rva0053755A(AsciiString a)
 {
@@ -100,7 +100,7 @@ AsciiString UserPreferences::rva0053755A(AsciiString a)
 	AsciiString cur;
 	Int max = 0;
 	for (Int i = 0; i < 6; ++i) {
-		((StringBase<char> *)&cur)->set(kFactions[i]);
+		((StringBase<char> *)&cur)->set(g_rva0033A3F4Table[i]);
 		Int v = rva0053745E(a, cur);
 		if (v > max) {
 			best = cur;
@@ -116,7 +116,7 @@ AsciiString UserPreferences::rva00537616(AsciiString a)
 	AsciiString cur;
 	Int max = 0;
 	for (Int i = 0; i < 6; ++i) {
-		((StringBase<char> *)&cur)->set(kFactions[i]);
+		((StringBase<char> *)&cur)->set(g_rva0033A3F4Table[i]);
 		Int v = rva00537505(a, cur);
 		if (v > max) {
 			best = cur;
@@ -132,10 +132,10 @@ AsciiString UserPreferences::rva005376D2()
 	AsciiString outer;
 	AsciiString inner;
 	Int max = 0;
-	const char ** volatile a = kFactions;
+	const char ** volatile a = g_rva0033A3F4Table;
 	do {
 		((StringBase<char> *)&outer)->set(*a);
-		const char **b = kFactions;
+		const char **b = g_rva0033A3F4Table;
 		do {
 			((StringBase<char> *)&inner)->set(*b);
 			Int v = rva0053745E(outer, inner);
@@ -144,9 +144,9 @@ AsciiString UserPreferences::rva005376D2()
 				max = v;
 			}
 			++b;
-		} while ((Int)b < (Int)(kFactions + 6));
+		} while ((Int)b < (Int)(g_rva0033A3F4Table + 6));
 		++a;
-	} while ((Int)a < (Int)(kFactions + 6));
+	} while ((Int)a < (Int)(g_rva0033A3F4Table + 6));
 	return best;
 }
 
@@ -156,10 +156,10 @@ AsciiString UserPreferences::rva005377B6()
 	AsciiString outer;
 	AsciiString inner;
 	Int max = 0;
-	const char ** volatile a = kFactions;
+	const char ** volatile a = g_rva0033A3F4Table;
 	do {
 		((StringBase<char> *)&outer)->set(*a);
-		const char **b = kFactions;
+		const char **b = g_rva0033A3F4Table;
 		do {
 			((StringBase<char> *)&inner)->set(*b);
 			Int v = rva00537505(outer, inner);
@@ -168,8 +168,8 @@ AsciiString UserPreferences::rva005377B6()
 				max = v;
 			}
 			++b;
-		} while ((Int)b < (Int)(kFactions + 6));
+		} while ((Int)b < (Int)(g_rva0033A3F4Table + 6));
 		++a;
-	} while ((Int)a < (Int)(kFactions + 6));
+	} while ((Int)a < (Int)(g_rva0033A3F4Table + 6));
 	return best;
 }
