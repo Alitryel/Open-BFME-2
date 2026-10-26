@@ -1,4 +1,3 @@
-// stlport
 // cl: /O1 /G7 /arch:SSE /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // Native2B8ED2..2B8F27 RET8 builds the20B record copied by owned2B72C9.
 // Target calls ICoord2D equality4CAD at prefix0 and its payload vector8
@@ -9,7 +8,7 @@
 // three-pointer unsigned payload header. No alias pin is introduced.
 // Coordinate-prefix inheritance is a structural view, not an original
 // hierarchy claim. Existing copy source independently proves20B stride.
-void __cdecl free(void*);
+#include <stdlib.h>
 #include "../../../Include/Lib/ICoord2D.h"
 #include "../../../Include/Lib/ICoord2DBase.h"
 class ModuleData;
