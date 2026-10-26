@@ -46,9 +46,18 @@ IMAGE_HEX = re.compile(r"\b0x([0-9A-Fa-f]{6,8})[uUlL]{0,3}\b")
 IMAGE_LOW, IMAGE_HIGH = 0x00401000, 0x00EDA000  # game.dat: ImageBase 0x400000 + SizeOfImage 0xADA000
 
 
-def addresses(text):
+# MASM sources comment with ';' to the end of the line ("; retail 0x00E22980"
+# documents an EXTERN): those are prose, not addresses.
+ASM_SUFFIXES = (".asm", ".inc")
+ASM_COMMENT = re.compile(r";[^\n]*")
+
+
+def addresses(text, path=None):
+    text = COMMENTS.sub(" ", text or "")
+    if path is not None and str(path).lower().endswith(ASM_SUFFIXES):
+        text = ASM_COMMENT.sub(" ", text)
     found = []
-    for match in IMAGE_HEX.finditer(COMMENTS.sub(" ", text or "")):
+    for match in IMAGE_HEX.finditer(text):
         value = int(match.group(1), 16)
         # Not addresses: low 12 bits clear (sizes, flag words), two or fewer bits
         # set (flags), one repeated hex digit (masks and fill patterns: 0xffffff).

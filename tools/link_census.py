@@ -2357,7 +2357,7 @@ def write_status(log, rows, present, meta, kept, publish=True, previous_rules=No
         except OSError:
             continue
         counts = (len(unresolved.get(obj, ())), len(duplicates.get(obj, ())), len(losers.get(obj, ())),
-                  len(link_debt.addresses(text)), len(wrong_selected.get(obj, ())))
+                  len(link_debt.addresses(text, source)), len(wrong_selected.get(obj, ())))
         out[source] = {"source": source, "linked": "no" if any(counts) else "yes",
                        **dict(zip(STATUS_FIELDS[2:], counts))}
         if not any(counts[:4]):

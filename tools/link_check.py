@@ -615,7 +615,7 @@ def check_object(obj, index, truth, source=None):
     addresses = []
     if source is not None:
         try:
-            addresses = link_debt.addresses((ROOT / source).read_text(encoding="utf-8", errors="replace"))
+            addresses = link_debt.addresses((ROOT / source).read_text(encoding="utf-8", errors="replace"), source)
         except OSError:
             pass
     return {"unresolved": unresolved, "duplicates": duplicates, "comdat": losers, "addresses": addresses,
@@ -1058,7 +1058,7 @@ def check_current_ledger(index, paths, rows, started):
         result = check_object(obj, current, truth, None)
         if text is not None:
             import link_debt
-            result["addresses"] = link_debt.addresses(text)
+            result["addresses"] = link_debt.addresses(text, source)
         results.append((source, obj, result))
     now = source_bytes({source for source in resolved.values() if source})
     require_current_objects(present, sources)

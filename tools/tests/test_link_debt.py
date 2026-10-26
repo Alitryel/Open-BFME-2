@@ -207,3 +207,13 @@ def test_addresses_skip_flags_masks_sizes_comments_and_strings():
     int small = 0x3FC;
     """
     assert L.addresses(text) == []
+
+
+def test_asm_semicolon_comments_are_not_addresses():
+    text = """
+EXTERN ?g_vp6IdctConstantBlock@@3PAGA:WORD     ; retail 0x00E22980
+    mov eax, 0x00E1C340                        ; still counted: an address in code
+"""
+    assert L.addresses(text, "Code/Libraries/Source/VP6/MmxIDct.asm") == ["0x00E1C340"]
+    # C++ keeps ';' as a statement end: an address after it is still counted.
+    assert L.addresses("int x; int *p = (int *)0x00E1C340;", "Code/A.cpp") == ["0x00E1C340"]
