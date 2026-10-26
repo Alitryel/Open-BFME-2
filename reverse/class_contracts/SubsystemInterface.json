@@ -24,6 +24,28 @@
   "zh": {
    "error": "build/class_layouts/zh_SubsystemInterface.cpp: compile failed: C2039; C2955; C2143",
    "header": "CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/SubsystemInterface.h"
+  },
+  "full_vtable_view": {
+   "required_define": "SUBSYSTEMINTERFACE_VIEW_FULL_VTABLE",
+   "declarations_after_virtual_destructor": [
+    "virtual void init() = 0;",
+    "virtual bool loadIniFilesFromLegend();",
+    "virtual void postProcessLoad();",
+    "virtual bool vslot04(int);",
+    "virtual bool vslot05();",
+    "virtual int vslot06();",
+    "virtual void vslot07(int);",
+    "virtual void vslot08();",
+    "virtual void reset() = 0;",
+    "virtual void update() = 0;",
+    "virtual bool vslot11(int);",
+    "virtual void vslot12();",
+    "virtual void vslot13(int);"
+   ],
+   "base_vtable_rva": "0x007D77A0",
+   "consumer_vtable_rva": "0x007ED850",
+   "source": "Code/GameEngine/Source/GameClient/GameClientDrawableTOC.cpp",
+   "decided_by": "Native base and GameClient fourteen-slot tables differ only at destructor, init, reset and update. The contract already records these slots. Names at4-8 and11-13 remain structural, not retail-name recovery. GameClient has no direct slot6 call and emits only one reference to its old draw spelling, in the primary vtable at+24. Use the existing SubsystemInterface.cpp COMDAT ?vslot06@SubsystemInterface@@UAEHXZ: complete33c0c3 body, no relocations, exact native0x000D43D0. No new pin or provider is introduced. Default header users retain their current derived-method slot declarations; the full view is selected before first inclusion and lasts for the entire TU. This is not a global completion of class adoption."
   }
  },
  "fields": [
@@ -76,7 +98,7 @@
   }
  ],
  "hand_decided": {
-  "basis": "target evidence: retail ctor 0x001B4E63 clears a byte at +0x04 and the rowed dtor 0x001B4E74 destroys the AsciiString at +0x08 (row notes 'restores vtable 0x00BD77A0 then tail-destroys m_name'); vftable 0x00BD77A0 slots 0-13 read from retail (init/loadIniFilesFromLegend at +4/+8 dispatched by SubsystemInterfaceList::initSubsystem; reset/update at 9/10 from ScriptEngine's table). Field NAMES m_flag/m_name and slot names 3,4-8,11-13 are donor/structural spellings carried from reference/shims/subsystem_bfme2/subsystem_interface.h, not target facts. The class-view majority (an 8-byte block at +4, reset/update at slots 2/3) was rejected: it straddles +8 and contradicts the dispatch evidence. Header additionally declares (no body) the default ctor 0x001B4E63 and virtual dtor 0x001B4E74; slots 1-13 are deliberately NOT declared in the header (declaring them regressed or failed every unit in the adoption gate), so derived classes still declare their own virtuals.",
+  "basis": "target evidence: retail ctor 0x001B4E63 clears a byte at +0x04 and the rowed dtor 0x001B4E74 destroys the AsciiString at +0x08 (row notes 'restores vtable 0x00BD77A0 then tail-destroys m_name'); vftable 0x00BD77A0 slots 0-13 read from retail (init/loadIniFilesFromLegend at +4/+8 dispatched by SubsystemInterfaceList::initSubsystem; reset/update at 9/10 from ScriptEngine's table). Field NAMES m_flag/m_name and slot names 3,4-8,11-13 are donor/structural spellings carried from reference/shims/subsystem_bfme2/subsystem_interface.h, not target facts. The class-view majority (an 8-byte block at +4, reset/update at slots 2/3) was rejected: it straddles +8 and contradicts the dispatch evidence. Header additionally declares (no body) the default ctor 0x001B4E63 and virtual dtor 0x001B4E74; slots 1-13 remain absent in the default header view (declaring them globally regressed or failed every unit in the original adoption gate), so those derived classes still declare their own virtuals. The evidenced opt-in full_vtable_view separately serves consumers already using the complete native slot order.",
   "by": "claude-sonnet-5-5 session"
  },
  "key": "class",

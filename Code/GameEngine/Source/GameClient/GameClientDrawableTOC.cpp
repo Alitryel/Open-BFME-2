@@ -259,30 +259,9 @@ private:
 // and postProcessLoad in slot 3 (+0xC) for every subsystem GameClient::init
 // creates, GameClient::reset calls reset in slot 9 (+0x24) and its vftable
 // 0x007ED850 keeps update in slot 10. setName is the out-of-line 0x0006F3CC.
-class SubsystemInterface
-{
-public:
-	SubsystemInterface();
-	virtual ~SubsystemInterface();
-	virtual void init() = 0;
-	virtual bool loadIniFilesFromLegend();
-	virtual void postProcessLoad();
-	virtual bool vslot04(int);
-	virtual bool vslot05();
-	virtual void draw();
-	virtual void vslot07(int);
-	virtual void vslot08();
-	virtual void reset() = 0;                                                 // +0x24
-	virtual void update() = 0;                                                // +0x28
-	virtual bool vslot11(int);
-	virtual void vslot12();
-	virtual void vslot13(int);
-
-	void setName(AsciiString name);
-
-private:
-	unsigned char m_bfmeBasePad[8];
-};
+#define SUBSYSTEMINTERFACE_VIEW_FULL_VTABLE
+#include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
+#undef SUBSYSTEMINTERFACE_VIEW_FULL_VTABLE
 
 typedef unsigned int TranslatorID;
 enum { TRANSLATOR_ID_INVALID = -1 };

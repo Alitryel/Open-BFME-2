@@ -403,14 +403,22 @@ authored-byte previews or commit-title gains into a projected headline.
   sources. A separate SDK-header adoption preserves the whole GameClient
   object, all 92 rows and eleven EXACT EH graphs while retiring its two
   private Windows declarations through the owning Microsoft-header scanner.
-  GameClient's separate SubsystemInterface item still needs its fourteen
-  virtual slots reconciled with the canonical base. Existing shadow identity
-  and TheMessageStream data-name diagnostics remain unchanged.
+  The [complete SubsystemInterface view](../reverse/attempt_support/subsystem-full-vtable-gameclient-20261026.md)
+  then preserves all 92 GameClient rows and eleven EXACT EH graphs, retires
+  the remaining header item and repairs exactly one vtable reference: slot
+  six now uses the existing native return-zero provider instead of the old
+  draw spelling. Complete object comparison preserves every other byte and
+  reference. Ordinary preview remains LINKS 8,248 -> 8,248; all currently
+  queued header/MS-header items for this source are drained. Other class
+  adoptions and TheMessageStream data-name debt remain open.
   Publication preparation on bf438b551c preserves all five new coordinate
   consumer objects' source inputs and the contract/header after rebase;
   the seven-commit batch retires five header and two Microsoft-header items.
-  The synchronized upstream BFME 1 pointer de077dd5dd still requires the
-  outgoing publication gate at these inputs; no new census is asserted.
+  Publication at 9839a436af passes the normal full gate at BFME 1 de077dd5dd:
+  98,272 functions, 2,218 data rows and the no-op image; all 417 outgoing EH
+  graphs are EXACT. The link audit remains inconclusive against its older
+  index with 155 objects lacking current strict receipts. No new census is
+  asserted; the following post-push rebase preserves this consumer's source.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through

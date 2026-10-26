@@ -84,3 +84,32 @@ scoped refresh removes exactly the one queue item for these two declarations,
 preserving every unrelated queue byte. Receipts are `iteration36-build.log`,
 `iteration36-verification.log` and the normal `iteration36-commit.log`.
 Only the SubsystemInterface item remains queued for this source.
+
+## Published full verification
+
+The package is published at `9839a436af` in PR 115. Its normal full gate
+passes 98,272 functions, 2,218 data rows, 214 STLport folds, 31,536 literals
+plus 2,257 empty references, 9,116 floats and 6,419 imports. DIR32, pins,
+module registry, source ownership and the no-op image pass. The outgoing
+EH check covers 417 graphs, all EXACT, without baseline exceptions or missing
+objects. Converged-data enforcement covers 22,845 sources with zero second
+names and zero unjudged rows. PRE-PUSH OK follows the full gate.
+
+The initial push refusal was caused by seven absent objects and one stale
+INI provider after upstream moves. The normal eight-source build verifies
+76 functions and one data row; the missing-object condition is then absent.
+No gate or register was changed to obtain the successful retry.
+
+The link audit remains INCONCLUSIVE: its index predates the outgoing base,
+and 155 source objects lack current strict receipts. The actual outgoing
+path audit also covers 24 upstream donor moves: 138 references are comments,
+history or valid paths in the separate BFME 1 namespace, with no active
+consumer of an absent BFME 2 path. The seven PR-local INI path audit is
+unchanged. These are publication controls, not a new census or runtime pass.
+
+The following post-push rebase to `9885fa1597` preserves the GameClient source,
+ICoord2D header and contract byte for byte. Its new ledger totals are 98,271
+functions, 15,659 symbols and 2,217 data rows; check_csv passes. This does not
+revise the historical full-gate counts above. The remaining same-file base
+adoption is tracked separately in
+[the complete-vtable handoff](subsystem-full-vtable-gameclient-20261026.md).

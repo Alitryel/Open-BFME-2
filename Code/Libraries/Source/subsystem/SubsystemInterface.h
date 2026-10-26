@@ -15,6 +15,23 @@ class SubsystemInterface {
 public:
     SubsystemInterface();
     virtual ~SubsystemInterface();
+    #ifdef SUBSYSTEMINTERFACE_VIEW_FULL_VTABLE
+    // Native fourteen-slot view; select before the first include for the whole TU.
+    // Slot 6 uses the existing return-zero provider; its retail name is unknown.
+    virtual void init() = 0;
+    virtual bool loadIniFilesFromLegend();
+    virtual void postProcessLoad();
+    virtual bool vslot04(int);
+    virtual bool vslot05();
+    virtual int vslot06();
+    virtual void vslot07(int);
+    virtual void vslot08();
+    virtual void reset() = 0;
+    virtual void update() = 0;
+    virtual bool vslot11(int);
+    virtual void vslot12();
+    virtual void vslot13(int);
+    #endif
     // Out of line in retail: 0x00329F5E (row in subsystem/SubsystemInterfaceCopy.cpp); an
     // implicit copy would be emitted as a second COMDAT definition beside that row's.
     SubsystemInterface(const SubsystemInterface &that);
