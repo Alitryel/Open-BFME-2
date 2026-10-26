@@ -26,6 +26,7 @@ extern AptValue *gpUndefinedValue;
 class AptArray : public AptObject {
 public:
     AptArray();
+    static void CleanNativeFunctions();
     void set(int,AptValue*);
     void _reserve(int);
     void toString(EAStringC &,const char * = ",");

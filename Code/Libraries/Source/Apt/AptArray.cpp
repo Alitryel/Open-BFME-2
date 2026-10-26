@@ -36,7 +36,7 @@ public:
 	virtual ~Rva006D6470Owner();
 };
 
-class Rva006D2A60 { public: void freeBlock(void *, int); };
+class Rva006D2A60 { public: void *allocBlock(int); void freeBlock(void *, int); };
 
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 
