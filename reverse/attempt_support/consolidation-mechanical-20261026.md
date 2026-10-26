@@ -87,3 +87,9 @@ Further allocated dry-runs and verification:
 - Path-consumer search found no active references in tools, hooks, workflows or build configuration to the deleted pool-key donor path. Historical EA path evidence remains.
 
 The failed staged DetachableRider trial was restored, and all its file and RVA claims were released. Other dry-run rejections remain as previously recorded; no rejected donor was repaired or moved. Identity debt was not retired. This handoff records blockers only, not coverage progress.
+
+## TransportAIUpdate binding blocker — 2026-10-26
+
+The allocated `TransportAIUpdate.cpp` dry-run accepted its unchanged three-row `TransportAIUpdatePrivateAttackPosition.cpp` donor; ctor donor was byte-rejected and pool-key donor failed because `getModuleNameKey` is absent from the seed class. The staged move preserved 3/3 matched rows; `find_declared_unmatched.py`, CSV, TU ownership, removed-source, data, and staged COMDAT checks passed. `code_identity_gate.py --staged` reported one new shadow finding: `definition: divergent | ?getContain@Object@@QBEPAVContainModuleInterface@@XZ`. The changed donor's local `Object` view needs identity/provider review by Sol.
+
+`link_check.py --refresh` refreshed 292 rebuilt objects but reports this destination is absent from census 47e030bafc and cannot be previewed until the next census. `link_batch_audit.py` is inconclusive: its index predates current `origin/master`, and the new destination lacks a current link-audit receipt. No selected-provider or consumer-binding improvement is claimed. The staged merge was restored and its file/RVA claims released; no manual source or identity-register repair was attempted.
