@@ -44,15 +44,15 @@ void *Rva00141DC0::pushFront(void *arg)
 class Rva00141D60
 {
 public:
-	void *createNode(void *arg);
+	void *createNode(void *valueSource);
 };
 
-void *Rva00141D60::createNode(void *arg)
+void *Rva00141D60::createNode(void *valueSource)
 {
 	void *node = g_BfmeSceneNodePool.rva00141800();
 	void **valuePtr = (void **)((char *)node + 4);
 	if (valuePtr != 0)
-		valuePtr[0] = *(void **)arg;
+		valuePtr[0] = *(void **)valueSource;
 	((void **)node)[0] = 0;
 	return node;
 }

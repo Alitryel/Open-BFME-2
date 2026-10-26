@@ -7298,3 +7298,12 @@ Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva0055F4CE|m_1C,3
 Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva0055F4CE|m_2C,e798d17720738d39018f5641,gpt-6.1-sol,w6-10260401-16,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|param|Rva00509DF8::rva00509DF8|a,0774f16343771735b5299aba,gpt-6.1-sol,w6-10260401-16,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|param|Rva00509DF8::rva00509DF8|b,ad2182c2ba2efbf4aee4f165,gpt-6.1-sol,w6-10260401-16,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00274176|p,5170af72047b96fa1559dcf1,gpt-6.1-sol,w1-10260507-1,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp|local|BFME2Encoding1MotionChannel::rva001B230A|fi0,9c8fe0fce3cb4b947ea62861,gpt-6.1-sol,w1-10260507-3,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141DC0::pushFront|arg,13323173e6a033d1a8e429a2,gpt-6.1-sol,w1-10260507-7,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141D60::createNode|arg,01f6db5d5e9c0683d6f04457,gpt-6.1-sol,w1-10260507-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva005C3EA5Show.cpp|local|Rva005C3EA5::Show|s,ab51d46af624b707e4079bc8,gpt-6.1-sol,w1-10260507-12,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,1ac31435eced11df8e5f6f4c,gpt-6.1-sol,w1-10260507-13,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020AC0|Rva00020AC0,918d4db68941299c904055bf,gpt-6.1-sol,w1-10260507-14,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva005DCE72.cpp|function|0x005DCE72|rva005DCE72,85ee268499ceae69e8c823ab,gpt-6.1-sol,w1-10260507-15,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,52c2fe349dab0f6f6acb45bb,gpt-6.1-sol,w1-10260507-16,w-6d5d2b593eca,2026-10-26
