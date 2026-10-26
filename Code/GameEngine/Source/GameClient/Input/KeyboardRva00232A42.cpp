@@ -10,52 +10,7 @@
 // record. Per-statement kind re-reads (aliasing blocks CSE) plus the direct
 // slot indexing reproduce retail. Layout reuses Keyboard.cpp's proven
 // Keyboard model; KeyboardIO field roles are structural.
-class AsciiStringMember
-{
-public:
-	~AsciiStringMember();
-};
-
-class GameEngineDeletingBase
-{
-public:
-	GameEngineDeletingBase() throw();
-	virtual ~GameEngineDeletingBase();
-
-private:
-	char m_pad04[4];
-	AsciiStringMember m_member08;
-};
-
-#include "../../../../Libraries/Include/Lib/BfmeE16.h"
-
-namespace _STL
-{
-
-template <class Element> class allocator
-{
-public:
-	allocator() {}
-};
-
-template <class Item, class Alloc> class _Vector_base
-{
-public:
-	_Vector_base(const Alloc &alloc) throw();
-	void *_M_start;
-	void *_M_finish;
-	void *_M_end;
-};
-
-}
-
-struct KeyboardIO
-{
-	unsigned char m_kind;
-	unsigned char m_f1;
-	unsigned short m_f2;
-	char m_pad[4];
-};
+#include "KeyboardView.h"
 
 struct KeySlot
 {
@@ -65,34 +20,18 @@ struct KeySlot
 	unsigned int m_frame;
 };
 
-class Keyboard : public GameEngineDeletingBase
-{
-public:
-	void rva00232A42();
-	unsigned short translateKey(unsigned short keyCode);
-
-protected:
-	bool checkKeyRepeat();
-	unsigned short m_modifiers; // +0x0C
-	unsigned char m_shift2Key; // +0x0E
-	_STL::_Vector_base<BfmeE16, _STL::allocator<BfmeE16> > m_keys; // +0x10
-	unsigned char m_keyStatus[0x800]; // +0x1C
-	unsigned char m_keyNames[0x600]; // +0x81C
-	int m_inputFrame; // +0xE1C
-};
-
 void Keyboard::rva00232A42()
 {
 	KeyboardIO *rec = (KeyboardIO *)m_keys._M_start;
 	KeyboardIO *end = (KeyboardIO *)m_keys._M_finish;
 	while (rec != end) {
-		((KeySlot *)&m_keyStatus)[rec->m_kind].m_key = rec->m_f2;
-		((KeySlot *)&m_keyStatus)[rec->m_kind].m_flag = rec->m_f1;
-		((KeySlot *)&m_keyStatus)[rec->m_kind].m_frame = m_inputFrame;
-		unsigned char kind = rec->m_kind;
+		((KeySlot *)&m_keyStatus)[rec->key].m_key = rec->state;
+		((KeySlot *)&m_keyStatus)[rec->key].m_flag = rec->status;
+		((KeySlot *)&m_keyStatus)[rec->key].m_frame = m_inputFrame;
+		unsigned char kind = rec->key;
 		if (kind == 0x0F) {
-			if (((m_keyStatus[0x1C2] & 2) != 0) || ((m_keyStatus[0x5C2] & 2) != 0))
-				rec->m_f1 = 1;
+			if (((((unsigned char *)m_keyStatus)[0x1C2] & 2) != 0) || ((((unsigned char *)m_keyStatus)[0x5C2] & 2) != 0))
+				rec->status = 1;
 		}
 		else if (kind == 0x3A || kind == 0x1D || kind == 0x9D || kind == 0x2A || kind == 0x36 || kind == 0x38 || kind == 0xB8) {
 			translateKey((unsigned short)kind);
@@ -104,7 +43,7 @@ void Keyboard::rva00232A42()
 		KeyboardIO *last = (KeyboardIO *)m_keys._M_finish;
 		KeyboardIO *keyboardIO = (KeyboardIO *)m_keys._M_start;
 		while (keyboardIO != last) {
-			keyboardIO->m_f2 |= m_modifiers;
+			keyboardIO->state |= m_modifiers;
 			++keyboardIO;
 		}
 	}

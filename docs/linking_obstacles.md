@@ -175,6 +175,14 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open. Updated: 2026-10-26.**
 
+- **Keyboard resync prerequisite (2026-10-26):**
+  [the shared receiver repair](../reverse/attempt_support/consolidation-keyboard-resync-prerequisite-20261026-codex.md)
+  makes the seed and 166-byte resync donor compose (13 existing rows); the
+  baseline trial accepted no composition. Strict current objects preserve all
+  executable/data sections, COMDAT policies, batch aliases and code/data
+  reference facts. Enum, virtual-declaration, vector/allocator and two mixed
+  donor prerequisites remain. No merge, identity debt retirement, linked-byte
+  gain or downstream Luna landing is claimed.
 - **RepairDock transfer prerequisite (2026-10-26):**
   [the scoped receiver repair](../reverse/attempt_support/consolidation-repairdock-xfer-prerequisite-20261026-codex.md)
   shares the pool-key and transfer receiver. Normal composition now accepts
