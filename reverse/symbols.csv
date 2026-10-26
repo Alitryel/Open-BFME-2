@@ -4065,7 +4065,6 @@ name,address,notes
 ??1Rva00001F18@@UAE@XZ,0x00001F18,"destructor the vector deleting destructor 0x00001EAE calls and hands to the eh vector destructor iterator (DIR32 at 0x00001EBD); opaque address name"
 ??1Rva00001F64Vec@@UAE@XZ,0x00001F18,"destructor the vector deleting destructor 0x00001F64 calls and hands to the eh vector destructor iterator (DIR32 at 0x00001F73); opaque address name"
 ??1Rva0000240E@@UAE@XZ,0x0000240E,"destructor the vector deleting destructor 0x000025B2 calls and hands to the eh vector destructor iterator (DIR32 at 0x000025C1); opaque address name"
-??1Rva00016B60Dtor@@UAE@XZ,0x00016B60,address-derived class dtor called by the 30B scalar deleting destructor at 0x000170C0; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva00019565FlatBase@@UAE@XZ,0x00589079,callee of 1Rva0025A390FlatDtor (0x004C54BE) at the site its BFME1 donor calls it; may be an ICF alias
 ??1Rva0002B8C8TailBase@@UAE@XZ,0x0049B47C,callee of 1W3DStreakDraw (0x000CFFD3) at the site its BFME1 donor calls it; may be an ICF alias
 ??1Rva00030DD0Guard@@QAE@XZ,0x000317C0,TU-private view (Rva006C3840Cluster.cpp) of the same counted critical-section guard; the unwind funclet 0x007A7D50 destroys the guard by jumping here; original class name unknown; fold-proof=Code/GameEngine/Source/Common/System/Rva000317C0Cluster.cpp
@@ -4123,7 +4122,6 @@ name,address,notes
 ??1Rva001164F5@@UAE@XZ,0x001164F5,opaque virtual destructor; call target of retail scalar-deleting-dtor at 0x11653F (28B flag-test shape); Ghidra function start FUN_005164f5; identity unproven; address-derived name
 ??1Rva00119D00@@UAE@XZ,0x00119D00,opaque SEH dtor (push -1/cookie prologue); called by scalar-deleting-dtor at 0x43057; identity unproven, address-derived name
 ??1Rva00120FB0Dtor@@UAE@XZ,0x00120FB0,address-derived class dtor called by the 30B scalar deleting destructor at 0x00122110; address read from that body REL32; class identity unproven so the model is named for the call target
-??1Rva0012A4D0Dtor@@UAE@XZ,0x0012A4D0,address-derived class dtor called by the 30B scalar deleting destructor at 0x0012A620; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva0013107A@@UAE@XZ,0x001310CF,dtor installs ??_7Rva0013107A 0x00BD25C8 at +0 (body rowed under its BFME1 donor name releaseResource0090C2D0); REL32 callee of the slot-1 ??_G at 0x00131E52
 ??1Rva00131D07@@UAE@XZ,0x00131D07,"destructor the scalar deleting destructor 0x0013218B calls (REL32 at 0x0013218E; vtable 0x00BD2630#9); opaque address name"
 ??1Rva00135E35@@UAE@XZ,0x00135E35,"destructor the scalar deleting destructor 0x00135F19 calls (REL32 at 0x00135F1C; vtable 0x00BD28F0#9); opaque address name"
@@ -4133,24 +4131,18 @@ name,address,notes
 ??1Rva00142FE0@@UAE@XZ,0x00142FE0,opaque dtor; call target of retail scalar-deleting-dtor at 0xE00A4 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva00143F60@@UAE@XZ,0x00143F60,retail REL32 from scalar deleting dtor at 0x00143FF0 and vtable installs 0xBD34FC/0xBD34F0 with array delete idiom
 ??1Rva00145000@@UAE@XZ,0x00145000,opaque SEH base dtor; 11B derived dtor at 0x145610 tail-calls it; identity unproven
-??1Rva0014A5B0Dtor@@UAE@XZ,0x0014A5B0,address-derived class dtor called by the 30B scalar deleting destructor at 0x0014BB70; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva0014DC9E@@UAE@XZ,0x0014DC9E,"destructor the scalar deleting destructor 0x0014DCAC calls (REL32 at 0x0014DCAF; vtable 0x00BD3898#0); opaque address name"
 ??1Rva001505CD@@UAE@XZ,0x001505CD,"destructor the scalar deleting destructor 0x00150A5B calls (REL32 at 0x00150A5E; vtable 0x00BD3A34#0); opaque address name"
 ??1Rva00155330Dtor@@UAE@XZ,0x00155330,address-derived class dtor called by the 30B scalar deleting destructor at 0x00156840; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva00156750Dtor@@UAE@XZ,0x00156750,address-derived class dtor called by the 30B scalar deleting destructor at 0x00157110; address read from that body REL32; class identity unproven so the model is named for the call target
-??1Rva00157390Dtor@@UAE@XZ,0x00157390,address-derived class dtor called by the 30B scalar deleting destructor at 0x00157AB0; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva00157C20Dtor@@UAE@XZ,0x00157C20,address-derived class dtor called by the 30B scalar deleting destructor at 0x00157E60; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva001684D6@@UAE@XZ,0x001684D6,"destructor the scalar deleting destructor 0x001684BA calls (REL32 at 0x001684BD; vtable 0x00BD41C8#1); opaque address name"
 ??1Rva001709F8@@QAE@XZ,0x0017098D,ICF twin of RefCountPtr TextureClass dtor proved by exact align_diff
 ??1Rva001732C6@@QAE@XZ,0x0018C57C,non-virtual dtor called directly by scalar deleting dtor 0x001732C6; owning class unproven
-??1Rva00174753Dtor@@UAE@XZ,0x00174753,address-derived class dtor called by the 30B scalar deleting destructor at 0x0011CC10; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva0017480CRecord@@QAE@XZ,0x0017330A,"auto-pin (permute --pins): REL32 call target read from retail in 0x0017480c, whose banked body is byte-exact once this call resolves"
 ??1Rva0017FFCA@@UAE@XZ,0x0017FFCA,"destructor the scalar deleting destructor 0x0018010E calls (REL32 at 0x00180111; vtable 0x00BD4F50#9); opaque address name"
-??1Rva001811D0Dtor@@UAE@XZ,0x001811D0,address-derived class dtor called by the 30B scalar deleting destructor at 0x001811B0; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva001880D0Dtor@@UAE@XZ,0x001880D0,address-derived class dtor called by the 30B scalar deleting destructor at 0x00188320; address read from that body REL32; class identity unproven so the model is named for the call target
-??1Rva001976F0Dtor@@UAE@XZ,0x001976F0,address-derived class dtor called by the 30B scalar deleting destructor at 0x001977B0; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva0019B780Key@@QAE@XZ,0x0002C0C0,callee of ?lookup@Rva0019C520Member@@QAEHPAVAsciiString@@H@Z at retail 0x0032D0B5 read from its REL32 displacement; ICF alias onto the matched ??1?$pair@VAsciiString@@V1@@_STL@@QAE@XZ
-??1Rva0019EF70Dtor@@UAE@XZ,0x0019EF70,address-derived class dtor called by the 30B scalar deleting destructor at 0x0019F990; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva001A47D8@@UAE@XZ,0x001A47D8,"destructor the scalar deleting destructor 0x001A47BC calls (REL32 at 0x001A47BF; vtable 0x00BD6CD0#1); opaque address name"
 ??1Rva001D28F0Element@@QAE@XZ,0x00689500,retail REL32 destroy-loop thiscall in vector<Rva001D28F0Element>::_M_insert_overflow at 0x00689F52; element dtor SEH body
 ??1Rva001DBAA4@@UAE@XZ,0x001DBAC3,twin pin base dtor per Rva001DBAA4Ctor vtable comment and retail jmp from 0x003603D4
@@ -4727,7 +4719,6 @@ name,address,notes
 ??1Rva0060D031Member@@QAE@XZ,0x0060D031,Target direct call from XferSave field at +0x18; opaque helper identity
 ??1Rva0060FE2@@UAE@XZ,0x0060FE2,opaque SEH dtor (mov-eax-cookie prologue, sub esp frame); called by scalar-deleting-dtor at 0x61AA1; identity unproven, address-derived name
 ??1Rva006109C0@@UAE@XZ,0x006109C0,"destructor the scalar deleting destructor 0x000657E6 calls (REL32 at 0x000657E9; vtable 0x00BC5C6C#0); opaque address name"
-??1Rva006154D0Dtor@@UAE@XZ,0x006154D0,address-derived class dtor called by the 30B scalar deleting destructor at 0x0013C860; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva006162B0Dtor@@UAE@XZ,0x006162B0,address-derived class dtor called by the 30B scalar deleting destructor at 0x00616490; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva0061ED80@@UAE@XZ,0x0061ED80,opaque vector-destroying dtor (17B: member+0xC via ehvec 0x42FD80 + vptr); tail-called by single-inheritance dtor at 0x180EA0; identity unproven, address-derived name
 ??1Rva00625800Dtor@@UAE@XZ,0x00625800,address-derived class dtor called by the 30B scalar deleting destructor at 0x00626D90; address read from that body REL32; class identity unproven so the model is named for the call target
@@ -4776,7 +4767,6 @@ name,address,notes
 ??1Rva0072892@@UAE@XZ,0x0072892,opaque trivial dtor (7B vptr reinstall); called by scalar-deleting-dtor at 0x728C6; identity unproven, address-derived name
 ??1Rva0072AED@@UAE@XZ,0x0072AED,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtors at 0x72FA9 + thunk 0x72FE1; identity unproven, address-derived name
 ??1Rva0073A900Dtor@@UAE@XZ,0x0073A900,address-derived class dtor called by the 30B scalar deleting destructor at 0x0073AAC0; address read from that body REL32; class identity unproven so the model is named for the call target
-??1Rva0073E3F0Dtor@@UAE@XZ,0x0073E3F0,address-derived class dtor called by the 30B scalar deleting destructor at 0x007396E0; address read from that body REL32; class identity unproven so the model is named for the call target
 ??1Rva0073EE55@@UAE@XZ,0x0073EE55,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0xA87F3; identity unproven, address-derived name
 ??1Rva0073EF24@@UAE@XZ,0x0073EF24,opaque dtor called by the scalar deleting dtor at 0x0073EF08 (vtable 0x00CF1538#2); identity unproven; address-derived name
 ??1Rva0074104C@@UAE@XZ,0x0074104C,opaque dtor called by the scalar deleting dtor at 0x007410D0 (vtable 0x00CF1648#0); identity unproven; address-derived name
@@ -5329,12 +5319,8 @@ name,address,notes
 ??_ERva000647D4@@UAEPAXI@Z,0x00064809,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva000E3B41@@UAEPAXI@Z,0x000E3CC5,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva0010461F@@UAEPAXI@Z,0x00104723,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
-??_ERva0014A5B0Dtor@@UAEPAXI@Z,0x0014BB70,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva00166DE0@@UAEPAXI@Z,0x00167640,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva001684D6@@UAEPAXI@Z,0x001684BA,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
-??_ERva001811D0Dtor@@UAEPAXI@Z,0x001811B0,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
-??_ERva001976F0Dtor@@UAEPAXI@Z,0x001977B0,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
-??_ERva0019EF70Dtor@@UAEPAXI@Z,0x0019F990,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva001DF057@@UAEPAXI@Z,0x001DF3D5,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva001E2906@@UAEPAXI@Z,0x001E28EA,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
 ??_ERva001ED41B@@UAEPAXI@Z,0x001ED52D,"vector deleting destructor name the class's this-adjusting thunks jump to; the linker resolves it to the scalar deleting destructor at this address (weak external)"
