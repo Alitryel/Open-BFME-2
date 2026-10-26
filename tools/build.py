@@ -54,7 +54,8 @@ def ensure_reference_current():
         return
     line = status.stdout.strip()
     fix = (f"Fix:\n  git submodule update --init {REFERENCE_SUBMODULE}\n"
-           f"(tools/setup_hooks.sh sets submodule.recurse so pulls keep it current.)")
+           f"(in a linked worktree: python3 tools/worktree_setup.py prepare; "
+           f"tools/setup_hooks.sh sets submodule.recurse so pulls keep it current.)")
     if status.returncode == 0 and line[:1] in ("+", "U"):
         raise SystemExit(
             f"{REFERENCE_SUBMODULE} is checked out at a commit other than the one "

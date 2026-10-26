@@ -27,7 +27,13 @@ git config merge.union.driver "if [ -f tools/merge_rows.py ] && [ -f .githooks/r
 # A pull moves the reference/open-bfme-1 pin; without this its checkout stays
 # behind and builds against stale headers (tools/build.py refuses to).
 git config submodule.recurse true
-git submodule update --init reference/open-bfme-1
+# A linked worktree borrows the main checkout's objects instead: a bare
+# `submodule update --init` there downloads Open-BFME-1's whole history.
+if [ "$(git rev-parse --path-format=absolute --git-dir)" != "$(git rev-parse --path-format=absolute --git-common-dir)" ]; then
+    sh .githooks/run-python3 tools/worktree_setup.py prepare
+else
+    git submodule update --init reference/open-bfme-1
+fi
 
 echo "core.hooksPath=$(git config --get core.hooksPath)"
 echo "upstream=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || echo unset)"

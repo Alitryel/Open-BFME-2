@@ -46,6 +46,8 @@ verified and easy to rebase. Detail for the hook rules:
 
 - Never `--no-verify`; never bypass a hook. If `git config core.hooksPath` names
   another checkout (common in worktrees), run `git -c core.hooksPath=.githooks`.
+- Create worktrees with `python3 tools/worktree_setup.py create PATH --branch
+  NAME`; never run a bare `submodule update --init` in a worktree.
 - A commit that edits `tools/` gate code, `.githooks/` or a baseline/whitelist
   needs a `Verifier-Change: <reason>` trailer.
 - Spell control paths (the root, `reverse/`, `tools/`, `.githooks/`, `.github/`)
