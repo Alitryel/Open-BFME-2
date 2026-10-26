@@ -27,16 +27,7 @@ char g_00BF2358;
 extern "C" const void *const vtbl_00BF3740[];  // ??_7Rva0025558E@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00BF3740=??_7Rva0025558E@@6B@")
 
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-	void clear();
-
-private:
-	void *m_data;
-};
+#include "../../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 struct OrnamentData
 {

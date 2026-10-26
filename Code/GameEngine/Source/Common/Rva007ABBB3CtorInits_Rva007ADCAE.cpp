@@ -59,11 +59,7 @@ typedef _STL::map<AsciiString, TreeHintOpaque0043671B, _STL::less<AsciiString>, 
 typedef _STL::map<int, BfmePod24, _STL::less<int>, _STL::allocator<_STL::pair<const int, BfmePod24> > > IntPod24Map;
 
 // class-gate: allow AsciiString retail calls the out-of-line folded default ctor at 0x00326BE6; the shared header's inline m_text(0) ctor would store inline instead of emitting that call
-class AsciiString
-{
-public:
-	AsciiString();
-};
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 #include "../../../../reference/shims/bfme2_ascii/unicode_string.h"
 

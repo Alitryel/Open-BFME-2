@@ -270,14 +270,7 @@ public:
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-class AsciiString
-{
-public:
-	~AsciiString(void);
-	operator int(void) const { return (int)this; }
-
-	char *m_bfmeData;
-};
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 class User : public Glo012F1024Item
 {
