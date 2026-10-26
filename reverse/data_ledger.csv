@@ -21178,7 +21178,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A073F8,2052,.data,global,?Rva0134D4B8FormatBuffer@@3PADA,Code/GameEngine/Source/Common/Gen009D6220.cpp,owned,,1,2
 0x00A07BFC,1,.data,global,?IsLocked@RegistryClass@@0_NA,Code/Libraries/Source/WWVegas/WWLib/registry.cpp,owned,,1,15
 0x00A07BFD,3,.data,global,?is_init@?1??Get@SysTimeClass@@QAEKXZ@4_NA,Code/Libraries/Source/WWVegas/WWSaveLoad/twiddler.cpp,provisional,,0,12
-0x00A07C00,4,.data,global,?g_00E07C00@@3PAXA,,unowned,?g_00E07C00@@3PAXA;_g_poolYieldEvent@Code/Libraries/Source/WWVegas/WWLib/BFMEPoolYield.cpp,1,2
+0x00A07C00,4,.data,global,?g_00E07C00@@3PAXA,,unowned,?g_00E07C00@@3PAXA;_g_poolYieldEvent@Code/Libraries/Source/WWVegas/WWLib/thread.cpp,1,2
 0x00A07C04,4,.data,global,?Allocator@?$AutoPoolClass@VMultiListNodeClass@@$0BAA@@@0V?$ObjectPoolClass@VMultiListNodeClass@@$0BAA@@@A,Code/Libraries/Source/WWVegas/WWLib/multilist.cpp,owned,,0,7
 0x00A07C08,16,.data,global,?g_chainHeadAtE07C08@@3PAURvaCleanupNode@@A,Code/GameEngine/Source/Common/System/GlobalChainCleanup.cpp,owned,,1,2
 0x00A07C18,4096,.data,global,?m_TempStrings@StringClass@@0PADA,Code/Libraries/Source/WWVegas/WWLib/wwstring.cpp,owned,,1,2

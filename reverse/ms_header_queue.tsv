@@ -1576,7 +1576,6 @@ Code/Libraries/Source/WWVegas/WWDebug/Debug_OperatorRepeatChar.cpp	drop-in candi
 Code/Libraries/Source/WWVegas/WWDebug/ErrorExit.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdlib.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	exit:same
 Code/Libraries/Source/WWVegas/WWDebug/Rva00889BF0EntryInsert.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memmove:same
 Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	Sleep:same
-Code/Libraries/Source/WWVegas/WWLib/BFMEPoolYield.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	WaitForSingleObject:same
 Code/Libraries/Source/WWVegas/WWLib/DX8SkinFVFCategoryContainer_Add_Mesh.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete [ ]:same
 Code/Libraries/Source/WWVegas/WWLib/INIClassShutdown.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/Libraries/Source/WWVegas/WWLib/LargeGroupAudioUpdateModuleData.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<math.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	ceil:same
@@ -3363,3 +3362,4 @@ Code/Libraries/Source/Apt/AptString.cpp	conflicting	abi	1	0	0	0	0	0	1	0	0	0	0	<s
 Code/GameEngine/Source/GameNetwork/DisconnectManager.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	timeGetTime:same
 Code/GameEngine/Source/GameLogic/AI/AITNGuard.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/Libraries/Source/WWVegas/WWDownload/CftpAsyncGetHostByName.cpp	conflicting	abi	9	5	1	1	0	0	2	0	0	0	0	<windows.h>,<string.h>	yes	yes	hand			in_addr:abi,sockaddr_in:abi,s_addr:unknown,CreateThread:source,DWORD:same,BOOL:same,NULL:same,AF_INET:same,memset:same
+Code/Libraries/Source/WWVegas/WWLib/thread.cpp	conflicting	abi	1	1	0	0	0	0	0	0	0	0	2	<new>,<WinResrc.h>,<windows.h>	yes	yes	hand	752: Code/Libraries/Source/WWVegas/WWLib/always.h:61 malloc(unknown); Code/Libraries/Source/WWVegas/WWLib/always.h:62 calloc(unknown); Code/Libraries/Source/WWVegas/WWLib/always.h:63 realloc(unknown)		WaitForSingleObject:same

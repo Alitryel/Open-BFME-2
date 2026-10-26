@@ -5,33 +5,6 @@
 #define __PLACEMENT_VEC_NEW_INLINE  // always.h/GameMemory.h define array placement-new themselves
 #define _WIN32_WINNT 0x0400
 #include "always.h"
-
-// The existing 0x00610430 constructor and lifecycle bodies establish this
-// BFME 2 prefix and three-slot virtual interface. Zero Hour's thread.h adds
-// a running flag and exception-handler argument/field that retail lacks.
-class __declspec(novtable) ThreadClass
-{
-public:
-    ThreadClass(const char *name);
-    virtual ~ThreadClass();
-    virtual void Execute();
-    void Set_Priority(int priority);
-    __declspec(noinline) bool Is_Running();
-    __declspec(noinline) void Stop();
-    void Stop(unsigned ms);
-    static void Sleep_Ms(unsigned ms);
-    static void Switch_Thread();
-    static unsigned _Get_Current_Thread_ID();
-
-protected:
-    virtual void Thread_Function() = 0;
-
-private:
-    char m_name[0x40];
-    unsigned int m_threadId;
-    void *m_handle;
-    int m_priority;
-};
 #include "except.h"
 #include "wwdebug.h"
 #include <process.h>
@@ -42,6 +15,7 @@ private:
 #pragma warning ( pop )
 #ifndef _UNIX
 #endif
+#include <string.h>
 
 HANDLE test_event = ::CreateEvent (NULL, FALSE, FALSE, "");
 
@@ -101,15 +75,87 @@ extern "C" unsigned int __stdcall BFMENetworkBackendThreadStart(void *backend)
 	return 0;
 }
 
-// tu-skeleton: 0x00610430 72B ??0ThreadClass@@QAE@PBD@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/ThreadClassCtor.cpp (not merged yet)
+// Retail vtable VA 0x0087B6AC (packet: no name yet). Referenced, never emitted
+// here, so this TU contributes no vftable and no ??_G of its own.
+// The retail table at RVA 0x0087B6AC: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GThreadClass@@UAEPAXI@Z")();
+void __identifier("?Execute@ThreadClass@@UAEXXZ")();
+int __cdecl _purecall(void);
+}
+
+extern const void *const g_00C7B6AC[3] = {
+	(const void *)&__identifier("??_GThreadClass@@UAEPAXI@Z"), // slot 0 0x00610620
+	(const void *)&__identifier("?Execute@ThreadClass@@UAEXXZ"), // slot 1 0x006104B0
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+};
+
+// The pool lock waits briefly on the event created during startup.
+extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(
+    void *handle, unsigned long milliseconds);
+
+// The event is WWLib thread.cpp test_event (HANDLE is void *), created by that
+// unit's dynamic initializer; one definition, declared here.
+extern void *test_event;
+
+// The existing 0x00610430 constructor and lifecycle bodies establish this
+// BFME 2 prefix and three-slot virtual interface. Zero Hour's thread.h adds
+// a running flag and exception-handler argument/field that retail lacks.
+class __declspec(novtable) ThreadClass
+{
+public:
+    ThreadClass(const char *name);
+    virtual ~ThreadClass();
+    virtual void Execute();
+    void Set_Priority(int priority);
+    __declspec(noinline) bool Is_Running();
+    __declspec(noinline) void Stop();
+    void Stop(unsigned ms);
+    static void Sleep_Ms(unsigned ms);
+    static void Switch_Thread();
+    static unsigned _Get_Current_Thread_ID();
+
+protected:
+    virtual void Thread_Function() = 0;
+
+private:
+    char m_name[0x40];
+    unsigned int m_threadId;
+    void *m_handle;
+    int m_priority;
+};
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/ThreadClassCtor.cpp
+
+// ThreadClass 1-arg ctor, retail 0x00610430 (72 bytes). Dedicated TU:
+// ThreadClassLifecycle.cpp already holds 3 matched rows without /G7, and
+// /G7 flips the strcpy-loop increment from inc-edx to retail add-edx-1
+// (Begin_Scene_Inner/Check precedent: /G7 fixes INC-to-ADD walls).
+// Source verbatim from that TU (1-arg, no exception handler): three null
+// stores (m_threadId/m_handle/m_priority at +0x44/+0x48/+0x4C behind
+// m_name[0x40] at +0x04) plus strcpy-or-"No name" memcpy.
+
+// ??0ThreadClass@@QAE@PBD@Z
+ThreadClass::ThreadClass(const char *name)
+{
+    *(const void **)this = g_00C7B6AC;
+    m_handle = 0;
+    m_priority = 0;
+    m_threadId = 0;
+    if (name)
+        strcpy(m_name, name);
+    else
+        memcpy(m_name, "No name", 8);
+}
 
 // tu-skeleton: 0x00610480 7B ??1ThreadClass@@UAE@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp (not merged yet)
 
+// ---- from Code/Libraries/Source/WWVegas/WWLib/thread.cpp
+
 // ---- from Code/GameEngine/Source/GameNetwork/native_network.cpp
 
-// tu-skeleton: 0x006104B0 54B ?Execute@ThreadClass@@UAEXXZ -- matched in Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp (not merged yet)
 
-// tu-skeleton: 0x006104F0 25B ?Set_Priority@ThreadClass@@QAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WWLib/thread.cpp
 
@@ -185,7 +231,23 @@ unsigned ThreadClass::_Get_Current_Thread_ID()
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp
 // ThreadClass::Is_Running: defined in ThreadClassLifecycle.cpp (its row's unit).
 
-// tu-skeleton: 0x006105C0 15B ?Switch_Thread@ThreadClass@@SAXXZ -- matched in Code/Libraries/Source/WWVegas/WWLib/BFMEPoolYield.cpp (not merged yet)
+// tu-skeleton: 0x006104B0 54B ?Execute@ThreadClass@@UAEXXZ -- matched in Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp (not merged yet)
+
+// tu-skeleton: 0x006104F0 25B ?Set_Priority@ThreadClass@@QAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/BFMEPoolYield.cpp
+
+// The C++ inline getter preserves retail's load of the startup event before
+// pushing the one-millisecond timeout and handle arguments.
+__forceinline void *loadPoolYieldEvent()
+{
+    return test_event;
+}
+
+void ThreadClass::Switch_Thread()
+{
+    WaitForSingleObject(loadPoolYieldEvent(), 1);
+}
 
 // tu-skeleton: 0x006105E0 9B ?Is_Running@ThreadClass@@QAE_NXZ -- matched in Code/Libraries/Source/WWVegas/WWLib/ThreadClassLifecycle.cpp (not merged yet)
 

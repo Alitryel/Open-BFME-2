@@ -1787,7 +1787,7 @@ Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	duplicate-def	_g_dbghelp	0
 Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	duplicate-def	_g_oldDbghelp	0x009E08A8
 Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	wrong-name	_g_dbghelp	0x009E08AC
 Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	wrong-name	_g_oldDbghelp	0x009E08A8
-Code/Libraries/Source/WWVegas/WWLib/BFMEPoolYield.cpp	wrong-name	_g_poolYieldEvent	0x00A07C00
+Code/Libraries/Source/WWVegas/WWLib/thread.cpp	wrong-name	_g_poolYieldEvent	0x00A07C00
 Code/Libraries/Source/WWVegas/WWLib/Rva00038780Siblings.cpp	wrong-name	_g_bfme00DE0880	0x009E0880
 Code/Libraries/Source/WWVegas/WWLib/Rva001EB9ACCreateNode.cpp	wrong-name	_Rva001EB9AC_pool	0x009B8FEC
 Code/Libraries/Source/WWVegas/WWLib/Rva001EC311Ctor.cpp	wrong-name	?g_007ED97C@@3HA	0x007ED97C
