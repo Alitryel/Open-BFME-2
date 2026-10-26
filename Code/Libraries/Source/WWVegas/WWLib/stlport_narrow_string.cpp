@@ -271,6 +271,11 @@ template _STL::basic_string<char>::reverse_iterator _STL::basic_string<char>::rb
 template _STL::basic_string<char>::reverse_iterator _STL::basic_string<char>::rend();
 template _STL::basic_string<char> &_STL::basic_string<char>::append<char *>(
     char *, char *, const _STL::forward_iterator_tag &);
+// Its const twin (the same 0x1B3E0 body): this unit is first in link order
+// among the units that emit it, so emitting retail's copy here keeps the
+// consumers' identical unproven copies (urlBuilder, stringbuf, ...) linking.
+template _STL::basic_string<char> &_STL::basic_string<char>::append<const char *>(
+    const char *, const char *, const _STL::forward_iterator_tag &);
 template void _STL::swap<char *>(char *&, char *&);
 template bool _STL::operator!=<const char *>(
     const _STL::reverse_iterator<const char *> &,
