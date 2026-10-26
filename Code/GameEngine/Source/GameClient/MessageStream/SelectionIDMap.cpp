@@ -71,3 +71,11 @@ template unsigned int _STL::hashtable<_STL::pair<const int,Rva002A9029Element>,i
 template void _STL::hashtable<_STL::pair<const int,Rva002A9029Element>,int,_STL::hash<int>,
     _STL::_Select1st<_STL::pair<const int,Rva002A9029Element> >,_STL::equal_to<int>,
     _STL::allocator<_STL::pair<const int,Rva002A9029Element> > >::resize(unsigned int);
+
+// XferSave.cpp's int-keyed table of eight-byte elements (ctor 0x0060CF76) declares its
+// bucket init only; it is the same folded body at 0x00148DDF, which this unit's
+// flags emit, so this unit supplies the copy its constructor calls.
+struct Rva0060CF76Element { char bytes[8]; };
+template void _STL::hashtable<_STL::pair<const int,Rva0060CF76Element>,int,_STL::hash<int>,
+    _STL::_Select1st<_STL::pair<const int,Rva0060CF76Element> >,_STL::equal_to<int>,
+    _STL::allocator<_STL::pair<const int,Rva0060CF76Element> > >::_M_initialize_buckets(unsigned int);
