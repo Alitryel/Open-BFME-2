@@ -79,3 +79,50 @@ receipt written. No maintainer-only runner or helper agent started.
 
 Metrics: recovered bytes 0; file reduction 0; identity debt retired 0; data debt
 retired 0. One additional existing donor is now accepted by normal dry-run.
+
+## Final gate, allocation probes and publication state
+
+Commit d8d48b0ce1 passed the normal header hook: 46/46 rows across six
+sources, 12 funclet pins, string/float/import and remaining gates pass. The
+conservative dependency scope additionally includes GameClient/Eva.cpp; its
+27 rows remain exact. No Eva source change was needed. The publisher queued
+this commit below its batch threshold; retain the six file claims below until
+publication is confirmed. The runner publishes the final pending batch.
+
+Read-only allocated probes in this session (no abandoned source edits or new
+claims):
+
+- PropDraw: current plan and frozen checks retain the prior Coord3D lifetime,
+  pool-key and module-data declaration prerequisites; no unchanged trial repeated.
+- DisplayStringManager: normal dry-run accepts none. Common/Rva00090360Ctor.cpp
+  lacks seed declaration rva00090381; Common/W3DDisplayStringManager.cpp needs
+  m_14/rva0009038. Common-owned donors require their assigned seat's repair.
+- LineGroup: normal dry-run accepts none. Render's O2/arch:SSE/G7 and SetArrays'
+  O2/G7 overrides differ from carried G7; destructor fails bytes. No flag or
+  lifetime workaround. Receipt: build/sol-b5-linegrp-before-trial.log.
+- TreeBuffer: current plan has 34 approved rows, 12 files and six mixed donors.
+  Normal dry-run accepts none of its remaining donors: reset/base declarations,
+  tree/count/member views, updateTexture, addTreeType, morph and Xfer declarations
+  still disagree. Previously compatible donors are already in the current seed;
+  this is not a lost-row claim. Common donors remain outside this seat's scope.
+  Receipt: build/sol-b5-tree-before-trial.log; all temporary sources cleaned up.
+- AptRenderingContext and UDP: inspected current plans and inherited evidence;
+  the former is already compatible Luna work, the latter needs canonical UDP
+  identity/overlap repair. No repeated unchanged trial or duplicate spelling.
+
+Final outgoing audit covers the merge-base-to-HEAD prerequisite and this
+handoff update together. No source move, deletion or repointed consumer was
+introduced. Protected registers and current identity/data debt remain intact.
+No new path consumer changed, so the earlier complete compatibility audit
+remains applicable.
+
+Pending file claims, all under Code/GameEngineDevice/Source/W3DDevice/GameClient/:
+W3DSnowResourceView.h, W3DSnow.cpp, Rva0009322DLightning.cpp, Rva00093349.cpp,
+Rva000932E1Get.cpp and Rva00093457Finish.cpp. No other seat-owned claim remains.
+Release these only after confirmed push, then run claims.py release --landed.
+
+Final progress.py origin/master: BYTE-MATCHED 7,978,500 (100%); LINKING
+7,370,962 (98.11%); LINKED 7,614,012 (98.75%), census 2026-10-26 08:28 at
+47e030bafc. All deltas zero; no new census or ownership receipt. This session's
+result is the verified extra lightning donor accepted by normal composition;
+file reduction, recovered bytes and debt retirements each remain zero.
