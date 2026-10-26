@@ -59,55 +59,7 @@ struct Rva004DF231Outer
 // (Int, Bool) operation.  The matching sibling Energy bodies use the BFME
 // layout below: production at +4, consumption at +8, owner at +0xc.
 
-class Player
-{
-public:
-	void onPowerBrownOutChange(bool brownOut);
-};
-
-class Energy
-{
-public:
-	void adjustPower(int powerDelta, bool adding);
-private:
-	void *m_vptrPad;
-private:
-	int m_energyProduction;
-private:
-	int m_energyConsumption;
-private:
-	Player *m_owner;
-private:
-	void addProduction(int amount)
-	{
-		m_energyProduction += amount;
-		if (m_owner == 0)
-			return;
-		m_owner->onPowerBrownOutChange(m_energyProduction < m_energyConsumption);
-	}
-private:
-	void addConsumption(int amount)
-	{
-		m_energyConsumption += amount;
-		if (m_owner == 0)
-			return;
-		m_owner->onPowerBrownOutChange(m_energyProduction < m_energyConsumption);
-	}
-public:
-	void objectEnteringInfluence(Object *obj);
-public:
-	void objectLeavingInfluence(Object *obj);
-public:
-	void rva004DF25B(Rva004DF207Outer *arg);
-public:
-	void rva004DF274(Rva004DF207Outer *arg);
-public:
-	void rva004DF18D(int delta);
-public:
-	void rva004DF1AF(int delta);
-public:
-	float getEnergySupplyRatio() const;
-};
+#include "EnergyView.h"
 
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // ?rva004DF17F@Rva004DF17F@@QBE_NXZ, RVA 0x004DF17F, 14 bytes.

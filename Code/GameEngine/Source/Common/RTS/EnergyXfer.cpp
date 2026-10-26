@@ -24,25 +24,7 @@
 // owning-player index: written from m_owner (+0x0C, index at Player +0x54)
 // when storing, then resolved back through ThePlayerList.
 
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-
-#include "../../../Include/Common/BfmeXfer.h"
+#include "EnergyView.h"
 
 class Xfer::Version
 {
@@ -69,34 +51,12 @@ public:
 
 typedef int Int;
 
-class Player
-{
-public:
-	// Matched callers use the target player index at +0x54 directly;
-	// avoid an out-of-line getter shared with incompatible layouts.
-public:
-	char m_unrecovered00[ 0x54 ];
-	Int m_playerIndex;																												///< 0x54
-};
-
 class PlayerList
 {
 public:
 	Player *getNthPlayer( Int i );
 };
 extern PlayerList *ThePlayerList;
-
-class Energy
-{
-protected:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-private:
-	char m_unrecovered04[ 0x0C - 0x04 ];
-	Player *m_owner;																													///< 0x0C
-};
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
