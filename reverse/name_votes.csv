@@ -7899,3 +7899,13 @@ Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19A
 Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp|function|0x0055CFF0|rva0055CFF0,01e0403ad4588a76062f9bba,gpt-6.1-sol,w6-10261133-7,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|class||Rva0010F42A,268c4521312ae51879d3e3f7,gpt-6.1-sol,w6-10261133-12,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,718368385ce2341fbef8fdbd,gpt-6.1-sol,w6-10261133-12,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|p,875d50525e3779ea723194ba,gpt-6.1-sol,w1-10261139-1,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme34,b72f8777922cb1134dbe11e0,gpt-6.1-sol,w1-10261139-3,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme35,a341e8ca3d545d6bb0090cb1,gpt-6.1-sol,w1-10261139-3,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|class||Rva0030C2CEElem,1e2d87f339a4009f7bd713c0,gpt-6.1-sol,w1-10261139-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|class||Rva0030C2CECollection,a421f4f6d72a6567ce0522c7,gpt-6.1-sol,w1-10261139-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_int60,77a3993475c781598e5f40fa,gpt-6.1-sol,w1-10261139-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|tmp,abe03cee6087a2622135d24f,gpt-6.1-sol,w1-10261139-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp|class||Rva007F35D0Cursor,33a95b4590c6b90a336d2995,gpt-6.1-sol,w1-10261139-11,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva002B6C9F.cpp|param|Rva002B6C9F::rva002B6C9F|a2,dc90cda42b8cef34e4e89a0a,gpt-6.1-sol,w1-10261139-12,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva002B6C9F.cpp|param|Rva002B6C9F::rva002B6CE5|a2,27c350cd02be5dc6a597c565,gpt-6.1-sol,w1-10261139-12,w-6d5d2b593eca,2026-10-26

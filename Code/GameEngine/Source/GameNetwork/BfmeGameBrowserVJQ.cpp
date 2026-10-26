@@ -131,7 +131,7 @@ public:
 	int m_bfme2c;
 	int m_state;
 	char m_bfme34;
-	char m_bfme35;
+	char m_useLan;
 	char m_pad36[0x2a6];
 	char m_messageBuffer[0x400];
 	int m_requestTimeout;
@@ -146,7 +146,7 @@ void BfmeThingVJQ::bfmeGoVJQ(int a) throw()
 		m_bfme14->send(&msg, BfmeGameBrowserVJQCallback, this, m_requestTimeout);
 		return;
 	}
-	if (m_bfme35)
+	if (m_useLan)
 	{
 		Rva007E8810Message *view = (Rva007E8810Message *)&msg;
 		BfmeAsk992 *ask = (BfmeAsk992 *)&msg;

@@ -2500,3 +2500,4 @@ param,Rva00222B19AptCall::a1,Rva00222B19AptCall::secondArgument,inferred,agree:n
 param,Rva00222B19AptCall::a2,Rva00222B19AptCall::thirdArgument,inferred,agree:nl-31c85d2be7ca,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
 param,Rva00222B19AptCall::a3,Rva00222B19AptCall::fourthArgument,inferred,agree:nl-4feaa9322918,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
 param,Rva00222B19AptCall::a4,Rva00222B19AptCall::fifthArgument,inferred,agree:nl-e1187d6ded91,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
+member,BfmeThingVJQ::m_bfme35,BfmeThingVJQ::m_useLan,inferred,agree:nl-20a77febd186,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,
