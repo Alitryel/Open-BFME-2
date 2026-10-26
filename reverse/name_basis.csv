@@ -2334,3 +2334,8 @@ function,?rva005389D9@QuadStrip2D@@QAEXABUBfmeFloat4Record00469C61@@@Z,?addStrip
 function,?rva00538768@QuadStrip2D@@QAEXH@Z,?removeStrip@QuadStrip2D@@QAEXH@Z,inferred,agree:nl-0cf3e778253a,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x00538768
 function,?rva005389ED@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z,?insertStrip@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z,inferred,agree:nl-a7d8b25adf9e,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x005389ED
 local,rva0006653B::d,rva0006653B::rowStride,inferred,agree:nl-2b1675d3cc89,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,
+param,BfmeSubmitter1283::bfmeSubmitColors1283::a4,BfmeSubmitter1283::bfmeSubmitColors1283::name,inferred,agree:nl-95880da68a7f,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
+param,BfmeSubmitter1283::bfmeSubmitColors1283::a5,BfmeSubmitter1283::bfmeSubmitColors1283::parent,inferred,agree:nl-dd058263bc48,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
+param,BfmeSubmitter1283::bfmeSubmitColors1283::a7,BfmeSubmitter1283::bfmeSubmitColors1283::clipDepth,inferred,agree:nl-50b104350000,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
+param,BfmeSubmitter1283::bfmeSubmitColors1283::a9,BfmeSubmitter1283::bfmeSubmitColors1283::matrix,inferred,agree:nl-a40f646a26c9,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
+param,BfmeSubmitter1283::bfmeSubmitColors1283::a10,BfmeSubmitter1283::bfmeSubmitColors1283::actions,inferred,agree:nl-6e5f67a7db34,Code/GameEngine/Source/Common/BfmeSubmitColors1283.cpp,0x006F8E10
