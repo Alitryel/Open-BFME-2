@@ -32,7 +32,7 @@ struct OpacityEnvelope
 	unsigned int m_decayTime;	// +0x18
 	unsigned int m_sustainTime;	// +0x1C
 	unsigned int m_releaseTime;	// +0x20
-	int m_unknown24;			// +0x24
+	int m_state;			// +0x24
 };
 
 // Retail value at 0x00DBA4EC owned by INI_parseDurationUnsignedShort.cpp.
@@ -49,7 +49,7 @@ void INI::Rva00338E52_ParseEnvelope(INI *ini, void *instance, void *store, const
 {
 	OpacityEnvelope *env = (OpacityEnvelope *)store;
 	env->m_unknown0C = 0;
-	env->m_unknown24 = 0;
+	env->m_state = 0;
 
 	const char *token;
 	while ((token = ini->getNextTokenOrNull(NULL)) != NULL)

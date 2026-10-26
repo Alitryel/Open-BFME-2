@@ -72,22 +72,22 @@ void Rva007FA2C0::walk(unsigned arg)
 {
 	unsigned best = 0;
 	unsigned char ok = 1;
-	char *p = (char *)this + 0x3C;
+	char *expiryPtr = (char *)this + 0x3C;
 	int remaining = 0x20;
 	do
 	{
-		if (*(int *)(p - 0x10))
+		if (*(int *)(expiryPtr - 0x10))
 		{
-			unsigned expiry = *(unsigned *)p;
+			unsigned expiry = *(unsigned *)expiryPtr;
 			if (arg >= expiry)
 			{
-				helper(p - 0x14, (signed char)0x9A);
+				helper(expiryPtr - 0x14, (signed char)0x9A);
 				ok = 0;
 			}
 			else if (best == 0 || best > expiry)
 				best = expiry;
 		}
-		p += 0x1C;
+		expiryPtr += 0x1C;
 	} while (--remaining);
 	if (ok)
 		m_18 = best;

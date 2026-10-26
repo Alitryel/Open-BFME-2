@@ -93,19 +93,19 @@ bool Rva005F2767::IsMouseOverBackButton() const
 // with their ArmyDetails consumer in Rva005F2CBAProgress.cpp. Keeping those
 // real bodies visible there is required for its632B return/lifetime shape.
 
-// ?rva005E39A6@ArmyDetailsPanelImpl@@QBE_NH@Z @0x005E39A6 8B: loads the map pointer held at +0x14, then tail-jumps Rva005F2278::rva005F2278 above.
+// ?isSelected@ArmyDetailsPanelImpl@@QBE_NH@Z @0x005E39A6 8B: loads the map pointer held at +0x14, then tail-jumps Rva005F2278::rva005F2278 above.
 // Owner and name are address-derived; no referencing site was found in this
 // pass.
 class ArmyDetailsPanelImpl
 {
 public:
-	bool rva005E39A6(int key) const;
+	bool isSelected(int key) const;
 private:
 	char m_pad00[0x14];
 	Rva005F2278 *m_selection;
 };
 
-bool ArmyDetailsPanelImpl::rva005E39A6(int key) const
+bool ArmyDetailsPanelImpl::isSelected(int key) const
 {
 	return m_selection->rva005F2278(key);
 }

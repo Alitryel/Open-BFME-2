@@ -2645,3 +2645,4 @@ __ehhandler$?Rva005CD841Find@@YA_NPAX@Z,0x007A157D,"Renamed to __ehhandler$?hasL
 ?rva0052586B@Rva0052586B@@QAEXXZ,0x0052586B,"Renamed to ?resetHeroSlots@Rva0052586B@@QAEXXZ by tools/rename.py (inferred)"
 ?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x0042C936,"Renamed to ?assign@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z by tools/rename.py (inferred)"
 __ehhandler$?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x00787763,"Renamed to __ehhandler$?assign@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z by tools/rename.py (inferred)"
+?rva005E39A6@ArmyDetailsPanelImpl@@QBE_NH@Z,0x005E39A6,"Renamed to ?isSelected@ArmyDetailsPanelImpl@@QBE_NH@Z by tools/rename.py (inferred)"
