@@ -11,6 +11,15 @@
 // inherits that backlink. The cleared backlink records that this node is no
 // longer linked.
 
+namespace ShroudManager
+{
+	class Data
+	{
+	public:
+		void UpdateCellsTouched();
+	};
+}
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/PartitionManager.h
 class PartitionData
 {
@@ -18,7 +27,6 @@ public:
 	void friend_updateCellsTouched();
 
 private:
-	void updateCellsTouched();
 	unsigned char m_bfmePrefix[0x14];
 	PartitionData **m_bfmeDirtyPrevLink; // +0x14
 	PartitionData *m_bfmeDirtyNext;      // +0x18
@@ -34,7 +42,7 @@ inline void PartitionData::friend_updateCellsTouched()
 			m_bfmeDirtyNext->m_bfmeDirtyPrevLink = m_bfmeDirtyPrevLink;
 		m_bfmeDirtyPrevLink = 0;
 	}
-	updateCellsTouched();
+	((ShroudManager::Data *)this)->UpdateCellsTouched();
 }
 
 // Header inlines that the units including the header emit as select-any

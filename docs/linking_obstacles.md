@@ -1214,7 +1214,7 @@ Remaining / next check (each needs a decision, a row or a shared change; none is
   `BfmeAptScreenBase`. This needs a class-view reconcile.
 - `VectorClass<Vector3>` deleting destructor (S in `vector_class_vector3_ctor.cpp`): see LINK-015.
 - `PartitionData::updateCellsTouched` (S): the kept body is a 426 B SSE method, but retail 0x73AD90 is
-  a 1,158 B x87 body. This is an identity mismatch, not link order.
+  a 1,158 B x87 body. Resolved in `PartitionData_friendUpdateCellsTouched.cpp` via native `ShroudManager::Data::UpdateCellsTouched` (LINK-037).
 - `WeaponTemplate::getName` (S in `Weapon_getName_Thunk.cpp`): an ICF alias at 0x28F940, shared with
   `NetCommandMsg::getContentsAsAsciiString`. This needs an owner decision.
 - Pod28/Pod32 vector copy and `_M_fill_insert` (S in `Rva00541913CopyCtor.cpp`,
@@ -1437,4 +1437,16 @@ Completed: Verified unit against current objects; external callee dependencies h
 Remaining / next check: None.
 Clearance: `tools/link_check.py Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeDeferred.cpp`
 reports: LINKS (0 -> 2,464 bytes). Full 59/59 matched rows verified.
+Census confirmation: awaiting the next census.
+
+
+### LINK-037: PartitionData_friendUpdateCellsTouched linked against stale ZH updateCellsTouched instead of native ShroudManager::Data provider
+Status: Cleared. Updated: 2026-10-26; inspected revision: 7e7941d0cb.
+Evidence / affected units: `Code/GameEngine/Source/GameLogic/Object/PartitionData_friendUpdateCellsTouched.cpp`,
+`reverse/link_status.csv` reported wrong_selected 1 for `?updateCellsTouched@PartitionData@@AAEXXZ`.
+Completed: In retail, tail call at 0x0073B250 jumps directly to 0x0073AD90 (`ShroudManager::Data::UpdateCellsTouched`).
+Updated unit to call `((ShroudManager::Data *)this)->UpdateCellsTouched()` instead of unmatching legacy ZH method.
+Remaining / next check: None.
+Clearance: `tools/link_check.py Code/GameEngine/Source/GameLogic/Object/PartitionData_friendUpdateCellsTouched.cpp`
+reports: LINKS (0 -> 37 bytes). Exact 1/1 byte match preserved.
 Census confirmation: awaiting the next census.
