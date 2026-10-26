@@ -69,13 +69,23 @@ public:
     virtual ~SnowManager();
     virtual void init();
 protected:
-    unsigned char m_targetBase04[0x3D];
+    unsigned char m_targetBase04[0x14 - 0x04];
+    int m_14;
+    unsigned char m_target18[0x3C - 0x18];
+    int m_3c;
+    unsigned char m_target40;
     bool m_targetFlag41;
-    unsigned char m_target42[0x58 - 0x42];
+    unsigned char m_target42[0x48 - 0x42];
+    int m_48;
+    int m_4c;
+    bool m_50;
+    unsigned char m_target51[0x58 - 0x51];
     int m_58;
     int m_5c;
     int m_60;
-    unsigned char m_target64[0x74 - 0x64];
+    int m_64;
+    int m_68;
+    unsigned char m_target6C[0x74 - 0x6C];
 };
 
 class DX8IndexBufferClass : public IndexBufferClass { unsigned char m_targetTail[16]; public: enum UsageType { USAGE_DEFAULT = 0 }; DX8IndexBufferClass(unsigned int, UsageType); };
@@ -87,7 +97,9 @@ public:
     virtual void init();
     void ReleaseResources();
     bool ReAcquireResources();
+    float rva000932E1();
     void rva00093349();
+    void rva00093457();
 private:
     DX8IndexBufferClass *m_indexBuffer;
     BFME2ParticleTextureHandle m_snowTexture;
@@ -112,8 +124,26 @@ typedef char W3DSnowExtent[sizeof(W3DSnowManager) == 0xB0 ? 1 : -1];
 
 class Overridable { public: virtual ~Overridable(); Overridable *m_nextOverride; bool m_isOverride; const Overridable *getFinalOverride() const { if (m_nextOverride) return m_nextOverride->getFinalOverride(); return this; } };
 
-class WeatherSetting : public Overridable { public: unsigned char m_pad0C[0x0C]; AsciiString m_snowTexture; unsigned char m_target1C[0x28]; bool m_usePointSprites; bool m_snowEnabled;
-    unsigned char m_target46[0x70 - 0x46];
+// Only the getValue receiver address is established for this embedded view.
+class GameClientRandomVariable { public: float getValue() const; };
+
+class WeatherSetting : public Overridable {
+public:
+    unsigned char m_pad0C[0x0C];
+    AsciiString m_snowTexture;
+    unsigned char m_target1C[0x3C - 0x1C];
+    int m_3c;
+    int m_40;
+    bool m_usePointSprites;
+    bool m_snowEnabled;
+    bool m_46;
+    unsigned char m_target47[0x4C - 0x47];
+    int m_4c;
+    int m_50;
+    bool m_54;
+    unsigned char m_target55[0x58 - 0x55];
+    GameClientRandomVariable m_58;
+    unsigned char m_target59[0x70 - 0x59];
     int m_70, m_74, m_78;
 };
 

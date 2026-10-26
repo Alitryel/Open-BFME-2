@@ -117,3 +117,124 @@ Metrics: recovered retail bytes 0; source-file reduction 0; identity debt retire
   }
 }
 ```
+
+## Follow-up: neighboring weather readers
+
+After 435cecfbc5, claim Rva000932E1Get.cpp and Rva00093457Finish.cpp. Expose
+only their already-verified receiver/weather offsets in the same shared view;
+retain padding for unresolved storage and the original seed extents. The
+GameClientRandomVariable view establishes the getValue receiver address only,
+not the embedded object's true extent. Both donors use the shared resolver,
+with the same target null/next diamonds, guards and weather-global reloads.
+
+Normal dry-run now accepts the seed plus all three weather donors: 17 composed
+rows / 18 standalone rows. The additional existing parents are 104 and 176
+bytes; these are compatible existing bodies, not recovered bytes. Seven other
+donors remain rejected by their unrelated class/template prerequisites. The
+renderAsQuads donor remains mixed and was not split or edited.
+
+All four sources pass ./build.sh (18/18), frozen-file, class, converged-data
+and Microsoft-header checks; seed EH remains EXACT 3. Composition preserves
+all 50 bindings and all 25 globally selected definitions, with identical data
+sets, no changed/dropped external definitions and no new undefined names.
+The two new donor inline COMDATs equal the existing seed provider exactly.
+
+Data shadow check reports four findings, including a duplicate-def outside the
+baseline on Rva000932E1Get.cpp. Re-running upstream data_check.findings against
+the saved original objects proves all four findings existed identically before
+this follow-up. Do not retire the existing three wrong-name debt keys or expand
+the baseline. This global-identity prerequisite remains for a separate repair;
+this change neither changes its storage nor claims it was fixed.
+
+The planner was refreshed after all edits and its freshness check passed.
+The complete pending batch has no source moves/deletions or registry edits;
+repeated path-consumer audit confirms the shared header now has four direct
+consumers, all verified together. No tool/hook/workflow/build consumer requires
+repointing, and historical paths remain. Metrics remain 0 recovered bytes,
+0 file reduction and 0 identity debt retired. Leave the demonstrated compatible
+subset for Luna; no downstream landing is asserted.
+
+```json
+{
+  "standalone": {
+    "inspected_selected_names": 25,
+    "selected_definition_changes": [],
+    "new_inline_provider_identical_to_seed": true,
+    "remaining_standalone_facts_identical": true,
+    "bindings": 50
+  },
+  "composition": {
+    "snow-tail": {
+      "rows": 18,
+      "before_refs": 50,
+      "after_refs": 50,
+      "removed_bindings": [],
+      "added_bindings": [],
+      "preexisting_divergent_copies": {}
+    }
+  },
+  "selection": {
+    "snow-tail": {
+      "inspected_names": 25,
+      "selected_provider_changes": [],
+      "data_binding_sets_equal": true,
+      "data_definition_sets_equal": true
+    }
+  },
+  "data": {
+    "before": [
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp",
+        "duplicate-def",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ],
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp",
+        "wrong-name",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ],
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093349.cpp",
+        "wrong-name",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ],
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093457Finish.cpp",
+        "wrong-name",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ]
+    ],
+    "after": [
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp",
+        "duplicate-def",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ],
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp",
+        "wrong-name",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ],
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093349.cpp",
+        "wrong-name",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ],
+      [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093457Finish.cpp",
+        "wrong-name",
+        "?g_Va00DFE118@@3PAVWeatherSetting@@A",
+        "0x009FE118"
+      ]
+    ],
+    "identical": true
+  }
+}
+```
