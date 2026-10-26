@@ -134,7 +134,7 @@ existing LINK-011 preview clearances retained for its two rows.
 | `Code/Libraries/Source/WWVegas/WW3D2/Rva007B73C0.cpp` | 59 | 2 (C=1, S=1) | LINK-015: blocked; its own inlined `??_G` loses while no copy is proven |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00054EBE.cpp` | 47 | 2 (C=1, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva000E0225.cpp` | 47 | 2 (C=1, S=1) | Open |
-| `Code/GameEngine/Source/Common/Bfme/Rva00739C70Cleanup.cpp` | 43 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/Common/Bfme/Rva00739C70Cleanup.cpp` | 43 | 2 (U=2) | 2026-10-26 dbf9f2dd95: the U=2 placeholders came from an unmatched copy of rowed 0x000724D7 (`Rva000724D7Lock.cpp`); copy removed, 2/2 rows exact, preview 0 -> 43 B (index 47e030bafc); census pending |
 | `Code/GameEngine/Source/Common/SpecialPowerStore.cpp` | 37 | 2 (U=2) | LINK-011: preview cleared; census pending |
 | `Code/GameEngine/Source/Common/PoolDeleteDeletingDtors01.cpp` | 35 | 2 (C=1, S=1) | Open |
 | `Code/GameEngine/Source/Common/Rva006F84C0DeletingDtor.cpp` | 35 | 2 (C=1, S=1) | Open |
