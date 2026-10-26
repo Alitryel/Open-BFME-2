@@ -50,6 +50,7 @@ class EAStringC
 	void *m_pData;
 public:
 	unsigned int GetInternalRefCount() const;
+	unsigned short rva006D2F40() const;
 	unsigned int rva006D3750() const;
 	void rva006D3470();
 };
