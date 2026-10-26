@@ -1054,7 +1054,6 @@ Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetUserDataHelpers_Rva0032857F.c
 Code/GameEngine/Source/GameClient/GUI/Gadget/Rva00445172TextEntryInput.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<ctype.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	_WCTYPE_INLINE_DEFINED:same
 Code/GameEngine/Source/GameClient/GUI/Gadget/Rva0056EA91CompareSet.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/GameClient/GUI/GadgetListBoxDisableInput.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete [ ]:same
-Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/GameClient/GUI/GameWindowCursorSearch.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript_copyGadgetDrawData.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memcpy:same
 Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript_parseText.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
@@ -3358,3 +3357,4 @@ Code/Libraries/Source/WWVegas/WWDownload/CftpAsyncGetHostByName.cpp	conflicting	
 Code/GameEngine/Source/GameClient/GUI/Shell/Shell.cpp	conflicting	mangle	1	1	0	0	0	0	0	0	0	1	0	<windows.h>	yes	yes	hand			timeGetTime:same
 Code/GameEngine/Source/GameClient/Credits.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/GameEngineDevice/Source/Win32Device/Common/Win32LocalFileSystem.cpp	unverified	unverified	16	7	8	0	1	0	0	0	0	0	0	<windows.h>,<string.h>,<wchar.h>	yes	yes	hand			INVALID_HANDLE_VALUE:unverified,_WIN32_FIND_DATAW:source,FindFirstFileW:source,FindNextFileW:source,wcscpy:source,wcscat:source,wcscmp:source,wcslen:source,_waccess:source,DWORD:same,BOOL:same,HANDLE:same,FILETIME:same,_FILETIME:same,WIN32_FIND_DATAW:same,FindClose:same
+Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
