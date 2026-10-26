@@ -2327,3 +2327,10 @@ param,W3DTerrainLogic::Rva0027D815::x,W3DTerrainLogic::Rva0027D815::worldX,infer
 param,W3DTerrainLogic::Rva0027D815::y,W3DTerrainLogic::Rva0027D815::worldY,inferred,agree:nl-ba43b3926eef,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D815
 param,Rva0056574BFill::x,Rva0056574BFill::fillValue,inferred,agree:nl-ae78d54d314b,Code/GameEngine/Source/Common/Rva0056574BFill.cpp,0x0056574B
 local,Rva006C2D20Sink::rva006C2D20::p,Rva006C2D20Sink::rva006C2D20::writePosition,inferred,agree:nl-f334e8f8965d,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,0x006C2D20
+member,Rva00160CE0::m_04,Rva00160CE0::m_next,inferred,agree:nl-53c08fb6f7ae,Code/GameEngine/Source/Common/Rva00160CE0Set.cpp,
+member,Rva00201DC4LODInfo::flag14,Rva00201DC4LODInfo::m_useTerrainNormalMap,inferred,agree:nl-dfac936c2575,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+member,Rva00201DC4LODInfo::flag15,Rva00201DC4LODInfo::m_useDistanceDependantTerrainTextures,inferred,agree:nl-94f5779f7aa5,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+function,?rva005389D9@QuadStrip2D@@QAEXABUBfmeFloat4Record00469C61@@@Z,?addStrip@QuadStrip2D@@QAEXABUBfmeFloat4Record00469C61@@@Z,inferred,agree:nl-014418f5eb18,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x005389D9
+function,?rva00538768@QuadStrip2D@@QAEXH@Z,?removeStrip@QuadStrip2D@@QAEXH@Z,inferred,agree:nl-0cf3e778253a,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x00538768
+function,?rva005389ED@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z,?insertStrip@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z,inferred,agree:nl-a7d8b25adf9e,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x005389ED
+local,rva0006653B::d,rva0006653B::rowStride,inferred,agree:nl-2b1675d3cc89,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,

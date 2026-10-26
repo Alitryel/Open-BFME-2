@@ -41,11 +41,11 @@ class QuadStrip2D
 {
 public:
  	QuadStrip2D &rva005388F7(const QuadStrip2D &other);
- 	void rva005389D9(const BfmeFloat4Record00469C61 &x);
- 	void rva00538768(int index);
+ 	void addStrip(const BfmeFloat4Record00469C61 &x);
+ 	void removeStrip(int index);
  	void clear();
     void rva0053892C(unsigned int count);
- 	void rva005389ED(int index, const W3DAnimationInfo &x);
+ 	void insertStrip(int index, const W3DAnimationInfo &x);
  	void rva00538383(float scale);
 	void rva005382F4(const BfmeE8 &delta);
 private:
@@ -65,18 +65,18 @@ QuadStrip2D &QuadStrip2D::rva005388F7(const QuadStrip2D &other)
 	return *this;
 }
 
-void QuadStrip2D::rva005389D9(const BfmeFloat4Record00469C61 &x)
+void QuadStrip2D::addStrip(const BfmeFloat4Record00469C61 &x)
 {
 	((_STL::vector<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> > *)&m_vec)->push_back(x);
 	m_20 = 1;
 }
 
-// ?rva00538768@QuadStrip2D@@QAEXH@Z @0x00538768 (26B).
+// ?removeStrip@QuadStrip2D@@QAEXH@Z @0x00538768 (26B).
 // Gap between rowed vector<BfmePod16> erase 0x00538739 and assign 0x00538782;
 // erases m_start+index (16B stride) through the rowed erase then sets m_20=1,
 // the same vector-op-plus-flag shape as rva005389D9 above. Caller 0x0030BC53
 // passes the QuadStrip2D at +0x68 and refreshes through vtable slot 0x28.
-void QuadStrip2D::rva00538768(int index)
+void QuadStrip2D::removeStrip(int index)
 {
 	m_vec.erase(m_vec.begin() + index);
 	m_20 = 1;
@@ -102,13 +102,13 @@ void QuadStrip2D::rva0053892C(unsigned int count)
     ((_STL::vector<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> > *)&m_vec)->reserve(count);
 }
 
-// ?rva005389ED@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z @0x005389ED 30B
+// ?insertStrip@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z @0x005389ED 30B
 // Inserts through the rowed vector<W3DAnimationInfo> insert at 0x00538944
 // then sets m_20=1; the same vector-op-plus-flag shape as rva005389D9 and
 // rva00538768 above. Evidence: caller 0x0030BC39 lea ecx QuadStrip2D at +0x68
 // same pattern as 0x005389D9 and 0x00538768 callers; prev 0x005389D9 and
 // next 0x00538A0B same layout region+flag; callee 0x00538944 rowed insert.
-void QuadStrip2D::rva005389ED(int index, const W3DAnimationInfo &w3DAnimationInfo)
+void QuadStrip2D::insertStrip(int index, const W3DAnimationInfo &w3DAnimationInfo)
 {
 	((_STL::vector<W3DAnimationInfo, _STL::allocator<W3DAnimationInfo> > *)&m_vec)->insert(((_STL::vector<W3DAnimationInfo, _STL::allocator<W3DAnimationInfo> > *)&m_vec)->begin() + index, w3DAnimationInfo);
 	m_20 = 1;

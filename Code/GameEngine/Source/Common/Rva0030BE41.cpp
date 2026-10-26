@@ -14,9 +14,9 @@ class QuadStrip2D
 {
 public:
 	void clear();
-	void rva005389D9(const BfmeFloat4Record00469C61 &);
-	void rva005389ED(int, const W3DAnimationInfo &);
-	void rva00538768(int);
+	void addStrip(const BfmeFloat4Record00469C61 &);
+	void insertStrip(int, const W3DAnimationInfo &);
+	void removeStrip(int);
 	void rva00538383(float);
 	BfmePod16 *m_start;
 	BfmePod16 *m_finish;
@@ -65,17 +65,17 @@ void Rva0030BE41::rva0030BE41()
 // Rva0030BE41 remains an opaque receiver view, not an asserted EA class.
 void Rva0030BE41::rva0030BC11(const BfmeFloat4Record00469C61 &strip)
 {
-    m_68.rva005389D9(strip);
+    m_68.addStrip(strip);
     v10();
 }
 void Rva0030BE41::rva0030BC2B(int index, const W3DAnimationInfo &strip)
 {
-    m_68.rva005389ED(index, strip);
+    m_68.insertStrip(index, strip);
     v10();
 }
 void Rva0030BE41::rva0030BC49(int index)
 {
-    m_68.rva00538768(index);
+    m_68.removeStrip(index);
     v10();
 }
 

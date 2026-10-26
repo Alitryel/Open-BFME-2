@@ -3,7 +3,7 @@
 class Rva00160CE0
 {
 	void *m_vtable;
-	int m_04;
+	int m_next;
 	int m_player;
 	char m_match;
 	int m_affiliation;
@@ -19,7 +19,7 @@ extern "C" void *bfmeVftPartitionFilterPlayerAffiliation[];
 Rva00160CE0 &Rva00160CE0::set(int a, int b, char c)
 {
 	m_player = a;
-	m_04 = 0;
+	m_next = 0;
 	m_vtable = bfmeVftPartitionFilterPlayerAffiliation;
 	m_match = c;
 	m_affiliation = b;

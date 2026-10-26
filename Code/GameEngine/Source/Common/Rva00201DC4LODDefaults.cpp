@@ -13,7 +13,7 @@ struct Rva00201DC4LODInfo
     int word00, word04, m_maxParticleCount;
     bool flag0C, flag0D, flag0E;
     int word10;
-    bool flag14, flag15;
+    bool m_useTerrainNormalMap, m_useDistanceDependantTerrainTextures;
     int word18;
     bool m_showSoftWaterEdge;
     int m_maxTankTrackEdges, m_maxTankTrackOpaqueEdges, m_maxTankTrackFadeDelay, m_textureReduction;
@@ -27,7 +27,7 @@ Rva00201DC4LODInfo::Rva00201DC4LODInfo()
 {
     word00=2; word04=3; m_maxParticleCount=2500;
     flag0C=true; flag0D=true; flag0E=false;
-    word10=3; flag14=true; flag15=true; word18=2;
+    word10=3; m_useTerrainNormalMap=true; m_useDistanceDependantTerrainTextures=true; word18=2;
     m_showSoftWaterEdge=true; m_maxTankTrackEdges=100; m_maxTankTrackOpaqueEdges=25; m_maxTankTrackFadeDelay=300000;
     m_textureReduction=0; flag30=true; word34=3; word38=0;
     flag3C=false; flag3D=false; word40=2; word44=1; word48=1;

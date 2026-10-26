@@ -2627,3 +2627,6 @@ __ehhandler$??1SpecialPowerModule@@MAE@XZ,0x0078CE1C,"Respelled back to the publ
 ?rva005DD7FB@GameStatsTable@@QBE_NI@Z,0x005DD7FB,"Renamed to ?isRowDirty@GameStatsTable@@QBE_NI@Z by tools/rename.py (inferred)"
 ?bfmeGoDXE@@YAXXZ,0x007B9B40,"Renamed to ?clearMissingVariant@@YAXXZ by tools/rename.py (inferred)"
 ?rva00545B72@Rva00545B72@@QAE_NH@Z,0x00545B72,"Renamed to ?shouldExit@Rva00545B72@@QAE_NH@Z by tools/rename.py (inferred)"
+?rva005389D9@QuadStrip2D@@QAEXABUBfmeFloat4Record00469C61@@@Z,0x005389D9,"Renamed to ?addStrip@QuadStrip2D@@QAEXABUBfmeFloat4Record00469C61@@@Z by tools/rename.py (inferred)"
+?rva00538768@QuadStrip2D@@QAEXH@Z,0x00538768,"Renamed to ?removeStrip@QuadStrip2D@@QAEXH@Z by tools/rename.py (inferred)"
+?rva005389ED@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z,0x005389ED,"Renamed to ?insertStrip@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z by tools/rename.py (inferred)"
