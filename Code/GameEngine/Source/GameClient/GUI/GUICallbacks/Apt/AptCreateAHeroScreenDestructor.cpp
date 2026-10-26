@@ -72,7 +72,7 @@ extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 struct DestructorGlobalData
 {
 	unsigned char m_pad000[0x68];
-	bool m_68;
+	bool m_enableBehindBuildingMarkers;
 	unsigned char m_pad069[0x9A5 - 0x69];
 	bool m_showSelectedUnitMarker;
 	unsigned char m_pad9a6[0x9BD - 0x9A6];
@@ -129,7 +129,7 @@ AptCreateAHero::~AptCreateAHero()
 			AsciiString name("CreateAHero::DrawMapComponent");
 			((Rva002246B1 *)reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager))->RemoveCustomRender(&name);
 		}
-		TheGlobalDataView->m_68 = m_42e;
+		TheGlobalDataView->m_enableBehindBuildingMarkers = m_42e;
 		TheGlobalDataView->m_showSelectedUnitMarker = true;
 		TheGlobalDataView->m_showObjectHealth = m_42c;
 		TheGlobalDataView->m_D45 = m_42d;

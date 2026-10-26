@@ -30,7 +30,7 @@ union Rva006AD590Slot
 // Same pinned lookup used by BfmeThingPE::bfmeGoPE (BfmeConv906.cpp).
 struct BfmeSubPE
 {
-	int *m_bfmeFirst;
+	int *m_header;
 };
 
 // Retail 0x001F7A47: the member-function-pointer thunk the map lookup goes
@@ -80,7 +80,7 @@ public:
 		call.asVoid = reinterpret_cast<void *>(j_00025cca);
 		int *node = (reinterpret_cast<AudioManagerBfmeFindPECallView *>(
 			&m_map)->*call.asMember)(key);
-		if (node == m_map.m_bfmeFirst)
+		if (node == m_map.m_header)
 			return 0;
 		return (Rva006AD590Slot *)((char *)node + 0x14);
 	}

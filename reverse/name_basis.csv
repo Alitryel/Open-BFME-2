@@ -2376,3 +2376,6 @@ carry,Rva004A6EHolder::rva004A6EC6::draw,Rva004A6EHolder::gainOneBox::draw,infer
 local,W3DTerrainLogic::Rva0027D960::w2,W3DTerrainLogic::Rva0027D960::pointWaterView,inferred,agree:nl-5788f426d4b5,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D960
 local,W3DTerrainLogic::Rva0027D960::w3,W3DTerrainLogic::Rva0027D960::heightWaterView,inferred,agree:nl-0e15700da947,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D960
 local,Rva002CF2D5::_M_erase::y,Rva002CF2D5::_M_erase::leftChild,inferred,agree:nl-2ea505c91064,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
+member,BfmeSubPE::m_bfmeFirst,BfmeSubPE::m_header,inferred,agree:nl-de013fa5e177,Code/GameEngine/Source/Common/Audio/AudioManagerAdjustPriorityAndVolume.cpp,
+member,DestructorGlobalData::m_68,DestructorGlobalData::m_enableBehindBuildingMarkers,inferred,agree:nl-49478f23faa1,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroScreenDestructor.cpp,
+param,Made002CC8A4::rva00509E43::a,Made002CC8A4::rva00509E43::weapon,inferred,agree:nl-3c21e9d0aebb,Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp,0x00509E43

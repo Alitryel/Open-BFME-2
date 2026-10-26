@@ -71,7 +71,7 @@ class Made002CC8A4
 {
 public:
 	virtual void v0();
-	virtual bool rva00509E43(int a, Object *obj);
+	virtual bool rva00509E43(int weapon, Object *obj);
 
 private:
 	unsigned char m_pad004[0x128 - 0x04];
@@ -82,7 +82,7 @@ private:
 	bool m_154;								// +0x154
 };
 
-bool Made002CC8A4::rva00509E43(int a, Object *obj)
+bool Made002CC8A4::rva00509E43(int weapon, Object *obj)
 {
 	if (!obj)
 		return false;
@@ -105,7 +105,7 @@ bool Made002CC8A4::rva00509E43(int a, Object *obj)
 					}
 					else if (m_154)
 						return false;
-					return reinterpret_cast<Rva00507823 *>(this)->rva005075D6((const void *)a, (Object *)obj);
+					return reinterpret_cast<Rva00507823 *>(this)->rva005075D6((const void *)weapon, (Object *)obj);
 				}
 			}
 		}
