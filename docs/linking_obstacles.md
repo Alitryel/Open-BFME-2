@@ -896,13 +896,36 @@ separate strict receipt limitation encountered there.
   `tools/link_batch_audit.py` reported an inconclusive baseline and two changed
   source objects without current receipts (first MessageStream.cpp).
   `tools/link_check.py --prepare-current` refused NetCommandRef.cpp as not an
-  owned current Code provider.
+  owned current Code provider. A later `dx8vertexbuffer.cpp` trial (four
+  accepted donors, nine rows) also built and passed ledger, ownership and
+  converged-data checks, but its scoped audit remained inconclusive at base
+  `0b692726c4e`: index `47e030bafc` still represented census base
+  `763dc8759f` and reported 55 source objects without current receipts. A
+  subsequent `link_check.py --fetch-index` imported 22,673 objects but left the
+  available index at `47e030bafc`; current `origin/master` later advanced to
+  `5ef173d2435`, so the provider/consumer comparison remains unverified.
+- A `GameMemory.cpp` merge trial accepted four donors and byte-built 5/5 rows;
+  its staged code-identity/data checks reported one shadow identity finding
+  and zero data findings. The scoped audit against current `origin/master`
+  remained inconclusive: the index is still `47e030bafc`, and the merged
+  `GameMemory.cpp` has no current link receipt. The trial was restored. Its
+  accepted donor set, staged patch and exact audit result are preserved under
+  `build/consolidation/gamememory/`; `Rva000308E0AddHeap.cpp` was rejected for
+  a duplicate `MemoryPool::HeapTable`.
+- For `AptScriptColour.cpp`, the whole-file dry run accepted no donors. Two
+  mixed-file split dry runs carved matched rows and compiled beside the TU, but
+  remain blocked on the same provider/consumer audit. The
+  `AptFactoryConstructors.cpp` split was refused because copying its helpers
+  would grow an escape-hatch count.
 - **Completed:** MessageStream's byte build, frozen-file, ledger, data,
   ownership and new-variant checks passed; the mechanical trial was restored
   because provider/consumer comparison remained incomplete. See
   `reverse/attempt_support/consolidation-run-20261026.md`.
 - **Remaining / next check:** after the next published census/index supplies
-  current receipts, rerun `link_batch_audit.py` for these exact source paths and
-  inspect selected-provider changes and affected consumers.
+  current receipts, rerun `link_batch_audit.py` for these exact source paths
+  and `Code/Libraries/Source/WWVegas/WW3D2/dx8vertexbuffer.cpp`,
+  `Code/GameEngine/Source/Common/System/GameMemory.cpp`, and
+  `Code/Libraries/Source/Apt/AptObject/AptScriptColour.cpp`; inspect
+  selected-provider changes and affected consumers.
 - **Clearance:** none; no provider or consumer change is claimed verified.
 - **Census confirmation:** awaiting a current index and next census.
