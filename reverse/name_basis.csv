@@ -2387,3 +2387,6 @@ local,Rva0052DB11::rva0052DB11::o,Rva0052DB11::rva0052DB11::presentNode,inferred
 function,?Rva005CD841Find@@YA_NPAX@Z,?hasListeners@@YA_NPAX@Z,inferred,agree:nl-a4de7a7439c3,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
 carry,Rva005CD841Find::visitor,hasListeners::visitor,inferred,scope renamed by Rename Rva005CD841Find to hasListeners (inferred),Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
 class,Rva0041FA34Node,HashtableNode,inferred,agree:nl-eced53e87f33,Code/GameEngine/Source/GameClient/Rva0041FA34NewNode.cpp,
+member,Rva0044E7A8Req::m_b6,Rva0044E7A8Req::m_disableWhenWearingTheRing,inferred,agree:nl-397d10967474,Code/GameEngine/Source/Common/Rva0044E7A8Check.cpp,
+local,W3DVolumetricShadowV2::W3DVolumetricShadowV2::x,W3DVolumetricShadowV2::W3DVolumetricShadowV2::maxX,inferred,agree:nl-81441539bada,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp,0x0010811E
+local,W3DVolumetricShadowV2::W3DVolumetricShadowV2::y,W3DVolumetricShadowV2::W3DVolumetricShadowV2::maxY,inferred,agree:nl-779b755bb88b,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp,0x0010811E

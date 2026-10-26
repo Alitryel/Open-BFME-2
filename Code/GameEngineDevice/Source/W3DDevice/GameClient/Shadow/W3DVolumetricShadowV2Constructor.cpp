@@ -196,8 +196,8 @@ W3DVolumetricShadowV2::W3DVolumetricShadowV2(W3DVolumetricShadowV2 **prevLink, R
 
 	AABoxClass box;
 	m_renderObj->Get_Obj_Space_Bounding_Box(box);
-	float x = fabs(box.Center.X) + box.Extent.X;
-	float y = fabs(box.Center.Y) + box.Extent.Y;
-	SetBoundingCircle(Rva0010811ESqrt(x * x + y * y));
+	float maxX = fabs(box.Center.X) + box.Extent.X;
+	float maxY = fabs(box.Center.Y) + box.Extent.Y;
+	SetBoundingCircle(Rva0010811ESqrt(maxX * maxX + maxY * maxY));
 	m_height = box.Center.Z + box.Extent.Z + 20.0f;
 }

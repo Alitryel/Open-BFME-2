@@ -27,7 +27,7 @@ struct Rva0044E7A8Req
 	unsigned int m_flags0; // +0xA0
 	unsigned int m_flags1; // +0xA4
 	char m_pad1[0xB6 - 0xA8];
-	unsigned char m_b6; // +0xB6
+	unsigned char m_disableWhenWearingTheRing; // +0xB6
 };
 
 class Rva0044E7A8
@@ -59,7 +59,7 @@ bool Rva0044E7A8::rva0044E7A8(int arg)
 		return false;
 	if ((forbiddenKinds & 4) != 0 && obj->isKindOf((KindOfType)0x3D))
 		return false;
-	if (req->m_b6 == 0)
+	if (req->m_disableWhenWearingTheRing == 0)
 		return true;
 	Rva00373EC6 *found = obj->rva0028F4BC();
 	if (found != 0 && ((const unsigned char *)found)[0x31] != 0)
