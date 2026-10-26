@@ -40,9 +40,30 @@ template <> __declspec(dllimport) __declspec(nothrow) __forceinline void _Constr
 // Instantiate the recovered operation and its required template dependencies.
 template Rva00317CF2Element * _STL::__uninitialized_copy<Rva00317CF2Element const *, Rva00317CF2Element *>(Rva00317CF2Element const *, Rva00317CF2Element const *, Rva00317CF2Element *, _STL::__false_type const &);
 
+struct Rva000B3F84Pair { const char *text; int length; };
+
+struct AsciiStringRef { const AsciiString *string; };
+
+struct Rva002226E5TextPlusString { Rva000B3F84Pair left; AsciiStringRef right; Rva002226E5TextPlusString() {} };
+
+struct AsciiStringPlusText {
+    AsciiStringPlusText() {}
+    AsciiStringRef left;
+    Rva000B3F84Pair right;
+    operator AsciiString();
+};
+
+Rva002226E5TextPlusString operator+(const char *,const AsciiString &);
+
+AsciiStringPlusText operator+(const AsciiString &,const char *);
+
+AsciiString &Rva00317C68Append(AsciiString &,const char *);
+
 // tu-skeleton: 0x00317BA5 22B ??0TerrainTypeCollection@@QAE@XZ -- matched in Code/GameEngine/Source/Common/TerrainTypeCollection.cpp (not merged yet)
 
 // tu-skeleton: 0x00317BBB 93B ??1TerrainTypeCollection@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva00317BBBDtor.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/TerrainTypes.cpp
 
 // ---- from Code/GameEngine/Source/Common/TerrainType_friend_setName.cpp
 
@@ -54,10 +75,6 @@ void TerrainType::friend_setName(AsciiString s)
 	slot = s;
 }
 
-// tu-skeleton: 0x00317C68 56B ?Rva00317C68Append@@YAAAVAsciiString@@AAV1@PBD@Z -- matched in Code/GameEngine/Source/Common/Rva00317C68Concat.cpp (not merged yet)
-
-// tu-skeleton: 0x00317CA0 45B ?Rva00317CA0Construct@@YAXPAXPBX@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW6Rva00317CCD.cpp
 
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
@@ -68,11 +85,39 @@ void TerrainType::friend_setName(AsciiString s)
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
 // Element identity and unconstrained fields remain address-derived structural inference.
 
+// tu-skeleton: 0x00317C68 56B ?Rva00317C68Append@@YAAAVAsciiString@@AAV1@PBD@Z -- matched in Code/GameEngine/Source/Common/Rva00317C68Concat.cpp (not merged yet)
+
+// tu-skeleton: 0x00317CA0 45B ?Rva00317CA0Construct@@YAXPAXPBX@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp (not merged yet)
+
 // tu-skeleton: 0x00317D18 68B ?findTerrain@TerrainTypeCollection@@QAEPAVTerrainType@@VAsciiString@@@Z -- matched in Code/GameEngine/Source/Common/TerrainTypes_findTerrain.cpp (not merged yet)
 
 // tu-skeleton: 0x00317D5C 45B ??$_M_allocate_and_copy@PBU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@?$vector@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@2@@_STL@@IAEPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@1@IPBU21@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_nocasepair_allocate_copy.cpp (not merged yet)
 
-// tu-skeleton: 0x00317D89 243B ?makeNrmTextureName@@YA?AVAsciiString@@ABV1@@Z -- matched in Code/GameEngine/Source/Common/MakeNrmTextureName.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/Common/MakeNrmTextureName.cpp
+
+// Complete243B native317D89..317E7C RET0. The existing descriptive pin is
+// supported by TerrainType::getNrmTexture and the floor/road normal-map callers.
+// WB A90B20 is unnamed: it independently witnesses last-dot splitting and the
+// exact _nrm literal, expression-node arguments and cleanup sequence.
+// Non-POD concat-node defaults preserve the established hidden-result ABI,
+// eliminating POD block copies; every callee already has a matched body.
+// Rva00317C68Append's existing second-argument spelling is const char*, but
+// native317DF7 and WB A90C0E pass the full text-plus-string node by reference.
+// The call view below preserves that witnessed ABI without an alias or pin.
+
+AsciiString makeNrmTextureName(const AsciiString &in)
+{
+    const char *dot=((const StringBase<char> &)in).reverseFind('.');
+    if (dot) {
+        AsciiString extension(dot);
+        AsciiString base(in,0,dot-in.str());
+        typedef AsciiString &(__cdecl *AppendNode)(AsciiString &,const Rva002226E5TextPlusString &);
+        AppendNode append=reinterpret_cast<AppendNode>(&Rva00317C68Append);
+        append(base,"_nrm"+extension);
+        return base;
+    }
+    return in+"_nrm";
+}
 
 // tu-skeleton: 0x00317E7C 63B ??1Rva00317E7C@@QAE@XZ -- matched in Code/GameEngine/Source/Common/RvaVectorDtorFamily.cpp (not merged yet)
 
