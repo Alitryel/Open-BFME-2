@@ -1,0 +1,3 @@
+# Consolidation handoff: UpdateModule.cpp
+
+Allocated destination: `Code/GameEngine/Source/GameLogic/Object/Update/UpdateModule.cpp` (shard 0/5, allocation check passed). Scoped name-lane report/check passed. Plan: 5 approved rows, 2 donor files, 1 mixed file, none refused. Unchanged merge dry-run accepts no donors: `UpdateModuleXfer.cpp` fails compile in `Include/Common/BfmeXfer.h` because `Snapshot` is undeclared (C2061 at lines 37 and 50); no two-donor merge is possible. Mixed `UpdateModuleSetWakeFrame.cpp` has three routed rows (0x0044DF5B, 0x0044DF71, 0x0044DF8D), but split dry-run is blocked because a copied helper/datum would grow an escape-hatch count. No splits, edits or claims were made. Declaration repair and hatch investigation belong to Sol.
