@@ -31,11 +31,12 @@ private:
 	int m_pad08; // +0x8
 };
 
-// Shared second base at +0x14: vptr 0x00C1C780.
+// Shared second base at +0x14: vptr 0x00C1C780, whose one slot is
+// __purecall (0x0003B810); no destructor of its own.
 class ModuleInfoSecondBase
 {
 public:
-	virtual ~ModuleInfoSecondBase();
+	virtual void slot00() = 0;
 };
 
 // Head base: vptr 0x00C1B590, smart member at +0x04, int at +0x10.
@@ -58,7 +59,7 @@ public:
 	class NAME \
 	{ \
 	public: \
-		virtual ~NAME(); \
+		virtual ~NAME() {} \
 	};
 
 MODULE_INFO_THIRD_BASE(ModuleInfoThirdBAC0)
@@ -109,7 +110,13 @@ private:
 };
 }
 
-MODULE_INFO_THIRD_BASE(ModuleInfoThirdC6FC)
+// Third base at +0x18 of the intermediate: 0x00C1C780 again (__purecall
+// only); ~Intermediate (0x003A97E0) is a bare jmp, so no destructor here.
+class ModuleInfoThirdC6FC
+{
+public:
+	virtual void slot00() = 0;
+};
 
 // Shared intermediate with primary 0x00C1C6FC (also used by 0x003AF672 Box version):
 // Rva base at +0 plus third at +0x18; trivial inline copy (Rva call plus own vptrs)
@@ -121,14 +128,12 @@ public:
 		: Rva003AF50D(other)
 	{
 	}
-	virtual ~Intermediate3AFC6FC();
 };
 
 class Rva003AF5AC : public Intermediate3AFC6FC, public FXParticleSystem::LineEmissionVolumeInfo
 {
 public:
 	Rva003AF5AC(const Rva003AF5AC &other);
-	virtual ~Rva003AF5AC();
 };
 
 Rva003AF5AC::Rva003AF5AC(const Rva003AF5AC &other)
@@ -144,7 +149,6 @@ class Rva003AF57F : public Rva003AF5AC
 {
 public:
 	Rva003AF57F(const Rva003AF57F &other);
-	virtual ~Rva003AF57F();
 };
 
 Rva003AF57F::Rva003AF57F(const Rva003AF57F &other)
@@ -183,7 +187,6 @@ class Rva003AF738 : public Intermediate3AFC6FC, public FXParticleSystem::SphereE
 {
 public:
 	Rva003AF738(const Rva003AF738 &other);
-	virtual ~Rva003AF738();
 };
 
 Rva003AF738::Rva003AF738(const Rva003AF738 &other)
@@ -199,7 +202,6 @@ class Rva003AF70B : public Rva003AF738
 {
 public:
 	Rva003AF70B(const Rva003AF70B &other);
-	virtual ~Rva003AF70B();
 };
 
 Rva003AF70B::Rva003AF70B(const Rva003AF70B &other)
@@ -232,7 +234,6 @@ class Rva003AF7D1 : public Rva003AF7FE
 {
 public:
 	Rva003AF7D1(const Rva003AF7D1 &other);
-	virtual ~Rva003AF7D1();
 };
 
 Rva003AF7D1::Rva003AF7D1(const Rva003AF7D1 &other)
@@ -271,7 +272,6 @@ class Rva003AF9A9 : public Intermediate3AFC6FC, public FXParticleSystem::Terrain
 {
 public:
 	Rva003AF9A9(const Rva003AF9A9 &other);
-	virtual ~Rva003AF9A9();
 };
 
 Rva003AF9A9::Rva003AF9A9(const Rva003AF9A9 &other)
@@ -287,7 +287,6 @@ class Rva003AF97C : public Rva003AF9A9
 {
 public:
 	Rva003AF97C(const Rva003AF97C &other);
-	virtual ~Rva003AF97C();
 };
 
 Rva003AF97C::Rva003AF97C(const Rva003AF97C &other)
@@ -304,7 +303,7 @@ namespace FXParticleSystem
 class EmissionVolumeInfo4AA
 {
 public:
-	virtual ~EmissionVolumeInfo4AA();
+	virtual ~EmissionVolumeInfo4AA() {}
 	bool m_flag;
 };
 }
@@ -313,7 +312,6 @@ class Rva003AF4AA : public Intermediate3AFC6FC, public FXParticleSystem::Emissio
 {
 public:
 	Rva003AF4AA(const Rva003AF4AA &other);
-	virtual ~Rva003AF4AA();
 };
 
 Rva003AF4AA::Rva003AF4AA(const Rva003AF4AA &other)
@@ -329,7 +327,6 @@ class Rva003AF47D : public Rva003AF4AA
 {
 public:
 	Rva003AF47D(const Rva003AF47D &other);
-	virtual ~Rva003AF47D();
 };
 
 Rva003AF47D::Rva003AF47D(const Rva003AF47D &other)
@@ -344,7 +341,6 @@ class Rva003AE465 : public Rva003AF50D, public ModuleInfoThirdBAC0
 {
 public:
 	Rva003AE465(const Rva003AE465 &other);
-	virtual ~Rva003AE465();
 };
 
 Rva003AE465::Rva003AE465(const Rva003AE465 &other)
@@ -359,7 +355,6 @@ class Rva003AE43F : public Rva003AE465
 {
 public:
 	Rva003AE43F(const Rva003AE43F &other);
-	virtual ~Rva003AE43F();
 };
 
 Rva003AE43F::Rva003AE43F(const Rva003AE43F &other)
@@ -374,7 +369,6 @@ class Rva003AE50B : public Rva003AF50D, public ModuleInfoThirdBD10
 {
 public:
 	Rva003AE50B(const Rva003AE50B &other);
-	virtual ~Rva003AE50B();
 };
 
 Rva003AE50B::Rva003AE50B(const Rva003AE50B &other)
@@ -389,7 +383,6 @@ class Rva003AE4E5 : public Rva003AE50B
 {
 public:
 	Rva003AE4E5(const Rva003AE4E5 &other);
-	virtual ~Rva003AE4E5();
 };
 
 Rva003AE4E5::Rva003AE4E5(const Rva003AE4E5 &other)
@@ -404,7 +397,6 @@ class Rva003AE595 : public Rva003AF50D, public ModuleInfoThirdBD30
 {
 public:
 	Rva003AE595(const Rva003AE595 &other);
-	virtual ~Rva003AE595();
 };
 
 Rva003AE595::Rva003AE595(const Rva003AE595 &other)
@@ -419,7 +411,6 @@ class Rva003AE56F : public Rva003AE595
 {
 public:
 	Rva003AE56F(const Rva003AE56F &other);
-	virtual ~Rva003AE56F();
 };
 
 Rva003AE56F::Rva003AE56F(const Rva003AE56F &other)
@@ -434,7 +425,6 @@ class Rva003AE61F : public Rva003AF50D, public ModuleInfoThirdBD50
 {
 public:
 	Rva003AE61F(const Rva003AE61F &other);
-	virtual ~Rva003AE61F();
 };
 
 Rva003AE61F::Rva003AE61F(const Rva003AE61F &other)
@@ -449,7 +439,6 @@ class Rva003AE5F9 : public Rva003AE61F
 {
 public:
 	Rva003AE5F9(const Rva003AE5F9 &other);
-	virtual ~Rva003AE5F9();
 };
 
 Rva003AE5F9::Rva003AE5F9(const Rva003AE5F9 &other)
@@ -487,7 +476,6 @@ class Rva003AF672 : public Intermediate3AFC6FC, public FXParticleSystem::BoxEmis
 {
 public:
 	Rva003AF672(const Rva003AF672 &other);
-	virtual ~Rva003AF672();
 };
 
 Rva003AF672::Rva003AF672(const Rva003AF672 &other)
@@ -503,7 +491,6 @@ class Gen005EDB10 : public Rva003AF672
 {
 public:
 	Gen005EDB10(Host005EDA90 *owner);
-	virtual ~Gen005EDB10();
 };
 
 Gen005EDB10::Gen005EDB10(Host005EDA90 *owner)
@@ -582,7 +569,6 @@ class Rva003AF8C7 : public Intermediate3AFC6FC,
 {
 public:
     Rva003AF8C7(const Rva003AF8C7 &other);
-    virtual ~Rva003AF8C7();
 };
 Rva003AF8C7::Rva003AF8C7(const Rva003AF8C7 &other)
     : Intermediate3AFC6FC(other)
