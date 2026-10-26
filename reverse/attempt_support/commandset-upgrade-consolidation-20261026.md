@@ -38,7 +38,8 @@ other donors remained untouched after unchanged trial failures:
   provider bindings, lost bytes and input freshness for the complete outgoing
   range; no link gain is claimed before that report.
 
-The merge removes two source files net and preserves five matched rows. No
+The merge deletes two donor files and creates the previously absent TU, for a
+net reduction of one source file, and preserves five matched rows. No
 identity or data debt was retired. The existing census snapshot has not been
 rerun and is not evidence for the new source composition.
 

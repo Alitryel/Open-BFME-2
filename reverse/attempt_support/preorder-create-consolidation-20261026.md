@@ -32,7 +32,8 @@ retirement.
   docs, config and reverse controls. No active consumer refers to the absorbed
   pool-key source path. Remaining matches are path-keyed ledgers or historical
   records.
-- The merge removes one source file net and preserves the two verified rows.
+- The tool renames the donor into the previously absent TU, so the source-file
+  count is unchanged; both verified rows are preserved.
   No identity or data debt is claimed retired. The pre-push link batch audit
   still must report selected providers, lost bytes and input freshness for the
   complete outgoing range; no link gain is claimed here.

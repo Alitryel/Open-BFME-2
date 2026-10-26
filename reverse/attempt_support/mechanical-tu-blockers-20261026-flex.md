@@ -74,8 +74,9 @@ ledgers, claims, or routing.
 - `StealthUpgrade.cpp`: its three-row constructor donor stopped compiling
   after the accepted split added a class view, and the pool-key and
   implementation donors still fail on undeclared members. The verified split
-  of `0x004B532D` from `ModuleNameGetters3.cpp` was retained; it changes no
-  source-file count.
+  of `0x004B532D` from `ModuleNameGetters3.cpp` was retained. It creates the
+  previously absent `StealthUpgrade.cpp`, increasing the source-file count by
+  one.
 
 The PreorderCreate merge audit records two new shadow `wrong-name` findings
 for its transferred local-static data keys (`0x00A03F90` and `0x00A03F94`).
