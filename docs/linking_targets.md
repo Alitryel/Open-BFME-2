@@ -242,7 +242,7 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/Rva005E39F3Ctor.cpp` | 345 | 7 (U=7) | Open |
 | `Code/Libraries/Source/WWVegas/WWMath/tcbspline.cpp` | 340 | 17 (U=15, C=1, S=1) | Open |
 | `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGameClient.cpp` | 337 | 14 (U=10, C=2, S=2) | Open |
-| `Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBuildingCtor.cpp` | 327 | 3 (U=3) | Open |
+| `Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBuildingCtor.cpp` | 327 | 3 (U=3) | Blocked: dtor rowed as placeholder `Rva004E0D67` (LINK-024) |
 | `Code/Libraries/Source/WWVegas/WW3D2/decalmsh.cpp` | 326 | 6 (U=6) | Open |
 | `Code/GameEngine/Source/Common/Rva004E0D67Dtor.cpp` | 325 | 4 (U=4) | Open |
 | `Code/GameEngine/Source/Common/RvaMorphInitFamily.cpp` | 309 | 5 (U=5) | Open |
