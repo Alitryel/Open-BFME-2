@@ -40537,9 +40537,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0052340D,43,code,,,-,,Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp
 0x00523438,73,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatusCallbacks.cpp
 0x00523481,8,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatusCallbacks.cpp
-0x0052349B,6,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,C,C=0x00523481..0x005234A1,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp
-0x005234A1,6,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,C,C=0x00523481..0x005234A7,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp
-0x005234A7,6,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,C,C=0x00523481..0x005234AD,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp
+0x0052349B,6,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,C,C=0x00523481..0x005234A1,Code/Libraries/Source/profile/profile_highlevel.cpp
+0x005234A1,6,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,C,C=0x00523481..0x005234A7,Code/Libraries/Source/profile/profile_highlevel.cpp
+0x005234A7,6,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,C,C=0x00523481..0x005234AD,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x005234AD,229,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatusCallbacks.cpp
 0x00523592,19,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,N,N=Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatusCallbacks.cpp
 0x005235A5,48,code,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatus.cpp,proposed,C,C=0x00523592..0x005235D5,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/StrategicPlayerStatusCallbacks.cpp
@@ -53047,22 +53047,22 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006C57B0,379,code,Code/Libraries/Source/profile/profile.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile.cpp S=Code/Libraries/Source/profile/profile.cpp N=Code/Libraries/Source/profile/Profile.cpp,Code/Libraries/Source/profile/profile.cpp
 0x006C5930,7,code,Code/Libraries/Source/profile/profile.cpp,approved,C,C=0x006C57B0..0x006C5940,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp
 0x006C5940,515,code,Code/Libraries/Source/profile/profile.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile.cpp S=Code/Libraries/Source/profile/profile.cpp N=Code/Libraries/Source/profile/Profile.cpp,Code/Libraries/Source/profile/profile.cpp
-0x006C5C60,314,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/ProfileIdConstructor.cpp
+0x006C5C60,314,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5DA0,85,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5E00,102,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5E70,6,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5E00..0x006C5E87,Code/GameEngine/Source/Common/ConstGlobalGetters2.cpp
-0x006C5E87,6,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5E00..0x006C5E97,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp
-0x006C5E97,6,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5E00..0x006C5EC0,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp
+0x006C5E87,6,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5E00..0x006C5E97,Code/Libraries/Source/profile/profile_highlevel.cpp
+0x006C5E97,6,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5E00..0x006C5EC0,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5EC0,43,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,S,S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5EF0,67,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C5F40,Code/Libraries/Source/WWVegas/WWLib/FastCriticalSectionSpin.cpp
 0x006C5F40,20,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C5F60,Code/Libraries/Source/WWVegas/WWLib/FastCriticalSectionLockCtor.cpp
 0x006C5F60,9,code-unledgered,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C5F70,
-0x006C5F70,24,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C5FB0,Code/Libraries/Source/profile/ProfileBlock.cpp
+0x006C5F70,24,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C5FB0,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5FB0,13,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C5FC0,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5FC0,22,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C5FE0,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C5FE0,22,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C6000,Code/Libraries/Source/profile/profile_highlevel.cpp
-0x006C6000,141,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C6090,Code/Libraries/Source/profile/ProfileBlock.cpp
-0x006C6090,5,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C60A0,Code/Libraries/Source/profile/ProfileBlock.cpp
+0x006C6000,141,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C6090,Code/Libraries/Source/profile/profile_highlevel.cpp
+0x006C6090,5,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C5EC0..0x006C60A0,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C60A0,271,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C61B0,111,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C6220,311,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileId.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
@@ -53073,7 +53073,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006C64A0,52,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C63E0..0x006C64E0,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C64E0,24,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,C,C=0x006C63E0..0x006C6500,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C6500,226,code,Code/Libraries/Source/profile/profile_highlevel.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_highlevel.cpp S=Code/Libraries/Source/profile/profile_highlevel.cpp N=Code/Libraries/Source/profile/ProfileHighLevel.cpp,Code/Libraries/Source/profile/profile_highlevel.cpp
-0x006C65F0,503,code,Code/Libraries/Source/profile/profile_highlevel.cpp,proposed,K,K=Rva006C65F0,Code/Libraries/Source/profile/ProfileBlock.cpp
+0x006C65F0,503,code,Code/Libraries/Source/profile/profile_highlevel.cpp,proposed,K,K=Rva006C65F0,Code/Libraries/Source/profile/profile_highlevel.cpp
 0x006C67F0,208,code,Code/Libraries/Source/profile/profile_cmd.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_cmd.cpp S=Code/Libraries/Source/profile/profile_cmd.cpp N=Code/Libraries/Source/profile/ProfileCmdInterface.cpp,Code/Libraries/Source/profile/profile_cmd.cpp
 0x006C6E30,71,code,Code/Libraries/Source/profile/profile_cmd.cpp,approved,Z,Z=Code/Libraries/Source/profile/profile_cmd.cpp S=Code/Libraries/Source/profile/profile_cmd.cpp N=Code/Libraries/Source/profile/ProfileCmdInterface.cpp,Code/Libraries/Source/profile/profile_cmd.cpp
 0x006C6E80,70,code,,,-,,Code/Libraries/Source/profile/profile_result.cpp
