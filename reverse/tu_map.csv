@@ -7555,8 +7555,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x001164F5,74,code,,,-,,Code/GameEngine/Source/Common/Rva0011653FCluster.cpp
 0x0011653F,28,code,,,-,,Code/GameEngine/Source/Common/Rva0011653FCluster.cpp
 0x00116560,105,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/SurfaceByteSize.cpp
-0x001165D0,39,code,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp S=Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp N=Code/Libraries/Source/WWVegas/WW3D2/SurfaceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass_constructor.cpp
-0x00116600,25,code,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeThingDC.cpp,Code/GameEngine/Source/Common/BfmeOneHundredEightySix.cpp
+0x001165D0,39,code,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp S=Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp N=Code/Libraries/Source/WWVegas/WW3D2/SurfaceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp
+0x00116600,25,code,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeThingDC.cpp,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp
 0x00116620,94,code,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp S=Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp N=Code/Libraries/Source/WWVegas/WW3D2/SurfaceClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/SurfaceByteSize.cpp
 0x00116680,87,code,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp,approved,C,C=0x00116620..0x001166E0,Code/Libraries/Source/WWVegas/WW3D2/SurfaceByteSize.cpp
 0x001166E0,120,code,Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.cpp,approved,C,C=0x00116620..0x00116760,Code/Libraries/Source/WWVegas/WW3D2/SurfaceByteSize.cpp
