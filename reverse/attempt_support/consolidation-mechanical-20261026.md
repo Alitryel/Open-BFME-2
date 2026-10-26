@@ -107,3 +107,9 @@ Mixed-file inspection for allocated `TileData.cpp` found `TileDataGetRGBDataForW
 - `TerrainTypes.cpp` (check passed): no accepted donors. Errors include duplicate `_STL::pair`/`StringBase` definitions, missing `TerrainType::friend_setName` and `TerrainTypeCollection::newTerrain`, allocator redefinitions, and a byte mismatch in `TerrainType.cpp`.
 - `W3DSupplyDraw.cpp` (check passed): no accepted donors. Pool key trial lacks `W3DSupplyDraw::getModuleNameKey`; module-data destructor donor fails byte verification.
 - The scoped planner snapshot passed freshness checks for ArmorUpgrade and W3DSupplyDraw. No merge was applied for these trials.
+
+### GameWindowGlobal merge audit (2026-10-26)
+
+`GameWindowGlobal.cpp` passed the allocator check and the fresh scoped planner. The merge tool accepted `GameWindowManager_winFindImage.cpp` unchanged (5 approved rows, one moved row); its output built byte-exactly (5/5), and `find_declared_unmatched.py`, `check_csv.py`, staged TU ownership, staged code identity (0 new findings), staged data check (0 findings), `repair_queue.py verify-removed`, and `link_check.py --staged --new-variants --staged-peers` passed. The tooling path search found no active consumer of the absorbed path beyond the destination's provenance comment and historical attempt notes.
+
+The required selected-provider/consumer audit (`link_batch_audit.py`, base `origin/master`) was inconclusive: its index is still `47e030bafc` from 2026-10-26 08:28, reports 207 retired objects, and yields 207 provisional provider-disappeared findings while only one current object is available. As required for an unverified binding, restored the staged source and ledger trial and released the TU, donor and RVA claims. No source-file reduction is claimed; carry this merge for a fresh-census audit.
