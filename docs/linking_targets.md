@@ -276,7 +276,7 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/GameEngine/Source/GameLogic/Object/Weapon.cpp` | 214 | 22 (U=18, C=2, S=2) | Open |
 | `Code/GameEngine/Source/Common/System/SaveGame/SaveMapPreviewCopy.cpp` | 209 | 5 (U=1, C=2, S=2) | Open |
 | `Code/GameEngine/Source/Common/Rva0037BCC4DeferredCtorCRC.cpp` | 208 | 3 (U=2, C=1) | Open |
-| `Code/GameEngine/Source/GameLogic/Object/Update/StealthUpdateCtor.cpp` | 208 | 4 (U=1, C=3) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/Update/StealthUpdateCtor.cpp` | 208 | 4 (U=1, C=3) | 2026-10-26, `895c0f21ef`: repair landed / awaiting census. Placeholder dtor `Rva00373CB1` renamed `StealthUpdate` (shared vftable 0x00817F20) and the ctor view switched to the dtor unit's flattened hierarchy; current-object link_check 0 -> 208 B with Derived/FriendNew/Xfer/Logic still linking. `StealthUpdate.cpp` (ZH port) keeps 13 unresolved + `isDisguised` selected. |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva003F318C.cpp` | 206 | 5 (U=3, C=1, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0051F7AD.cpp` | 206 | 7 (U=3, C=2, S=2) | Open |
 | `Code/GameEngine/Source/GameNetwork/native_network_BFMENetwork_Ctor.cpp` | 205 | 9 (U=7, C=1, S=1) | Open |
