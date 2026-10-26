@@ -2466,3 +2466,6 @@ param,StrategicVeterancy::Data::AutoResolve::AutoResolve::c,StrategicVeterancy::
 global,?g_00DEC224@@3IA,?g_waterTracksTimeInitialized@@3IA,inferred,agree:nl-4eaee1bfaabb,Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp,0x009EC224
 local,Rva002D317C::rva002D317C::ix1,Rva002D317C::rva002D317C::radarWidth,inferred,agree:nl-5a516d02977c,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
 local,Rva002D317C::rva002D317C::iy1,Rva002D317C::rva002D317C::radarHeight,inferred,agree:nl-7f22260e39ca,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
+member,BfmeX1034::m_bfmeSub,BfmeX1034::m_name,inferred,agree:nl-00a208a9153b,Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp,
+member,Rva00201DC4LODInfo::flag0E,Rva00201DC4LODInfo::m_useShadowMapping,inferred,agree:nl-cd946605f1b0,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
+member,Rva00201DC4LODInfo::word40,Rva00201DC4LODInfo::m_decalLOD,inferred,agree:nl-d64b8d3cbc22,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
