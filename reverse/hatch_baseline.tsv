@@ -2991,7 +2991,6 @@ alternatename	Code/GameEngine/Source/Common/Rva00029F80Cluster.cpp	?rva00078c0@R
 alternatename	Code/GameEngine/Source/Common/Rva000518E0Thunk.cpp	?handle@Gen0003AC38@@QAEXPAX@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva000647B5Ctor.cpp	?bfmeSlot0@BfmeSnapshotBase@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva000647B5Ctor.cpp	?bfmeSlot0@SubsystemInterface@@UAEXXZ	1
-alternatename	Code/GameEngine/Source/Common/Rva000685E2Reset.cpp	?g_d3dCallCount@@3IA	1
 alternatename	Code/GameEngine/Source/Common/Rva00072A08Ctor.cpp	??1RenderingMethodDelegate@FXShader@@MAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva00072A08Ctor.cpp	?rva00072A08@RenderingMethodDelegate@FXShader@@UAE_NHH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00072A94Assign.cpp	?Rva000E1860Copy@@YAPAVRva00072A94@@PAV1@00PAXH@Z	1

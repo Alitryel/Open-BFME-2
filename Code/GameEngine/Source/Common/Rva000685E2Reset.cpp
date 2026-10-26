@@ -87,15 +87,18 @@ struct IDirect3DDevice8
 	virtual void v68();
 	virtual HRESULT __stdcall SetTextureStageState(unsigned stage, unsigned long state, unsigned value);
 };
+class BaseHeightMapRenderObjClass;
 class DX8Wrapper
 {
+	friend class BaseHeightMapRenderObjClass;
 public:
 	static void Set_DX8_Texture_Stage_State(unsigned stage, unsigned long state, unsigned value);
 	static void Set_DX8_Render_State(unsigned long state, unsigned value);
+protected:
 	static IDirect3DDevice8 *D3DDevice;
+	static unsigned int texture_stage_state_changes;
 };
 extern unsigned int number_of_DX8_calls;
-extern unsigned int g_d3dCallCount;
 class BaseHeightMapRenderObjClass
 {
 public:
@@ -110,10 +113,10 @@ void BaseHeightMapRenderObjClass::rva000685E2(void)
 	DX8Wrapper::Set_DX8_Texture_Stage_State(0, 4, 1);
 	DX8Wrapper::D3DDevice->SetTextureStageState(0, 1, 1);
 	number_of_DX8_calls++;
-	g_d3dCallCount++;
+	DX8Wrapper::texture_stage_state_changes++;
 	DX8Wrapper::D3DDevice->SetTextureStageState(0, 2, 1);
 	number_of_DX8_calls++;
-	g_d3dCallCount++;
+	DX8Wrapper::texture_stage_state_changes++;
 	DX8Wrapper::Set_DX8_Texture_Stage_State(0, 11, 0);
 	DX8Wrapper::Set_DX8_Texture_Stage_State(0, 24, 0);
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 2, 2);
@@ -122,17 +125,13 @@ void BaseHeightMapRenderObjClass::rva000685E2(void)
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 4, 1);
 	DX8Wrapper::D3DDevice->SetTextureStageState(1, 1, 1);
 	number_of_DX8_calls++;
-	g_d3dCallCount++;
+	DX8Wrapper::texture_stage_state_changes++;
 	DX8Wrapper::D3DDevice->SetTextureStageState(1, 2, 1);
 	number_of_DX8_calls++;
-	g_d3dCallCount++;
+	DX8Wrapper::texture_stage_state_changes++;
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 11, 1);
 	DX8Wrapper::Set_DX8_Texture_Stage_State(1, 24, 0);
 	DX8Wrapper::Set_DX8_Render_State(27, 0);
 	DX8Wrapper::Set_DX8_Render_State(19, 5);
 	DX8Wrapper::Set_DX8_Render_State(20, 6);
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_d3dCallCount@@3IA=?texture_stage_state_changes@DX8Wrapper@@1IA")

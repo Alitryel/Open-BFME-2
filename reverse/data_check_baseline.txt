@@ -89,8 +89,6 @@ Code/GameEngine/Source/Common/INI/FormationSelectionCriteriaRva00424185.cpp	wron
 Code/GameEngine/Source/Common/RTS/PlayerRva002AB8FB.cpp	wrong-name	_TheUpgradeCenter	0x009FEB60
 Code/GameEngine/Source/Common/RTS/PlayerRva002AF19B.cpp	wrong-name	_TheUpgradeCenter	0x009FEB60
 Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp	wrong-name	?g_defaultStorage009FEFA4@@3VBfmeFixedStorage0004543D@@B	0x009FEFA4
-Code/GameEngine/Source/Common/Rva000685E2Reset.cpp	wrong-name	?D3DDevice@DX8Wrapper@@2PAUIDirect3DDevice8@@A	0x009EDA34
-Code/GameEngine/Source/Common/Rva000685E2Reset.cpp	wrong-name	?g_d3dCallCount@@3IA	0x009EDA68
 Code/GameEngine/Source/Common/Rva00075695Notify.cpp	wrong-name	?g_00DE1F24@@3RCRAVRva00075695Item@@C	0x009E1F24
 Code/GameEngine/Source/Common/Rva00075695Notify.cpp	wrong-name	?g_00DE1F54@@3HA	0x009E1F54
 Code/GameEngine/Source/Common/Rva00075A23Draw.cpp	wrong-name	?g_deviceObj@@3PAUDeviceObj@@A	0x009EDA34
