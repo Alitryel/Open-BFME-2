@@ -219,6 +219,15 @@ authored-byte previews or commit-title gains into a projected headline.
   four-definition composition retain code/data identity, COMDAT policies and
   all ten reference facts. Constructor/vtable and mixed-source prerequisites
   remain. No merge, identity retirement, file reduction or census gain claimed.
+- **GameMemory guarded-helper prerequisite (2026-10-26):**
+  [The shared HeapTable view](../reverse/attempt_support/consolidation-gamememory-guard-prerequisite-20261026-codex.md)
+  clears the AddHeap helper's C2011 refusal. Ordinary composition now accepts
+  all five direct donors / six existing rows / 279 bytes, versus five rows.
+  Both edited objects are unchanged; the six-definition composition preserves
+  COMDAT/data identity and verifies the resolver's internal data-pointer binding.
+  Mixed/vendored rows, cross-family donor coordination and the active memory
+  inventory update remain for a future merge. No merge, debt retirement, file
+  reduction or census gain is claimed.
 - **TunnelTracker contain-list prerequisite (2026-10-26):**
   [The shared receiver/environment repair](../reverse/attempt_support/consolidation-tunneltracker-contain-prerequisite-20261026-codex.md)
   clears the contain-list refusal: ordinary composition now accepts seed plus
@@ -235,6 +244,11 @@ authored-byte previews or commit-title gains into a projected headline.
   exact. Its link audit remains inconclusive: index 763dc8759f predates outgoing
   base dd4a917878 and Eva.cpp lacks a current audit receipt. Carry the batch
   into the next normal census; no link or ownership gain is claimed.
+  The recovered five-commit batch through 66ad9c43ca also landed with 40/40
+  push-hook rows exact and five EXACT EH graphs. Its audit remains inconclusive:
+  index 763dc8759f predates outgoing base 462ffdd1f8 and Eva.cpp lacks a current
+  audit receipt. This is a receipt/freshness limitation, not a verified link
+  gain or proof of a newly lost byte; carry it into the next normal census.
 - **FireSpreadUpdate declaration trial (2026-10-26):**
   [The blocked prerequisite handoff](../reverse/attempt_support/consolidation-firespread-prerequisite-20261026-codex.md)
   preserves 11/11 baseline rows. A minimal declaration trial kept every object
