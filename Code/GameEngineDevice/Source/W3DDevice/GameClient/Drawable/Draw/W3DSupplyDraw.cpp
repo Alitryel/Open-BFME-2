@@ -44,10 +44,16 @@ private:
 	unsigned char m_pad[0x2E8 - 4];
 };
 
+enum NameKeyType
+{
+	NK_UNKNOWN = 0
+};
+
 class W3DSupplyDraw : public W3DScriptedModelDraw
 {
 public:
 	W3DSupplyDraw(Thing *thing, const ModuleData *moduleData);
+	virtual NameKeyType getModuleNameKey() const;
 
 protected:
 	virtual void xfer(Xfer *xfer);
