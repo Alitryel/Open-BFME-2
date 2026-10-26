@@ -7955,3 +7955,13 @@ Code/GameEngine/Source/GameNetwork/BfmeThingDGDRva007F8400.cpp|member|Rva007F840
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,00e11d19c2539588d8589a8b,gpt-6.1-sol,w6-10261212-14,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme14,1c4e155993f2ddf9426575bf,gpt-6.1-sol,w6-10261212-16,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme34,b72f8777922cb1134dbe11e0,gpt-6.1-sol,w6-10261212-16,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/BfmeConv802.cpp|class||BfmeHeaderEBD,de3b646f1acf2ce0a8c6c293,gpt-6.1-sol,w1-10261218-1,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldManagerSound.cpp|class||Rva00210FC6Ref,a2604a13195ecdadcbf11ae9,gpt-6.1-sol,w1-10261218-4,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp|class||Rva0025DB46,8c3f5864589e12776cd1fc04,gpt-6.1-sol,w1-10261218-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp|class||Rva0044954D,04127184a87c1754ae5717a7,gpt-6.1-sol,w1-10261218-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|member|Arg000B5A72|m158,81271447ffa31e3734f20ec3,gpt-6.1-sol,w1-10261218-11,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|local|Rva000B5C41::rva000B5A72|v158,1e108a1540e0e83c2dba700c,gpt-6.1-sol,w1-10261218-11,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp|function|0x0055CFF0|rva0055CFF0,d29fb9f9c6d8fb1ad4972b14,gpt-6.1-sol,w1-10261218-12,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r3,a0da728658d628817bc13be2,gpt-6.1-sol,w1-10261218-13,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r4,8a44b855974832d60b96d11d,gpt-6.1-sol,w1-10261218-13,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r5,4f618599f775a36a78e8ed5c,gpt-6.1-sol,w1-10261218-13,w-6d5d2b593eca,2026-10-26
