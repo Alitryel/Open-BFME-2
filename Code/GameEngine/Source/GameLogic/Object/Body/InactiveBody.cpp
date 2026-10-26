@@ -22,6 +22,8 @@ class Object {public:void onDie(DamageInfo*);};
 
 class ModuleData;
 
+enum NameKeyType { NK_UNKNOWN = 0 };
+
 class ObjectModule {
 public:virtual ~ObjectModule();
 protected:const ModuleData *moduleData;Object *object;
@@ -39,7 +41,8 @@ protected:float damageScalar;
 };
 
 class InactiveBody : public BodyModule {
-public:virtual void attemptDamage(DamageInfo*);
+public:virtual NameKeyType getModuleNameKey() const;
+ virtual void attemptDamage(DamageInfo*);
  virtual void attemptHealing(DamageInfo*);
 private:bool dieCalled;
 };
