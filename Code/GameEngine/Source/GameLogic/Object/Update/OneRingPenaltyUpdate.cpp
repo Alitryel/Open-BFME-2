@@ -4,6 +4,11 @@
 #include "ascii_string.h"
 #include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 #include "../../../Common/GameLogicObjectLookupView.h"
+#pragma comment(linker, "/alternatename:_vtbl_00C49188=??_7PropagandaTowerBehavior@@6BPB_Iface1@@@")
+#pragma comment(linker, "/alternatename:_vtbl_00C50250=??_7Rva00499934@@6B@")
+#pragma comment(linker, "/alternatename:_vtbl_00C50254=??_7Rva00499934@@6BRva0024A797_B2@@@")
+#pragma comment(linker, "/alternatename:_vtbl_00C50260=??_7Rva00499934@@6BRva0024A797_Root@@@")
+#pragma comment(linker, "/alternatename:_vtbl_00C1C780=??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@")
 
 typedef float Real;
 
@@ -110,14 +115,6 @@ public:
 	virtual void slotUpdate();
 };
 
-class UpdateModule : public ObjectModule, public BehaviorModuleInterface, public UpdateModuleInterface
-{
-protected:
-	unsigned int m_nextCallFrameAndPhase; // +0x14
-	int m_indexInLogic; // +0x18
-	int m_updateState; // +0x1C
-};
-
 class OneRingPenaltyUpdateModuleData
 {
 public:
@@ -128,19 +125,6 @@ public:
 	unsigned int m_timeSpentRoamingAround; // +0x10
 	unsigned int m_timeRingPowerSuppressed; // +0x14
 	float m_startingDistanceFromMe; // +0x18
-};
-
-class OneRingPenaltyUpdate : public UpdateModule
-{
-public:
-	void updateAnchor();
-private:
-	void rva00499AFD();
-	const void *m_20; // +0x20
-	unsigned int m_24; // +0x24
-	unsigned int m_28; // +0x28
-	float m_2C; // +0x2C
-	unsigned int m_30; // +0x30
 };
 
 struct BfmeX987
@@ -214,6 +198,81 @@ public:
 	int m_bfmeId;
 };
 
+//
+// ??0OneRingPenaltyUpdate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
+// 0x00499A70, 113 bytes. Behavior-side ctor (pinned by its Update factory
+// call-site decode: sole E8 caller is factory 0x24E3F4 which news 0x34
+// and forwards thing plus data).
+//
+// Shape follows the TerrainResourceBehavior precedent over the same rowed
+// UpdateModule base 0x253390: EH prologue via /GX plus the declared-only
+// base dtor, a two-phase +0x20 slot via sourced-before address-take, an
+// eax-homed int zero, a float zero via an xmm0-homed fzero local (/arch:SSE
+// emits retail xorps+movss), the setWakeFrame arg pushes hoisted above the
+// stores (no intervening call), the three derived vtable installs, zeros
+// at +0x24/+0x28/+0x30, and the setWakeFrame tail (protected IAEX
+// Object-uint spelling resolves via the existing pin at 0x44DF71). Row
+// supersedes the ctor pin.
+
+extern "C" const void *const vtbl_00C49188[];
+
+extern "C" const void *const vtbl_00C50250[];
+
+extern "C" const void *const vtbl_00C50254[];
+
+extern "C" const void *const vtbl_00C50260[];
+
+extern "C" const void *const vtbl_00C1C780[];
+
+class Thing;
+
+class ModuleData;
+
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1,
+	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
+};
+
+class UpdateModule
+{
+public:
+	UpdateModule(Thing *thing, const ModuleData *moduleData);
+	~UpdateModule();
+
+protected:
+	void setWakeFrame(Object *object, UpdateSleepTime frame);
+
+	const void *m_vtable;
+	const ModuleData *m_moduleData;
+	Object *m_object;
+	const void *m_secondary0C;
+	const void *m_secondary10;
+	unsigned int m_nextCallFrameAndPhase;
+	int m_indexInLogic;
+	int m_reserved1C;
+};
+
+class OneRingPenaltyUpdate : public UpdateModule
+{
+public:
+	OneRingPenaltyUpdate(Thing *thing, const ModuleData *moduleData);
+private:
+	const void *m_20;
+private:
+	unsigned int m_24;
+private:
+	unsigned int m_28;
+private:
+	float m_2C;
+private:
+	unsigned int m_30;
+public:
+	void updateAnchor();
+private:
+	void rva00499AFD();
+};
+
 // tu-skeleton: 0x0049995A 82B ?xfer@OneRingPenaltyUpdate@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateXfer.cpp (not merged yet)
 
 // tu-skeleton: 0x004999AC 69B ?getModuleNameKey@OneRingPenaltyUpdate@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdatePoolKey.cpp (not merged yet)
@@ -224,9 +283,40 @@ public:
 
 // tu-skeleton: 0x00499A5F 17B ?buildFieldParse@OneRingPenaltyUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/ModuleDataBuildFieldParse.cpp (not merged yet)
 
-// tu-skeleton: 0x00499A70 113B ??0OneRingPenaltyUpdate@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateCtor.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateCtor.cpp
+
+  // folded, 8 classes; via ??_7PropagandaTowerBehavior@@6BPB_Iface1@@@
+
+  // ??_7Rva00499934@@6B@
+
+  // ??_7Rva00499934@@6BRva0024A797_B2@@@
+
+  // ??_7Rva00499934@@6BRva0024A797_Root@@@
+
+  // folded, 49 classes; via ??_7?$CategoryModuleInfo@$00@FXParticleSystem@@6B@
+
+// ??0OneRingPenaltyUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x00499A70
+OneRingPenaltyUpdate::OneRingPenaltyUpdate(Thing *thing, const ModuleData *moduleData)
+	: UpdateModule(thing, moduleData)
+{
+	float fzero = 0.0f;
+	int *slot20 = (int *)&m_20;
+	*slot20 = (int)((unsigned int)vtbl_00C1C780);
+	int zero = 0;
+	m_vtable = (const void *)((unsigned int)vtbl_00C50260);
+	m_secondary0C = (const void *)((unsigned int)vtbl_00C49188);
+	m_secondary10 = (const void *)((unsigned int)vtbl_00C50254);
+	m_20 = (const void *)((unsigned int)vtbl_00C50250);
+	m_24 = zero;
+	m_28 = zero;
+	m_2C = fzero;
+	m_30 = zero;
+	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
+}
 
 // tu-skeleton: 0x00499AE1 28B ??_GRva00499934@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdate.cpp
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdate.cpp
 
@@ -291,10 +381,6 @@ void OneRingPenaltyUpdate::rva00499AFD()
 	}
 }
 
-// tu-skeleton: 0x00499C19 28B ??_GOneRingPenaltyUpdateModuleData@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateModuleDataDtor.cpp (not merged yet)
-
-// tu-skeleton: 0x00499C35 17B ?rva00499C35@OneRingPenaltyUpdate@@AAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateUpdate.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/Common/BfmeConv987.cpp
 
 // Open-BFME5 conversions.
@@ -313,6 +399,10 @@ void BfmeC987::bfmeGo987C()
 		m_bfmeId = 0;
 	}
 }
+
+// tu-skeleton: 0x00499C19 28B ??_GOneRingPenaltyUpdateModuleData@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateModuleDataDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00499C35 17B ?rva00499C35@OneRingPenaltyUpdate@@AAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateUpdate.cpp (not merged yet)
 
 // tu-skeleton: 0x00499C6C 172B ?rva00499C6C@OneRingPenaltyUpdate@@AAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateRva00499C6C.cpp (not merged yet)
 

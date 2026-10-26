@@ -4791,11 +4791,11 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OilSpillUpdateDtor.
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OilSpillUpdateDtor.cpp	?unusedB@FireWeaponBaseB@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OilSpillUpdateDtor.cpp	?unusedC@FireWeaponBaseC@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OilSpillUpdateModuleDataCtor.cpp	_vtbl_00C4C2F8	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateCtor.cpp	_vtbl_00C1C780	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateCtor.cpp	_vtbl_00C49188	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateCtor.cpp	_vtbl_00C50250	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateCtor.cpp	_vtbl_00C50254	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateCtor.cpp	_vtbl_00C50260	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdate.cpp	_vtbl_00C1C780	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdate.cpp	_vtbl_00C49188	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdate.cpp	_vtbl_00C50250	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdate.cpp	_vtbl_00C50254	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdate.cpp	_vtbl_00C50260	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/OneRingPenaltyUpdateModuleDataCtor.cpp	_vtbl_00C50298	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateDtor.cpp	?update@UpdateModuleInterface@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateModuleDataDtor.cpp	??1Rva002BB6BE20Rec@@QAE@XZ	1
