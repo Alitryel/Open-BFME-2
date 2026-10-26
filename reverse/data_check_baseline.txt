@@ -1155,8 +1155,8 @@ Code/Libraries/Source/EA/Apt/Bfme5PrefixCheck8C5680.cpp	duplicate-def	?rva012D5A
 Code/Libraries/Source/EA/Apt/Bfme5PrefixCheck8C5680.cpp	wrong-name	?rva012D5A08Prefix@@3PBDB	0x009DC920
 Code/Libraries/Source/EA/Apt/Rva006EE1B0Cluster.cpp	wrong-name	?g_rva00e18078@@3PAVAptValue@@A	0x00A18078
 Code/Libraries/Source/EA/Apt/Rva0070B4F0GetString.cpp	wrong-name	?saConstantAtE18388@@3PAVEAStringC@@A	0x00A18388
-Code/Libraries/Source/EA/Apt/Rva0070D9F0Shutdown.cpp	wrong-name	?g_00E18650@@3VEAStringC@@A	0x00A18650
-Code/Libraries/Source/EA/Apt/Rva0070D9F0Shutdown.cpp	wrong-name	?saConstantAtE18388@@3PAVEAStringC@@A	0x00A18388
+Code/Libraries/Source/Apt/string/StringPool.cpp	wrong-name	?g_00E18650@@3VEAStringC@@A	0x00A18650
+Code/Libraries/Source/Apt/string/StringPool.cpp	wrong-name	?saConstantAtE18388@@3PAVEAStringC@@A	0x00A18388
 Code/Libraries/Source/STLport/Rva0009D9BDFinish.cpp	wrong-name	?g_Rva000DE5DFC@@3PAVGen0003AC38@@A	0x009E5DFC
 Code/Libraries/Source/WWVegas/WW3D2/BfmeApplyTextureRef_Apply.cpp	wrong-name	?D3DDevice@DX8Wrapper@@2PAVBfmeApplyDevice9@@A	0x009EDA34
 Code/Libraries/Source/WWVegas/WW3D2/BfmeApplyTextureRef_Apply.cpp	wrong-name	?Textures@DX8Wrapper@@2PAPAVIDirect3DBaseTexture8@@A	0x009EC4B0

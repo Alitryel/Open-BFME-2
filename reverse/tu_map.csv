@@ -54316,9 +54316,9 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0070B590,55,code,,,-,,Code/Libraries/Source/Apt/Rva0070B5D0Cluster.cpp
 0x0070B5D0,72,code,,,-,,Code/Libraries/Source/Apt/Rva0070B5D0Cluster.cpp
 0x0070B670,9080,code,,,-,,Code/Libraries/Source/EA/Apt/StringPoolInitialize.cpp
-0x0070D9F0,435,code,Code/Libraries/Source/Apt/string/StringPool.cpp,approved,F,F=Code/Libraries/Source/Apt/string/StringPool.cpp,Code/Libraries/Source/EA/Apt/Rva0070D9F0Shutdown.cpp
+0x0070D9F0,435,code,Code/Libraries/Source/Apt/string/StringPool.cpp,approved,F,F=Code/Libraries/Source/Apt/string/StringPool.cpp,Code/Libraries/Source/Apt/string/StringPool.cpp
 0x0070DBB0,527,code,Code/Libraries/Source/Apt/string/StringPool.cpp,approved,F,F=Code/Libraries/Source/Apt/string/StringPool.cpp,Code/Libraries/Source/EA/Apt/Rva0070DBB0StringPool.cpp
-0x0070DDC0,405,code,Code/Libraries/Source/Apt/string/StringPool.cpp,approved,F,F=Code/Libraries/Source/Apt/string/StringPool.cpp,Code/Libraries/Source/EA/Apt/Rva0070DDC0StringPoolRemove.cpp
+0x0070DDC0,405,code,Code/Libraries/Source/Apt/string/StringPool.cpp,approved,F,F=Code/Libraries/Source/Apt/string/StringPool.cpp,Code/Libraries/Source/Apt/string/StringPool.cpp
 0x0070DF60,30,code,,,-,,Code/GameEngine/Source/Common/Rva006DE2B0Slot11.cpp
 0x0070DF80,45,code,,,-,,Code/GameEngine/Source/Common/Rva0070DF80Slot13.cpp
 0x0070DFB0,29,code,,,-,,Code/GameEngine/Source/Common/Rva0070DFB0Pred.cpp
