@@ -58,8 +58,6 @@ public:
 			m_obj = 0;
 		}
 	}
-	TextureBaseClass *methodA( int arg, int a, int b, int c, int d );
-	TextureBaseClass *methodB( int arg, int a );
 };
 
 void Member0C00739C70::clear()
@@ -75,7 +73,6 @@ public:
 	~Rva00739C70();
 	void cleanup();
 	void reset();
-	TextureBaseClass *update( int arg );
 	// Retail identity is not recovered; the synthetic name records its exact
 	// address while keeping this small predicate attached to the proven object.
 	bool rva_00739E50();
@@ -108,29 +105,9 @@ void Rva00739C70::reset()
 	m_member0c.reset();
 }
 
-// ?Rva00739C70::update present-unmatched
-TextureBaseClass *Rva00739C70::update( int arg )
-{
-	TextureBaseClass *result = 0;
-	if ( m_flags & 1 )
-	{
-		m_member0c.clear();
-		m_flags &= ~1;
-	}
-	if ( m_member0c.m_obj )
-	{
-		if ( !( m_flags & 0xC ) )
-		{
-			result = m_member0c.methodA( arg, 0, 0, m_int0, m_int4 );
-		}
-		else
-		{
-			result = m_member0c.methodB( arg, 1 );
-		}
-		m_flags |= 1;
-	}
-	return result;
-}
+// The 109-byte lock/update body of this object is retail 0x000724D7, rowed as
+// ?rva000724D7@Rva000724AE@@QAEPAXPAH@Z in Rva000724D7Lock.cpp; its unmatched
+// copy here called two undefined placeholder members and kept the unit from linking.
 
 // ?Rva00739C70::~Rva00739C70 present-unmatched
 // ?Rva00739C70::rva_00739E50 present-unmatched
