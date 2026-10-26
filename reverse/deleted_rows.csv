@@ -2631,3 +2631,4 @@ __ehhandler$??1SpecialPowerModule@@MAE@XZ,0x0078CE1C,"Respelled back to the publ
 ?rva00538768@QuadStrip2D@@QAEXH@Z,0x00538768,"Renamed to ?removeStrip@QuadStrip2D@@QAEXH@Z by tools/rename.py (inferred)"
 ?rva005389ED@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z,0x005389ED,"Renamed to ?insertStrip@QuadStrip2D@@QAEXHABVW3DAnimationInfo@@@Z by tools/rename.py (inferred)"
 ?swapNodes@Rva0032AAEE@@QAEXHH@Z,0x0032AAEE,"Renamed to ?swapNodes@IndexedList@@QAEXHH@Z by tools/rename.py (inferred)"
+?g_00C37468@@3QBUFieldParse@@B,0x00837468,"Renamed to ?g_logicTurnFieldParse@@3QBUFieldParse@@B by tools/rename.py (inferred)"

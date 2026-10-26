@@ -48,9 +48,9 @@ public:
 	virtual float v30();
 	char _pad04[0x50];
 	char m_startPosition[12];
-	float m_60;
+	float m_targetX;
 	float m_64;
-	float m_68;
+	float m_targetZ;
 	float m_6C;
 	float m_70;
 	float m_moveProgress;
@@ -70,8 +70,8 @@ void Rva002BEFE5::rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2
 	m_78 = 1;
 	m_moveProgress = 0.0f;
 	m_7C = 1.0f / (float)duration;
-	*(Rva002BEFE5Vec *)&m_60 = *position;
-	m_68 = 0.0f;
+	*(Rva002BEFE5Vec *)&m_targetX = *position;
+	m_targetZ = 0.0f;
 	m_84 = a1;
 	m_6C = v25();
 	float t = a2;

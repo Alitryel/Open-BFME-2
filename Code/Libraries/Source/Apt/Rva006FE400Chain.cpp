@@ -24,14 +24,14 @@ public:
 
 class Rva006FE400 {
     char m_pad[0x20];
-    Slot7Obj *m_p20;
+    Slot7Obj *m_stringObject;
 public:
     int rva006FE400(void *context, Rva008A4570Owner *memberName);
 };
 
 int Rva006FE400::rva006FE400(void *context, Rva008A4570Owner *memberName)
 {
-    int memberValue = m_p20->slot7(context, memberName);
+    int memberValue = m_stringObject->slot7(context, memberName);
     if (memberValue)
         return memberValue;
     return (int)((AptObject *)this)->AptObject::objectMemberLookup((AptValue *)context, (const EAStringC *)memberName);

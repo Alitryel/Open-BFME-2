@@ -2362,3 +2362,7 @@ local,Rva0031F89E::rva0031F89E::n,Rva0031F89E::rva0031F89E::listsRemaining,infer
 param,ArmySummary::rva0040C985::x,ArmySummary::rva0040C985::startFrame,inferred,agree:nl-3d2edc1aed79,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,0x0040C985
 param,rva002CE280_float2long::f,rva002CE280_float2long::floatValue,inferred,agree:nl-69ed9a83fb1c,Code/GameEngine/Source/Common/WeaponGetStatus.cpp,
 param,Rva00136794::Rva00136794::v1,Rva00136794::Rva00136794::textures,inferred,agree:nl-40096314c010,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
+member,Rva002BEFE5::m_60,Rva002BEFE5::m_targetX,inferred,agree:nl-0ffefce57974,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
+member,Rva002BEFE5::m_68,Rva002BEFE5::m_targetZ,inferred,agree:nl-3794dc0709fa,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
+global,?g_00C37468@@3QBUFieldParse@@B,?g_logicTurnFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-529f8a2b6c22,Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp,0x00837468
+member,Rva006FE400::m_p20,Rva006FE400::m_stringObject,inferred,agree:nl-1f9a0686b349,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,

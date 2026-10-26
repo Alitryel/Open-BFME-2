@@ -111,7 +111,7 @@ extern const FieldParse g_00C373D8[4] = {
 	{ 0, 0, 0, 0 }
 };
 // The retail table at 0x00837468: 4 entries and the null terminator; every parser is a rowed code owner.
-extern const FieldParse g_00C37468[5] = {
+extern const FieldParse g_logicTurnFieldParse[5] = {
 	{ "Audio", (FieldParseProc)&__identifier("?parseAudioEventRTS@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x8 },
 	{ "Text", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
 	{ "ClearPreviousText", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x19 },
@@ -139,6 +139,6 @@ void LivingWorldTutorial::LogicTurn::ParseINI(INI *ini, Rva003F9004 *outer)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F2576ThrowInfoAnchor); __assume(0);
 	}
 	Rva003F7EC7 *logicTurn = new Rva003F7EC7((outer->m_04?outer->m_04:outer->m_04));
-	ini->initFromINI(logicTurn, g_00C37468);
+	ini->initFromINI(logicTurn, g_logicTurnFieldParse);
 	outer->rva003F9004((const ModuleData *)logicTurn);
 }
