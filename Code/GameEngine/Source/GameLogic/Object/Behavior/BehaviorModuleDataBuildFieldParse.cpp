@@ -418,6 +418,11 @@ const FieldParse ClickReactionBehaviorModuleData::m_fieldParse[] =
     { 0, 0, 0, 0x00 },
 };
 
+void ClickReactionBehaviorModuleData::buildFieldParse(MultiIniFieldParse &parse)
+{
+    parse.add(m_fieldParse, 0);
+}
+
 // Retail VA 0x00C1A310, including the null terminator.
 const FieldParse CastleMemberBehaviorModuleData::m_fieldParse[] =
 {
