@@ -20070,7 +20070,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva005FFCCBAppend.cpp	TreeHintRe
 present_unmatched	Code/GameEngine/Source/Common/Rva005FFCCBAppend.cpp	text)	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00601B30StringIndexedRecords.cpp	allocator<Rva00601A3AElement>::deallocate	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00601B30StringIndexedRecords.cpp	operator==	1
-present_unmatched	Code/GameEngine/Source/Common/Rva00604A5FCtor.cpp	1Rva00604A5F@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00690FF0Handle.cpp	0Rva00690FF0Handle@@QAE@PAVGen0002857E@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00690FF0Handle.cpp	0Rva006910F0Handle@@QAE@PAVGen0002857E@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00690FF0Handle.cpp	4Rva00691140Handle@@QAEAAV0@ABV0@@Z	1
@@ -22434,6 +22433,7 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DTerrainLog
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DTerrainLogic.cpp	getExtentIncludingBorder@W3DTerrainLogic@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DTerrainLogic.cpp	getMaximumPathfindExtent@W3DTerrainLogic@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DTerrainLogic.cpp	loadMap@W3DTerrainLogic@@	1
+present_unmatched	Code/GameEngineDevice/Source/Win32Device/Common/Win32LocalFileSystem.cpp	1Rva00604A5F@@UAE@XZ	1
 present_unmatched	Code/Libraries/Source/ATL/atlbase.cpp	bfmeEmitAtlCritSecTerm@ATL@@YAXPAVCComCriticalSection@1@@Z	1
 present_unmatched	Code/Libraries/Source/ATL/atlimage.cpp	bfmeEmitatlimage@@YAXPAVCImage@ATL@@@Z	1
 present_unmatched	Code/Libraries/Source/Apt/AptDateConstructor.cpp	AptValueGC::AptValueGC	1
