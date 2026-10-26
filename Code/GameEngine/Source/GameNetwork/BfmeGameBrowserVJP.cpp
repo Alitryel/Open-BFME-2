@@ -45,7 +45,7 @@ public:
 		bool flag, int a9, int a10, int a11, int a12, int a13) throw();
 
 	char m_pad00[0x10];
-	BfmeAVJP *m_bfme10;
+	BfmeAVJP *m_protocol;
 	BfmeBVJP *m_bfme14;
 	char m_pad18[0x10];
 	int m_bfme28;
@@ -56,7 +56,7 @@ public:
 	bool m_bfme36;
 	char m_pad37[0x2a5];
 	char m_messageBuffer[0x400];
-	int m_bfme6dc;
+	int m_requestTimeout;
 };
 
 void GameBrowser::bfmeGoVJP(int a1, int a2, int a3, int a4, int a5,
@@ -67,7 +67,7 @@ void GameBrowser::bfmeGoVJP(int a1, int a2, int a3, int a4, int a5,
 	int selected = m_bfme2c;
 	if (selected == 0)
 		selected = m_bfme28;
-	m_bfme10->send(&msg, a1, a2, m_bfme36, a3, selected, a7, a4,
+	m_protocol->send(&msg, a1, a2, m_bfme36, a3, selected, a7, a4,
 		a5, a6, a9, a10, a11, a12, a13);
-	m_bfme14->send(&msg, BfmeGameBrowserVJPCallback, this, m_bfme6dc);
+	m_bfme14->send(&msg, BfmeGameBrowserVJPCallback, this, m_requestTimeout);
 }

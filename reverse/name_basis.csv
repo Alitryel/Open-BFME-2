@@ -2527,3 +2527,5 @@ member,W3DVolumetricShadowSubMesh::m_10,W3DVolumetricShadowSubMesh::m_numSilhoue
 param,Rva002B6194List::forEach::a,Rva002B6194List::forEach::sourceArmy,inferred,agree:nl-b41b8c33f654,Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp,0x002B6194
 param,Rva002B6194List::forEach::c,Rva002B6194List::forEach::targetArmy,inferred,agree:nl-bafd1852a229,Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp,0x002B6194
 member,PalantirImpl::m_c4,PalantirImpl::m_heroSelect,inferred,agree:nl-388939fffb79,Code/GameEngine/Source/Common/System/Rva002D36AE.cpp,
+member,GameBrowser::m_bfme10,GameBrowser::m_protocol,inferred,agree:nl-80fa17c08d85,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,
+member,GameBrowser::m_bfme6dc,GameBrowser::m_requestTimeout,inferred,agree:nl-cf90591d0cf2,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,

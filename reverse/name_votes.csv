@@ -8009,3 +8009,13 @@ Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|member|PalantirImpl|m_c4,3b
 Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|local|EA::Allocator::GeneralAllocator::realloc|d,566f03316da10f81de41b784,gpt-6.1-sol,w3-10261246-13,w-46dfa4623b23,2026-10-26
 Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp|function|0x001F696E|Rva001F696EPut,5d30068ba4c1f3b975f61519,gpt-6.1-sol,w3-10261246-14,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|global||g_00C078DC,72accee5ca39a359b375c65d,gpt-6.1-sol,w3-10261246-15,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|param|QuadStrip2D::addStrip|x,481c18addcbaf333e636fc2c,gpt-6.1-sol,w6-10261254-2,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva00538383|p,8fe9adcb1ae509c8fd1fe5d7,gpt-6.1-sol,w6-10261254-2,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|member|ArmyIconMapNode|m_key10,708eaa385af0a3fa9b22808c,gpt-6.1-sol,w6-10261254-3,w-06f458dbecf5,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|s2,5f2ac1d0d815d37c67eb22bf,gpt-6.1-sol,w6-10261254-5,w-06f458dbecf5,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v2,b433de1ca8785eecb70c5554,gpt-6.1-sol,w6-10261254-5,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005DCE72.cpp|function|0x005DCE72|rva005DCE72,8dd1c378ff33a137df8ce740,gpt-6.1-sol,w6-10261254-11,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme10,222ffc160ae2b63d58eb6de3,gpt-6.1-sol,w6-10261254-12,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme14,e5b028aafa88610bc5af0816,gpt-6.1-sol,w6-10261254-12,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme6dc,bc6c52b2361cc2756ac12f1a,gpt-6.1-sol,w6-10261254-12,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C8ERef|p,10701ed01f2031e90720a962,gpt-6.1-sol,w6-10261254-14,w-06f458dbecf5,2026-10-26
