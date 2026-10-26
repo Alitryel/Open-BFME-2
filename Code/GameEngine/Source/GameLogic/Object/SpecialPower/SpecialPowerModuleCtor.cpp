@@ -163,7 +163,7 @@ public:
 	virtual void s04() = 0;
 	virtual AsciiString getPowerName() const = 0;
 	virtual void s06() = 0;
-	virtual void s07() = 0;
+	virtual void onSpecialPowerCreation() = 0;
 	virtual void s08() = 0;
 	virtual void pauseCountdown(Bool pause) = 0;
 	virtual void s10() = 0;
@@ -186,7 +186,7 @@ public:
 	virtual void s04() = 0;
 	virtual AsciiString getPowerName() const;
 	virtual void s06() = 0;
-	virtual void s07() = 0;
+	virtual void onSpecialPowerCreation();
 	virtual void s08() = 0;
 	virtual void pauseCountdown(Bool pause);
 	virtual void s10() = 0;

@@ -561,15 +561,17 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
   | `_M_find` owner, `StlSweepR3Rva0002CB7D.cpp` | `INI.cpp`'s `_M_find<AsciiString>` called `vector<void*>::operator[] const` out of line. | Accessor forced inline as the owner does; copy now equals retail (f37ca79179). | +110 B |
   | `BfmeConv499.cpp` | 51cc7ed5dc dropped the alias for placeholder `bfmeDoBNH`. | Builds its handle base in place from `TextureAsset::Get`; orphaned pin dropped (65972bab0b). | 0 -> 27 B |
 
-- **Remaining / next check:** `SpecialPowerModuleCtor.cpp` (340 B) still fails. Two private views of
-  `SpecialPowerModule` emit differing `??_7SpecialPowerModule@@6B@` copies:
-  - `SpecialPowerModuleDtor_Unresolved.cpp`, earlier in link order: slot 7 is
-    `onSpecialPowerCreation`.
-  - The ctor unit's view: slots 9 and 15 are `pauseCountdown` and `startPowerRecharge`.
-  - All other slots are pure stand-ins in both views.
-
-  Neither view changed in those slots between the censuses. Next check: give both views
-  the same slot set (the union of the named slots) and confirm the ctor unit links.
+- **Ctor vtable reconciled (2026-10-26):** the ctor and dtor private views now
+  declare the same named interface slots: `onSpecialPowerCreation` at slot 7,
+  `pauseCountdown` at slot 9 and `startPowerRecharge` at slot 15. Both views now
+  bind the same external definitions; this removes the ctor's pure slot 7 and
+  the dtor's pure slots 9/15. `./build.sh` passes 7/7 rows across the two
+  sources; `tools/link_check.py` against the 763dc8759f check index now links
+  `SpecialPowerModuleCtor.cpp` for its 340 bytes (0 -> 340 B).
+- **Remaining / next check:** `SpecialPowerModuleDtor_Unresolved.cpp` still does
+  not link because its two `??_7BehaviorModule@@6B...` copies differ from the
+  first copies in link order. Those are separate BehaviorModule table conflicts,
+  not the SpecialPowerModule vtable this repair reconciled.
 - **Clearance:** preview scope only (the units listed above).
 - **Census confirmation:** awaiting the next census.
 

@@ -177,6 +177,8 @@ public:
 	virtual ~SpecialPowerModule();
 	virtual AsciiString getPowerName() const;
 	virtual void onSpecialPowerCreation();
+	virtual void pauseCountdown(bool pause);
+	virtual void startPowerRecharge(float percent);
 protected:
 	const SpecialPowerModuleData *getSpecialPowerModuleData() const { return (const SpecialPowerModuleData *)getModuleData(); }
 private:
