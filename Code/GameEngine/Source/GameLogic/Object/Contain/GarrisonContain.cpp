@@ -1,5 +1,223 @@
-// cl: /Ireference/shims/zh_outofline /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /Ireference/shims/zh_outofline /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
+// TU Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContain.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
+#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <list>
+#include "Common/GameState.h"
+#include "Common/PerfTimer.h"
+#include "Common/Player.h"
+#include "Common/PlayerList.h"
+#include "Common/RandomValue.h"
+#include "Common/Team.h"
+#include "Common/ThingFactory.h"
+#include "Common/ThingTemplate.h"
+#include "Common/Xfer.h"
+#include "GameLogic/AIPathfind.h"
+#include "GameLogic/GameLogic.h"
+#include "GameLogic/Object.h"
+#include "GameLogic/Module/AIUpdate.h"
+#include "GameLogic/Module/GarrisonContain.h"
+#include "GameLogic/Module/BodyModule.h"
+#include "GameLogic/PartitionManager.h"
+#include "GameLogic/Weapon.h"
+#include "GameClient/Drawable.h"
+#include "GameClient/GameClient.h"
+#include "GameClient/InGameUI.h"
+#include "GameClient/View.h"
+#ifdef _INTERNAL
+//#pragma optimize("", off)
+//#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
+
+#endif
+#define BFME_DISP8_BYTECHASE_GETTER(NAME, DISP1, DISP2) \
+	class NAME \
+	{ \
+	public: \
+		unsigned char get() const; \
+		char m_lead[DISP1]; \
+		void *m_ptr; \
+	}; \
+	unsigned char NAME::get() const \
+	{ \
+		return *(unsigned char *)((char *)m_ptr + DISP2); \
+	}
+#define BFME_DISP8_BYTECHASE_BEFORE_GETTER(NAME, BACK, INNER) \
+	class Inner##NAME \
+	{ \
+	public: \
+		char m_lead[INNER]; \
+		unsigned char m_value; \
+	}; \
+	class Sub##NAME \
+	{ \
+	public: \
+		Inner##NAME *m_holder; \
+	}; \
+	class NAME \
+	{ \
+	public: \
+		unsigned char get() const; \
+	}; \
+	unsigned char NAME::get() const \
+	{ \
+		return ((const Sub##NAME *)((const char *)this - (BACK)))->m_holder->m_value; \
+	}
+
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ?_Unchecked_set@?$bitset@$0HF@@_STL@@QAEAAV12@IH@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bitset<117> & bitset<117>::_Unchecked_set(unsigned int,int); }
+
+// Suppress this TU's non-retail copy of ?test@?$bitset@$0N@@_STL@@QBE_NI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> bool bitset<13>::test(unsigned int) const; }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+enum { MUZZLE_FLASH_LIFETIME = LOGICFRAMES_PER_SECOND / 7 };
+
+// ------------------------------------------------------------------------------------------------
+/** Any objects that are sitting at the garrison points which no longer have targets need
+	* to be moved to the center of the building and taken off the garrison point */
+// ------------------------------------------------------------------------------------------------
+// GarrisonContain::removeInvalidObjectsFromGarrisonPoints: defined in GarrisonContainRemoveInvalidObjects.cpp (its row's unit).
+
+// ------------------------------------------------------------------------------------------------
+/** Are there any objects in the center that have now obtained targets and need to move to
+	* a garrison point */
+	// ------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------------------
+/** Track attacking occupants and move them to a closer open garrison point for their active target. */
+// ------------------------------------------------------------------------------------------------
+// Measured target helpers used by retail trackTargets at 0x00478ADB.
+struct Rva0046247DPair { void *first; void *second; };
+
+class Rva0046247D { public: void rva0046247D(Rva0046247DPair &result); };
+
+class Rva00264E93 { public: void *rva00264E93(); };
+
+// Retail dispatches the object-ID lookup through primary-vtable slot +0x6C.
+// The prefix records only that call slot; it does not name the implementation.
+class GarrisonContainIndexSlotView
+{
+public:
+    virtual void slot00() = 0; virtual void slot04() = 0; virtual void slot08() = 0;
+    virtual void slot0C() = 0; virtual void slot10() = 0; virtual void slot14() = 0;
+    virtual void slot18() = 0; virtual void slot1C() = 0; virtual void slot20() = 0;
+    virtual void slot24() = 0; virtual void slot28() = 0; virtual void slot2C() = 0;
+    virtual void slot30() = 0; virtual void slot34() = 0; virtual void slot38() = 0;
+    virtual void slot3C() = 0; virtual void slot40() = 0; virtual void slot44() = 0;
+    virtual void slot48() = 0; virtual void slot4C() = 0; virtual void slot50() = 0;
+    virtual void slot54() = 0; virtual void slot58() = 0; virtual void slot5C() = 0;
+    virtual void slot60() = 0; virtual void slot64() = 0; virtual void slot68() = 0;
+    virtual int objectIndex(int objectID) = 0;
+};
+
+// 0x0039ADAF is ExperienceTracker::isTrainable (pinned under that name from
+// VeterancyCrateCollide::isValidToExecute; ZH's isTrainable reads the
+// template's trainable flag): the byte at +0x5E7 of the +0x04 template.
+class ExperienceTracker
+{
+public:
+	bool isTrainable() const;
+	char m_lead[0x4];
+	void *m_template;
+};
+
+BFME_DISP8_BYTECHASE_BEFORE_GETTER(Rva0047840CByteChase32Field, 0x1C, 0xA1)
+
+// tu-skeleton: 0x00477DA1 175B ?putObjectAtGarrisonPoint@GarrisonContain@@IAEXPAVObject@@W4ObjectID@@HH@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainPutObjectAtGarrisonPoint.cpp (not merged yet)
+
+// tu-skeleton: 0x00477E50 50B ?findConditionIndex@GarrisonContain@@IAEHXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainFindConditionIndex.cpp (not merged yet)
+
+// tu-skeleton: 0x00477E82 132B ?removeObjectFromGarrisonPoint@GarrisonContain@@IAEXPAVObject@@H@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainRemoveObject.cpp (not merged yet)
+
+// tu-skeleton: 0x00477F06 278B ??0GarrisonContain@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0047801C 69B ?rva0047801C@GarrisonContain@@SA?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Module/GarrisonContainPoolKey.cpp (not merged yet)
+
+// tu-skeleton: 0x00478061 6B ?name@GarrisonContain@@QBEPBDXZ -- matched in Code/GameEngine/Source/Common/ModuleNameGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x00478067 128B ??1GarrisonContain@@UAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00478141 240B ?validateRallyPoint@GarrisonContain@@IAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainValidateRallyPoint.cpp (not merged yet)
+
+// tu-skeleton: 0x00478231 47B ?rva00478231@Rva00478231@@QAEX_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva00478231Contain.cpp (not merged yet)
+
+// tu-skeleton: 0x00478260 375B ?xfer@GarrisonContain@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x004783D7 5B ?rva004783D7@Rva004697E1Contain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva004697E1Gate.cpp (not merged yet)
+
+// tu-skeleton: 0x004783DC 24B ?setOriginalTeam@Rva004783F4@@UAEXPAVTeam@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva004783F4.cpp (not merged yet)
+
+// tu-skeleton: 0x004783F4 24B ?rva004783F4@Rva004783F4@@QAEPAVTeam@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/Rva004783F4.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/Disp8ByteChaseGetters.cpp
+
+// Disp8 byte-chase getters: seven-byte __thiscall members with one shape:
+//
+//     mov eax,[ecx+<DISP1>] / mov al,[eax+<DISP2>] / ret
+//
+// A pointer is read at a fixed displacement from `this`, then a byte is read
+// at a second displacement from that pointer and returned in `al` (only the
+// low byte is defined; the caller uses `al`). MSVC 7.1 emits the disp8 loads
+// `8B 41 XX` + `8A 40 XX`, plus `ret`, for seven bytes total.
+// Identity is not recovered: every name is derived from its address.
+// No // cl: line (defaults match the frameless seven-byte shape).
+
+// Backward variant: the holder sits at a NEGATIVE displacement from `this`
+// (a sub-object `this` pointing into a larger object). Spelled as an explicit
+// backward cast, which MSVC folds to `mov eax,[ecx-BACK]`; same shape and
+// reading as BFME1's ChainedFieldGetters.
+
+// tu-skeleton: 0x00478416 47B ?calcDistSqr@@YAMABUCoord3D@@0@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainFindClosestFreePoint.cpp (not merged yet)
+
+// tu-skeleton: 0x00478445 258B ?findClosestFreeGarrisonPointIndex@GarrisonContain@@IAEHHPBUCoord3D@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainFindClosestFreePoint.cpp (not merged yet)
+
+// tu-skeleton: 0x00478547 91B ?calcBestGarrisonPosition@GarrisonContain@@UAE_NPAUCoord3D@@PBU2@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainCalcBestGarrisonPosition.cpp (not merged yet)
+
+// tu-skeleton: 0x004785A2 107B ?putObjectAtBestGarrisonPoint@GarrisonContain@@IAEXPAVObject@@0PBUCoord3D@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainFirePoints.cpp (not merged yet)
+
+// tu-skeleton: 0x0047860D 28B ??_GGarrisonContain@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00478629 112B ?rva00478629@GarrisonContain@@QAE_NPAVObject@@_N1@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/HordeGarrisonContainIface20.cpp (not merged yet)
+
+// tu-skeleton: 0x00478699 95B ?isValidContainerFor@GarrisonContain@@UAE_NPAVObject@@_N1@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/HordeGarrisonContainIface20.cpp (not merged yet)
+
+// tu-skeleton: 0x004786F8 114B ?healSingleObject@GarrisonContain@@IAEXPAVObject@@M@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainHealSingleObject.cpp (not merged yet)
+
+// tu-skeleton: 0x0047876A 70B ?onBodyDamageStateChange@GarrisonContain@@UAEXPBVDamageInfo@@W4BodyDamageType@@1@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainHealSingleObject.cpp (not merged yet)
+
+// tu-skeleton: 0x004787B0 160B ?rva004787B0@GarrisonContain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainRva004787B0.cpp (not merged yet)
+
+// tu-skeleton: 0x00478850 126B ?attemptBestFirePointPosition@GarrisonContain@@UAE_NPAVObject@@PAVWeapon@@0@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainFirePoints.cpp (not merged yet)
+
+// tu-skeleton: 0x004788CE 126B ?attemptBestFirePointPosition@GarrisonContain@@UAE_NPAVObject@@PAVWeapon@@PBUCoord3D@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainFirePoints.cpp (not merged yet)
+
+// tu-skeleton: 0x0047894C 399B ?addValidObjectsToGarrisonPoints@GarrisonContain@@IAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainAddValidObjects.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContain.cpp
+
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Contain/GarrisonContain.cpp); this unit had no counterpart under Code/.
 /*
@@ -32,65 +250,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USER INCLUDES //////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
-// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
-// overload takes the call instead, so this TU emits no external max COMDAT.
-namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
-{
-    return a < b ? b : a;
-}
-}
-#include <list>
-
-// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
-namespace _STL {
-template <class T, class LeftTraits, class RightTraits>
-static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
-                              const _List_iterator<T, RightTraits>& b)
-{ return a._M_node != b._M_node; }
-}
-
-#include "Common/GameState.h"
-#include "Common/PerfTimer.h"
-#include "Common/Player.h"
-#include "Common/PlayerList.h"
-#include "Common/RandomValue.h"
-#include "Common/Team.h"
-#include "Common/ThingFactory.h"
-#include "Common/ThingTemplate.h"
-#include "Common/Xfer.h"
-
-#include "GameLogic/AIPathfind.h"
-#include "GameLogic/GameLogic.h"
-#include "GameLogic/Object.h"
-#include "GameLogic/Module/AIUpdate.h"
-#include "GameLogic/Module/GarrisonContain.h"
-#include "GameLogic/Module/BodyModule.h"
-#include "GameLogic/PartitionManager.h"
-#include "GameLogic/Weapon.h"
-
-#include "GameClient/Drawable.h"
-#include "GameClient/GameClient.h"
-#include "GameClient/InGameUI.h"
-#include "GameClient/View.h"
-// bfme link decl-only begin
-namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
-// bfme link decl-only end
-// Suppress this TU's non-retail copy of ?_Unchecked_set@?$bitset@$0HF@@_STL@@QAEAAV12@IH@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> bitset<117> & bitset<117>::_Unchecked_set(unsigned int,int); }
-// Suppress this TU's non-retail copy of ?test@?$bitset@$0N@@_STL@@QBE_NI@Z:
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL { template <> bool bitset<13>::test(unsigned int) const; }
-
-#ifdef _INTERNAL
-//#pragma optimize("", off)
-//#pragma MESSAGE("************************************** WARNING, optimization disabled for debugging purposes")
-#endif
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-enum { MUZZLE_FLASH_LIFETIME = LOGICFRAMES_PER_SECOND / 7 };
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -126,7 +285,9 @@ Int GarrisonContain::getObjectGarrisonPointIndex( Object *obj )
 
 	return GARRISON_INDEX_INVALID;
 
-}  // end getObjectGarrisonPointIndex
+}
+
+  // end getObjectGarrisonPointIndex
 
 // ------------------------------------------------------------------------------------------------
 /** Put the object at the specified garrison point by index */
@@ -248,7 +409,9 @@ Bool GarrisonContain::attemptBestFirePointPosition( Object *source, Weapon *weap
 GarrisonContain::~GarrisonContain( void )
 {
 
-}  // end ~GarrisonContain
+}
+
+  // end ~GarrisonContain
 
 //-------------------------------------------------------------------------------------------------
 /** can this container contain this kind of object? 
@@ -286,42 +449,6 @@ Bool GarrisonContain::isValidContainerFor(const Object* obj, Bool checkCapacity)
 	}
 	return false;
 }
-
-// ------------------------------------------------------------------------------------------------
-/** Any objects that are sitting at the garrison points which no longer have targets need
-	* to be moved to the center of the building and taken off the garrison point */
-// ------------------------------------------------------------------------------------------------
-// GarrisonContain::removeInvalidObjectsFromGarrisonPoints: defined in GarrisonContainRemoveInvalidObjects.cpp (its row's unit).
-
-// ------------------------------------------------------------------------------------------------
-/** Are there any objects in the center that have now obtained targets and need to move to
-	* a garrison point */
-	// ------------------------------------------------------------------------------------------------
-
-// ------------------------------------------------------------------------------------------------
-/** Track attacking occupants and move them to a closer open garrison point for their active target. */
-// ------------------------------------------------------------------------------------------------
-// Measured target helpers used by retail trackTargets at 0x00478ADB.
-struct Rva0046247DPair { void *first; void *second; };
-class Rva0046247D { public: void rva0046247D(Rva0046247DPair &result); };
-class Rva00264E93 { public: void *rva00264E93(); };
-
-// Retail dispatches the object-ID lookup through primary-vtable slot +0x6C.
-// The prefix records only that call slot; it does not name the implementation.
-class GarrisonContainIndexSlotView
-{
-public:
-    virtual void slot00() = 0; virtual void slot04() = 0; virtual void slot08() = 0;
-    virtual void slot0C() = 0; virtual void slot10() = 0; virtual void slot14() = 0;
-    virtual void slot18() = 0; virtual void slot1C() = 0; virtual void slot20() = 0;
-    virtual void slot24() = 0; virtual void slot28() = 0; virtual void slot2C() = 0;
-    virtual void slot30() = 0; virtual void slot34() = 0; virtual void slot38() = 0;
-    virtual void slot3C() = 0; virtual void slot40() = 0; virtual void slot44() = 0;
-    virtual void slot48() = 0; virtual void slot4C() = 0; virtual void slot50() = 0;
-    virtual void slot54() = 0; virtual void slot58() = 0; virtual void slot5C() = 0;
-    virtual void slot60() = 0; virtual void slot64() = 0; virtual void slot68() = 0;
-    virtual int objectIndex(int objectID) = 0;
-};
 
 void GarrisonContain::trackTargets( void )
 {
@@ -463,7 +590,9 @@ void GarrisonContain::updateEffects( void )
 
 	}  // end for i
 
-}  // end updateEffects
+}
+
+  // end updateEffects
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -501,8 +630,6 @@ void GarrisonContain::matchObjectsToGarrisonPoints( void )
   }
 
 }
-
-
 
 //-------------------------------------------------------------------------------------------------
 /** enforce that everybody stays at their pre-assigned space */
@@ -546,8 +673,6 @@ void GarrisonContain::positionObjectsAtStationGarrisonPoints()
 	}  // end for, it
 
 }
-
-
 
 //-------------------------------------------------------------------------------------------------
 /** When a new guy enters a non-enclosing garrison container */
@@ -599,7 +724,6 @@ void GarrisonContain::removeObjectFromStationPoint( const Object *obj )
 
 }
 
-
 //-------------------------------------------------------------------------------------------------
 /** When I become damaged */
 // ------------------------------------------------------------------------------------------------
@@ -624,9 +748,6 @@ void GarrisonContain::onDamage( DamageInfo * /*info*/ )
 
 }
 
-
-
-
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // ?GarrisonContain::healObjects present-unmatched
@@ -648,10 +769,6 @@ void GarrisonContain::healObjects( void )
 		healSingleObject(obj, modData->m_framesForFullHeal);
 	}
 }
-
-
-
-
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -697,8 +814,6 @@ void GarrisonContain::onSelling( void )
   OpenContain::onSelling();
 }
 
-
-
 // ------------------------------------------------------------------------------------------------
 /** Remove all contents of this container.  We will try to do so with intelligent garrison
 	* logic, but if all else fails no matter, we need to get all things out after this
@@ -730,7 +845,9 @@ void GarrisonContain::removeAllContained( Bool exposeStealthUnits )
 
 	recalcApparentControllingPlayer();
 
-}  // end removeAllContained
+}
+
+  // end removeAllContained
 
 // ------------------------------------------------------------------------------------------------
 /** 'exitObj' is one of the things we contain, it needs to 'exit' us */
@@ -759,7 +876,9 @@ Bool GarrisonContain::isPassengerAllowedToFire( ObjectID id ) const
 
 	return TRUE;
 
-}  // end isPassengerAllowedToFire
+}
+
+  // end isPassengerAllowedToFire
 
 // ------------------------------------------------------------------------------------------------
 /** A Mobile garrison keeps its occupants with it when it moves */
@@ -821,7 +940,9 @@ void GarrisonContain::crc( Xfer *xfer )
 	// extend base class
 	OpenContain::crc( xfer );
 
-}  // end crc
+}
+
+  // end crc
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
@@ -880,7 +1001,9 @@ void GarrisonContain::loadPostProcess( void )
 
 	}  // end for i
 
-}  // end loadPostProcess
+}
+
+  // end loadPostProcess
 
 
 
@@ -958,15 +1081,32 @@ void GarrisonContain::loadStationGarrisonPoints( void )
 		 ("GarrisonContain::update - You have specified this garrisonContain as mobile,\n yet you want station garrison point placement bones... \n what are you thinking?") );
 	}
 
-}  // end loadStationGarrisonPoints
+}
 
+  // end loadStationGarrisonPoints
 
+// tu-skeleton: 0x00478BE0 76B ?rva00478BE0@GarrisonContain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainSiblingHelpers.cpp (not merged yet)
 
+// tu-skeleton: 0x00478C2C 222B ?onContaining@GarrisonContain@@UAEXPAVObject@@_N@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainOnContaining.cpp (not merged yet)
 
+// tu-skeleton: 0x00478D0A 717B ?onRemoving@GarrisonContain@@UAEXPAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainOnRemoving.cpp (not merged yet)
 
+// tu-skeleton: 0x00478FD7 68B ?rva00478FD7@GarrisonContain@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainSiblingHelpers.cpp (not merged yet)
 
+// tu-skeleton: 0x0047901B 631B ?loadGarrisonPoints@GarrisonContain@@IAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainLoadGarrisonPoints.cpp (not merged yet)
 
+// tu-skeleton: 0x00479292 170B ?getObjectGarrisonPointIndex@GarrisonContain@@UAEHW4ObjectID@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainGetObjectGarrisonPointIndex.cpp (not merged yet)
 
+// tu-skeleton: 0x0047933C 89B ?removeInvalidObjectsFromGarrisonPoints@GarrisonContain@@IAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainRemoveInvalidObjects.cpp (not merged yet)
 
+// tu-skeleton: 0x00479395 157B ?redeployOccupants@GarrisonContain@@MAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainGetObjectGarrisonPointIndex.cpp (not merged yet)
 
+// tu-skeleton: 0x00479432 529B ?recalcApparentControllingPlayer@GarrisonContain@@UAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainRecalcApparentControllingPlayer.cpp (not merged yet)
 
+// tu-skeleton: 0x00479643 217B ?update@GarrisonContain@@UAE?AW4UpdateSleepTime@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainUpdate.cpp (not merged yet)
+
+// tu-skeleton: 0x0047978F 143B ??0GarrisonContainModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainModuleDataCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0047981E 28B ??_GGarrisonContainModuleData@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/ContainModuleDeletingDtors.cpp (not merged yet)
+
+// tu-skeleton: 0x0047983A 672B ?exitObjectViaDoor@GarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Contain/GarrisonContainExit.cpp (not merged yet)
