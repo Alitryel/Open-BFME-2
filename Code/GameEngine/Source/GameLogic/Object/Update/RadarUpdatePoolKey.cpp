@@ -9,10 +9,7 @@
 // static-guard EH prologue; globals are TU-local externs (DIR32 slots patch
 // from retail, no pins; nameToKey resolves via its matched row).
 
-enum NameKeyType
-{
-	NK_UNKNOWN = 0
-};
+#include "RadarUpdateView.h"
 
 class NameKeyGenerator
 {
@@ -21,12 +18,6 @@ public:
 };
 
 extern NameKeyGenerator *TheNameKeyGenerator;
-
-class RadarUpdate
-{
-public:
-	virtual NameKeyType getModuleNameKey() const;
-};
 
 // ?getModuleNameKey@RadarUpdate@@UBE?AW4NameKeyType@@XZ
 NameKeyType RadarUpdate::getModuleNameKey() const

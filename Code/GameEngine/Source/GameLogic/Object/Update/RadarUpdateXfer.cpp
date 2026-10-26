@@ -8,73 +8,7 @@
 // bools at +0x24/+0x25 via slot 0x90. Layout is rowed RadarUpdate ctor TU
 // (UpdateModule base 0x20 plus m_extendDoneFrame/m_extendComplete/m_radarActive).
 // Recipe is PoisonedBehaviorXfer slot-3 pattern.
-typedef unsigned int UnsignedInt;
-typedef bool Bool;
-
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-class Thing;
-class ModuleData;
-class Object;
-
-#include "../../../../Include/Common/BfmeXfer.h"
-
-class ObjectModule
-{
-public:
-	ObjectModule(Thing *thing, const ModuleData *moduleData);
-	virtual ~ObjectModule();
-
-protected:
-	const ModuleData *m_moduleData;
-	Object *m_object;
-};
-
-class BehaviorModuleInterface { public: virtual void behaviorSlot(); };
-class UpdateModuleInterface { public: virtual void updateSlot(); };
-
-class UpdateModule : public ObjectModule,
-	public BehaviorModuleInterface, public UpdateModuleInterface
-{
-public:
-	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	virtual ~UpdateModule();
-	void xfer(Xfer *xfer);
-
-private:
-	unsigned int m_nextCallFrameAndPhase;
-	int m_indexInLogic;
-	int m_updateState;
-};
-
-class RadarUpdate : public UpdateModule
-{
-public:
-	RadarUpdate(Thing *thing, const ModuleData *moduleData);
-
-protected:
-	virtual void xfer(Xfer *xfer);
-
-private:
-	UnsignedInt m_extendDoneFrame;
-	Bool m_extendComplete;
-	Bool m_radarActive;
-};
+#include "RadarUpdateView.h"
 
 void RadarUpdate::xfer(Xfer *xfer)
 {

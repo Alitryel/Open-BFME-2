@@ -94,52 +94,7 @@ struct RadarUpdateModuleData
 	unsigned char m_unmodelled_00[8];
 	Real m_radarExtendTime; // +0x08
 };
-class BehaviorModule
-{
-public:
-	virtual ~BehaviorModule();
-protected:
-	Object *getObject() const { return m_object; }
-	const ModuleData *m_moduleData; // +0x04
-	Object *m_object; // +0x08
-};
-class BehaviorModuleInterface
-{
-public:
-	virtual void behaviorModuleInterfaceAnchor();
-};
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_NONE = 1
-};
-class UpdateModuleInterface
-{
-public:
-	virtual UpdateSleepTime update() = 0;
-};
-class UpdateModule : public BehaviorModule, public BehaviorModuleInterface, public UpdateModuleInterface
-{
-protected:
-	unsigned int m_14;
-	int m_18;
-	int m_1C;
-};
-
-class RadarUpdate : public UpdateModule
-{
-public:
-	void extendRadar();
-	virtual UpdateSleepTime update();
-private:
-	const RadarUpdateModuleData *getRadarUpdateModuleData() const
-	{
-		return (const RadarUpdateModuleData *)m_moduleData;
-	}
-
-	UnsignedInt m_extendDoneFrame; // +0x20
-	Bool m_extendComplete; // +0x24
-	Bool m_radarActive; // +0x25
-};
+#include "RadarUpdateView.h"
 
 void RadarUpdate::extendRadar()
 {
