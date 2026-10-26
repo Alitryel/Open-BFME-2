@@ -14,6 +14,7 @@ class FrameGrabClass;
 class WW3D
 {
 	friend int hasBfmeThingTXA(void);
+public:
 	static FrameGrabClass *Movie;
 };
 
