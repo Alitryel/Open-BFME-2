@@ -133,9 +133,22 @@ protected:
 
 void W3DBufferManager::ReleaseResources()
 {
+	// BFME's slot-head arrays use 512 entries per vertex format. The
+	// destination's ZH header still uses 128, so address the retail lists
+	// through a body-local view, as the destination's freeAllBuffers does.
+	struct ManagerView
+	{
+		char m_beforeVertexBuffers[0x9000];
+		W3DVertexBuffer *m_vertexBuffers[18];
+		char m_beforeVertexCount[0x1c384];
+		int m_emptyVertexBufferCount;
+		char m_beforeIndexBuffers[0x1000];
+		W3DIndexBuffer *m_indexBuffers;
+	};
+	ManagerView *bfme = reinterpret_cast<ManagerView *>(this);
 	for (Int i = 0; i < MAX_FVF; i++)
 	{
-		W3DVertexBuffer *vb = m_W3DVertexBuffers[i];
+		W3DVertexBuffer *vb = bfme->m_vertexBuffers[i];
 		while (vb)
 		{
 			if (vb->m_DX8VertexBuffer)
@@ -146,7 +159,7 @@ void W3DBufferManager::ReleaseResources()
 			vb = vb->m_nextVB;
 		}
 	}
-	W3DIndexBuffer *ib = m_W3DIndexBuffers;
+	W3DIndexBuffer *ib = bfme->m_indexBuffers;
 	while (ib)
 	{
 		if (ib->m_DX8IndexBuffer)
