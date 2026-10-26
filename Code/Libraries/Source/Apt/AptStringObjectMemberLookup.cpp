@@ -11,8 +11,9 @@
 class EAStringC { void *data; public: EAStringC(); ~EAStringC();
  unsigned int rva006D3750()const; const char*rva00620090()const;
  int rva006D5EC0(); bool rva006D3510(const char*)const;
+ bool IsEmpty()const;
 };
-class AptValue {public: virtual void AddRef(); void toString(EAStringC&)const; void SetString(const char *);};
+class AptValue {public: virtual void AddRef(); void toString(EAStringC&)const; void SetString(const char *); unsigned int getRefCount()const;};
 class BfmeAptValue006DCD20 {public:void setGCRootCount(unsigned int);};
 class AptString {public:
  static AptString *Create();

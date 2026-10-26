@@ -38,6 +38,7 @@ public:
  unsigned int rva006D3750() const;
  int rva006D5EC0();
  bool rva006D3510(const char *) const;
+ bool IsEmpty() const;
  int Find(const char *,int);
  EAStringC &Append(const char *const,unsigned int);
 private:StringDataC *data;
@@ -64,6 +65,7 @@ class AptValue
 {
 public:
 	void toString(class EAStringC &out) const;	// 0x006DD6C0
+	unsigned int getRefCount() const;
 	void SetString(const char *text);		// 0x006CBF70
 };
 
