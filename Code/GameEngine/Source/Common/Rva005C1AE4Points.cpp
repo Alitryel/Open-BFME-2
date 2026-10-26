@@ -99,11 +99,11 @@ private:
 	Holder *m_held;
 };
 
-static const char *kFactions[] = { "Men", "Elves", "Dwarves", "Isengard", "Mordor", "Wild" };
+extern const char *g_rva0033A3F4Table[];
 
 int Rva005C1A36::rva005C1AE4(int idx)
 {
-	return prefs()->rva005358C3(AsciiString(kFactions[idx]));
+	return prefs()->rva005358C3(AsciiString(g_rva0033A3F4Table[idx]));
 }
 
 // ?rva005C1ABA@Rva005C1A36@@QAEXABVUnicodeString@@@Z @0x005C1ABA 42B
@@ -155,7 +155,7 @@ static __forceinline float ScaleCounts(int a,int b){float sum=(float)a;sum+=(flo
 class Rva005C1BDEView {public:void call(Rva005DDE01*);};
 void Rva005C1BDEView::call(Rva005DDE01*table){
 float total=0;UserPreferences*prefs=(UserPreferences*)((char*)this+8);
-for(int side=0;side<6;++side){AsciiString faction(kFactions[side]);int wins=prefs->rva00535BF6(faction);int losses=prefs->rva00535CE4(faction);for(int row=0;row<37;++row){switch(row){
+for(int side=0;side<6;++side){AsciiString faction(g_rva0033A3F4Table[side]);int wins=prefs->rva00535BF6(faction);int losses=prefs->rva00535CE4(faction);for(int row=0;row<37;++row){switch(row){
 case 0:{table->AddStat(0,side,Rva005DD822(prefs->rva00535D75(faction)),true);break;}
 case 1:{table->AddStat(1,side,Rva005DD822(prefs->rva00535E06(faction)),true);break;}
 case 2:{table->AddStat(2,side,Rva005DD822(prefs->rva00535E97(faction)),true);break;}
@@ -200,7 +200,7 @@ table->AddStat(3,6,Rva005DD822(prefs->rva0053616D()),true);
 class Rva005C2603View {public:void call(Rva005DDE01*);};
 void Rva005C2603View::call(Rva005DDE01*table){
 UserPreferences*prefs=(UserPreferences*)((char*)this+8);
-for(int side=0;side<6;++side){AsciiString faction(kFactions[side]);int wins=prefs->rva00535BF6(faction);int losses=prefs->rva00535CE4(faction);for(int row=0;row<37;++row){switch(row){
+for(int side=0;side<6;++side){AsciiString faction(g_rva0033A3F4Table[side]);int wins=prefs->rva00535BF6(faction);int losses=prefs->rva00535CE4(faction);for(int row=0;row<37;++row){switch(row){
 case 0:{table->AddStat(0,side,Rva005DD822(prefs->rva00535D75(faction)),true);break;}
 case 1:{table->AddStat(1,side,Rva005DD822(prefs->rva00535E06(faction)),true);break;}
 case 2:{table->AddStat(2,side,Rva005DD822(prefs->rva00535E97(faction)),true);break;}

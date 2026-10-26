@@ -175,8 +175,6 @@ Code/GameEngine/Source/Common/Rva005AC98ACheck.cpp	wrong-name	_TheUpgradeCenter	
 Code/GameEngine/Source/Common/Rva005B5E2D.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
 Code/GameEngine/Source/Common/Rva005B922FDtor.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
 Code/GameEngine/Source/Common/Rva005BE264Close.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
-Code/GameEngine/Source/Common/Rva005C1AE4Points.cpp	duplicate-def	_kFactions	0x009BE9B0
-Code/GameEngine/Source/Common/Rva005C1AE4Points.cpp	wrong-name	_kFactions	0x009BE9B0
 Code/GameEngine/Source/Common/Rva005C702DRead.cpp	duplicate-def	_c_table	0x00874934
 Code/GameEngine/Source/Common/Rva005C7889Init.cpp	wrong-name	?$S1@?1??Rva005C7889Init@@YAXXZ@4IA	0x00A065DC
 Code/GameEngine/Source/Common/Rva005C7954ElemDtor.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
