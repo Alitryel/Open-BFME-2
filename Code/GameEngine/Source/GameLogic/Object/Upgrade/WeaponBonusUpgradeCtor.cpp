@@ -9,44 +9,18 @@
 // 0x2501E2 (registered under "WeaponBonusUpgrade") is the sole raw caller.
 // Row supersedes the ctor pin.
 
-class Thing;
-class ModuleData;
+#include "WeaponBonusUpgradeView.h"
 
 static int s_vtable;
 static int s_secondary0C;
 static int s_secondary10;
 static int s_secondary18;
 
-// Opaque UpgradeModule base; ctor resolves to its pin. The explicit m_vtable
-// member stands in for the inherited vptr so body order is source order.
-class UpgradeModule
-{
-public:
-	UpgradeModule(Thing *thing, const ModuleData *moduleData);
-
-protected:
-	const void *m_vtable;
-	Thing *m_owner;
-	int m_pad08;
-	const void *m_p0C;
-	const void *m_p10;
-	unsigned char m_pad[0x18 - 0x14];
-};
-
-class WeaponBonusUpgrade : public UpgradeModule
-{
-public:
-	WeaponBonusUpgrade(Thing *thing, const ModuleData *moduleData);
-
-private:
-	const void *m_p18;
-};
-
 // ??0WeaponBonusUpgrade@@QAE@PAVThing@@PBVModuleData@@@Z @0x4B5633
 WeaponBonusUpgrade::WeaponBonusUpgrade(Thing *thing, const ModuleData *moduleData)
 	: UpgradeModule(thing, moduleData)
 {
-	m_vtable = &s_vtable;
+	*reinterpret_cast<const void **>(this) = &s_vtable;
 	m_p0C = &s_secondary0C;
 	m_p10 = &s_secondary10;
 	m_p18 = &s_secondary18;

@@ -204,6 +204,14 @@ authored-byte previews or commit-title gains into a projected headline.
   Composition still accepts no merge: allocator specialization, supply-truck
   receiver and pool-member declarations remain prerequisites. Mixed donors
   are untouched; no identity retirement, census gain or Luna landing claimed.
+- **WeaponBonusUpgrade receiver prerequisite (2026-10-26):**
+  [The shared partial receiver](../reverse/attempt_support/consolidation-weaponbonus-view-prerequisite-20261026-codex.md)
+  makes the constructor compose with the pool-key donor: ordinary dry-run now
+  accepts both direct donors / three existing rows, versus only the pool key.
+  All three rows and the EH graph are exact; both full non-debug objects,
+  COMDAT policies and data/reference facts are unchanged. Two mixed donors
+  and existing vtable/data identity debt remain. No merge, debt retirement,
+  census gain or later Luna landing is claimed.
 - **HeaderTemplate provider inspection (2026-10-26):**
   [The scoped inspection](../reverse/attempt_support/consolidation-headertemplate-pushfront-prerequisite-20261026-codex.md)
   confirms 3/3 exact creation rows but an incorrect typed node-provider chain:
