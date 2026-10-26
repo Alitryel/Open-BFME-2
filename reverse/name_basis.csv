@@ -2558,3 +2558,6 @@ class,Bfme5Obj18,AriesUdp,inferred,agree:nl-d7b045afdb40,Code/GameEngine/Source/
 carry,Bfme5Obj18::m_ownerVtable,AriesUdp::m_ownerVtable,inferred,scope renamed by Rename Bfme5Obj18 to AriesUdp (inferred),Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
 carry,Bfme5Obj18::m_listenerVtable,AriesUdp::m_listenerVtable,inferred,scope renamed by Rename Bfme5Obj18 to AriesUdp (inferred),Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
 param,QuadStrip2D::addStrip::x,QuadStrip2D::addStrip::strip,inferred,agree:nl-481c18addcba,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x005389D9
+class,Rva005F52C0,ArmyMemberTransferCallback,inferred,agree:nl-bff386803d29,Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,
+carry,?moveSelectedMembersToTarget@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToTarget@ArmyMemberTransferCallback@@QAEXXZ,inferred,scope renamed by Rename Rva005F52C0 to ArmyMemberTransferCallback (inferred),Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F52C0
+carry,?moveSelectedMembersToSource@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToSource@ArmyMemberTransferCallback@@QAEXXZ,inferred,scope renamed by Rename Rva005F52C0 to ArmyMemberTransferCallback (inferred),Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F5331
