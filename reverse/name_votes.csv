@@ -7891,3 +7891,11 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local|Rotate_Z|c,c8815db16e9dcce2133a16dc,gpt-6.1-sol,w2-10261117-12,w-dce04682aaeb,2026-10-26
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local|Rotate_Z|s,620009ac9d42959b9d4cde1b,gpt-6.1-sol,w2-10261117-12,w-dce04682aaeb,2026-10-26
 Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|local|begin|p,3f47f0919fd36387c64f09cd,gpt-6.1-sol,w2-10261117-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a0,9942d8e5ff60a94e10448f01,gpt-6.1-sol,w6-10261133-5,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a1,46c940f2d4d627507d9ac5db,gpt-6.1-sol,w6-10261133-5,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a2,2815198ceb1229ef7ee1d2d3,gpt-6.1-sol,w6-10261133-5,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a3,b5c8084c048c24a43477cafc,gpt-6.1-sol,w6-10261133-5,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp|param|Rva00222B19AptCall|a4,f8fe9c51c39eca973de7e199,gpt-6.1-sol,w6-10261133-5,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/Rva0055CFF0Draw.cpp|function|0x0055CFF0|rva0055CFF0,01e0403ad4588a76062f9bba,gpt-6.1-sol,w6-10261133-7,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|class||Rva0010F42A,268c4521312ae51879d3e3f7,gpt-6.1-sol,w6-10261133-12,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|member|Rva0010F42A|m_scale0C,718368385ce2341fbef8fdbd,gpt-6.1-sol,w6-10261133-12,w-06f458dbecf5,2026-10-26

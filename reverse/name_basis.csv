@@ -2495,3 +2495,8 @@ local,bfmeCeilD::d,bfmeCeilD::ceilValue,inferred,agree:nl-eff59b65a7e1,Code/Game
 local,Rotate_Z::c,Rotate_Z::cosTheta,inferred,agree:nl-a9bcbc5f3a11,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp,
 local,Rotate_Z::s,Rotate_Z::sinTheta,inferred,agree:nl-5e6c3e4ee936,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp,
 local,begin::p,begin::firstItem,inferred,agree:nl-43aa87326f13,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,
+param,Rva00222B19AptCall::a0,Rva00222B19AptCall::firstArgument,inferred,agree:nl-01a498a94fca,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
+param,Rva00222B19AptCall::a1,Rva00222B19AptCall::secondArgument,inferred,agree:nl-d4fa9518a4a4,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
+param,Rva00222B19AptCall::a2,Rva00222B19AptCall::thirdArgument,inferred,agree:nl-31c85d2be7ca,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
+param,Rva00222B19AptCall::a3,Rva00222B19AptCall::fourthArgument,inferred,agree:nl-4feaa9322918,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
+param,Rva00222B19AptCall::a4,Rva00222B19AptCall::fifthArgument,inferred,agree:nl-e1187d6ded91,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19

@@ -17,7 +17,7 @@ char g_00DFE5D8[268];
 void Rva006CCB80CallFunction(const char *function, char *result, const char *target,
 	int nNumParams, ...);
 
-int __stdcall Rva00222B19AptCall(void *level, const char *prefix, const char *function, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4)
+int __stdcall Rva00222B19AptCall(void *level, const char *prefix, const char *function, int argc, const char *firstArgument, void *secondArgument, void *thirdArgument, void *fourthArgument, void *fifthArgument)
 {
 	g_00DFE5D8[0] = 0;
 	AsciiString path;
@@ -31,7 +31,7 @@ int __stdcall Rva00222B19AptCall(void *level, const char *prefix, const char *fu
 		((StringBase<char> *)&path)->concat(prefix);
 	}
 	const char *target = path.str();
-	Rva006CCB80CallFunction(function, g_00DFE5D8, target, argc, a0, a1, a2, a3, a4);
+	Rva006CCB80CallFunction(function, g_00DFE5D8, target, argc, firstArgument, secondArgument, thirdArgument, fourthArgument, fifthArgument);
 	return (int)g_00DFE5D8;
 }
 
