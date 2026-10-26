@@ -6,6 +6,18 @@
 #include <math.h>
 #include "region.h"
 #include "ascii_string.h"
+#include "../../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+#include "refcount.h"
+#define Matrix4x4 Matrix4
+#include "matrix3d.h"
+#include <stdio.h>
+#include <string.h>
+extern "C" char *__cdecl _mbscpy(char *dst, const char *src);
+extern "C" unsigned int __cdecl strlen(const char *s);
+extern "C" __declspec(dllimport) struct _iobuf *__cdecl fopen(const char *path, const char *mode);
+extern "C" __declspec(dllimport) unsigned int __cdecl fwrite(const void *ptr, unsigned int size, unsigned int count, struct _iobuf *file);
+extern "C" __declspec(dllimport) int __cdecl fclose(struct _iobuf *file);
+#include "../../../../../../reference/shims/wwmath/Vector2.h"
 
 class TextureBaseClass { public: void Release_Ref(); };
 
@@ -57,20 +69,6 @@ waveInfo waveTypeInfo[6]= //TODO: Move this into INI
 struct InitSphere : SphereClass { void Init(const Vector3 &vec,float r) {Center=vec;Radius=r;} };
 
 struct InitBox { Vector3 Center,Extent; };
-
-class WaterTracksObj {
-public:
- BFME2ParticleTextureHandle texture;
- InitSphere sphere; InitBox box;
- int type,x,y; bool bound; Vector2 startPos,waveDir,perpDir,initStart,initEnd;
- int initOffset,fadeMs,totalMs,elapsedMs;
- float initialWidth,initialHeight,finalWidth,peakFraction,finalHeight;
- float velocity,distance,timeToBeach,frontAcc,timeToStop,timeToRetreat,backAcc,timeToCompress,flipU;
- WaterTracksObj *next,*previous;
- void init(float,float,Vector2&,Vector2&,char*,int,void*);
- virtual void Get_Obj_Space_Bounding_Sphere(SphereClass &out) const;
- virtual void Get_Obj_Space_Bounding_Box(Region3D &out) const;
-};
 
 // Retail 0x000FF5E6, the Zero Hour loadTracks counterpart (WorldBuilder 0x829D80): rebuilds the
 // tracks from the map's track areas; findTrack and init stay visible so the endpoints are unaliased.
@@ -167,6 +165,7 @@ enum waveType {WaveTypePond,WaveTypeOcean};
 // The separately matched constructor and init fix the resource fields at
 // 0/C, list links at 10/14, strips at 18/1C and filename at 28.
 class VertexMaterialClass;
+
 class ShaderClass {
 public:
  ShaderClass() : bits(0x10441b) {}
@@ -175,25 +174,9 @@ public:
  enum CullMode { CULL_MODE_DISABLE=0 };
  void Set_Cull_Mode(CullMode) {bits &= 0xffefffff;}
 };
-class WaterTracksRenderSystem {
-public:
- WaterTracksRenderSystem();
- ~WaterTracksRenderSystem();
- void shutdown();void releaseTrack(FeNode *);
- void init();void ReAcquireResources();
- WaterTracksObj *bindTrack(waveType);
- void rva000FE188();
- __declspec(noinline) FeNode *rva000FE207(const float *,const float *,int);
- void *vertexBuffer,*indexBuffer;
- VertexMaterialClass *material;
- ShaderClass shader;
- FeNode *m_tail10,*m_head14;
- int stripX,stripY,batch;
- float level;
- AsciiString filename;
-};
 
 class WaterTracksRenderSystem;
+
 extern WaterTracksRenderSystem *TheWaterTracksRenderSystem;
 
 class Rva0007E90ECallee {public:char unknown00[0x28];AsciiString file;void rva000FF5E6(int);};
@@ -238,6 +221,121 @@ public:
     BoundsValue Extent;
 };
 
+class WaterTracksObj;
+
+class VertexMaterialClass {
+public:
+ enum PresetType { PRESET_ZERO=0 };
+ static VertexMaterialClass *Get_Preset(PresetType);
+};
+
+class GlobalData;
+
+extern GlobalData *TheWritableGlobalData;
+
+struct WaterTracksLevelView { char unknown00[0x74];float level; };
+
+class TextureBaseClass;
+
+class DX8VertexBufferClass;
+
+class RenderInfoClass;
+
+struct FeNode;
+
+class BfmeThingSH {
+public:
+	BfmeThingSH() throw();
+public:
+	unsigned char unknown00[0xb0];
+public:
+	BfmeThingSH *next,*prev;
+public:
+	void bfmeResetSH();
+public:
+	~BfmeThingSH() { bfmeResetSH(); }
+};
+
+class WaterTracksRenderSystem {
+public:
+	WaterTracksRenderSystem();
+public:
+	~WaterTracksRenderSystem();
+public:
+	void shutdown();
+public:
+	void releaseTrack(FeNode *);
+public:
+	void init();
+public:
+	void ReAcquireResources();
+public:
+	WaterTracksObj *bindTrack(waveType);
+public:
+	void rva000FE188();
+public:
+	__declspec(noinline) FeNode *rva000FE207(const float *,const float *,int);
+public:
+	void *vertexBuffer,*indexBuffer;
+public:
+	VertexMaterialClass *material;
+public:
+	ShaderClass shader;
+public:
+	FeNode *m_tail10,*m_head14;
+public:
+	int stripX,stripY,batch;
+public:
+	float level;
+public:
+	AsciiString filename;
+public:
+	void rva000FE1AC();
+public:
+	void flush(RenderInfoClass &);
+};
+
+class WaterTracksObj {
+public:
+	BFME2ParticleTextureHandle texture;
+public:
+	InitSphere sphere;
+public:
+	InitBox box;
+public:
+	int type,x,y;
+public:
+	bool bound;
+public:
+	Vector2 startPos,waveDir,perpDir,initStart,initEnd;
+public:
+	int initOffset,fadeMs,totalMs,elapsedMs;
+public:
+	float initialWidth,initialHeight,finalWidth,peakFraction,finalHeight;
+public:
+	float velocity,distance,timeToBeach,frontAcc,timeToStop,timeToRetreat,backAcc,timeToCompress,flipU;
+public:
+	WaterTracksObj *next,*previous;
+public:
+	void init(float,float,Vector2&,Vector2&,char*,int,void*);
+public:
+	virtual void Get_Obj_Space_Bounding_Sphere(SphereClass &out) const;
+public:
+	virtual void Get_Obj_Space_Bounding_Box(Region3D &out) const;
+public:
+	int render(DX8VertexBufferClass *,int,RenderInfoClass &);
+};
+
+class Rva000FF50D
+{
+public:
+	void saveTracks();
+	char m_pad00[0x10];
+	WaterTracksObj *m_used;
+	char m_pad14[0x28 - 0x14];
+	AsciiString m_file;
+};
+
 // tu-skeleton: 0x000FDF4C 181B ?bindTrack@WaterTracksRenderSystem@@QAEPAVWaterTracksObj@@W4waveType@@@Z -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterTracksTestUpdate.cpp (not merged yet)
 
 // tu-skeleton: 0x000FE001 100B ?releaseTrack@WaterTracksRenderSystem@@QAEXPAUFeNode@@@Z -- matched in Code/GameEngine/Source/Common/Rva000FE001Move.cpp (not merged yet)
@@ -249,6 +347,8 @@ public:
 // tu-skeleton: 0x000FE1AC 91B ?rva000FE1AC@WaterTracksRenderSystem@@QAEXXZ -- matched in Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp (not merged yet)
 
 // tu-skeleton: 0x000FE207 137B ?rva000FE207@WaterTracksRenderSystem@@QAEPAUFeNode@@PBM0H@Z -- matched in Code/GameEngine/Source/Common/Rva000FE207Find.cpp (not merged yet)
+
+// ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterTracks.cpp
 
 // ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterTracks.cpp
 
@@ -439,14 +539,6 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
  }
 }
 
-// tu-skeleton: 0x000FE8FC 17B ?rva000FE8FC@WaterTracksRenderSystem@@QAEXPAUFeNode@@@Z -- matched in Code/GameEngine/Source/Common/Rva000FE001Move.cpp (not merged yet)
-
-// tu-skeleton: 0x000FE90D 46B ??0WaterTracksRenderSystem@@QAE@XZ -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksRenderSystemCtor.cpp (not merged yet)
-
-// tu-skeleton: 0x000FE93B 140B ?init@WaterTracksRenderSystem@@QAEXXZ -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksRenderSystemInit.cpp (not merged yet)
-
-// tu-skeleton: 0x000FE9C7 28B ??_GRva000FE9C7@@QAEPAXI@Z -- matched in Code/GameEngine/Source/Common/RvaDeletingDtorBatch01.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WWMath/Rva000FE9E3PointBounds.cpp
 
 // Clean BFME1 6d9434269164392c5ba62aaa7c15a86b5b020d76 donor:
@@ -478,13 +570,146 @@ Rva000FE9E3PointBounds *Rva000FE9E3PointBounds::rva000FE9E3(Vector3 *points, int
     return this;
 }
 
+// tu-skeleton: 0x000FE8FC 17B ?rva000FE8FC@WaterTracksRenderSystem@@QAEXPAUFeNode@@@Z -- matched in Code/GameEngine/Source/Common/Rva000FE001Move.cpp (not merged yet)
+
+// ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksRenderSystemCtor.cpp
+
+// BF1 WaterTracksRenderSystem source and native new(0x2c) at 7FD0D
+// followed by FE90D prove this is the WaterTracksRenderSystem constructor.
+// Target member offsets agree with the separately verified init FE93B.
+
+WaterTracksRenderSystem::WaterTracksRenderSystem() {
+ m_tail10=0;
+ m_head14=0;
+ indexBuffer=0;
+ material=0;
+ vertexBuffer=0;
+ stripX=2;
+ stripY=2;
+ batch=0;
+ TheWaterTracksRenderSystem=this;
+}
+
+// ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksRenderSystemInit.cpp
+
+// BFME1 ba7ddda7e8 WaterTracksRenderSystemInit.cpp supplies init semantics.
+// Native000FE93B..000FE9C7 RET0 independently measures level+74, list10/14,
+// strips18/1C, material8 and shaderC. Constructor FE2A3 already rowed182B;
+// it only writes fields and cannot throw. Keep its existing BfmeThingSH name
+// and native B8 extent rather than asserting a new name for the provider.
+// NativeFE065..FE188 uses ECX, strips18/1C, resource pointers0/4 and
+// index/vertex allocation plus write-lock loop, confirming ReAcquireResources.
+// Reuse the donor's minimal material and shader call views. These avoid
+// importing unrelated mapper dependencies into this initializer.
+
+void WaterTracksRenderSystem::init()
+{
+ stripX=2;stripY=2;
+ level=reinterpret_cast<WaterTracksLevelView *>(TheWritableGlobalData)->level;
+ ReAcquireResources();
+ material=VertexMaterialClass::Get_Preset((VertexMaterialClass::PresetType)0);
+ shader=ShaderClass::_PresetAlphaShader;
+ shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
+ if(m_head14 || m_tail10)return;
+ int i=0;
+ while(i<2000) {
+  FeNode *mod=(FeNode *)new BfmeThingSH;
+  if(!mod)break;
+  mod->m_prev=0;
+  mod->m_next=m_head14;
+  if(m_head14)m_head14->m_prev=mod;
+  ++i;
+  m_head14=mod;
+ }
+}
+
+// tu-skeleton: 0x000FE9C7 28B ??_GRva000FE9C7@@QAEPAXI@Z -- matched in Code/GameEngine/Source/Common/RvaDeletingDtorBatch01.cpp (not merged yet)
+
 // tu-skeleton: 0x000FEADB 2413B ?render@WaterTracksObj@@QAEHPAVDX8VertexBufferClass@@HAAVRenderInfoClass@@@Z -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksObjRender.cpp (not merged yet)
 
-// tu-skeleton: 0x000FF448 142B ?shutdown@WaterTracksRenderSystem@@QAEXXZ -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksRenderSystemFlush.cpp (not merged yet)
+// ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksRenderSystemFlush.cpp
 
-// tu-skeleton: 0x000FF4D6 55B ??1WaterTracksRenderSystem@@QAE@XZ -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/WaterTracksRenderSystemFlush.cpp (not merged yet)
+// platformsdk
+// dxsdk
+// Keep the existing vector/matrix helper providers and their link-view ABI.
 
-// tu-skeleton: 0x000FF50D 217B ?saveTracks@Rva000FF50D@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WWMath/Rva000FF50DSaveTracks.cpp (not merged yet)
+// BFME1 9cbfb551fe20 WaterTracksRenderSystem_flush.cpp semantic donor.
+// Native10004D..1001D5 RET4: system slots0/8/C/10/20 and node4/30/B0
+// agree with the independently matched bindTrack/init/update/save units.
+// Target editor flag85 and stats water-disable guard are native deltas.
+
+// Shutdown only needs the resource refcount interface. Importing dx8wrapper
+// also defines the material class, conflicting with init's small call view.
+
+// BFME1/ZH shutdown donor. Native FF448..FF4D6 clears used after moving
+// unbound nodes via the independently rowed releaseTrack FE001; node cleanup
+// calls existing BfmeThingSH::bfmeResetSH FE290 before the native delete worker.
+// The three resource pointers use native base+4 counters and virtual slot0.
+void WaterTracksRenderSystem::shutdown()
+{
+ WaterTracksObj *mod=reinterpret_cast<WaterTracksObj *>(m_tail10);
+ while(mod) {
+  WaterTracksObj *next=mod->next;
+  if(!mod->bound)releaseTrack(reinterpret_cast<FeNode *>(mod));
+  mod=next;
+ }
+ m_tail10=0;
+ while(m_head14) {
+  WaterTracksObj *mod=reinterpret_cast<WaterTracksObj *>(m_head14);
+  WaterTracksObj *next=mod->next;
+  delete reinterpret_cast<BfmeThingSH *>(m_head14);
+  m_head14=reinterpret_cast<FeNode *>(next);
+ }
+ if(indexBuffer) { reinterpret_cast<RefCountClass *>(indexBuffer)->Release_Ref(); indexBuffer=0; }
+ if(material) { reinterpret_cast<RefCountClass *>(material)->Release_Ref(); material=0; }
+ if(vertexBuffer) { reinterpret_cast<RefCountClass *>(vertexBuffer)->Release_Ref(); vertexBuffer=0; }
+}
+
+// BFME1/ZH destructor body; target FF4D6..FF50D RET0/55B establishes the
+// owning AsciiString member at28 and its releaseBuffer worker36410.
+WaterTracksRenderSystem::~WaterTracksRenderSystem()
+{
+ shutdown();
+ material=0;
+}
+
+// ---- from Code/Libraries/Source/WWVegas/WWMath/Rva000FF50DSaveTracks.cpp
+
+// ?saveTracks@Rva000FF50D@@QAEXXZ, retail 0x000FF50D, 217 bytes.
+// Evidence: unlock lane; .wak/.wb literals plus fopen/fwrite/fclose IAT;
+// WaterTracks saveTracks donor (W3DWaterTracks.cpp saveTracks with .wak,
+// wb, fwrite start/end/type plus count) ported to member filename at +0x28
+// and list at +0x10; WaterTracksObj +0x58/+0x60 8B +0x30 4B +0x68 flag
+// +0xB0 next; caller 0xFF8FA; neighbours Rva000FE9E3 + pod containers.
+
+void Rva000FF50D::saveTracks()
+{
+	AsciiString fileName = m_file;
+	char path[256];
+	const char *data = *(const char **)&fileName;
+	_mbscpy(path, data ? data + 8 : "");
+	unsigned int len = strlen(path);
+	_mbscpy(path + len - 4, ".wak");
+	int trackCount = 0;
+	struct _iobuf *file = fopen(path, "wb");
+	if (file != 0)
+	{
+		WaterTracksObj *track = m_used;
+		while (track != 0)
+		{
+			if (track->initOffset == 0)
+			{
+				fwrite(&track->initStart, 8, 1, file);
+				fwrite(&track->initEnd, 8, 1, file);
+				fwrite(&track->type, 4, 1, file);
+				++trackCount;
+			}
+			track = track->next;
+		}
+		fwrite(&trackCount, 4, 1, file);
+		fclose(file);
+	}
+}
 
 // tu-skeleton: 0x000FF8FA 1875B ?TestWaterUpdate@@YAXXZ -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterTracksTestUpdate.cpp (not merged yet)
 
