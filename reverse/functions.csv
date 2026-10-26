@@ -18199,11 +18199,6 @@ uw_007801d1,,0x007801D1,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;obj
 uw_007801f2,,0x007801F2,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3239
 uw_0078027a,,0x0078027A,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3225
 uw_0078029b,,0x0078029B,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3226
-uw_00780325,,0x00780325,11,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L12172
-uw_00780330,,0x00780330,14,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9434
-uw_0078033e,,0x0078033E,14,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9435
-uw_0078034c,,0x0078034C,14,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9436
-uw_0078035a,,0x0078035A,14,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9437
 uw_007803e4,,0x007803E4,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L7559
 uw_007803f6,,0x007803F6,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L9631
 uw_00780408,,0x00780408,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L9658
@@ -18825,10 +18820,6 @@ uw_0078b1d0,,0x0078B1D0,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_0078b22d,,0x0078B22D,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L894
 uw_0078b235,,0x0078B235,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5980
 uw_0078b23d,,0x0078B23D,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5148
-uw_0078b2ad,,0x0078B2AD,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2825
-uw_0078b2bb,,0x0078B2BB,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2826
-uw_0078b2c9,,0x0078B2C9,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2827
-uw_0078b31d,,0x0078B31D,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2828
 uw_0078b367,,0x0078B367,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2761
 uw_0078b375,,0x0078B375,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2762
 uw_0078b383,,0x0078B383,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2763
@@ -98251,3 +98242,12 @@ $L360,,0x00787318,8,Code/GameEngine/Source/Common/Rva00426EB0Dtor.cpp,matched,ge
 $L350,,0x0079257A,8,Code/GameEngine/Source/Common/Rva004E9BC6Dtor.cpp,matched,gen-funclet;parent=??1Rva004E9B46@@UAE@XZ; Matched parent 0x004E9BC6's EH graph is EXACT (eh_verify) and binds compiler label $L350 to retail Unwind@00b9257a 0x79257A; replaces generated uw_0079257a
 $L327,,0x00797DB9,8,Code/GameEngine/Source/Common/Rva0054080ADtor.cpp,matched,gen-funclet;parent=??1Rva0054080A@@UAE@XZ; Matched parent 0x0054080A's EH graph is EXACT (eh_verify) and binds compiler label $L327 to retail Unwind@00b97db9 0x797DB9; replaces generated uw_00797db9
 $L3786,,0x0079972C,11,Code/GameEngine/Source/Common/Rva0055B048Ctor.cpp,matched,gen-funclet;parent=??0Rva0055B0CC@@QAE@XZ; Matched parent 0x0055B048's EH graph is EXACT (eh_verify) and binds compiler label $L3786 to retail Unwind@00b9972c 0x79972C; replaces generated uw_0079972c
+$L338,,0x0078035A,14,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadOwnedRecord1432Dtor.cpp,matched,gen-funclet;parent=??1BfmeOpaqueOwnedRecord1432@@QAE@XZ; Matched parent 0x0038A1F2's EH graph is EXACT (eh_verify) and binds compiler label $L338 to retail Unwind@00b8035a 0x78035A; replaces generated uw_0078035a
+$L337,,0x0078034C,14,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadOwnedRecord1432Dtor.cpp,matched,gen-funclet;parent=??1BfmeOpaqueOwnedRecord1432@@QAE@XZ; Matched parent 0x0038A1F2's EH graph is EXACT (eh_verify) and binds compiler label $L337 to retail Unwind@00b8034c 0x78034C; replaces generated uw_0078034c
+$L336,,0x0078033E,14,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadOwnedRecord1432Dtor.cpp,matched,gen-funclet;parent=??1BfmeOpaqueOwnedRecord1432@@QAE@XZ; Matched parent 0x0038A1F2's EH graph is EXACT (eh_verify) and binds compiler label $L336 to retail Unwind@00b8033e 0x78033E; replaces generated uw_0078033e
+$L335,,0x00780330,14,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadOwnedRecord1432Dtor.cpp,matched,gen-funclet;parent=??1BfmeOpaqueOwnedRecord1432@@QAE@XZ; Matched parent 0x0038A1F2's EH graph is EXACT (eh_verify) and binds compiler label $L335 to retail Unwind@00b80330 0x780330; replaces generated uw_00780330
+$L334,,0x00780325,11,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadOwnedRecord1432Dtor.cpp,matched,gen-funclet;parent=??1BfmeOpaqueOwnedRecord1432@@QAE@XZ; Matched parent 0x0038A1F2's EH graph is EXACT (eh_verify) and binds compiler label $L334 to retail Unwind@00b80325 0x780325; replaces generated uw_00780325
+$L6305,,0x0078B31D,14,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainModuleDataDtor.cpp,matched,gen-funclet;parent=??1HordeContainModuleData@@UAE@XZ; Matched parent 0x00475942's EH graph is EXACT (eh_verify) and binds compiler label $L6305 to retail Unwind@00b8b31d 0x78B31D; replaces generated uw_0078b31d
+$L6299,,0x0078B2C9,14,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainModuleDataDtor.cpp,matched,gen-funclet;parent=??1HordeContainModuleData@@UAE@XZ; Matched parent 0x00475942's EH graph is EXACT (eh_verify) and binds compiler label $L6299 to retail Unwind@00b8b2c9 0x78B2C9; replaces generated uw_0078b2c9
+$L6298,,0x0078B2BB,14,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainModuleDataDtor.cpp,matched,gen-funclet;parent=??1HordeContainModuleData@@UAE@XZ; Matched parent 0x00475942's EH graph is EXACT (eh_verify) and binds compiler label $L6298 to retail Unwind@00b8b2bb 0x78B2BB; replaces generated uw_0078b2bb
+$L6297,,0x0078B2AD,14,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainModuleDataDtor.cpp,matched,gen-funclet;parent=??1HordeContainModuleData@@UAE@XZ; Matched parent 0x00475942's EH graph is EXACT (eh_verify) and binds compiler label $L6297 to retail Unwind@00b8b2ad 0x78B2AD; replaces generated uw_0078b2ad
