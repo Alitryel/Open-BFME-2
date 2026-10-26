@@ -1123,16 +1123,22 @@ Completed:
   units hit C1001 at `_string.h(573)`. It was reverted, and those units link without it.
 Remaining / next check (each needs a decision, a row or a shared change; none is unit-local):
 - `_String_base<char>::_M_throw_out_of_range` (U in `stlport_narrow_string_copy`, `_substring_ctor`,
-  `_erase_count`, `_substr`): only a pin (0x00023A40) and a divergent specialization in
-  `stlport_vector_voidptr_alloc.cpp`. It needs an owner decision for the 11-byte body. Declare-only was
-  already tried (`reverse/attempt_support/link-seat2-20261023-winddown/readme.md`).
+  `_erase_count`, `_substr`): cleared upstream by 1e45b8be0f, which supplies the body from
+  `stlport_vector_voidptr_alloc.cpp`. All four units LINK when `link_check.py` is run together with that
+  provider (LINKED 0 -> 904 B). Run alone, a stale provider object still reports them as unresolved.
 - `_Destroy<Rva002BBB96Element*>` and `_Destroy<Rva004758F4Element*>` (U in
   `StlportVectorDtorDeferred.cpp` and `StlportVectorClearRva00475F2A.cpp`): pins only (0x002BB6A5,
   0x00470398); the owners are `__destroy_aux` rows with a two-argument push. This needs a `_Destroy`
   owner row or a caller rewrite.
-- `AcademyStats::recordSpecialPowerUsed` (U in `SpecialPowerModule.cpp`) and
-  `vector<PrereqUnitRec>::operator=` (U in `StlSweepW5Rva0042830DAssignTwin.cpp`): no row anywhere.
-  Each body must be recovered and rowed.
+- `vector<PrereqUnitRec>::operator=` (U in `StlSweepW5Rva0042830DAssignTwin.cpp`): a wrong premise.
+  Retail 0x0042816E calls 0x000120C0 twice, the rowed 41 B narrow `basic_string::operator=`, so the
+  element holds two strings, not vectors. The twin now uses two `basic_string<char>` members and LINKS
+  (0 -> 33 B). `ThingFactory.cpp`'s `ProductionPrerequisite::operator=` row at the same address still
+  declares the vector layout; reconcile that view separately.
+- `AcademyStats::recordSpecialPowerUsed` (U in `SpecialPowerModule.cpp`): the call comes from the
+  present-unmatched ZH `initiateIntentToDoSpecialPower`. Retail's 0x004946F3 makes no AcademyStats call,
+  so there is no retail body to recover. Find a retail caller of the stat, or drop the ZH call from the
+  unmatched body.
 - `g_00DB5BD4` (U in `Rva000FDCD7Get.cpp`): lies inside the 144-byte data row `g_00DB5B88`
   (0x9B5B88..0x9B5C18). This needs a data-ledger split.
 - `latest_texture` (U in `DebugStatisticsTextureShutdown.cpp`): a file-static in
