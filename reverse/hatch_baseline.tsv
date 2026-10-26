@@ -2493,8 +2493,6 @@ alternatename	Code/GameEngine/Source/Common/BfmeConv443.cpp	?bfmeCbVJM@@YGXXZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv479.cpp	?bfmeDoBLA@@YGXH@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv487.cpp	?bfmeDoBLF@@YAXPAUBfmeSubBLF@@PAXH@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv487.cpp	?bfmeNoteVJI@BfmeSubVJI@@QAEXPBD@Z	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv507.cpp	?bfmeDoBPC@@YGXPAVBfmeThingBPC@@PAX@Z	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv507.cpp	?bfmeSetBPC@BfmeThingBPC@@QAEXH@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv559.cpp	?bfmeCopyBZD@@YAXPADPBDI@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv585.cpp	?bfmeCopyCEB@@YAXPADPBDI@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv606.cpp	?addInt@BfmeMsg803A00@@QAEXPBDH@Z	1
@@ -4424,6 +4422,8 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainCt
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp	??1TransportContain@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp	?b1@B1@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp	?b6@B6@@UAEXXZ	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContain.cpp	?bfmeDoBPC@@YGXPAVBfmeThingBPC@@PAX@Z	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContain.cpp	?bfmeSetBPC@BfmeThingBPC@@QAEXH@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainDtor.cpp	?b0@B0@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainDtor.cpp	?b1@B1@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TunnelContainDtor.cpp	?b2@B2@@UAEXXZ	1
