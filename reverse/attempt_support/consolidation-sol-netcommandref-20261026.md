@@ -90,3 +90,15 @@ repair retain NetCommandRef.cpp, NetCommandRefCtor.cpp,
 NetCommandRefContents.cpp and this handoff, then release after the push.
 The runner metadata records the actual commit/publication status. The shared
 obstacle-register claim was not acquired and must not be released by this seat.
+
+Recovery check, 2026-10-26 03:26 UTC: inherited prerequisite commits are
+23fb3c0fa5 and 889907207e after the runner's rebase; both remain local above
+origin/master 4d2094622a. The tree is clean and all eight file claims were
+renewed. Fresh ./build.sh on the six affected sources verifies 15/15 rows,
+three relocated funclet pins, two string references and 13 named imports
+(build/sol-inherited-recheck-20261026.txt). Existing complete standalone and
+composition provider comparisons above remain applicable: no source input
+changed in this recovery. check_csv.py passes. The full outgoing path audit
+has two edited sources, two evidence files and re_log verdicts; no source
+path moves or affected path consumers. This handoff commit retries the
+runner publisher; retain scopes if the shared batch slot remains held.
