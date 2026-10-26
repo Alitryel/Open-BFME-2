@@ -18,7 +18,7 @@ public:
 extern const char *TheVeterancyNames[];
 // Owned here: parseDamageTypeFlags (0x338CD0) is the only reader of the .data table at VA 0x00DBE858
 // (retail's entries and NULL terminator, transcribed from the image).
-const char *BFME2DamageTypeNames[] = {
+extern const char *const BFME2DamageTypeNames[] = {
     "FORCE",
     "CRUSH",
     "SLASH",
@@ -50,7 +50,7 @@ const char *BFME2DamageTypeNames[] = {
 };
 // Owned here: parseDeathTypeFlags (0x338D91) is the only reader of the .data table at VA 0x00DBE8D8
 // (retail's entries and NULL terminator, transcribed from the image).
-const char *BFME2DeathTypeNames[] = {
+extern const char *const BFME2DeathTypeNames[] = {
     "NORMAL",
     "NONE",
     "CRUSHED",
