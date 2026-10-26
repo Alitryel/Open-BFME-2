@@ -61,7 +61,7 @@ public:
 	Rva0030C2CEElem *m_end;
 };
 
-struct Rva0030C2CECursor
+struct RiverAreaIterator
 {
 	Rva0030C2CECollection *m_store;
 	int m_index;
@@ -71,7 +71,7 @@ struct Rva0030C2CECursor
 // equality of two 8-byte {store, index} cursors, both by reference. The body is
 // kept visible and out of line (as W3DWaterStandingWaveQuery.cpp does): retail's
 // caller scheduling needs the callee's side effects known.
-extern "C" inline __declspec(noinline) bool __cdecl rva0007E394CursorEqual(const Rva0030C2CECursor &a, const Rva0030C2CECursor &b)
+extern "C" inline __declspec(noinline) bool __cdecl rva0007E394CursorEqual(const RiverAreaIterator &a, const RiverAreaIterator &b)
 {
 	return a.m_store == b.m_store && a.m_index == b.m_index;
 }
@@ -81,8 +81,8 @@ void __cdecl saveRiverAreas(Rva0030C2CECollection *coll, DataChunkOutput *out)
 	out->openDataChunk("RiverAreas", 2);
 	int count = (int)(coll->m_end - coll->m_begin);
 	out->writeInt(count);
-	Rva0030C2CECursor endCur;
-	Rva0030C2CECursor cur;
+	RiverAreaIterator endCur;
+	RiverAreaIterator cur;
 	endCur.m_store = coll;
 	endCur.m_index = (int)(coll->m_end - coll->m_begin);
 	cur.m_store = coll;

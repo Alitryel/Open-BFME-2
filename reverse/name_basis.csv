@@ -2438,3 +2438,4 @@ param,Rva00330A37::rva00330A37::a6,Rva00330A37::rva00330A37::opacityPeakTime,inf
 param,Rva00330A37::rva00330A37::a7,Rva00330A37::rva00330A37::opacityFadeTimeTwo,inferred,agree:nl-a849a6424b24,Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,0x00330A37
 member,AudioData::m_10,AudioData::m_ambientStreamFolder,inferred,agree:nl-a1284c9dd5cc,Code/GameEngine/Source/Common/AudioEventRTS_generateFilenamePrefix.cpp,
 param,AudioEventRTS::generateFilenamePrefix::v,AudioEventRTS::generateFilenamePrefix::audioTypeToPlay,inferred,agree:nl-4403bd79bf59,Code/GameEngine/Source/Common/AudioEventRTS_generateFilenamePrefix.cpp,0x002D9622
+class,Rva0030C2CECursor,RiverAreaIterator,inferred,agree:nl-4da679e6b03c,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
