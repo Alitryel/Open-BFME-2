@@ -14,56 +14,7 @@
 void *__cdecl operator new(unsigned int size);
 void __cdecl operator delete(void *block) throw();
 
-class NetCommandMsg
-{
-public:
-	virtual ~NetCommandMsg();
-	virtual int getSortNumber();
-	unsigned int getTimestamp() { return m_timestamp; }
-	unsigned int getPlayerID() { return m_playerID; }
-	unsigned short getID() { return m_id; }
-	int getNetCommandType() { return m_commandType; }
-
-public:
-	unsigned int m_timestamp;
-	unsigned int m_executionFrame;
-	unsigned int m_playerID;
-	unsigned short m_id;
-	int m_commandType;
-	int m_referenceCount;
-};
-
-class NetCommandRef
-{
-public:
-	NetCommandRef(NetCommandMsg *msg);
-	~NetCommandRef();
-	NetCommandMsg *getCommand() { return m_msg; }
-	NetCommandRef *getNext() { return m_next; }
-	NetCommandRef *getPrev() { return m_prev; }
-	void setNext(NetCommandRef *next) { m_next = next; }
-	void setPrev(NetCommandRef *prev) { m_prev = prev; }
-
-private:
-	NetCommandMsg *m_msg;
-	NetCommandRef *m_next;
-	NetCommandRef *m_prev;
-	unsigned char m_relay;
-	unsigned int m_timeLastSent;
-};
-
-class NetCommandList
-{
-public:
-	NetCommandRef *addMessage(NetCommandMsg *cmdMsg);
-	bool isEqualCommandMsg(NetCommandMsg *msg1, NetCommandMsg *msg2);
-
-private:
-	void *m_vtable;
-	NetCommandRef *m_first;
-	NetCommandRef *m_last;
-	NetCommandRef *m_lastMessageInserted;
-};
+#include "NetCommandListView.h"
 
 // The traversal's last key compares the two commands' sort numbers through an
 // inline comparator; with it MSVC 7.1 calls the incoming command's virtual

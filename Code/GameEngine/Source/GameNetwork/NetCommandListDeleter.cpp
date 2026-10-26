@@ -9,17 +9,7 @@
 // present-unmatched, never claimed. Retail reinstalls vtable RVA 0x00870A08
 // (DIR32 auto-patch), calls matched reset 0x0058B283, then frees through the
 // global one-arg operator delete (matched ??3 row, no member delete declared).
-class NetCommandList
-{
-public:
-	void reset();
-protected:
-	virtual ~NetCommandList();
-private:
-	void *m_first;
-	void *m_last;
-	void *m_lastMessageInserted;
-};
+#include "NetCommandListView.h"
 // ??1NetCommandList@@MAE@XZ present-unmatched (emission only, unclaimed)
 NetCommandList::~NetCommandList()
 {
