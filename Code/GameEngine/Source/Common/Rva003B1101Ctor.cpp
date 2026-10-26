@@ -44,14 +44,9 @@ private:
 	Int m_0c; // +0x0C
 };
 
-class AsciiString
-{
-public:
-	AsciiString(int zero) : m_data(reinterpret_cast<void *>(zero)) {}
-	~AsciiString();
-private:
-	void *m_data;
-};
+#define BFME_ASCII_DTOR_DECL
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
+#undef BFME_ASCII_DTOR_DECL
 
 class Rva003623E5Member
 {
@@ -131,14 +126,14 @@ private:
 
 Rva003B1101::Rva003B1101()
 	: Overridable()
-	, m_10(0)
+	, m_10()
 	, m_14(0)
 	, m_18(0)
 	, m_1c(0)
 	, m_20(0)
 	, m_30(0)
-	, m_3c(0)
-	, m_40(0)
+	, m_3c()
+	, m_40()
 	, m_44(-1)
 	, m_48(BfmeLogicFramesPerSecond * 10)
 	, m_4c(0)
@@ -146,7 +141,7 @@ Rva003B1101::Rva003B1101()
 	, m_54(0.0f)
 	, m_58(0)
 	, m_59(0)
-	, m_5c(0)
+	, m_5c()
 	, m_74(0.0f)
 	, m_7c(0.0f)
 {
