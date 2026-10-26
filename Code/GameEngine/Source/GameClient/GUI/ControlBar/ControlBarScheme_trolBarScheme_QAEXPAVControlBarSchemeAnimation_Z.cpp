@@ -80,94 +80,86 @@ enum{
 	COMMAND_BAR_SIZE_OFFSET = 0
 };
 
+// The retail table at RVA 0x0080CD88: 68 entries and the null terminator, read from
+// game.dat. BFME inserts ButtonBorderAlteredColor and moves members, so the
+// offsets are retail's own rather than the Zero Hour header's offsetof values.
+// ImagePart and AnimatingPart parse through the rowed factories at 0x00320158
+// (ControlBarRva00320158.cpp) and 0x003201A9 (ControlBarRva003201A9.cpp).
+class Rva003200BC;
+void Rva00320158Parse(INI *ini, Rva003200BC *holder);
+void Rva003201A9Parse(INI *ini, void *holder);
+
 const FieldParse ControlBarSchemeManager::m_controlBarSchemeFieldParseTable[] = 
 {
-
-	{ "ImagePart",						ControlBarSchemeManager::parseImagePart,			NULL, NULL },
-	{ "AnimatingPart",				ControlBarSchemeManager::parseAnimatingPart,	NULL, NULL },
-	{ "ScreenCreationRes",		INI::parseICoord2D,						NULL, offsetof( ControlBarScheme, m_ScreenCreationRes ) },
-	{ "Side",									INI::parseAsciiString,				NULL, offsetof( ControlBarScheme, m_side ) },
-	{ "QueueButtonImage",			INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_buttonQueueImage ) },
-	{ "RightHUDImage",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_rightHUDImage ) },
-	{ "BuildUpClockColor",		INI::parseColorInt,						NULL, offsetof( ControlBarScheme, m_buildUpClockColor ) },
-	{ "ButtonBorderBuildColor",			INI::parseColorInt,						NULL, offsetof( ControlBarScheme, m_borderBuildColor ) },
-	{ "CommandBarBorderColor",			INI::parseColorInt,						NULL, offsetof( ControlBarScheme, m_commandBarBorderColor ) },
-	{ "ButtonBorderActionColor",		INI::parseColorInt,						NULL, offsetof( ControlBarScheme, m_borderActionColor ) },
-	{ "ButtonBorderUpgradeColor",		INI::parseColorInt,						NULL, offsetof( ControlBarScheme, m_borderUpgradeColor ) },
-	{ "ButtonBorderSystemColor",		INI::parseColorInt,						NULL, offsetof( ControlBarScheme, m_borderSystemColor ) },
-	{ "OptionsButtonEnable",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_optionsButtonEnable ) },
-	{ "OptionsButtonHightlited",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_optionsButtonHightlited ) },
-	{ "OptionsButtonPushed",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_optionsButtonPushed ) },
-	{ "OptionsButtonDisabled",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_optionsButtonDisabled ) },
-	{ "IdleWorkerButtonEnable",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_idleWorkerButtonEnable ) },
-	{ "IdleWorkerButtonHightlited",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_idleWorkerButtonHightlited ) },
-	{ "IdleWorkerButtonPushed",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_idleWorkerButtonPushed ) },
-	{ "IdleWorkerButtonDisabled",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_idleWorkerButtonDisabled ) },
-	{ "BuddyButtonEnable",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_buddyButtonEnable ) },
-	{ "BuddyButtonHightlited",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_buddyButtonHightlited ) },
-	{ "BuddyButtonPushed",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_buddyButtonPushed ) },
-	{ "BuddyButtonDisabled",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_buddyButtonDisabled) },
-	{ "BeaconButtonEnable",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_beaconButtonEnable ) },
-	{ "BeaconButtonHightlited",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_beaconButtonHightlited ) },
-	{ "BeaconButtonPushed",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_beaconButtonPushed ) },
-	{ "BeaconButtonDisabled",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_beaconButtonDisabled ) },
-	{ "GenBarButtonIn",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_genBarButtonIn ) },
-	{ "GenBarButtonOn",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_genBarButtonOn ) },
-	{ "ToggleButtonUpIn",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_toggleButtonUpIn ) },
-	{ "ToggleButtonUpOn",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_toggleButtonUpOn ) },
-	{ "ToggleButtonUpPushed",		INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_toggleButtonUpPushed ) },
-	{ "ToggleButtonDownIn",			INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_toggleButtonDownIn ) },
-	{ "ToggleButtonDownOn", 		INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_toggleButtonDownOn ) },
-	{ "ToggleButtonDownPushed",	INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_toggleButtonDownPushed ) },
-
-	{ "GeneralButtonEnable",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_generalButtonEnable ) },
-	{ "GeneralButtonHightlited",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_generalButtonHightlited ) },
-	{ "GeneralButtonPushed",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_generalButtonPushed ) },
-	{ "GeneralButtonDisabled",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_generalButtonDisabled ) },
-
-	{ "UAttackButtonEnable",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_uAttackButtonEnable ) },
-	{ "UAttackButtonHightlited",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_uAttackButtonHightlited ) },
-	{ "UAttackButtonPushed",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_uAttackButtonPushed ) },
-
-	{ "GenArrow",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_genArrow) },
-
-	{ "MinMaxButtonEnable",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_minMaxButtonEnable ) },
-	{ "MinMaxButtonHightlited",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_minMaxButtonHightlited ) },
-	{ "MinMaxButtonPushed",				INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_minMaxButtonPushed ) },
-
-	{ "MinMaxUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_minMaxUL ) },
-	{ "MinMaxLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_minMaxLR ) },
-
-	{ "GeneralUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_generalUL ) },
-	{ "GeneralLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_generalLR ) },
-
-	{ "UAttackUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_uAttackUL ) },
-	{ "UAttackLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_uAttackLR ) },
-
-	{ "OptionsUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_optionsUL ) },
-	{ "OptionsLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_optionsLR ) },
-
-	{ "WorkerUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_workerUL ) },
-	{ "WorkerLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_workerLR ) },
-
-	{ "ChatUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_chatUL ) },
-	{ "ChatLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_chatLR ) },
-
-	{ "BeaconUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_beaconUL ) },
-	{ "BeaconLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_beaconLR ) },
-
-	{ "PowerBarUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_powerBarUL ) },
-	{ "PowerBarLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_powerBarLR ) },
-
-	{ "MoneyUL", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_moneyUL ) },
-	{ "MoneyLR", 		INI::parseICoord2D,				NULL, offsetof( ControlBarScheme, m_moneyLR ) },
-
-	{ "CommandMarkerImage",		INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_commandMarkerImage) },
-	{ "ExpBarForegroundImage",		INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_expBarForeground) },
-	{ "PowerPurchaseImage",			INI::parseMappedImage,				NULL, offsetof( ControlBarScheme, m_powerPurchaseImage) },
-
-	{ NULL,										NULL,													NULL, 0 }  // keep this last
-
+	{ "ImagePart", (INIFieldParseProc)Rva00320158Parse, NULL, 0x0 },
+	{ "AnimatingPart", (INIFieldParseProc)Rva003201A9Parse, NULL, 0x0 },
+	{ "ScreenCreationRes", INI::parseICoord2D, NULL, 0x4 },
+	{ "Side", INI::parseAsciiString, NULL, 0xC },
+	{ "QueueButtonImage", INI::parseMappedImage, NULL, 0x10 },
+	{ "RightHUDImage", INI::parseMappedImage, NULL, 0x14 },
+	{ "BuildUpClockColor", INI::parseColorInt, NULL, 0x18 },
+	{ "ButtonBorderBuildColor", INI::parseColorInt, NULL, 0x1C },
+	{ "CommandBarBorderColor", INI::parseColorInt, NULL, 0x30 },
+	{ "ButtonBorderActionColor", INI::parseColorInt, NULL, 0x20 },
+	{ "ButtonBorderUpgradeColor", INI::parseColorInt, NULL, 0x24 },
+	{ "ButtonBorderSystemColor", INI::parseColorInt, NULL, 0x28 },
+	{ "ButtonBorderAlteredColor", INI::parseColorInt, NULL, 0x2C },
+	{ "OptionsButtonEnable", INI::parseMappedImage, NULL, 0x34 },
+	{ "OptionsButtonHightlited", INI::parseMappedImage, NULL, 0x38 },
+	{ "OptionsButtonPushed", INI::parseMappedImage, NULL, 0x3C },
+	{ "OptionsButtonDisabled", INI::parseMappedImage, NULL, 0x40 },
+	{ "IdleWorkerButtonEnable", INI::parseMappedImage, NULL, 0x44 },
+	{ "IdleWorkerButtonHightlited", INI::parseMappedImage, NULL, 0x48 },
+	{ "IdleWorkerButtonPushed", INI::parseMappedImage, NULL, 0x4C },
+	{ "IdleWorkerButtonDisabled", INI::parseMappedImage, NULL, 0x50 },
+	{ "BuddyButtonEnable", INI::parseMappedImage, NULL, 0x54 },
+	{ "BuddyButtonHightlited", INI::parseMappedImage, NULL, 0x58 },
+	{ "BuddyButtonPushed", INI::parseMappedImage, NULL, 0x5C },
+	{ "BuddyButtonDisabled", INI::parseMappedImage, NULL, 0x60 },
+	{ "BeaconButtonEnable", INI::parseMappedImage, NULL, 0x64 },
+	{ "BeaconButtonHightlited", INI::parseMappedImage, NULL, 0x68 },
+	{ "BeaconButtonPushed", INI::parseMappedImage, NULL, 0x6C },
+	{ "BeaconButtonDisabled", INI::parseMappedImage, NULL, 0x70 },
+	{ "GenBarButtonIn", INI::parseMappedImage, NULL, 0x74 },
+	{ "GenBarButtonOn", INI::parseMappedImage, NULL, 0x78 },
+	{ "ToggleButtonUpIn", INI::parseMappedImage, NULL, 0x7C },
+	{ "ToggleButtonUpOn", INI::parseMappedImage, NULL, 0x80 },
+	{ "ToggleButtonUpPushed", INI::parseMappedImage, NULL, 0x84 },
+	{ "ToggleButtonDownIn", INI::parseMappedImage, NULL, 0x88 },
+	{ "ToggleButtonDownOn", INI::parseMappedImage, NULL, 0x8C },
+	{ "ToggleButtonDownPushed", INI::parseMappedImage, NULL, 0x90 },
+	{ "GeneralButtonEnable", INI::parseMappedImage, NULL, 0x94 },
+	{ "GeneralButtonHightlited", INI::parseMappedImage, NULL, 0x98 },
+	{ "GeneralButtonPushed", INI::parseMappedImage, NULL, 0x9C },
+	{ "GeneralButtonDisabled", INI::parseMappedImage, NULL, 0xA0 },
+	{ "UAttackButtonEnable", INI::parseMappedImage, NULL, 0xA4 },
+	{ "UAttackButtonHightlited", INI::parseMappedImage, NULL, 0xA8 },
+	{ "UAttackButtonPushed", INI::parseMappedImage, NULL, 0xAC },
+	{ "GenArrow", INI::parseMappedImage, NULL, 0xBC },
+	{ "MinMaxButtonEnable", INI::parseMappedImage, NULL, 0xB0 },
+	{ "MinMaxButtonHightlited", INI::parseMappedImage, NULL, 0xB4 },
+	{ "MinMaxButtonPushed", INI::parseMappedImage, NULL, 0xB8 },
+	{ "MinMaxUL", INI::parseICoord2D, NULL, 0xD0 },
+	{ "MinMaxLR", INI::parseICoord2D, NULL, 0xD8 },
+	{ "GeneralUL", INI::parseICoord2D, NULL, 0xE0 },
+	{ "GeneralLR", INI::parseICoord2D, NULL, 0xE8 },
+	{ "UAttackUL", INI::parseICoord2D, NULL, 0xF0 },
+	{ "UAttackLR", INI::parseICoord2D, NULL, 0xF8 },
+	{ "OptionsUL", INI::parseICoord2D, NULL, 0x100 },
+	{ "OptionsLR", INI::parseICoord2D, NULL, 0x108 },
+	{ "WorkerUL", INI::parseICoord2D, NULL, 0x110 },
+	{ "WorkerLR", INI::parseICoord2D, NULL, 0x118 },
+	{ "ChatUL", INI::parseICoord2D, NULL, 0x120 },
+	{ "ChatLR", INI::parseICoord2D, NULL, 0x128 },
+	{ "BeaconUL", INI::parseICoord2D, NULL, 0x130 },
+	{ "BeaconLR", INI::parseICoord2D, NULL, 0x138 },
+	{ "PowerBarUL", INI::parseICoord2D, NULL, 0x140 },
+	{ "PowerBarLR", INI::parseICoord2D, NULL, 0x148 },
+	{ "MoneyUL", INI::parseICoord2D, NULL, 0xC0 },
+	{ "MoneyLR", INI::parseICoord2D, NULL, 0xC8 },
+	{ "CommandMarkerImage", INI::parseMappedImage, NULL, 0x154 },
+	{ "ExpBarForegroundImage", INI::parseMappedImage, NULL, 0x150 },
+	{ NULL, NULL, NULL, 0 }  // keep this last
 };
 
 // used to parse the anim types that each animation part of a scheme can have
