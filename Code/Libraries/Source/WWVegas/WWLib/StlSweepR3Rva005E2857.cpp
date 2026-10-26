@@ -2,22 +2,19 @@
 // Element spelling/layout is donor inference; opaque records have address-derived identity.
 // cl: /O1 /G7 /EHsc- /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// The emitted unsigned max copy must match retail RVA 0x00013740.
-// Define it for speed, then restore this unit's flags for its own bodies.
-#include <stl/_algobase.h>
-#pragma optimize("s", off)
-#pragma optimize("t", on)
-namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
-{
-    return a < b ? b : a;
-}
-}
-#pragma optimize("", on)
-
 #include <vector>
 
+struct Rva005E2857Record { ~Rva005E2857Record(); char bytes[1]; };
 
-struct Rva005E2857Record { Rva005E2857Record(); Rva005E2857Record(const Rva005E2857Record&); ~Rva005E2857Record(); Rva005E2857Record&operator=(const Rva005E2857Record&); char bytes[1]; };
-namespace _STL {template<> void _Construct<Rva005E2857Record,Rva005E2857Record>(Rva005E2857Record*,const Rva005E2857Record&);}
-template class _STL::vector<Rva005E2857Record>;
+// Retail's destructor calls the rowed 24-byte range-destroy forwarder at 0x005F97BC,
+// ??$_Destroy@PAUTreeHintRef00217D4C@@@_STL@@YAXPAUTreeHintRef00217D4C@@0@Z
+// (StlportVectorEraseRangeFamily.cpp). Spell STLport's ~vector body against that
+// owner instead of emitting a competing _Destroy<Rva005E2857Record *> copy.
+struct TreeHintRef00217D4C;
+namespace _STL {
+template <> void _Destroy<TreeHintRef00217D4C *>(TreeHintRef00217D4C *, TreeHintRef00217D4C *);
+template <> vector<Rva005E2857Record>::~vector()
+{ _Destroy(reinterpret_cast<TreeHintRef00217D4C *>(this->_M_start), reinterpret_cast<TreeHintRef00217D4C *>(this->_M_finish)); }
+}
+
+template _STL::vector<Rva005E2857Record>::~vector();
