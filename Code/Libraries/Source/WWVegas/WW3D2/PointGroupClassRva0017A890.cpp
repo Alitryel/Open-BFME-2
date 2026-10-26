@@ -1,4 +1,6 @@
 // cl: /O2 /Ireference/shims/bfmestages /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/game/Libraries/Source/Compression /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// platformsdk
+// dxsdk
 // PointGroupClass vertex-location fill, retail RVA 0x0017A890 (VA 0x009148C0),
 // 12000 bytes including its 12-entry dispatch table. Called by the matched
 // array-update helper 0x0017F3A0 (PointGroupClassUpdateArrays00917B10.cpp),
@@ -50,7 +52,7 @@ class DX8Wrapper { public:
 protected: static Matrix4 ProjectionMatrix; static RenderStateStruct render_state; static unsigned render_state_changed;
 };
 #include "ww3d.h"
-#include <d3dx8.h>
+#include <d3dx9.h>
 static __forceinline Vector3 operator * (const Matrix3D &A,const Vector3 &a)
 {
 	return Vector3
