@@ -35,13 +35,6 @@ struct Rva004CAB3DSoundState
 	bool m_voicePresent;		// +0x21C
 };
 
-// ?parseVoicePriority@RandomSoundSelectorClientBehaviorModuleData@@SAXPAVINI@@PAX1PBX@Z
-void RandomSoundSelectorClientBehaviorModuleData::parseVoicePriority(INI *ini, void *instance, void *store, const void *userData)
-{
-	((RandomSoundSelectorClientBehaviorModuleData *)instance)->m_voicePresent = true;
-	INI::parseInt(ini, instance, store, userData);
-}
-
 // ?Rva004CAB3D_ParseVoicePriority@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva004CAB3D_ParseVoicePriority(INI *ini, void *instance, void *store, const void *userData)
 {
