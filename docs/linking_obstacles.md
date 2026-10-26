@@ -175,6 +175,13 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open. Updated: 2026-10-26.**
 
+- **HeaderTemplate provider inspection (2026-10-26):**
+  [The scoped inspection](../reverse/attempt_support/consolidation-headertemplate-pushfront-prerequisite-20261026-codex.md)
+  confirms 3/3 exact creation rows but an incorrect typed node-provider chain:
+  26-byte SGI node allocation versus retail's 29-byte BFME allocator path.
+  Retirement additionally needs 93 missing ledger objects and resolution of a
+  renumbered cleanup label in the identity checker. Source and debt are intact;
+  the blocked source claim was released. No composition trial was repeated.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through
