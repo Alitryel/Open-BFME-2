@@ -7419,13 +7419,29 @@ public:
 	void rva003ED94A();
 };
 
-extern unsigned g_Va00E02E50;
-unsigned int g_Va00E02E50;
+// g_lgaKeyRecords is LargeGroupAudio's no-case key-record tree (0x00A02E50,
+// 16 bytes; constructed by 0x007AF8CD). An opaque tree view keeps this
+// zero-filled definition free of an initializer.
+class AsciiString; struct BfmeStringNoCaseLess; struct Rva003D3F90Value;
+namespace _STL
+{
+template <class P> struct _Select1st;
+template <class K, class V, class KoV, class C, class A>
+class _Rb_tree
+{
+	unsigned int m_storage[4];
+};
+}
+typedef _STL::pair<const AsciiString, Rva003D3F90Value> Rva003D3F90Pair;
+typedef _STL::_Rb_tree<AsciiString, Rva003D3F90Pair, _STL::_Select1st<Rva003D3F90Pair>,
+	BfmeStringNoCaseLess, _STL::allocator<Rva003D3F90Pair> > Rva003D3F90Tree;
+extern Rva003D3F90Tree g_lgaKeyRecords;
+Rva003D3F90Tree g_lgaKeyRecords;
 
-// ?rva007B80F1@@YAXXZ @ 0x007B80F1 (10B). Global dtor thunk: ecx=&g_Va00E02E50 then tail-jmp to pinned ??1Rva003ED94ADtor@@QAE@XZ (0x003ED94A). No callers. Honest address name.
+// ?rva007B80F1@@YAXXZ @ 0x007B80F1 (10B). Global dtor thunk: ecx=&g_lgaKeyRecords then tail-jmp to pinned ??1Rva003ED94ADtor@@QAE@XZ (0x003ED94A). No callers. Honest address name.
 void __cdecl rva007B80F1()
 {
-	Rva003ED94A *receiver = (Rva003ED94A *)&g_Va00E02E50;
+	Rva003ED94A *receiver = (Rva003ED94A *)&g_lgaKeyRecords;
 	return receiver->rva003ED94A();
 }
 

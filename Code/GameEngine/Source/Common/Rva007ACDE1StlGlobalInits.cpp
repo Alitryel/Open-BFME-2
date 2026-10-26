@@ -93,13 +93,24 @@ void rva007B02C3()
 	atexit(rva007B82DD);
 }
 
-extern unsigned int g_Va00E02E50;
+// g_lgaKeyRecords (0x00A02E50) is LargeGroupAudio's no-case key-record tree,
+// defined once in Rva007B6880Thunks.cpp; this unit reads its header-node word.
+class AsciiString; struct BfmeStringNoCaseLess; struct Rva003D3F90Value;
+namespace _STL {
+template <class T1, class T2> struct pair;
+template <class P> struct _Select1st;
+template <class T> class allocator;
+template <class K, class V, class KoV, class C, class A> class _Rb_tree;
+}
+extern _STL::_Rb_tree<AsciiString, _STL::pair<const AsciiString, Rva003D3F90Value>,
+	_STL::_Select1st<_STL::pair<const AsciiString, Rva003D3F90Value> >, BfmeStringNoCaseLess,
+	_STL::allocator<_STL::pair<const AsciiString, Rva003D3F90Value> > > g_lgaKeyRecords;
 void __cdecl rva007B80F1();
 
-// ?rva007AF8CD@@YAXXZ @0x007AF8CD 22B: map ctor 0x0024613C on &g_Va00E02E50, atexit(0x007B80F1).
+// ?rva007AF8CD@@YAXXZ @0x007AF8CD 22B: map ctor 0x0024613C on &g_lgaKeyRecords, atexit(0x007B80F1).
 void rva007AF8CD()
 {
-	new (&g_Va00E02E50) Rva0024613CMap;
+	new (&g_lgaKeyRecords) Rva0024613CMap;
 	atexit(rva007B80F1);
 }
 

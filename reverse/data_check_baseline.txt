@@ -157,8 +157,6 @@ Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp	wrong-name	?g_00E02D4C@@3PAVS
 Code/GameEngine/Source/Common/Rva003C3F9EApply.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
 Code/GameEngine/Source/Common/Rva003C4003Apply.cpp	wrong-name	?g_00E02D4C@@3PAVSpecialPowerStore@@A	0x00A02D4C
 Code/GameEngine/Source/Common/Rva003C4E28Find.cpp	wrong-name	?g_009FEA3C@@3PAVRva003C4E28PlaceMgr@@A	0x009FEA3C
-Code/GameEngine/Source/Common/Rva003ED498Count.cpp	wrong-name	?g_00A02E50@@3PAU_Rb_tree_node_base@_STL@@A	0x00A02E50
-Code/GameEngine/Source/Common/Rva003ED9B1Merge.cpp	wrong-name	?g_00A02E50@@3PAU_Rb_tree_node_base@_STL@@A	0x00A02E50
 Code/GameEngine/Source/Common/Rva003EF08B.cpp	wrong-name	?g_009FEF10@@3PAVRva002BA8F1Logic@@A	0x009FEF10
 Code/GameEngine/Source/Common/Rva003EFE3E.cpp	wrong-name	?g_009FE1C8@@3PAVRva0021294A@@A	0x009FE1C8
 Code/GameEngine/Source/Common/Rva003F02E4.cpp	wrong-name	?g_009FEF10@@3PAVRva002BA8F1Logic@@A	0x009FEF10
