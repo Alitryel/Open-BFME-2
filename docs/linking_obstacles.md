@@ -963,11 +963,14 @@ confirmation remain pending.
   | `_Destroy<Rva002BBB96Element *>` | 0x002BB6A5 (BfmeAssignRecord52 loop) | `stlport_asciistring_record_bodies.cpp` (57b0571b72) | the two Deferred units 0 -> 2,925 B |
   | `/alternatename` onto an undefined `__copy<BfmeAssignRecord28 *>` | 0x003F6477 | the rowed `__copy<Rva003F6477Element *>` called directly; two hatches removed (856b8bc032) | VectorRangeEraseRva003F6975.cpp 0 -> 80 B |
 
-- **Remaining / next check:** `LargeGroupAudioKeyMapBfmeAddKey.cpp` needs
-  `vector<void*>::resize` (0x000E6D39, folded as BfmePowerCounts::resize). Its
-  `_M_fill_insert` callee is 0x00233A5A, but `reverse/symbols.csv` puts
-  `vector<void*>::_M_fill_insert` at 0x00029CA0, so a plain instantiation binds
-  the wrong callee. Many `U` entries in the 763dc8759f index are stale: check
+- **2026-10-26:** `LargeGroupAudioKeyMapBfmeAddKey.cpp` needed
+  `vector<void*>::resize` (0x000E6D39). Its `_M_fill_insert` callee is
+  0x00233A5A while `vector<void*>::_M_fill_insert` is rowed at 0x00029CA0, so a
+  plain instantiation would bind the wrong callee; the unit now calls the rowed
+  owner `vector<Drawable*>::resize` (`DrawableVectorResize.cpp`) through a cast.
+  `link_check.py` with `Rva007B6880Thunks.cpp` and `DrawableVectorResize.cpp`:
+  0 -> 314 B.
+- **Remaining / next check:** Many `U` entries in the 763dc8759f index are stale: check
   with the defining unit's current object before working one (e.g.
   `~SpecialPowerModule` already resolves).
 - **Clearance:** preview scope only (the units listed).

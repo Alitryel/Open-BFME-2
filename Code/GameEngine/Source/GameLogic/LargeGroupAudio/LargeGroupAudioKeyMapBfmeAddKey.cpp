@@ -91,6 +91,11 @@ public:
 	void bfmeAddKey(const AsciiString &name);
 };
 
+// Retail ICF-folded vector<void*>::resize into 0x000E6D39, rowed as
+// vector<Drawable*>::resize (DrawableVectorResize.cpp); call that owner.
+class Drawable;
+typedef _STL::vector<Drawable *, _STL::allocator<Drawable *> > DrawableVector;
+
 // ?bfmeAddKey@LargeGroupAudioKeyMap@@QAEXABVAsciiString@@@Z
 void LargeGroupAudioKeyMap::bfmeAddKey(const AsciiString &name)
 {
@@ -107,7 +112,7 @@ void LargeGroupAudioKeyMap::bfmeAddKey(const AsciiString &name)
 	unsigned int word = key >> 5;
 	unsigned int mask = 1 << (key & 0x1F);
 	if (word >= size())
-		resize(word + 1, 0);
+		reinterpret_cast<DrawableVector *>(this)->resize(word + 1, 0);
 	((unsigned int *)begin())[word] |= mask;
 }
 
