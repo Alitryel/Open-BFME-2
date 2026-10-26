@@ -8033,3 +8033,14 @@ Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v2,dc4275beab4fc26ec4ed9d9c,gpt-6.1-sol,w1-10261301-9,w-6d5d2b593eca,2026-10-26
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|local|Rva00136794::rva00135E6D|p,3f2123789d357bf9ab0a3dde,gpt-6.1-sol,w1-10261301-9,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|a,3f8914ea1304dde200bd7d56,gpt-6.1-sol,w1-10261301-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|class||Rva0035A97E,b8905b0941ac1b3abd3f03f1,gpt-6.1-sol,w5-10261308-3,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x0035A97E|rva0035A97E,3a1f4cb50a7f938a1072f2ab,gpt-6.1-sol,w5-10261308-3,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x004E81DE|rva004E81DE,3c12a7299dbabdb2041760a3,gpt-6.1-sol,w5-10261308-3,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesS3D.cpp|function|0x005AF117|rva005AF117,f4b9cd1f4c5544dfc6ab051e,gpt-6.1-sol,w5-10261308-3,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|member|Rva0054D222Prompt|m_callback20,2e17e1bb0add3bd8bc8d372d,gpt-6.1-sol,w5-10261308-9,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp|class||Rva003A39C0Words,589904e6c989ae84434b7b41,gpt-6.1-sol,w5-10261308-10,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Containers/Rva003A39C0RecordInsertion.cpp|class||Rva003A39C0Owner,f207be672ed55dfdd5df3c6e,gpt-6.1-sol,w5-10261308-10,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva002DA153Scale.cpp|local|Rva002DA153::rva002DA153|t,7b608c60dbe5a86b21baa6d3,gpt-6.1-sol,w5-10261308-13,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|class||Bfme5Obj18,69ee764a522adee712ec7122,gpt-6.1-sol,w5-10261308-14,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|member|Bfme5Obj18|m_bfme10,5642a74af58767d24471c067,gpt-6.1-sol,w5-10261308-14,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva006ED1E0Cluster.cpp|local|Rva006ED2A0::Rva006ED2A0|b,78c328becc8909684d0a4685,gpt-6.1-sol,w5-10261308-16,w-f0819d403c17,2026-10-26
