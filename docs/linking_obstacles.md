@@ -1034,7 +1034,7 @@ separate strict receipt limitation encountered there.
 
 ### LINK-017: stale link index lacks strict receipts for pending consolidation providers
 
-**Status: Open. Updated: 2026-10-26; inspected revision: c511118e28.**
+**Status: Open. Updated: 2026-10-26; inspected revision: 377ffd1724.**
 
 - **Evidence / scope:** outgoing `NetCommandRef.cpp`, `AptValueGCAllocator.cpp`
   and a mechanical MessageStream trial. `tools/link_check.py --fetch-index`
@@ -1087,6 +1087,21 @@ separate strict receipt limitation encountered there.
   remain blocked on the same provider/consumer audit. The
   `AptFactoryConstructors.cpp` split was refused because copying its helpers
   would grow an escape-hatch count.
+- A `GameWindowGlobal.cpp` merge trial accepted `GameWindowManager_winFindImage.cpp`
+  unchanged, preserved five matched rows and passed its byte build, frozen-file,
+  ledger, ownership, identity, data and staged new-variant checks. The required
+  provider/consumer audit against outgoing base `7d964ea623` was inconclusive:
+  index `47e030bafc` (2026-10-26 08:28) predates that base, reports 207 retired
+  objects and 207 provisional provider-disappeared findings, and only one
+  current object was available. The merge was restored after preserving its
+  scoped evidence in `reverse/attempt_support/consolidation-mechanical-20261026.md`;
+  no changed binding or source-file reduction is claimed.
+- DetachableRiderUpdate and TileData accepted-donor trials also passed their
+  local byte/ownership checks but were restored after the same provider audit
+  remained stale or inconclusive. TransportAIUpdate's accepted donor built, but
+  its staged identity gate found a new divergent `getContain` name and the
+  available census omitted the destination; it too was restored. Their exact
+  results are in the same consolidation handoff.
 - **Completed:** MessageStream's byte build, frozen-file, ledger, data,
   ownership and new-variant checks passed; the mechanical trial was restored
   because provider/consumer comparison remained incomplete. See
