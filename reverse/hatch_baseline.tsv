@@ -4905,6 +4905,8 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/ToppleUpdateCtor.cp
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/ToppleUpdateCtor.cpp	_vtbl_00C5A260	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/ToppleUpdateModuleDataCtor.cpp	_vtbl_00C538A0	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/TurretAI_friendGetTurretTarget.cpp	?getGoalObject@StateMachine@@QAEPAVObject@@XZ	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModule.cpp	?xfer@UpdateModule@@MAEXPAVXfer@@@Z	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModule.cpp	?xfer@UpdateModule@@UAEXPAVXfer@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleCtor.cpp	?unused@BehaviorModuleOther@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?bfmeSetWakeBJ@BfmeWakeBJ@@QAEXPAXH@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@FireWeaponUpdate@@IAEXPAVObject@@I@Z	1
@@ -4912,8 +4914,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWake
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@UpdateModule@@IAEXPAVObject@@I@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@UpdateModule@@QAEXPAVObject@@I@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleSetWakeFrame.cpp	?setWakeFrame@WeaponModeSpecialPowerUpdateBase@@IAEXPAVObject@@W4UpdateSleepTime@@@Z	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleXfer.cpp	?xfer@UpdateModule@@MAEXPAVXfer@@@Z	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/UpdateModuleXfer.cpp	?xfer@UpdateModule@@UAEXPAVXfer@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/WallUpgradeUpdateBehaviorCtor.cpp	_vtbl_00BE2B78	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/WallUpgradeUpdateBehaviorCtor.cpp	_vtbl_00C1C780	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/WallUpgradeUpdateBehaviorCtor.cpp	_vtbl_00C49800	1
