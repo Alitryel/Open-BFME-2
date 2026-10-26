@@ -12,6 +12,8 @@
 // Zero Hour writes into m_keys[] before a KEY_NONE terminator. Caller is
 // 0x00232A42 (Keyboard::update's second step).
 
+#include "KeyboardView.h"
+
 typedef bool Bool;
 
 struct BfmeE8 {
@@ -21,10 +23,6 @@ struct BfmeE8 {
 	int sequence;
 };
 namespace _STL {
-template <class T> class allocator {
-public:
-	allocator() {}
-};
 template <class T, class A> class vector {
 	void *_M_start;
 	void *_M_finish;
@@ -34,29 +32,11 @@ public:
 };
 }
 
-enum
-{
-	KEY_STATE_DOWN = 0x0002,
-	KEY_STATE_AUTOREPEAT = 0x0100
-};
-
-class Keyboard {
-	enum { KEY_REPEAT_DELAY = 10 };
-	enum { NUM_KEYS = 256 };
-
-	char m_pad00[0x10];
-	_STL::vector<BfmeE8, _STL::allocator<BfmeE8> > m_keys;		// +0x10
-	BfmeE8 m_keyStatus[NUM_KEYS];								// +0x1C
-	char m_keyNames[0x600];										// +0x81C
-	int m_inputFrame;											// +0xE1C
-protected:
-	Bool checkKeyRepeat();
-};
-
 Bool Keyboard::checkKeyRepeat()
 {
+	enum { KEY_REPEAT_DELAY = 10, NUM_KEYS = 256 };
 	Bool retVal = false;
-	BfmeE8 *status = m_keyStatus;
+	BfmeE8 *status = (BfmeE8 *)m_keyStatus;
 	for (int key = 0; key < NUM_KEYS; ++key, ++status) {
 		if ((status->state & KEY_STATE_DOWN) == 0)
 			continue;
@@ -66,7 +46,7 @@ Bool Keyboard::checkKeyRepeat()
 		e.key = (unsigned char)key;
 		e.state = KEY_STATE_DOWN | KEY_STATE_AUTOREPEAT;
 		e.status = 0;
-		m_keys.push_back(e);
+		((_STL::vector<BfmeE8, _STL::allocator<BfmeE8> > *)&m_keys)->push_back(e);
 		for (int index = 0; index < NUM_KEYS; ++index)
 			m_keyStatus[index].sequence = m_inputFrame;
 		m_keyStatus[key].sequence = m_inputFrame - (KEY_REPEAT_DELAY + 2);
