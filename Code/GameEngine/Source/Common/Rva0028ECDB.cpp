@@ -32,7 +32,7 @@ public:
 class Rva0028ECDBHost
 {
 public:
-	bool rva0028ECDB(void *a);
+	bool rva0028ECDB(void *position);
 private:
 	unsigned char m_pad[4];
 	Rva0028ECDBAux *m_04;
@@ -40,10 +40,10 @@ private:
 	int m_250;
 };
 // ?rva0028ECDB@Rva0028ECDBHost@@QAE_NPAX@Z
-bool Rva0028ECDBHost::rva0028ECDB(void *a)
+bool Rva0028ECDBHost::rva0028ECDB(void *position)
 {
 	Rva0028ECDBAux *aux = m_04;
-	if ((aux->m_11F & 0x80) != 0 && (aux->m_123 & 2) != 0 && m_250 != 0 && !((Pathfinder *)((Rva002DFF0F8 *)TheAI)->m_pathfinder)->IsWaterCell((int)a, 1))
+	if ((aux->m_11F & 0x80) != 0 && (aux->m_123 & 2) != 0 && m_250 != 0 && !((Pathfinder *)((Rva002DFF0F8 *)TheAI)->m_pathfinder)->IsWaterCell((int)position, 1))
 		return true;
 	return false;
 }

@@ -70,9 +70,9 @@ Int Rva0028D796::rva0028D796()
 			find.freeCall = Rva00288940Find;
 			const void *found = (reinterpret_cast<Rva00288CFA *>(TheExperienceLevelSystem)->*find.memberCall)(list);
 			if (found != 0) {
-				Int b = m_tracker->m_24;
+				Int currentRank = m_tracker->m_24;
 				Int c = *(const Int *)((const char *)found + 0xFC);
-				double db = (double)b;
+				double db = (double)currentRank;
 				double da = (double)base;
 				double bountyValue = db / c;
 				bountyValue *= da;
