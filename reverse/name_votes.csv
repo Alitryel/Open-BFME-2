@@ -8117,3 +8117,14 @@ Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp|param|Rva0040B0D0::i
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|arg,1c8977bf29a9691115e5d9c7,gpt-6.1-sol,w1-10261425-11,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva000B6498Free.cpp|class||Rva000B6498Node,50bf1f71cdc8cc6d44de1756,gpt-6.1-sol,w1-10261425-12,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva000B6498Free.cpp|class||Rva000B6498Head,e0df43f032fb235db6c78887,gpt-6.1-sol,w1-10261425-12,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|x,72bae1ca6a88db969eae4f38,gpt-6.1-sol,w5-10261418-9,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a2,804df737088030de10b23456,gpt-6.1-sol,w5-10261418-10,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp|param|Rva002F57E6Query::rva002F57E6|a,a201e20aa5fd6a5d2652baaa,gpt-6.1-sol,w5-10261418-12,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeAVJP,64a4a9e81ed9fcdf2d6b59e0,gpt-6.1-sol,w5-10261418-14,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme14,856f4a90d08281a6331918b9,gpt-6.1-sol,w5-10261418-14,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva00509DF8Arg|m_38,c0d7d0c8a42f2254ae7b8c5b,gpt-6.1-sol,w5-10261418-15,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva0055F4CE|m_10,f46f564e404f0da2a3b4e543,gpt-6.1-sol,w5-10261418-15,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva0055F4CE|m_1C,38a294a0321248de7ddd9691,gpt-6.1-sol,w5-10261418-15,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva0055F4CE|m_2C,e798d17720738d39018f5641,gpt-6.1-sol,w5-10261418-15,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|param|Rva00509DF8::rva00509DF8|a,0774f16343771735b5299aba,gpt-6.1-sol,w5-10261418-15,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|param|ThingFactory::newDrawable|a3,2240d7a81171a334258f560b,gpt-6.1-sol,w5-10261418-16,w-f0819d403c17,2026-10-26
