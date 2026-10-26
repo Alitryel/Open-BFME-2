@@ -91,3 +91,38 @@ and run `python3 tools/claims.py release --landed`:
 
 The mistakenly requested nonexistent Common/System/UnitCrateCollidePoolKey.cpp
 claim was released. Blocked or unused scopes are not retained.
+
+## Confirmed publication and new upstream audit
+
+The publisher subsequently rebased and pushed the six-commit batch at
+73ffc391c482f768e3a326fbf49929b0cce47db9. Landed repairs are Radar 6eb63cd8b3,
+particle-bone 5b724277af and unit-crate 8c34dfa701; the surveys are 0d323f46fd
+and bf792e4b91. All eleven file claims above were released after confirmed
+publication. `claims.py release --landed` released no RVA this session and
+reported five older queued releases (0x000B065C, 0x001EB1B3, 0x001EBE2D,
+0x003F5192, 0x0041484C); none was an active claim in this session's owner list.
+Do not treat those queue messages as new work or publication evidence.
+
+Upstream changed AGENTS.md and consolidation guidance during the rebase;
+both were reread. The pre-push gate verified 39/39 matched rows over eight
+sources (the seven edited consumers plus Eva), eight EXACT EH graphs and
+converged data, with no string, float or import failures. The new
+link_batch_audit.py ran once in the push hook and reported:
+
+```
+INCONCLUSIVE baseline: index at 51fde01dff, outgoing base 6cdb77c8757252431feecfa09f35aabe94a57fb8
+INCONCLUSIVE: 8 source object(s) lack current receipts; first: Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdate.cpp
+```
+
+Its validator requires strict include-inventory or witnessed census receipts;
+ordinary byte/dependency checks are not that proof. The audit returned before
+selected-provider and lost-byte analysis, so neither a loss nor a clearance
+is inferred. The scoped before/after comparisons above remain the prerequisite
+evidence. LINK-001 records this freshness handoff; establish bounded strict
+receipts under appropriate claims and carry confirmation into the next normal
+census. The audit was not rerun and no maintainer measurement was started.
+
+This follow-up edits only the obstacle register and this handoff. It introduces
+no new source/path consumer change; the complete source compatibility audit
+still covers the landed prerequisite batch. Only these two documentation file
+claims remain until this receipt is published.

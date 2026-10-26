@@ -108,6 +108,18 @@ authored-byte previews or commit-title gains into a projected headline.
 - **Clearance / census confirmation:** graphics ordinary-preview scope cleared
   at the revision above; other families and census confirmation remain pending.
   Keep individual repair previews separate from later census confirmation.
+- **Sol prerequisite freshness handoff (2026-10-26, `73ffc391c4`):**
+  [Radar, particle-bone and unit-crate receiver evidence](../reverse/attempt_support/consolidation-sol-prerequisites-20261026-codex.md)
+  preserves matched bytes and existing object/binding facts; the outgoing gate
+  passed 39 rows and eight EXACT EH graphs across eight sources. The new batch
+  audit is **inconclusive**, not a clearance: provider index `51fde01dff` predates
+  outgoing base `6cdb77c875`, and all eight objects lack accepted strict-current
+  receipts (first: AnimatedParticleSysBoneClientUpdate.cpp). It returned before
+  selected-provider/lost-byte analysis. No lost bytes were measured. Next check:
+  claim the affected sources and use supported bounded `link_check.py
+  --prepare-current` to establish strict receipts, diagnose any inventory
+  refusals along LINK-008, then carry confirmation into the next normal census.
+  No maintainer-only measurement or repeated batch audit was started here.
 
 ### LINK-002: distinct container element identities and exception contracts
 
