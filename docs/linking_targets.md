@@ -294,7 +294,7 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/Libraries/Source/WWVegas/WWMath/vehiclecurve.cpp` | 178 | 4 (U=3, C=1) | Open |
 | `Code/GameEngine/Source/GameLogic/Object/Damage/EvacuateDamageCtorModuleFactoryBody.cpp` | 177 | 5 (U=1, C=2, S=2) | Open |
 | `Code/GameEngine/Source/GameLogic/System/GlobalWeatherSystemCtorDeferred.cpp` | 173 | 4 (U=4) | Open |
-| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DRopeDrawCtor.cpp` | 164 | 3 (U=1, C=2) | Open |
+| `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DRopeDrawCtor.cpp` | 164 | 3 (U=1, C=2) | Cleared (LINK-021, link_check 164B) |
 | `Code/GameEngine/Source/Common/System/CDManager.cpp` | 154 | 9 (U=7, C=1, S=1) | Open |
 | `Code/GameEngine/Source/Common/System/SaveGame/GameState.cpp` | 152 | 27 (U=23, C=2, S=2) | Open |
 | `Code/GameEngine/Source/GameClient/GUI/GameWindowManager.cpp` | 151 | 17 (U=16, S=1) | Open |
