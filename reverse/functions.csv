@@ -8713,7 +8713,7 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?enable@Rva0043DB56ByteOneSetter@@QAEXXZ,,0x0043DB56,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
 ?enable@Rva0043DB5EByteOneSetter@@QAEXXZ,,0x0043DB5E,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
 ?enable@Rva0043DB66ByteOneSetter@@QAEXXZ,,0x0043DB66,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
-?enable@Rva0047709EByteOneSetter@@QAEXXZ,,0x0047709E,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
+?enable@Rva0047709EByteOneSetter@@QAEXXZ,,0x0047709E,8,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContain/HordeTransportContain.cpp,matched,Disp32 byte one-setter
 ?enable@Rva004BF8EDByteOneSetter@@QAEXXZ,,0x004BF8ED,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
 ?enable@Rva00513821ByteOneSetter@@QAEXXZ,,0x00513821,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter
 ?enable@Rva00513829ByteOneSetter@@QAEXXZ,,0x00513829,8,Code/GameEngine/Source/Common/DispByteOneSetters.cpp,matched,Disp32 byte one-setter

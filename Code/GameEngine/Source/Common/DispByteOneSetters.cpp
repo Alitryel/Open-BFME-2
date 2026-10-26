@@ -452,11 +452,6 @@ public:
 	unsigned char m_enabled;
 };
 
-void Rva0047709EByteOneSetter::enable()
-{
-	m_enabled = 1;
-}
-
 class Rva004BF8EDByteOneSetter
 {
 public:
