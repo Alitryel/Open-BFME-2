@@ -77,3 +77,34 @@ coordinate conflicts. ModelConditionUpgrade's prior provider repair is
 already present. Existing EyeTower ctor/Xfer STL blockers and TerrainRoads
 bridge composition blocker retain their earlier handoffs. No new claims were
 taken on those unchanged blockers.
+
+## Publication and census-audit handoff
+
+Published prerequisite batch: EyeTower `a241937940`, Energy `7aba500dff`,
+TerrainRoads blocked evidence `67d2cc6ea3`, recovery checks `62c0424090` and
+RayEffect `eb9580bfc9`. The push gate verified 50/50 rows across eight affected
+sources, five exact EH records, two data rows, 11 literals, five empty-string
+references and 15 float literals. All 35 inherited/new prerequisite claims
+were released after the confirmed push.
+
+The outgoing `link_batch_audit.py` reported an **inconclusive** baseline:
+index `763dc8759f`, outgoing base `4d0d99ee1f3e6e3e4b7c26e2d616f829cedc33cc`;
+eight source objects lacked current receipts, first `Energy.cpp`. Thus the
+independent standalone/composed provider comparisons above remain the scoped
+acceptance evidence, while census selection and any lost linked bytes await
+the next current census/index. No census gain or cleared LINK-017 is claimed.
+`docs/linking_obstacles.md` already records this stale-index obstacle as
+LINK-017; its file claim was held by another worker, so this is the scoped
+handoff for that register's owner. Include Energy, the three EyeTower consumers,
+the two RayEffect sources and the dependent Eva unit in the next batch audit.
+
+Final `python3 tools/progress.py origin/master`: BYTE-MATCHED 7,978,500 (100%),
+LINKING 7,370,962 (98.11%), LINKED 7,614,012 (98.75%), all deltas zero. The
+linking figures are the 2026-10-26 08:28 census at `47e030bafc`, not a new
+measurement of these prerequisites.
+
+Recovery check (2026-10-26, codex4): clean tracked working tree, upstream
+pull already current, and `python3 tools/check_csv.py` passed (98,273 rows).
+Only this evidence commit remained unpublished; no source paths or bindings
+changed in the recovery range. The prior scoped verification remains the
+acceptance evidence; no additional census result is asserted.
