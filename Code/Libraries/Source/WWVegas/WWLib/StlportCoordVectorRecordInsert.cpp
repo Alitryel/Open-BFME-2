@@ -10,9 +10,8 @@
 // Coordinate-prefix inheritance is a structural view, not an original
 // hierarchy claim. Existing copy source independently proves20B stride.
 void __cdecl free(void*);
-struct ICoord2DBase {int x,y;};
-// Keep the zero initializer inline without offering a conflicting COMDAT copy.
-struct ICoord2D:ICoord2DBase {__declspec(dllimport) __forceinline ICoord2D(){x=y=0;}bool operator==(const ICoord2DBase&)const;};
+#include "../../../Include/Lib/ICoord2D.h"
+#include "../../../Include/Lib/ICoord2DBase.h"
 class ModuleData;
 namespace _STL {
 template<class T>class allocator{public:allocator(){}~allocator(){}};
@@ -31,7 +30,8 @@ struct Rva002B72C9:ICoord2D {
  __forceinline ~Rva002B72C9(){}
 };
 namespace _STL {template<>class vector<Rva002B72C9,allocator<Rva002B72C9> > {public:Rva002B72C9*start,*finish,*limit;void push_back(const Rva002B72C9&);__forceinline unsigned size()const{return finish-start;}__forceinline Rva002B72C9*begin(){return start;}};}
-Rva002B72C9::Rva002B72C9(const ICoord2DBase*position,unsigned payload):values08(*(const _STL::allocator<int>*)((const char*)&position+3)){
+// Native clears the coordinate prefix before constructing its payload vector.
+Rva002B72C9::Rva002B72C9(const ICoord2DBase*position,unsigned payload):values08((x=y=0,*(const _STL::allocator<int>*)((const char*)&position+3))){
  x=position->x;y=position->y;
  ((_STL::vector<const ModuleData*>*)&values08)->push_back(*(const ModuleData*const*)&payload);
 }

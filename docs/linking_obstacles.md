@@ -368,7 +368,11 @@ authored-byte previews or commit-title gains into a projected headline.
   rows and two exact EH graphs, retiring its own queue item. Its unchanged
   TemplateCountKey allocator COMDATs still have two divergent-definition
   diagnostics in the shadow identity check; no clean-link verdict is claimed.
-  Seven remaining ICoord2D items and census confirmation stay open.
+  A [separate coordinate-record adoption](../reverse/attempt_support/icoord2d-record-header-20261026.md)
+  moves prefix clearing into the record's own initialization and uses both
+  canonical coordinate headers: all four rows, two EH graphs and complete
+  non-debug object facts are preserved, retiring one more queue row.
+  Six remaining ICoord2D items and census confirmation stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through

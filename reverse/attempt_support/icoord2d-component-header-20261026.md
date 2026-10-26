@@ -119,3 +119,12 @@ the rebase preserves its register and removes that credit from this PR.
 Net against current master: fourteen header rows, six identity keys,
 nineteen hatch occurrences and five Microsoft-header queue rows retired;
 three verified data rows added. No net data-debt key retirement remains.
+
+Publication `ea7e8db568` succeeds through the normal pre-push gate: 670 sources,
+8,502 function rows, 140 data rows and fourteen STLport folds. Its final EH
+check covers 769 graphs (768 EXACT and one existing registered difference),
+with no missing object; converged-data enforcement has no second names or
+unjudged rows. The shadow link audit remains inconclusive against index
+`47e030bafc`: the basis differs from outgoing base `98500fc347`, and 568 input
+objects lack strict current receipts, first AudioEventRTS.cpp. No new provider
+change or lost-byte verdict is established. PR115 records these limits.
