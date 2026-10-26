@@ -403,7 +403,10 @@ authored-byte previews or commit-title gains into a projected headline.
   supplies the existing methods through opt-in canonical declarations and
   retires its ICoord2D queue item. All nineteen rows and the complete object
   remain exact: 25 non-debug sections, 633 bytes and ten relocations.
-  Ordinary preview retains LINKS 491 -> 491. The same file's ICoord3D item
+  Ordinary preview retains LINKS 491 -> 491. The completed dependent gate
+  passes 2,128 functions and 25 data rows across 260 sources. The following
+  ICoord3D adoption also preserves all nineteen rows and the complete object,
+  retiring that file's remaining header item. Its existing emission anchors
   and census confirmation remain open.
   Its shared-header gate passes 2,107 functions and 25 data rows across 259
   sources. A separate SDK-header adoption preserves the whole GameClient

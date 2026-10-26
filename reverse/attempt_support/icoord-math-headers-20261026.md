@@ -40,3 +40,37 @@ Local receipts: `build/codex-cleanup-20261025/iteration38-before-build.log`,
 `iteration38-link-preview.log` and the normal `iteration38-commit.log`.
 The remaining ICoord3D adoption in this same file is a separate change.
 No census, ownership or runtime improvement is claimed.
+
+The normal commit `eb545529bd` passes 2,128 functions and 25 data rows
+across 260 dependent sources, three STLport folds, 601 literals plus 63 empty
+references, 786 floats and 232 imports. Converged-data enforcement finds
+zero second names and zero unjudged rows. The separate nineteen-row owner
+repeat has no EH-bearing row and is not added to those totals. Independent
+review also preserves all 27 external symbols and 25 section auxiliary
+records, including COMDAT selections and associations.
+
+## ICoord3D in the same owner
+
+The following change on `eb545529bd` removes this file's remaining private
+ICoord3D declaration. `ICOORD3D_VIEW_MATH_METHODS` exposes the three existing
+assignment, length and zero declarations in the canonical header; the
+contract records their owners at 0x0000353A/18, 0x00004D95/58 and
+0x00004DCF/11. Other consumers retain their existing implicit assignment.
+Fields remain x/y/z at offsets 0/4/8, size 12, with no bases or virtual slots.
+
+The canonical header already provides the same empty inline default
+constructor, so its duplicate, unused out-of-class definition is removed
+from icoord.cpp. The default constructor's pre-existing folded row stays
+with its real caller in Rva00261723.cpp at 0x0047A6A9/3. The component
+constructor's inline body and its existing emission anchor remain unchanged,
+as do all arithmetic bodies and the equality anchor. No new body, row,
+alias, marker or hatch is introduced.
+
+Normal verification again passes all nineteen rows and six literals;
+complete object comparison preserves the same 25 non-debug sections,
+633 bytes, ten relocations and external identities. Frozen checks pass.
+The owning header acceptance retires the ICoord3D item. All currently
+queued header and Microsoft-header items for icoord.cpp are now drained;
+its two existing emission anchors remain a distinct cleanup concern.
+Receipts: `iteration39-after-build.log`, `iteration39-accept.log`, and the
+normal `iteration39-commit.log` under the same local receipt directory.

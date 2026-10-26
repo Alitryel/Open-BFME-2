@@ -12,6 +12,33 @@
     "rva": "0x005CC49A",
     "size": 25,
     "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp"
+   },
+   {
+    "name": "??4ICoord3D@@QAEAAU0@ABU0@@Z",
+    "declaration": "ICoord3D &operator=(const ICoord3D &that);",
+    "required_define": "ICOORD3D_VIEW_MATH_METHODS",
+    "rva": "0x0000353A",
+    "size": 18,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method. Opt-in declarations preserve implicit assignment in other consumers. The owner supplies every body; fields stay x/y/z at offsets 0/4/8, size 12. No new function or name is recovered."
+   },
+   {
+    "name": "?length@ICoord3D@@QBEHXZ",
+    "declaration": "int length() const;",
+    "required_define": "ICOORD3D_VIEW_MATH_METHODS",
+    "rva": "0x00004D95",
+    "size": 58,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method. Opt-in declarations preserve implicit assignment in other consumers. The owner supplies every body; fields stay x/y/z at offsets 0/4/8, size 12. No new function or name is recovered."
+   },
+   {
+    "name": "?zero@ICoord3D@@QAEXXZ",
+    "declaration": "void zero();",
+    "required_define": "ICOORD3D_VIEW_MATH_METHODS",
+    "rva": "0x00004DCF",
+    "size": 11,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method. Opt-in declarations preserve implicit assignment in other consumers. The owner supplies every body; fields stay x/y/z at offsets 0/4/8, size 12. No new function or name is recovered."
    }
   ],
   "retail_access": {
@@ -35,6 +62,12 @@
   "witness_offsets": [],
   "zh": {
    "header": "CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h"
+  },
+  "math_owner_view": {
+   "required_define": "ICOORD3D_VIEW_MATH_METHODS",
+   "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+   "empty_constructor": "The canonical header already supplies the same empty inline default constructor. Remove the unused duplicate out-of-class definition in icoord.cpp; the existing folded row remains owned by Rva00261723.cpp at 0x0047A6A9/3.",
+   "scope": "Select before the first include. Other consumers keep the existing canonical data/default/component-constructor view. This mode is a declaration prerequisite, not evidence that arbitrary TUs can be merged."
   }
  },
  "fields": [

@@ -36,19 +36,9 @@ public:
 #undef ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR
 #undef ICOORD2D_VIEW_COMPONENT_CTOR
 
-struct ICoord3D
-{
-    ICoord3D();
-    ICoord3D(int x, int y, int z);
-
-    ICoord3D &operator=(const ICoord3D &that);
-    int length() const;
-    void zero();
-
-    int x;
-    int y;
-    int z;
-};
+#define ICOORD3D_VIEW_MATH_METHODS
+#include "../../../Include/Lib/ICoord3D.h"
+#undef ICOORD3D_VIEW_MATH_METHODS
 
 // Same two loads and two stores as the ICoord2D bodies below, folded onto them.
 ICoord2DBase &ICoord2DBase::operator=(const ICoord2DBase &that)
@@ -169,10 +159,6 @@ Debug &operator<<(Debug &debug, const ICoord3D &coord)
 // The empty pair: a bare `mov eax, ecx; ret`, ICF-folded across every default
 // constructor in the math headers.
 inline ICoord2D::ICoord2D()
-{
-}
-
-inline ICoord3D::ICoord3D()
 {
 }
 
