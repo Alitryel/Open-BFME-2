@@ -73,6 +73,10 @@ typedef _STL::_Rb_tree<AsciiString, Rva003D3F90Pair,
 	_STL::_Select1st<Rva003D3F90Pair>, BfmeStringNoCaseLess,
 	_STL::allocator<Rva003D3F90Pair> > Rva003D3F90Tree;
 
+// erase(iterator) is declared only: this unit's flags emit a non-retail copy,
+// and stlport_asciistring_set_base.cpp supplies retail's (folded at 0x00056BC3).
+template <> void Rva003D3F90Tree::erase(Rva003D3F90Tree::iterator);
+
 extern Rva003D3F90Tree g_lgaKeyRecords;
 extern unsigned int g_lgaNextKey;
 
