@@ -108,6 +108,15 @@ public:
 	virtual void v18();
 	virtual void v19();
 	virtual void SetPrefixAndRadix(const char *, int);
+	// The clipboard-report donor supplies the later build-info slots.
+	virtual void pad21(); virtual void pad22(); virtual void pad23();
+	virtual void pad24(); virtual void pad25(); virtual void pad26(); virtual void pad27();
+	virtual void pad28(); virtual void pad29(); virtual void pad30(); virtual void pad31();
+	virtual void pad32(); virtual void pad33(); virtual void pad34(); virtual void pad35();
+	virtual void pad36(); virtual void pad37(); virtual void pad38(); virtual void pad39();
+	virtual const char *GetVersion();         // 0xA0
+	virtual const char *GetInternalVersion(); // 0xA4
+	virtual const char *GetBuildDate();       // 0xA8
 
 	Debug &operator<<(const Hex &)
 	{
