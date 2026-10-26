@@ -44,11 +44,6 @@ class ModuleData;
 class UpgradeTemplate;
 class BfmeTab1026;
 
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_NONE = 1
-};
-
 enum KindOfType
 {
 	KINDOF_0A = 10
@@ -207,56 +202,7 @@ public:
 	Bool m_onlyWhenGarrisoned; // +0x21
 };
 
-class BehaviorModuleBase
-{
-public:
-	virtual void behaviorModuleBaseAnchor();
-	const ModuleData *m_moduleData;
-	Object *m_object;
-};
-
-class BehaviorModuleOther
-{
-public:
-	virtual void behaviorModuleOtherAnchor();
-};
-
-class BehaviorModule : public BehaviorModuleBase, public BehaviorModuleOther
-{
-public:
-	Object *getObject() const { return m_object; }
-};
-
-class UpdateModuleInterface
-{
-public:
-	virtual UpdateSleepTime update();
-};
-
-class UpdateModule : public BehaviorModule, public UpdateModuleInterface
-{
-protected:
-	unsigned m_nextCallFrameAndPhase;
-	int m_indexInLogic;
-	int m_bfmeReserved;
-};
-
-class AutoDepositUpdate : public UpdateModule
-{
-public:
-	void awardInitialCaptureBonus( Player *player );
-	virtual UpdateSleepTime update();
-
-protected:
-	const AutoDepositUpdateModuleData *getAutoDepositUpdateModuleData() const
-	{
-		return (const AutoDepositUpdateModuleData *)m_moduleData;
-	}
-
-	UnsignedInt m_depositOnFrame; // +0x20
-	Bool m_awardInitialCaptureBonus; // +0x24
-	Bool m_initialized; // +0x25
-};
+#include "AutoDepositUpdateView.h"
 
 // ?awardInitialCaptureBonus@AutoDepositUpdate@@QAEXPAVPlayer@@@Z @0x0049A26F 319B
 void AutoDepositUpdate::awardInitialCaptureBonus( Player *player )
