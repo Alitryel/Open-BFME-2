@@ -10,7 +10,7 @@ public:
 class Rva00404927
 {
 public:
-	int rva00404927(Rva00404781 *p, int idx);
+	int rva00404927(Rva00404781 *cell, int idx);
 private:
 	float m_pad0; // +0x00
 	float m_04; // +0x04
@@ -19,9 +19,9 @@ private:
 	float m_10; // +0x10
 };
 
-int Rva00404927::rva00404927(Rva00404781 *p, int idx)
+int Rva00404927::rva00404927(Rva00404781 *cell, int idx)
 {
-	float crossProduct = p->m_a[idx] * m_08 - p->m_b[idx] * m_04;
+	float crossProduct = cell->m_a[idx] * m_08 - cell->m_b[idx] * m_04;
 	float threshold = m_10 * m_0C;
 	if (crossProduct > threshold)
 		return 1;

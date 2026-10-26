@@ -69,13 +69,13 @@ public:
 struct Rva002E99F9Arg1
 {
 	char m_pad0[0x10];
-	int m_10;
+	int m_validLocomotorSurfaces;
 	char m_pad14;
 	unsigned char m_15;
 };
 struct Rva002E99F9Query
 {
-	int m_0;
+	int m_acceptableSurfaces;
 	unsigned char m_4;
 	unsigned char m_5;
 	char m_pad6[2];
@@ -105,7 +105,7 @@ int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *locoSet, const Coord3D * volat
 	PathfindCell *m_endCell = rva002E8BF8(endLayer, endPos);
 	Rva002E99F9Query zoneParams;
 	zoneParams.m_8 |= -1;
-	zoneParams.m_0 = locoSet->m_10;
+	zoneParams.m_acceptableSurfaces = locoSet->m_validLocomotorSurfaces;
 	zoneParams.m_C = locoSet->m_15;
 	zoneParams.m_4 = 0;
 	zoneParams.m_5 = 0;

@@ -2403,3 +2403,10 @@ function,?rva005F4CF8@Rva005F4C52@@QAE?AV?$Rva005F4C8ERef@VRva005E5590Iface@@@@H
 carry,Rva005F4C52::rva005F4CF8::level,Rva005F4C52::createArmyDetailsPanel::level,inferred,scope renamed by Rename rva005F4CF8 to createArmyDetailsPanel (inferred),Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4CF8
 carry,Rva005F4C52::rva005F4CF8::name,Rva005F4C52::createArmyDetailsPanel::name,inferred,scope renamed by Rename rva005F4CF8 to createArmyDetailsPanel (inferred),Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4CF8
 param,Rva0049A64B::getEnterPosition::a,Rva0049A64B::getEnterPosition::docker,inferred,agree:nl-d74983f6b609,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp,0x0049A8FA
+member,FeslUserId::m_bfme00,FeslUserId::m_low,inferred,agree:nl-80110d729969,Code/GameEngine/Source/Common/BfmeConv1384.cpp,
+member,FeslUserId::m_bfme04,FeslUserId::m_high,inferred,agree:nl-c8a301554d60,Code/GameEngine/Source/Common/BfmeConv1384.cpp,
+param,Rva00404927::rva00404927::p,Rva00404927::rva00404927::cell,inferred,agree:nl-ad9a512ce8ef,Code/GameEngine/Source/Common/Rva00404927Method.cpp,0x00404927
+function,?rva0055CDEC@FXPSEmitterLineVolumeModule@@QAE?AUCoord3D0055CDEC@@IIII@Z,?getPosition@FXPSEmitterLineVolumeModule@@QAE?AUCoord3D0055CDEC@@IIII@Z,inferred,agree:nl-93972e11cb19,Code/GameEngine/Source/GameClient/FXParticleSystemLineSample.cpp,0x0055CDEC
+carry,FXPSEmitterLineVolumeModule::rva0055CDEC::fraction,FXPSEmitterLineVolumeModule::getPosition::fraction,inferred,scope renamed by Rename rva0055CDEC to getPosition (inferred),Code/GameEngine/Source/GameClient/FXParticleSystemLineSample.cpp,0x0055CDEC
+member,Rva002E99F9Arg1::m_10,Rva002E99F9Arg1::m_validLocomotorSurfaces,inferred,agree:nl-fafb87fa3dd6,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,
+member,Rva002E99F9Query::m_0,Rva002E99F9Query::m_acceptableSurfaces,inferred,agree:nl-7e710624a30c,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,

@@ -16,8 +16,8 @@ public:
 
 struct FeslUserId
 {
-	void *m_bfme00;
-	void *m_bfme04;
+	void *m_low;
+	void *m_high;
 };
 
 extern void *g_bfmeVJF;
@@ -34,7 +34,7 @@ void __stdcall bfmeGoVJF(BfmeMsgVJF *m, FeslUserId *arr, int n)
 	for (int i = 0; i < n; ++i)
 	{
 		sprintf(buf, "users.%d", i);
-		m->bfmeSet2VJF(buf, arr[i].m_bfme00, arr[i].m_bfme04);
+		m->bfmeSet2VJF(buf, arr[i].m_low, arr[i].m_high);
 	}
 	m->bfmeSet3VJF("users.[]", n);
 }

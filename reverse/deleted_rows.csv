@@ -2641,3 +2641,4 @@ __ehhandler$?Rva005CD841Find@@YA_NPAX@Z,0x007A157D,"Renamed to __ehhandler$?hasL
 ?bfmeCopyVHE@@YGXPAVBfmeMsgVHE@@0@Z,0x00675680,"Renamed to ?copyMessageHeader@@YGXPAVBfmeMsgVHE@@0@Z by tools/rename.py (inferred)"
 ?rva0052A287@Rva0052A287@@QAEXPAUObj0052A22C@@@Z,0x0052A287,"Renamed to ?setObject@Rva0052A287@@QAEXPAUObj0052A22C@@@Z by tools/rename.py (inferred)"
 ?rva005F4CF8@Rva005F4C52@@QAE?AV?$Rva005F4C8ERef@VRva005E5590Iface@@@@HH@Z,0x005F4CF8,"Renamed to ?createArmyDetailsPanel@Rva005F4C52@@QAE?AV?$Rva005F4C8ERef@VRva005E5590Iface@@@@HH@Z by tools/rename.py (inferred)"
+?rva0055CDEC@FXPSEmitterLineVolumeModule@@QAE?AUCoord3D0055CDEC@@IIII@Z,0x0055CDEC,"Renamed to ?getPosition@FXPSEmitterLineVolumeModule@@QAE?AUCoord3D0055CDEC@@IIII@Z by tools/rename.py (inferred)"
