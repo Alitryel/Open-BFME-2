@@ -138,7 +138,7 @@ public:
 extern GameLogic *TheGameLogic;
 
 // The save name the multiplayer save prompt keeps (0x00E032E8).
-extern UnicodeString g_Va00E032E8;
+extern unsigned int g_Va00E032E8;
 
 // Retail expands UnicodeString::isEmpty inline as the header test
 // (m_data == 0 || m_data->length == 0); the shared shim keeps it out of
@@ -169,13 +169,14 @@ void __cdecl Rva00433D4D(int button)
 // name is then dropped.
 void __cdecl Rva004341D8(int button)
 {
-	if (!TheGameLogic || unicodeIsEmpty(g_Va00E032E8))
+	UnicodeString &name = *reinterpret_cast<UnicodeString *>(&g_Va00E032E8);
+	if (!TheGameLogic || unicodeIsEmpty(name))
 		return;
 	if (button == 2)
-		TheGameLogic->rva0023D30F(5, 0, &g_Va00E032E8);
+		TheGameLogic->rva0023D30F(5, 0, &name);
 	else if (button == 3)
-		TheGameLogic->rva0023D30F(2, 2, &g_Va00E032E8);
-	g_Va00E032E8.clear();
+		TheGameLogic->rva0023D30F(2, 2, &name);
+	name.clear();
 }
 
 // Rva00433FF3.cpp's 0x00433FF3: the first human GameSpy slot; its player's
@@ -365,7 +366,8 @@ void AptSaveLoad::rva00436FF6()
 // Native434A2F..434AAE complete127B. Same screen290 name entry as the
 // owned callbacks; trimmed text presence is forwarded as SaveButtonEnable.
 class Rva00222A8BTarget;
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 UnicodeString GadgetTextEntryGetText(GameWindow *textEntry);
 class AptPlayer {public:static int GetLevelIndex(GameWindow *window);};
 int __cdecl Rva002D4531Invoke(Rva00222A8BTarget *,void *,const char *,const int &);
@@ -381,6 +383,6 @@ void AptSaveLoad::rva00434A2F()
 		hasText = 1;
 	// The retained address-derived invoke wrapper uses a void* ABI view of
 	// this 32-bit level argument; the query itself returns the proven integer.
-	Rva002D4531Invoke(TheRva00222A8BTarget, reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)),
+	Rva002D4531Invoke(reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager), reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)),
 		"SaveButtonEnable", hasText);
 }
