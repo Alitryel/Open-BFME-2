@@ -32,9 +32,9 @@ private:
 	FeNode *m_head14;
 };
 
-extern unsigned int g_00DEC224;
+extern unsigned int g_waterTracksTimeInitialized;
 // g_00DEC224: matched references place it at VA 0xdec224 (zero-filled .bss).
-unsigned int g_00DEC224;
+unsigned int g_waterTracksTimeInitialized;
 extern unsigned long g_00DEC220;
 // g_00DEC220: matched references place it at VA 0xdec220 (zero-filled .bss).
 unsigned long g_00DEC220;
@@ -44,9 +44,9 @@ extern "C" void _ReadWriteBarrier(void);
 
 void WaterTracksRenderSystem::rva000FE1AC()
 {
-	if (!(g_00DEC224 & 1))
+	if (!(g_waterTracksTimeInitialized & 1))
 	{
-		g_00DEC224 |= 1;
+		g_waterTracksTimeInitialized |= 1;
 		g_00DEC220 = timeGetTime();
 	}
 	FeNode *node = m_tail10;

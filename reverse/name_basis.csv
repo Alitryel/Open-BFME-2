@@ -2463,3 +2463,6 @@ function,?rva0014A0B0@Rva0014A0B0@@QBEHXZ,?isSkinned@Rva0014A0B0@@QBEHXZ,inferre
 member,Rva002B37B4P2::m_3C4,Rva002B37B4P2::m_hasLost,inferred,agree:nl-e59e56ff83d9,Code/GameEngine/Source/Common/Rva002B37B4.cpp,
 param,AptSkirmish::OpenScreen::a1,AptSkirmish::OpenScreen::mode,inferred,agree:nl-6c7d1d54898c,Code/GameEngine/Source/Common/Rva0052192DInit.cpp,0x0052192D
 param,StrategicVeterancy::Data::AutoResolve::AutoResolve::c,StrategicVeterancy::Data::AutoResolve::AutoResolve::autoResolveBattle,inferred,agree:nl-d5441e66ef15,Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp,0x005ECE81
+global,?g_00DEC224@@3IA,?g_waterTracksTimeInitialized@@3IA,inferred,agree:nl-4eaee1bfaabb,Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp,0x009EC224
+local,Rva002D317C::rva002D317C::ix1,Rva002D317C::rva002D317C::radarWidth,inferred,agree:nl-5a516d02977c,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
+local,Rva002D317C::rva002D317C::iy1,Rva002D317C::rva002D317C::radarHeight,inferred,agree:nl-7f22260e39ca,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C

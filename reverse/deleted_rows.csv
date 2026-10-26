@@ -2659,3 +2659,4 @@ __ehhandler$?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x00787763,"Re
 ?Rva007849C0Clear@@YAXPAURva007849C0Owner@@@Z,0x000A9DA8,"Respelled ?Rva007849C0Clear@@YAXAAU?$pair@$$CBHUGen_t_00786e70_p12cd@@@_STL@@@Z: the for_each callback of ~Rva00787C20 0x000AAE59 takes its hash_map pair by reference (same bytes)"
 ?dup_000aacab@@YAXXZ,0x000AACAB,"Retracted gen-alias placeholder: its only code caller ~Rva00787C20 0x000AAE59 destroys two hash_map<int; 12-byte value> tables here; rowed as their ~hashtable folds in Rva00787C20HashOwnerTables.cpp (complete 57B; masked equal)"
 ?rva0014A0B0@Rva0014A0B0@@QBEHXZ,0x0014A0B0,"Renamed to ?isSkinned@Rva0014A0B0@@QBEHXZ by tools/rename.py (inferred)"
+?g_00DEC224@@3IA,0x009EC224,"Renamed to ?g_waterTracksTimeInitialized@@3IA by tools/rename.py (inferred)"
