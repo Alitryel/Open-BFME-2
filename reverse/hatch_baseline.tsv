@@ -3290,7 +3290,6 @@ alternatename	Code/GameEngine/Source/Common/Rva0045D39EDerived.cpp	?fe@Rva0045D3
 alternatename	Code/GameEngine/Source/Common/Rva0045D39EDerived.cpp	?ff@Rva0045D39E_E2@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva0045D39EDerived.cpp	_vtbl_00C49D70	1
 alternatename	Code/GameEngine/Source/Common/Rva00464984.cpp	?rva0046444E@Rva0046444E@@QAE?AVRva00464984Iterator@@V2@ABVRva00464984Pair@@@Z	1
-alternatename	Code/GameEngine/Source/Common/Rva00467DB3ObjListPush.cpp	?_M_create_node@?$list@PAVRva00467DB3Obj@@V?$allocator@PAVRva00467DB3Obj@@@_STL@@@_STL@@IAEPAU?$_List_node@PAVRva00467DB3Obj@@@2@ABQAVRva00467DB3Obj@@@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00470222Xfer.cpp	?_CxxThrowException@@YGXPAX0@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00470222Xfer.cpp	?g_rva008ffd18ThrowInfo@@3HA	1
 alternatename	Code/GameEngine/Source/Common/Rva0048593DDerived.cpp	?f1@Rva0048593D_Mid@@UAEXXZ	1
@@ -4417,6 +4416,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/SlaughterHordeCont
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/SlaughterHordeContainDtor.cpp	?b6@B6@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/SlaughterHordeContainDtor.cpp	?b7@B7@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/SlaughterHordeContainDtor.cpp	?b8@B8@@UAEXXZ	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContain.cpp	?_M_create_node@?$list@PAVRva00467DB3Obj@@V?$allocator@PAVRva00467DB3Obj@@@_STL@@@_STL@@IAEPAU?$_List_node@PAVRva00467DB3Obj@@@2@ABQAVRva00467DB3Obj@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainCtor.cpp	?b1@B1@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainCtor.cpp	?b6@B6@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainDtor.cpp	??1TransportContain@@QAE@XZ	1
