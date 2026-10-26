@@ -63,19 +63,7 @@ protected:
 	void setWakeFrame(Object *obj, UpdateSleepTime wakeDelay);
 };
 
-class LifetimeUpdateModuleData
-{
-private:
-	unsigned char m_pad00[8];
-
-public:
-	UnsignedInt m_minFrames; // +0x08
-	UnsignedInt m_maxFrames; // +0x0C
-	unsigned char m_pad10[0x11 - 0x10];
-	bool m_creditKiller; // +0x11, credit the killer with the death
-	unsigned char m_pad12[0x14 - 0x12];
-	int m_deathType; // +0x14
-};
+#include "LifetimeUpdateModuleDataView.h"
 
 class LifetimeUpdate : public UpdateModule
 {
