@@ -189,3 +189,18 @@ four mixed-file split plans were inspected. `DestroyInstances.cpp` and
 `RvaMemberDtorForwarders.cpp` is flag-bound and does not match under the TU's
 flags; `VersionDestructor.cpp` would leave a residual losing four matched rows
 (including two shared helper rows). No source change or claim was made.
+
+## SubObjectsUpgrade gate rejection, 2026-10-26 (Shard 2/5)
+
+The allocator and planner approved this TU. The merge accepted only the TU's
+existing path and `SubObjectsUpgradeCtor.cpp` (eight matched rows). The TU build
+passed 8/8 rows and the declaration scan found no unmatched definitions, but
+staged ownership/class gates refused the composed TU because it defines its own
+registered `GameLogic` instead of including
+`Code/GameEngine/Source/Common/GameLogicObjectLookupView.h`. Staged code identity
+also reported the moved `swapTextures` binding as wrong at `0x00211E58` and four
+unreferenced alternatename directives. These require Sol's ownership/identity
+lane; the mechanical seat cannot repair them. The staged data check had no
+findings. Restored only this trial's six staged paths to `HEAD`; no trial source
+or ledger changes remain. Released its 28 file/body claims. Successful compile
+alone is not counted as a landed merge.
