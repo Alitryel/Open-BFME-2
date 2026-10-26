@@ -14,9 +14,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma auto_inline(on)
 #pragma optimize("", on)
 
-void *operator new[](unsigned int size);
-void operator delete[](void *block);
-inline void *operator new(unsigned int, void *place) { return place; }
+#include <new>
 
 class Vector3
 {

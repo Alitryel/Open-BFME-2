@@ -2063,7 +2063,6 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp
 Code/GameEngineDevice/Source/W3DDevice/GameClient/RTS3DSceneRenderOneObject.cpp	unverified	unverified	3	1	0	0	2	0	0	0	0	0	0	<windows.h>	yes	yes	hand			TRUE:unverified,FALSE:unverified,NULL:same
 Code/Libraries/Source/WWVegas/WWLib/sharebuf_shader_copy_ctor.cpp	unverified	unverified	3	2	0	0	1	0	0	0	0	0	0	<new>,<new.h>	no	yes	hand			operator new:unverified,operator new [ ]:same,operator delete [ ]:same
 Code/Libraries/Source/WWVegas/WWLib/sharebuf_vector2_ctor.cpp	unverified	unverified	3	2	0	0	1	0	0	0	0	0	0	<new>,<new.h>	no	yes	hand			operator new:unverified,operator new [ ]:same,operator delete [ ]:same
-Code/Libraries/Source/WWVegas/WWLib/sharebuf_vector3_copy_ctor.cpp	unverified	unverified	3	2	0	0	1	0	0	0	0	0	0	<new>,<new.h>	no	yes	hand			operator new:unverified,operator new [ ]:same,operator delete [ ]:same
 Code/Libraries/Source/WWVegas/WWLib/stlport_deque_str_aux.cpp	unverified	unverified	3	1	0	0	2	0	0	0	0	0	0	<new.h>,<windows.h>	yes	yes	hand			operator new:unverified,operator delete:unverified,InterlockedIncrement:same
 Code/Libraries/Source/WWVegas/WWLib/vector_class_resize.cpp	unverified	unverified	3	2	0	0	1	0	0	0	0	0	0	<new>	no	yes	hand			operator new [ ]:unverified,operator new [ ]:same,operator delete [ ]:same
 Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp	unverified	unverified	2	0	0	0	2	0	0	0	0	0	0	<windows.h>	yes	no	hand			TRUE:unverified,FALSE:unverified
