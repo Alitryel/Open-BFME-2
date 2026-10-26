@@ -16,9 +16,11 @@ char g_00BCCCF8;
 // (opaque ClientUpdate intermediate, human-readable pin) with the derived
 // vtable stored explicitly in the body via pointer cast after the base call
 // (Defector precedent: the base size is unknown, so an explicit member would
-// misplace the store; no virtuals are declared anywhere so no vtable is
-// emitted here; the immediate is DIR32-masked in comparison). Zero new pins
+// misplace the store; the dead compiler vtable store is removed, so no vtable
+// is emitted here; the immediate is DIR32-masked in comparison). Zero new pins
 // (base resolves via the existing DrawModule pin).
+
+enum NameKeyType { NAMEKEY_INVALID = 0 };
 
 class Thing;
 
@@ -28,12 +30,17 @@ class DrawModule
 {
 public:
 	DrawModule(Thing *thing, const ModuleData *moduleData);
+protected:
+	// The matched DrawModule ctor/dtor use a vfptr at +0. Keep this base
+	// polymorphic when the module-name-key donor supplies a virtual method.
+	virtual ~DrawModule();
 };
 
 class W3DTreeDraw : public DrawModule
 {
 public:
 	W3DTreeDraw(Thing *thing, const ModuleData *moduleData);
+	virtual NameKeyType getModuleNameKey() const;
 };
 
 class W3DTreeDrawModuleDataBase {
