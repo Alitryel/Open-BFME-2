@@ -11,6 +11,8 @@
 // carried; the donor's other definitions are omitted.
 // The retail body is an owning destructor: it frees the auxiliary buffer,
 // then destroys two 12-byte-value hash maps and an AsciiString member.
+// Both maps' destructors reach the trivial-element clear 0x001DBCDC through
+// 0x000AACAB, so the 12-byte values have no destructor of their own.
 
 #include <algorithm>
 #include <hash_map>
@@ -39,25 +41,13 @@ namespace _STL { template <> allocator<void *>::~allocator(); }
 struct Gen_t_00786db0_p12cd
 {
 	int a[3];
-	Gen_t_00786db0_p12cd();
-	Gen_t_00786db0_p12cd(const Gen_t_00786db0_p12cd &);
-	~Gen_t_00786db0_p12cd();
-	Gen_t_00786db0_p12cd &operator=(const Gen_t_00786db0_p12cd &);
 };
 
 struct Gen_t_00786e70_p12cd
 {
 	int a[3];
-	Gen_t_00786e70_p12cd();
-	Gen_t_00786e70_p12cd(const Gen_t_00786e70_p12cd &);
-	~Gen_t_00786e70_p12cd();
-	Gen_t_00786e70_p12cd &operator=(const Gen_t_00786e70_p12cd &);
 };
 
-bool operator==(const Gen_t_00786db0_p12cd &, const Gen_t_00786db0_p12cd &);
-bool operator<(const Gen_t_00786db0_p12cd &, const Gen_t_00786db0_p12cd &);
-bool operator==(const Gen_t_00786e70_p12cd &, const Gen_t_00786e70_p12cd &);
-bool operator<(const Gen_t_00786e70_p12cd &, const Gen_t_00786e70_p12cd &);
 
 typedef _STL::pair<const int, Gen_t_00786db0_p12cd> Rva00787C20PairA;
 typedef _STL::pair<const int, Gen_t_00786e70_p12cd> Rva00787C20PairB;
@@ -66,8 +56,18 @@ typedef _STL::hash_map<int, Gen_t_00786db0_p12cd, _STL::hash<int>,
 typedef _STL::hash_map<int, Gen_t_00786e70_p12cd, _STL::hash<int>,
 	_STL::equal_to<int>, _STL::allocator<Rva00787C20PairB> > Rva00787C20MapB;
 
-void __cdecl Rva00787C20CleanupA(Rva00787C20PairA &);
-void __cdecl Rva00787C20CleanupB(Rva00787C20PairB &);
+typedef _STL::hashtable<Rva00787C20PairA, int, _STL::hash<int>, _STL::_Select1st<Rva00787C20PairA>,
+	_STL::equal_to<int>, _STL::allocator<Rva00787C20PairA> > Rva00787C20TableA;
+typedef _STL::hashtable<Rva00787C20PairB, int, _STL::hash<int>, _STL::_Select1st<Rva00787C20PairB>,
+	_STL::equal_to<int>, _STL::allocator<Rva00787C20PairB> > Rva00787C20TableB;
+// Rva00787C20HashOwnerTables.cpp supplies both table destructors (folded at
+// 0x000AACAB), as retail calls them out of line.
+template <> Rva00787C20TableA::~hashtable();
+template <> Rva00787C20TableB::~hashtable();
+
+// Retail's per-entry callbacks: 0x000A97C9 (first map) and 0x000A9DA8 (second).
+void __cdecl rva000A97C9(Rva00787C20PairA &);
+void __cdecl Rva007849C0Clear(Rva00787C20PairB &);
 
 class Rva00787C20
 {
@@ -85,6 +85,6 @@ Rva00787C20::~Rva00787C20()
 {
 	delete [] (char *)m_buffer;
 	m_buffer = 0;
-	_STL::for_each(m_first.begin(), m_first.end(), Rva00787C20CleanupA);
-	_STL::for_each(m_second.begin(), m_second.end(), Rva00787C20CleanupB);
+	_STL::for_each(m_first.begin(), m_first.end(), rva000A97C9);
+	_STL::for_each(m_second.begin(), m_second.end(), Rva007849C0Clear);
 }
