@@ -10,8 +10,8 @@ class Rva002E3766Holder
 {
 public:
 	void set(int a, int b);
-	void Rva002E3777Invoke(int arg);
-	void Rva002E3794Invoke(int arg);
+	void Rva002E3777Invoke(int enteringObject);
+	void Rva002E3794Invoke(int exitingObject);
 
 private:
 	unsigned char m_pad[0x54];
@@ -25,14 +25,14 @@ void Rva002E3766Holder::set(int a, int b)
 	m_58 = b;
 }
 
-void Rva002E3766Holder::Rva002E3777Invoke(int arg)
+void Rva002E3766Holder::Rva002E3777Invoke(int enteringObject)
 {
 	if (m_54 != 0 && m_58 != 0)
-		((void (__cdecl *)(int, int, int))m_54)(arg, m_58, 1);
+		((void (__cdecl *)(int, int, int))m_54)(enteringObject, m_58, 1);
 }
 
-void Rva002E3766Holder::Rva002E3794Invoke(int arg)
+void Rva002E3766Holder::Rva002E3794Invoke(int exitingObject)
 {
 	if (m_54 != 0 && m_58 != 0)
-		((void (__cdecl *)(int, int, int))m_54)(arg, m_58, 0);
+		((void (__cdecl *)(int, int, int))m_54)(exitingObject, m_58, 0);
 }

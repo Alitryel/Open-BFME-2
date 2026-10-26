@@ -43,9 +43,9 @@ bool Rva0052DB11::rva0052DB11(int excludedId)
 	Rva0052DB11Head *head = m_0;
 	if (!head)
 		return false;
-	for (Rva0052DB11Outer *o = head->m_presentList; o; o = o->m_next)
+	for (Rva0052DB11Outer *presentNode = head->m_presentList; presentNode; presentNode = presentNode->m_next)
 	{
-		void *s = o->m_8;
+		void *s = presentNode->m_8;
 		if (((Rva0052DB11Obj *)s)->m_id == excludedId)
 			continue;
 		for (Rva0052DB11Inner *in = head->m_goalList; in; in = in->m_next)

@@ -207,7 +207,7 @@ public:
  void rva005CCBC0();
  void rva005CCBB0();
 };
-bool __cdecl Rva005CD841Find(void *);
+bool __cdecl hasListeners(void *);
 void __cdecl Rva005CD877Visit(void *);
 void __cdecl Rva005CD813Visit(void *);
 class ManualPhaseEndHook {public:virtual void invoke();};
@@ -223,7 +223,7 @@ void StrategicInGameUI::ManualPhaseEnder::OnEndPhase()
 {
  if(TheInGameUI->vslot95())return;
  ManualPhaseEndView *state=(ManualPhaseEndView*)this;
- if(state->listeners && Rva005CD841Find(state->listeners)) {
+ if(state->listeners && hasListeners(state->listeners)) {
   state->listeners->rva005CCBC0();
   state->listeners->rva005CCBB0();
   Rva005CD877Visit(state->listeners);

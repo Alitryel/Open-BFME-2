@@ -2634,3 +2634,6 @@ __ehhandler$??1SpecialPowerModule@@MAE@XZ,0x0078CE1C,"Respelled back to the publ
 ?g_00C37468@@3QBUFieldParse@@B,0x00837468,"Renamed to ?g_logicTurnFieldParse@@3QBUFieldParse@@B by tools/rename.py (inferred)"
 ?rva004A6E8E@Rva004A6EHolder@@QAE_NXZ,0x004A6E8E,"Renamed to ?loseOneBox@Rva004A6EHolder@@QAE_NXZ by tools/rename.py (inferred)"
 ?rva004A6EC6@Rva004A6EHolder@@QAE_NH@Z,0x004A6EC6,"Renamed to ?gainOneBox@Rva004A6EHolder@@QAE_NH@Z by tools/rename.py (inferred)"
+?rva0010F42A@Rva0010F42A@@QAEXXZ,0x0010F42A,"Renamed to ?execute@Rva0010F42A@@QAEXXZ by tools/rename.py (inferred)"
+?Rva005CD841Find@@YA_NPAX@Z,0x005CD841,"Renamed to ?hasListeners@@YA_NPAX@Z by tools/rename.py (inferred)"
+__ehhandler$?Rva005CD841Find@@YA_NPAX@Z,0x007A157D,"Renamed to __ehhandler$?hasListeners@@YA_NPAX@Z by tools/rename.py (inferred)"

@@ -2379,3 +2379,10 @@ local,Rva002CF2D5::_M_erase::y,Rva002CF2D5::_M_erase::leftChild,inferred,agree:n
 member,BfmeSubPE::m_bfmeFirst,BfmeSubPE::m_header,inferred,agree:nl-de013fa5e177,Code/GameEngine/Source/Common/Audio/AudioManagerAdjustPriorityAndVolume.cpp,
 member,DestructorGlobalData::m_68,DestructorGlobalData::m_enableBehindBuildingMarkers,inferred,agree:nl-49478f23faa1,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCreateAHeroScreenDestructor.cpp,
 param,Made002CC8A4::rva00509E43::a,Made002CC8A4::rva00509E43::weapon,inferred,agree:nl-3c21e9d0aebb,Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp,0x00509E43
+function,?rva0010F42A@Rva0010F42A@@QAEXXZ,?execute@Rva0010F42A@@QAEXXZ,inferred,agree:nl-402b6f710182,Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp,0x0010F42A
+carry,Rva0010F42A::rva0010F42A::stream,Rva0010F42A::execute::stream,inferred,scope renamed by Rename rva0010F42A to execute (inferred),Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp,0x0010F42A
+param,Rva002E3766Holder::Rva002E3777Invoke::arg,Rva002E3766Holder::Rva002E3777Invoke::enteringObject,inferred,agree:nl-1b8fe7eacf25,Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3777
+param,Rva002E3766Holder::Rva002E3794Invoke::arg,Rva002E3766Holder::Rva002E3794Invoke::exitingObject,inferred,agree:nl-e987fbfe416d,Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3794
+local,Rva0052DB11::rva0052DB11::o,Rva0052DB11::rva0052DB11::presentNode,inferred,agree:nl-7c9ede1b0d5d,Code/GameEngine/Source/Common/Rva0052DB11.cpp,0x0052DB11
+function,?Rva005CD841Find@@YA_NPAX@Z,?hasListeners@@YA_NPAX@Z,inferred,agree:nl-a4de7a7439c3,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
+carry,Rva005CD841Find::visitor,hasListeners::visitor,inferred,scope renamed by Rename Rva005CD841Find to hasListeners (inferred),Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
