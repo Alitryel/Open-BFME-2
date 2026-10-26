@@ -28,7 +28,7 @@ class AsciiString;
 class UnicodeString;
 class PooledString;
 struct XferUnknown11;
-class Coord3DBase;
+struct Coord3DBase;
 class ICoord3D;
 class Region3D;
 class IRegion3D;
@@ -58,31 +58,7 @@ typedef bool Bool;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
-class Coord3DBase
-{
-public:
-	float x;
-	float y;
-	float z;
-};
-
-
-class UpdateModule
-{
-public:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-private:
-	char m_unrecovered04[ 0x20 - 0x04 ];
-};
-
-class StealthDetectorUpdate : public UpdateModule
-{
-protected:
-	virtual void xfer( Xfer *xfer );
-};
+#include "StealthDetectorUpdateView.h"
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method

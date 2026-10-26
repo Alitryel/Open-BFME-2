@@ -119,12 +119,10 @@ public:
 	BfmeFixedStorage0004543D m_08;
 	BfmeFixedStorage0004543D m_24;
 };
-enum UpdateSleepTime{UPDATE_SLEEP_NONE=1,UPDATE_SLEEP_FOREVER=0x3fffffff};
+#include "StealthDetectorUpdateView.h"
 enum Relationship{ENEMIES,NEUTRAL,ALLIES};
 enum CellShroudStatus{SHROUD_CLEAR=0};
 enum ObjectStatusTypes{STATUS_DUMMY=-1};enum KindOfType{KIND_DUMMY=-1};class Module;
-enum NameKeyType{NAMEKEY_INVALID=0};
-class NameKeyGenerator{public:NameKeyType nameToKey(const char*);};extern NameKeyGenerator *TheNameKeyGenerator;
 class SpecialDisguiseUpdate{public:void rva004B05F5(bool);};
 class Rva00373EC6{public:void rva00374815(); char pad[0x31];bool oneRing;};
 class StealthUpdate{public:void markAsDetected(unsigned,int,Object*,bool);};
@@ -159,9 +157,6 @@ class Object{public:bool testStatus(ObjectStatusTypes) const;bool isKindOf(KindO
  bool isEffectivelyDead()const{return (m_privateStatus&1)!=0;}
 };
 struct StealthDetectorUpdateModuleData{char pad[8];int m_rate;float m_range;bool initiallyDisabled;OpaqueRefElement4 m_sound,m_loud;const ParticleSystemTemplate *m_beacon,*m_ping,*m_bright,*m_grid;AsciiString m_bone;BfmeFixedStorage0004543D m_require,m_forbid;bool m_garrison,m_transport,m_cancelRing;AsciiString m_upgrade;};
-class DetectorPrimary{public:virtual void primary();const StealthDetectorUpdateModuleData *m_data;Object *m_object;};
-class DetectorOther{public:virtual void other();};class UpdateModuleInterface{public:virtual UpdateSleepTime update()=0;};
-class StealthDetectorUpdate:public DetectorPrimary,public DetectorOther,public UpdateModuleInterface{public:virtual UpdateSleepTime update();Object *getObject()const{return m_object;}};
 UpdateSleepTime StealthDetectorUpdate::update(){
  const StealthDetectorUpdateModuleData *data=m_data;Object *self=getObject();
  if(self->testStatus((ObjectStatusTypes)0x58))return UPDATE_SLEEP_NONE;
