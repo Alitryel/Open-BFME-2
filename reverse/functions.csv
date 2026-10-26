@@ -27582,7 +27582,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva0030B9CA@Rva0030B9CA@@QAEXXZ,,0x0030B9CA,19,Code/GameEngine/Source/Common/Rva0030B9CAClear.cpp,matched,holder clear via vector erase plus flag
 ?rva0030BA8C@Rva0030BA8C@@QAEXABUBfmeE8@@@Z,,0x0030BA8C,20,Code/GameEngine/Source/Common/Rva0030BA8CPush.cpp,matched,holder push via vector push_back plus flag
 ?Rva004E1FCCGet@@YAXPAURva004E1AD5Item@@0@Z,,0x004E1FCC,24,Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_004e1fcc.cpp,matched,chain forwards tag to 0x004E1AD5 callers 3
-?rva00330F7D@RadiusDecal@@QAEXPAVXfer@@@Z,,0x00330F7D,27,Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecal_rva00330F7D.cpp,matched,unlock RadiusDecal clear if Xfer IsLoading caller 0x003915D2
+?rva00330F7D@RadiusDecal@@QAEXPAVXfer@@@Z,,0x00330F7D,27,Code/GameEngine/Source/GameClient/RadiusDecal.cpp,matched,unlock RadiusDecal clear if Xfer IsLoading caller 0x003915D2
 ??1Rva004FF2F4@@QAE@XZ,,0x004FF2F4,8,Code/GameEngine/Source/Common/Rva004FF2F4Dtor.cpp,matched,tail dtor via base
 ?setPoint@AreaPolygonBase@@QAEXHABUBfmeE8@@@Z,,0x0030BAA0,56,Code/GameEngine/Source/Common/AreaPolygonBase_setPoint.cpp,matched,holder set via push for append else copy plus flag
 ?rva0030BBB4@Rva0030BBB4@@QAEXH@Z,,0x0030BBB4,20,Code/GameEngine/Source/Common/Rva0030BBB4Set.cpp,matched,guarded setter plus vcall slot12

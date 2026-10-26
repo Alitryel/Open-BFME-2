@@ -3,6 +3,29 @@
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 #include "ascii_string.h"
 #define PI 3.14159265359f
+//
+// ?rva00330F7D@RadiusDecal@@QAEXPAVXfer@@@Z @0x00330F7D 27B
+// Unlock lane: if Xfer::IsLoading (slot 1) then RadiusDecal::clear.
+// This is RadiusDecal (proven by rowed clear 0x00330DBA with same this).
+// Caller 0x003915D2 (RadiusDecalUpdate::xfer slot 3 for member +0x20).
+class Snapshot;
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../Include/Common/BfmeXfer.h"
 
 struct RadiusDecalShadow
 {
@@ -141,16 +164,23 @@ private:
 	float m_extra;
 public:
 	void setOpacity(Real o);
+public:
 	void setPosition(const Coord3D &pos);
 public:
 	void Rva00330E15(const Coord3D &pos);
 public:
 	RadiusDecal();
+public:
 	~RadiusDecal();
+public:
 	void clear();
+public:
+	void rva00330F7D(Xfer *xfer);
 };
 
 // tu-skeleton: 0x00330CDD 97B ?rva00330CDD@RadiusDecalTemplate@@QAEXABV1@@Z -- matched in Code/GameEngine/Source/GameClient/RadiusDecalTemplateAssign.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameClient/RadiusDecal.cpp
 
 // ---- from Code/GameEngine/Source/GameClient/RadiusDecal.cpp
 
@@ -290,7 +320,13 @@ void RadiusDecal::clear()
 
 // tu-skeleton: 0x00330EE0 157B ?xferRadiusDecalTemplate@RadiusDecalTemplate@@QAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameClient/RadiusDecalTemplateCtor.cpp (not merged yet)
 
-// tu-skeleton: 0x00330F7D 27B ?rva00330F7D@RadiusDecal@@QAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecal_rva00330F7D.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecal_rva00330F7D.cpp
+
+void RadiusDecal::rva00330F7D(Xfer *xfer)
+{
+	if (xfer->IsLoading())
+		clear();
+}
 
 // tu-skeleton: 0x00330F98 647B ?update@RadiusDecal@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecal.cpp (not merged yet)
 
