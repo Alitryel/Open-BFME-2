@@ -7081,3 +7081,16 @@ Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|para
 Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainScatter.cpp|class||Rva00464B96Mask,a89951c6fe481861f966be27,gpt-6.1-sol,w2-10260203-15,w-dce04682aaeb,2026-10-26
 Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c|function|0x00020AC0|Rva00020AC0,60fc58cf170263a2e314f4df,gpt-6.1-sol,w2-10260203-16,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp|param|Team::rva0039DDC2|f1,9b6f140b06c3de00b40d80c9,gpt-6.1-sol,w2-10260203-17,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7EC,f358358250c3eb4a3d547264,gpt-6.1-sol,w3-10260209-2,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7FC,67db548c5ec8c5592561ac5a,gpt-6.1-sol,w3-10260209-2,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|local|Rva004958AE::update|m_command14,061ab3f7d6d81c7932961298,gpt-6.1-sol,w3-10260209-10,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva002E8C23.cpp|local|Rva002EDE5B|tmpC,763f909705c7c86a12d3d85a,gpt-6.1-sol,w3-10260209-12,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005B1A07.cpp|local|Rva005B1A07::rva005B1A07|e2,eb449021420787f744967a06,gpt-6.1-sol,w3-10260209-14,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E72B3.cpp|class||Rva000E72B3Tree,34f68856097a854759b8e0b6,gpt-6.1-sol,w3-10260209-16,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|class||Rva0010811EVertex,7bcb64467d566995b1b7a955,gpt-6.1-sol,w3-10260209-17,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|member|W3DVolumetricShadowSubMesh|m_10,f79d502a2f32d1ffee21f2e5,gpt-6.1-sol,w3-10260209-17,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|x,8046908fb097131172486f9b,gpt-6.1-sol,w3-10260209-17,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|local|W3DVolumetricShadowV2::W3DVolumetricShadowV2|y,7c460aa1b6663b197093b97d,gpt-6.1-sol,w3-10260209-17,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva00034C90Finish.cpp|class||Rva00034C90Block,9df556f4b02fc1891ca7e46e,gpt-6.1-sol,w3-10260209-20,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a1,0fe40ca932224544fa75ee03,gpt-6.1-sol,w3-10260209-21,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a2,fce68848c07d4fb9258f1fc1,gpt-6.1-sol,w3-10260209-21,w-46dfa4623b23,2026-10-26

@@ -2314,3 +2314,4 @@ param,push_back::o,push_back::objectToAdd,inferred,agree:nl-32357f700928,Code/Ga
 param,Team::rva0039DDC2::f1,Team::rva0039DDC2::kindOfFilter,inferred,agree:nl-524375d93048,Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp,0x0039DDC2
 local,Pathfinder::FindBrokenBridge::r1,Pathfinder::FindBrokenBridge::startZone,inferred,agree:nl-c72afd8fb53c,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
 local,Pathfinder::FindBrokenBridge::r2,Pathfinder::FindBrokenBridge::endZone,inferred,agree:nl-a1c08763fec7,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+local,Rva002EDE5B::tmpC,Rva002EDE5B::cellPos,inferred,agree:nl-c81b0551ac55,Code/GameEngine/Source/Common/Rva002E8C23.cpp,0x002EDE5B
