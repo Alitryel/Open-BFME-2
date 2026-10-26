@@ -78,3 +78,33 @@ freshness timestamp or pointer update was recorded. The published object
 bundle imported 22,830 entries into the reusable store. No census or global
 index update was run. Unreferenced diagnostic COMDAT differences remain
 diagnostics; this evidence does not establish closed-strict runtime closure.
+
+## GameWindow native-table prerequisite
+
+Read-only follow-up at a0af8f5cb1: the table at RVA 0x0080BBCC is 44 bytes,
+11 slots. The next table starts at 0x0080BBF8 and belongs to Rva0031455E,
+as independently documented by its link/unlink bodies in GameWindow.cpp.
+The following values were read directly from the pinned retail game.dat:
+
+| Slot | Target RVA |
+| --- | --- |
+| 0 | 0x00314AC4 |
+| 1 | 0x000A0CFF |
+| 2 | 0x00104E45 |
+| 3 | 0x0009DC05 |
+| 4 | 0x0008FF56 |
+| 5 | 0x0009FD78 |
+| 6 | 0x00313913 |
+| 7 | 0x0003B810 (__purecall) |
+| 8 | 0x0031393A |
+| 9 | 0x0008FF78 |
+| 10 | 0x0050B5C6 |
+
+The merged GameWindow.cpp view has 12 virtuals, including winSetFont;
+the destructor view has two, including virtual winDrawBorder. Its existing
+17-byte winDrawBorder row has the nonvirtual QAEX spelling. The native table
+contains neither winDrawBorder's RVA 0x00313D03 nor winSetFont's 0x00313D73.
+These facts identify a shared view/table contract prerequisite. Reconcile
+the complete native table and its existing body identities before claiming
+that matching the first incomplete copy repairs native ownership. No source
+edit, new body, pin, or table definition was introduced in this investigation.

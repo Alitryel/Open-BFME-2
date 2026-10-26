@@ -235,6 +235,16 @@ authored-byte previews or commit-title gains into a projected headline.
     destructor folds with the list base). Retype them so they call those
     callees by their own names, then drop both pins. Re-run the 17-unit
     trial before the canonical rename.
+- **GameWindow table prerequisite (2026-10-25, inspected `a0af8f5cb1`):**
+  retail's table at RVA `0x0080BBCC` has 11 slots and ends at `0x0080BBF8`,
+  the separately identified `Rva0031455E` table. `GameWindow.cpp` declares
+  12 virtuals, including `winSetFont`; `GameWindowDtor.cpp` declares two,
+  including a virtual `winDrawBorder` whose existing row is nonvirtual.
+  The historical 249-byte dtor preview remains blocked. The next repair
+  should reconcile both views with the native 11-slot table and its callees,
+  then verify the table owner, parent bodies and consumers together.
+  [Native slot evidence](../reverse/attempt_support/link-regression-clusters-20261025.md#gamewindow-native-table-prerequisite).
+  No GameWindow source trial was applied during this follow-up.
 - **INI bucket initializer repaired (2026-10-25, control `349db6dc10`):**
   [the scoped provider repair](../reverse/attempt_support/ini-bucket-provider-link-20261025/readme.md)
   makes INI emit the retail 59-byte initializer at `0x00148DDF` and applies its
