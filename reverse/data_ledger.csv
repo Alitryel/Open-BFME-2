@@ -1866,7 +1866,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007CDD70,372,.rdata,vtable,??_7W3DBoatWakeModelDraw@@6B@,,literal,??_7W3DBoatWakeModelDraw@@6B@;_vtbl_00BCDD70,0,2
 0x007CDEE4,52,.rdata,global,?g_00BCDEE4@@3QBUFieldParse@@B,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DBoatWakeModelDrawModuleDataCtor.cpp,owned,,1,1
 0x007CDF18,152,.rdata,vtable,??_7W3DProjectileStreamDrawModuleData@@6B@,,literal,??_7W3DProjectileStreamDrawModuleData@@6B@;_vtbl_00BCDF18,0,2
-0x007CDFB0,96,.rdata,global,?g_00BCDFB0@@3QBUFieldParse@@B,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DProjectileStreamDrawModuleDataCtor.cpp,owned,,1,1
+0x007CDFB0,96,.rdata,global,?g_00BCDFB0@@3QBUFieldParse@@B,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DProjectileStreamDraw.cpp,owned,,1,1
 0x007CE010,248,.rdata,vtable,??_7W3DProjectileStreamDraw@@6B@,,literal,,0,1
 0x007CE108,136,.rdata,string,??_C@_0BH@GDCLJENP@ProjectileStreamUpdate?$AA@,,literal,,0,4
 0x007CE190,136,.rdata,float,__real@43480000,,literal,?g_bfmePropagandaRadius@@3MA;__real@43480000,1,20
