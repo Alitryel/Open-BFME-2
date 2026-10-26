@@ -99,3 +99,11 @@ The allocated `TransportAIUpdate.cpp` dry-run accepted its unchanged three-row `
 The allocated `TileData.cpp` merge accepted the unchanged `TileDataReplaceCompanionRef.cpp` donor (6 matched rows total). Build, declared-unmatched, CSV, TU-ownership, removed-source, code-identity (0 new findings), data (0 findings), and staged COMDAT checks passed. `link_batch_audit.py` used one current changed object but found its census baseline at 47e030bafc, older than current `origin/master`, with 207 retired objects and broad provisional provider-disappeared findings; selected-provider/consumer changes for this composition are therefore unverified. No provider improvement is claimed and the staged merge was restored; its claims were released.
 
 Mixed-file inspection for allocated `TileData.cpp` found `TileDataGetRGBDataForWidth.cpp` has 3 rows in the TU and 1 unrouted row. The targeted `--split ... --for TileData.cpp --dry-run` could carve rows 0x00111850 and 0x00111883, but leaves matched row 0x00111867 without a spelled definition and reports `blocked: the residual loses matched rows`; no split was applied.
+
+### Additional allocated TU trials (2026-10-26)
+
+- `InactiveBody.cpp` (`consolidation_queue.py --check-tu` passed): the tool's dry-run accepted only `InactiveBodyPoolKey.cpp` (two rows, five total carried rows) and rejected the constructor because `BodyModule` is undefined in the trial TU (`C2504`; follow-on `object` undeclared). Applying was refused because another worker held moved RVA `0x004BD85D`; no source changes or scratch files remained. Do not retry while held.
+- `ArmorUpgrade.cpp` (check passed): no accepted donors. Pool key trial lacks `ArmorUpgrade::getModuleNameKey`; implementation trial lacks `upgradeImplementation` and `m_object`.
+- `TerrainTypes.cpp` (check passed): no accepted donors. Errors include duplicate `_STL::pair`/`StringBase` definitions, missing `TerrainType::friend_setName` and `TerrainTypeCollection::newTerrain`, allocator redefinitions, and a byte mismatch in `TerrainType.cpp`.
+- `W3DSupplyDraw.cpp` (check passed): no accepted donors. Pool key trial lacks `W3DSupplyDraw::getModuleNameKey`; module-data destructor donor fails byte verification.
+- The scoped planner snapshot passed freshness checks for ArmorUpgrade and W3DSupplyDraw. No merge was applied for these trials.
