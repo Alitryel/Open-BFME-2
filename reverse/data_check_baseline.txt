@@ -354,7 +354,7 @@ Code/GameEngine/Source/Common/WW3DOptionSetter.cpp	wrong-name	?g_WW3D_IsInitted@
 Code/GameEngine/Source/GameClient/Drawable/Update/AnimationSoundClientBehaviorPoolKey.cpp	wrong-name	?$S1@?1??rva0004C9EF3@AnimationSoundClientBehavior@@SA?AW4NameKeyType@@XZ@4IA	0x00A0435C
 Code/GameEngine/Source/GameClient/Drawable/Update/EvaAnnounceClientCreatePoolKey.cpp	wrong-name	?$S1@?1??rva0004C9A0C@EvaAnnounceClientCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A04344
 Code/GameEngine/Source/GameClient/Drawable/Update/RadarMarkerClientUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004C9BF3@RadarMarkerClientUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A04350
-Code/GameEngine/Source/GameClient/Drawable/Update/SwayClientUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004C90E0@SwayClientUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A0432C
+Code/GameEngine/Source/GameClient/Drawable/Update/SwayClientUpdate.cpp	wrong-name	?$S1@?1??rva0004C90E0@SwayClientUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A0432C
 Code/GameEngine/Source/GameClient/Drawable_Rva00309ffd.cpp	wrong-name	_s_ringEffectActive	0x009BD860
 Code/GameEngine/Source/GameClient/Drawable_Rva00309ffd.cpp	wrong-name	_s_ringEffectSaved	0x009BD800
 Code/GameEngine/Source/GameClient/Drawable_Rva0030a040.cpp	wrong-name	_s_fireEffectActive	0x009BD918
