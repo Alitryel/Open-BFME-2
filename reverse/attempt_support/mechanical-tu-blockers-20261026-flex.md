@@ -81,3 +81,9 @@ ledgers, claims, or routing.
 The PreorderCreate merge audit records two new shadow `wrong-name` findings
 for its transferred local-static data keys (`0x00A03F90` and `0x00A03F94`).
 The converged data check remains clean; neither key was claimed retired.
+
+Publication handoff: the publisher stopped once with `Cannot rebase onto multiple
+branches`. A subsequent explicit `git pull --rebase origin master` fetched
+`5db17fb47684656adf2563faf60b3c9e4872f069` and rebased the complete 14-commit
+pending batch cleanly. No merge conflict or source change resulted; publication
+is still pending.
