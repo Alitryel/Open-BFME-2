@@ -108,6 +108,19 @@ authored-byte previews or commit-title gains into a projected headline.
 - **Clearance / census confirmation:** graphics ordinary-preview scope cleared
   at the revision above; other families and census confirmation remain pending.
   Keep individual repair previews separate from later census confirmation.
+- **Consolidation outgoing-batch audit (2026-10-26, `a590d451c6`):** the
+  outgoing source diff contains 42 paths. `tools/link_batch_audit.py --base
+  origin/master --tip HEAD` is inconclusive: its provider index is at
+  `763dc8759f`, not outgoing base `d831bc2403`, and 26 changed source objects
+  lack current receipts (first:
+  `Code/GameEngine/Source/Common/ExperienceLevelSystem.cpp`). It returned
+  before selected-provider, consumer-binding or lost-byte comparison. Separately,
+  the RadarUpdate and staged HordeTransportContain composition rows passed
+  byte and EH checks; the staged data check reported zero findings. Code
+  identity remains shadow and reported eight new unreferenced `alternatename`
+  findings in the Horde TU. These checks do not establish link bindings. Carry
+  the batch to the next current census; do not claim provider changes, losses
+  or clearance from this preview.
 - **Sol prerequisite freshness handoff (2026-10-26, `73ffc391c4`):**
   [Radar, particle-bone and unit-crate receiver evidence](../reverse/attempt_support/consolidation-sol-prerequisites-20261026-codex.md)
   preserves matched bytes and existing object/binding facts; the outgoing gate
