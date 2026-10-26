@@ -7529,3 +7529,12 @@ Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp|param|Rva005F2A52AptCall|pF2,6e
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva00459553_E1,a5ff9f17a9a01e49b2d79cd3,gpt-6.1-sol,w5-10260741-9,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva00459553,5067b521d15ca7cc164f3bc6,gpt-6.1-sol,w5-10260741-9,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva00487F3A_E1,12e0b1b0603a46b96404d64d,gpt-6.1-sol,w5-10260741-9,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva001F5496.cpp|param|Rva001F5496::rva001F5496|arg,cb98c56eb637182e7514eb78,gpt-6.1-sol,w4-10260717-1,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva001F5496.cpp|local|Rva001F5496::rva001F5496|p,279a2e94d2e2fbe0067c2845,gpt-6.1-sol,w4-10260717-1,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva000B31CB.cpp|class||Rva000B31CB,3b41bb6e33fb880d7d8317b4,gpt-6.1-sol,w4-10260717-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp|class||Rva005FD8E5Entry,683e31ba109dc1dd96253a75,gpt-6.1-sol,w4-10260717-11,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp|param|Drawable::rva0027656F|a1,ff6d3bbc798b214c106b3681,gpt-6.1-sol,w4-10260717-12,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0007E90EBodies.cpp|function|0x0007E90E|rva0007E90E,57625cb2ff31dcdc3118300e,gpt-6.1-sol,w4-10260717-13,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|member|Rva002EBA88|m_10,bac37146941b9ff1848111b3,gpt-6.1-sol,w4-10260717-15,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA88|a4,f9ddc9de4acb5fe6813d35ff,gpt-6.1-sol,w4-10260717-15,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp|param|Rva002EBA88::rva002EBA88|a5,6140715811e777d6b901b223,gpt-6.1-sol,w4-10260717-15,w-eb83eac9adc1,2026-10-26
