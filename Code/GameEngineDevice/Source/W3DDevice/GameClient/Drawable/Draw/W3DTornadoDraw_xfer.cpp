@@ -18,30 +18,23 @@ class Thing;
 class ModuleData;
 class Snapshot;
 
-class Xfer
-{
-public:
-	class Version;
-
-	Xfer();
-	virtual ~Xfer();
-
-	void Version1();
-
-	virtual bool IsLoading() const;
-	virtual bool IsStoring() const;
-	virtual bool IsCRC() const;
-	virtual bool IsLightCRC() const;
-
-	virtual void v5() = 0;
-	virtual void v6() = 0;
-	virtual void v7() = 0;
-
-	virtual void SkipBadBlock(Snapshot &snapshot, unsigned int size);
-	virtual Xfer &XferRawBytes(void *data, unsigned int size);
-	virtual Xfer &operator==(bool &value);
-	virtual Xfer &operator==(Version &value);
-};
+class AsciiString;
+class UnicodeString;
+class PooledString;
+class Coord3DBase;
+struct ICoord3D;
+struct Region3D;
+struct IRegion3D;
+class Coord2D;
+struct ICoord2D;
+struct Region2D;
+struct IRegion2D;
+class RealRange;
+struct RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+struct XferUnknown11;
+#include "../../../../../../GameEngine/Include/Common/BfmeXfer.h"
 
 class Xfer::Version
 {
