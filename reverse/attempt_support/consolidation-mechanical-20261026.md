@@ -38,6 +38,28 @@ coverage deltas at zero.
   48 current-ledger object receipts are missing. The existing DX8 handoff also
   records stale-index duplicate-provider predictions. Do not apply or publish
   until current provider selection and consumer bindings can be verified.
+- `AssaultTransportAIUpdate.cpp` passed allocation and a current AIUpdate planner;
+  its dry run accepted no donors. `AssaultTransportAIUpdateHelper.cpp` fails
+  with C2039 (`Rva0048F365Helper` is not a member of
+  `AssaultTransportAIUpdate`); the pool-key donor fails with C2039 (`rva00048F411`
+  is not a member). Other donors fail on duplicate `Xfer`/`GameLogic` view
+  definitions or missing members. No claims or source changes were made.
+- `FramGrab.cpp` passed allocation and a current WW3D2 planner; its dry run
+  accepted no donors. Both unchanged trials fail with C2248 because
+  `FrameGrabClass::Rva00958570_Flush_Buffered_Frames` is protected. No claims or
+  source changes were made.
+- `AptRenderingContext.cpp` dry-run accepted three donors (6 rows), carrying
+  three data-check keys, one flag override and two data-ledger keys. The scoped
+  current-ledger provider preview exits 1 with 50 missing object receipts,
+  including the current `FramGrab` object. No merge was applied because selected
+  COMDAT and provider/consumer bindings cannot be compared with the missing
+  inputs.
+- `HighlanderBody.cpp` dry-run accepted only its constructor donor; the pool-key
+  donor fails C2039 (`getModuleNameKey` is not a member of `HighlanderBody`) and
+  attempt-damage fails C2504 (`BodyModuleInterface` base class undefined). Its
+  mixed `ConstIntGetters2.cpp` split dry-run accepted one 6-byte row, but the
+  scoped current-ledger provider preview also exits 1 with the same 50 missing
+  object receipts. Neither split nor merge was applied.
 
 The fresh planner snapshots for GameLogic/Object/Update, GameClient and
 WW3D2 passed `name_lane.py consolidate --check build/consolidation` before
@@ -47,8 +69,10 @@ provider, COMDAT or link-clean improvement is claimed.
 
 ## Queue and handoff
 
-`/opt/runner/consolidation_queue.py --limit 100000` lists 34 unheld allocated
-TUs in this shard. The allocator has more candidates, but composition review
-is blocked by the missing current-ledger receipts; the merge-tool write failure
-also prevents publishing the one accepted HeaderTemplate composition. This
-seat did not change identity/data registers or repair tools.
+`/opt/runner/consolidation_queue.py --limit 100000` lists 43 unheld allocated
+TUs in this shard. The allocator has more candidates, but selected-COMDAT and
+provider/consumer comparison is blocked by missing current-ledger receipts; the
+merge-tool write failure also prevents publishing the one accepted HeaderTemplate
+composition. The first two additional candidates also had exact compiler
+obstacles above. This seat did not change identity/data registers or repair
+tools. No file/RVA claims were acquired in this session.
