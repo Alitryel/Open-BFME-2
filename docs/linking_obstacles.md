@@ -354,6 +354,15 @@ authored-byte previews or commit-title gains into a projected headline.
   Retirement additionally needs 93 missing ledger objects and resolution of a
   renumbered cleanup label in the identity checker. Source and debt are intact;
   the blocked source claim was released. No composition trial was repeated.
+- **ICoord2D constructor-header prerequisite (2026-10-26):**
+  [the evidenced component-constructor mode](../reverse/attempt_support/icoord2d-component-header-20261026.md)
+  lets ThrowingNewHelpers.cpp use the canonical header while retaining its
+  call to the real 18-byte constructor at 0x0007E523. All 31 consumer rows and
+  eight EH graphs remain exact; complete non-debug COFF facts are unchanged.
+  The owning acceptance retires one header-queue row. The default aggregate
+  view remains selected elsewhere. Constructor mode must precede the first
+  header inclusion and lasts for the whole TU; that remains a composition
+  prerequisite. Other coordinate-header items and census status stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through

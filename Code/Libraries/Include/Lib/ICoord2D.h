@@ -11,6 +11,12 @@ struct ICoord2D {
     // definition visible to GetHordeUnitPath (same-TU escape analysis).
     // ICoord2DBase arguments need Lib/ICoord2DBase.h; it is not defined here (see that header).
     bool operator==(const struct ICoord2DBase &that) const;
+    #ifdef ICOORD2D_VIEW_COMPONENT_CTOR
+    // Select before this header is first included; native owner 0x0007E523/18.
+    // This view lasts for the entire TU; undef does not restore aggregate semantics.
+    // Other units retain aggregate construction and their existing by-value ABI.
+    ICoord2D(int ax, int ay);
+    #endif
 };
 
 #endif // CANONICAL_ICOORD2D_H

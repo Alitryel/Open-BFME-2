@@ -30,7 +30,21 @@
     "rva": "0x00004CAD",
     "size": 28,
     "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
-    "decided_by": "byte-verified owner (retail export ??8ICoord2D@@QBE_NABUICoord2DBase@@@Z); native Pathfinder::GetHordeUnitPath 0x002F6075 calls it on two stack ICoord2D cell indices whose frame slots retail shares, so pathfinder.cpp keeps an inline definition visible; PathfindLayer::AddWallConnectCell 0x00366AE3 and Rva0058729D call it on eight-byte two-int cells"
+    "decided_by": "byte-verified owner (retail export ??8ICoord2D@@QBE_NABUICoord2DBase@@@Z); native Pathfinder::GetHordeUnitPath 0x002F6075 calls it on two stack ICoord2D cell indices whose frame slots retail shares, so pathfinder.cpp keeps an inline definition visible; PathfindLayer::AddWallConnectCell 0x00366AE3 and Rva0058729D call it on eight-byte two-int cells",
+    "header_comment": [
+     "Native 0x00004CAD/28, owner icoord.cpp; pathfinder.cpp keeps an inline",
+     "definition visible to GetHordeUnitPath (same-TU escape analysis).",
+     "ICoord2DBase arguments need Lib/ICoord2DBase.h; it is not defined here (see that header)."
+    ]
+   },
+   {
+    "declaration": "#ifdef ICOORD2D_VIEW_COMPONENT_CTOR\n// Select before this header is first included; native owner 0x0007E523/18.\n// This view lasts for the entire TU; undef does not restore aggregate semantics.\n// Other units retain aggregate construction and their existing by-value ABI.\nICoord2D(int ax, int ay);\n#endif",
+    "name": "??0ICoord2D@@QAE@HH@Z",
+    "rva": "0x0007E523",
+    "size": 18,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "required_define": "ICOORD2D_VIEW_COMPONENT_CTOR",
+    "decided_by": "Retail export and byte-verified owner; two integer stores at offsets0/4 in the eight-byte receiver. ThrowingNewHelpers constructor5CF07E calls this existing owner. An opt-in declaration retains its constructed temporary while default header users retain their aggregate construction and ABI, following the existing Coord2D/Coord3D/ICoord3D constructor-view contracts."
    }
   ]
  },

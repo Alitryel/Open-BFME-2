@@ -183,7 +183,9 @@ class Rva0042D6E6PtrChaseField {public:int get()const;};
 class Rva005CE259 {public:struct Payload {int v[2];};};
 class Rva005CE2A1 {public:~Rva005CE2A1(){if(m_p)ReleaseTreeHintRef00217D4C(m_p);}TargetRef00217D4C*m_p;};
 Rva005CE2A1 Rva005CE2A1Create(const Rva005CE259::Payload*);
-struct ICoord2D {ICoord2D(int,int);int x,y;};
+#define ICOORD2D_VIEW_COMPONENT_CTOR
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#undef ICOORD2D_VIEW_COMPONENT_CTOR
 class Rva005CE4B2 {public:Rva005CE4B2(const int*);~Rva005CE4B2(){if(m_p)ReleaseTreeHintRef00217D4C(m_p);}TargetRef00217D4C*m_p;};
 class Image;struct Rva005D232DIn;
 namespace StrategicInGameUI { const Image *GetSelectionPortrait(Rva005D232DIn*); }
