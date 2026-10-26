@@ -2516,3 +2516,4 @@ param,famgenDelete#14::p,famgenDelete#14::sideCommandBarImpl,inferred,agree:nl-0
 param,Rva005D19F8::Rva005D19F8::a,Rva005D19F8::Rva005D19F8::root,inferred,agree:nl-54758029d162,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005D19F8
 member,Arg000B5A72::m158,Arg000B5A72::m_staticSortLevelWhileFading,inferred,agree:nl-21dc53fc136c,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,
 local,Rva000B5C41::rva000B5A72::v158,Rva000B5C41::rva000B5A72::staticSortLevelWhileFading,inferred,agree:nl-dad049caf5cb,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,0x000B5A72
+member,BfmeThingVJQ::m_bfme34,BfmeThingVJQ::m_useInternet,inferred,agree:nl-7519b4939b0c,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,

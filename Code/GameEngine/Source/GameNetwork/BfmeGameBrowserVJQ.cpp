@@ -130,7 +130,7 @@ public:
 	int m_bfme28;
 	int m_bfme2c;
 	int m_state;
-	char m_bfme34;
+	char m_useInternet;
 	char m_useLan;
 	char m_pad36[0x2a6];
 	char m_messageBuffer[0x400];
@@ -140,7 +140,7 @@ public:
 void BfmeThingVJQ::bfmeGoVJQ(int a) throw()
 {
 	BfmeMsgVJH msg(m_messageBuffer, 0x400);
-	if (m_bfme34 && m_state >= 3)
+	if (m_useInternet && m_state >= 3)
 	{
 		m_bfme10->sendOne(&msg, a);
 		m_bfme14->send(&msg, BfmeGameBrowserVJQCallback, this, m_requestTimeout);
