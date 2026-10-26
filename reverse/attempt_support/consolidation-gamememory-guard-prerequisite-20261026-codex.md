@@ -123,3 +123,15 @@ then release them and run `claims.py release --landed`:
 
 There is no unfinished source trial or preparation edit. The remaining work is
 the ordinary Luna merge and the explicit structural/registry prerequisites above.
+
+## Next-session recovery
+
+The runner preserved and rebased the unpublished commits to 8809f34ccf
+(prerequisite) and f847270698 (receipt). The next session found a clean tree,
+read the current instructions and prior receipts, pulled master, and passed
+`python3 tools/check_csv.py` (98,273 function rows). The outgoing range has
+no source moves: the new guarded-view header has exactly the two consumers
+already verified together above. The complete pending path audit therefore
+remains the recorded header/consumer audit; no historical path is repointed.
+This recovery receipt retries publication with the inherited batch. Preserve
+the five listed claims until the publisher confirms landing.
