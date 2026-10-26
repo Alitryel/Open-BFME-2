@@ -32,18 +32,18 @@ public:
 
 private:
 	char m_pad[0x1240];
-	AsciiString m_string1240; // +0x1240
-	UnicodeString m_wide1244; // +0x1244
+	AsciiString m_1240; // +0x1240
+	UnicodeString m_1244; // +0x1244
 };
 
 // ?rva002360DE@GlobalData@@QBE?AVAsciiString@@XZ
 AsciiString GlobalData::rva002360DE() const
 {
-	return m_string1240;
+	return m_1240;
 }
 
 // ?rva002360FC@GlobalData@@QBE?AVUnicodeString@@XZ
 UnicodeString GlobalData::rva002360FC() const
 {
-	return m_wide1244;
+	return m_1244;
 }

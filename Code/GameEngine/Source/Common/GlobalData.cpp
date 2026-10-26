@@ -159,6 +159,8 @@ public:
  static void parseGameDataDefinition(INI *ini);
  void applyOptionPreferences();
  AsciiString getPicturePath() const;
+ AsciiString rva002360DE() const;
+ UnicodeString rva002360FC() const;
 private: static GlobalData *m_theOriginal;
  AsciiString m_mapName;
  AsciiString m_moveHintName;
