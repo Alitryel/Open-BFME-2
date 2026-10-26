@@ -941,7 +941,6 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DSupplyDrawPoolKey.
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DTankDrawPoolKey.cpp	wrong-name	?$S1@?1??rva000CE9EE@W3DTankDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EBBA0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DTornadoDrawPoolKey.cpp	wrong-name	?$S1@?1??rva000D1866@W3DTornadoDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EBC30
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DTruckDrawPoolKey.cpp	wrong-name	?$S1@?1??rva0000CB578@W3DTruckDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EBB94
-Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	wrong-name	?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A	0x009FDC84
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp	wrong-name	?g_Va00DFE118@@3PAVWeatherSetting@@A	0x009FE118
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093349.cpp	wrong-name	?g_Va00DFE118@@3PAVWeatherSetting@@A	0x009FE118
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093457Finish.cpp	wrong-name	?g_Va00DFE118@@3PAVWeatherSetting@@A	0x009FE118

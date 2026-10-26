@@ -46,7 +46,8 @@ struct GlobalLanguageData
 	const char *m_unicodeNameData;  // +0x18, inline AsciiString buffer pointer
 };
 
-extern GlobalLanguageData *TheGlobalLanguageData;
+class GlobalLanguage;
+extern GlobalLanguage *TheGlobalLanguageData;
 
 class W3DFontLibrary
 {
@@ -77,7 +78,7 @@ bool W3DFontLibrary::loadFontData(GameFont *font)
 	font->m_height = fontChar->m_cachedHeight;
 
 	FontCharsHandle *unicodeFontChar;
-	GlobalLanguageData *language = TheGlobalLanguageData;
+	GlobalLanguageData *language = (GlobalLanguageData *)TheGlobalLanguageData;
 	if (language)
 		unicodeFontChar = (FontCharsHandle *)Rva0009017D(language->m_unicodeNameData ? language->m_unicodeNameData + 8 : (char *)"",
 			font->m_pointSize, font->m_bold ? true : false, font->m_extra);
@@ -90,9 +91,3 @@ bool W3DFontLibrary::loadFontData(GameFont *font)
 
 	return true;
 }
-
-// ?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A: the global at this VA is ?TheGlobalLanguageData@@3PAVGlobalLanguage@@A; this name is an alias for it.
-#pragma comment(linker, "/alternatename:?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A=?TheGlobalLanguageData@@3PAVGlobalLanguage@@A")
-#pragma comment(linker, "/alternatename:?TheGlobalLanguageData@@3PAUGlobalLanguage@@A=?TheGlobalLanguageData@@3PAVGlobalLanguage@@A")
-// ?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A: the global at VA 0xdfdc84 is ?TheGlobalLanguageData@@3PAVGlobalLanguage@@A.
-#pragma comment(linker, "/alternatename:?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A=?TheGlobalLanguageData@@3PAVGlobalLanguage@@A")

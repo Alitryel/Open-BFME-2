@@ -5287,8 +5287,6 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Find_Asset.cpp	?Rva009EEC60_FindAsset@Rva009EEC60Registry@@QAE?AVRva009EBCE0AssetReference@@PBD@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp	??1Rva00112291@@UAE@XZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DAptAux_PostDraw_W3dDrawRenderingUnit.cpp	?cleanup@Rva00785FD0Item@@QAEXXZ	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguage@@A	1
-alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A	2
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/RTS2DSceneCtor.cpp	??1RTS2DScene@@UAE@XZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Render_Obj_Exists_Impl.cpp	?bfmeSay1025@BfmeP1025@@QAEDPAD@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0008F00DDtor.cpp	?s0@InGameUIPrimary@@UAEXXZ	1
