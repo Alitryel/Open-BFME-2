@@ -7161,3 +7161,4 @@ Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|class||Rva00545B72,52aea72a6
 Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|class||Rva00261C72Word,7f90b89e27854f58e0bc22ad,gpt-6.1-sol,w6-10260224-22,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|function|0x00545B72|rva00545B72,ccca38a3fa4e0ad6ba7f3eba,gpt-6.1-sol,w6-10260224-22,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|function|0x00567793|rva00567793,a87dc359668b633fcd66c036,gpt-6.1-sol,w6-10260224-22,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva002D9FD9Seq.cpp|local|Rva002D9FD9Owner::rva002D9FD9|x,b63ee148ad9609db64de759a,gpt-6.1-sol,w2-10260307-2,w-dce04682aaeb,2026-10-26
