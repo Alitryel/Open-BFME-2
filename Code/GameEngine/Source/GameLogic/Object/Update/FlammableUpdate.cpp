@@ -248,19 +248,7 @@ UpdateSleepTime FlammableUpdate::calcSleepTime()
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?doAflameDamage@FlammableUpdate@@IAEXXZ present-unmatched
-void FlammableUpdate::doAflameDamage()
-{
-	const FlammableUpdateModuleData *data = getFlammableUpdateModuleData();
-
-	DamageInfo info;
-	info.in.m_amount = data->m_aflameDamageAmount;
-	info.in.m_sourceID = getObject()->getID();
-	info.in.m_damageType = DAMAGE_FLAME;
-	info.in.m_deathType = DEATH_BURNED;
-
-	getObject()->attemptDamage( &info );
-}
+// FlammableUpdate::doAflameDamage: retail body rowed in FlammableUpdate_doAflameDamage.cpp (0x0048C771).
 
 void FlammableUpdate::stopBurningSound()
 {
@@ -289,16 +277,7 @@ Bool FlammableUpdate::wouldIgnite()
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@FlammableUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void FlammableUpdate::crc( Xfer *xfer )
-{
-
-	// extend base class
-	UpdateModule::crc( xfer );
-
-}
-
-  // end crc
+// FlammableUpdate::crc: Zero Hour copy removed; retail has no own body for it here.
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
