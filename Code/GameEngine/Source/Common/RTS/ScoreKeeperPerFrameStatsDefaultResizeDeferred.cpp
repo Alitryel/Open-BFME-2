@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // Clean reference: BF1 ba7ddda Coord3DVectorResizeThunk.cpp establishes the
 // retail by-value resize variant of STLport4.5.3. Here native39D170..39D1D0
@@ -9,8 +9,7 @@
 // Deferred constructor-dependent wrappers: the emitted PerFrameStats table still
 // needs its canonical virtual providers. Preserve their retail bytes here.
 #include <vector>
-#include "Common/Snapshot.h"
-class Rva0039B893 : public Snapshot { public: Rva0039B893(); virtual __forceinline ~Rva0039B893(){}; int field04; float field08; short field0C,field0E,field10; protected: virtual void loadPostProcess();virtual void crc(Xfer*);virtual void xfer(Xfer*); };
+class Rva0039B893 { public: Rva0039B893(); virtual ~Rva0039B893(); int field04; float field08; short field0C,field0E,field10; };
 
 // The default record constructor is visible here because native39D1D0 keeps
 // its receiver in EDX across this call. The record must emit its own vtable:
