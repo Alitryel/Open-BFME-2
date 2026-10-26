@@ -378,7 +378,13 @@ authored-byte previews or commit-title gains into a projected headline.
   to the same game allocator through the owner's existing alternate name.
   The ordinary preview against 47e030bafc retains LINKS, 258 to 258 bytes;
   final linker directives and every non-debug section byte are unchanged.
-  Six remaining ICoord2D items and census confirmation stay open.
+  The [empty-constructor view](../reverse/attempt_support/icoord2d-default-header-20261026.md)
+  records native 47A6A9/3 and lets ButtonFlashTransitionUpdate.cpp adopt the
+  same header: 3/3 rows (2,278 bytes), all 13 non-debug sections and all
+  93 relocations remain exact, retiring its header-queue item. Ordinary
+  aggregate users keep their existing type; mode selection remains a
+  first-include prerequisite. Five ICoord2D items and census confirmation
+  stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through

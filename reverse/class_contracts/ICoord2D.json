@@ -45,6 +45,15 @@
     "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
     "required_define": "ICOORD2D_VIEW_COMPONENT_CTOR",
     "decided_by": "Retail export and byte-verified owner; two integer stores at offsets0/4 in the eight-byte receiver. ThrowingNewHelpers constructor5CF07E calls this existing owner. An opt-in declaration retains its constructed temporary while default header users retain their aggregate construction and ABI, following the existing Coord2D/Coord3D/ICoord3D constructor-view contracts."
+   },
+   {
+    "declaration": "#ifdef ICOORD2D_VIEW_DEFAULT_CTOR\n// Native empty constructor 0x0047A6A9/3; no coordinate initialization.\n// Select before the first include; this constructed view lasts for the TU.\nICoord2D() {}\n#endif",
+    "name": "??0ICoord2D@@QAE@XZ",
+    "rva": "0x0047A6A9",
+    "size": 3,
+    "source": "Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/Gadget/W3DPushButtonImageDrawVertical.cpp",
+    "required_define": "ICOORD2D_VIEW_DEFAULT_CTOR",
+    "decided_by": "Retail export and matched owner at 0x0047A6A9: MOV EAX,ECX; RET, with no field stores. Existing private views in button rendering use the same empty inline constructor. Opt-in keeps those constructed-expression semantics without changing aggregate initialization or by-value ABI in ordinary header consumers. This is a compiler view prerequisite for composition, not proof that arbitrary views may share a TU."
    }
   ]
  },
