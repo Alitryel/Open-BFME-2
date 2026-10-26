@@ -4964,7 +4964,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/LevelUpUpgradeModu
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/LevelUpUpgradeModuleDataCtor.cpp	_vfn_0047A6A9	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/LevelUpUpgradeModuleDataCtor.cpp	_vfn_004A10FD	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/LevelUpUpgradeModuleDataCtor.cpp	_vfn_0050B5C6	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/MaxHealthUpgradeModuleDataCtor.cpp	_vtbl_00BF2558	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/MaxHealthUpgrade.cpp	_vtbl_00BF2558	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/RadarUpgradeModuleDataCtor.cpp	_vtbl_00BF2558	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/StatusBitsUpgradeIfEldestKindofCtor.cpp	_vtbl_00C58790	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/StatusBitsUpgradeIfEldestKindofModuleDataCtor.cpp	_vtbl_00BF25D8	1
