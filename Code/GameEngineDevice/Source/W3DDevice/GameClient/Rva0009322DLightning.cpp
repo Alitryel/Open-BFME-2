@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /ICode/Libraries/Include/Lib
 // ?target_0009322D@W3DSnowManager@@AAEXXZ @0x0009322D 180B (Ghidra splits it
 // at 0x0009323B; the prologue and first override hop sit in 0x0009322D..0x0009323B).
 // W3DSnowManager::update (0x000949D9) ends by calling it on the same receiver
@@ -19,74 +19,24 @@ public:
 	static float Random_Float(float min, float max) { return Random_Float() * (max - min) + min; }
 };
 
-class Overridable
-{
-public:
-	const Overridable *getFinalOverride(void) const
-	{
-		if (m_nextOverride)
-			return m_nextOverride->getFinalOverride();
-		return this;
-	}
-
-private:
-	void *m_vtable;
-	Overridable *m_nextOverride;
-};
-
-template <class T> class OVERRIDE
-{
-public:
-	__inline const T *operator->(void) const
-	{
-		if (!m_overridable)
-			return 0;
-		return (T *)m_overridable->getFinalOverride();
-	}
-
-private:
-	const T *m_overridable;
-};
-
-class WeatherSetting : public Overridable
-{
-public:
-	char m_unmodelled_08[0x54 - 0x08];
-	bool m_lightningEnabled;
-	char m_unmodelled_55[0x64 - 0x55];
-	int m_lightningDuration;
-	float m_lightningChance;
-};
-
-extern OVERRIDE<WeatherSetting> TheWeatherSetting;
-
-class W3DSnowManager
-{
-private:
-	void target_0009322D(void);
-
-	char m_unmodelled_00[0x50];
-	bool m_lightningActive;
-	char m_unmodelled_51[0x54 - 0x51];
-	int m_lightningFrames;
-};
+#include "W3DSnowResourceView.h"
 
 void W3DSnowManager::target_0009322D(void)
 {
-	if (!TheWeatherSetting->m_lightningEnabled)
+	if (!TheWeatherSetting->m_54)
 		return;
-	if (m_lightningActive)
+	if (m_50)
 	{
-		if (--m_lightningFrames > 0)
+		if (--m_54 > 0)
 			return;
-		m_lightningFrames = 0;
-		m_lightningActive = false;
+		m_54 = 0;
+		m_50 = false;
 		return;
 	}
 	float chance = WWMath::Random_Float();
-	if (chance < TheWeatherSetting->m_lightningChance)
+	if (chance < TheWeatherSetting->m_68)
 	{
-		m_lightningActive = true;
-		m_lightningFrames = (int)(WWMath::Random_Float(0.7f, 1.2f) * TheWeatherSetting->m_lightningDuration + 0.5f);
+		m_50 = true;
+		m_54 = (int)(WWMath::Random_Float(0.7f, 1.2f) * TheWeatherSetting->m_64 + 0.5f);
 	}
 }

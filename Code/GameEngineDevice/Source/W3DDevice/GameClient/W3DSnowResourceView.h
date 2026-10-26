@@ -79,7 +79,8 @@ protected:
     int m_48;
     int m_4c;
     bool m_50;
-    unsigned char m_target51[0x58 - 0x51];
+    unsigned char m_target51[0x54 - 0x51];
+    int m_54;
     int m_58;
     int m_5c;
     int m_60;
@@ -101,6 +102,7 @@ public:
     void rva00093349();
     void rva00093457();
 private:
+    void target_0009322D();
     DX8IndexBufferClass *m_indexBuffer;
     BFME2ParticleTextureHandle m_snowTexture;
     IDirect3DVertexBuffer8 *m_vertexBuffer;
@@ -143,7 +145,10 @@ public:
     bool m_54;
     unsigned char m_target55[0x58 - 0x55];
     GameClientRandomVariable m_58;
-    unsigned char m_target59[0x70 - 0x59];
+    unsigned char m_target59[0x64 - 0x59];
+    int m_64;
+    float m_68;
+    unsigned char m_target6C[0x70 - 0x6C];
     int m_70, m_74, m_78;
 };
 
