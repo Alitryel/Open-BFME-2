@@ -7674,3 +7674,14 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDist
 Code/GameEngine/Source/Common/Rva000AE234GridGet.cpp|function|0x000AE234|rva000AE234,e04d194ab0a80dbea27b2182,gpt-6.1-sol,w6-10260852-19,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva004A653D_E1,a76feadf9160a5e5e2ee11ca,gpt-6.1-sol,w6-10260852-20,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva004AB246_E1,2932bceaa16d29a15f8df537,gpt-6.1-sol,w6-10260852-20,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005C41C9Refresh.cpp|local|Rva005C41C9::rva005C41C9|c,85f90eda6eed540c933b5568,gpt-6.1-sol,w1-10260915-1,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva0014A0B0Flag.cpp|function|0x0014A0B0|rva0014A0B0,63db3ee36acf3d6c0a02876c,gpt-6.1-sol,w1-10260915-2,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|local|Rva005C4B56::rva005C4BC8|v44,c6a82c11507f1b883422a607,gpt-6.1-sol,w1-10260915-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|local|Rva005C4B56::rva005C4BC8|v48,276807a2537fa96eb77ee121,gpt-6.1-sol,w1-10260915-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp|class||Rva003F87FFListener,3e0b3f2a4553ecf77238a737,gpt-6.1-sol,w1-10260915-6,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp|class||Rva003F8646Call,7005106060d9c58f80984d95,gpt-6.1-sol,w1-10260915-6,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva003F87FFNotifiers.cpp|class||Rva003F86D4List,c46009bbee59ed8c616d2406,gpt-6.1-sol,w1-10260915-6,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationField2,ffc1593c86b6a8295431ba76,gpt-6.1-sol,w1-10260915-8,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationRecordFields,cec65d814a79bd0f5697f30f,gpt-6.1-sol,w1-10260915-8,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp|param|Rva005D3CA6::rva005D3DD5|v,04c557e83eaf41b84408ee8c,gpt-6.1-sol,w1-10260915-9,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp|local|Rva005D3CA6::rva005D3DD5|m_32,ad68f9eb55a0b499d4e480b9,gpt-6.1-sol,w1-10260915-9,w-6d5d2b593eca,2026-10-26

@@ -2651,3 +2651,4 @@ __ehhandler$?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x00787763,"Re
 ?Rva002E6E7FEqualsOne@@YAII@Z,0x002E6E7F,"Renamed to ?isGroundLayer@@YAII@Z by tools/rename.py (inferred)"
 ?rva005E95B9@Rva005E95B9@@QAEXXZ,0x005E95B9,"Renamed to ?updateWaterTransform@Rva005E95B9@@QAEXXZ by tools/rename.py (inferred)"
 ?rva0027F4F8@Rva0027F4F8@@QAEPAXH@Z,0x0027F4F8,"Renamed to ?getWaterHandleByID@Rva0027F4F8@@QAEPAXH@Z by tools/rename.py (inferred)"
+?BfmeAnimationRecordFields@@3QBUFieldParse@@B,0x007CA560,"Renamed to ?animationRecordFields@@3QBUFieldParse@@B by tools/rename.py (inferred)"

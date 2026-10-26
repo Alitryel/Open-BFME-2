@@ -116,10 +116,10 @@ void Rva005C4B56::rva005C4BC8(bool oldState, bool newState, int c)
 		flag = true;
 		goto final;
 	case 3: {
-		int v44 = m_subAC->m_val44;
-		int v48 = m_subAC->m_val48;
+		int fadeInTime = m_subAC->m_val44;
+		int fadeOutTime = m_subAC->m_val48;
 		float vf = m_subAC->m_val4C;
-		((Rva003FBA0E *)this)->rva003FBA0E(0, v44, v44, v48 + v44, 0, vf);
+		((Rva003FBA0E *)this)->rva003FBA0E(0, fadeInTime, fadeInTime, fadeOutTime + fadeInTime, 0, vf);
 		if (oldState != true)
 			goto final;
 		flag = true;

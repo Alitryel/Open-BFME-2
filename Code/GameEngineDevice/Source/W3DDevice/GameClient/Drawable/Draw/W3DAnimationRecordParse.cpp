@@ -26,7 +26,7 @@ extern "C" void _ReadWriteBarrier(void);
 class INI;typedef void(*INIFieldParseProc)(INI*,void*,void*,const void*);
 struct FieldParse{const char*token;INIFieldParseProc parse;const void*userData;int offset;};
 class INI{public:static void parseAsciiStringVector(INI*,void*,void*,const void*);static void parseIndexList(INI*,void*,void*,const void*);static void parseReal(INI*,void*,void*,const void*);static void parseBool(INI*,void*,void*,const void*);static void parseInt(INI*,void*,void*,const void*);AsciiString getNextAsciiString();void initFromINI(void*,const FieldParse*);};
-extern const FieldParse BfmeAnimationRecordFields[];
+extern const FieldParse animationRecordFields[];
 struct Rva000C838FOwner{char prefix[0x50];_STL::vector<BfmeVectorRecord000BDF17>animations;};
 namespace _STL{template<>void vector<BfmeVectorRecord000BDF17>::push_back(const BfmeVectorRecord000BDF17&);}
 void Rva000C838FParse(INI*ini,void*instance,void*store,const void*userData){
@@ -35,7 +35,7 @@ void Rva000C838FParse(INI*ini,void*instance,void*store,const void*userData){
  BfmeVectorRecord000BDF17 record(token,0.0f);record.text1=original;
  unsigned char scratch[76];memset(scratch,0,sizeof scratch);
  if((unsigned)userData==1)record.word1C=2;
- ini->initFromINI(&record,BfmeAnimationRecordFields);
+ ini->initFromINI(&record,animationRecordFields);
  if(record.word30<0)record.word30=0;
  if(record.word30>100)record.word30=100;
  if(record.names.size()!=0&&(_ReadWriteBarrier(),!record.names.front().isEmpty())&&(_ReadWriteBarrier(),!record.names.front().isNone()))
@@ -62,4 +62,4 @@ extern const char g_animationPriorityField[]="AnimationPriority";
 extern const char g_fadeBeginFrameField[]="FadeBeginFrame";
 extern const char g_fadeEndFrameField[]="FadeEndFrame";
 extern const char g_fadingInField[]="FadingIn";
-extern const FieldParse BfmeAnimationRecordFields[]={{g_animationNameField,INI::parseAsciiStringVector,0,0},{g_animationModeField,INI::parseIndexList,animationModeNames,28},{BfmeAnimationField2,INI::parseReal,0,20},{g_animationBlendTimeField,INI::parseReal,0,32},{g_animationMustCompleteBlendField,INI::parseBool,0,44},{g_animationSpeedFactorRangeField,ModelConditionInfo::parseRealRange,0,0},{g_useWeaponTimingField,INI::parseBool,0,45},{g_animationPriorityField,INI::parseInt,0,48},{g_fadeBeginFrameField,INI::parseReal,0,52},{g_fadeEndFrameField,INI::parseReal,0,56},{g_fadingInField,INI::parseBool,0,60},{0,0,0,0}};
+extern const FieldParse animationRecordFields[]={{g_animationNameField,INI::parseAsciiStringVector,0,0},{g_animationModeField,INI::parseIndexList,animationModeNames,28},{BfmeAnimationField2,INI::parseReal,0,20},{g_animationBlendTimeField,INI::parseReal,0,32},{g_animationMustCompleteBlendField,INI::parseBool,0,44},{g_animationSpeedFactorRangeField,ModelConditionInfo::parseRealRange,0,0},{g_useWeaponTimingField,INI::parseBool,0,45},{g_animationPriorityField,INI::parseInt,0,48},{g_fadeBeginFrameField,INI::parseReal,0,52},{g_fadeEndFrameField,INI::parseReal,0,56},{g_fadingInField,INI::parseBool,0,60},{0,0,0,0}};
