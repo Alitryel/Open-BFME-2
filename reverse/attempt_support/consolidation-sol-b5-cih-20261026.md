@@ -43,9 +43,16 @@ m_code; these private views do not establish a complete shared class layout.
 ## Repair and scoped acceptance
 
 The full normal baseline `tu_skeleton.py --merge ... --dry-run` captured its
-source texts before any edit. It continues through alternate orders, flags
-and the uncarried-override retry. Its result is baseline evidence, even though
-the prerequisite was verified while that captured-text trial was running.
+source texts before any edit. It completed with exit 0 after alternate orders,
+flags and the uncarried-override retry: seed plus Rva006E1DD0Cluster.cpp,
+13 rows, `/MD`, one data-baseline transfer proposed. This is pre-existing
+compatibility, not this repair's improvement. The level donor was excluded
+because no accepted donor carried its override in that broad baseline.
+Other rejections include missing DestroyGCPointers/m_4c, draw/refresh member
+declarations, incompatible AptValue views, an incomplete EAStringC, and a
+byte mismatch in Rva006E1E30Cluster.cpp. Do not retry those unchanged blockers
+without new evidence. No broad post-repair merge is claimed: the completed
+scoped comparison below proves only the concrete level-donor prerequisite.
 
 To isolate the concrete dependency, `build/sol-b5-cih-scope.py before|after`
 calls the same `tu_skeleton._merge(..., dry_run=True)` routine with the seed
@@ -100,3 +107,55 @@ or new C++ recovery is claimed.
 Retain the seed, unchanged level donor and handoff file claims until confirmed
 publication. If the runner holds the batch, its next session releases those
 claims after landing. The allocator claims are recorded in its own handoff.
+
+## New outgoing-batch audit limitation
+
+The newly introduced pre-push `link_batch_audit.py` ran on this two-repair
+batch. Its first pass used outgoing base 73ffc391c4 and index f995f30157,
+so any since-index result was provisional. It then returned INCONCLUSIVE:
+`Code/GameEngine/Source/GameClient/Eva.cpp` lacks a current strict receipt.
+The push byte gate nevertheless passed 42/42 rows across the three selected
+sources, literals, five EH entries and converged data checks.
+
+Read-only diagnosis: `build.compile_is_current(Eva, obj)` is true, its strict
+form is false; the sidecar has 75 dependencies, no version-2 inventory.
+`header_dependents.scan('HEAD')` identifies macro includer
+`reference/shims/eva_vector/EvaVectorABI.h`, which explains conservative
+selection of Eva for changed non-header sources. This does not demonstrate
+an Apt provider dependency or a linked-byte regression. Our scoped pre/post
+definition, COMDAT and binding proofs remain equal; census confirmation is
+pending. Do not replace the missing strict witness with ordinary receipt
+success, or treat the old index as current closure evidence.
+
+Shared-register handoff: `claims.py claim file:docs/linking_obstacles.md`
+was refused because another worker holds it. Its owner should record this
+additional strict-receipt scope alongside LINK-008, retaining that entry's
+graphics evidence. Next useful check is supported strict preparation of Eva's
+actual include graph and a current-index outgoing audit; no gate relaxation
+or maintainer-only runner was attempted here.
+
+## Session result
+
+The allocator prerequisite and this CIH prerequisite make thirteen existing
+donor rows (71 + 1,135 retail bytes) compatible in their scoped dry-runs.
+Neither merge was applied; no later Luna landing is confirmed. Files reduced:
+zero. Identity debt retired: zero. New authored C++ bytes: zero.
+`python3 tools/progress.py origin/master` reports BYTE-MATCHED 100%,
+LINKING 96.74% and LINKED 97.51%, all deltas zero, from the f995f30157 census.
+Ghost/debug-console blockers were left unchanged; no cross-family donor was
+edited. BFME 1 upstream freshness remains a separate verification handoff
+recorded with the allocator trial, not a successful freshness receipt.
+
+Publication was retried after two remote races. A third attempt correctly
+refused this handoff's then-uncommitted audit note; this evidence update is
+committed before another publisher invocation. Retain all five file claims
+listed across both handoffs until the repairs are confirmed on origin/master.
+If the publisher still cannot land them, the runner carries the committed
+batch forward; there is no unfinished source trial or uncommitted source body.
+
+Final planner regeneration under `Code/Libraries/Source/Apt/` completed after
+the broad trial removed its temporary sources. Its subsequent
+`name_lane.py consolidate --check build/consolidation` passes. The final
+outgoing-range audit (e1cbba4b53, 182073e016 plus this evidence update, based
+on 4d2094622a) still has just two modified seeds and two new handoffs: no
+source moves, include changes, build-input changes or path-consumer repair.
