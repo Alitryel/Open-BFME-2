@@ -26,6 +26,14 @@ enum UpdateSleepTime
 
 extern GameLogic *TheGameLogic;
 
+// Retail 0x003A4B58 reads GameLogic +0xA0. Keep this codegen view local:
+// extending the shared class changes PlaceEventTranslator's stack allocation.
+struct GameLogicHulkLifetimeView
+{
+	unsigned char m_pad00[0xA0];
+	Int m_hulkMaxLifetimeOverride;
+};
+
 class ThingTemplate
 {
 public:
@@ -132,8 +140,8 @@ LifetimeUpdate::LifetimeUpdate(Thing *thing, const ModuleData *moduleData)
 	else
 	{
 		UnsignedInt delay;
-		if (getObject()->isHulkKind() && TheGameLogic->getHulkMaxLifetimeOverride() != -1)
-			delay = calcSleepDelay(TheGameLogic->getHulkMaxLifetimeOverride(), TheGameLogic->getHulkMaxLifetimeOverride());
+		if (getObject()->isHulkKind() && ((const GameLogicHulkLifetimeView *)TheGameLogic)->m_hulkMaxLifetimeOverride != -1)
+			delay = calcSleepDelay(((const GameLogicHulkLifetimeView *)TheGameLogic)->m_hulkMaxLifetimeOverride, ((const GameLogicHulkLifetimeView *)TheGameLogic)->m_hulkMaxLifetimeOverride);
 		else
 			delay = calcSleepDelay(data->m_minFrames, data->m_maxFrames);
 		setWakeFrame(getObject(), (UpdateSleepTime)delay);

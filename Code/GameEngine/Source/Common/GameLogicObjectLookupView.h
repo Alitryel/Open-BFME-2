@@ -69,10 +69,7 @@ private:
 	bool m_isScoringEnabled; // +0x98
 	char pad99[0x9A - 0x99];
 	bool m_drawIconUI; // +0x9A
-	char pad9B[0xA0 - 0x9B];
-	// LifetimeUpdate ctor 0x003A4B58 reads this word for its Hulk bounds.
-	int m_hulkMaxLifetimeOverride; // +0xA0
-	char padA4[0xAC - 0xA4];
+	char pad9B[0xAC - 0x9B];
 	Object *m_firstObject; // +0xAC, the head getFirstObject returns
 	char padB0[0xB4 - 0xB0];
 	ObjectIdMap m_map;
@@ -145,7 +142,6 @@ public:
 	bool getFlag125() const { return m_flag125; }
 	unsigned int getTimestamp() const { return m_timestamp; }
 	unsigned int getFrame() const { return m_frame; }
-	__declspec(dllimport) __forceinline int getHulkMaxLifetimeOverride() const { return m_hulkMaxLifetimeOverride; }
 	bool getDrawIconUI() const { return m_drawIconUI; }
 	Rva00439E0C *getManager178() const { return m_manager178; }
 	TerrainResourceManager *getTerrainResourceManager() const { return m_resourceManager; }

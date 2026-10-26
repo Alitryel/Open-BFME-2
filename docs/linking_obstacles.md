@@ -1106,6 +1106,23 @@ separate strict receipt limitation encountered there.
   ownership and new-variant checks passed; the mechanical trial was restored
   because provider/consumer comparison remained incomplete. See
   `reverse/attempt_support/consolidation-run-20261026.md`.
+- **2026-10-26 codex4 prerequisite recovery:** inherited local LifetimeUpdate and
+  LargeGroupAudioUpdate declaration repairs retain their scoped COFF
+  proofs: Lifetime accepts six rows / 329 existing bytes, LargeGroup accepts
+  ten / 155. No merge or source-path move is applied. At base `aa404c29b6`,
+  `link_check.py --fetch-index` still supplies `47e030bafc`; the full changed-header
+  closure audit reports an inconclusive baseline and 1,137 objects without
+  current strict link receipts. This does not establish a selected-provider
+  regression or clearance. The standalone/composed definition, selection and
+  reference comparisons are recorded in
+  `reverse/attempt_support/consolidation-prerequisite-recovery-20261026-codex4.md`.
+  Preserve this batch's census confirmation as pending; do not repeat its
+  unchanged receiver/base ABI blockers or run maintainer-only measurements.
+  Recovery follow-up withdrew the shared GameLogic Hulk accessor/header adoption:
+  the required push dry run reproduced PlaceEventTranslator 0x0043218A's
+  build/builder stack-home swap. Restoring the original header with a local field
+  view passes both units (7/7 functions); the header queue debt is restored.
+  Three local prerequisite repairs remain; original adoption evidence is banked.
 - **Remaining / next check:** after the next published census/index supplies
   current receipts, rerun `link_batch_audit.py` for these exact source paths
   and `Code/Libraries/Source/WWVegas/WW3D2/dx8vertexbuffer.cpp`,
