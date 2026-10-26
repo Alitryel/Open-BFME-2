@@ -73,3 +73,14 @@ New authored/recovered C++ bytes 0; file reduction 0; identity debt retired 0.
 The demonstrated gain is one newly compatible existing row, 104 retail bytes.
 BFME1 reference freshness remains the explicit verification handoff in the
 Snow note; no unverified success receipt or reference update was recorded.
+
+Recovery check, 2026-10-26 (next codexb5 session): the preserved batch is now
+3b29ee262e (Snow evidence), 1379e46e4d (AptArray prerequisite), and 909b7cca6b
+(handoff), all still ahead of origin/master at inspection. The working tree
+was clean. Rechecked AptArray with ./build.sh: 10/10 exact, eight literals and
+three renumbered funclets verified; seed/constructor frozen check passes.
+The complete pending range still has no source path changes, so the prior
+tooling compatibility audit applies. Retain both AptArray file claims until
+publication is confirmed. Official BFME1 master fetched successfully at
+5a1aa89fb124; the clean checkout remains the verified input de077dd5dd83.
+The update still requires full verification; no success receipt was written.
