@@ -825,7 +825,7 @@ Code/GameEngine/Source/GameLogic/Object/Upgrade/StatusBitsUpgradeIfEldestKindofS
 Code/GameEngine/Source/GameLogic/Object/Upgrade/SupplyCenterCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8DCA@SupplyCenterCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F74
 Code/GameEngine/Source/GameLogic/Object/Upgrade/SupplyWarehouseCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8EC1@SupplyWarehouseCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F7C
 Code/GameEngine/Source/GameLogic/Object/Upgrade/TooltipUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva004B79E9@TooltipUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F0C
-Code/GameEngine/Source/GameLogic/Object/Upgrade/UnpauseSpecialPowerUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B5405@UnpauseSpecialPowerUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03E68
+Code/GameEngine/Source/GameLogic/Object/Upgrade/UnpauseSpecialPowerUpgrade.cpp	wrong-name	?$S1@?1??rva0004B5405@UnpauseSpecialPowerUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03E68
 Code/GameEngine/Source/GameLogic/ScriptEngine/LuaObjectHasUpgrade.cpp	wrong-name	_TheUpgradeCenter	0x009FEB60
 Code/GameEngine/Source/GameLogic/ScriptEngine/LuaObjectRva003354D6.cpp	wrong-name	_TheUpgradeCenter	0x009FEB60
 Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003E4921Finish.cpp	wrong-name	?$S1@?3??rva003E4921@ScriptConditions@@QAE_NPAVParameter@@@Z@4IA	0x00A02E18

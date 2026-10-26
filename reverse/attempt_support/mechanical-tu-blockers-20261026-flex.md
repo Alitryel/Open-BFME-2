@@ -178,3 +178,9 @@ Applied the unchanged accepted split for `Code/GameEngine/Source/GameClient/Inpu
 ## FloatUpdate.cpp trial, 2026-10-26
 
 The current allocator served `Code/GameEngine/Source/GameLogic/Object/Update/FloatUpdate.cpp` (7 rows). Fresh planner snapshot/check passed; unchanged `tu_skeleton --merge ... --dry-run` accepted no donors. `FloatUpdatePoolKey.cpp` fails because `rva00048D761` is not declared on `FloatUpdate`; `FloatUpdateModuleDataCtor.cpp` fails because `m_vtable` is undeclared. No source or ledger changes were made; claim released. Skip this unchanged failure unless the declarations or donor change.
+
+## UnpauseSpecialPowerUpgrade.cpp merge, 2026-10-26
+
+Applied the unchanged accepted split for `Code/GameEngine/Source/GameLogic/Object/Upgrade/UnpauseSpecialPowerUpgrade.cpp`: absorbed `UnpauseSpecialPowerUpgradePoolKey.cpp`, `UnpauseSpecialPowerUpgradeModuleDataCtor.cpp`, and `Rva004B555FUpgradeNameRef.cpp`; 4 matched rows. Rejected constructor and implementation donors still lack `getModuleNameKey` declarations in their classes. Build and frozen-file check passed, 4/4 rows matched. TU ownership, removed-row verification, and hatch counters passed. The merge tool carried the data register entries and moved the one `alternatename` hatch to the new owner, totals preserved.
+
+The suggested owner command `repair_queue.py retire data Code/GameEngine/Source/GameLogic/Object/Upgrade/UnpauseSpecialPowerUpgrade.cpp` refused and retired nothing: fresh findings remain wrong-name at `0x00A03E68` and `0x00A03E64`. Staged shadow identity also reports the moved `alternatename` as one new finding. These are retained for the register owners; no manual baseline or source changes were made. Path audit found no consumers of the three removed donors outside comments in the consolidated TU.

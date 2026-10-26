@@ -4554,7 +4554,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/SpecialPower/TaintSpecialP
 alternatename	Code/GameEngine/Source/GameLogic/Object/SpecialPower/TaintSpecialPowerModuleDataCtor.cpp	_vfn_0047A69C	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/SpecialPower/TaintSpecialPowerModuleDataCtor.cpp	_vfn_004C4AEB	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/SpecialPower/TaintSpecialPowerModuleDataCtor.cpp	_vfn_0050B5C6	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/SpecialPower/UnpauseSpecialPowerUpgradeModuleDataCtor.cpp	_vtbl_00BF2558	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/SpecialPower/WeaponChangeSpecialPowerModuleDoSpecialPower.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/TunnelTrackerDtor.cpp	?onTunnel@TunnelTracker@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AIGateUpdateCtor.cpp	?unused@BehaviorModuleBase@@EAEXXZ	1
@@ -4973,6 +4972,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/SubObjectsUpgradeC
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/SubObjectsUpgradeCtor.cpp	_vtbl_00C57C40	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/SubObjectsUpgradeCtor.cpp	_vtbl_00C58790	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/SubObjectsUpgradeModuleDataCtor.cpp	_vtbl_00BF41A8	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/UnpauseSpecialPowerUpgrade.cpp	_vtbl_00BF2558	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/UpgradeModuleCtor.cpp	_vtbl_00BE2B78	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/UpgradeModuleCtor.cpp	_vtbl_00C42720	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/UpgradeModuleCtor.cpp	_vtbl_00C57328	1
