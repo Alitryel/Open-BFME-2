@@ -1,5 +1,5 @@
 // cl: /O2 /MD
-// ?rva0014A0B0@Rva0014A0B0@@QBEHXZ @0x0014A0B0 (25B).
+// ?isSkinned@Rva0014A0B0@@QBEHXZ @0x0014A0B0 (25B).
 // Target evidence: thiscall, no arguments; reads the pointer at +0xC4 and
 // answers 1 only when it is non-null and bit 2 of its byte +0x19 is set
 // (mov eax,1 / xor eax,eax returns). Called twice from the unrowed
@@ -17,14 +17,14 @@ struct Rva0014A0B0Target
 class Rva0014A0B0
 {
 public:
-	int rva0014A0B0() const;
+	int isSkinned() const;
 
 private:
 	unsigned char m_pad00[0xC4];
 	Rva0014A0B0Target *m_c4;
 };
 
-int Rva0014A0B0::rva0014A0B0() const
+int Rva0014A0B0::isSkinned() const
 {
 	return m_c4 && (m_c4->m_flags & 4);
 }

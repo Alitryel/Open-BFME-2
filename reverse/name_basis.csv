@@ -2459,3 +2459,7 @@ param,Rva0035A97E::rva0035A97E::b,Rva0035A97E::rva0035A97E::cellY,inferred,agree
 local,Rva0028D796::rva0028D796::c,Rva0028D796::rva0028D796::levelRank,inferred,agree:nl-0edc03b7dac4,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp,0x0028D796
 class,Rva004E81DE,ClaimedDecalUpdateCallback,inferred,agree:nl-5543072b7f92,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,
 carry,Rva004E81DE::rva004E81DE::claimantId,ClaimedDecalUpdateCallback::rva004E81DE::claimantId,inferred,scope renamed by Rename Rva004E81DE to ClaimedDecalUpdateCallback (inferred),Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x004E81DE
+function,?rva0014A0B0@Rva0014A0B0@@QBEHXZ,?isSkinned@Rva0014A0B0@@QBEHXZ,inferred,agree:nl-4753d5ec407e,Code/GameEngine/Source/Common/Rva0014A0B0Flag.cpp,0x0014A0B0
+member,Rva002B37B4P2::m_3C4,Rva002B37B4P2::m_hasLost,inferred,agree:nl-e59e56ff83d9,Code/GameEngine/Source/Common/Rva002B37B4.cpp,
+param,AptSkirmish::OpenScreen::a1,AptSkirmish::OpenScreen::mode,inferred,agree:nl-6c7d1d54898c,Code/GameEngine/Source/Common/Rva0052192DInit.cpp,0x0052192D
+param,StrategicVeterancy::Data::AutoResolve::AutoResolve::c,StrategicVeterancy::Data::AutoResolve::AutoResolve::autoResolveBattle,inferred,agree:nl-d5441e66ef15,Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp,0x005ECE81

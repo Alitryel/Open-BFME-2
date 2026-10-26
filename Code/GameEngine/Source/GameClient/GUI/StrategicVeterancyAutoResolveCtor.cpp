@@ -68,18 +68,18 @@ class StrategicVeterancy::Data::AutoResolve : public StrategicVeterancy::Data {
 public: AutoResolve(void *,void *,void *);
 protected: virtual ~AutoResolve();
 };
-StrategicVeterancy::Data::AutoResolve::AutoResolve(void *a,void *b,void *c) {
+StrategicVeterancy::Data::AutoResolve::AutoResolve(void *a,void *b,void *autoResolveBattle) {
  _STL::vector<BfmeE8> entries;
  int selected=0;
  int player=((Rva002B2B66 *)a)->rva002B2B66();
  int index=0;
- Records52 *records=(Records52 *)c;
+ Records52 *records=(Records52 *)autoResolveBattle;
  for(Record52 *record=records->first;record!=records->last;++record) {
   if(record->player30==player) { selected=record->m_sideIndex;break; }
   ++index;
  }
  _STL::vector<Rva004F77E0Element> units[2];
- ((Rva004F92E3 *)c)->rva004F92E3(units);
+ ((Rva004F92E3 *)autoResolveBattle)->rva004F92E3(units);
  _STL::vector<Rva004F77E0Element> &selectedUnits=units[selected];
  for(Rva004F77E0Element *e=selectedUnits.begin();e!=selectedUnits.end();++e) {
   TreeHintRef00217D4C ref=*(TreeHintRef00217D4C *)e;

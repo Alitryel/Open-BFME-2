@@ -7716,3 +7716,14 @@ Code/GameEngine/Source/Common/Rva003802DF.cpp|local|Rva00380200::rva003802DF|r,5
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|s2,7af77ce7b293a20936cc8f0a,gpt-6.1-sol,w4-10260940-13,w-eb83eac9adc1,2026-10-26
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v2,dc4275beab4fc26ec4ed9d9c,gpt-6.1-sol,w4-10260940-13,w-eb83eac9adc1,2026-10-26
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v3,b120a7b2a8e8e5215b830fce,gpt-6.1-sol,w4-10260940-13,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/Rva005801F6Compare.cpp|function|0x005801F6|rva005801F6,c3fddd844b8be2365a1b7a86,gpt-6.1-sol,w5-10260932-1,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|local|Rva005C4B56::rva005C4BC8|v44,10371d7e7b6942f36dcc5652,gpt-6.1-sol,w5-10260932-2,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005C4B56.cpp|local|Rva005C4B56::rva005C4BC8|v48,e284e87301b9581bb25f6fcb,gpt-6.1-sol,w5-10260932-2,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva0052192DInit.cpp|param|AptSkirmish::OpenScreen|a1,6c7d1d54898cb14454e1d65b,gpt-6.1-sol,w5-10260932-7,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva0052192DInit.cpp|global||g_00DD179C,cfc1521924b8ea982bf14067,gpt-6.1-sol,w5-10260932-7,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva0014A0B0Flag.cpp|function|0x0014A0B0|rva0014A0B0,8252e35d186f5967d03a32ff,gpt-6.1-sol,w5-10260932-8,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|param|StrategicVeterancy::Data::AutoResolve::AutoResolve|a,a4aa7f9cb656ebd84e1786d1,gpt-6.1-sol,w5-10260932-12,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|param|StrategicVeterancy::Data::AutoResolve::AutoResolve|b,9096ac75b7fe2f7ae717d4c0,gpt-6.1-sol,w5-10260932-12,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/StrategicVeterancyAutoResolveCtor.cpp|param|StrategicVeterancy::Data::AutoResolve::AutoResolve|c,82d3ab821a6626d291b3f30f,gpt-6.1-sol,w5-10260932-12,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFB8B|rva004CFB8B,1dfc589156b53b0c200c11f0,gpt-6.1-sol,w5-10260932-13,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva002B37B4.cpp|member|Rva002B37B4P2|m_3C4,12fcdb358853cd1c7be349b4,gpt-6.1-sol,w5-10260932-14,w-f0819d403c17,2026-10-26

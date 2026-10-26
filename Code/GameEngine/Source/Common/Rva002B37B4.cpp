@@ -19,7 +19,7 @@ struct Rva002B37B4P2
 	unsigned char m_pad00[0x14];
 	void *m_playerID;
 	unsigned char m_pad18[0x3AC];
-	unsigned char m_3C4;
+	unsigned char m_hasLost;
 };
 
 class Rva002B36BE
@@ -42,7 +42,7 @@ private:
 
 void Rva002B37B4::rva002B37B4(Rva002B37B4P1 *region, Rva002B37B4P2 *player)
 {
-	if (player->m_3C4 != 0)
+	if (player->m_hasLost != 0)
 		return;
 	if (region->m_ownerPlayerID == player->m_playerID)
 		return;

@@ -22,14 +22,14 @@ extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 class AptSkirmish {
 public:
-    static void OpenScreen(int a1);
+    static void OpenScreen(int mode);
 };
 
-void AptSkirmish::OpenScreen(int a1)
+void AptSkirmish::OpenScreen(int mode)
 {
     if (g_00E04930 != 0)
         return;
-    g_00DD179C = a1;
+    g_00DD179C = mode;
     ((Shell *)(*(GlobalA01E48 **)&TheShell))->push(AsciiString("Skirmish.apt"), false);
     if (g_00E04930 == 0)
         return;

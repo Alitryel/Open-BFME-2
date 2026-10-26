@@ -136,7 +136,7 @@ struct W3DHordeModelDrawHandle
 class Rva0014A0B0
 {
 public:
-	int rva0014A0B0() const;
+	int isSkinned() const;
 };
 
 class Rva0007894EOuter;
@@ -174,7 +174,7 @@ private:
 
 static inline bool PassesSubObjectTest(HordeSubObject *sub)
 {
-	return (unsigned char)((Rva0014A0B0 *)sub)->rva0014A0B0() != 0;
+	return (unsigned char)((Rva0014A0B0 *)sub)->isSkinned() != 0;
 }
 
 void W3DHordeModelDrawManager::ProcessGroup(W3DHordeModelDrawHandle **begin, W3DHordeModelDrawHandle **end)
