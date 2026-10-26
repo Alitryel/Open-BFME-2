@@ -6,6 +6,13 @@ The approved merge absorbed `MaxHealthUpgradePoolKey.cpp` and
 allocator accepted both donors and preserved three matched rows; other donors
 failed unchanged dry-run checks and were left in place.
 
+After the accepted merge, a fresh allocator check and merge dry-run still
+accepted no remaining donors. `MaxHealthUpgradeModule.cpp` fails with C2511 for
+the `MaxHealthUpgrade(Thing *, const ModuleData *)` constructor. The
+`MaxHealthUpgradeUpgradeImplementation.cpp` donor fails with C2039 because
+`getModuleNameKey` is absent from `MaxHealthUpgrade`, followed by C2270. Both
+donors remain unchanged; this is the handoff for the remaining TU work.
+
 ## Verification
 
 - `./build.sh Code/GameEngine/Source/GameLogic/Object/Upgrade/MaxHealthUpgrade.cpp` passed: 3/3 functions, string, float and import checks passed.
