@@ -762,7 +762,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/ProductionUpdatePoolKey.cpp	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/ProjectileStreamUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0033EE84@ProjectileStreamUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A01DE0
 Code/GameEngine/Source/GameLogic/Object/Update/ProneUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00049FE9A@ProneUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B78
 Code/GameEngine/Source/GameLogic/Object/Update/QueueProductionExitUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004A00C2@QueueProductionExitUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B84
-Code/GameEngine/Source/GameLogic/Object/Update/RadarUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004A0C2D@RadarUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B8C
+Code/GameEngine/Source/GameLogic/Object/Update/RadarUpdate.cpp	wrong-name	?$S1@?1??rva0004A0C2D@RadarUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B8C
 Code/GameEngine/Source/GameLogic/Object/Update/RadiateFearUpdateModuleDataCtor.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
 Code/GameEngine/Source/GameLogic/Object/Update/RadiateFearUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00049BFDD@RadiateFearUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B40
 Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecalUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000391445@RadiusDecalUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A027B4
