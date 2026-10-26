@@ -27,7 +27,7 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 extern "C" char s_slot3E4first;
 
 struct NoCaseTreeValue4 { unsigned char m_data[4]; };
-struct BfmeE16 { const char *a; void *b; void *c; int d; };
+#include "../../../Libraries/Include/Lib/BfmeE16.h"
 struct BfmeE12 { char m_d[12]; };
 struct FieldParse { const char *token; void *parse; const void *userdata; int offset; };
 class FXList;
@@ -62,12 +62,12 @@ void Rva002214C5Get(_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > *out)
     MapNoCase::iterator it = map->begin();
     MapNoCase::iterator last = map->end();
     for (; it != last; ++it) {
-        BfmeE16 e;
-        e.a = it->first.str();
-        e.b = (void *)&Rva0022104EParse;
-        e.c = *(void **)&it->second;
-        e.d = 0;
-        tmp.push_back(e);
+        FieldParse e;
+        e.token = it->first.str();
+        e.parse = (void *)&Rva0022104EParse;
+        e.userdata = *(void **)&it->second;
+        e.offset = 0;
+        tmp.push_back(*(const BfmeE16 *)&e);
     }
     tmp.push_back(*(const BfmeE16 *)&SlaveAttackFieldTable);
     (( _STL::vector<struct BfmeE12, _STL::allocator<struct BfmeE12> > *)out)->swap(*( _STL::vector<struct BfmeE12, _STL::allocator<struct BfmeE12> > *)&tmp);
