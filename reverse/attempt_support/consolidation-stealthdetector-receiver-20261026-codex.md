@@ -6,7 +6,7 @@ Allocated destination: `Code/GameEngine/Source/GameLogic/Object/Update/StealthDe
 
 Before repair the ordinary `--merge TU --dry-run` accepted update plus Common/Rva004A2D67Init.cpp (12 rows). Transfer lacked a declared member and matching base; pool key failed the union's NameKeyGenerator declaration. StealthDetectorUpdateView.h now shares the update donor's measured receiver (+4 module data, +8 object, +0xC other interface, +0x10 update interface), existing name-key enum/provider declaration, and the existing transfer/pool methods. Transfer uses primary slot 3; pool-key slot 4 is already recorded in re_attempts.log. No constructor or primary vtable is defined through this partial view; trailing base fields/full hierarchy are explicitly unrecovered. The unused private Coord3DBase definition was removed from transfer. No body changes.
 
-The final ordinary trial accepts update, transfer, pool key and the unchanged initializer together: 15 rows, 1808 existing retail bytes. This adds two compatible donors / three rows / 147 existing bytes (68 transfer, 69 key, 10 key EH). No merge or split was applied; compatible composition is demonstrated, downstream Luna landing is unconfirmed.
+The final ordinary trial accepts update, transfer, pool key and the unchanged initializer together: 15 rows, 1841 existing retail bytes. This adds two compatible donors / three rows / 147 existing bytes (68 transfer, 69 key, 10 key EH). No merge or split was applied; compatible composition is demonstrated, downstream Luna landing is unconfirmed.
 
 ## Verification and providers
 

@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /DWIN32 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
 // cl: /O1 /DNDEBUG /MD /GX
 /*
 **	Command & Conquer Generals Zero Hour(tm)
@@ -33,7 +34,7 @@ class AsciiString;
 class UnicodeString;
 class PooledString;
 struct XferUnknown11;
-class Coord3DBase;
+struct Coord3DBase;
 class ICoord3D;
 class Region3D;
 class IRegion3D;
@@ -63,39 +64,9 @@ typedef bool Bool;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 
-class Coord3DBase
-{
-public:
-	float x;
-	float y;
-	float z;
-};
+#include "ResourceGatheringManagerView.h"
 
-namespace _STL
-{
-template <class T> class allocator
-{
-};
-
-template <class T, class A = allocator<T> > class list
-{
-	void *m_node;
-};
-}
-
-Xfer *Rva0036ABAFXfer( Xfer *xfer, _STL::list<int> *values );
-
-class ResourceGatheringManager
-{
-protected:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-private:
-	_STL::list<int> m_supplyWarehouses;																				///< 0x04
-	_STL::list<int> m_supplyCenters;																					///< 0x08
-};
+Xfer *Rva0036ABAFXfer(Xfer *xfer, _STL::list<int> *values);
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
