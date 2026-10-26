@@ -922,7 +922,6 @@ address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va00A046B4	
 address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va00A04934	3
 address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va00E03314	1
 address_global	Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	g_Va00E04450	1
-address_global	Code/GameEngine/Source/Common/Rva00512C88Shutdown.cpp	g_Va00A048CC	9
 address_global	Code/GameEngine/Source/Common/Rva0051318EVotes.cpp	g_Va007C9260	3
 address_global	Code/GameEngine/Source/Common/Rva00515Wrappers.cpp	g_Va00DD1538	5
 address_global	Code/GameEngine/Source/Common/Rva00515Wrappers.cpp	g_Va00E048DC	2
@@ -1664,7 +1663,6 @@ address_global	Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar_Rva00
 address_global	Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar_Rva0035b112.cpp	g_Rva012F340C	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCampaignMenuCallbacks.cpp	g_Va00E0492C	3
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptCampaignMenuCtor.cpp	g_Va00E0492C	3
-address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptDisconnectScreenShow.cpp	g_Va00A048CC	4
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptFileTransferPopupCtor.cpp	g_Va00E06398	3
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptGuiFXCallbacks.cpp	g_Va00E022E0	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptInGameChat.cpp	g_Va00E04478	5
@@ -2575,7 +2573,7 @@ alternatename	Code/GameEngine/Source/Common/BfmeFormatBuffer88A640.cpp	?bfmeWrit
 alternatename	Code/GameEngine/Source/Common/BfmeGrokOdIf0.cpp	?m@Gen_0082ad50@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeMakeBZA.cpp	?bfme5MakeObj70@@YAPAUBfme5Obj70@@H@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeNodeValueEBDDestructor.cpp	??1CountUpBuffer@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	?_M_copy_from@?$hashtable@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@@_STL@@AAEXABV12@@Z	1	allow=15656d749914ab83177f2ef895c397a8b3f09bf4
+alternatename	Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	?_M_copy_from@?$hashtable@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001FDCE1Record@@@_STL@@@2@@_STL@@AAEXABV12@@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeOneHundredEightySix.cpp	??0W3DRadarResetSurface@@QAE@PAVSurfaceResource@@@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeOneHundredEleven.cpp	?bfmeBaseUNC@BfmeThingUNC@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeOneHundredSeventyOne.cpp	_piStartedEnteringRoom	1
@@ -3971,7 +3969,7 @@ alternatename	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicIn
 alternatename	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIRegionDetailsStructuresPage.cpp	?slot04@Impl@RegionDetailsStructuresPage@StrategicInGameUI@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldIconSubObjectCtor.cpp	?rva003FCCC9@Rva003FB65C@@QAEXE@Z	1
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??1Rva00078460Elem@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	??0TreeHintOpaque00304573@@QAE@ABU0@@Z	1	allow=b1612aca2b2e0c6f4d04a3e338e5b8e193d9949f
+alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	??0TreeHintOpaque00304573@@QAE@ABU0@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/ResourceEntryOwnerRva004E7E3A.cpp	?cb@Cb00359D42@@UAEXHMD@Z	1
 alternatename	Code/GameEngine/Source/GameClient/ResourceEntryOwnerRva004E7E3A.cpp	?cb@Rva004E7E3AClaimantCallback@@UAEXHMD@Z	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00222A8BAptCallLevel.cpp	?invoke@Rva00222A8BTarget@@QAEXPAXPBDH10000@Z	1
@@ -4073,7 +4071,6 @@ alternatename	Code/GameEngine/Source/GameClient/parseSubtitle.cpp	?Rva0081D7C0Fi
 alternatename	Code/GameEngine/Source/GameLogic/AI/AIAreaEnemySearch.cpp	?getPlayerMask@Rva000421C8@@UAEHXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/AIAttackState.cpp	?notifyFired@AIAttackState@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/AICommandInterfaceAttackCommands.cpp	?aiFaceObject@AICommandInterface@@QAEXPAVObject@@H@Z	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/AIGuardRetaliateStates.cpp	?onExit@State@@UAEXH@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/AIInternalMoveToStateOnExit.cpp	?update@State@@UAE?AW4StateReturnType@@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/AIInternalMoveToStateOnExit_AIInternalMoveToState.cpp	?slot07@State@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/AIInternalMoveToStateOnExit_AIInternalMoveToState.cpp	?slot09@State@@UAEXXZ	1
@@ -6939,7 +6936,6 @@ pin	reverse/symbols.csv	0x00051B1E	2
 pin	reverse/symbols.csv	0x00051B40	1
 pin	reverse/symbols.csv	0x00051B89	2
 pin	reverse/symbols.csv	0x00051BA1	2
-pin	reverse/symbols.csv	0x00051BE1	1
 pin	reverse/symbols.csv	0x00051C3F	1
 pin	reverse/symbols.csv	0x00051C6C	1
 pin	reverse/symbols.csv	0x00051D93	2
@@ -6963,7 +6959,6 @@ pin	reverse/symbols.csv	0x00053D4F	1
 pin	reverse/symbols.csv	0x00053D66	1
 pin	reverse/symbols.csv	0x00053D89	2
 pin	reverse/symbols.csv	0x00053DFE	1
-pin	reverse/symbols.csv	0x00053E34	1
 pin	reverse/symbols.csv	0x00053E51	1
 pin	reverse/symbols.csv	0x00053E80	1
 pin	reverse/symbols.csv	0x00053EA8	2
@@ -7252,12 +7247,10 @@ pin	reverse/symbols.csv	0x0007E2D7	1
 pin	reverse/symbols.csv	0x0007E2FA	12
 pin	reverse/symbols.csv	0x0007E364	5
 pin	reverse/symbols.csv	0x0007E394	2
-pin	reverse/symbols.csv	0x0007E422	1
 pin	reverse/symbols.csv	0x0007E46A	1
 pin	reverse/symbols.csv	0x0007E48F	7
 pin	reverse/symbols.csv	0x0007E81F	3
 pin	reverse/symbols.csv	0x0007E89C	1
-pin	reverse/symbols.csv	0x0007EA02	1
 pin	reverse/symbols.csv	0x0007EA1F	1
 pin	reverse/symbols.csv	0x0007EAA7	1
 pin	reverse/symbols.csv	0x0007EB6E	1
@@ -7343,7 +7336,6 @@ pin	reverse/symbols.csv	0x0009111B	1
 pin	reverse/symbols.csv	0x00091A56	2
 pin	reverse/symbols.csv	0x0009203A	1
 pin	reverse/symbols.csv	0x00092123	1
-pin	reverse/symbols.csv	0x0009292B	1
 pin	reverse/symbols.csv	0x0009298B	1
 pin	reverse/symbols.csv	0x000929E8	3
 pin	reverse/symbols.csv	0x00093162	1
@@ -7517,12 +7509,10 @@ pin	reverse/symbols.csv	0x000B6614	1
 pin	reverse/symbols.csv	0x000B6631	1
 pin	reverse/symbols.csv	0x000B6782	2
 pin	reverse/symbols.csv	0x000B679F	3
-pin	reverse/symbols.csv	0x000B67BC	1
 pin	reverse/symbols.csv	0x000B67D9	1
 pin	reverse/symbols.csv	0x000B67F6	1
 pin	reverse/symbols.csv	0x000B6813	4
 pin	reverse/symbols.csv	0x000B6862	1
-pin	reverse/symbols.csv	0x000B6894	1
 pin	reverse/symbols.csv	0x000B68F0	1
 pin	reverse/symbols.csv	0x000B6971	1
 pin	reverse/symbols.csv	0x000B6B4F	1
@@ -7547,7 +7537,7 @@ pin	reverse/symbols.csv	0x000B9AC2	2
 pin	reverse/symbols.csv	0x000BB710	1
 pin	reverse/symbols.csv	0x000BB975	6
 pin	reverse/symbols.csv	0x000BBA1A	2
-pin	reverse/symbols.csv	0x000BBA47	3
+pin	reverse/symbols.csv	0x000BBA47	2
 pin	reverse/symbols.csv	0x000BBAA1	3
 pin	reverse/symbols.csv	0x000BBAC7	1
 pin	reverse/symbols.csv	0x000BBB12	1
@@ -7664,7 +7654,7 @@ pin	reverse/symbols.csv	0x000C9A51	1
 pin	reverse/symbols.csv	0x000C9A6F	1
 pin	reverse/symbols.csv	0x000C9D38	1
 pin	reverse/symbols.csv	0x000CA152	1
-pin	reverse/symbols.csv	0x000CA157	3
+pin	reverse/symbols.csv	0x000CA157	2
 pin	reverse/symbols.csv	0x000CA187	2
 pin	reverse/symbols.csv	0x000CA1EE	1
 pin	reverse/symbols.csv	0x000CA2F3	1
@@ -7695,7 +7685,7 @@ pin	reverse/symbols.csv	0x000CF418	1
 pin	reverse/symbols.csv	0x000CF42A	1
 pin	reverse/symbols.csv	0x000CF450	1
 pin	reverse/symbols.csv	0x000CF475	5
-pin	reverse/symbols.csv	0x000CF4D6	2
+pin	reverse/symbols.csv	0x000CF4D6	1
 pin	reverse/symbols.csv	0x000CF503	1
 pin	reverse/symbols.csv	0x000CF529	1
 pin	reverse/symbols.csv	0x000CF54E	1
@@ -7706,7 +7696,7 @@ pin	reverse/symbols.csv	0x000CF91D	1
 pin	reverse/symbols.csv	0x000CFA42	1
 pin	reverse/symbols.csv	0x000CFB3E	1
 pin	reverse/symbols.csv	0x000D02A7	1
-pin	reverse/symbols.csv	0x000D0469	2
+pin	reverse/symbols.csv	0x000D0469	1
 pin	reverse/symbols.csv	0x000D0496	1
 pin	reverse/symbols.csv	0x000D04BC	1
 pin	reverse/symbols.csv	0x000D04E1	1
@@ -7951,7 +7941,7 @@ pin	reverse/symbols.csv	0x00110CFE	1
 pin	reverse/symbols.csv	0x0011172A	1
 pin	reverse/symbols.csv	0x001117E3	1
 pin	reverse/symbols.csv	0x001118EC	1
-pin	reverse/symbols.csv	0x00111B25	3
+pin	reverse/symbols.csv	0x00111B25	2
 pin	reverse/symbols.csv	0x00112259	1
 pin	reverse/symbols.csv	0x00112291	1
 pin	reverse/symbols.csv	0x00112AD1	1
@@ -8083,7 +8073,6 @@ pin	reverse/symbols.csv	0x00132B83	1
 pin	reverse/symbols.csv	0x00132CAD	1
 pin	reverse/symbols.csv	0x00132D43	1
 pin	reverse/symbols.csv	0x00132D70	2
-pin	reverse/symbols.csv	0x00132D89	1
 pin	reverse/symbols.csv	0x00132E76	1
 pin	reverse/symbols.csv	0x00132F30	1
 pin	reverse/symbols.csv	0x00132FFB	1
@@ -8731,7 +8720,7 @@ pin	reverse/symbols.csv	0x001D9781	1
 pin	reverse/symbols.csv	0x001D9990	2
 pin	reverse/symbols.csv	0x001D9A4F	1
 pin	reverse/symbols.csv	0x001D9AD9	3
-pin	reverse/symbols.csv	0x001D9B0F	2
+pin	reverse/symbols.csv	0x001D9B0F	1
 pin	reverse/symbols.csv	0x001D9B3C	3
 pin	reverse/symbols.csv	0x001D9B62	2
 pin	reverse/symbols.csv	0x001D9BA4	1
@@ -8759,14 +8748,10 @@ pin	reverse/symbols.csv	0x001DC4D2	2
 pin	reverse/symbols.csv	0x001DC7E1	1
 pin	reverse/symbols.csv	0x001DD0A0	1
 pin	reverse/symbols.csv	0x001DD10D	6
-pin	reverse/symbols.csv	0x001DD14F	1
-pin	reverse/symbols.csv	0x001DD181	1
 pin	reverse/symbols.csv	0x001DD1FF	1
 pin	reverse/symbols.csv	0x001DD2DC	1
 pin	reverse/symbols.csv	0x001DD2EE	1
 pin	reverse/symbols.csv	0x001DD314	1
-pin	reverse/symbols.csv	0x001DD339	1
-pin	reverse/symbols.csv	0x001DD356	1
 pin	reverse/symbols.csv	0x001DD81C	1
 pin	reverse/symbols.csv	0x001DD8C9	2
 pin	reverse/symbols.csv	0x001DDADC	1
@@ -9138,7 +9123,7 @@ pin	reverse/symbols.csv	0x0020572F	1
 pin	reverse/symbols.csv	0x00205754	1
 pin	reverse/symbols.csv	0x0020577A	1
 pin	reverse/symbols.csv	0x002058E3	1
-pin	reverse/symbols.csv	0x0020596A	2
+pin	reverse/symbols.csv	0x0020596A	1
 pin	reverse/symbols.csv	0x00205DDD	1
 pin	reverse/symbols.csv	0x0020611D	1
 pin	reverse/symbols.csv	0x002064CB	1
@@ -9279,7 +9264,6 @@ pin	reverse/symbols.csv	0x002152BD	1
 pin	reverse/symbols.csv	0x002154BE	3
 pin	reverse/symbols.csv	0x002154F3	1
 pin	reverse/symbols.csv	0x00215530	1
-pin	reverse/symbols.csv	0x00215551	1
 pin	reverse/symbols.csv	0x0021559C	1
 pin	reverse/symbols.csv	0x002155C9	3
 pin	reverse/symbols.csv	0x00215614	1
@@ -9405,8 +9389,6 @@ pin	reverse/symbols.csv	0x0021F47E	1
 pin	reverse/symbols.csv	0x0021F5E3	1
 pin	reverse/symbols.csv	0x0021F5F8	1
 pin	reverse/symbols.csv	0x0021F797	2
-pin	reverse/symbols.csv	0x0021F8F3	1
-pin	reverse/symbols.csv	0x0021FDD3	1
 pin	reverse/symbols.csv	0x0021FE49	1
 pin	reverse/symbols.csv	0x0022078E	1
 pin	reverse/symbols.csv	0x002207C4	1
@@ -9538,7 +9520,7 @@ pin	reverse/symbols.csv	0x00232BDD	1
 pin	reverse/symbols.csv	0x00232CE7	1
 pin	reverse/symbols.csv	0x00232D7B	1
 pin	reverse/symbols.csv	0x002334F8	1
-pin	reverse/symbols.csv	0x00233519	2
+pin	reverse/symbols.csv	0x00233519	1
 pin	reverse/symbols.csv	0x0023361E	1
 pin	reverse/symbols.csv	0x002339F3	2
 pin	reverse/symbols.csv	0x00233A26	1
@@ -9975,7 +9957,7 @@ pin	reverse/symbols.csv	0x00288874	1
 pin	reverse/symbols.csv	0x002888D4	19
 pin	reverse/symbols.csv	0x00288978	1
 pin	reverse/symbols.csv	0x002889A4	2
-pin	reverse/symbols.csv	0x002889E4	3
+pin	reverse/symbols.csv	0x002889E4	1
 pin	reverse/symbols.csv	0x00288A11	1
 pin	reverse/symbols.csv	0x00288A37	1
 pin	reverse/symbols.csv	0x00288A5C	2
@@ -10268,7 +10250,7 @@ pin	reverse/symbols.csv	0x002AEA9F	1
 pin	reverse/symbols.csv	0x002AEEA7	1
 pin	reverse/symbols.csv	0x002AF037	1
 pin	reverse/symbols.csv	0x002AF0C5	1
-pin	reverse/symbols.csv	0x002AF1EC	2
+pin	reverse/symbols.csv	0x002AF1EC	1
 pin	reverse/symbols.csv	0x002AF236	1
 pin	reverse/symbols.csv	0x002AF33B	1
 pin	reverse/symbols.csv	0x002AF438	1
@@ -10522,7 +10504,7 @@ pin	reverse/symbols.csv	0x002CF088	1
 pin	reverse/symbols.csv	0x002CF0F0	1
 pin	reverse/symbols.csv	0x002CF108	1
 pin	reverse/symbols.csv	0x002CF21B	1
-pin	reverse/symbols.csv	0x002CF51B	4
+pin	reverse/symbols.csv	0x002CF51B	3
 pin	reverse/symbols.csv	0x002CF571	1
 pin	reverse/symbols.csv	0x002CF594	1
 pin	reverse/symbols.csv	0x002CF6B1	1
@@ -10919,7 +10901,7 @@ pin	reverse/symbols.csv	0x0030750A	1
 pin	reverse/symbols.csv	0x00307641	1
 pin	reverse/symbols.csv	0x00307779	1
 pin	reverse/symbols.csv	0x00307833	1
-pin	reverse/symbols.csv	0x003079C1	2
+pin	reverse/symbols.csv	0x003079C1	1
 pin	reverse/symbols.csv	0x00307A2C	1
 pin	reverse/symbols.csv	0x00307A6A	1
 pin	reverse/symbols.csv	0x00307AC0	2
@@ -10953,7 +10935,7 @@ pin	reverse/symbols.csv	0x0030ADDC	1
 pin	reverse/symbols.csv	0x0030AF8F	1
 pin	reverse/symbols.csv	0x0030AFC4	1
 pin	reverse/symbols.csv	0x0030B232	1
-pin	reverse/symbols.csv	0x0030B378	7
+pin	reverse/symbols.csv	0x0030B378	6
 pin	reverse/symbols.csv	0x0030B3D1	1
 pin	reverse/symbols.csv	0x0030B5AF	1
 pin	reverse/symbols.csv	0x0030B719	1
@@ -11738,10 +11720,9 @@ pin	reverse/symbols.csv	0x00380FB9	1
 pin	reverse/symbols.csv	0x00381077	1
 pin	reverse/symbols.csv	0x003811BB	1
 pin	reverse/symbols.csv	0x00381373	1
-pin	reverse/symbols.csv	0x003814A6	4
+pin	reverse/symbols.csv	0x003814A6	2
 pin	reverse/symbols.csv	0x003814D3	2
 pin	reverse/symbols.csv	0x003814F9	2
-pin	reverse/symbols.csv	0x0038151E	1
 pin	reverse/symbols.csv	0x00381900	1
 pin	reverse/symbols.csv	0x00381AC7	1
 pin	reverse/symbols.csv	0x00381B1F	1
@@ -12090,7 +12071,7 @@ pin	reverse/symbols.csv	0x003A8D35	1
 pin	reverse/symbols.csv	0x003A90FA	1
 pin	reverse/symbols.csv	0x003A911A	1
 pin	reverse/symbols.csv	0x003A92F1	1
-pin	reverse/symbols.csv	0x003A9397	16
+pin	reverse/symbols.csv	0x003A9397	10
 pin	reverse/symbols.csv	0x003A972D	1
 pin	reverse/symbols.csv	0x003A9732	1
 pin	reverse/symbols.csv	0x003A9789	1
@@ -12119,7 +12100,6 @@ pin	reverse/symbols.csv	0x003AA1CA	1
 pin	reverse/symbols.csv	0x003AA206	1
 pin	reverse/symbols.csv	0x003AA350	2
 pin	reverse/symbols.csv	0x003AA6BD	1
-pin	reverse/symbols.csv	0x003AA76F	1
 pin	reverse/symbols.csv	0x003AA801	1
 pin	reverse/symbols.csv	0x003AA823	1
 pin	reverse/symbols.csv	0x003AA845	1
@@ -12423,7 +12403,6 @@ pin	reverse/symbols.csv	0x003F40D3	7
 pin	reverse/symbols.csv	0x003F4146	1
 pin	reverse/symbols.csv	0x003F4163	1
 pin	reverse/symbols.csv	0x003F417E	4
-pin	reverse/symbols.csv	0x003F41BE	1
 pin	reverse/symbols.csv	0x003F41F0	2
 pin	reverse/symbols.csv	0x003F421D	2
 pin	reverse/symbols.csv	0x003F4443	2
@@ -12926,10 +12905,8 @@ pin	reverse/symbols.csv	0x00427F75	2
 pin	reverse/symbols.csv	0x00428123	1
 pin	reverse/symbols.csv	0x0042816E	1
 pin	reverse/symbols.csv	0x0042818F	1
-pin	reverse/symbols.csv	0x004282BD	1
 pin	reverse/symbols.csv	0x004282EF	1
 pin	reverse/symbols.csv	0x0042830D	1
-pin	reverse/symbols.csv	0x00428421	1
 pin	reverse/symbols.csv	0x004289B8	1
 pin	reverse/symbols.csv	0x00428C04	1
 pin	reverse/symbols.csv	0x00429191	1
@@ -13418,7 +13395,7 @@ pin	reverse/symbols.csv	0x0048BD11	2
 pin	reverse/symbols.csv	0x0048BDF8	1
 pin	reverse/symbols.csv	0x0048BEE8	1
 pin	reverse/symbols.csv	0x0048C57A	1
-pin	reverse/symbols.csv	0x0048C81F	3
+pin	reverse/symbols.csv	0x0048C81F	2
 pin	reverse/symbols.csv	0x0048C84C	1
 pin	reverse/symbols.csv	0x0048C872	1
 pin	reverse/symbols.csv	0x0048CB18	1
@@ -13457,7 +13434,7 @@ pin	reverse/symbols.csv	0x00493620	1
 pin	reverse/symbols.csv	0x0049369D	1
 pin	reverse/symbols.csv	0x00493B1E	1
 pin	reverse/symbols.csv	0x00493C5A	1
-pin	reverse/symbols.csv	0x00493DEF	2
+pin	reverse/symbols.csv	0x00493DEF	1
 pin	reverse/symbols.csv	0x00493EA7	1
 pin	reverse/symbols.csv	0x004941F3	1
 pin	reverse/symbols.csv	0x0049490F	1
@@ -14089,7 +14066,7 @@ pin	reverse/symbols.csv	0x004F2C14	1
 pin	reverse/symbols.csv	0x004F37B0	1
 pin	reverse/symbols.csv	0x004F3DB1	1
 pin	reverse/symbols.csv	0x004F4BC0	1
-pin	reverse/symbols.csv	0x004F4DC0	2
+pin	reverse/symbols.csv	0x004F4DC0	1
 pin	reverse/symbols.csv	0x004F5097	3
 pin	reverse/symbols.csv	0x004F50BD	1
 pin	reverse/symbols.csv	0x004F5115	3
@@ -14184,7 +14161,7 @@ pin	reverse/symbols.csv	0x004FA830	1
 pin	reverse/symbols.csv	0x004FAC99	1
 pin	reverse/symbols.csv	0x004FB130	1
 pin	reverse/symbols.csv	0x004FB222	1
-pin	reverse/symbols.csv	0x004FB354	3
+pin	reverse/symbols.csv	0x004FB354	2
 pin	reverse/symbols.csv	0x004FBB25	1
 pin	reverse/symbols.csv	0x004FBC02	1
 pin	reverse/symbols.csv	0x004FBCBE	1
@@ -14820,8 +14797,8 @@ pin	reverse/symbols.csv	0x00555616	1
 pin	reverse/symbols.csv	0x005559FC	1
 pin	reverse/symbols.csv	0x00555ADF	3
 pin	reverse/symbols.csv	0x00555B79	1
-pin	reverse/symbols.csv	0x00555D32	2
-pin	reverse/symbols.csv	0x00555D53	2
+pin	reverse/symbols.csv	0x00555D32	1
+pin	reverse/symbols.csv	0x00555D53	1
 pin	reverse/symbols.csv	0x00556085	1
 pin	reverse/symbols.csv	0x005560B2	1
 pin	reverse/symbols.csv	0x00556375	1
@@ -15722,7 +15699,6 @@ pin	reverse/symbols.csv	0x005DCEAD	1
 pin	reverse/symbols.csv	0x005DCFC9	2
 pin	reverse/symbols.csv	0x005DD2D3	1
 pin	reverse/symbols.csv	0x005DD6F7	1
-pin	reverse/symbols.csv	0x005DD714	1
 pin	reverse/symbols.csv	0x005DDD40	2
 pin	reverse/symbols.csv	0x005DDD5B	1
 pin	reverse/symbols.csv	0x005DDD78	1
@@ -15945,7 +15921,7 @@ pin	reverse/symbols.csv	0x005F2B22	1
 pin	reverse/symbols.csv	0x005F2F80	1
 pin	reverse/symbols.csv	0x005F327A	1
 pin	reverse/symbols.csv	0x005F35D3	1
-pin	reverse/symbols.csv	0x005F35ED	2
+pin	reverse/symbols.csv	0x005F35ED	1
 pin	reverse/symbols.csv	0x005F3652	1
 pin	reverse/symbols.csv	0x005F38CA	1
 pin	reverse/symbols.csv	0x005F39D6	1
@@ -16042,7 +16018,7 @@ pin	reverse/symbols.csv	0x005FD5D4	1
 pin	reverse/symbols.csv	0x005FD7FC	1
 pin	reverse/symbols.csv	0x005FD9FF	1
 pin	reverse/symbols.csv	0x005FDEC7	1
-pin	reverse/symbols.csv	0x005FDEEA	2
+pin	reverse/symbols.csv	0x005FDEEA	1
 pin	reverse/symbols.csv	0x005FE089	1
 pin	reverse/symbols.csv	0x005FE0A6	1
 pin	reverse/symbols.csv	0x005FE0C3	1
@@ -18118,8 +18094,8 @@ pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerA
 pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerAllocatePlayingAudio.cpp	"y",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapGetMaximumVisibleBox.cpp	"",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapGetMaximumVisibleBox.cpp	"ty",on	1
-pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	"",on	4	allow=256163b210e66f5a97e5e2d3e49583cecd41973a
-pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	"gsy",on	2	allow=256163b210e66f5a97e5e2d3e49583cecd41973a
+pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	"",on	4
+pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	"gsy",on	2
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	"s",on	2
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DProjectileStreamDrawModule.cpp	"",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DProjectileStreamDrawModule.cpp	"t",on	1
@@ -18153,8 +18129,8 @@ pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.cpp	"s",off	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.cpp	"s",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBuffer.cpp	"t",on	1
-pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	"",on	4	allow=8586970fb4633b2cf8a8e0d3cfabdcbdbdd7badf
-pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	"gsy",on	2	allow=8586970fb4633b2cf8a8e0d3cfabdcbdbdd7badf
+pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	"",on	3
+pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	"gsy",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DScene.cpp	"s",on	2
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E8365.cpp	"",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferRva000E8365.cpp	"gsy",on	1
@@ -18271,8 +18247,8 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodGetProxy.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodGetProxy.cpp	"gsy",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodModelNodeVectorResize.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodModelNodeVectorResize.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodUpdateObjSpaceBoundingVolumes.cpp	"",on	1	allow=9737567f4e38b9155fa83f5c299afafacb103c69
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodUpdateObjSpaceBoundingVolumes.cpp	"gsy",on	1	allow=9737567f4e38b9155fa83f5c299afafacb103c69
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodUpdateObjSpaceBoundingVolumes.cpp	"",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodUpdateObjSpaceBoundingVolumes.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodUpdateSubObjectTransforms.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HLodUpdateSubObjectTransforms.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HRawLoadW3D.cpp	"",on	2
@@ -18579,8 +18555,8 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/decalmsh.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/decalsys.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/decalsys.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/decalsys.cpp	"sy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/distlod.cpp	"",on	2	allow=726ea04cfd89d8e52469813277abb9b7a48a94f8
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/distlod.cpp	"gsy",on	2	allow=726ea04cfd89d8e52469813277abb9b7a48a94f8
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/distlod.cpp	"",on	2
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/distlod.cpp	"gsy",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8caps.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8caps.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	"",on	2
@@ -18621,8 +18597,8 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hlod_read_header.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hlod_read_header.cpp	"gsy",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hrawanim.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hrawanim.cpp	"gsy",on	2
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"",on	1	allow=c1fdbd9325e70ac455a4ff20a39bfef99316381b
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"gsy",on	1	allow=c1fdbd9325e70ac455a4ff20a39bfef99316381b
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/layer.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/layer.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/light.cpp	"",on	1
@@ -18923,9 +18899,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000BDBFA.cpp	"t
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00156FA0.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00156FA0.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00156FA0.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp	"s",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00170ED6.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00170ED6.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00170ED6.cpp	"t",on	1
@@ -19229,9 +19202,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005AE78A.cpp	"t
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005AFEDB.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005AFEDB.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005AFEDB.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005B09D8.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005B09D8.cpp	"s",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005B09D8.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005CE7CE.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005CE7CE.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005CE7CE.cpp	"t",on	1
@@ -20663,8 +20633,8 @@ present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/Strateg
 present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIDynamicAutoResolveDialog.cpp	StrategicInGameUI::DynamicAutoResolveDialog::Impl::ShowBattleStepStateHandler::OnHitAnimDone	1
 present_unmatched	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIQueueUnitButton.cpp	Rva005F8A7E::rva005F8A7E	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	bfmeEmitMapMetaDataCopy@@YAXPAVMapMetaData@@ABV1@PAVWaypointMap@@ABV2@@Z	1
-present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	_STL::WaypointTree::_M_copy	1	allow=b1612aca2b2e0c6f4d04a3e338e5b8e193d9949f
-present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	bfmeEmitMapMetaDataDeferredCopy@@YAXPAVMapMetaData@@ABV1@PAVWaypointMap@@ABV2@@Z	1	allow=b1612aca2b2e0c6f4d04a3e338e5b8e193d9949f
+present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	_STL::WaypointTree::_M_copy	1
+present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	bfmeEmitMapMetaDataDeferredCopy@@YAXPAVMapMetaData@@ABV1@PAVWaypointMap@@ABV2@@Z	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	addMap@MapCache@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	getMapDir@MapCache@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	getUserMapDir@MapCache@@	1
@@ -20997,10 +20967,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/DieModule.cpp	crc@
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/DieModule.cpp	getFieldParse@DieMuxData@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/DieModule.cpp	loadPostProcess@DieModule@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/DieModule.cpp	xfer@DieModule@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	1FXListDie@@MAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	crc@FXListDie@@MAEXPAVXfer@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	loadPostProcess@FXListDie@@MAEXXZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/FXListDie.cpp	xfer@FXListDie@@MAEXPAVXfer@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/KeepObjectDieModuleDataCtor.cpp	1KeepObjectDieModuleData@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDie.cpp	1SpecialPowerCompletionDie@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDie.cpp	crc@SpecialPowerCompletionDie@@	1
@@ -22109,9 +22075,6 @@ present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp	setNumChu
 present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp	setPercentage@NetProgressCommandMsg@@QAEXE@Z	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp	setSlot@NetDisconnectVoteCommandMsg@@QAEXE@Z	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp	setVoteFrame@NetDisconnectVoteCommandMsg@@QAEXI@Z	1
-present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandWrapperList.cpp	getCommandID@NetCommandWrapperListNode@@QAEGXZ	1
-present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandWrapperList.cpp	getRawData@NetCommandWrapperListNode@@QAEPAEXZ	1
-present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandWrapperList.cpp	getRawDataLength@NetCommandWrapperListNode@@QAEIXZ	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/NetCommandWrapperList.cpp	init@NetCommandWrapperList@@QAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/NetworkUtilResolveIP.cpp	rva00581339FirstChar	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/Rva004D65DCDtor.cpp	1NetCommandMsg@@MAE@XZ	1

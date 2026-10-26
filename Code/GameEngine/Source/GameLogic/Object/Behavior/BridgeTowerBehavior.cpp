@@ -1,5 +1,19 @@
-// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /FIzh_ascii.h /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
+// TU Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
+#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include "Common/ThingTemplate.h"
+#include "Common/Xfer.h"
+#include "GameClient/InGameUI.h"
+#include "GameLogic/GameLogic.h"
+#include "GameLogic/Object.h"
+#include "GameLogic/Module/BodyModule.h"
+#include "GameLogic/Module/BridgeBehavior.h"
+#include "GameLogic/Module/BridgeTowerBehavior.h"
+#include "GameLogic/TerrainLogic.h"
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp
+
 // Ported verbatim from the Generals Zero Hour reference
 // (GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp); this unit had no counterpart under Code/.
 /*
@@ -32,17 +46,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
-
-#include "Common/ThingTemplate.h"
-#include "Common/Xfer.h"
-#include "GameClient/InGameUI.h"
-#include "GameLogic/GameLogic.h"
-#include "GameLogic/Object.h"
-#include "GameLogic/Module/BodyModule.h"
-#include "GameLogic/Module/BridgeBehavior.h"
-#include "GameLogic/Module/BridgeTowerBehavior.h"
-#include "GameLogic/TerrainLogic.h"
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -55,7 +58,9 @@
 BridgeTowerBehavior::~BridgeTowerBehavior( void )
 {
 
-}  // end ~BridgeTowerBehavior
+}
+
+  // end ~BridgeTowerBehavior
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -67,7 +72,9 @@ void BridgeTowerBehavior::setBridge( Object *bridge )
 	else
 		m_bridgeID = bridge->getID();
 
-}  // end setBridge
+}
+
+  // end setBridge
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -77,7 +84,9 @@ ObjectID BridgeTowerBehavior::getBridgeID( void )
 
 	return m_bridgeID;
 
-}  // end getBridge
+}
+
+  // end getBridge
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -87,7 +96,9 @@ void BridgeTowerBehavior::setTowerType( BridgeTowerType type )
 
 	m_type = type;
 
-}  // end setTowerType
+}
+
+  // end setTowerType
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -103,7 +114,9 @@ void BridgeTowerBehavior::onBodyDamageStateChange( const DamageInfo* damageInfo,
 																									 BodyDamageType newState )
 {
 
-}  // end onBodyDamageStateChange
+}
+
+  // end onBodyDamageStateChange
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -118,7 +131,9 @@ void BridgeTowerBehavior::onDie( const DamageInfo *damageInfo )
 	if( bridge )
 		bridge->kill( (DamageType)8 /* DAMAGE_UNRESISTABLE */ );
 
-}  // end onDie
+}
+
+  // end onDie
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +155,9 @@ void BridgeTowerBehavior::crc( Xfer *xfer )
 	// extend base class
 	BehaviorModule::crc( xfer );
 
-}  // end crc
+}
+
+  // end crc
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
@@ -160,4 +177,35 @@ void BridgeTowerBehavior::loadPostProcess( void )
 	// extend base class
 	BehaviorModule::loadPostProcess();
 
-}  // end loadPostProcess
+}
+
+  // end loadPostProcess
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorCtor.cpp
+
+// BFME2 native constructor 0x00458704 and deleting destructor 0x004587B1.
+// Use the real donor virtual declaration (verified BFME1 f36a4db066),
+// retaining ownership of the vtable-triggered implicit deleting destructor.
+// Native clears both existing declared members at +0x1C and +0x20;
+// the latter initialization is absent from the ZH source.
+
+BridgeTowerBehavior::BridgeTowerBehavior(Thing *thing, const ModuleData *moduleData)
+    : BehaviorModule(thing, moduleData)
+{
+    m_bridgeID = INVALID_ID;
+    m_type = (BridgeTowerType)0;
+}
+
+// tu-skeleton: 0x00458759 6B ?Rva458759Get@@YAHXZ -- matched in Code/GameEngine/Source/Common/ConstIntGetters4.cpp (not merged yet)
+
+// tu-skeleton: 0x0045875F 13B ?get@Rva0045875FLeaNegSbbField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/Disp8LeaNegSbbGetters.cpp (not merged yet)
+
+// tu-skeleton: 0x0045876C 69B ?rva00045876C@BridgeTowerBehavior@@SA?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorPoolKey.cpp (not merged yet)
+
+// tu-skeleton: 0x004587CD 62B ?xfer@BridgeTowerBehavior@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorXfer.cpp (not merged yet)
+
+// tu-skeleton: 0x0045880B 54B ?getBridgeTowerBehaviorInterfaceFromObject@BridgeTowerBehavior@@SAPAVBridgeTowerBehaviorInterface@@PAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorGetInterfaceFromObject.cpp (not merged yet)
+
+// tu-skeleton: 0x00458841 342B ?onDamage@BridgeTowerBehavior@@UAEXPAVDamageInfo@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorOnDamage.cpp (not merged yet)
+
+// tu-skeleton: 0x00458997 241B ?onHealing@BridgeTowerBehavior@@UAEXPAVDamageInfo@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorOnHealing.cpp (not merged yet)
