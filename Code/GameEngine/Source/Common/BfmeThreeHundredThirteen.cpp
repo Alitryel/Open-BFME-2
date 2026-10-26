@@ -16,8 +16,8 @@ struct BfmeHolderRG
 	BfmeMakerRG *m_bfmeMaker;
 };
 
-struct Bfme5Obj18;
-struct Bfme5Obj18 *bfme5MakeObj18();
+struct AriesUdp;
+struct AriesUdp *bfme5MakeObj18();
 
 class BfmeThingRG
 {

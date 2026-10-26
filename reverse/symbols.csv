@@ -7337,7 +7337,7 @@ name,address,notes
 ?begin@?$hashtable@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@W4ObjectID@@U?$hash@W4ObjectID@@@rts@@U?$_Select1st@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@@2@U?$equal_to@W4ObjectID@@@2@V?$allocator@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@@2@@_STL@@QAE?AU?$_Ht_iterator@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@@2@W4ObjectID@@U?$hash@W4ObjectID@@@rts@@U?$_Select1st@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@@2@U?$equal_to@W4ObjectID@@@2@V?$allocator@U?$pair@$$CBW4ObjectID@@UCoord3D@@@_STL@@@2@@2@XZ,0x00427195,REL32 read at the byte-verified MoveTo map xfer 0x0054755B (save-loop begin); ICF-folded STLport hashtable begin
 ?begin@?$hashtable@URva0045F0A0Input@@VAsciiString@@U?$hash@VAsciiString@@@rts@@URva0045F0A0ExtractKey@@U?$equal_to@VAsciiString@@@_STL@@V?$allocator@URva0045F0A0Input@@@7@@_STL@@QAE?AU?$_Ht_iterator@URva0045F0A0Input@@U?$_Nonconst_traits@URva0045F0A0Input@@@_STL@@VAsciiString@@U?$hash@VAsciiString@@@rts@@URva0045F0A0ExtractKey@@U?$equal_to@VAsciiString@@@3@V?$allocator@URva0045F0A0Input@@@3@@2@XZ,0x00427195,"REL32 read at EnableComponents 0x00411822 and DisableComponents 0x00411880 (sret begin on table 0x00E02FE4); ICF-folded STLport hashtable begin"
 ?begin@?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEPBQAXXZ,0x00023B90,ICF alias of the non-const begin landed at this address. Const and non-const differ only in return type, which does not reach the code
-?bfme5MakeObj18@@YAPAUBfme5Obj18@@XZ,0x006617F0
+?bfme5MakeObj18@@YAPAUAriesUdp@@XZ,0x006617F0
 ?bfme5MakeObj70@@YAPAUBfme5Obj70@@H@Z,0x006612C0
 ?bfmeAccept@BfmeSinkA@@QAEXPAVBfmeFlagTarget@@@Z,0x00758CF0
 ?bfmeAccept@BfmeSinkB@@QAEXPAVBfmeFlagTarget@@@Z,0x0073D8B0
