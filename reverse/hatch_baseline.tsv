@@ -19662,9 +19662,6 @@ present_unmatched	Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	Rva0004271
 present_unmatched	Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	Rva001FD42B::Rva001FD42B	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	Rva001FD458::Rva001FD458	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	S3Money::S3Money	1
-present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFive.cpp	BfmeThingCX::bfmeDropCX	1
-present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFive.cpp	BfmeThingCY::bfmeReleaseCY	1
-present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFive.cpp	BfmeThingCZ::bfmeReleaseCZ	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFour_bfmeGoCV_BfmeThingCV_QAEXHHHHH_Z.cpp	BfmeThingCR::bfmeClearCR	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFour_bfmeGoCV_BfmeThingCV_QAEXHHHHH_Z.cpp	BfmeThingCS::bfmeGoCS	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredEightyFour_bfmeGoCV_BfmeThingCV_QAEXHHHHH_Z.cpp	BfmeThingCT::bfmeGoCT	1
@@ -20150,6 +20147,9 @@ present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	refreshInfo
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	reset@CDManager@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	setPath@CDDrive@@QAEXPBD@Z	1
 present_unmatched	Code/GameEngine/Source/Common/System/CDManager.cpp	update@CDManager@@UAEXXZ	1
+present_unmatched	Code/GameEngine/Source/Common/System/DataChunk.cpp	BfmeThingCX::bfmeDropCX	1
+present_unmatched	Code/GameEngine/Source/Common/System/DataChunk.cpp	BfmeThingCY::bfmeReleaseCY	1
+present_unmatched	Code/GameEngine/Source/Common/System/DataChunk.cpp	BfmeThingCZ::bfmeReleaseCZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/DataChunkTableOfContentsRead.cpp	1Mapping@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/DataChunk_ID_DataChunkTableOfContents_QAEIABVAsciiString_Z.cpp	0Mapping@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/System/DataChunk_ID_DataChunkTableOfContents_QAEIABVAsciiString_Z.cpp	0OutputChunk@@QAE@XZ	1
