@@ -904,6 +904,12 @@ separate strict receipt limitation encountered there.
   subsequent `link_check.py --fetch-index` imported 22,673 objects but left the
   available index at `47e030bafc`; current `origin/master` later advanced to
   `5ef173d2435`, so the provider/consumer comparison remains unverified.
+  The 2026-10-26 AptRenderingContext trial added a current destination and
+  refreshed strict receipts for its outgoing RepairDockUpdate composition and
+  ConstIntGetters4 split. Its scoped audit still used index 763dc8759f, reported
+  232 retired objects and provisional provider-disappeared findings, and marked
+  the baseline inconclusive against current `origin/master`. The changed
+  provider/consumer comparison remains unverified; the Apt trial was restored.
 - A `GameMemory.cpp` merge trial accepted four donors and byte-built 5/5 rows;
   its staged code-identity/data checks reported one shadow identity finding
   and zero data findings. The scoped audit against current `origin/master`
