@@ -26027,7 +26027,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00380CAE,130,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,C,C=0x00380C4E..0x00380D30,Code/GameEngine/Source/Common/MultiplayerColorDefinitionCtor.cpp
 0x00380D30,79,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,Z,Z=Code/GameEngine/Source/Common/MultiplayerSettings.cpp S=Code/GameEngine/Source/Common/MultiplayerSettings.cpp N=Code/GameEngine/Source/Common/MultiplayerColorDefinition.cpp,Code/GameEngine/Source/Common/MultiplayerColorDefinitionCopy.cpp
 0x00380D7F,36,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,C,C=0x00380D30..0x00380DA3,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp
-0x00380DA3,29,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,C,C=0x00380D30..0x00380DC0,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00380DA3.cpp
+0x00380DA3,29,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,C,C=0x00380D30..0x00380DC0,Code/GameEngine/Source/Common/MultiplayerSettings.cpp
 0x00380DC0,42,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,C,C=0x00380D30..0x00380DEA,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp
 0x00380DEA,29,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,C,C=0x00380D30..0x00380E07,Code/GameEngine/Source/Common/MultiplayerColorPairConstructor.cpp
 0x00380E07,45,code,Code/GameEngine/Source/Common/MultiplayerSettings.cpp,approved,C,C=0x00380D30..0x00380E34,Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp

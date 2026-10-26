@@ -1,18 +1,19 @@
-// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // stlport
-// Ported verbatim from the Generals Zero Hour reference
-// (GameEngine/Source/Common/MultiplayerSettings.cpp); this unit had no counterpart under Code/.
-// The compiler-generated vector constructor iterator (??_H) takes the
-// optimization state of the first function that needs it. Retail links one
-// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
-// copy that same body, so it no longer loses to retail's at link time.
-// It can also change how later array constructions here compile; checked to
-// change nothing else in this unit, but if a function added later that builds
-// an array will not match, try it without this block.
-// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
-// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
-// overload keeps the inlined code and offers the link no second copy.
+// TU Code/GameEngine/Source/Common/MultiplayerSettings.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 #include <stl/_algobase.h>
+#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
+#include <map>
+#define DEFINE_TERRAIN_LOD_NAMES
+#define DEFINE_TIME_OF_DAY_NAMES
+#include "Common/MultiplayerSettings.h"
+#include "Common/INI.h"
+#include "GameNetwork/GameInfo.h" // for PLAYERTEMPLATE_*
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
+#include <hash_map>
+#include <memory>
+#include <cstddef>
+
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
 {
@@ -21,41 +22,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma optimize("gsy", on)
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
-/*
-**	Command & Conquer Generals Zero Hour(tm)
-**	Copyright 2025 Electronic Arts Inc.
-**
-**	This program is free software: you can redistribute it and/or modify
-**	it under the terms of the GNU General Public License as published by
-**	the Free Software Foundation, either version 3 of the License, or
-**	(at your option) any later version.
-**
-**	This program is distributed in the hope that it will be useful,
-**	but WITHOUT ANY WARRANTY; without even the implied warranty of
-**	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-**	GNU General Public License for more details.
-**
-**	You should have received a copy of the GNU General Public License
-**	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-////////////////////////////////////////////////////////////////////////////////
-//																																						//
-//  (c) 2001-2003 Electronic Arts Inc.																				//
-//																																						//
-////////////////////////////////////////////////////////////////////////////////
-
-// FILE: MultiplayerSettings.cpp ///////////////////////////////////////////////////////////////////////////
-// The MultiplayerSettings object
-// Author: Matthew D. Campbell, January 2002
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-// INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
-#include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
-#include <map>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
@@ -65,15 +31,10 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 
-#define DEFINE_TERRAIN_LOD_NAMES
-#define DEFINE_TIME_OF_DAY_NAMES
-
-#include "Common/MultiplayerSettings.h"
-#include "Common/INI.h"
-#include "GameNetwork/GameInfo.h" // for PLAYERTEMPLATE_*
-
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
-MultiplayerSettings *TheMultiplayerSettings = NULL;				///< The MultiplayerSettings singleton
+MultiplayerSettings *TheMultiplayerSettings = NULL;
+
+				///< The MultiplayerSettings singleton
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PRIVATE DATA ///////////////////////////////////////////////////////////////////////////////////
@@ -124,10 +85,189 @@ struct RetailColorList
     MultiplayerColorDefinition *lookup(int *which);
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void swap<_STLP_alloc_proxy<void **, void *, allocator<void *> > >(_STLP_alloc_proxy<void **, void *, allocator<void *> > &, _STLP_alloc_proxy<void **, void *, allocator<void *> > &); }
+
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(allocator<void *> const &); }
+
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::_Vector_base(unsigned int, allocator<void *> const &); }
+
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(allocator<void *> const &); }
+
+namespace _STL { template <> vector<void *, allocator<void *> >::vector(unsigned int, void *const &, allocator<void *> const &); }
+
+namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
+
+namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
+
+namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
+
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_fill_insert(void **, unsigned int, void *const &); }
+
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_insert_overflow(void **, void *const &, __true_type const &, unsigned int, bool); }
+
+namespace _STL { template <> void vector<void *, allocator<void *> >::_M_set(void **, void **, void **); }
+
+namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
+
+namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
+
+namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
+
+namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
+
+namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
+
+namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+
+namespace _STL { template <> allocator<void *>::~allocator(); }
+
+// bfme link decl-only end
+// Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
+// the kept copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
+
+// Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
+// the retail copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> void *&_STL::vector<void*>::operator[](size_t);
+}
+
+// Suppress this TU's non-retail const-begin copy (row 47 family2-LK3): the
+// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
+namespace _STL {
+template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
+}
+
+// map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
+// COMDAT (one byte shape per TU flags); a declaration-only specialization
+// stops this TU emitting its copy so callers bind the kept copy.
+// Plain (non-dllimport) form: no __imp_ reference is emitted.
+namespace _STL {
+template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const;
+}
+
+// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
+// the retail copy serves the link. Plain declaration-only form (no __imp_).
+namespace _STL {
+template <> size_t vector<void*>::size() const;
+template <> void **vector<void*>::begin();
+template <> void **vector<void*>::end();
+}
+
+template _STL::pair<const int, MultiplayerColorDefinition>::pair(
+	const _STL::pair<const int, MultiplayerColorDefinition> &);
+
+// tu-skeleton: 0x00380C1E 24B ?setColor@MultiplayerColorDefinition@@QAEXURGBColor@@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorDefinitionCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00380C36 24B ?setNightColor@MultiplayerColorDefinition@@QAEXURGBColor@@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorDefinitionCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00380C4E 96B ??0MultiplayerColorDefinition@@QAE@XZ -- matched in Code/GameEngine/Source/Common/MultiplayerColorDefinitionCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00380CAE 130B ??4MultiplayerColorDefinition@@QAEPAV0@ABV0@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorDefinitionCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00380D30 79B ??0MultiplayerColorDefinition@@QAE@ABV0@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorDefinitionCopy.cpp (not merged yet)
+
+// tu-skeleton: 0x00380D7F 36B ??0?$_Rb_tree_base@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@QAE@ABV?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00380DA3.cpp
+
+// tu-skeleton: 0x00380DC0 42B ??0?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@QAE@ABU?$less@H@1@ABV?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp (not merged yet)
+
+// tu-skeleton: 0x00380DEA 29B ??0?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@QAE@ABHABVMultiplayerColorDefinition@@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorPairConstructor.cpp (not merged yet)
+
+// tu-skeleton: 0x00380E07 45B ??$_Construct@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U12@@_STL@@YAXPAU?$pair@$$CBHVMultiplayerColorDefinition@@@0@ABU10@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types2.cpp (not merged yet)
+
+// tu-skeleton: 0x00380E34 125B ?findMultiplayerColorDefinitionByName@MultiplayerSettings@@QAEPAVMultiplayerColorDefinition@@VAsciiString@@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerSettingsFindColorByName.cpp (not merged yet)
+
+// tu-skeleton: 0x00380EB1 53B ?_M_erase@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@AAEXPAU?$_Rb_tree_node@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap_erase.cpp (not merged yet)
+
+// tu-skeleton: 0x00380EE6 34B ?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@ABU?$pair@$$CBHVMultiplayerColorDefinition@@@2@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp (not merged yet)
+
+// tu-skeleton: 0x00380F08 41B ?clear@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp (not merged yet)
+
+// tu-skeleton: 0x00380F31 136B ?_M_insert@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@AAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@2@PAU_Rb_tree_node_base@2@0ABU?$pair@$$CBHVMultiplayerColorDefinition@@@2@0@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorMapOperator.cpp (not merged yet)
+
+// tu-skeleton: 0x00380FB9 134B ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@QAE?AU?$pair@U?$_Rb_tree_iterator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@_N@2@ABU?$pair@$$CBHVMultiplayerColorDefinition@@@2@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp (not merged yet)
+
+// tu-skeleton: 0x0038103F 56B ??1?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@QAE@XZ -- matched in Code/GameEngine/Source/Common/MultiplayerColorTreeDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00381077 294B ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Select1st@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@2@U32@ABU?$pair@$$CBHVMultiplayerColorDefinition@@@2@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorMapOperator.cpp (not merged yet)
+
+// tu-skeleton: 0x0038119D 5B ??1?$map@HVMultiplayerColorDefinition@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@3@@_STL@@QAE@XZ -- matched in Code/GameEngine/Source/Common/MultiplayerColorTreeDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x003811A2 25B ??0?$map@HVMultiplayerColorDefinition@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@3@@_STL@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_int_colormap.cpp (not merged yet)
+
+// tu-skeleton: 0x003811BB 29B ?insert@?$map@HVMultiplayerColorDefinition@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@3@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHVMultiplayerColorDefinition@@@_STL@@@2@@2@U32@ABU?$pair@$$CBHVMultiplayerColorDefinition@@@2@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorMapOperator.cpp (not merged yet)
+
+// tu-skeleton: 0x003811D8 159B ??0MultiplayerSettings@@QAE@XZ -- matched in Code/GameEngine/Source/Common/MultiplayerSettingsCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00381277 28B ??_GMultiplayerSettings@@QAEPAXI@Z -- matched in Code/GameEngine/Source/Common/MultiplayerSettingsDeletingDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x00381293 83B ??1MultiplayerSettings@@QAE@XZ -- matched in Code/GameEngine/Source/Common/MultiplayerSettingsDtor.cpp (not merged yet)
+
+// tu-skeleton: 0x003812E6 141B ?lookup@RetailColorList@@QAEPAVMultiplayerColorDefinition@@PAH@Z -- matched in Code/GameEngine/Source/Common/MultiplayerColorMapOperator.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/MultiplayerSettings.cpp
+
+// Ported verbatim from the Generals Zero Hour reference
+// (GameEngine/Source/Common/MultiplayerSettings.cpp); this unit had no counterpart under Code/.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+// Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
+// flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
+// overload keeps the inlined code and offers the link no second copy.
+
+#pragma optimize("gsy", on)
+
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+
+#pragma optimize("", on)
+
+/*
+**	Command & Conquer Generals Zero Hour(tm)
+**	Copyright 2025 Electronic Arts Inc.
+**
+**	This program is free software: you can redistribute it and/or modify
+**	it under the terms of the GNU General Public License as published by
+**	the Free Software Foundation, either version 3 of the License, or
+**	(at your option) any later version.
+**
+**	This program is distributed in the hope that it will be useful,
+**	but WITHOUT ANY WARRANTY; without even the implied warranty of
+**	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**	GNU General Public License for more details.
+**
+**	You should have received a copy of the GNU General Public License
+**	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+//																																						//
+//  (c) 2001-2003 Electronic Arts Inc.																				//
+//																																						//
+////////////////////////////////////////////////////////////////////////////////
+
+// FILE: MultiplayerSettings.cpp ///////////////////////////////////////////////////////////////////////////
+// The MultiplayerSettings object
+// Author: Matthew D. Campbell, January 2002
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
+
 // Retail shares one ret and one NULL store for all getColor paths; favor
 // size for just this function so the exits converge instead of returning
 // directly per arm.
+
 #pragma optimize("s", on)
+
 MultiplayerColorDefinition * MultiplayerSettings::getColor(Int which)
 {
     // BFME1 shape (lazy numColors refill, address-taken key helper) with
@@ -163,6 +303,7 @@ null:
 done:
     return retval;
 }
+
 #pragma optimize("s", off)
 
 // findMultiplayerColorDefinitionByName and addStartingMoneyChoice are ZH-shaped
@@ -183,3 +324,4 @@ done:
 // Color setters live in MultiplayerColorDefinitionCtor.cpp, which calls
 // the canonical out-of-line RGBColor::getAsInt instead of emitting a ZH copy.
 
+// tu-skeleton: 0x003813B7 137B ?newMultiplayerColorDefinition@MultiplayerSettings@@QAEPAVMultiplayerColorDefinition@@VAsciiString@@@Z -- matched in Code/GameEngine/Source/Common/MultiplayerSettingsNewColor.cpp (not merged yet)
