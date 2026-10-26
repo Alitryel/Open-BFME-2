@@ -957,7 +957,6 @@ Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp	wrong-name	?g_aptVal
 Code/Libraries/Source/Apt/AptValue/Rva006DC9E0.cpp	wrong-name	?g_00E18650@@3PAVRva0070A5C0@@A	0x00A18650
 Code/Libraries/Source/Apt/BfmeNode1279Finish.cpp	wrong-name	?g_00E176F8@@3PAVBfmeTracker4310@@A	0x00A176F8
 Code/Libraries/Source/Apt/DogmaPoolAllocBlock.cpp	wrong-name	?g_00E17728@@3P6APAXI@ZA	0x00A17728
-Code/Libraries/Source/Apt/Rva006E1DD0Cluster.cpp	wrong-name	?g_Va00E180C0@@3PAXA	0x00A180C0
 Code/Libraries/Source/Apt/Rva006E1E30Cluster.cpp	duplicate-def	?g_aptBoxAtE180C4@@3UBfmeM1208@@A	0x00A180C4
 Code/Libraries/Source/Apt/Rva006E1E30Cluster.cpp	wrong-name	?g_aptBoxAtE180C4@@3UBfmeM1208@@A	0x00A180C4
 Code/Libraries/Source/Apt/Rva006F6A50Cluster.cpp	wrong-name	?g_00E182E0@@3PAXA	0x00A182E0

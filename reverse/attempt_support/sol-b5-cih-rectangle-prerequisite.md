@@ -55,3 +55,14 @@ paths, includes, registries, build inputs or ledger paths, so no moved-path
 consumers need repointing. Protected registers are unchanged. Inherited
 AptArray proof and BFME 1 freshness limitation remain in the session handoff.
 Keep claimed files until publication is confirmed; settle after landing.
+
+## Separate data-register cleanup
+
+`python3 tools/repair_queue.py retire data
+Code/Libraries/Source/Apt/Rva006E1DD0Cluster.cpp` returned PASS, one old
+wrong-name key retired, zero still found. The source already refers to the
+recorded AptRenderingContext global; no name or binding was changed in this
+cleanup. `./build.sh` remains 1/1 exact with two strings; data_check reports
+zero findings and the frozen-file check passes. This lowers data debt by one;
+code-identity debt and file count are unchanged. Rechecked the complete pending
+batch and staged cleanup: no source-path changes or affected path consumers.
