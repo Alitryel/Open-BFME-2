@@ -2470,3 +2470,4 @@ member,BfmeX1034::m_bfmeSub,BfmeX1034::m_name,inferred,agree:nl-00a208a9153b,Cod
 member,Rva00201DC4LODInfo::flag0E,Rva00201DC4LODInfo::m_useShadowMapping,inferred,agree:nl-cd946605f1b0,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
 member,Rva00201DC4LODInfo::word40,Rva00201DC4LODInfo::m_decalLOD,inferred,agree:nl-d64b8d3cbc22,Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp,
 param,rva002EBC59::a1,rva002EBC59::outPosition,inferred,agree:nl-5f41e05ee086,Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp,0x002EBC59
+local,Rva006ED2A0Base::~Rva006ED2A0Base::p,Rva006ED2A0Base::~Rva006ED2A0Base::nativeHash,inferred,agree:nl-7389da8c1a2d,Code/GameEngine/Source/Common/Rva006ED1E0Cluster.cpp,

@@ -7772,3 +7772,12 @@ Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|member|Rva0054D222Prompt|m_c
 Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a1,1d26df7153ecc8e7cec22514,gpt-6.1-sol,w1-10261006-15,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|class||Rva002236F2Value,85bd98fc1b10f9ef90bc2377,gpt-6.1-sol,w1-10261006-16,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|class||Rva002236F2Node,db2920a02e59e7471d70c927,gpt-6.1-sol,w1-10261006-16,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva0040C985Init.cpp|global||g_00DBA4F4,ff609c3257ac2623b489ad3f,gpt-6.1-sol,w4-10261022-1,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva006ED1E0Cluster.cpp|local|Rva006ED2A0Base::~Rva006ED2A0Base|p,90784da6a69ea156e9487dcf,gpt-6.1-sol,w4-10261022-3,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,717a8412ac8583a4bc7c573a,gpt-6.1-sol,w4-10261022-4,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/TerrainLogicRva0028449F.cpp|class||Rva0028449FRecordView,6834d7a68f6ded9b69d76b24,gpt-6.1-sol,w4-10261022-6,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|s,87d79a6679cf66dadb741f02,gpt-6.1-sol,w4-10261022-7,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva003EFDF5.cpp|class||Rva003EFDF5Inner,10c2a65e1dab2e987d2ef7ea,gpt-6.1-sol,w4-10261022-8,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0014D887Init.cpp|class||Rva0014D887Inner,1feea3aa189a1fd8a202c09a,gpt-6.1-sol,w4-10261022-9,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0014D887Init.cpp|function|0x0014D887|rva0014D887,cc8e357b606cb95be57791c8,gpt-6.1-sol,w4-10261022-9,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|f,d350dd311609ed250c00cc0d,gpt-6.1-sol,w4-10261022-11,w-eb83eac9adc1,2026-10-26
