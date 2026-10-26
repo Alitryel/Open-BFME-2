@@ -7982,3 +7982,10 @@ Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#15|p,b
 Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#16|p,c72d4d0acf07fd66b5c48e36,gpt-6.1-sol,w5-10261224-9,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#17|p,0d0514126875cdddc8816411,gpt-6.1-sol,w5-10261224-9,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/Rva0014D887Init.cpp|function|0x0014D887|rva0014D887,0f1520b9e6ac4660c2f9090c,gpt-6.1-sol,w5-10261224-11,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva002DA153Scale.cpp|local|Rva002DA153::rva002DA153|t,7b608c60dbe5a86b21baa6d3,gpt-6.1-sol,w4-10261231-1,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva0049BFB7_E1,996e64af9080b778a8d5a87f,gpt-6.1-sol,w4-10261231-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva004A653D_E1,a76feadf9160a5e5e2ee11ca,gpt-6.1-sol,w4-10261231-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva00085553Init.cpp|param|Rva00085553Get|a,02ea8eae044c9f722aed77e5,gpt-6.1-sol,w4-10261231-4,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva00151632Dtor.cpp|class||Rva00151632Link,10c523b307983b9dfa836f18,gpt-6.1-sol,w4-10261231-6,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|class||Rva003B8E89Record,24e2d2df29b92a73f0dd024d,gpt-6.1-sol,w4-10261231-7,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526::rva0049D57F|v,4d73ef92e54e13f371264527,gpt-6.1-sol,w4-10261231-8,w-eb83eac9adc1,2026-10-26
