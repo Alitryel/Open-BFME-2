@@ -57,9 +57,15 @@ public:
 
 extern BfmeObjECFPtr g_bfmeObjECF;
 
+struct HWND__;
+struct IDispatch;
+
 class DX8WebBrowser
 {
 public:
+	static HWND__ *hWnd;
+	static void CreateBrowser(const char *, const char *, int, int, int, int,
+		int, long, IDispatch *);
 	static __declspec(noinline) bool Is_Browser_Open(const char *browsername)
 	{
 		if (g_bfmeObjECF == 0)
