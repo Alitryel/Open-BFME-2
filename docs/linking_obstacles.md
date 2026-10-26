@@ -658,6 +658,38 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
 - **Clearance:** preview scope (the units above) on current objects.
 - **Census confirmation:** awaiting the next census.
 
+### LINK-016: folded bodies whose consumers declare them decl-only, with no provider
+
+**Status: Repair landed / awaiting verification. Updated: 2026-10-26; inspected revision: 856b8bc032.**
+
+- **Evidence / scope:** in the census at 763dc8759f, several units were
+  unresolved only on an STL member or a global that they declare (decl-only, to
+  avoid a non-retail COMDAT) but that no object defines under that name: retail
+  ICF-folded the body under another instantiation's row. Found with
+  `tools/link_rank.py --near 1 --json` (units whose only blockers are `U`) and
+  each name's `reverse/symbols.csv` address.
+- **Completed** (each `./build.sh`-exact; previewed with `tools/link_check.py`
+  against the 763dc8759f index, passing the provider and its consumers together):
+
+  | Unresolved name | Retail body | Provider (its flags already emit that shape) | Preview |
+  |---|---|---|---|
+  | `g_lgaKeyRecords` (0x00A02E50; it also carried two address names) | 16 B tree, ctor 0x007AF8CD | `Rva007B6880Thunks.cpp`: one zero-filled definition through an opaque tree view; Count, Merge and the initializer bind it (25f107697e) | unresolved gone from both LargeGroupAudio units |
+  | key-tree `erase(iterator)` (`LargeGroupAudioKeyList.cpp`'s /O1 /Oy- copy was selected) | 0x00056BC3 | `stlport_asciistring_set_base.cpp` (3a828f7bea) | KeyList 0 -> 191 B |
+  | `hashtable<pair<const int, Rva0060CF76Element>>::_M_initialize_buckets` | 0x00148DDF | `SelectionIDMap.cpp` (e80fae26b7) | XferSave.cpp 0 -> 1,060 B |
+  | `_String_base<char>::_M_throw_out_of_range` | 0x00023A40 (empty /Od body) | `stlport_vector_voidptr_alloc.cpp` (357c8c8a3e) | four narrow-string units 0 -> 904 B |
+  | `_Destroy<Rva002BBB96Element *>` | 0x002BB6A5 (BfmeAssignRecord52 loop) | `stlport_asciistring_record_bodies.cpp` (57b0571b72) | the two Deferred units 0 -> 2,925 B |
+  | `/alternatename` onto an undefined `__copy<BfmeAssignRecord28 *>` | 0x003F6477 | the rowed `__copy<Rva003F6477Element *>` called directly; two hatches removed (856b8bc032) | VectorRangeEraseRva003F6975.cpp 0 -> 80 B |
+
+- **Remaining / next check:** `LargeGroupAudioKeyMapBfmeAddKey.cpp` needs
+  `vector<void*>::resize` (0x000E6D39, folded as BfmePowerCounts::resize). Its
+  `_M_fill_insert` callee is 0x00233A5A, but `reverse/symbols.csv` puts
+  `vector<void*>::_M_fill_insert` at 0x00029CA0, so a plain instantiation binds
+  the wrong callee. Many `U` entries in the 763dc8759f index are stale: check
+  with the defining unit's current object before working one (e.g.
+  `~SpecialPowerModule` already resolves).
+- **Clearance:** preview scope only (the units listed).
+- **Census confirmation:** awaiting the next census.
+
 ## Investigation-specific validation limitation
 
 The initial investigation preserved a pre-existing BFME 1 checkout at
