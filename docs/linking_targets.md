@@ -342,8 +342,8 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/Libraries/Source/WWVegas/WW3D2/collect.cpp` | 79 | 20 (U=14, C=5, S=1) | Open |
 | `Code/GameEngine/Source/Common/System/SaveGame/AerialPathfinder.cpp` | 75 | 3 (U=2, C=1) | Open |
 | `Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/LanGameOptionsMenu.cpp` | 75 | 28 (U=27, S=1) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00214B22.cpp` | 73 | 7 (U=5, C=1, S=1) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005E2857.cpp` | 73 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00214B22.cpp` | 73 | 7 (U=5, C=1, S=1) | Blocked: callee rowed as 3-arg `__destroy_aux` (LINK-035) |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005E2857.cpp` | 73 | 7 (U=5, C=1, S=1) | 2026-10-26: LINKS in preview (1f0a322ceb, LINK-035); census pending |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva003609F7.cpp` | 73 | 4 (C=2, S=2) | Open |
 | `Code/GameEngine/Source/Common/S4StlSortHelpers.cpp` | 71 | 21 (U=13, C=5, S=3) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00212A16.cpp` | 68 | 9 (U=3, C=3, S=3) | Open |
@@ -454,21 +454,21 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/GameEngineDevice/Source/MilesAudioDevice/Rva0006047CSeq.cpp` | 0 | 5 (U=5) | Open |
 | `Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DVideoBuffer.cpp` | 0 | 7 (U=5, C=2) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000AF1C2.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000B0298.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000B0298.cpp` | 0 | 7 (U=5, C=1, S=1) | Blocked: callee rowed as 3-arg `__destroy_aux` (LINK-035) |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva001DE3E3.cpp` | 0 | 7 (U=3, C=2, S=2) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva001FDEBC.cpp` | 0 | 7 (U=3, C=2, S=2) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0022DCDA.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0022DCDA.cpp` | 0 | 7 (U=5, C=1, S=1) | 2026-10-26: LINKS in preview (79e9273e2d, LINK-035); census pending |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0046AA69.cpp` | 0 | 3 (U=3) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva004F715B.cpp` | 0 | 5 (U=3, C=1, S=1) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva004F7D7F.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva004F7D7F.cpp` | 0 | 7 (U=5, C=1, S=1) | 2026-10-26: LINKS in preview (61b147288f, LINK-035); census pending |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005243FA.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0052BBD7.cpp` | 0 | 3 (U=3) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00569450.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00577EB2.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00577EB2.cpp` | 0 | 7 (U=5, C=1, S=1) | 2026-10-26: LINKS in preview (02b625c1f2, LINK-035); census pending |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00587752.cpp` | 0 | 3 (U=3) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005AE78A.cpp` | 0 | 3 (U=1, C=1, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005B09D8.cpp` | 0 | 6 (U=4, C=1, S=1) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005F9813.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005F9813.cpp` | 0 | 7 (U=5, C=1, S=1) | 2026-10-26: LINKS in preview (1a419a0c1d, LINK-035); census pending |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0020F0B8.cpp` | 0 | 5 (U=5) | Open |
 | `Code/gen_small/fam_003_Rva0028688a.cpp` | 0 | 7 (U=5, C=1, S=1) | Open |
 | **Total: 290 units** | **95,078** | | |

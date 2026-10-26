@@ -1397,3 +1397,32 @@ Remaining / next check: the declaration must land between `BitFlags.h` and `Kind
 units), then re-verify each unit's rowed callers still call 0x00666E80.
 Clearance: pending.
 Census confirmation: not claimed.
+
+### LINK-035: `StlSweepR3` vector-destructor units instantiated the whole `vector<RecordN>`
+Status: Open (5 of 7 repaired). Updated: 2026-10-26; inspected revision: 5fae0cc47f; index 47e030bafc.
+Evidence / affected units: `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva<rva>.cpp` units holding one
+63 B STLport `vector<RvaNRecord>` destructor (or `_M_clear`) row. Each wrote `template class
+_STL::vector<RvaNRecord>;`, which emits every member: the record's ctor/copy/assign/dtor and `_Construct`
+were unresolved, and its own `_Destroy<RvaNRecord *>` copy was not retail's body (the name is only pinned).
+Retail's destructor calls an out-of-line two-argument range destroy.
+Completed (each in its own commit, `./build.sh` exact, partners still link):
+- 0x004F7D7F (61b147288f), 0x005F9813 (1a419a0c1d), 0x00577EB2 (02b625c1f2), 0x005E2857 (1f0a322ceb):
+  callee 0x005F97BC, rowed `_Destroy<TreeHintRef00217D4C *>` (StlportVectorEraseRangeFamily.cpp).
+- 0x0022DCDA (79e9273e2d): callee 0x0022D941, rowed `?Rva0022D941Destroy@@YAXPAURva0022CD2A@@0@Z`.
+- Recipe: instantiate only `~vector`, as an explicit specialization whose body calls the rowed callee
+  through `reinterpret_cast` (as `BattlePromptConstructorLifetimes.cpp` does), followed by
+  `template _STL::vector<RvaNRecord>::~vector();` so cl 7.1 emits the otherwise unreferenced specialization.
+  This also drops the three `#pragma optimize` lines per unit; `hatch_counters.py --update` has not
+  been run to tighten the register. A forced-inline forwarding `_Destroy` specialization was tried
+  first: it loads both bounds into registers before the EH state store, so the bytes differ.
+- link_check: 0 -> 324 B over the five units.
+Remaining / next check:
+- `StlSweepR3Rva00214B22.cpp` (63 B + EH 10 B, callee 0x00214B09) and `StlSweepR3Rva000B0298.cpp`
+  (`_M_clear`, 30 B, callee 0x000AFF52): both callees are rowed as three-argument
+  `__destroy_aux<T*>(T*, T*, const __false_type &)`, but retail pushes two arguments (the 25 B bodies
+  are `_Destroy` with the loop inlined). Calling the rowed name would push a third argument. This needs
+  those rows respelled as `_Destroy<T*>` (naming lane), then the same recipe.
+- The `_Destroy<RvaNRecord *>` pins in `reverse/symbols.csv` for the five repaired units look
+  unreferenced now; check every object before dropping them through the register's path.
+Clearance: the five units preview LINKS against index 47e030bafc with current objects.
+Census confirmation: awaiting the next census.
