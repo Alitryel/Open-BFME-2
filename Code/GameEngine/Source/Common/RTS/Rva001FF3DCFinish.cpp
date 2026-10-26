@@ -17,13 +17,7 @@ public:
 	int m_sciencePurchasePointCostMP;
 };
 
-class GameLogic
-{
-	char m_pad[0x110];
-public:
-	int m_gameMode;
-	bool isInMultiplayerGame();
-};
+#include "../GameLogicObjectLookupView.h"
 
 class RecorderClass
 {
@@ -51,7 +45,7 @@ int ScienceStore::getSciencePurchaseCost(ScienceType st) const
 		const bool mp = game->isInMultiplayerGame();
 		int mode = 0;
 		if (!mp)
-			mode = game->m_gameMode;
+			mode = game->m_110;
 		if (mp || mode == 2 ||
 		    (mode == 3 && TheRecorder && TheRecorder->isMultiplayer()))
 			return si->m_sciencePurchasePointCostMP;

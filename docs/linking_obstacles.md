@@ -175,6 +175,14 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open. Updated: 2026-10-26.**
 
+- **Science purchase-cost header prerequisite (2026-10-26):**
+  [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
+  preserves the 86-byte cost donor and retires one header-queue row through
+  acceptance. Complete before/after object and reference facts are identical.
+  Current full composition refuses the final set with allocator/vector
+  redefinitions, superseding the historical 13-row acceptance. Cost fields,
+  STL/flag reconciliation and mixed donors remain; no full merge unblock,
+  identity debt retirement or census gain is claimed.
 - **Keyboard declaration prerequisites (2026-10-26):**
   [the shared receiver repair](../reverse/attempt_support/consolidation-keyboard-resync-prerequisite-20261026-codex.md)
   first made the seed and 166-byte resync donor compose (13 existing rows).
