@@ -1377,3 +1377,23 @@ Census confirmation: not claimed.
   before working it. The vftable copies stay one-slot views of retail's full tables.
 - **Clearance:** scope `StealthUpdateCtor.cpp` only, current-object preview at `895c0f21ef`.
 - **Census confirmation:** awaiting.
+
+### LINK-030: ZH-header units emit a wrong `BitFlags<116>::clear` ahead of the rowed copy
+
+Status: Open. Updated: 2026-10-26; inspected revision: 9f93879fe9 (index 47e030bafc).
+Evidence / affected units: `BitFlagsClear.cpp` (14 B, row 0x00666E80) fails `selected` on
+`?clear@?$BitFlags@$0HE@@@QAEXXZ`. The index has four copies: `DumbProjectileBehavior.cpp`,
+`Player.cpp` and `WeaponSet.cpp` (all `wrong`, first in link order) and `BitFlagsClear.cpp`
+(`retail`). The wrong copies are `jmp ?reset@?$bitset@$0HE@@_STL@@...`, whose reset calls
+`memset`; retail's is four inline dword stores.
+Completed: trial (reverted, no commit) of a decl-only `template <> void BitFlags<116>::clear();`
+in `WeaponSet.cpp`: after `PreRTS.h` it hits C2908 (already instantiated: ZH `KindOf.h`'s
+inline `CLEAR_KINDOFMASK`/`SET_ALL_KINDOFMASK_BITS` call `clear()`, and `DisabledTypes.h`,
+`ObjectStatusTypes.h` do the same); placed before `PreRTS.h` with `Lib/Basetype.h`,
+`Common/STLTypedefs.h` and `Common/BitFlags.h`, it fails C2084 (`<new>` placement new/delete
+defined twice).
+Remaining / next check: the declaration must land between `BitFlags.h` and `KindOf.h` inside
+`PreRTS.h`, i.e. a TU-scoped shim of the sweep `PreRTS.h` (or a shared decision for all three
+units), then re-verify each unit's rowed callers still call 0x00666E80.
+Clearance: pending.
+Census confirmation: not claimed.
