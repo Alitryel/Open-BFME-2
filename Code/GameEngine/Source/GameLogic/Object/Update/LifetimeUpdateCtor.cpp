@@ -22,18 +22,7 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_FOREVER = 0x3fffffff
 };
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-	__declspec(dllimport) __forceinline Int getHulkMaxLifetimeOverride() const { return m_hulkMaxLifetimeOverride; }
-
-private:
-	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame; // +0x40
-	unsigned char m_pad44[0x5C]; // 0x44..0xA0
-	Int m_hulkMaxLifetimeOverride; // +0xA0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
