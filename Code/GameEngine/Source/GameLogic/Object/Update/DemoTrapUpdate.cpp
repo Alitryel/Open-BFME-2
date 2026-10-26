@@ -80,22 +80,7 @@ public:
 	void rva00495A2B();
 };
 
-class DemoTrapUpdateModuleData
-{
-public:
-	void *m_vtable;
-	unsigned int m_unused04;
-	void *m_detonationWeapon;
-	BitFlags<69> m_ignoreKindOf;
-	int m_manualModeWeaponSlot;
-	int m_detonationWeaponSlot;
-	int m_proximityModeWeaponSlot;
-	float m_triggerDetonationRange;
-	int m_scanFrames;
-	bool m_defaultsToProximityMode;
-	bool m_friendlyDetonation;
-	bool m_detonateWhenKilled;
-};
+#include "DemoTrapUpdateModuleDataView.h"
 
 class DemoTrapUpdate
 {
@@ -167,18 +152,18 @@ UpdateSleepTime DemoTrapUpdate::update()
 	}
 	if (weaponSlot == data->m_manualModeWeaponSlot)
 		return UPDATE_SLEEP_NONE;
-	self->m_nextScanFrames = data->m_scanFrames;
+	self->m_nextScanFrames = data->m_scanRate;
 	bool shallDetonate = false;
 	BfmeWideResult iterator = ThePartitionManager->rva006255D0(&me->m_pos38, data->m_triggerDetonationRange, 0, 0);
 	for (Object *other = iterator.next(); other; other = iterator.next())
 	{
-		if (other->isAnyKindOf(data->m_ignoreKindOf))
+		if (other->isAnyKindOf(reinterpret_cast<const BitFlags<69> &>(data->m_zeroBlock)))
 			continue;
 		if ((other->m_dead438 & 1) != 0)
 			continue;
 		if (self->getObject()->getRelationship(other) != RELATIONSHIP_ENEMIES)
 		{
-			if (!data->m_friendlyDetonation)
+			if (!data->m_autoDetonationWithFriends)
 				return UPDATE_SLEEP_NONE;
 			continue;
 		}
@@ -188,7 +173,7 @@ UpdateSleepTime DemoTrapUpdate::update()
 		if (dist <= data->m_triggerDetonationRange * data->m_triggerDetonationRange)
 		{
 			shallDetonate = true;
-			if (data->m_friendlyDetonation)
+			if (data->m_autoDetonationWithFriends)
 				break;
 		}
 	}
