@@ -2550,3 +2550,6 @@ global,?g_00DBA4F4@@3MA,?LOGICFRAMES_PER_SECONDS_REAL@@3MA,inferred,agree:nl-919
 class,Rva005CD841Visitor,HasListenersVisitor,inferred,agree:nl-7a07f65b1c36,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,
 global,?g_00DD179C@@3HA,?g_skirmishMode@@3HA,inferred,agree:nl-58fdc8087281,Code/GameEngine/Source/Common/Rva0052192DInit.cpp,0x009D179C
 param,Rva005ED15DCreateAutoResolve::b,Rva005ED15DCreateAutoResolve::livingWorldBattle,inferred,agree:nl-aa3af916f7cc,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,0x005ED15D
+member,ArmyIconMapNode::m_key10,ArmyIconMapNode::m_key,inferred,agree:nl-ec63b058f42a,Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
+global,?g_00C36EE0@@3QBUFieldParse@@B,?buildingRestrictionFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-a764191197be,Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp,0x00836EE0
+global,?BfmeAnimationField2@@3QBDB,?g_animationDistanceField@@3QBDB,inferred,agree:nl-485e49ed98f4,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007CA530

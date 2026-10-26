@@ -18,7 +18,7 @@ public:
 struct ArmyIconMapNode
 {
 	_STL::_Rb_tree_node_base m_base;
-	int m_key10;
+	int m_key;
 };
 struct ArmyIconMapHeader
 {
@@ -52,7 +52,7 @@ void Rva005E4E1B::rva005E4E1B()
 	if (it == (ArmyIconMapNode *)end)
 		return;
 	do {
-		int k = it->m_key10;
+		int k = it->m_key;
 		if (m_14->rva005F2278(k))
 			((Rva005E4DAF *)this)->Deselect(k);
 		it = (ArmyIconMapNode *)&*_STL::_Rb_global<bool>::_M_increment(&it->m_base);

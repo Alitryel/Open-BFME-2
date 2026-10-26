@@ -55,7 +55,7 @@ static const Rva003F2576ThrowInfoAnchor rva003F2576ThrowInfoAnchor = { 0, 0, 0, 
 extern const char *const LivingWorldBuildingTypeNames[];
 void Rva00339D26Parse(INI *, void *, void *, const void *);
 // The retail table at 0x00836EE0: 2 entries and the null terminator; every parser is rowed.
-extern const FieldParse g_00C36EE0[3] = {
+extern const FieldParse buildingRestrictionFieldParse[3] = {
 	{ "Buildings", &Rva00339D26Parse, LivingWorldBuildingTypeNames, 0x0 },
 	{ "NumberAllowed", (FieldParseProc)&INI::parseInt, 0, 0xC },
 	{ 0, 0, 0, 0 }
@@ -84,6 +84,6 @@ void LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI(INI *ini, void
 	}
 	Rva003F255C *holder = &reinterpret_cast<Rva003F2576Outer *>(outer)->m_holder;
 	Rva003F1FB6 *restriction = new Rva003F1FB6;
-	ini->initFromINI(restriction, g_00C36EE0);
+	ini->initFromINI(restriction, buildingRestrictionFieldParse);
 	holder->rva003F255C((const ::ModuleData *)restriction);
 }

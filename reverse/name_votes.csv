@@ -8077,3 +8077,16 @@ Code/GameEngine/Source/Common/Rva00404927Method.cpp|member|Rva00404901Coefficien
 Code/GameEngine/Source/Common/Rva00404927Method.cpp|member|Rva00404901Coefficients|field08,06bef5298fa90a191f040205,gpt-6.1-sol,w1-10261341-5,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva002860CF.cpp|member|Rva002860CFS|m_10,6d5090bc9d1f9ddf7a0e94d6,gpt-6.1-sol,w1-10261341-8,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva0052192DInit.cpp|global||g_00DD179C,cfc1521924b8ea982bf14067,gpt-6.1-sol,w1-10261341-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|a,85c5e795ea25f7bdff9836f0,gpt-6.1-sol,w3-10261329-1,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|b,1269f880cfe4883c2ac35e24,gpt-6.1-sol,w3-10261329-1,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|member|ArmyIconMapNode|m_key10,708eaa385af0a3fa9b22808c,gpt-6.1-sol,w3-10261329-2,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva0014D887Init.cpp|function|0x0014D887|rva0014D887,cc8e357b606cb95be57791c8,gpt-6.1-sol,w3-10261329-3,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,00e11d19c2539588d8589a8b,gpt-6.1-sol,w3-10261329-4,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva000B31CB.cpp|class||Rva000B31CBScale,a3e1bfca915735334a5b2688,gpt-6.1-sol,w3-10261329-6,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva000B31CB.cpp|class||Rva000B31CBHolder,c6b7fb4312232548aa58c0b2,gpt-6.1-sol,w3-10261329-6,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva000B31CB.cpp|member|Rva000B31CBScale|m_scale20,824c1c743a316bf844937f35,gpt-6.1-sol,w3-10261329-6,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|class||BfmeListNodeTL,c21a83d72d41db611275a47a,gpt-6.1-sol,w3-10261329-7,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|class||BfmeListTL,e212fe13ce3c3f775588763b,gpt-6.1-sol,w3-10261329-7,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationField2,ffc1593c86b6a8295431ba76,gpt-6.1-sol,w3-10261329-8,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp|class||BfmeSubA1034,fb9b5f32b413782cbd1450f2,gpt-6.1-sol,w3-10261329-9,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp|function|0x0040DAF0|bfmeGo1034A,206ca341860fe2fd25fc1c99,gpt-6.1-sol,w3-10261329-9,w-46dfa4623b23,2026-10-26
