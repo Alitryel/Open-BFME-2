@@ -4135,10 +4135,10 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorCto
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorCtor.cpp	_vtbl_00C40920	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorModuleDataCtor.cpp	_vtbl_00C40A10	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorXfer.cpp	?push_back@BridgeBehaviorObjectIDList@@QAEXABW4ObjectID@@@Z	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehaviorCtor.cpp	_vtbl_00C40B70	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehaviorCtor.cpp	_vtbl_00C40B88	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehaviorCtor.cpp	_vtbl_00C40B98	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehaviorCtor.cpp	_vtbl_00C40C54	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehavior.cpp	_vtbl_00C40B70	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehavior.cpp	_vtbl_00C40B88	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehavior.cpp	_vtbl_00C40B98	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehavior.cpp	_vtbl_00C40C54	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BuildingBehaviorCtorThunk.cpp	?slot@BB_Iface1@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BuildingBehaviorCtorThunk.cpp	?slot@BB_Iface2@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/BuildingBehaviorModuleDataCtor.cpp	_vtbl_00C40798	1
