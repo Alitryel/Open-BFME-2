@@ -16,10 +16,7 @@
 
 #include "Lib/Coord3D.h"
 #include "ascii_string.h"
-enum ParticleSystemID
-{
-    INVALID_PARTICLE_SYSTEM_ID = 0
-};
+#include "BeaconClientUpdateView.h"
 class ParticleSystem
 {
   public:
@@ -217,16 +214,6 @@ struct BeaconClientUpdateModuleData
 {
     char pad[8];
     unsigned framesBetweenRadarPulses, radarPulseDuration;
-};
-class BeaconClientUpdate
-{
-  public:
-    virtual void clientUpdate();
-    void hideBeacon();
-    const BeaconClientUpdateModuleData *data;
-    Drawable *draw;
-    ParticleSystemID id;
-    unsigned lastRadarPulse;
 };
 static BfmeParticleSystemHandle createParticleSystem(Drawable *draw)
 {

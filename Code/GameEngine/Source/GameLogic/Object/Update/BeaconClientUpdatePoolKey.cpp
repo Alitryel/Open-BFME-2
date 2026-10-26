@@ -9,24 +9,7 @@
 // static-guard EH prologue; globals are TU-local externs (DIR32 slots patch
 // from retail, no pins; nameToKey resolves via its matched row).
 
-enum NameKeyType
-{
-	NK_UNKNOWN = 0
-};
-
-class NameKeyGenerator
-{
-public:
-	NameKeyType nameToKey(const char *name);
-};
-
-extern NameKeyGenerator *TheNameKeyGenerator;
-
-class BeaconClientUpdate
-{
-public:
-	virtual NameKeyType getModuleNameKey() const;
-};
+#include "../../../GameClient/Drawable/Update/BeaconClientUpdateView.h"
 
 // ?getModuleNameKey@BeaconClientUpdate@@UBE?AW4NameKeyType@@XZ
 NameKeyType BeaconClientUpdate::getModuleNameKey() const
