@@ -12,26 +12,12 @@ typedef int BOOL;
 #define NULL 0
 #define AF_INET 2
 
-#define FTP_SUCCEEDED 0
-#define FTP_FAILED 0x80040001
-#define FTP_TRYING 0x80040002
-
-struct in_addr
-{
-	union
-	{
-		unsigned long S_addr;
-	} S_un;
-};
-
-#define s_addr S_un.S_addr
-
 struct sockaddr_in
 {
-	short sin_family;
+	unsigned short sin_family;
 	unsigned short sin_port;
-	in_addr sin_addr;
-	char sin_zero[8];
+	unsigned long sin_addr;
+	unsigned char sin_zero[8];
 };
 
 extern "C" void *__cdecl memset(void *destination, int value, unsigned int count);
@@ -52,6 +38,8 @@ public:
 
 int Cftp::AsyncGetHostByName(char *name, sockaddr_in &address)
 {
+	// Function scope keeps these values compatible with FTP.CPP's enum.
+	enum { FTP_SUCCEEDED = 0, FTP_FAILED = 0x80040001, FTP_TRYING = 0x80040002 };
 	static int stat = 0;
 	static unsigned long threadId;
 
