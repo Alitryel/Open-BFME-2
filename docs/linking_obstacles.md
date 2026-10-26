@@ -1467,3 +1467,23 @@ Remaining / next check: None.
 Clearance: `tools/link_check.py Code/GameEngine/Source/GameLogic/Object/PartitionData_friendUpdateCellsTouched.cpp`
 reports: LINKS (0 -> 37 bytes). Exact 1/1 byte match preserved.
 Census confirmation: awaiting the next census.
+
+### LINK-040: the 172-byte `CarryoverUnit` vector is spelled as five element types
+Status: Open. Updated: 2026-10-26; inspected revision: 10621f1b34.
+Evidence / affected units: `StlSweepW4Rva001EBEAB.cpp` (`vector<Rva001EBEABElement>::_M_fill_insert`,
+0x001EBEAB, 307 B with funclets) fails on unresolved element ctor/dtor/`operator=` and a non-retail
+`_M_insert_overflow<Rva001EBEABElement>`. Retail 0x001EBEAB calls (target facts): 0x001EB79E
+`??0CarryoverUnit@@QAE@ABV0@@Z`, 0x0037DEE4 `??1CarryoverUnit@@UAE@XZ`, 0x001EB84E
+`fill<BfmeAssignRecord172>`, 0x001EB831 `__copy_backward_ptrs<Rva001EB831Element>`, 0x001EBA30 and
+0x001EBAB4 (`BfmePod172` helpers) and 0x001EBD3B `vector<BfmePod172>::_M_insert_overflow`. So one
+native element (the virtual-dtor `CarryoverUnit`, 0xAC bytes) is rowed as `CarryoverUnit`,
+`BfmeAssignRecord172` (incl. `operator=` 0x001EB20E, vector dtor/erase/reserve/clear),
+`BfmePod172`, `Rva001EB831Element`, `Rva001EB86EElement` and `Rva001EBEABElement`.
+`re_attempts.log` 0x001EC9BD already notes the BfmeAssignRecord172 / Rva001EBEABElement split.
+Completed: none (no edit; diagnosis only).
+Remaining / next check: one `vector<CarryoverUnit>` family rename across the rows above and their
+units (about 20 rows, 12 files, incl. `LinearCampaignCarryoverInsert.cpp`, `Rva001EC9BDResize.cpp`,
+`StlportVectorClearForwarders.cpp`), with a shared `CarryoverUnit` view; check each renamed body
+still byte-matches and that the POD-named helpers really are the same instantiation, not ICF folds.
+Clearance: pending.
+Census confirmation: not claimed.
