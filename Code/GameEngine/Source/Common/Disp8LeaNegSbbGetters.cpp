@@ -40,7 +40,6 @@ int Rva004543A9LeaNegSbbField::get() const
 	field += 0x14;
 	return base ? (int)field : 0;
 }
-BFME_DISP8_LEA_NEG_SBB_GETTER(Rva0045875FLeaNegSbbField, 12, 0x0C)
 BFME_DISP8_LEA_NEG_SBB_GETTER(Rva004647C0LeaNegSbbField, 12, 0x20)
 BFME_DISP8_LEA_NEG_SBB_GETTER(Rva0046644ALeaNegSbbField, 12, 0x28)
 BFME_DISP8_LEA_NEG_SBB_GETTER(Rva00483C75LeaNegSbbField, 12, 0x44)

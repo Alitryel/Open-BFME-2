@@ -11,6 +11,73 @@
 #include "GameLogic/Module/BridgeBehavior.h"
 #include "GameLogic/Module/BridgeTowerBehavior.h"
 #include "GameLogic/TerrainLogic.h"
+#define BFME_DISP8_LEA_NEG_SBB_GETTER(NAME, LEADISP, ADDIMM) \
+	class NAME \
+	{ \
+	public: \
+		int get() const; \
+	}; \
+	int NAME::get() const \
+	{ \
+		const char *field = (const char *)this; \
+		const void *base = field - LEADISP; \
+		field += ADDIMM; \
+		return base ? (int)field : 0; \
+	}
+
+//
+// ?getBridgeTowerBehaviorInterfaceFromObject@BridgeTowerBehavior@@SAPAVBridgeTowerBehaviorInterface@@PAVObject@@@Z,
+// retail 0x0045880B, 54 bytes. Dedicated TU.
+// In the BridgeTowerBehavior.cpp code range (after setBridge 0x004586EE); called
+// by the Dozer/Worker scaffolding and repair paths. ZH shape: reject a null
+// object or one whose template lacks KINDOF_BRIDGE_TOWER (bit 0 of template
+// byte +0x10B in BFME2), then scan the BehaviorModule array at +0x244 and ask
+// each module's +0x0C interface sub-object for the tower interface at slot 13
+// (+0x34).
+
+class BridgeTowerBehaviorInterface;
+
+class BfmeObjectModule
+{
+public:
+	virtual void slot0() = 0;
+
+private:
+	unsigned int m_data[2];
+};
+
+class Object;
+
+// These views expose only the measured template/module pointers and kind-of byte.
+// These partial views do not require private Object/ThingTemplate helpers
+// to be redeclared when this body joins the original translation unit.
+struct BridgeTowerKindOfView
+{
+	char m_pad[0x10B];
+	unsigned char m_kindOfByte10B;
+};
+
+struct BridgeTowerObjectTemplateView
+{
+	char m_pad[4];
+	const BridgeTowerKindOfView *m_template;
+	char m_remaining[0x244 - 8];
+	BehaviorModule **m_modules244;
+};
+
+// 0x004543A9 is also reached through the this-0x14 thunk 0x004543E3 in four
+// vtables, so it is virtual (same body).
+class Rva004543A9LeaNegSbbField
+{
+public:
+	virtual int get() const;
+};
+
+BFME_DISP8_LEA_NEG_SBB_GETTER(Rva0045875FLeaNegSbbField, 12, 0x0C)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp
 
@@ -196,15 +263,48 @@ BridgeTowerBehavior::BridgeTowerBehavior(Thing *thing, const ModuleData *moduleD
     m_type = (BridgeTowerType)0;
 }
 
+// ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorGetInterfaceFromObject.cpp
+
+// ?getBridgeTowerBehaviorInterfaceFromObject@BridgeTowerBehavior@@SAPAVBridgeTowerBehaviorInterface@@PAVObject@@@Z
+BridgeTowerBehaviorInterface *BridgeTowerBehavior::getBridgeTowerBehaviorInterfaceFromObject(Object *obj)
+{
+	// sanity
+	if (obj == 0 || (((const BridgeTowerObjectTemplateView *)obj)->m_template->m_kindOfByte10B & 1) == 0)
+		return 0;
+
+	// get the bridge tower behavior module
+	BehaviorModule **bmi;
+	BridgeTowerBehaviorInterface *bbi;
+	for (bmi = ((const BridgeTowerObjectTemplateView *)obj)->m_modules244; *bmi; ++bmi)
+	{
+		bbi = (*bmi)->getBridgeTowerBehaviorInterface();
+		if (bbi)
+			return bbi;
+	}
+
+	// interface not found
+	return 0;
+}
+
 // tu-skeleton: 0x00458759 6B ?Rva458759Get@@YAHXZ -- matched in Code/GameEngine/Source/Common/ConstIntGetters4.cpp (not merged yet)
 
-// tu-skeleton: 0x0045875F 13B ?get@Rva0045875FLeaNegSbbField@@QBEHXZ -- matched in Code/GameEngine/Source/Common/Disp8LeaNegSbbGetters.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/Common/Disp8LeaNegSbbGetters.cpp
+
+// Disp8 lea-neg-sbb getters: thirteen-byte __thiscall members with one shape:
+//
+//     lea eax,[ecx-<LEADISP>] / add ecx,<ADDIMM> / neg eax / sbb eax,eax / and eax,ecx / ret
+//
+// A pointer derived from `this` is null-tested branchlessly: neg sets carry
+// exactly when the derived base is nonzero and sbb spreads it to a full mask
+// that selects the adjusted `this` or null. Deriving the base from a live
+// field-local keeps `this` in ecx so the adjustment compiles to an in-place
+// add instead of a lea into a scratch register. Identity is not recovered:
+// every name is derived from its address.
+// No // cl: line (defaults match the shape).
 
 // tu-skeleton: 0x0045876C 69B ?rva00045876C@BridgeTowerBehavior@@SA?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorPoolKey.cpp (not merged yet)
 
 // tu-skeleton: 0x004587CD 62B ?xfer@BridgeTowerBehavior@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorXfer.cpp (not merged yet)
-
-// tu-skeleton: 0x0045880B 54B ?getBridgeTowerBehaviorInterfaceFromObject@BridgeTowerBehavior@@SAPAVBridgeTowerBehaviorInterface@@PAVObject@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorGetInterfaceFromObject.cpp (not merged yet)
 
 // tu-skeleton: 0x00458841 342B ?onDamage@BridgeTowerBehavior@@UAEXPAVDamageInfo@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehaviorOnDamage.cpp (not merged yet)
 
