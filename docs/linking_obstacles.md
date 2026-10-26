@@ -582,7 +582,7 @@ authored-byte previews or commit-title gains into a projected headline.
 
 ### LINK-007: incomplete data ownership beyond clean symbol resolution
 
-**Status: Open; three storage subsets repaired. Updated: 2026-10-25.**
+**Status: Open; scoped storage repairs verified. Updated: 2026-10-26.**
 
 - **Texture-statistics scalar subset (2026-10-26, control `d831bc24031`):**
   [The scoped ownership repair](../reverse/attempt_support/texture-statistics-data-20261026-bce2/readme.md)
@@ -634,22 +634,31 @@ authored-byte previews or commit-title gains into a projected headline.
   credit. This scoped
   scaler repair is **cleared in the fixed comparison**; no current census
   headline change is claimed. Native alignment padding remains unowned.
-- **Generic filter scratch repaired / awaiting measurement (2026-10-25,
+- **Generic filter scratch cleared in the fixed comparison (2026-10-26,
   source base `684d224e847`):**
   [the scratch ownership proof](../reverse/attempt_support/vp6-filter-scratch-link-20261025/readme.md)
   replaces two four-byte scalar claims with the independently bounded
   352-byte buffer at DFDA58; its second-pass row is buffer+32, not a second
   datum. All 5 control bodies (821 bytes), the complete data owner and all
   6 native DIR32 targets pass. A plain zero-based eight-column loop preserves
-  native pointer induction after the correct array declaration. The 655-byte
-  affected subset is source-verified; new authoritative credit is pending.
+  native pointer induction after the correct array declaration. The authoritative
+  comparison `7124e772c5` to `f012cbcc5e` gains **2,747 placed closed-strict
+  bytes** in five rows, with zero losses. It clears both bilinear bodies, their
+  two filter callers and the unchanged debug row's scratch/counter forward-map
+  conflict. Exactly two of 23,460 canonical objects change. Independent closure
+  reconstruction reproduces all 98,202 rows and the 1,703,678-byte credit.
+  The interrupted first run was preserved; the resumed process exits zero after
+  2,992 seconds with no final drift or new unresolved references. Publication
+  controls also pass against the rebased reference inputs. This is scoped closure
+  evidence, not a new current-master census headline.
 - **Remaining / next check:** shader/filter root-object ownership remains
-  open. The [current witnesses](../reverse/attempt_support/vp6-scale-tables-link-20261025/remaining-witnesses.json)
-  show InitPostProcessing still closure-blocked through GetProcessorFlags and
+  open. The [current witnesses](../reverse/attempt_support/vp6-filter-scratch-link-20261025/remaining-witnesses.json)
+  show InitPostProcessing, PostProcMachineSpecificConfig and
+  UtilMachineSpecificConfig still closure-blocked through GetProcessorFlags and
   CpuProbe_VendorSse2: the selected `__except_handler3` import twin lacks a
-  confirmed map/object definition. UtilMachineSpecificConfig independently
-  reaches FilterBlock2dBil's `g_bfmeTableC7E0` forward-map conflict. Prove those
-  selected providers and native storage relationships; do not retry the cleared
+  confirmed map/object definition. UtilMachineSpecificConfig's previous scratch
+  witness is cleared. Prove the selected import provider and remaining native
+  storage relationships; do not retry the cleared
   coefficient or filter-pointer splits. Verify storage
   extents, initial bytes, relocations and dependent closure through the existing
   gates. Family clearance and later census confirmation remain pending.
