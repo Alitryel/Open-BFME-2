@@ -18,10 +18,6 @@ public:
     {
         return (bits[(unsigned int)bit >> 5] & (1u << (bit & 31))) != 0;
     }
-    __forceinline void set(int bit)
-    {
-        bits[(unsigned int)bit >> 5] |= 1u << (bit & 31);
-    }
     WeaponTemplateSetHead(const WeaponTemplateSetHead &);
     void rva000B3ED3(const WeaponTemplateSetHead &);
 };
@@ -75,6 +71,6 @@ void Rva004B65E4::rva004B65E4(INI *ini, void *, void *store, const void *)
         }
         else if (added.test(bit))
             last = true;
-        dest->set(bit);
+        dest->bits[(unsigned int)bit >> 5] |= 1u << (bit & 31);
     }
 }
