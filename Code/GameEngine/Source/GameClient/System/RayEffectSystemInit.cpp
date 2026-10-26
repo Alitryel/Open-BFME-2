@@ -7,36 +7,7 @@
 // Target vtable RVA 0x00802244 slot 1 also points to this 51-byte helper.
 // The eight bytes after the vptr belong to the 12-byte subsystem prefix;
 // their member identities are not needed by this recovery.
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
-
-class Drawable;
-
-#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
-
-struct RayEffectData
-{
-    // ??0RayEffectData@@QAE@XZ present-unmatched
-    __declspec(noinline) RayEffectData() {}
-    // ??1RayEffectData@@QAE@XZ present-unmatched
-    __declspec(noinline) ~RayEffectData() {}
-
-    const Drawable *draw;
-    Coord3D startLoc;
-    Coord3D endLoc;
-};
-
-class RayEffectSystem : public SubsystemInterface
-{
-public:
-    RayEffectSystem();
-    // Compiler-generated destruction (members, then the rowed base dtor), the
-    // body retail's vtable slot 0 reaches.
-    virtual ~RayEffectSystem() {}
-    virtual __declspec(noinline) void init();
-
-private:
-    RayEffectData m_effectData[128];
-};
+#include "RayEffectView.h"
 
 static inline void clearCoordinates(Coord3D *loc)
 {

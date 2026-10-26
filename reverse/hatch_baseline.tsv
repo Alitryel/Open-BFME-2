@@ -20650,8 +20650,8 @@ present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva0
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEE16CopyCtor.cpp	1Rva003AEE16@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AEE16CopyCtor.cpp	1Rva003AF076@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/System/ImageCollectionCtor.cpp	_GImageCollection@@UAEPAXI@Z	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/RayEffectSystemInit.cpp	0RayEffectData@@QAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameClient/System/RayEffectSystemInit.cpp	1RayEffectData@@QAE@XZ	1
+present_unmatched	Code/GameEngine/Source/GameClient/System/RayEffectView.h	0RayEffectData@@QAE@XZ	1
+present_unmatched	Code/GameEngine/Source/GameClient/System/RayEffectView.h	1RayEffectData@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/VideoPlayerDestructorThunk.cpp	1VideoPlayerBase@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/View.cpp	View::getLocation	1
 present_unmatched	Code/GameEngine/Source/GameClient/View.cpp	View::init	1
