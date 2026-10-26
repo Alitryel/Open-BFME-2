@@ -212,6 +212,13 @@ authored-byte previews or commit-title gains into a projected headline.
   COMDAT policies and data/reference facts are unchanged. Two mixed donors
   and existing vtable/data identity debt remain. No merge, debt retirement,
   census gain or later Luna landing is claimed.
+- **StatusBitsUpgrade receiver prerequisite (2026-10-26):**
+  [The shared partial receiver](../reverse/attempt_support/consolidation-statusbits-receiver-20261026-codex.md)
+  makes the pool-key and apply/remove donors compose: four existing rows / 185
+  bytes versus only the two pool rows. Both strict current objects and the
+  four-definition composition retain code/data identity, COMDAT policies and
+  all ten reference facts. Constructor/vtable and mixed-source prerequisites
+  remain. No merge, identity retirement, file reduction or census gain claimed.
 - **TunnelTracker contain-list prerequisite (2026-10-26):**
   [The shared receiver/environment repair](../reverse/attempt_support/consolidation-tunneltracker-contain-prerequisite-20261026-codex.md)
   clears the contain-list refusal: ordinary composition now accepts seed plus
