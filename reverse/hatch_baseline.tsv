@@ -19290,10 +19290,8 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva0050129F.cp
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva005C856D.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva005C856D.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva005C856D.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/chunkio_load_ctor.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/chunkio_load_ctor.cpp	"gsy",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	"",on	2
+pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	"gsy",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/gcd_lcm.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/gcd_lcm.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	"",off	1
