@@ -5,6 +5,23 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
+//
+// ??0TerrainTypeCollection@@QAE@XZ at 0x00317BA5, 22 bytes.
+// Ctor beside rowed dtor ??1TerrainTypeCollection@@UAE@XZ at 0x00317BBB: the rowed
+// SubsystemInterface base ctor 0x001B4E63, then zero +0x0C, then vtable
+// 0x00C0C62C, then return this.
+// Evidence: vtable store plus base ctor call plus dtor row plus caller
+// at 0x0022E82D. Retail vtable 0x00C0C62C is the 14-slot SubsystemInterface
+// table (base 0x00BD77A0) with slot 0 = ??_GRva00317BBB 0x00317C18 and slots
+// 1/9/10 (init/reset/update) = the folded empty body 0x000B3FD0; the class
+// view matches Rva00317BBBDtor.cpp's so both units emit the same vtable.
+typedef bool Bool;
+#include "subsystem_interface.h"
+// ??1TerrainTypeCollection@@UAE@XZ @0x00317BBB 93B: virtual dtor draining the intrusive list at +0xC node by node through virtual slot 0 with arg 0 plus global operator delete, then base 0x001B4E74. Evidence: vtable 0x0080C62C store plus deleting-dtor caller 0x00317C18 plus rowed operator delete 0x0002FD60; node slot-0 identity unproven so TU-local ListNode facade.
+class AsciiStringMember {
+public:
+  ~AsciiStringMember();
+};
 
 class TerrainType
 {
@@ -59,9 +76,56 @@ AsciiStringPlusText operator+(const AsciiString &,const char *);
 
 AsciiString &Rva00317C68Append(AsciiString &,const char *);
 
-// tu-skeleton: 0x00317BA5 22B ??0TerrainTypeCollection@@QAE@XZ -- matched in Code/GameEngine/Source/Common/TerrainTypeCollection.cpp (not merged yet)
+struct ListNode;
 
-// tu-skeleton: 0x00317BBB 93B ??1TerrainTypeCollection@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva00317BBBDtor.cpp (not merged yet)
+struct ListNode {
+  virtual void *destroy(int flags);
+  char m_pad04[0x1C];
+  ListNode *m_next;
+};
+
+class TerrainTypeCollection : public SubsystemInterface
+{
+public:
+	TerrainTypeCollection();
+	virtual ~TerrainTypeCollection();
+	virtual void init() {}
+	virtual void reset() {}
+	virtual void update() {}
+private:
+	ListNode *m_head;
+};
+
+void __cdecl operator delete(void *p);
+
+// ---- from Code/GameEngine/Source/Common/TerrainTypeCollection.cpp
+
+TerrainTypeCollection::TerrainTypeCollection()
+	: m_head(0)
+{
+}
+
+// ---- from Code/GameEngine/Source/Common/Rva00317BBBDtor.cpp
+
+TerrainTypeCollection::~TerrainTypeCollection()
+{
+  if (m_head != 0) {
+    ListNode *next;
+    do {
+      ListNode *listNode = m_head;
+      next = listNode->m_next;
+      void *mem;
+      if (m_head != 0)
+        mem = listNode->destroy(0);
+      else
+        mem = 0;
+      ::operator delete(mem);
+      m_head = next;
+    } while (next != 0);
+  }
+}
+
+// ---- from Code/GameEngine/Source/Common/TerrainTypes.cpp
 
 // ---- from Code/GameEngine/Source/Common/TerrainTypes.cpp
 
@@ -85,13 +149,9 @@ void TerrainType::friend_setName(AsciiString s)
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
 // Element identity and unconstrained fields remain address-derived structural inference.
 
-// tu-skeleton: 0x00317C68 56B ?Rva00317C68Append@@YAAAVAsciiString@@AAV1@PBD@Z -- matched in Code/GameEngine/Source/Common/Rva00317C68Concat.cpp (not merged yet)
 
-// tu-skeleton: 0x00317CA0 45B ?Rva00317CA0Construct@@YAXPAXPBX@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp (not merged yet)
 
-// tu-skeleton: 0x00317D18 68B ?findTerrain@TerrainTypeCollection@@QAEPAVTerrainType@@VAsciiString@@@Z -- matched in Code/GameEngine/Source/Common/TerrainTypes_findTerrain.cpp (not merged yet)
 
-// tu-skeleton: 0x00317D5C 45B ??$_M_allocate_and_copy@PBU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@?$vector@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@2@@_STL@@IAEPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@1@IPBU21@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_nocasepair_allocate_copy.cpp (not merged yet)
 
 // ---- from Code/GameEngine/Source/Common/MakeNrmTextureName.cpp
 
@@ -118,6 +178,14 @@ AsciiString makeNrmTextureName(const AsciiString &in)
     }
     return in+"_nrm";
 }
+
+// tu-skeleton: 0x00317C68 56B ?Rva00317C68Append@@YAAAVAsciiString@@AAV1@PBD@Z -- matched in Code/GameEngine/Source/Common/Rva00317C68Concat.cpp (not merged yet)
+
+// tu-skeleton: 0x00317CA0 45B ?Rva00317CA0Construct@@YAXPAXPBX@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_stl_types.cpp (not merged yet)
+
+// tu-skeleton: 0x00317D18 68B ?findTerrain@TerrainTypeCollection@@QAEPAVTerrainType@@VAsciiString@@@Z -- matched in Code/GameEngine/Source/Common/TerrainTypes_findTerrain.cpp (not merged yet)
+
+// tu-skeleton: 0x00317D5C 45B ??$_M_allocate_and_copy@PBU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@?$vector@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@2@@_STL@@IAEPAU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@1@IPBU21@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_nocasepair_allocate_copy.cpp (not merged yet)
 
 // tu-skeleton: 0x00317E7C 63B ??1Rva00317E7C@@QAE@XZ -- matched in Code/GameEngine/Source/Common/RvaVectorDtorFamily.cpp (not merged yet)
 
