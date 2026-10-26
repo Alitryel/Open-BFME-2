@@ -47,8 +47,8 @@ unsigned char vtMissing[16] = {
 };
 void __stdcall bfmeFailDXE(int code);
 
-// ?bfmeGoDXE@@YAXXZ, retail 0x007B9B40 (22B).
-void bfmeGoDXE()
+// ?clearMissingVariant@@YAXXZ, retail 0x007B9B40 (22B).
+void clearMissingVariant()
 {
 	int r = VariantClear(vtMissing);
 	if (r < 0)

@@ -2318,3 +2318,6 @@ local,Rva002EDE5B::tmpC,Rva002EDE5B::cellPos,inferred,agree:nl-c81b0551ac55,Code
 local,find::r,find::node,inferred,agree:nl-a2810369da3f,Code/GameEngine/Source/Common/Audio/AudioManagerAdjustPriorityAndVolume.cpp,
 param,Rva006FE400::rva006FE400::a1,Rva006FE400::rva006FE400::context,inferred,agree:nl-15adf7e98f2d,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,0x006FE400
 local,Rva006FE400::rva006FE400::r,Rva006FE400::rva006FE400::memberValue,inferred,agree:nl-0fae9e73a2b6,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,0x006FE400
+function,?bfmeGoDXE@@YAXXZ,?clearMissingVariant@@YAXXZ,inferred,agree:nl-b879525f60e5,Code/GameEngine/Source/Common/BfmeConv793.cpp,0x007B9B40
+member,Rva0036E357TemplateView::flags108,Rva0036E357TemplateView::m_kindOf,inferred,agree:nl-eff9ac3b6dab,Code/GameEngine/Source/Common/Rva0036E346Count.cpp,
+function,?rva00545B72@Rva00545B72@@QAE_NH@Z,?shouldExit@Rva00545B72@@QAE_NH@Z,inferred,agree:nl-02faa343ca3d,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,0x00545B72

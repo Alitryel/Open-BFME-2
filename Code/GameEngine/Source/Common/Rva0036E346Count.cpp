@@ -194,7 +194,7 @@ void Rva0036E2A7::rva0036E2A7(SequentialScript *sequentialScript, int dummy)
 // spelling and meanings of the tested bits remain unresolved.
 // Nested tests plus a barrier before count select native CL flag and
 // reload the sentinel instead of retaining it through the field tests.
-struct Rva0036E357TemplateView {char pad[0x108];unsigned char flags108;};
+struct Rva0036E357TemplateView {char pad[0x108];unsigned char m_kindOf;};
 bool AIGroup::rva0036E357() {
  ListNode *cur=m_head->m_next;
  while(cur!=m_head) {
@@ -202,7 +202,7 @@ bool AIGroup::rva0036E357() {
   bool reject=false;
   if(obj->flag1C8&8)reject=true;
   AIHolder *ai=obj->m_ai;
-  if(!ai)reject=true;else if(!ai->m_field1F0)reject=true;else if(static_cast<Rva0036E357TemplateView*>(obj->m_template)->flags108&4)reject=true;
+  if(!ai)reject=true;else if(!ai->m_field1F0)reject=true;else if(static_cast<Rva0036E357TemplateView*>(obj->m_template)->m_kindOf&4)reject=true;
   cur=cur->m_next;
   if(reject) {
    _ReadWriteBarrier();

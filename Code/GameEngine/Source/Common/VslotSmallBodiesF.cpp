@@ -132,12 +132,12 @@ void Rva005277BA::rva005277BA()
 class Rva00545B72
 {
 public:
-	Bool rva00545B72(Int unused);
+	Bool shouldExit(Int unused);
 private:
 	char m_pad00[0x04];
 	UnsignedInt m_04;
 };
-Bool Rva00545B72::rva00545B72(Int unused)
+Bool Rva00545B72::shouldExit(Int unused)
 {
 	if (TheGameLogic->getFrame() < m_04)
 		return false;

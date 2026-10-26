@@ -40,7 +40,7 @@ void __cdecl rva007B8FA9();
 void __cdecl rva007B95A4();
 void __cdecl rva007B9680();
 void __cdecl rva007B968A();
-void __cdecl bfmeGoDXE();
+void __cdecl clearMissingVariant();
 
 // Storage is owned by Rva007AB85CAtexitInits.cpp and its data rows.
 // This split initializer unit only refers to the same objects.
@@ -167,5 +167,5 @@ void Rva007AB85CAtexitInits::rva007ACE80()
 // ?rva007B55D0@Rva007AB85CAtexitInits@@SAXXZ @ 0x007B55D0 (12B): atexit(0x007B9B40)
 void Rva007AB85CAtexitInits::rva007B55D0()
 {
-	atexit( bfmeGoDXE );
+	atexit( clearMissingVariant );
 }

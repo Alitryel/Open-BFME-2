@@ -2625,3 +2625,5 @@ __ehhandler$??1SpecialPowerModule@@MAE@XZ,0x0078CE1C,"Respelled back to the publ
 ?rva002616D1@Rva002616D1@@QBE_NPBURva002616D1Arg@@@Z,0x002616D1,"Renamed to ?allow@Rva002616D1@@QBE_NPBURva002616D1Arg@@@Z by tools/rename.py (inferred)"
 ?rva00043BF9@W3DDisplay@@QAEXXZ,0x00043BF9,"Renamed to ?drawAnimStats@W3DDisplay@@QAEXXZ by tools/rename.py (inferred)"
 ?rva005DD7FB@GameStatsTable@@QBE_NI@Z,0x005DD7FB,"Renamed to ?isRowDirty@GameStatsTable@@QBE_NI@Z by tools/rename.py (inferred)"
+?bfmeGoDXE@@YAXXZ,0x007B9B40,"Renamed to ?clearMissingVariant@@YAXXZ by tools/rename.py (inferred)"
+?rva00545B72@Rva00545B72@@QAE_NH@Z,0x00545B72,"Renamed to ?shouldExit@Rva00545B72@@QAE_NH@Z by tools/rename.py (inferred)"
