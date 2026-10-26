@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <map>
 
-struct Rva004FCD6DElement { short words[1]; bool operator<(const Rva004FCD6DElement&b)const { return words[0]<b.words[0]; } bool operator==(const Rva004FCD6DElement&b)const {return words[0]==b.words[0];} };
+struct Rva004FCD6DElement { int words[1]; bool operator<(const Rva004FCD6DElement&b)const { return words[0]<b.words[0]; } bool operator==(const Rva004FCD6DElement&b)const {return words[0]==b.words[0];} };
 
 // Instantiate the recovered operation and its required template dependencies.
 template _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<Rva004FCD6DElement const, int>, _STL::_Const_traits<_STL::pair<Rva004FCD6DElement const, int> > >, _STL::_Rb_tree_iterator<_STL::pair<Rva004FCD6DElement const, int>, _STL::_Const_traits<_STL::pair<Rva004FCD6DElement const, int> > > > _STL::_Rb_tree<Rva004FCD6DElement, _STL::pair<Rva004FCD6DElement const, int>, _STL::_Select1st<_STL::pair<Rva004FCD6DElement const, int> >, _STL::less<Rva004FCD6DElement>, _STL::allocator<_STL::pair<Rva004FCD6DElement const, int> > >::equal_range(Rva004FCD6DElement const &) const;
