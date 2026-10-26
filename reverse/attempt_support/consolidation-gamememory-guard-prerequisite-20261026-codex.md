@@ -82,3 +82,44 @@ accepts seed plus Xfer donor / two rows, superseding its old include-order
 refusal; no repair was needed and its unused claims were released. Known
 Keyboard, GiantBird, RankInfo, HeaderTemplate and dock/upgrade structural
 boundaries were read rather than repeating unchanged blocked trials.
+
+## Session close and publication handoff
+
+The inherited TunnelTracker repair/recovery and this session's StatusBitsUpgrade
+repair plus FireSpread blocked evidence landed in the five-commit batch ending
+66ad9c43ca. StatusBitsUpgrade's landed repair is 66ad9c43ca; its ordinary trial
+accepts four rows / 185 bytes, with constructor and mixed-source prerequisites
+remaining. TunnelTracker recovery is separate from this session's new repairs.
+The preceding obstacle-register entry records that push's inconclusive audit;
+no new link cycle or audit was substituted for the missing receipt/index.
+All eleven claims for that published batch were released and
+`claims.py release --landed` reported zero remaining landed RVA claims.
+
+GameMemory's authored prerequisite commit is bfe1afe5ec, pending publication at
+this close. Its full header pre-commit check passed 30/30 rows over three
+dependent sources (including Eva), five float references, ten literals plus
+five empty-string references. The explicit changed pair passes 3/3, one data
+row and converged-data enforcement; EH reports no graphs in the pair. The
+shadow identity check reports zero new findings and the data check zero
+findings. The publisher deferred the single commit to its normal final batch;
+it was not invoked alone or polled for a slot. This receipt adds no new source
+consumer or move, so the preceding complete path audit remains current.
+
+`python3 tools/progress.py origin/master` passed at close:
+BYTE-MATCHED 7,978,500 / 100.00%; LINKING 7,370,962 / 98.11%; LINKED
+7,614,012 / 98.75%, each delta zero. The last two remain the census of
+2026-10-26 08:28 at 47e030bafc, not this session's measurement. Authored C++
+delta, source-file reduction and identity debt retired are all zero. Local
+receipt: build/codex-sol-prerequisite-progress-20261026.txt.
+
+The final runner publication must retain these five file claims until landing,
+then release them and run `claims.py release --landed`:
+
+- Code/GameEngine/Source/Common/System/GameMemory.cpp
+- Code/GameEngine/Source/Common/Rva000308E0AddHeap.cpp
+- Code/GameEngine/Source/Common/System/GameMemoryGuardView.h
+- reverse/attempt_support/consolidation-gamememory-guard-prerequisite-20261026-codex.md
+- docs/linking_obstacles.md
+
+There is no unfinished source trial or preparation edit. The remaining work is
+the ordinary Luna merge and the explicit structural/registry prerequisites above.
