@@ -19670,7 +19670,6 @@ present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredNinetyOne.cpp	Bfme
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredNinetyOne.cpp	BfmeThingEG::bfmeTellEG	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOneHundredNinetyOne.cpp	BfmeThingEI::bfmeTellEI	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeOwnVVDCtor.cpp	bfmeSlot0VVD@BfmeBaseVVD@@UAEXXZ	1
-present_unmatched	Code/GameEngine/Source/Common/BfmePicker1284.cpp	BfmePicker1284::bfmePick1284	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeRefVGOCopyDtor.cpp	1Rva006D07E0Key@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeRefVGOCopyDtor.cpp	1Rva008A2BA0Handle@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp	BfmeThingGH::bfmeSetGH	1
@@ -22448,6 +22447,7 @@ present_unmatched	Code/Libraries/Source/ATL/atlbase.cpp	bfmeEmitAtlCritSecTerm@A
 present_unmatched	Code/Libraries/Source/ATL/atlimage.cpp	bfmeEmitatlimage@@YAXPAVCImage@ATL@@@Z	1
 present_unmatched	Code/Libraries/Source/Apt/AptDateConstructor.cpp	AptValueGC::AptValueGC	1
 present_unmatched	Code/Libraries/Source/Apt/AptDateConstructor.cpp	AptValueWithHash::AptValueWithHash	1
+present_unmatched	Code/Libraries/Source/Apt/AptInput.cpp	BfmePicker1284::bfmePick1284	1
 present_unmatched	Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp	AptObject::AptObject	1
 present_unmatched	Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp	AptValueGC::AptValueGC	1
 present_unmatched	Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp	AptValueWithHash::AptValueWithHash	1
