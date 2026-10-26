@@ -78,10 +78,10 @@ class Team
 {
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
-	bool rva0039DDC2(Rva0039DDC2Filter f1, bool flag);
+	bool rva0039DDC2(Rva0039DDC2Filter kindOfFilter, bool flag);
 };
 
-bool Team::rva0039DDC2(Rva0039DDC2Filter f1, bool flag)
+bool Team::rva0039DDC2(Rva0039DDC2Filter kindOfFilter, bool flag)
 {
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 		Object *cur = iter.cur();
@@ -103,8 +103,8 @@ bool Team::rva0039DDC2(Rva0039DDC2Filter f1, bool flag)
 					continue;
 			}
 		}
-		((unsigned char *)&f1)[0] |= 0x80;
-		const BitFlags<116> &mustBeSet = *(const BitFlags<116> *)(const void *)&f1;
+		((unsigned char *)&kindOfFilter)[0] |= 0x80;
+		const BitFlags<116> &mustBeSet = *(const BitFlags<116> *)(const void *)&kindOfFilter;
 		const BitFlags<116> &mustBeClear = *(const BitFlags<116> *)(const void *)&g_defaultStorage009FEFA4;
 		if (((const Thing *)cur)->isKindOfMulti(mustBeSet, mustBeClear))
 			return true;

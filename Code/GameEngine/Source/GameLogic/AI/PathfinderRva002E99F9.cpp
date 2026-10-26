@@ -112,11 +112,11 @@ int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *locoSet, const Coord3D * volat
 	unsigned short wB;
 	unsigned short wA;
 	wB = pathfindCell->m_8;
-	unsigned int r1 = m_sub460.rva0053241F(&zoneParams, wB);
+	unsigned int startZone = m_sub460.rva0053241F(&zoneParams, wB);
 	wA = m_endCell->m_8;
-	unsigned int r2 = m_sub460.rva0053241F(&zoneParams, wA);
-	unsigned int r3 = m_sub460.rva00531FD4(&zoneParams, r1);
-	unsigned int r4 = m_sub460.rva00531FD4(&zoneParams, r2);
+	unsigned int endZone = m_sub460.rva0053241F(&zoneParams, wA);
+	unsigned int r3 = m_sub460.rva00531FD4(&zoneParams, startZone);
+	unsigned int r4 = m_sub460.rva00531FD4(&zoneParams, endZone);
 	unsigned int r5 = m_sub460.rva0053241F(&zoneParams, r3);
 	startPos = (const Coord3D *)r5;
 	m_sub460.rva0053241F(&zoneParams, r4);
