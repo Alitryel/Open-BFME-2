@@ -32,8 +32,8 @@ typedef float Real;
 typedef bool Bool;
 typedef short Short;
 
-static inline Real bfmeFloorD(Real f) { double d = floor(f); return (Real)d; }
-static inline Real bfmeCeilD(Real f) { double d = ceil(f); return (Real)d; }
+static inline Real bfmeFloorD(Real f) { double floorValue = floor(f); return (Real)floorValue; }
+static inline Real bfmeCeilD(Real f) { double ceilValue = ceil(f); return (Real)ceilValue; }
 #define REAL_TO_INT_FLOOR(x) WWMath::Float_To_Long(bfmeFloorD(x))
 #define REAL_TO_INT_CEIL(x) WWMath::Float_To_Long(bfmeCeilD(x))
 

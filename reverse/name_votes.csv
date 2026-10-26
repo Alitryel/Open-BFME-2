@@ -7871,3 +7871,12 @@ Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|local|Rva00261C58Filter::all
 Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r3,a0da728658d628817bc13be2,gpt-6.1-sol,w4-10261108-15,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r4,8a44b855974832d60b96d11d,gpt-6.1-sol,w4-10261108-15,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp|local|Pathfinder::FindBrokenBridge|r5,5bd4f2c2d876e0e73514b208,gpt-6.1-sol,w4-10261108-15,w-eb83eac9adc1,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|bfmeFloorD|d,b5ddaa02bd7be0bd261cae60,gpt-6.1-sol,w3-10261125-2,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|bfmeCeilD|d,9278ca595e4a85f6f1553244,gpt-6.1-sol,w3-10261125-2,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|class||Rva002236F2Value,fe0cf68d15b2b4a9c1230efe,gpt-6.1-sol,w3-10261125-4,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|class||Rva002236F2Node,90b4e23e87ff7d610af20dec,gpt-6.1-sol,w3-10261125-4,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|p,875d50525e3779ea723194ba,gpt-6.1-sol,w3-10261125-6,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|class||Rva002B55F2Call,ec26303b1fc337e0ba647157,gpt-6.1-sol,w3-10261125-9,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|class||Rva002B565FCall,4acacb28117b3a9b5795b22d,gpt-6.1-sol,w3-10261125-9,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|class||Rva002B5739Call,910d5146b61c6faa21341346,gpt-6.1-sol,w3-10261125-9,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|class||Rva003B8E89Record,24e2d2df29b92a73f0dd024d,gpt-6.1-sol,w3-10261125-10,w-46dfa4623b23,2026-10-26

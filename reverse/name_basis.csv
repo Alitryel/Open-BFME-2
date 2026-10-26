@@ -2490,3 +2490,5 @@ class,Rva599825Node,DozerListNode,inferred,agree:nl-b1f2a2bf4961,Code/GameEngine
 class,Rva007F2A50Owner,FeslOwner,inferred,agree:nl-b14e17ba3a15,Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp,
 local,Rva007FA2C0::scan::p,Rva007FA2C0::scan::requestSlot,inferred,agree:nl-8ea9e3015af9,Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp,0x00666860
 function,_Rva00020AC0,__Locale_wchar_toupper,inferred,agree:nl-9e71c9fd509e,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020AC0
+local,bfmeFloorD::d,bfmeFloorD::floorValue,inferred,agree:nl-97d4f7ae3b82,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,
+local,bfmeCeilD::d,bfmeCeilD::ceilValue,inferred,agree:nl-eff59b65a7e1,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,
