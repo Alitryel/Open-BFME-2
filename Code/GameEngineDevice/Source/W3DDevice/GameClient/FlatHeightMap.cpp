@@ -12,6 +12,7 @@
 #define TheCloudDimming ((CloudDimmingView *)TheCloudEffectManager)
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
 #include "../../../../Libraries/Include/Lib/IRegion2D.h"
+#pragma comment(linker, "/alternatename:??1Rva00112291@@UAE@XZ=??1Rva00112291TerrainOwner@@QAE@XZ")
 
 typedef int Int;
 
@@ -609,9 +610,38 @@ class Rva00072A94;
 
 Rva00072A94 *__cdecl Rva000E1860Copy(Rva00072A94 *first, Rva00072A94 *last, Rva00072A94 *dest, void *tag, int extra);
 
+// ??_ERva00112291@@UAEPAXI@Z @0x000E1072 78B.
+// Same shape as ??_ERva001FBF4D: flag bit 1 walks 0xD4 elements via
+// ??_M@YGXPAXIHP6EX0@Z@Z using the count before the array, then operator
+// delete[]; otherwise it calls the element destructor and operator delete.
+// Element destructor 0x00112291 is pinned, not defined.
+
+void operator delete[](void *block);
+
+class Rva00112291
+{
+public:
+	virtual ~Rva00112291();
+
+private:
+	char m_unmodelled_04[0xD4 - 0x04];
+};
+
 // tu-skeleton: 0x000E0F1E 340B ?doPartialUpdate@FlatHeightMapRenderObjClass@@QAEXABUIRegion2D@@PAVWorldHeightMap@@PAVRefRenderObjListIterator@@@Z -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapDoPartialUpdate.cpp (not merged yet)
 
-// tu-skeleton: 0x000E1072 78B ??_ERva00112291@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva000E1072.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/Common/Rva000E1072.cpp
+
+// ?bfmeVectorDeleteAnchorE1072 absent-from-retail
+void bfmeVectorDeleteAnchorE1072()
+{
+	new Rva00112291[2];
+}
+
+// The retail call in this body reads 0x00112291, an address the ledger already
+// carries as ??1Rva00112291TerrainOwner@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+
+// ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp
 
 // ---- from Code/GameEngine/Source/Common/Rva000E10C0.cpp
 
@@ -644,8 +674,6 @@ void Rva000E10C0::rva000E10C0()
 		}
 	}
 }
-
-// tu-skeleton: 0x000E1185 236B ?rva000E1185@Rva000E3B41@@QAEXXZ -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapOnFrameUpdate.cpp (not merged yet)
 
 // ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp
 
@@ -891,3 +919,5 @@ Rva00072A94 *__cdecl Rva000E1D51Forward(Rva00072A94 *first, Rva00072A94 *last, R
 	char tag;
 	return Rva000E1860Copy(first, last, dest, &tag, 0);
 }
+
+// tu-skeleton: 0x000E1185 236B ?rva000E1185@Rva000E3B41@@QAEXXZ -- matched in Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMapOnFrameUpdate.cpp (not merged yet)

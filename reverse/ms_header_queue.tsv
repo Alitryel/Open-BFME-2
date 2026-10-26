@@ -562,7 +562,6 @@ Code/GameEngine/Source/Common/Rva000AB96DLoadAnimation.cpp	drop-in candidate	sam
 Code/GameEngine/Source/Common/Rva000B646BFree.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdlib.h>	no	no	hand		prove with ./build.sh: byte gate is the authority	free:same
 Code/GameEngine/Source/Common/Rva000B6498Free.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdlib.h>	no	no	hand		prove with ./build.sh: byte gate is the authority	free:same
 Code/GameEngine/Source/Common/Rva000B980ECopy.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	memcpy:same
-Code/GameEngine/Source/Common/Rva000E1072.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete [ ]:same
 Code/GameEngine/Source/Common/Rva000E19A3Dtor.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<string.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	_strcmpi:same
 Code/GameEngine/Source/Common/Rva000E6EF0Bucket.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<math.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	floor:same
 Code/GameEngine/Source/Common/Rva000F0AB2Cleanup.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
@@ -3358,3 +3357,4 @@ Code/GameEngine/Source/GameClient/GUI/Shell/Shell.cpp	conflicting	mangle	1	1	0	0
 Code/GameEngine/Source/GameClient/Credits.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/GameEngineDevice/Source/Win32Device/Common/Win32LocalFileSystem.cpp	unverified	unverified	16	7	8	0	1	0	0	0	0	0	0	<windows.h>,<string.h>,<wchar.h>	yes	yes	hand			INVALID_HANDLE_VALUE:unverified,_WIN32_FIND_DATAW:source,FindFirstFileW:source,FindNextFileW:source,wcscpy:source,wcscat:source,wcscmp:source,wcslen:source,_waccess:source,DWORD:same,BOOL:same,HANDLE:same,FILETIME:same,_FILETIME:same,WIN32_FIND_DATAW:same,FindClose:same
 Code/GameEngine/Source/GameClient/GUI/GameWindow.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	1	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
+Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete [ ]:same

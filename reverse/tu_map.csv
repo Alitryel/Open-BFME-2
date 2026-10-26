@@ -6639,7 +6639,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x000E0EDD,49,code,,,-,,Code/GameEngine/Source/Common/Rva000E0EDDCheck.cpp
 0x000E0F16,8,code,,,-,,Code/GameEngine/Source/Common/DispByteOneSetters.cpp
 0x000E0F1E,340,code-unledgered,,,-,,
-0x000E1072,78,code,,,-,,Code/GameEngine/Source/Common/Rva000E1072.cpp
+0x000E1072,78,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp
 0x000E10C0,197,code,,,-,,Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp
 0x000E127B,177,code,,,-,,Code/GameEngine/Source/Common/Rva000E127B.cpp
 0x000E132C,21,code,,,-,,Code/GameEngine/Source/Common/VtableSlotBodiesR3.cpp

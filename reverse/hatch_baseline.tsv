@@ -3016,7 +3016,6 @@ alternatename	Code/GameEngine/Source/Common/Rva000C4657Erase.cpp	??$__copy_ptrs@
 alternatename	Code/GameEngine/Source/Common/Rva000C79C9Derived.cpp	??1Rva000C79C9@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva000C79C9Derived.cpp	?f2@Rva000CA119_B2@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva000C79C9Derived.cpp	?f2@Rva000CAEC6_B2@@UAEXXZ	1
-alternatename	Code/GameEngine/Source/Common/Rva000E1072.cpp	??1Rva00112291@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva000E5EE5Method.cpp	?rva000E5EE5@Rva000E5EE5@@QAEXPBVRva0055A88BDwordField@@VAsciiString@@@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00102215Singleton.cpp	??1Rva001021F7@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva001040D5Ctor.cpp	??1Rva001040D5@@UAE@XZ	1
@@ -5290,6 +5289,7 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp	?slotC@DrawInterfaceC@@UAEXXZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawModuleDataCtor.cpp	_vtbl_00BCC508	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/Find_Asset.cpp	?Rva009EEC60_FindAsset@Rva009EEC60Registry@@QAE?AVRva009EBCE0AssetReference@@PBD@Z	1
+alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp	??1Rva00112291@@UAE@XZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DAptAux_PostDraw_W3dDrawRenderingUnit.cpp	?cleanup@Rva00785FD0Item@@QAEXXZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguage@@A	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	?TheGlobalLanguageData@@3PAUGlobalLanguageData@@A	2
