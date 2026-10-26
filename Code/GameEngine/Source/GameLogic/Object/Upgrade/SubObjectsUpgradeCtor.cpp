@@ -30,12 +30,7 @@ extern "C" const void *const vtbl_00C57C40[];  // ??_7Rva004B4CDF@@6BUpgradeDeri
 class Thing;
 class ModuleData;
 
-class GameLogic
-{
-public:
-	void *m_pad[16];
-	void *m_40;
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -64,7 +59,6 @@ SubObjectsUpgrade::SubObjectsUpgrade(Thing *thing, const ModuleData *moduleData)
 	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00C57328);
 	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C57BF8);
 	*(unsigned int *)((char *)this + 0x18) = ((unsigned int)vtbl_00C58790);
-	m_1C = TheGameLogic->m_40;
+	m_1C = (void *)TheGameLogic->getFrame();
 	m_20 = 0;
 }
-// ?TheGameLogic@@3PAUGameLogic@@A: the global at VA 0xdfe78c is ?TheGameLogic@@3PAVGameLogic@@A.
