@@ -7516,3 +7516,16 @@ Code/GameEngine/Source/Common/GapBodiesGE12.cpp|class||Rva005FDE81Entry,3bdd7765
 Code/GameEngine/Source/Common/GapBodiesGE12.cpp|member|Rva00524F6AData|m_18,5cf92412861d598d578aab4e,gpt-6.1-sol,w3-10260703-17,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/GapBodiesGE12.cpp|function|0x00524F6A|rva00524F6A,4949114338ee8e80ddc6e7d4,gpt-6.1-sol,w3-10260703-17,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|member|Rva0054D222Prompt|m_callback20,2e17e1bb0add3bd8bc8d372d,gpt-6.1-sol,w3-10260703-18,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp|member|LivingWorldStaticLODInfo|m_0C,62c0dfae3477c362158ac9d6,gpt-6.1-sol,w5-10260741-2,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldSetActive.cpp|member|LivingWorldStaticLODInfo|m_0E,fef8c172d27a716a3da7d7f2,gpt-6.1-sol,w5-10260741-2,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|class||Rva0052586BRecord,e67619a4ddbf7f82d52b5347,gpt-6.1-sol,w5-10260741-5,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|member|Rva0052586BRecord|m_00,90849d150f52d0a846e4b1d6,gpt-6.1-sol,w5-10260741-5,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|member|Rva0052586BRecord|m_16,6a7717ddbdcb15f5d2ea8c90,gpt-6.1-sol,w5-10260741-5,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|function|0x0052586B|rva0052586B,a411611d6afd7b6d1c418f80,gpt-6.1-sol,w5-10260741-5,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp|function|0x00567793|rva00567793,a87dc359668b633fcd66c036,gpt-6.1-sol,w5-10260741-5,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|global||g_00C50868,bc500cc3cc9b438cb0cc73f6,gpt-6.1-sol,w5-10260741-6,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp|param|Rva005F2A52AptCall|pF1,06996fad249752510eefc972,gpt-6.1-sol,w5-10260741-8,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp|param|Rva005F2A52AptCall|pF2,6eba7486ccfe2a2f5a74b275,gpt-6.1-sol,w5-10260741-8,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva00459553_E1,a5ff9f17a9a01e49b2d79cd3,gpt-6.1-sol,w5-10260741-9,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva00459553,5067b521d15ca7cc164f3bc6,gpt-6.1-sol,w5-10260741-9,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva0024A797Grandchildren.cpp|class||Rva00487F3A_E1,12e0b1b0603a46b96404d64d,gpt-6.1-sol,w5-10260741-9,w-f0819d403c17,2026-10-26

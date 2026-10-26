@@ -92,14 +92,14 @@ struct Rva0052586BRecord
 class Rva0052586B
 {
 public:
-	void rva0052586B();
+	void resetHeroSlots();
 private:
 	char m_pad00[0x10];
 	Rva0052586BSource *m_10;
 	char m_pad14[0x48 - 0x14];
 	Rva0052586BRecord m_records[16];
 };
-void Rva0052586B::rva0052586B()
+void Rva0052586B::resetHeroSlots()
 {
 	for (Int i = 0; i < 16; ++i)
 	{
