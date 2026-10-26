@@ -1933,3 +1933,21 @@ Census confirmation: not claimed.
   `MultiplayerColorDefinitionCopy.cpp`, `GapBodiesGE41_Rva00118610.cpp`) have other causes
   and were not investigated here.
 - **Census confirmation:** awaiting the next census.
+
+### LINK-042: a false STL fill wrapper duplicates the native find wrapper at 0x005243FA
+
+Status: Cleared for the false claim and retained-owner preview. Updated:
+2026-10-26; inspected revision: a4e418bdf8, based on d0aba6dd78.
+Evidence: [native call graph and repair receipts](../reverse/attempt_support/stl-fill-false-identity-5243fa-20261026.md).
+The served `StlSweepR3Rva005243FA.cpp` wrapper called a 29-byte byte-fill
+helper pinned to the native 179-byte four-wide find at 0x0052408B. Matching
+the 27-byte wrapper shape did not prove the callee's identity.
+Completed: retract that duplicate row, false helper pin and orphan source;
+record a tombstone; retire the pin and three pragma hatches. Keep the existing
+native wrapper in `Rva0052A22CForwarders.cpp`, find provider, predicate and
+dispatcher. All 20 retained rows across four sources byte-verify; each unit
+previews LINKS against d1f046749a with current objects, preserving 1,530
+authored nonpadding bytes. Unique native coverage is unchanged.
+Remaining / next check: next ordinary census should omit the discarded
+false unit; original record/algorithm names remain unrecovered.
+Census confirmation: pending; no new linked-byte or ownership gain claimed.
