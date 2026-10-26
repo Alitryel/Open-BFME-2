@@ -1352,3 +1352,28 @@ Census confirmation: not claimed.
   Verify with `link_check` on both StlSweepW5 units plus `StlportNestedWordDeque.cpp`.
 - **Clearance:** pending.
 - **Census confirmation:** not claimed.
+
+### LINK-028: module ctor units whose private ZH-shaped view emits vftable COMDATs a ZH port also emits
+
+**Status: Open (one unit repaired). Updated: 2026-10-26; inspected revision: `9f93879fe9`.**
+
+- **Evidence / affected units:** `StealthUpdateCtor.cpp` (208 B) declared a ZH-shaped
+  `ObjectModule`/`BehaviorModule`/`UpdateModule` chain, so its `??_7StealthUpdate@@6B@`,
+  `6BObjectModule@@@` and `6BBehaviorModuleInterface@@@` copies (one slot each) lost to
+  `StealthUpdate.cpp`'s full ZH copies (no retail address, first in link order). Its dtor
+  `??1StealthUpdate` was unresolved because the retail dtor 0x00373CB1 was rowed as the
+  placeholder `Rva00373CB1` in `Code/GameEngine/Source/Common/Rva0024A797Derived.cpp`, the
+  flattened `UpdateModule, MiBase1, <X>_B2` family of opaque module destructors.
+- **Completed (`895c0f21ef`):** renamed `Rva00373CB1` to `StealthUpdate` (ctor and dtor store
+  the same vftables 0x00817F20/0x007EFF90/0x00817F14; slot 0 is the deleting dtor 0x00373F3D),
+  and gave the ctor unit the Derived unit's flattened hierarchy with the two interface bases
+  `__declspec(novtable)` (retail stores only the three StealthUpdate vftables). `./build.sh`
+  2/2 and 60/60; current-object `link_check` 0 -> 208 B, with Derived, FriendNew, Xfer and
+  Logic still linking. Census confirmation pending.
+- **Remaining / next check:** other classes in `Rva0024A797Derived.cpp` (placeholder dtors
+  whose `f2` alternatename names the module's `update`, e.g. LifetimeUpdate, FloatUpdate,
+  HijackerUpdate) may have ctor units with the same split; a scan of the 08:28 index found no
+  such unresolved `??1<Name>` blocker for those names, so check each ctor unit's blockers
+  before working it. The vftable copies stay one-slot views of retail's full tables.
+- **Clearance:** scope `StealthUpdateCtor.cpp` only, current-object preview at `895c0f21ef`.
+- **Census confirmation:** awaiting.
