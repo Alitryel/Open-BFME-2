@@ -405,6 +405,18 @@ template TreeHintPayload00217DE3 &MapInsert00218AA4::operator[](const AsciiStrin
 // bfme link decl-only begin
 namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<AsciiString const,TreeHintPayload00217DE3> > * _Rb_tree<AsciiString,_STL::pair<AsciiString const,TreeHintPayload00217DE3>,_STL::_Select1st<_STL::pair<AsciiString const,TreeHintPayload00217DE3> >,_STL::less<AsciiString>,_STL::allocator<_STL::pair<AsciiString const,TreeHintPayload00217DE3> > >::_M_create_node(_STL::pair<AsciiString const,TreeHintPayload00217DE3> const &); }
 
+// This unit's insert_unique copy differs from retail's TreeHint copy; callers
+// bind the kept copy (stlport_rb_tree_hint_002181dd.cpp).
+namespace _STL {
+template <> pair<_Rb_tree<AsciiString, pair<AsciiString const, TreeHintPayload00217DE3>,
+    _Select1st<pair<AsciiString const, TreeHintPayload00217DE3> >, less<AsciiString>,
+    allocator<pair<AsciiString const, TreeHintPayload00217DE3> > >::iterator, bool>
+_Rb_tree<AsciiString, pair<AsciiString const, TreeHintPayload00217DE3>,
+    _Select1st<pair<AsciiString const, TreeHintPayload00217DE3> >, less<AsciiString>,
+    allocator<pair<AsciiString const, TreeHintPayload00217DE3> > >::insert_unique(
+        pair<AsciiString const, TreeHintPayload00217DE3> const &);
+}
+
 // tu-skeleton: 0x002173FA 79B ?unlinkFont@FontLibrary@@IAEXPAVGameFont@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.cpp (not merged yet)
 
 // tu-skeleton: 0x00217449 53B ?deleteAllFonts@FontLibrary@@IAEXXZ -- matched in Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.cpp (not merged yet)
