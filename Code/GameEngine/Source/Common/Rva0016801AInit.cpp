@@ -1,8 +1,8 @@
 // cl: /MD /DNDEBUG /DWIN32 /D_WINDOWS /O1 /arch:SSE /G7
 // ?rva0016801A@Rva0016801A@@QAEPAXH@Z @0x0016801A 38B
-// Evidence: pin ?rva0016801A@Rva0016801A@@QAEPAXH@Z; caller 0x001683AE in Rva001683A7Init.cpp; callee Resize 0x00167F88 rowed in wwlib_pod_container_bodies.cpp; data g_00BD41AC at 0x007D41AC.
+// Evidence: pin ?rva0016801A@Rva0016801A@@QAEPAXH@Z; caller 0x001683AE in Rva001683A7Init.cpp; callee Resize 0x00167F88 rowed in wwlib_pod_container_bodies.cpp; data ??_7?$SimpleVecClass@M@@6B@ (vtable 0x007D41AC).
 
-extern "C" const void *const __identifier("??_7Rva00168040Base@@6B@")[];
+extern "C" const void *const __identifier("??_7?$SimpleVecClass@M@@6B@")[];
 
 struct BfmePod4
 {
@@ -36,7 +36,7 @@ private:
 // ?rva0016801A@Rva0016801A@@QAEPAXH@Z
 void *Rva0016801A::rva0016801A(int n)
 {
-	m_vtable = __identifier("??_7Rva00168040Base@@6B@");
+	m_vtable = __identifier("??_7?$SimpleVecClass@M@@6B@");
 	m_04 = 0;
 	m_08 = 0;
 	if (n > 0)

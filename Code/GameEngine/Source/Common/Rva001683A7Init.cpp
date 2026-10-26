@@ -1,13 +1,13 @@
 // cl: /MD /DNDEBUG /DWIN32 /D_WINDOWS
 //
 // Dump-lane range 5: builder at 0x1683A7 (28B). Runs the pinned 0x283A7
-// init on this, clears +0xC, stamps vtable 0xBD41B8, returns this.
+// init on this, clears +0xC, stamps vtable 0xBD41B8 (SimpleDynVecClass<float>), returns this.
 // Address-derived names.
 // The call from native16844F constructs its float-width member at D4.
 // Recover the constructor ABI rather than the old return-this initializer
 // spelling; both emitted 28B bodies are equal with the same base relocation.
 
-extern "C" const void *const __identifier("??_7Rva00168040@@6B@")[];
+extern "C" const void *const __identifier("??_7?$SimpleDynVecClass@M@@6B@")[];
 class Rva0016801A
 {
 public:
@@ -29,5 +29,5 @@ Rva001683A7::Rva001683A7(int n)
 {
 	((Rva0016801A *)this)->rva0016801A(n);
 	m_0C &= 0;
-	m_vtable = (const void *)__identifier("??_7Rva00168040@@6B@");
+	m_vtable = (const void *)__identifier("??_7?$SimpleDynVecClass@M@@6B@");
 }
