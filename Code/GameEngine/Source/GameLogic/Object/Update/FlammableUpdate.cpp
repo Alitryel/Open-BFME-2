@@ -15,6 +15,9 @@
 #pragma inline_depth()
 #include <vector>
 #include "ascii_string.h"
+#include <stl/_algobase.h>
+#pragma comment(linker, "/alternatename:??$_Construct@URva0048D628Record@@U1@@_STL@@YAXPAURva0048D628Record@@ABU1@@Z=?Rva0048C81FConstruct@@YAXPAUTreeKey00242F5E@@ABU1@@Z")
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva0048D628Record@@@_STL@@YAXPAURva0048D628Record@@0@Z=??$_Destroy@PAVCameraMarker@@@_STL@@YAXPAVCameraMarker@@0@Z")
 
 // Ported verbatim from the Generals Zero Hour reference (GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp); this unit had no counterpart under Code/.
 extern class GameLogic *TheGameLogic;
@@ -121,6 +124,42 @@ private:
 	int m_00;
 	AsciiString m_04;
 };
+
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
+struct Rva0048D48FRecord {
+ Rva0048D48FRecord(); Rva0048D48FRecord(const Rva0048D48FRecord&); ~Rva0048D48FRecord(); Rva0048D48FRecord&operator=(const Rva0048D48FRecord&);
+private: char bytes[8];
+};
+
+class CameraMarker;
+
+void __cdecl Rva0048C81FConstruct(TreeKey00242F5E *dst, const TreeKey00242F5E &src);
+
+namespace _STL {
+template<> void _Destroy<CameraMarker*>(CameraMarker*,CameraMarker*);
+template<> __declspec(dllimport) __forceinline void _Construct<Rva0048D48FRecord,Rva0048D48FRecord>(Rva0048D48FRecord*p,const Rva0048D48FRecord&v)
+{ Rva0048C81FConstruct(reinterpret_cast<TreeKey00242F5E*>(p),reinterpret_cast<const TreeKey00242F5E&>(v)); }
+template<> __declspec(dllimport) __forceinline void _Destroy<Rva0048D48FRecord*>(Rva0048D48FRecord*f,Rva0048D48FRecord*l)
+{ _Destroy(reinterpret_cast<CameraMarker*>(f),reinterpret_cast<CameraMarker*>(l)); }
+}
+
+template void _STL::vector<Rva0048D48FRecord>::_M_insert_overflow(Rva0048D48FRecord*,const Rva0048D48FRecord&,const _STL::__false_type&,unsigned int,bool);
+
+struct Rva0048D628Record { Rva0048D628Record(); Rva0048D628Record(const Rva0048D628Record&); ~Rva0048D628Record(); Rva0048D628Record&operator=(const Rva0048D628Record&); private: char bytes[8]; };
+
+namespace _STL {template<> void _Construct<Rva0048D628Record,Rva0048D628Record>(Rva0048D628Record*,const Rva0048D628Record&);}
+
+namespace _STL {template<> void _Destroy<Rva0048D628Record*>(Rva0048D628Record*,Rva0048D628Record*);}
+
+template void _STL::vector<Rva0048D628Record>::push_back(const Rva0048D628Record&);
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp
 
@@ -291,6 +330,28 @@ void forceFlammableOnBodyDamageStateChange(FlammableUpdate *flammableUpdate)
 	flammableUpdate->FlammableUpdate::onBodyDamageStateChange(NULL, BODY_PRISTINE, BODY_PRISTINE);
 }
 
+// ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0048C84C.cpp
+
+TreeKey00242F5E *Rva0048C84CUninitializedCopy(const TreeKey00242F5E *first, const TreeKey00242F5E *last, TreeKey00242F5E *result,
+	const _STL::__false_type &)
+{
+	TreeKey00242F5E *cur = result;
+	for (; first != last; ++first, ++cur)
+		Rva0048C81FConstruct(cur, *first);
+	return cur;
+}
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW6Rva0048C872.cpp
+
+// Expose the local overload when the reference template is parsed.
+
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/Rva0048C8C6Ctor.cpp
+
+Rva0048C8C6::Rva0048C8C6() : m_00(0), m_04("")
+{
+}
+
 // tu-skeleton: 0x0048C582 205B ?xfer@FlammableUpdate@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateXfer.cpp (not merged yet)
 
 // tu-skeleton: 0x0048C64F 138B ??0FlammableUpdate@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateCtor.cpp (not merged yet)
@@ -307,28 +368,7 @@ void forceFlammableOnBodyDamageStateChange(FlammableUpdate *flammableUpdate)
 
 // tu-skeleton: 0x0048C81F 45B ?Rva0048C81FConstruct@@YAXPAUTreeKey00242F5E@@ABU1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_construct_game_structs.cpp (not merged yet)
 
-// ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0048C84C.cpp
-
-TreeKey00242F5E *Rva0048C84CUninitializedCopy(const TreeKey00242F5E *first, const TreeKey00242F5E *last, TreeKey00242F5E *result,
-	const _STL::__false_type &)
-{
-	TreeKey00242F5E *cur = result;
-	for (; first != last; ++first, ++cur)
-		Rva0048C81FConstruct(cur, *first);
-	return cur;
-}
-
-// ---- from Code/Libraries/Source/WWVegas/WWLib/StlSweepW6Rva0048C872.cpp
-
-// Expose the local overload when the reference template is parsed.
-
 // tu-skeleton: 0x0048C897 47B ??$__copy@PAUCameraMarker@@PAU1@H@_STL@@YAPAUCameraMarker@@PAU1@00ABUrandom_access_iterator_tag@0@PAH@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_copy_camera_marker.cpp (not merged yet)
-
-// ---- from Code/GameEngine/Source/GameLogic/Object/Update/Rva0048C8C6Ctor.cpp
-
-Rva0048C8C6::Rva0048C8C6() : m_00(0), m_04("")
-{
-}
 
 // tu-skeleton: 0x0048C8DD 28B ??_GFlammableUpdate@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
 
@@ -350,13 +390,37 @@ Rva0048C8C6::Rva0048C8C6() : m_00(0), m_04("")
 
 // tu-skeleton: 0x0048D0BE 977B ?update@FlammableUpdate@@UAE?AW4UpdateSleepTime@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateDtor.cpp (not merged yet)
 
-// tu-skeleton: 0x0048D48F 178B ?_M_insert_overflow@?$vector@URva0048D48FRecord@@V?$allocator@URva0048D48FRecord@@@_STL@@@_STL@@IAEXPAURva0048D48FRecord@@ABU3@ABU__false_type@2@I_N@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva0048D48F.cpp (not merged yet)
+// ---- from Code/Libraries/Source/WWVegas/WWLib/VectorOverflowRva0048D48F.cpp
+
+// Reference: pristine STLport4.5.3 vector::_M_insert_overflow.
+// Retail 0x0048D48F, 178B; Ghidra boundary, ret14 ABI and 8-byte
+// arithmetic independently establish the overflow and storage width. The
+// address-derived record is an opaque ABI view; no application class or
+// member layout is inferred. Each helper pin comes from this target's calls.
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
 
 // tu-skeleton: 0x0048D541 203B ??0FlammableUpdateModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateModuleDataCtor.cpp (not merged yet)
 
 // tu-skeleton: 0x0048D60C 28B ??_GFlammableUpdateModuleData@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateModuleDataDtor.cpp (not merged yet)
 
-// tu-skeleton: 0x0048D628 55B ?push_back@?$vector@URva0048D628Record@@V?$allocator@URva0048D628Record@@@_STL@@@_STL@@QAEXABURva0048D628Record@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp (not merged yet)
+// ---- from Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp
+
+// Reference: pristine STLport4.5.3. Address-derived opaque record ABI.
+// Target boundary and literal pointer stride establish storage width only; no application identity inferred.
+// The emitted unsigned max copy must match retail RVA 0x00013740.
+// Define it for speed, then restore this unit's flags for its own bodies.
+
+#pragma optimize("s", off)
+
+#pragma optimize("t", on)
+
+#pragma optimize("", on)
+
+// Bind lifetime operations to the existing rowed native providers.
+// push_back and overflow 48D48F call the cdecl copy provider 48C81F.
+// Native cleanup C060A calls range destructor 48CE25, whose loop steps 8.
+// These bindings identify operations on an ABI view, not a new game type.
 
 // tu-skeleton: 0x0048D65F 203B ?Rva0048D65FParse@@YAXPAVINI@@PAX1PBX@Z -- matched in Code/GameEngine/Source/Common/INI/INILevelUpFxParse.cpp (not merged yet)
 

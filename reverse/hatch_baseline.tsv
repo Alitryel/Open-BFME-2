@@ -4710,6 +4710,8 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FadeAndDieOrnamentU
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FadeAndDieOrnamentUpdateModuleDataCtor.cpp	_vtbl_00BF3740	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FireSpreadUpdateModuleDataCtor.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FireWeaponUpdateModuleDataCtor.cpp	_vtbl_00C4C110	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp	??$_Construct@URva0048D628Record@@U1@@_STL@@YAXPAURva0048D628Record@@ABU1@@Z	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp	??$_Destroy@PAURva0048D628Record@@@_STL@@YAXPAURva0048D628Record@@0@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateCtor.cpp	_vtbl_00BE2B78	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateCtor.cpp	_vtbl_00C49800	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateCtor.cpp	_vtbl_00C4C3BC	1
@@ -5975,8 +5977,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva002E26E1.cpp	??$_C
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva002E26E1.cpp	??$_Destroy@PAURva002E26E1Record@@@_STL@@YAXPAURva002E26E1Record@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0039C028.cpp	??$_Construct@URva0039C028Record@@U1@@_STL@@YAXPAURva0039C028Record@@ABU1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0039C028.cpp	??$_Destroy@PAURva0039C028Record@@@_STL@@YAXPAURva0039C028Record@@0@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp	??$_Construct@URva0048D628Record@@U1@@_STL@@YAXPAURva0048D628Record@@ABU1@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp	??$_Destroy@PAURva0048D628Record@@@_STL@@YAXPAURva0048D628Record@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0052D801.cpp	??$_Construct@URva0052D801Record@@U1@@_STL@@YAXPAURva0052D801Record@@ABU1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0052D801.cpp	??$_Destroy@PAURva0052D801Record@@@_STL@@YAXPAURva0052D801Record@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva005C84F1.cpp	??$_Construct@URva005C84F1Record@@U1@@_STL@@YAXPAURva005C84F1Record@@ABU1@@Z	1
@@ -18028,6 +18028,9 @@ pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Railroad
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/RailroadGuideAIUpdate.cpp	"s",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/AssistedTargetingUpdate.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/AssistedTargetingUpdate.cpp	"gsy",on	1
+pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp	"",on	1
+pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp	"s",off	1
+pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdate.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdate.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdate.cpp	"gsy",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/StructureToppleUpdate.cpp	"",on	1
@@ -19246,9 +19249,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0039C028.cpp	"t"
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva003F6B24.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva003F6B24.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva003F6B24.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp	"s",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0048D628.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva004C7878.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva004C7878.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva004C7878.cpp	"t",on	1
