@@ -1,29 +1,25 @@
-// cl: /DNDEBUG /MD /GX /Ireference/shims/dockupdate /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene /Ireference/shims/bfmefrustum /ICode/Libraries/Include
+// cl: /DNDEBUG /MD /GX /Ireference/shims/dockupdate /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/bfme_namekey /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/shims -ICode/Libraries/Source/Compression/LZHCompress/CompLibHeader /Ireference/shims/bfme2htree /Ireference/shims/bfme2renderobj /Ireference/shims/bfmecamera /Ireference/shims/bfmelight /Ireference/shims/bfmeparticlehandle /Ireference/shims/bfmeparticleload /Ireference/shims/bfmeparticlequat /Ireference/shims/bfmeparticlesave /Ireference/shims/bfmeparticleline /Ireference/shims/bfme2ray /Ireference/shims/bfme2scene /Ireference/shims/bfmefrustum /ICode/Libraries/Include /Ireference/shims/moduledata
 // stlport
 // TU Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdate.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
-
-//
-// ??1DynamicShroudClearingRangeUpdate@@UAE@XZ retail 0x0048B1AF
-// 95 bytes. Behavior-side dtor completing the DynamicShroudClearingRangeUpdate
-// file-unit (behavior ctor rowed at 0x48B067 over the same model; ModuleData
-// proc/ctor/factory, poolkey, instance factory and killGridDecals all rowed).
-//
-// Transcribed from the Zero Hour donor
-// (reference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/
-// Code/GameEngine/Source/GameLogic/Object/Update/
-// DynamicShroudClearingRangeUpdate.cpp): the dtor body is just
-// killGridDecals() ("just in case"); the RadiusDecal array teardown and the
-// UpdateModule base dtor (pinned at 0x24A797) are implicit.
-//
-// The three vtable installs (+0/+0xC/+0x10) are the compiler's MI vptr group
-// (ObjectModule primary plus UpdateModuleInterface/ModuleInterface
-// secondaries, BFME1 donor layout), emitted as a group ahead of the EH
-// state-1 store; user-spelled secondary stores always sink below it.
-// killGridDecals resolves via its row; the array teardown rides the rowed
-// RadiusDecal ctor plus the pinned dtor.
-
 #include "DynamicShroudClearingRangeUpdateView.h"
+// ?rva0048B256@DynamicShroudClearingRangeUpdate@@QAEXXZ @0x0048B256 233B: animateGridDecals.
+// Donor Generals/Code/.../DynamicShroudClearingRangeUpdate.cpp animateGridDecals:
+//  radius = m_current + ((total-countdown)*2), angle 0, opacity = 1-fade,
+//  pos.x = ctr->x + sin(angle)*radius, pos.y = ctr->y + cos(angle)*radius,
+//  pos.x -= (Int)pos.x%23, pos.y -= (Int)pos.y%23, setPosition/setOpacity,
+//  angle += 2PI/30, do-while pointer loop like CreateGridDecals neighbour.
+// Retail uses sin first (x) cos second (y), double sin/cos via ji 0x629216/0x62920A,
+// ftol2, g_Va00BBB8D8 for 1.0f, step 0.20943951f Float-ref. Direct m_object+0x38,
+// no getPosition call. Same class/flags as neighbours.
+// The span doubling is retail `add eax,eax` (03 c0 after mov [ecx+0x28]/sub
+// [ecx+0x24]), not `shl eax,1`. Measured on this toolchain: every direct form
+// (`x*2`, `2*x`, `x+x`, `x<<1`, `x*=2`, unsigned, sizeof(short)) strength-reduces
+// to `d1 e0`; only a copy into a second local followed by `d += v` keeps `03 c0`.
+extern "C" double __cdecl sin(double);
+extern "C" double __cdecl cos(double);
+typedef int Int;
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 //
 // ??1DynamicShroudClearingRangeUpdateModuleData@@UAE@XZ, retail 0x0048B634,
@@ -73,6 +69,28 @@ private:
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdate.cpp
 
+//
+// ??1DynamicShroudClearingRangeUpdate@@UAE@XZ retail 0x0048B1AF
+// 95 bytes. Behavior-side dtor completing the DynamicShroudClearingRangeUpdate
+// file-unit (behavior ctor rowed at 0x48B067 over the same model; ModuleData
+// proc/ctor/factory, poolkey, instance factory and killGridDecals all rowed).
+//
+// Transcribed from the Zero Hour donor
+// (reference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/
+// Code/GameEngine/Source/GameLogic/Object/Update/
+// DynamicShroudClearingRangeUpdate.cpp): the dtor body is just
+// killGridDecals() ("just in case"); the RadiusDecal array teardown and the
+// UpdateModule base dtor (pinned at 0x24A797) are implicit.
+//
+// The three vtable installs (+0/+0xC/+0x10) are the compiler's MI vptr group
+// (ObjectModule primary plus UpdateModuleInterface/ModuleInterface
+// secondaries, BFME1 donor layout), emitted as a group ahead of the EH
+// state-1 store; user-spelled secondary stores always sink below it.
+// killGridDecals resolves via its row; the array teardown rides the rowed
+// RadiusDecal ctor plus the pinned dtor.
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdate.cpp
+
 //-------------------------------------------------------------------------------------------------
 // ?killGridDecals@DynamicShroudClearingRangeUpdate@@QAEXXZ
 void DynamicShroudClearingRangeUpdate::killGridDecals()
@@ -83,14 +101,6 @@ void DynamicShroudClearingRangeUpdate::killGridDecals()
 	}
 
 }
-
-// tu-skeleton: 0x0048B056 17B ?buildFieldParse@DynamicShroudClearingRangeUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/ModuleDataBuildFieldParse.cpp (not merged yet)
-
-// tu-skeleton: 0x0048B067 253B ??0DynamicShroudClearingRangeUpdate@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateCtor.cpp (not merged yet)
-
-// tu-skeleton: 0x0048B164 6B ?Rva0048B164Get@@YAHXZ -- matched in Code/GameEngine/Source/Common/ConstIntGetters4.cpp (not merged yet)
-
-// tu-skeleton: 0x0048B16A 69B ?getModuleNameKey@DynamicShroudClearingRangeUpdate@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdatePoolKey.cpp (not merged yet)
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateDtor.cpp
 
@@ -116,17 +126,89 @@ void DynamicShroudClearingRangeUpdate::createGridDecals(
 	} while (--decalsLeft != 0);
 }
 
-// tu-skeleton: 0x0048B256 233B ?rva0048B256@DynamicShroudClearingRangeUpdate@@QAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/Rva0048B256AnimateGridDecals.cpp (not merged yet)
-
-// tu-skeleton: 0x0048B33F 454B ?update@DynamicShroudClearingRangeUpdate@@UAE?AW4UpdateSleepTime@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateUpdate.cpp (not merged yet)
-
-// tu-skeleton: 0x0048B505 165B ?xfer@DynamicShroudClearingRangeUpdate@@QAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateXfer.cpp (not merged yet)
-
-// tu-skeleton: 0x0048B5C6 82B ??0DynamicShroudClearingRangeUpdateModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateModuleDataCtor.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateModuleDataDtor.cpp
 
 // ??1DynamicShroudClearingRangeUpdateModuleData@@UAE@XZ @0x0048B634
 DynamicShroudClearingRangeUpdateModuleData::~DynamicShroudClearingRangeUpdateModuleData()
 {
 }
+
+// tu-skeleton: 0x0048B056 17B ?buildFieldParse@DynamicShroudClearingRangeUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/ModuleDataBuildFieldParse.cpp (not merged yet)
+
+// tu-skeleton: 0x0048B067 253B ??0DynamicShroudClearingRangeUpdate@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x0048B164 6B ?Rva0048B164Get@@YAHXZ -- matched in Code/GameEngine/Source/Common/ConstIntGetters4.cpp (not merged yet)
+
+// tu-skeleton: 0x0048B16A 69B ?getModuleNameKey@DynamicShroudClearingRangeUpdate@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdatePoolKey.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/Rva0048B256AnimateGridDecals.cpp
+
+void DynamicShroudClearingRangeUpdate::rva0048B256()
+{
+	const Coord3D *ctr = (const Coord3D *)((char *)m_object + 0x38);
+	Coord3D pos;
+	pos.z = 0.0f;
+	int span = m_totalFrames - m_stateCountDown;
+	int doubled = span;
+	doubled += span;
+	float radius = m_currentClearingRange + doubled;
+	float angle = 0.0f;
+	float opacity = 1.0f - (m_currentClearingRange / m_nativeClearingRange);
+	RadiusDecal *decal = m_gridDecal;
+	int left = 30;
+	do {
+		pos.x = ctr->x + sin(angle) * radius;
+		pos.y = ctr->y + cos(angle) * radius;
+		pos.x -= ((Int)pos.x) % 23;
+		pos.y -= ((Int)pos.y) % 23;
+		decal->setPosition(pos);
+		decal->setOpacity(opacity);
+		angle += 0.20943951f;
+		++decal;
+	} while (--left != 0);
+}
+
+// tu-skeleton: 0x0048B33F 454B ?update@DynamicShroudClearingRangeUpdate@@UAE?AW4UpdateSleepTime@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateUpdate.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateXfer.cpp
+
+//
+// ?xfer@DynamicShroudClearingRangeUpdate@@QAEXPAVXfer@@@Z retail 0x0048B505
+// ~165 bytes. Behavior-side xfer completing the DynamicShroudClearingRangeUpdate
+// file-unit (behavior ctor/dtor/??_G, ModuleData proc/ctor/factory, poolkey,
+// instance factory and killGridDecals all rowed).
+//
+// Transcribed from the Zero Hour donor
+// (reference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/
+// Code/GameEngine/Source/GameLogic/Object/Update/
+// DynamicShroudClearingRangeUpdate.cpp): base xfer, light-CRC early-out,
+// Version1, two int runs, five unsigned runs, one bool run, three real runs.
+// The Xfer declaration is the SkirmishGameInfoXfer proven spelling (slot 4
+// IsLightCRC guard, Version1 direct row, == overloads in reverse slots:
+// int 0x7C, uint 0x78, bool 0x90, float 0x70). UpdateModule::xfer rides the
+// pinned 0x44DF9F base xfer.
+
+// ?xfer@DynamicShroudClearingRangeUpdate@@QAEXPAVXfer@@@Z @0x0048B505
+void DynamicShroudClearingRangeUpdate::xfer(Xfer *xfer)
+{
+	UpdateModule::xfer(xfer);
+
+	if (xfer->IsLightCRC())
+		return;
+
+	xfer->Version1();
+
+	*xfer == m_stateCountDown;
+	*xfer == m_totalFrames;
+	*xfer == m_growStartDeadline;
+	*xfer == m_sustainDeadline;
+	*xfer == m_shrinkStartDeadline;
+	*xfer == m_doneForeverFrame;
+	*xfer == m_changeIntervalCountdown;
+	*xfer == m_decalsCreated;
+	*xfer == m_visionChangePerInterval;
+	*xfer == m_nativeClearingRange;
+	*xfer == m_currentClearingRange;
+}
+
+// tu-skeleton: 0x0048B5C6 82B ??0DynamicShroudClearingRangeUpdateModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DynamicShroudClearingRangeUpdateModuleDataCtor.cpp (not merged yet)
