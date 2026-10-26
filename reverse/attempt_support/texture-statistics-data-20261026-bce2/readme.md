@@ -53,6 +53,17 @@ The available index predates this source base; any inconclusive result belongs
 to LINK-017's current-index prerequisite and the next maintainer census, not a
 measured loss or gain. No maintainer-only runner is used.
 
+The first normal push gate passes 45/45 rows across both edited consumers and
+the automatically included `Eva.cpp` dependent, with 7/7 EH graphs EXACT.
+Its audit returns inconclusive: index `47e030bafc` predates outgoing base
+`55b51baee12`, and Eva lacks a strict receipt. After the ordinary push race,
+bounded `--prepare-current Eva.cpp` refuses its macro/parent-traversing include
+inventory. This is the existing LINK-008 prerequisite; ordinary byte evidence
+is not substituted for a strict receipt. No check is changed or bypassed.
+The commit's shadow identity check also reports the existing 20-byte
+RefCountPtr pointer-constructor variant; the full-code control proves that
+definition unchanged, and both ordinary previews identify it as unreferenced.
+
 ## Whole-file remainder and restored trial
 
 Changing the reporting unit's own `recordTextureMode` to the shared external

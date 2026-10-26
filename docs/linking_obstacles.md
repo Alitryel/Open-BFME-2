@@ -583,6 +583,11 @@ authored-byte previews or commit-title gains into a projected headline.
   counters need the claimed reset provider; vector/handle/string storage needs
   full extent and initializer/teardown reconciliation. No family closure,
   census gain or image-ownership receipt is claimed; LINK-017 still applies.
+  Its normal push gate also passes the automatically included Eva dependent
+  (45/45 rows, seven EXACT EH graphs). The batch audit is inconclusive on the
+  older index and Eva's missing strict receipt; bounded preparation refuses
+  Eva's macro/parent-traversing include inventory, the LINK-008 prerequisite.
+  No verifier or include-path change is made in this scalar repair.
 
 - **Evidence / scope:** the [linking handoff](../reverse/attempt_support/link-seat-20261025-final.md)
   identifies missing shader/filter root objects and the unowned 52-byte
