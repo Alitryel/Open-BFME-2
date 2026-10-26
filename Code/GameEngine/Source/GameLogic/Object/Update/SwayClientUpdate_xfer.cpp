@@ -33,40 +33,23 @@ protected:
 	Object *m_object;
 };
 
-class SwayClientUpdate : public ObjectModule
-{
-public:
-	SwayClientUpdate(Thing *thing, const ModuleData *moduleData);
-
-protected:
-	virtual void xfer(Xfer *xfer);
-
-private:
-	float m_f0C;
-	float m_f10;
-	float m_f14;
-	float m_f18;
-	float m_f1C;
-	short m_w20;
-	bool m_b22;
-	unsigned char m_b23;
-	float m_f24;
-	float m_f28;
-};
+#include "../../../GameClient/Drawable/Update/SwayClientUpdateView.h"
 
 void SwayClientUpdate::xfer(Xfer *xfer)
 {
-	ObjectModule::xfer(xfer);
+	// Retail calls the same unadjusted ObjectModule transfer entry. Keep that
+	// binding without making ObjectModule a base of the drawable receiver.
+	reinterpret_cast<ObjectModule *>(this)->ObjectModule::xfer(xfer);
 	if (xfer->IsLightCRC())
 		return;
 	xfer->Version1();
-	*xfer == m_f0C;
-	*xfer == m_f10;
-	*xfer == m_f14;
-	*xfer == m_f18;
-	*xfer == m_f1C;
-	*xfer == m_w20;
-	*xfer == m_b22;
-	*xfer == m_f24;
-	*xfer == m_f28;
+	*xfer == m_curValue;
+	*xfer == m_curAngle;
+	*xfer == m_curDelta;
+	*xfer == m_curAngleLimit;
+	*xfer == m_leanAngle;
+	*xfer == m_curVersion;
+	*xfer == m_swaying;
+	*xfer == m_directionSin;
+	*xfer == m_directionCos;
 }

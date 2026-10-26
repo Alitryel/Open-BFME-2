@@ -128,55 +128,7 @@ private:
 	Bool m_isVisible; // +0x441
 };
 
-class ModuleData;
-
-class Module
-{
-public:
-	virtual ~Module();
-
-private:
-	const ModuleData *m_moduleData; // +0x04
-};
-
-class DrawableModule : public Module
-{
-protected:
-	Drawable *getDrawable() const { return m_drawable; }
-
-private:
-	Drawable *m_drawable; // +0x08
-};
-
-class ClientUpdateModule : public DrawableModule
-{
-public:
-	virtual void clientUpdate() = 0;
-};
-
-class SwayClientUpdate : public ClientUpdateModule
-{
-public:
-	virtual void clientUpdate();
-
-	void stopSway() { m_swaying = false; }
-
-protected:
-	Real m_curValue; // +0x0C
-	Real m_curAngle; // +0x10
-	Real m_curDelta; // +0x14
-	Real m_curAngleLimit; // +0x18
-	Real m_leanAngle; // +0x1C
-	Short m_curVersion; // +0x20
-	Bool m_swaying; // +0x22
-	Bool m_unused; // +0x23
-	Real m_directionSin; // +0x24
-	Real m_directionCos; // +0x28
-
-	void updateSway();
-
-	virtual void loadPostProcess();
-};
+#include "SwayClientUpdateView.h"
 
 // ?updateSway@SwayClientUpdate@@IAEXXZ
 void SwayClientUpdate::updateSway()
