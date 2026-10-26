@@ -6,6 +6,10 @@
 #include "ICoord2D.h"
 
 struct ICoord2DBase {
+    #ifdef ICOORD2D_VIEW_MATH_METHODS
+    // Native assignment owner 0x005CFBC2/19 in icoord.cpp.
+    ICoord2DBase &operator=(const ICoord2DBase &that);
+    #endif
     int x;
     int y;
 };

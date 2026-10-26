@@ -27,30 +27,14 @@ public:
     virtual Debug &operator<<(float value);
 };
 
-struct ICoord2DBase
-{
-    ICoord2DBase &operator=(const ICoord2DBase &that);
-
-    int x;
-    int y;
-};
-
-struct ICoord2D : public ICoord2DBase
-{
-    ICoord2D();
-    ICoord2D(int x, int y);
-    ICoord2D(const ICoord2DBase &that);
-    ICoord2D &operator=(const ICoord2D &that);
-    ICoord2D &operator=(const ICoord2DBase &that);
-
-    ICoord2D &operator+=(const ICoord2DBase &that);
-    ICoord2D &operator-=(const ICoord2DBase &that);
-    ICoord2D &operator*=(int factor);
-    ICoord2D &operator/=(int divisor);
-    ICoord2D &MoveBy(int delta);
-    bool operator==(const ICoord2DBase &that) const;
-    bool operator!=(const ICoord2DBase &that) const;
-};
+#define ICOORD2D_VIEW_COMPONENT_CTOR
+#define ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR
+#define ICOORD2D_VIEW_MATH_METHODS
+#include "../../../Include/Lib/ICoord2D.h"
+#include "../../../Include/Lib/ICoord2DBase.h"
+#undef ICOORD2D_VIEW_MATH_METHODS
+#undef ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR
+#undef ICOORD2D_VIEW_COMPONENT_CTOR
 
 struct ICoord3D
 {

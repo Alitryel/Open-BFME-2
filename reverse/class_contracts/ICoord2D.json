@@ -55,8 +55,100 @@
     "required_define": "ICOORD2D_VIEW_DEFAULT_CTOR",
     "decided_by": "Retail export and matched owner at 0x0047A6A9: MOV EAX,ECX; RET, with no field stores. Existing private views in button rendering use the same empty inline constructor. Opt-in keeps those constructed-expression semantics without changing aggregate initialization or by-value ABI in ordinary header consumers. This is a compiler view prerequisite for composition, not proof that arbitrary views may share a TU. GameClientDrawableTOC.cpp requires the declaration-only mode: native MetaEventTranslator 0x001DB432/92 passes ctor VA0x0087A6A9 and count3/stride8 to the vector constructor iterator at RVA0x00001423. Its existing object has only the undefined ??0ICoord2D@@QAE@XZ coordinate symbol; class-key is not encoded in this name. Keeping the ordinary throwing thiscall declaration preserves that call and its exception model.",
     "external_declaration_define": "ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR"
+   },
+   {
+    "name": "??0ICoord2D@@QAE@ABUICoord2DBase@@@Z",
+    "declaration": "ICoord2D(const ICoord2DBase &that);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x005CFBC2",
+    "size": 19,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "??4ICoord2D@@QAEAAU0@ABU0@@Z",
+    "declaration": "ICoord2D &operator=(const ICoord2D &that);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x005CFBC2",
+    "size": 19,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "??4ICoord2D@@QAEAAU0@ABUICoord2DBase@@@Z",
+    "declaration": "ICoord2D &operator=(const ICoord2DBase &that);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x005CFBC2",
+    "size": 19,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "??YICoord2D@@QAEAAU0@ABUICoord2DBase@@@Z",
+    "declaration": "ICoord2D &operator+=(const ICoord2DBase &that);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x00004CE5",
+    "size": 19,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "??ZICoord2D@@QAEAAU0@ABUICoord2DBase@@@Z",
+    "declaration": "ICoord2D &operator-=(const ICoord2DBase &that);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x00004CF8",
+    "size": 19,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "??XICoord2D@@QAEAAU0@H@Z",
+    "declaration": "ICoord2D &operator*=(int factor);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x00004D0B",
+    "size": 25,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "??_0ICoord2D@@QAEAAU0@H@Z",
+    "declaration": "ICoord2D &operator/=(int divisor);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x00004D24",
+    "size": 25,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "?MoveBy@ICoord2D@@QAEAAU1@H@Z",
+    "declaration": "ICoord2D &MoveBy(int delta);",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x00004D3D",
+    "size": 14,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
+   },
+   {
+    "name": "??9ICoord2D@@QBE_NABUICoord2DBase@@@Z",
+    "declaration": "bool operator!=(const ICoord2DBase &that) const;",
+    "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+    "rva": "0x00004CC9",
+    "size": 28,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+    "decided_by": "Existing byte-verified arithmetic-owner method; opt-in declaration preserves other consumers' implicit assignment and aggregate semantics. Native receiver fields remain x/y at0/4. The owner supplies the body; no new function or name is recovered."
    }
-  ]
+  ],
+  "base_math_assignment": {
+   "class": "ICoord2DBase",
+   "header": "Code/Libraries/Include/Lib/ICoord2DBase.h",
+   "declaration": "ICoord2DBase &operator=(const ICoord2DBase &that);",
+   "required_define": "ICOORD2D_VIEW_MATH_METHODS",
+   "name": "??4ICoord2DBase@@QAEAAU0@ABU0@@Z",
+   "rva": "0x005CFBC2",
+   "size": 19,
+   "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
+   "decided_by": "Existing19B two-field assignment owner. Its declaration is opt-in in the companion header, so ordinary consumers retain their implicit inline assignment. The arithmetic source directly accesses fields and needs no inheritance conversion; its original two-int base layout equals the canonical flat pair."
+  }
  },
  "fields": [
   {

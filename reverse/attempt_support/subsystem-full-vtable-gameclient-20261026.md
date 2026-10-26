@@ -69,3 +69,10 @@ Local receipts under `build/codex-cleanup-20261025/`:
 `iteration37-accept.log`, `iteration37-link-preview.log` and the normal
 `iteration37-commit.log`. Shared-header dependent verification is the final
 commit gate. No ownership measurement or runtime result is claimed.
+
+The normal commit gate completed in `7eb94b780a`: 4,551 functions and 104
+data rows across 552 dependent sources, seventeen STLport folds, 1,122
+string literals plus 125 empty references, 414 floats and 244 imports.
+Converged-data enforcement finds zero second names and zero unjudged rows.
+The changed-source repeat again passes 92 functions and eleven EXACT EH
+graphs; that repeat is not added to the dependent-source totals.

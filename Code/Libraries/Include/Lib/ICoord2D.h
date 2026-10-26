@@ -25,6 +25,18 @@ struct ICoord2D {
     // Select before the first include; this constructed view lasts for the TU.
     ICoord2D() {}
     #endif
+    #ifdef ICOORD2D_VIEW_MATH_METHODS
+    // Native arithmetic owner icoord.cpp; declarations only in this TU view.
+    ICoord2D(const ICoord2DBase &that);
+    ICoord2D &operator=(const ICoord2D &that);
+    ICoord2D &operator=(const ICoord2DBase &that);
+    ICoord2D &operator+=(const ICoord2DBase &that);
+    ICoord2D &operator-=(const ICoord2DBase &that);
+    ICoord2D &operator*=(int factor);
+    ICoord2D &operator/=(int divisor);
+    ICoord2D &MoveBy(int delta);
+    bool operator!=(const ICoord2DBase &that) const;
+    #endif
 };
 
 #endif // CANONICAL_ICOORD2D_H
