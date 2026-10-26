@@ -253,6 +253,14 @@ namespace _STL { template <> void _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pa
 
 namespace _STL { template <> void allocator<_STL::_Rb_tree_node<_STL::pair<unsigned int const,void *> > >::deallocate(_STL::_Rb_tree_node<_STL::pair<unsigned int const,void *> > *,unsigned int) const; }
 
+// The tree's copy path (base ctor, node creation, node allocate) is kept from
+// stlport_map_int_ptr_lower.cpp; this bfmealloc unit's own copies differ.
+namespace _STL { template <> _Rb_tree_base<_STL::pair<unsigned int const,void *>,_STL::allocator<_STL::pair<unsigned int const,void *> > >::_Rb_tree_base(_STL::allocator<_STL::pair<unsigned int const,void *> > const &); }
+
+namespace _STL { template <> _Rb_tree_node<_STL::pair<unsigned int const,void *> > *_Rb_tree<unsigned int,_STL::pair<unsigned int const,void *>,_STL::_Select1st<_STL::pair<unsigned int const,void *> >,_STL::less<unsigned int>,_STL::allocator<_STL::pair<unsigned int const,void *> > >::_M_create_node(_STL::pair<unsigned int const,void *> const &); }
+
+namespace _STL { template <> _Rb_tree_node<_STL::pair<unsigned int const,void *> > *allocator<_Rb_tree_node<_STL::pair<unsigned int const,void *> > >::allocate(unsigned int, void const *) const; }
+
 class Rva00603FD2
 {
 public:
