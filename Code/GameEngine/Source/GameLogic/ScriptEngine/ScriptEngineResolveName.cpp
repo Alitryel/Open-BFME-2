@@ -75,24 +75,24 @@ AsciiString Rva002046C0Owner::resolveName(const AsciiString &name)
 // Removing both records and reinserting each at the other's position is the
 // structural interpretation of the target writes. The original container,
 // method name and relationship to the preceding name splitter are unknown.
-struct Rva0032AAEENode
+struct IndexedListNode
 {
 	short next;
 	short previous;
 	char unknown04[12];
 };
 
-class Rva0032AAEE
+class IndexedList
 {
 public:
 	void swapNodes(int firstIndex, int secondIndex);
 
 private:
 	char unknown00[12];
-	Rva0032AAEENode *nodes;
+	IndexedListNode *nodes;
 };
 
-void Rva0032AAEE::swapNodes(int firstIndex, int secondIndex)
+void IndexedList::swapNodes(int firstIndex, int secondIndex)
 {
 	if (firstIndex == secondIndex)
 		return;
@@ -102,8 +102,8 @@ void Rva0032AAEE::swapNodes(int firstIndex, int secondIndex)
 		secondIndex = savedIndex;
 	}
 
-	Rva0032AAEENode *first = &nodes[firstIndex];
-	Rva0032AAEENode *second = &nodes[secondIndex];
+	IndexedListNode *first = &nodes[firstIndex];
+	IndexedListNode *second = &nodes[secondIndex];
 	int beforeFirst = first->previous;
 	nodes[beforeFirst].next = first->next;
 	nodes[first->next].previous = (short)beforeFirst;
