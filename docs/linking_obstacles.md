@@ -236,6 +236,14 @@ authored-byte previews or commit-title gains into a projected headline.
   stale cached diagnostics, reproducing the FireSpread/DebugIOCon verifier
   defect. The source is restored and the false reject logged; fix the cache
   separately before retrying. No accepted merge or source repair is claimed.
+- **Consolidation diagnostic-cache prerequisite (2026-10-26):**
+  [The separate verifier repair](../reverse/attempt_support/consolidation-verifier-cache-prerequisite-20261026-codex.md)
+  restores each cached compile's own diagnostics and clears stale errors after
+  success. Three new tests fail before the fix and pass afterward; the existing
+  merge and closed exploit checks still pass. This addresses the shared
+  BridgeTower/FireSpread/DebugIOCon retry defect without changing byte acceptance.
+  Their source trials still require ordinary verification and binding checks;
+  no downstream landing, linked-byte gain or debt retirement is claimed here.
 - **TunnelTracker contain-list prerequisite (2026-10-26):**
   [The shared receiver/environment repair](../reverse/attempt_support/consolidation-tunneltracker-contain-prerequisite-20261026-codex.md)
   clears the contain-list refusal: ordinary composition now accepts seed plus

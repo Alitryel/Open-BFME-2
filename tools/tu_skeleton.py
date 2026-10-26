@@ -624,11 +624,14 @@ class Verifier:
                     ok, msg, _ = self.B.try_compile_source(src, obj)
             finally:
                 src.unlink()
-            self.cache[key] = obj if ok else None
-            if not ok:
-                self.all_errors = [l.strip() for l in (msg or "").splitlines() if " error " in l]
-                self.errors = self.all_errors[:3]
-        obj, out = self.cache[key], set()
+            errors = [] if ok else [l.strip() for l in (msg or "").splitlines() if " error " in l]
+            # attempt() uses redefinition diagnostics to choose its next text.
+            # A cached failure must restore its own errors, not the last trial's.
+            self.cache[key] = (obj if ok else None, errors)
+        obj, errors = self.cache[key]
+        self.all_errors = list(errors)
+        self.errors = self.all_errors[:3]
+        out = set()
         if obj is None:
             return None
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):

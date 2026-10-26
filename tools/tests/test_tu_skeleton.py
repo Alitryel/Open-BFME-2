@@ -1,4 +1,5 @@
 """tu_skeleton's merge lane: verified flags, redefinition repair, repointing and claims."""
+import contextlib
 import re
 import sys
 import tempfile
@@ -208,6 +209,70 @@ class EffectiveFlagsTests(unittest.TestCase):
     def test_a_file_without_a_cl_line_gets_one(self):
         out = self.verifier().effective("int f() { return 0; }\n", [{"target_rva": "0x1000", "target_size": "8"}])
         self.assertTrue(out.startswith("// cl: /O1 /arch:SSE /G7\n"))
+
+
+class VerifierCacheTests(unittest.TestCase):
+    ERRORS = {
+        "type-A": ["a.cpp(1) : error C2011: 'A' : 'class' type redefinition"],
+        "member-B": ["b.cpp(1) : error C2039: 'memberB' : is not a member of 'B'"],
+    }
+    ROWS = [{"target_rva": "0x1000"}]
+
+    def verifier(self, root):
+        v = T.Verifier.__new__(T.Verifier)
+        v.tu, v.tmp = root / "T.cpp", root
+        v.cache, v.errors, v.all_errors, v.sm = {}, [], [], {}
+        v.effective = lambda text, rows: text
+        v.fd = SimpleNamespace(forced_mode=lambda mode: contextlib.nullcontext())
+        compiled = {}
+        calls = []
+
+        def compile_source(src, obj):
+            text = src.read_text()
+            calls.append(text)
+            compiled[obj] = text
+            errors = self.ERRORS.get(text, [])
+            return not errors, "\n".join(errors), None
+
+        def compile_function(row, sm, obj):
+            return {"bytes": b"wrong" if compiled[obj] == "mismatch" else b"exact",
+                    "target": b"exact"}
+
+        v.B = SimpleNamespace(try_compile_source=compile_source,
+                              compile_function=compile_function)
+        return v, calls
+
+    def test_cached_failure_restores_its_own_redefinition_diagnostics(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            v, compiled = self.verifier(Path(tmp))
+            self.assertIsNone(v.matched("type-A", self.ROWS))
+            self.assertIsNone(v.matched("member-B", self.ROWS))
+            self.assertEqual(T.redefined(v.all_errors), set())
+            self.assertIsNone(v.matched("type-A", self.ROWS))
+            self.assertEqual(v.all_errors, self.ERRORS["type-A"])
+            self.assertEqual(v.errors, self.ERRORS["type-A"])
+            self.assertEqual(T.redefined(v.all_errors), {"A"})
+            self.assertEqual(len(compiled), 2)
+
+    def test_success_clears_old_errors_on_compile_and_cache_hit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            v, compiled = self.verifier(Path(tmp))
+            self.assertIsNone(v.matched("type-A", self.ROWS))
+            self.assertEqual(v.matched("exact", self.ROWS), {"0x1000"})
+            self.assertEqual((v.all_errors, v.errors), ([], []))
+            self.assertIsNone(v.matched("member-B", self.ROWS))
+            self.assertEqual(v.matched("exact", self.ROWS), {"0x1000"})
+            self.assertEqual((v.all_errors, v.errors), ([], []))
+            self.assertEqual(len(compiled), 3)
+
+    def test_cached_byte_mismatch_remains_rejected_without_stale_errors(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            v, compiled = self.verifier(Path(tmp))
+            self.assertEqual(v.matched("mismatch", self.ROWS), set())
+            self.assertIsNone(v.matched("type-A", self.ROWS))
+            self.assertEqual(v.matched("mismatch", self.ROWS), set())
+            self.assertEqual((v.all_errors, v.errors), ([], []))
+            self.assertEqual(len(compiled), 2)
 
 
 class RepointTests(unittest.TestCase):
