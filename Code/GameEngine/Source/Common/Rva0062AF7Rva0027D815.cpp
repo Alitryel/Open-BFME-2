@@ -76,7 +76,7 @@ public:
 	virtual void slot22();
 	virtual void slot23();
 	virtual void slot24();
-	virtual float Rva0027D815(float x, float y);
+	virtual float Rva0027D815(float worldX, float worldY);
 	virtual void *slot26(float x, float y, float z);
 	virtual void slot27();
 	virtual void slot28();
@@ -102,11 +102,11 @@ private:
 	WaterEntry m_entries[64];
 	int m_count;
 };
-float W3DTerrainLogic::Rva0027D815(float x, float y)
+float W3DTerrainLogic::Rva0027D815(float worldX, float worldY)
 {
 	float m_waterHeight = 0.0f;
 	float groundHeight = 0.0f;
-	if (!Rva0027D77D(x, y, &m_waterHeight, &groundHeight, 0))
+	if (!Rva0027D77D(worldX, worldY, &m_waterHeight, &groundHeight, 0))
 		return 0.0f;
 	return m_waterHeight - groundHeight;
 }

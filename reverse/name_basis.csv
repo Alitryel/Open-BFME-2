@@ -2323,3 +2323,5 @@ member,Rva0036E357TemplateView::flags108,Rva0036E357TemplateView::m_kindOf,infer
 function,?rva00545B72@Rva00545B72@@QAE_NH@Z,?shouldExit@Rva00545B72@@QAE_NH@Z,inferred,agree:nl-02faa343ca3d,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,0x00545B72
 param,Rva0028ECDBHost::rva0028ECDB::a,Rva0028ECDBHost::rva0028ECDB::position,inferred,agree:nl-4704a164d040,Code/GameEngine/Source/Common/Rva0028ECDB.cpp,0x0028ECDB
 local,Rva0028D796::rva0028D796::b,Rva0028D796::rva0028D796::currentRank,inferred,agree:nl-178218719199,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp,0x0028D796
+param,W3DTerrainLogic::Rva0027D815::x,W3DTerrainLogic::Rva0027D815::worldX,inferred,agree:nl-5ac777ac684d,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D815
+param,W3DTerrainLogic::Rva0027D815::y,W3DTerrainLogic::Rva0027D815::worldY,inferred,agree:nl-ba43b3926eef,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D815
