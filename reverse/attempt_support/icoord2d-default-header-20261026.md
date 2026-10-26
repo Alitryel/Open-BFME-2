@@ -72,3 +72,18 @@ refresh removes exactly the one row for these two macros, preserving all
 unrelated queue bytes. Receipts: `iteration31-build.log` and the normal
 `iteration31-commit.log`; no remaining queued header or MS-header item
 belongs to this file.
+
+## Horizontal slider
+
+On `c1eb8755a4`, GadgetHorizontalSlider.cpp adopts the existing default-
+constructor mode in its first include. The whole file was read; its
+private constructor had the same empty body and no base or extra fields.
+The two callbacks retain their native boundaries `0x00321B50..0x00321E5C`
+and `0x00321E5C..0x00322167`: 2/2 rows, 1,559 bytes. Complete comparison
+retains all six non-debug sections, 1,615 bytes, 66 relocations and external
+names; no external normalization is used. There are no EH graphs. Frozen
+check passes, and normal header acceptance retires this file's only queued
+item. No header or provider changes are needed in this commit. Four ICoord2D
+header items remain. Receipts: `iteration32-before-build.log`,
+`iteration32-after-build.log`, `iteration32-accept.log`, and the normal
+`iteration32-commit.log`.

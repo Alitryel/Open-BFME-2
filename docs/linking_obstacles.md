@@ -386,8 +386,9 @@ authored-byte previews or commit-title gains into a projected headline.
   first-include prerequisite. The final dependent gate passes 1,955 functions
   and 25 data rows across 255 sources. A separate boolean-literal cleanup
   preserves the whole button-transition object and retires its remaining
-  Microsoft-header item (two local macros). Five ICoord2D items and census
-  confirmation stay open.
+  Microsoft-header item (two local macros). Horizontal-slider adoption then
+  retains both callbacks (1,559 bytes) and its complete object, retiring one
+  further header item. Four ICoord2D items and census confirmation stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through

@@ -71,12 +71,9 @@ enum { GWS_PUSH_BUTTON = 0x00000001, GWS_MOUSE_TRACK = 0x00000400 };
 
 // A user constructor makes cl order x + size.x with the scalar first, as
 // retail does in both callbacks here (the vertical bodies match either way).
-struct ICoord2D
-{
-	ICoord2D() {}
-	Int x;
-	Int y;
-};
+#define ICOORD2D_VIEW_DEFAULT_CTOR
+#include "../../../../../Libraries/Include/Lib/ICoord2D.h"
+#undef ICOORD2D_VIEW_DEFAULT_CTOR
 
 class WinInstanceData
 {
