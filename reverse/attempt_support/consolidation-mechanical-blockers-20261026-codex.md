@@ -109,3 +109,24 @@ inputs and active registries have no hard-coded consumer for the donor path.
 The pre-push audit still must compare selected providers and affected consumers
 for this outgoing source change. This merge reduces Code source files by one;
 matched coverage is unchanged and no identity debt is claimed retired.
+
+## Additional allocated blockers (Shard 2/5)
+
+- `CrateCollide.cpp`: allocator and scoped planner approved the TU; dry run
+  accepted no donors. `CrateCollideXfer.cpp` needs undefined `BehaviorModule`
+  and base declarations; `CrateCollideIsValidToExecute.cpp` has C2511 because
+  the constructor signature is absent from `CrateCollide`. Mixed
+  `Rva004BB68EDerived.cpp` has no row approved for this TU. The mixed
+  `CollideModuleDataBuildFieldParse.cpp` carve found the 46-byte row matches
+  alone, but the residual loses three matched rows and fails on missing
+  `CrateCollideModuleData` declarations. No claims or edits were made.
+- `FireSpreadUpdate.cpp`: allocator, scoped planner, and plan passed; dry run
+  accepted no unchanged donors. The pool key lacks declared member
+  `rva00048B690`; the module-data constructor uses undeclared `m_vtable` and
+  `m_minSpreadDelay`; the calc donor uses undeclared `m_data`; the update donor
+  has a `Coord3D` redefinition. `ModuleNameGetters3.cpp` carve matched its row
+  alone but fails when merged due to duplicate `FireSpreadUpdate`; the
+  module-data field-parse carve matched alone but fails when merged due to
+  duplicate `FireSpreadUpdateModuleData`. `Rva0024A797Derived.cpp` has no row
+  approved for this TU. These are Sol prerequisites; no unchanged blocker was
+  retried, and no claims or source edits were made.
