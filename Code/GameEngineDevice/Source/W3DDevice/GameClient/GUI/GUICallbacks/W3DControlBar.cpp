@@ -296,12 +296,9 @@ public:
 	Bool rva002A7DD0(void);
 };
 
-struct ICoord2D
-{
-	ICoord2D() {}
-	Int x;
-	Int y;
-};
+#define ICOORD2D_VIEW_DEFAULT_CTOR
+#include "../../../../../../Libraries/Include/Lib/ICoord2D.h"
+#undef ICOORD2D_VIEW_DEFAULT_CTOR
 
 #include "../../../../../../Libraries/Include/Lib/IRegion2D.h"
 

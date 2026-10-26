@@ -388,7 +388,10 @@ authored-byte previews or commit-title gains into a projected headline.
   preserves the whole button-transition object and retires its remaining
   Microsoft-header item (two local macros). Horizontal-slider adoption then
   retains both callbacks (1,559 bytes) and its complete object, retiring one
-  further header item. Four ICoord2D items and census confirmation stay open.
+  further header item. Control-bar adoption retains all 50 rows, seven EXACT
+  EH graphs and complete object facts, including static initialization guards
+  and by-value coordinate calls, retiring its queue item. Three ICoord2D
+  items and census confirmation stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through

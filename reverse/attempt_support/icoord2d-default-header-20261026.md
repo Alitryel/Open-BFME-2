@@ -87,3 +87,23 @@ item. No header or provider changes are needed in this commit. Four ICoord2D
 header items remain. Receipts: `iteration32-before-build.log`,
 `iteration32-after-build.log`, `iteration32-accept.log`, and the normal
 `iteration32-commit.log`.
+
+## Control-bar rendering
+
+On `88adf8a14b`, the complete W3DControlBar.cpp adopts the same empty-
+constructor mode. Its earlier AsciiString/StringBase and Coord3D includes
+do not include ICoord2D; the selection precedes its first coordinate-header
+inclusion and the following IRegion2D include. The private empty constructor
+was also needed for the static base-position guard in the background and
+foreground callbacks, and for their by-value offset expressions.
+
+Before/after normal builds pass all 50 rows. The final gate verifies the
+30 existing unwind actions through the unchanged parent EH graphs despite
+local-label renumbering; all seven graphs are EXACT. All 31 string and seven
+float references pass. Full COFF comparison preserves all 116 non-debug
+sections, 10,573 bytes, 616 relocations and external identities, including
+static storage/guards, by-value calls, COMDATs and exception data. No external
+name normalization is used. Frozen check passes and owning header acceptance
+retires exactly this source's queue row. Three ICoord2D items remain. Receipts:
+`iteration33-before-build.log`, `iteration33-after-build.log`,
+`iteration33-accept.log`, and the normal `iteration33-commit.log`.
