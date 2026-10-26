@@ -8,7 +8,7 @@
 // checks it using AptCIH.h, and keeps that object in ESI for calls6EF199 /
 // 6EF1B6 /6EF218 /6EF27E to the two bodies below. Target virtual slot0C
 // returns the hash; its flags at+10 agree with AptNativeHashBFME2.cpp.
-// Only accessed vslots3/7/8 and the hash field are modeled; other slot prototypes are placeholders. This does not
+// Accessed vslots3/7/8 and the level-accessor fields are modeled; other slot prototypes are placeholders. This does not
 // claim the complete donor class layout or identities of unused virtual slots.
 // Native 0x006E0560..0x006E05A5 is a complete 69-byte CIH forwarding
 // entry (RET12, then INT3 padding). Its this input is used only for the
@@ -152,6 +152,27 @@ public:
 	int rva006E24D0();
 public:
 	void ClearCIH(int arg);
+public:
+	int rva006E0B80(int nLvl) const;
+	int rva006E0B60() const;
+	bool rva006E2460(const AptCIH *other) const;
+	void *rva006E0FB0() const;
+	void *rva006E1020() const;
+	void *rva006E1100() const;
+	void *rva006E1170() const;
+	void *rva006E1090() const;
+	void rva006E1F00(int mask);
+	const AptCIH *rva006E0CB0() const;
+	bool rva006E0C50(const AptCIH *other) const;
+	bool rva006E0BF0() const;
+private:
+	// Partial operand view shared with the matched level-accessor donor.
+	unsigned char _pad[0x40];
+	void *m_44;
+	AptCIH *m_parent; // +0x48
+	void *m_4C;
+	unsigned char _pad3[8];
+	int m_code; // +0x58
 };
 
 class Rva006D2A60 { public: void freeBlock(void *, int); };
