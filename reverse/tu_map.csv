@@ -31136,23 +31136,23 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00419F7C,12,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_prefix_increment.cpp
 0x00419F88,135,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsQueueStartup.cpp
 0x0041A00F,56,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsQueueStartup.cpp
-0x0041A047,197,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp N=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThreadClass.cpp,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread_GameResultsThreadClass_sendGameResults.cpp
-0x0041A10C,75,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_pod28_base.cpp
-0x0041A157,75,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_pod16_base.cpp
+0x0041A047,197,code,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp S=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp N=Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThreadClass.cpp,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
+0x0041A10C,75,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
+0x0041A157,75,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
 0x0041A1A2,20,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_noexc_bodies.cpp
 0x0041A1B6,20,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_noexc_bodies.cpp
 0x0041A1CF,49,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,Code/GameEngine/Source/Common/NarrowStringRecordCopyBFME2.cpp
 0x0041A200,65,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,Code/GameEngine/Source/Common/NarrowStringRecord0041A5D2Dtor.cpp
-0x0041A241,28,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,Code/GameEngine/Source/Common/NarrowStringRecord0041A5D2Delete.cpp
+0x0041A241,28,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
 0x0041A25D,246,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A35C,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_noexc_bodies.cpp
 0x0041A35C,38,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A382,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_deque_bodies.cpp
 0x0041A382,33,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A3A3,Code/Libraries/Source/WWVegas/WWLib/NarrowStringRecord28DequeDestroy.cpp
 0x0041A3A3,33,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A3C4,Code/Libraries/Source/WWVegas/WWLib/NarrowStringRecord16DequeDestroy.cpp
-0x0041A3C4,51,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A3F7,Code/GameEngine/Source/Common/NarrowStringRecordDequePop.cpp
+0x0041A3C4,51,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A3F7,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
 0x0041A3F7,53,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A42C,Code/GameEngine/Source/Common/NarrowStringRecord16DequePop.cpp
 0x0041A42C,45,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A459,Code/Libraries/Source/WWVegas/WWLib/NarrowStringRecord28DequeDestroy.cpp
 0x0041A459,45,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A486,Code/Libraries/Source/WWVegas/WWLib/NarrowStringRecord16DequeDestroy.cpp
-0x0041A486,33,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A4A7,Code/GameEngine/Source/Common/NarrowStringRecordDequePop.cpp
+0x0041A486,33,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A4A7,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
 0x0041A4A7,33,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A4C8,Code/GameEngine/Source/Common/NarrowStringRecord16DequePop.cpp
 0x0041A4C8,41,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A4F1,Code/Libraries/Source/WWVegas/WWLib/NarrowStringRecord28DequeDestroy.cpp
 0x0041A4F1,41,code,Code/GameEngine/Source/Common/BfmeNarrowRecord0041A5D2.cpp,proposed,C,C=0x0041A241..0x0041A51F,Code/Libraries/Source/WWVegas/WWLib/NarrowStringRecord16DequeDestroy.cpp
@@ -31163,8 +31163,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0041A63A,5,code,,,-,,Code/GameEngine/Source/Common/NarrowStringRecordCopyBFME2.cpp
 0x0041A63F,5,code,,,-,,Code/GameEngine/Source/Common/NarrowStringRecordCopyBFME2.cpp
 0x0041A644,140,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsQueueStartup.cpp
-0x0041A6D0,21,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_pod28_base.cpp
-0x0041A6E5,21,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_pod16_base.cpp
+0x0041A6D0,21,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
+0x0041A6E5,21,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
 0x0041A6FA,45,code,,,-,,Code/GameEngine/Source/Common/NarrowStringRecordCopyBFME2.cpp
 0x0041A727,45,code,,,-,,Code/GameEngine/Source/Common/NarrowStringRecordCopyBFME2.cpp
 0x0041A754,135,code,,,-,,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsQueueStartup.cpp
