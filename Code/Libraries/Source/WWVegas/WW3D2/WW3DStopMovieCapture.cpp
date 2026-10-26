@@ -7,8 +7,9 @@
 class FrameGrabClass { public: virtual ~FrameGrabClass(); };
 class StaticSortListClass { public: virtual ~StaticSortListClass(); };
 // ww3d.cpp defines WW3D's statics private (?IsCapturing@WW3D@@0_NA, ...); spell them so.
-class WW3D { static bool IsCapturing;
+class WW3D {
 public:
+    static bool IsCapturing;
     static FrameGrabClass *Movie;
     static void Stop_Movie_Capture(); };
 void __cdecl operator delete(void *);
