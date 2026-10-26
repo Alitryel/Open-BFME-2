@@ -4,21 +4,21 @@
 // TU so DeletionUpdate.cpp keeps its two matched bodies untouched: retail
 // pins __LINE__ 55 (push 0x37) for the random call, which this file meets
 // by padding the call onto its own line 55, and reads the GameLogic frame
-// at +0x40 (four past the reference header's +0x3C), so this TU carries a
-// TU-local GameLogic view instead of editing the shared header. The
+// at +0x40 through the canonical native GameLogic lookup view. The
+// shared header preserves that retail field offset. The
 // "DeletionUpdate.cpp" file literal below is byte-copied from retail
 // (VA 0xC4B370); the random helper resolves via its matched row.
 typedef unsigned int UnsignedInt;
 
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; } // Native +0x40 inline frame load.
+#include "../../../Common/GameLogicObjectLookupView.h"
 
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40 (retail; reference header says +0x3C)
-};
+
+
+
+
+
+
+
 
 extern GameLogic *TheGameLogic;
 
