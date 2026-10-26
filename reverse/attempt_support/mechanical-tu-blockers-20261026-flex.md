@@ -168,3 +168,9 @@ allowed to finish; no second compiler trial was started.
   after that commit; no Keyboard source or ledger change was applied.
 - `MaxHealthUpgrade.cpp`: accepted no donors. Its module and implementation
   donors both require an undeclared `getModuleNameKey` member (C2039).
+
+## Keyboard.cpp follow-up, 2026-10-26
+
+Applied the unchanged accepted split for `Code/GameEngine/Source/GameClient/Input/Keyboard.cpp`: absorbed `KeyboardInitKeyNames.cpp`, `KeyboardCheckKeyRepeat.cpp`, and `KeyboardRva00232A42.cpp`; retained 15 matched rows. The unchanged dry-run accepted exactly those three donors. It rejected `KeyboardInitUpdate.cpp` (duplicate `KEY_STATE_DOWN`, missing `init` member), `KeyboardRva00232AE8.cpp` and `rva00232B7BRva00232B7BFarm.cpp` (STL allocator redefinition). No rejected donor was changed.
+
+`./build.sh Code/GameEngine/Source/GameClient/Input/Keyboard.cpp` passed: 15/15 rows matched; `find_declared_unmatched.py` passed. `code_identity_gate.py --staged` found 0 new findings in shadow mode; `data_check.py --staged` found 0; `tu_ownership.py --staged --shadow`, `repair_queue.py verify-removed`, and `hatch_counters.py --staged` passed. The merge carried the protected-register key of three absorbed donors and kept the total unchanged using the tool-required `Verifier-Change` trailer. No debt key retired.
