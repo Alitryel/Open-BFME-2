@@ -54,9 +54,9 @@ public:
 	float m_6C;
 	float m_70;
 	float m_moveProgress;
-	unsigned char m_78;
+	unsigned char m_isMoving;
 	char _pad79[3];
-	float m_7C;
+	float m_moveRate;
 	float m_80;
 	float m_84;
 	void rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2, unsigned int duration);
@@ -67,9 +67,9 @@ void Rva002BEFE5::rva002BEFE5(const Rva002BEFE5Vec *position, float a1, float a2
 	TheMouse->rva001EEA6D(UnicodeString(UnicodeString::TheEmptyString), 0, 0, 1.0f);
 	v29(m_startPosition);
 	m_80 = v30();
-	m_78 = 1;
+	m_isMoving = 1;
 	m_moveProgress = 0.0f;
-	m_7C = 1.0f / (float)duration;
+	m_moveRate = 1.0f / (float)duration;
 	*(Rva002BEFE5Vec *)&m_targetX = *position;
 	m_targetZ = 0.0f;
 	m_84 = a1;

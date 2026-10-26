@@ -21,7 +21,7 @@ int isGroundOrBridgeLayer(int layer)
 // It returns EAX0 or1 for equality with raw32 value1, with no calls or memory
 // reads beyond the argument. This unsigned view preserves all bit patterns;
 // original callable identity and signedness/bool-vs-int spelling are unknown.
-unsigned Rva002E6E7FEqualsOne(unsigned value)
+unsigned isGroundLayer(unsigned value)
 {
     return value == 1;
 }

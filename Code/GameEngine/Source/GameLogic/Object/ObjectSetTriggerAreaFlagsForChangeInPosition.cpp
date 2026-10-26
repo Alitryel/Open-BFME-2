@@ -104,8 +104,8 @@ extern LuaScriptEngine *TheLuaScriptEngine;
 class Rva002E3766Holder
 {
 public:
-	void Rva002E3794Invoke(Int obj);	// 0x002E3794
-	void Rva002E3777Invoke(Int obj);	// 0x002E3777
+	void notifyObjectExited(Int obj);	// 0x002E3794
+	void notifyObjectEntered(Int obj);	// 0x002E3777
 };
 
 class PolygonTrigger
@@ -265,7 +265,7 @@ void Object::setTriggerAreaFlagsForChangeInPosition()
 			DelayedLuaEventList events;
 			((Rva001BDA20 *)&events.m_events[0])->set(m_triggerInfo[i].pTrigger->getTriggerName());
 			((BfmeObjectEventDispatch *)TheLuaScriptEngine)->rva003360D2(5, this, (BfmeDelayedLuaEventList *)&events);
-			((Rva002E3766Holder *)m_triggerInfo[i].pTrigger)->Rva002E3794Invoke((Int)this);
+			((Rva002E3766Holder *)m_triggerInfo[i].pTrigger)->notifyObjectExited((Int)this);
 		}
 	}
 
@@ -300,7 +300,7 @@ void Object::setTriggerAreaFlagsForChangeInPosition()
 				DelayedLuaEventList events;
 				((Rva001BDA20 *)&events.m_events[0])->set(m_triggerInfo[i].pTrigger->getTriggerName());
 				((BfmeObjectEventDispatch *)TheLuaScriptEngine)->rva003360D2(3, this, (BfmeDelayedLuaEventList *)&events);
-				((Rva002E3766Holder *)pTrig)->Rva002E3777Invoke((Int)this);
+				((Rva002E3766Holder *)pTrig)->notifyObjectEntered((Int)this);
 			}
 			else
 			{

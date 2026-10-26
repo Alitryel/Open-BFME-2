@@ -2646,3 +2646,6 @@ __ehhandler$?Rva005CD841Find@@YA_NPAX@Z,0x007A157D,"Renamed to __ehhandler$?hasL
 ?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x0042C936,"Renamed to ?assign@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z by tools/rename.py (inferred)"
 __ehhandler$?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x00787763,"Renamed to __ehhandler$?assign@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z by tools/rename.py (inferred)"
 ?rva005E39A6@ArmyDetailsPanelImpl@@QBE_NH@Z,0x005E39A6,"Renamed to ?isSelected@ArmyDetailsPanelImpl@@QBE_NH@Z by tools/rename.py (inferred)"
+?Rva002E3777Invoke@Rva002E3766Holder@@QAEXH@Z,0x002E3777,"Renamed to ?notifyObjectEntered@Rva002E3766Holder@@QAEXH@Z by tools/rename.py (inferred)"
+?Rva002E3794Invoke@Rva002E3766Holder@@QAEXH@Z,0x002E3794,"Renamed to ?notifyObjectExited@Rva002E3766Holder@@QAEXH@Z by tools/rename.py (inferred)"
+?Rva002E6E7FEqualsOne@@YAII@Z,0x002E6E7F,"Renamed to ?isGroundLayer@@YAII@Z by tools/rename.py (inferred)"

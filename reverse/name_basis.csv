@@ -2425,3 +2425,10 @@ local,Rva002CA9CA::rva002CAC6E::p2,Rva002CA9CA::rva002CAC6E::preAttackFX,inferre
 function,?rva005E39A6@ArmyDetailsPanelImpl@@QBE_NH@Z,?isSelected@ArmyDetailsPanelImpl@@QBE_NH@Z,inferred,agree:nl-df060aa33638,Code/GameEngine/Source/Common/Rva005F2278MapContains.cpp,0x005E39A6
 member,OpacityEnvelope::m_unknown24,OpacityEnvelope::m_state,inferred,agree:nl-097ed4556dd5,Code/GameEngine/Source/Common/System/INI_Rva00338E52ParseEnvelope.cpp,
 local,Rva007FA2C0::walk::p,Rva007FA2C0::walk::expiryPtr,inferred,agree:nl-baee23d271c4,Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp,0x00666790
+member,Rva002BEFE5::m_78,Rva002BEFE5::m_isMoving,inferred,agree:nl-d3a8ef1594f3,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
+member,Rva002BEFE5::m_7C,Rva002BEFE5::m_moveRate,inferred,agree:nl-f77e4a8a2147,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
+function,?Rva002E3777Invoke@Rva002E3766Holder@@QAEXH@Z,?notifyObjectEntered@Rva002E3766Holder@@QAEXH@Z,inferred,agree:nl-d799480f5271,Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3777
+carry,Rva002E3766Holder::Rva002E3777Invoke::enteringObject,Rva002E3766Holder::notifyObjectEntered::enteringObject,inferred,scope renamed by Rename Rva002E3777Invoke to notifyObjectEntered (inferred),Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3777
+function,?Rva002E3794Invoke@Rva002E3766Holder@@QAEXH@Z,?notifyObjectExited@Rva002E3766Holder@@QAEXH@Z,inferred,agree:nl-63ed1852c47d,Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3794
+carry,Rva002E3766Holder::Rva002E3794Invoke::exitingObject,Rva002E3766Holder::notifyObjectExited::exitingObject,inferred,scope renamed by Rename Rva002E3794Invoke to notifyObjectExited (inferred),Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3794
+function,?Rva002E6E7FEqualsOne@@YAII@Z,?isGroundLayer@@YAII@Z,inferred,agree:nl-292b1c99e2f3,Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp,0x002E6E7F
