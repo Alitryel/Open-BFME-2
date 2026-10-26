@@ -8044,3 +8044,7 @@ Code/GameEngine/Source/Common/Rva002DA153Scale.cpp|local|Rva002DA153::rva002DA15
 Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|class||Bfme5Obj18,69ee764a522adee712ec7122,gpt-6.1-sol,w5-10261308-14,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|member|Bfme5Obj18|m_bfme10,5642a74af58767d24471c067,gpt-6.1-sol,w5-10261308-14,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/Rva006ED1E0Cluster.cpp|local|Rva006ED2A0::Rva006ED2A0|b,78c328becc8909684d0a4685,gpt-6.1-sol,w5-10261308-16,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/WeaponGetStatus.cpp|local|Weapon::setClipPercentFull|f,b41f31b331e3e238144cf622,gpt-6.1-sol,w4-10261316-1,w-eb83eac9adc1,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|member|Rva000ECF79Tree|fieldd8,8030861c026ccc78ea74f82c,gpt-6.1-sol,w4-10261316-7,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva004DF4B5.cpp|param|Rva004DF4B5::rva004DF4B5|p,0414c12665c06da58b25982e,gpt-6.1-sol,w4-10261316-11,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|member|Rva0054D222Prompt|m_callback20,bc5bdf7aee677cf92cf496e2,gpt-6.1-sol,w4-10261316-12,w-eb83eac9adc1,2026-10-26
