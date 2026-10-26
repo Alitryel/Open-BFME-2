@@ -41,51 +41,9 @@ enum KindOfType
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-class Vector3
-{
-public:
-	Vector3(void) {}
-	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
-	void Set(const Vector3 &that) { X = that.X; Y = that.Y; Z = that.Z; }
-
-	float X;
-	float Y;
-	float Z;
-};
-
-class Matrix3D;
-
-// upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/rendobj.h
-class RenderObjClass
-{
-public:
-	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
-	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
-	virtual void slot08(); virtual void slot09(); virtual void slot10(); virtual void slot11();
-	virtual void Render(class RenderInfoClass &rinfo);
-	virtual void slot13(); virtual void slot14(); virtual void slot15(); virtual void slot16();
-	virtual void slot17(); virtual void slot18(); virtual void slot19();
-	virtual void Validate_Transform(void) const;
-	virtual void slot21();
-	virtual void Set_Position(const Vector3 &v);
-
-	const Matrix3D &Get_Transform(void) const
-	{
-		Validate_Transform();
-		return *(const Matrix3D *)m_transform;
-	}
-
-	unsigned char m_unreconstructed_04[0x18 - 4];
-	unsigned char m_transform[0x30];
-};
+#include "W3DWaypointBufferRenderView.h"
 
 class CameraClass : public RenderObjClass {};
-
-class SegmentedLineClass : public RenderObjClass
-{
-public:
-	void Set_Points(unsigned int num_points, Vector3 *locs);
-};
 
 // Size 0x228 from LightEnvironmentClassConstructor.cpp (retail 0x0094AAF0).
 class BfmeVecHF;
