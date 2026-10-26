@@ -10,43 +10,25 @@
 // SupplyWarehouseDockUpdate::xfer (Version plus base plus xferInt). Recipe is
 // DeletionUpdateXfer slot-3 pattern with DockUpdate base.
 
-class Xfer
-{
-public:
-	virtual void _slot00();
-	virtual void _slot01();
-	virtual void _slot02();
-	virtual void _slot03();
-	virtual void _slot04();
-	virtual void _slot05();
-	virtual void _slot06();
-	virtual void _slot07();
-	virtual void _slot08();
-	virtual void _slot09();
-	virtual void _slot10();
-	virtual void _slot11();
-	virtual void _slot12();
-	virtual void _slot13();
-	virtual void _slot14();
-	virtual void _slot15();
-	virtual void _slot16();
-	virtual void _slot17();
-	virtual void _slot18();
-	virtual void _slot19();
-	virtual void _slot20();
-	virtual void _slot21();
-	virtual void _slot22();
-	virtual void _slot23();
-	virtual void _slot24();
-	virtual void _slot25();
-	virtual void _slot26();
-	virtual void _slot27();
-	virtual void _slot28();
-	virtual void _slot29();
-	virtual void _slot30();
-	virtual void xferInt(int *value);
-	void Version1();
-};
+class AsciiString;
+class UnicodeString;
+class PooledString;
+struct XferUnknown11;
+struct Coord3DBase;
+class ICoord3D;
+class Region3D;
+class IRegion3D;
+class Coord2D;
+class ICoord2D;
+class Region2D;
+class IRegion2D;
+class RealRange;
+class RGBColor;
+class RGBAColorReal;
+class RGBAColorInt;
+class Snapshot;
+
+#include "../../../../../Include/Common/BfmeXfer.h"
 
 class __declspec(novtable) DockUpdate
 {
@@ -70,5 +52,5 @@ void SupplyWarehouseDockUpdate::xfer(Xfer *xfer)
 {
 	xfer->Version1();
 	DockUpdate::xfer(xfer);
-	xfer->xferInt(&m_boxesStored);
+	*xfer == m_boxesStored;
 }

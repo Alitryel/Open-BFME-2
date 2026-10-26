@@ -194,6 +194,13 @@ authored-byte previews or commit-title gains into a projected headline.
   Composition still accepts no donors: pool/constructor members and legacy
   Coord3D/Xfer definitions remain incompatible. No merge unblock, identity
   retirement, census gain or later Luna landing is claimed.
+- **SupplyWarehouseDockUpdate Xfer prerequisite (2026-10-26):**
+  [Canonical integer transfer](../reverse/attempt_support/consolidation-supplywarehouse-xfer-prerequisite-20261026-codex.md)
+  retires one header-queue row with 4/4 seed/donor rows exact and identical
+  emitted code/data, COMDAT policies and reference facts. No binding changes.
+  Composition still accepts no merge: allocator specialization, supply-truck
+  receiver and pool-member declarations remain prerequisites. Mixed donors
+  are untouched; no identity retirement, census gain or Luna landing claimed.
 - **HeaderTemplate provider inspection (2026-10-26):**
   [The scoped inspection](../reverse/attempt_support/consolidation-headertemplate-pushfront-prerequisite-20261026-codex.md)
   confirms 3/3 exact creation rows but an incorrect typed node-provider chain:
