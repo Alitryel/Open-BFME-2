@@ -4626,7 +4626,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAu
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdateDtor.cpp	?updateSlot@UpdateModuleInterface@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdateDtor.cpp	?upgradeSlot@UpgradeMux@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateCtor.cpp	?unused@BehaviorModuleOther@@EAEXXZ	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AutoFindHealingUpdateModuleDataCtor.cpp	_vtbl_00C4ED70	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AutoFindHealingUpdate.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AutoHealBehaviorCtor.cpp	_vtbl_00BE2B78	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AutoHealBehaviorCtor.cpp	_vtbl_00C3FC78	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/AutoHealBehaviorCtor.cpp	_vtbl_00C3FC88	1

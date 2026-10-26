@@ -1163,7 +1163,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdatePoolKe
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000403A61@AttributeModifierPoolUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A02F34
 Code/GameEngine/Source/GameLogic/Object/Update/AudioLoopUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva004B7BBB@AudioLoopUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F18
 Code/GameEngine/Source/GameLogic/Object/Update/AutoDepositUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00049A1CA@AutoDepositUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B14
-Code/GameEngine/Source/GameLogic/Object/Update/AutoFindHealingUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004950B4@AutoFindHealingUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A30
+Code/GameEngine/Source/GameLogic/Object/Update/AutoFindHealingUpdate.cpp	wrong-name	?$S1@?1??rva0004950B4@AutoFindHealingUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A30
 Code/GameEngine/Source/GameLogic/Object/Update/AutoPickUpUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000495CEC@AutoPickUpUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A54
 Code/GameEngine/Source/GameLogic/Object/Update/BannerCarrierUpdateModuleDataCtor.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
 Code/GameEngine/Source/GameLogic/Object/Update/BannerCarrierUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000496A1E@BannerCarrierUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03A64
