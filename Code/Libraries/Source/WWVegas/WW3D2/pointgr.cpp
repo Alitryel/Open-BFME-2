@@ -400,7 +400,17 @@ template <> bool VectorClass<float>::operator==(VectorClass<float> const &) cons
 template <> bool VectorClass<Vector2>::operator==(VectorClass<Vector2> const &) const;
 template <> int VectorClass<float>::ID(float const &);
 template <> bool VectorClass<Vector3>::Resize(int, Vector3 const *);
+// Declaring the dtor only stops cl synthesizing this unit's scalar deleting
+// destructor copy, which inlines Clear; retail's, 0x000F1CF7 (rowed in
+// vector_class_vector3_ctor.cpp), calls it. Clear stays inline for
+// Rva00912CF0, which retail expands it in.
+template <> VectorClass<Vector3>::~VectorClass();
 // bfme link decl-only end
+// With no vtable emitted here, instantiate the rowed ID(T const *) directly,
+// and the two virtuals the other VectorClass<Vector3> units declare only.
+template int VectorClass<Vector3>::ID(Vector3 const *);
+template int VectorClass<Vector3>::ID(Vector3 const &);
+template bool VectorClass<Vector3>::operator==(VectorClass<Vector3> const &) const;
 
 // Retail Vector2/Vector4 resize bodies belong to Vector2Resize.cpp.
 // Declare their specializations so this consumer references those owners.

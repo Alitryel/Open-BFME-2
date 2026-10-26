@@ -64,8 +64,11 @@ static Vector3 GroundMultiplierX(1,0,0),GroundMultiplierY(0,1,0);
 // The static VertexLoc instantiates VectorClass<Vector3>; its /O2 copies of
 // the constructor and Resize are not retail's, so bind both to the rowed
 // 0x000F0D2F and 0x000F0BF1 bodies (vector_class_vector3_ctor/_resize.cpp).
+// Declaring the dtor too stops cl synthesizing a /O2 scalar deleting destructor
+// copy here; retail's is 0x000F1CF7.
 template <> VectorClass<Vector3>::VectorClass(int, Vector3 const *);
 template <> bool VectorClass<Vector3>::Resize(int, Vector3 const *);
+template <> VectorClass<Vector3>::~VectorClass();
 static VectorClass<Vector3> VertexLoc;
 extern VectorClass<Vector2> VertexUV;
 

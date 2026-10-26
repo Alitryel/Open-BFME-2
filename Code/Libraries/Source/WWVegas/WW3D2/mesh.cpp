@@ -25,6 +25,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "vector3.h"
 // Retail keeps one VectorClass<Vector3>::Resize (0x000F0BF1); this unit calls it.
 template <> bool VectorClass<Vector3>::Resize(int newsize, Vector3 const * array);
+// Declaring the dtor only stops cl synthesizing this unit's /G7 copy of the
+// scalar deleting destructor; retail's is 0x000F1CF7.
+template <> VectorClass<Vector3>::~VectorClass();
 // Native 0x000F1C7A is supplied by FXShaderRendererSkin.cpp.
 template <> DynamicVectorClass<Vector3>::DynamicVectorClass(unsigned, Vector3 const *);
 template <> bool DynamicVectorClass<Vector3>::Resize(int, Vector3 const *);

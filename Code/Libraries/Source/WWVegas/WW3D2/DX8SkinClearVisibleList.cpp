@@ -35,6 +35,9 @@
 
 // Bind the out-of-line vector members to their rowed providers.
 template <> VectorClass<Vector3>::VectorClass(int, const Vector3 *);
+// Declaring the dtor only stops cl synthesizing this unit's copy of the scalar
+// deleting destructor; retail's is 0x000F1CF7.
+template <> VectorClass<Vector3>::~VectorClass();
 // Define the destructor here, in the default context, as mesh.cpp/collect.cpp emit it.
 template <> inline DynamicVectorClass<Vector3>::~DynamicVectorClass() {}
 template <> bool VectorClass<Vector3>::Resize(int, const Vector3 *);

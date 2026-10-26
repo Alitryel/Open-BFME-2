@@ -75,7 +75,7 @@ Each row retains the handoff's investigation lead alongside the census category.
 | --- | ---: | --- | --- |
 | `Rva0056616BCopyDeferred.cpp` | 481 | Wrong selected | Missing destructors and selected copy |
 | `stlport_narrow_ostringstream_dtor.cpp` | 429 | COMDAT losers | STL conflicts; compiler C1001 |
-| `vector_class_vector3_ctor.cpp` | 218 | Wrong selected | Vtable/destructor mismatch |
+| `vector_class_vector3_ctor.cpp` | 218 | Wrong selected | LINK-015: preview links 194 B (2026-10-26); census pending |
 | `Rva001F9524Concat.cpp` | 185 | COMDAT losers | Symbol identity debt |
 | `stlport_narrow_string_copy.cpp` | 152 | Unresolved | Missing callee address |
 | `DebugDestructorThunk.cpp` | 113 | COMDAT losers | Vtable slot-count mismatch |
@@ -87,13 +87,13 @@ Each row retains the handoff's investigation lead alongside the census category.
 
 | Unit | Matched bytes | Census blockers | Follow-up / prerequisite |
 | --- | ---: | --- | --- |
-| `PointGroupClassRva0017A890.cpp` | 12,000 | COMDAT + wrong selected | Recheck shared VertexLoc ownership evidence |
-| `pointgr.cpp` | 10,695 | COMDAT + wrong selected | Coordinate with the VertexLoc owner |
+| `PointGroupClassRva0017A890.cpp` | 12,000 | COMDAT + wrong selected | LINK-015: preview links 11,964 B (2026-10-26); census pending |
+| `pointgr.cpp` | 10,695 | COMDAT + wrong selected | LINK-015: preview links 10,565 B (2026-10-26); census pending |
 | `MmxIDct.asm` | 7,686 | Two address issues | Recheck LINK-007 storage repairs |
-| `DX8SkinClearVisibleList.cpp` | 1,630 | COMDAT + wrong selected | Current-provider verification pending |
+| `DX8SkinClearVisibleList.cpp` | 1,630 | COMDAT + wrong selected | LINK-015: preview links 1,613 B (2026-10-26); census pending |
 | `StlportVectorDtorDeferred.cpp` | 461 | Two unresolved | Current-provider verification pending |
 | `Rva00066A9ABody.cpp` | 371 | Two unresolved | Two global providers |
-| `Rva007B7280Siblings.cpp` | 354 | COMDAT + wrong selected | Current-provider verification pending |
+| `Rva007B7280Siblings.cpp` | 354 | COMDAT + wrong selected | LINK-015: blocked; its own inlined `??_G` loses while no copy is proven |
 | `LargeGroupAudioKeyMapBfmeAddKey.cpp` | 324 | Two unresolved | Global records and vector resize |
 | `FXListStoreCtor.cpp` | 280 | COMDAT + wrong selected | Current-provider verification pending |
 | `PolygonTriggerCtor.cpp` | 186 | Unresolved + COMDAT | LINK-011 preview cleared 157 authored bytes; reconcile scope |
@@ -131,7 +131,7 @@ existing LINK-011 preview clearances retained for its two rows.
 | `Code/GameEngine/Source/GameClient/GUI/GameWindowManager_registerTabList.cpp` | 73 | 2 (C=1, S=1) | Open |
 | `Code/GameEngine/Source/Common/Rva003ADEFBCopy.cpp` | 67 | 2 (U=2) | Open |
 | `Code/GameEngine/Source/Common/EmotionSystem.cpp` | 59 | 2 (U=2) | LINK-011: preview cleared; census pending |
-| `Code/Libraries/Source/WWVegas/WW3D2/Rva007B73C0.cpp` | 59 | 2 (C=1, S=1) | Open |
+| `Code/Libraries/Source/WWVegas/WW3D2/Rva007B73C0.cpp` | 59 | 2 (C=1, S=1) | LINK-015: blocked; its own inlined `??_G` loses while no copy is proven |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00054EBE.cpp` | 47 | 2 (C=1, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva000E0225.cpp` | 47 | 2 (C=1, S=1) | Open |
 | `Code/GameEngine/Source/Common/Bfme/Rva00739C70Cleanup.cpp` | 43 | 2 (U=2) | Open |

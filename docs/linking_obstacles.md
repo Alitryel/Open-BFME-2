@@ -614,6 +614,50 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
 - **Clearance:** preview scope only (the units listed above and the 14 ports).
 - **Census confirmation:** awaiting the next census.
 
+### LINK-015: naming `VectorClass<Vector3>`'s deleting destructor proved the consumers' inlined copies wrong
+
+**Status: Repair landed / awaiting verification (two teardown units remain blocked). Updated: 2026-10-26; inspected revision: cf035cfb20.**
+
+- **Evidence / scope:** 4e0bfa8260 named retail 0x000F1CF7 as
+  `??_G?$VectorClass@VVector3@@@@UAEPAXI@Z` (34 B: vptr store, call to the kept
+  `Clear` 0x000F0CD4, `pop ecx` after `operator delete`) and rowed it in
+  `vector_class_vector3_ctor.cpp`. Once it had a retail address, the seven other
+  copies were proven wrong: they inline `Clear` (/O2), and the /G7 ones clean up with
+  `add esp, 4`. The first in link order, `collect.cpp`'s, was the one kept, so the
+  census at ef9c691284 lost `pointgr.cpp`, `PointGroupClassRva0017A890.cpp`,
+  `DX8SkinClearVisibleList.cpp`, `Rva007B7280Siblings.cpp` and `Rva007B73C0.cpp`,
+  all linked at d2636bb381 (`reverse/link_status.csv` history). The owner's copy is
+  only `unknown`, never `retail`: its DIR32 to `??_7?$VectorClass@VVector3@@@@6B@`
+  (0x007CEFAC) has no data row, so no proven copy lets the wrong ones stand
+  (retail-truth-3).
+- **Completed:** `collect.cpp`, `mesh.cpp`, `DX8SkinClearVisibleList.cpp`,
+  `PointGroupClassRva0017A890.cpp` and `pointgr.cpp` declare
+  `~VectorClass<Vector3>` decl-only, so cl synthesizes neither `??_G` nor the
+  `VectorClass<Vector3>` vtable there. Declaring `Clear` decl-only instead is not
+  enough: the /G7 units still differ (`add esp, 4`), and `pointgr.cpp`'s
+  `Rva00912CF0` inlines `Clear` as retail does. `pointgr.cpp` explicitly
+  instantiates the virtuals the vtables used to bring: its rowed `ID(T const *)`
+  (0x001298B0, /G7, retail-proven, now the first copy) and `ID(T const &)` and
+  `operator==`, which the other units only declare. `vector_class_vector3_ctor.cpp`
+  declares `ID(T const *)` decl-only: its non-/G7 copy (wrong) would otherwise be
+  the first. `./build.sh`: 90/90 rows exact across the six sources.
+  `tools/link_check.py` against the 763dc8759f index with all nine current objects
+  (including `FXShaderRendererSkin.cpp`): `PointGroupClassRva0017A890.cpp`
+  0 -> 11,964 B, `pointgr.cpp` 0 -> 10,565 B, `DX8SkinClearVisibleList.cpp`
+  0 -> 1,613 B, `vector_class_vector3_ctor.cpp` 0 -> 194 B (+24,336 B);
+  `FXShaderRendererSkin.cpp` keeps 937 B; `collect.cpp` and `mesh.cpp` keep only
+  their earlier, unrelated blockers.
+- **Remaining / next check:** `Rva007B7280Siblings.cpp` (353 B) and
+  `Rva007B73C0.cpp` (59 B). Retail's teardowns inline both the destructor and
+  `Clear`, so these /O2 units must keep both inlinable, and cl synthesizes their
+  own inlined `??_G`, which loses while no copy is proven. Either a verified home
+  for the 0x007CEFAC vtable that proves the owner's copy retail (retail-truth-3
+  then lets the wrong copies stand), or consolidating the teardowns back into
+  their retail TU, `pointgr.cpp`, would clear them. No source trial; no hatch
+  (`#pragma optimize`) considered.
+- **Clearance:** preview scope (the units above) on current objects.
+- **Census confirmation:** awaiting the next census.
+
 ## Investigation-specific validation limitation
 
 The initial investigation preserved a pre-existing BFME 1 checkout at

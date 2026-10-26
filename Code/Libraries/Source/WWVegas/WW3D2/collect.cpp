@@ -154,6 +154,10 @@ private:
 #include "chunkio.h"
 #include "camera.h"
 #include "wwdebug.h"
+// Declared before snappts.h instantiates it: declaring the dtor only stops cl
+// synthesizing this unit's /G7 scalar deleting destructor copy, first in link
+// order; retail's is 0x000F1CF7 (vector_class_vector3_ctor.cpp).
+template <> VectorClass<Vector3>::~VectorClass();
 #include "snappts.h"
 #include "assetmgr.h"
 #include "ww3d.h"
