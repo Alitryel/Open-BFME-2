@@ -56,3 +56,21 @@ This demonstrates a prerequisite unblock, not a later Luna landing. File
 reduction, retired debt and recovered C++ bytes are all zero. Keep the two source,
 new header, this handoff and ten RVA claims until publication is confirmed;
 release explicit existing-row RVA claims as well as file claims after landing.
+
+## Inherited batch recheck, 2026-10-26
+
+The next session recovered the rebased prerequisite commits `05315ab7e0`
+(EyeTower), `c68ece0e45` (Energy), and `65fbeb2793` (TerrainRoads handoff).
+The official five-source build still passes 17/17 function rows and its data
+row; the frozen-file check and both saved provider/COMDAT/data-binding proof
+scripts pass. Fresh normal dry-runs still accept Energy's ten rows and
+EyeTower's seven rows, with the same remaining STL/header blockers. No merge
+was applied. Receipts: `build/codex4-{energy,eyetower}-recovery-trial.txt`.
+
+Reaudited the complete `origin/master..HEAD` batch: no existing source path
+moves, deletes or renames; the two new private headers have precisely the five
+intended consumers, all verified above. Active tools, hooks, workflows and
+registries require no repointing; historical paths and protected debt keys
+remain intact. Receipt: `build/codex4-recovery-path-audit.txt`. The inherited
+25 claims remain held until publication is confirmed. This recovery adds no
+recovered bytes, file reduction or debt retirement.
