@@ -20428,8 +20428,8 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A03E70,4,.data,global,?TheWeaponBonusUpgradePoolKey@?1??rva0004B55EE@WeaponBonusUpgrade@@SA?AW4NameKeyType@@XZ@4W43@A,Code/GameEngine/Source/Common/System/WeaponBonusUpgradePoolKey.cpp,owned,,1,2
 0x00A03E74,4,.data,global,?g_Va00E03E74@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E03Exx.cpp,provisional,?$S1@?1??rva0004B55EE@WeaponBonusUpgrade@@SA?AW4NameKeyType@@XZ@4IA@Code/GameEngine/Source/Common/System/WeaponBonusUpgradePoolKey.cpp;?g_Va00E03E74@@3IA,2,4
 0x00A03E78,4,.data,global,_s_rva007B20F6,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
-0x00A03E7C,4,.data,global,?TheWeaponSetUpgradePoolKey@?1??rva0004B56B1@WeaponSetUpgrade@@SA?AW4NameKeyType@@XZ@4W43@A,Code/GameEngine/Source/Common/System/WeaponSetUpgradePoolKey.cpp,owned,,1,2
-0x00A03E80,4,.data,global,?g_Va00E03E80@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E03Exx.cpp,provisional,?$S1@?1??rva0004B56B1@WeaponSetUpgrade@@SA?AW4NameKeyType@@XZ@4IA@Code/GameEngine/Source/Common/System/WeaponSetUpgradePoolKey.cpp;?g_Va00E03E80@@3IA,2,4
+0x00A03E7C,4,.data,global,?TheWeaponSetUpgradePoolKey@?1??rva0004B56B1@WeaponSetUpgrade@@SA?AW4NameKeyType@@XZ@4W43@A,Code/GameEngine/Source/GameLogic/Object/Upgrade/WeaponSetUpgrade.cpp,owned,,1,2
+0x00A03E80,4,.data,global,?g_Va00E03E80@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E03Exx.cpp,provisional,?$S1@?1??rva0004B56B1@WeaponSetUpgrade@@SA?AW4NameKeyType@@XZ@4IA@Code/GameEngine/Source/GameLogic/Object/Upgrade/WeaponSetUpgrade.cpp;?g_Va00E03E80@@3IA,2,4
 0x00A03E84,4,.data,global,_s_rva007B2120,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A03E88,4,.data,global,?TheGarrisonUpgradePoolKey@?1??rva0004B57F4@GarrisonUpgrade@@SA?AW4NameKeyType@@XZ@4W43@A,Code/GameEngine/Source/Common/System/GarrisonUpgradePoolKey.cpp,owned,,1,2
 0x00A03E8C,4,.data,global,?g_Va00E03E8C@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E03Exx.cpp,provisional,?$S1@?1??rva0004B57F4@GarrisonUpgrade@@SA?AW4NameKeyType@@XZ@4IA@Code/GameEngine/Source/Common/System/GarrisonUpgradePoolKey.cpp;?g_Va00E03E8C@@3IA,2,4

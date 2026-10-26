@@ -1504,20 +1504,6 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 
-// Retail VA 0x00C58020: 1 fields and the zero sentinel.
-// The matched registration proves the class relationship; retail supplies
-// every token, offset and callback. Global spelling is descriptive.
-extern const FieldParse BfmeWeaponSetUpgradeFields[] = {
-	{ "WeaponCondition", &Rva002C8C06Parse, 0, 0x118 },
-	{ 0, 0, 0, 0 }
-};
-
-void WeaponSetUpgradeModuleData::buildFieldParse(MultiIniFieldParse &parse)
-{
-	parse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	parse.add(BfmeWeaponSetUpgradeFields, 0);
-}
-
 // ?buildFieldParse@RemoveUpgradeUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z
 // retail 0x004B7F82 (34 bytes): double-add on the rowed ModuleData getter
 // table 0x4CE29D with extraOffset 8 then own table 0x00C58EA0 holding

@@ -41,3 +41,32 @@ Read-only rejected trials (no claims or source edits):
 No rejected candidate was applied or claimed. These prerequisites require the
 Sol lane; do not repeat unchanged dry runs. No identity debt retirement or
 recovered bytes are claimed.
+
+## WeaponSetUpgrade accepted composition, 2026-10-26
+
+Shard allocation and the scoped planner currency check passed for
+`Code/GameEngine/Source/GameLogic/Object/Upgrade/WeaponSetUpgrade.cpp`.
+The split trial carved `0x004B56F6` from
+`ModuleDataBuildFieldParseChained.cpp`; it moved the sole initialized
+`BfmeWeaponSetUpgradeFields` definition and preserved 62 residual rows. The
+merge accepted that split and the unchanged
+`WeaponSetUpgradePoolKey.cpp` donor (`0x004B56B1`). The separate constructor
+donor remained rejected, C2511: its constructor signature is not declared in
+`WeaponSetUpgrade`.
+
+The split-side build passed for both files, then the merged TU build passed
+3/3 matched functions and its byte-verified data row. Both declaration scans,
+`check_csv.py`, and `git diff --cached --check` passed. The staged code identity
+gate found zero new findings. `data_check.py --staged` reported two shadow
+`wrong-name` findings for the static pool-key locals at `0x00A03E7C` and
+`0x00A03E80`; the existing pool-key identity debt remains with Sol, and no
+identity key was retired. The report for the prior split-provider defect
+documents the duplicate table fix and its object-level provider comparison.
+
+The source path audit found no active references to the absorbed pool-key
+filename in tools, hooks, workflows, build inputs, or registries; source
+provenance comments and historical ledger evidence retain the old spelling.
+The current source batch still needs the pre-push link-batch report for
+selected providers, lost bytes, input freshness, and affected consumer
+bindings. No C++ bytes were recovered and the new destination plus absorbed
+donor leaves the source-file count unchanged for this TU.
