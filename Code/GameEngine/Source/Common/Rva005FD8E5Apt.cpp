@@ -27,7 +27,7 @@ public:
 };
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 extern const char *g_Va0087A290[];
-struct Rva005FD8E5Entry
+struct ArmyUnitSwapperSlot
 {
 	char m_pad[16];
 	int m_commandPoints;
@@ -48,13 +48,13 @@ public:
 	int m_level4;
 	Rva005FD788Inner *m_inner8;
 	char m_padC[16];
-	Rva005FD8E5Entry m_entries[1];
+	ArmyUnitSwapperSlot m_entries[1];
 	void SetSlotString(int index, const char *suffix, const UnicodeString &text);
 	void SetCommandPoints(int index, int a, int b);
 };
 void StrategicHUD::ArmyUnitSwapperMovieClip::Impl::SetCommandPoints(int index, int commandPoints, int maxCommandPoints)
 {
-	Rva005FD8E5Entry *entry = &m_entries[index];
+	ArmyUnitSwapperSlot *entry = &m_entries[index];
 	if (commandPoints == entry->m_commandPoints && maxCommandPoints == entry->m_maxCommandPoints)
 		return;
 	SetSlotString(index, "CP", StrategicHUD::FormatCPString(commandPoints, maxCommandPoints));
