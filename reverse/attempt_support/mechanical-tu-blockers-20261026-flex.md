@@ -150,3 +150,21 @@ special member absent). For `RiderChangeContain.cpp`, no donor merged; its
 `ModuleNameGetters.cpp` carve matches alone but donor composition fails with
 C2953 `StringBase` template redefinition. The `DockUpdate.cpp` dry run was
 allowed to finish; no second compiler trial was started.
+
+## Luna shard continuation — W3DPropDraw and Keyboard
+
+- `W3DPropDraw.cpp`: accepted the unchanged `W3DPropDrawModuleDataDtor.cpp`
+  donor and byte-verified five rows including the three EH rows. Its staged TU,
+  data and ownership checks pass. Shadow identity reports one new divergent
+  `??1ModuleData@@UAE@XZ` definition. The pool-key row lacks its class member
+  declaration (C2039), the module-data ctor initializes absent member
+  `m_distanceFog` (C2614), and the react donor duplicates `Coord3D` (C2011).
+- `Keyboard.cpp`: dry-run accepted its three donors plus the TU seed and
+  byte-verified 15 rows; `KeyboardInitUpdate.cpp` loses a member declaration
+  and duplicates `KEY_STATE_DOWN`, while `KeyboardRva00232AE8.cpp` and
+  `rva00232B7BRva00232B7BFarm.cpp` conflict on `_STL::allocator`. Applying the
+  accepted donors was refused before writing because `hatch_counters.py`
+  requires the prior W3D merge's modified files to be committed first. Retry
+  after that commit; no Keyboard source or ledger change was applied.
+- `MaxHealthUpgrade.cpp`: accepted no donors. Its module and implementation
+  donors both require an undeclared `getModuleNameKey` member (C2039).
