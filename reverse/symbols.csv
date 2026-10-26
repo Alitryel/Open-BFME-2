@@ -2611,7 +2611,6 @@ name,address,notes
 ??1?$DynamicVectorClass@K@@UAE@XZ,0x0018A1D0,twin of dup row object-symbol proves real name for ??_G call
 ??1?$DynamicVectorClass@PAULegacyMaterialClass@MeshLoadContextClass@@@@UAE@XZ,0x0018A1A0,twin of dup row object-symbol proves real name for ??_G call
 ??1?$DynamicVectorClass@PAVHAnimComboDataClass@@@@UAE@XZ,0x00196B50,ICF twin of rowed VectorClass dtor at same address; called by DynamicVectorClass deleting dtor 0x197470
-??1?$DynamicVectorClass@PAVRender2DClass@@@@UAE@XZ,0x001A3AB0,called by deleting dtor 0x1A3EB0 object-symbol of dup row
 ??1?$DynamicVectorClass@PAVRenderObjClass@@@@UAE@XZ,0x001A3AB0,DynamicVectorClass<RenderObjClass*> destructor: the AggregateDefClass::Build_Subobject_List unwind funclets destroy their local vector by jumping to this ICF-shared DynamicVectorClass pointer-vector destructor (also pinned for Render2DClass*)
 ??1?$DynamicVectorClass@PAVTextureClass@@@@UAE@XZ,0x0018A200,twin of dup row object-symbol proves real name for ??_G call
 ??1?$DynamicVectorClass@PAVVertexMaterialClass@@@@UAE@XZ,0x0016F580,twin of dup row 0x0016F580 whose object-symbol is this dtor; call site 0x0016FF33 in 30B deleting dtor
