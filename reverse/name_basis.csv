@@ -2557,3 +2557,4 @@ local,Rva003EE746ColorProvider::color::c,Rva003EE746ColorProvider::color::region
 class,Bfme5Obj18,AriesUdp,inferred,agree:nl-d7b045afdb40,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
 carry,Bfme5Obj18::m_ownerVtable,AriesUdp::m_ownerVtable,inferred,scope renamed by Rename Bfme5Obj18 to AriesUdp (inferred),Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
 carry,Bfme5Obj18::m_listenerVtable,AriesUdp::m_listenerVtable,inferred,scope renamed by Rename Bfme5Obj18 to AriesUdp (inferred),Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,
+param,QuadStrip2D::addStrip::x,QuadStrip2D::addStrip::strip,inferred,agree:nl-481c18addcba,Code/GameEngine/Source/Common/Rva005388C2Assign.cpp,0x005389D9

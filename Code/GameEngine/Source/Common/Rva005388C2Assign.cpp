@@ -41,7 +41,7 @@ class QuadStrip2D
 {
 public:
  	QuadStrip2D &rva005388F7(const QuadStrip2D &other);
- 	void addStrip(const BfmeFloat4Record00469C61 &x);
+ 	void addStrip(const BfmeFloat4Record00469C61 &strip);
  	void removeStrip(int index);
  	void clear();
     void rva0053892C(unsigned int count);
@@ -65,9 +65,9 @@ QuadStrip2D &QuadStrip2D::rva005388F7(const QuadStrip2D &other)
 	return *this;
 }
 
-void QuadStrip2D::addStrip(const BfmeFloat4Record00469C61 &x)
+void QuadStrip2D::addStrip(const BfmeFloat4Record00469C61 &strip)
 {
-	((_STL::vector<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> > *)&m_vec)->push_back(x);
+	((_STL::vector<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> > *)&m_vec)->push_back(strip);
 	m_20 = 1;
 }
 
