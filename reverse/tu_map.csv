@@ -25098,8 +25098,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x0035D1F0,28,code,,,-,,Code/GameEngine/Source/Common/Rva001DBAC3Derived.cpp
 0x0035D20C,166,code,,,-,,Code/GameEngine/Source/Main/AudioManagerFocusVolume.cpp
 0x0035D2B2,69,code,,,-,,Code/GameEngine/Source/GameClient/GUI/TransitionStyleSlotsBfme2.cpp
-0x0035D2F7,47,code,Code/GameEngine/Source/Common/Audio/GameAudio.cpp,approved,Z,Z=Code/GameEngine/Source/Common/Audio/GameAudio.cpp S=Code/GameEngine/Source/Common/Audio/GameAudio.cpp N=Code/GameEngine/Source/Main/AudioManager.cpp,Code/GameEngine/Source/Main/AudioManagerRegainFocus.cpp
-0x0035D326,5,code,Code/GameEngine/Source/Common/Audio/GameAudio.cpp,approved,S,S=Code/GameEngine/Source/Common/Audio/GameAudio.cpp N=Code/GameEngine/Source/Main/AudioManager.cpp,Code/GameEngine/Source/Main/AudioManagerRegainFocusThunk.cpp
+0x0035D2F7,47,code,Code/GameEngine/Source/Common/Audio/GameAudio.cpp,approved,Z,Z=Code/GameEngine/Source/Common/Audio/GameAudio.cpp S=Code/GameEngine/Source/Common/Audio/GameAudio.cpp N=Code/GameEngine/Source/Main/AudioManager.cpp,Code/GameEngine/Source/Common/Audio/GameAudio.cpp
+0x0035D326,5,code,Code/GameEngine/Source/Common/Audio/GameAudio.cpp,approved,S,S=Code/GameEngine/Source/Common/Audio/GameAudio.cpp N=Code/GameEngine/Source/Main/AudioManager.cpp,Code/GameEngine/Source/Common/Audio/GameAudio.cpp
 0x0035D32B,39,code,Code/GameEngine/Source/Common/S4BuiltRva0059D1F0.cpp,proposed,N,N=Code/GameEngine/Source/Common/S4BuiltRva0059D1F0.cpp,Code/GameEngine/Source/Common/Rva0059D1F0AttackNuggetFactory.cpp
 0x0035D352,11,code,,,-,,Code/GameEngine/Source/Common/Rva001DBAC3Derived.cpp
 0x0035D35D,87,code,,,-,,Code/GameEngine/Source/Common/Rva0059D1F0AttackNuggetFactory.cpp
