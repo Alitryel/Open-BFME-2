@@ -53,9 +53,9 @@ int Rva00380200::rva003802DF()
 {
     if (isReady() && (*(Rva002BA8F1Logic **)&TheLivingWorldLogic))
     {
-        int a = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
+        int maxRank = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
         int b = ((Rva002B2AFD *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic))->rva002B2AFD();
-        const int &r = b < a ? b : a;
+        const int &r = b < maxRank ? b : maxRank;
         return r;
     }
     else if (m_04)
@@ -63,16 +63,16 @@ int Rva00380200::rva003802DF()
         GameLogic *logic = TheGameLogic;
         if (logic->m_gameMode == 2 || logic->isInMultiplayerGame())
         {
-            int a = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
+            int maxRank = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
             int b = m_04->m_08;
-            const int &r = b < a ? b : a;
+            const int &r = b < maxRank ? b : maxRank;
             return r;
         }
         else
         {
-            int a = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
+            int maxRank = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
             int b = m_04->m_0C;
-            const int &r = b < a ? b : a;
+            const int &r = b < maxRank ? b : maxRank;
             return r;
         }
     }

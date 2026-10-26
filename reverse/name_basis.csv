@@ -2432,3 +2432,4 @@ carry,Rva002E3766Holder::Rva002E3777Invoke::enteringObject,Rva002E3766Holder::no
 function,?Rva002E3794Invoke@Rva002E3766Holder@@QAEXH@Z,?notifyObjectExited@Rva002E3766Holder@@QAEXH@Z,inferred,agree:nl-63ed1852c47d,Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3794
 carry,Rva002E3766Holder::Rva002E3794Invoke::exitingObject,Rva002E3766Holder::notifyObjectExited::exitingObject,inferred,scope renamed by Rename Rva002E3794Invoke to notifyObjectExited (inferred),Code/GameEngine/Source/Common/Rva002E3766Setter.cpp,0x002E3794
 function,?Rva002E6E7FEqualsOne@@YAII@Z,?isGroundLayer@@YAII@Z,inferred,agree:nl-292b1c99e2f3,Code/GameEngine/Source/Common/Rva002E6E6CGet.cpp,0x002E6E7F
+local,Rva00380200::rva003802DF::a,Rva00380200::rva003802DF::maxRank,inferred,agree:nl-ca71740eee76,Code/GameEngine/Source/Common/Rva003802DF.cpp,0x003802DF
