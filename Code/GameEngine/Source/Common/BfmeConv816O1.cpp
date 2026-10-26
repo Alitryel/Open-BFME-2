@@ -228,16 +228,12 @@ struct BfmeObjELH
 	BfmeVtblELH *m_bfmeVtbl;
 };
 
-extern int g_bfmeCountELH;
+extern unsigned int number_of_DX8_calls;
 
 
 void bfmeGoELHb(void *a)
 {
 	BfmeObjELH *o = reinterpret_cast<BfmeObjELH *>(DX8Wrapper::_Get_D3D_Device8());
 	o->m_bfmeVtbl->m_bfmeF92(o, a);
-	++g_bfmeCountELH;
+	++number_of_DX8_calls;
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_bfmeCountELH@@3HA=?number_of_DX8_calls@@3IA")

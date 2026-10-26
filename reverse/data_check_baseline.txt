@@ -16,7 +16,6 @@ Code/GameEngine/Source/Common/BfmeConv1424.cpp	wrong-name	?g_bfmeRegVLY@@3VBfmeR
 Code/GameEngine/Source/Common/BfmeConv1424.cpp	wrong-name	?g_bfmeRegVLZ@@3VBfmeRegVLZ@@A	0x009DF574
 Code/GameEngine/Source/Common/BfmeConv789.cpp	wrong-name	?g_bfmeCsDWC@@3UBfmeCsDWA@@A	0x009E0884
 Code/GameEngine/Source/Common/BfmeConv803O1.cpp	wrong-name	?g_bfmeObjEBL@@3VBfmeObjEBL@@A	0x00A01E68
-Code/GameEngine/Source/Common/BfmeConv816O1.cpp	wrong-name	?g_bfmeCountELH@@3HA	0x009EDA98
 Code/GameEngine/Source/Common/BfmeGrokOdIf0.cpp	duplicate-def	?g_bfme0130b254@@3UGen_0082ad50@@A	0x009DF574
 Code/GameEngine/Source/Common/BfmeGrokOdIf0.cpp	wrong-name	?g_bfme0130b254@@3UGen_0082ad50@@A	0x009DF574
 Code/GameEngine/Source/Common/BfmeOwnVVDCtor.cpp	wrong-name	?TheTacticalView@@3PAVTacticalView@@A	0x009FEA3C
