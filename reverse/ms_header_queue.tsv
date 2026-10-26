@@ -124,7 +124,6 @@ Code/GameEngine/Source/Common/BfmeObject476Copy.cpp	drop-in candidate	same	2	2	0
 Code/GameEngine/Source/Common/BfmeOneHundredSeventyOne.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<string.h>	no	no	hand		prove with ./build.sh: byte gate is the authority	strlen:same,strcpy:same
 Code/GameEngine/Source/Common/BfmeThingCDEDestructor.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<math.h>,<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	ceil:same,operator delete [ ]:same
 Code/GameEngine/Source/Common/BfmeThingCDEInitializeArray.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<new>	no	yes	hand		prove with ./build.sh: byte gate is the authority	operator new [ ]:same,operator delete [ ]:same
-Code/GameEngine/Source/Common/ButtonFlashTransitionUpdate.cpp	drop-in candidate	same	2	2	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	FALSE:same,TRUE:same
 Code/GameEngine/Source/Common/ConnectionManagerInit2.cpp	drop-in candidate	same	2	1	0	0	0	0	0	1	0	0	0	<adoint.h>,<new>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	operator delete:same
 Code/GameEngine/Source/Common/Containers/Rva00311974SplineGet.cpp	drop-in candidate	same	2	1	0	0	0	0	0	1	0	0	0	<math.h>,<adoctint.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	fabs:same
 Code/GameEngine/Source/Common/Containers/Rva00311DD9SplineDraw.cpp	drop-in candidate	same	2	1	0	0	0	0	0	1	0	0	0	<math.h>,<adoctint.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	fabs:same

@@ -26,10 +26,6 @@
 typedef int Int;
 typedef bool Bool;
 
-#ifndef FALSE
-#define FALSE 0
-#define TRUE 1
-#endif
 
 enum
 {
@@ -212,15 +208,15 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (m_isForward || !m_win)
 				break;
-			m_win->winHide(TRUE);
-			m_isFinished = TRUE;
+			m_win->winHide(true);
+			m_isFinished = true;
 		}
 		break;
 	case BUTTONFLASHTRANSITION_FADE_IN_1:
 		{
 			if (!m_win)
 				break;
-			m_win->winHide(TRUE);
+			m_win->winHide(true);
 			if (m_isForward)
 				m_drawState = BUTTONFLASHTRANSITION_FADE_IN_1;
 			else
@@ -231,7 +227,7 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (!m_win)
 				break;
-			m_win->winHide(TRUE);
+			m_win->winHide(true);
 			if (m_isForward)
 				m_drawState = frame;
 			else
@@ -242,7 +238,7 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (!m_win)
 				break;
-			m_win->winHide(TRUE);
+			m_win->winHide(true);
 			if (m_isForward)
 				m_drawState = frame;
 			else
@@ -253,7 +249,7 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (!m_win)
 				break;
-			m_win->winHide(TRUE);
+			m_win->winHide(true);
 			if (m_isForward)
 				m_drawState = frame;
 			else
@@ -264,7 +260,7 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (!m_win)
 				break;
-			m_win->winHide(TRUE);
+			m_win->winHide(true);
 			if (m_isForward)
 				m_drawState = frame;
 			else
@@ -275,7 +271,7 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (!m_win)
 				break;
-			m_win->winHide(TRUE);
+			m_win->winHide(true);
 			if (m_isForward)
 				m_drawState = frame;
 			else
@@ -286,7 +282,7 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (!m_win)
 				break;
-			m_win->winHide(TRUE);
+			m_win->winHide(true);
 			if (m_isForward)
 				m_drawState = frame;
 			else
@@ -299,12 +295,12 @@ void ButtonFlashTransition::update(Int frame)
 				break;
 			if (m_isForward)
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = frame;
 			}
 			else
 			{
-				m_win->winHide(TRUE);
+				m_win->winHide(true);
 				m_drawState = BUTTONFLASHTRANSITION_FADE_TO_GRADE_OUT_4;
 			}
 		}
@@ -315,12 +311,12 @@ void ButtonFlashTransition::update(Int frame)
 				break;
 			if (m_isForward)
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = frame;
 			}
 			else
 			{
-				m_win->winHide(TRUE);
+				m_win->winHide(true);
 				m_drawState = BUTTONFLASHTRANSITION_FADE_TO_GRADE_OUT_3;
 			}
 		}
@@ -331,12 +327,12 @@ void ButtonFlashTransition::update(Int frame)
 				break;
 			if (m_isForward)
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = frame;
 			}
 			else
 			{
-				m_win->winHide(TRUE);
+				m_win->winHide(true);
 				m_drawState = BUTTONFLASHTRANSITION_FADE_TO_GRADE_OUT_2;
 			}
 		}
@@ -347,12 +343,12 @@ void ButtonFlashTransition::update(Int frame)
 				break;
 			if (m_isForward)
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = frame;
 			}
 			else
 			{
-				m_win->winHide(TRUE);
+				m_win->winHide(true);
 				m_drawState = BUTTONFLASHTRANSITION_FADE_TO_GRADE_OUT_1;
 			}
 		}
@@ -363,12 +359,12 @@ void ButtonFlashTransition::update(Int frame)
 				break;
 			if (m_isForward)
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = frame;
 			}
 			else
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = BUTTONFLASHTRANSITION_FADE_TO_GRADE_IN_2;
 			}
 		}
@@ -379,12 +375,12 @@ void ButtonFlashTransition::update(Int frame)
 				break;
 			if (m_isForward)
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = frame;
 			}
 			else
 			{
-				m_win->winHide(FALSE);
+				m_win->winHide(false);
 				m_drawState = BUTTONFLASHTRANSITION_FADE_TO_GRADE_IN_1;
 			}
 		}
@@ -393,8 +389,8 @@ void ButtonFlashTransition::update(Int frame)
 		{
 			if (!m_isForward || !m_win)
 				break;
-			m_win->winHide(FALSE);
-			m_isFinished = TRUE;
+			m_win->winHide(false);
+			m_isFinished = true;
 		}
 		break;
 	}
@@ -480,7 +476,7 @@ void ButtonFlashTransition::update(Int frame)
 				end.x = start.x + centerImage->getImageWidth();
 				reinterpret_cast<W3DDisplay *>(TheDisplay)->rva0004D6B3((Image *)centerImage, start.x, start.y,
 					end.x, end.y, color, 2);
-				TheDisplay->enableClipping(FALSE);
+				TheDisplay->enableClipping(false);
 			}
 
 			start.x = origin.x + xOffset;

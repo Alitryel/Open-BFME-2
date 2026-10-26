@@ -53,3 +53,22 @@ Local receipts under `build/codex-cleanup-20261025/`:
 `iteration30-accept.log`, `iteration30-link-preview.log`, and the normal
 `iteration30-commit.log`. The before object is retained for independent
 COFF review.
+
+## Completed shared gate and boolean cleanup
+
+Commit `44c05332d2` passes the normal dependent gate over 255 sources:
+1,955 functions, 25 data rows, two STLport folds, 536 literals plus 61
+empty references, 778 float references and 229 imports. Converged-data
+enforcement reports zero second names and zero unjudged rows. The hook's
+separate changed-source repeat is not added to those totals.
+
+The next whole-file change removes the local TRUE/FALSE definitions and
+uses C++ `true`/`false` at all 24 boolean arguments and assignments. No
+Windows header is needed for these language literals. Normal verification
+retains all three rows; the complete 13-section/2,413-byte/93-relocation
+COFF comparison and every external symbol are unchanged. Frozen check
+passes. The owning Microsoft-header scan reports clean and its scoped
+refresh removes exactly the one row for these two macros, preserving all
+unrelated queue bytes. Receipts: `iteration31-build.log` and the normal
+`iteration31-commit.log`; no remaining queued header or MS-header item
+belongs to this file.
