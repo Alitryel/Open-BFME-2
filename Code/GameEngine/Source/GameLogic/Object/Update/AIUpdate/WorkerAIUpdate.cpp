@@ -345,139 +345,7 @@ UpdateSleepTime WorkerAIUpdate::update( void )
 //-------------------------------------------------------------------------------------------------
 /** The entry point of a construct command to the Dozer */
 //-------------------------------------------------------------------------------------------------
-// ?construct@WorkerAIUpdate@@ present-unmatched
-Object *WorkerAIUpdate::construct( const ThingTemplate *what, 
-																	 const Coord3D *pos, 
-																	 Real angle, 
-																	 Player *owningPlayer,
-																	 Bool isRebuild )
-{
-
-	// !!! NOTE: If you modify this you must modify the dozer too !!!
-	// !!! Graham: Please please please have inspiration for how to *not* duplicate this code
-	// GS - Construct needs to be an AI primitive.  Inheriting off of AIUpdate means you are writing a 
-	// master brain that will call AI primitives on the object, not something that does stuff itself.
-  // SupplyTruckAI decides who to call AIDock on.  Worker should decide to AIDock or AIConstruct 
-	// or AIRepair.  Dozer should just use the latter two.  No construction logic should be in 
-	// the inherited AIUpdates at all.
-
-	// create our machines if they don't yet exist
-	///@todo make 'construct' a real AI command and you won't need a special case
-
-	m_isRebuild = isRebuild;
-
-	createMachines();
-
-	// sanity
-	if( what == NULL || pos == NULL || owningPlayer == NULL )
-		return NULL;
-
-	// sanity
-	DEBUG_ASSERTCRASH( getObject()->getControllingPlayer() == owningPlayer,
-										 ("Dozer::Construct - The controlling player of the Dozer is not the owning player passed in\n") );
-
-	// if we're not rebuilding, we have a few checks to pass first for sanity
-	if( isRebuild == FALSE )
-	{
-
-		// AI has weaker restriction on building
-		Bool dozerIsAI = owningPlayer->getPlayerType() == PLAYER_COMPUTER;
-		if( dozerIsAI )
-		{
-
-			// validate the the position to build at is valid
-			if( TheBuildAssistant->isLocationLegalToBuild( pos, what, angle,
-																										 BuildAssistant::CLEAR_PATH |
-																										 BuildAssistant::NO_OBJECT_OVERLAP,
-																										 getObject(), NULL ) != LBC_OK )
-				return NULL;
-		
-		}  // end if
-		else
-		{
-
-			// make sure the player is capable of building this
-			if( TheBuildAssistant->canMakeUnit( getObject(), what ) != CANMAKE_OK )
-				return NULL;
-
-			// validate the the position to build at is valid
-			if( TheBuildAssistant->isLocationLegalToBuild( pos, what, angle,
-																										 BuildAssistant::TERRAIN_RESTRICTIONS |
-																										 BuildAssistant::CLEAR_PATH |
-																										 BuildAssistant::NO_OBJECT_OVERLAP |
-																										 BuildAssistant::SHROUD_REVEALED,
-																										 getObject(), NULL ) != LBC_OK )
-				return NULL;
-
-		}  // end else
-
-	}  // end if
-
-	// what will our initial status bits
-	ObjectStatusMaskType statusBits = MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_UNDER_CONSTRUCTION );
-	if( isRebuild )
-		statusBits.set( OBJECT_STATUS_RECONSTRUCTING );
-
-	// create an object at the destination location
-	Object *obj = TheThingFactory->newObject( what, owningPlayer->getDefaultTeam(), statusBits );
-
-	// even though we haven't actually built anything yet, this keeps things tidy
-	obj->setProducer( getObject() );
-	obj->setBuilder( getObject() );
-
-	// leave the supply truck state and now behave like a dozer.
-	exitingSupplyTruckState();
-	
-	// take the required money away from the player
-	if( isRebuild == FALSE )
-	{
-		Money *money = owningPlayer->getMoney();
-
-		money->withdraw( what->calcCostToBuild( owningPlayer ) );
-
-	}  // end if
-		
-	//
-	// set a bit that this object is under construction, it is important to do this early
-	// before the hooks add/subtract power from a player are executed
-	//
-	obj->setStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_UNDER_CONSTRUCTION ) );
-
-	// initialize object
-	obj->setPosition( pos );
-	obj->setOrientation( angle );
-
-	// Flatten the terrain underneath the object, then adjust to the flattened height. jba.
-	TheTerrainLogic->flattenTerrain(obj);
-	Coord3D adjustedPos = *pos;
-	adjustedPos.z = TheTerrainLogic->getGroundHeight(pos->x, pos->y);
-	obj->setPosition(&adjustedPos);
-
-	// Note - very important that we add to map AFTER we flatten terrain. jba.
-	TheAI->pathfinder()->addObjectToPathfindMap( obj );
-
-	// "callback" event for structure created (note that it's not yet "complete")
-	owningPlayer->onStructureCreated( getObject(), obj );
-
-	// set a construction percent for the new object to zero and a status for under construction
-	obj->setConstructionPercent( 0.0 );
-
-	// newly constructed objects start at one hit point
-	BodyModuleInterface *body = obj->getBodyModule();
-	body->internalChangeHealth( -body->getHealth() + 1.0f );
-
-	// set the model action state to awaiting construction
-	obj->clearAndSetModelConditionFlags(
-		MAKE_MODELCONDITION_MASK2(MODELCONDITION_PARTIALLY_CONSTRUCTED, MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED), 
-		MAKE_MODELCONDITION_MASK(MODELCONDITION_AWAITING_CONSTRUCTION)
-	);
-
-	// we have a construction pending
-	newTask( DOZER_TASK_BUILD, obj );
-
-	return obj;
-				
-} 
+// WorkerAIUpdate::construct: Zero Hour copy removed; the BFME 2 construction path is rowed in WorkerAIUpdateCtor.cpp.
 
 // ------------------------------------------------------------------------------------------------
 /** We just exited from a supply truck task and are now idle, we should go back to Dozer idle
@@ -870,19 +738,12 @@ EMPTY_DTOR(ActAsSupplyTruckState)
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ??1WorkerStateMachine@@MAE@XZ present-unmatched
-WorkerStateMachine::~WorkerStateMachine()
-{
-}
+// WorkerStateMachine::~WorkerStateMachine: Zero Hour copy removed (it emitted non-retail vftables).
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@WorkerStateMachine@@MAEXPAVXfer@@@Z present-unmatched
-void WorkerStateMachine::crc( Xfer *xfer )
-{
-	StateMachine::crc(xfer);
-}  // end crc
+// WorkerStateMachine::crc: Zero Hour copy removed.
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer Method */
@@ -1034,33 +895,13 @@ void WorkerAIUpdate::removeBridgeScaffolding( Object *bridgeTower )
 }  // end removeBridgeScaffolding
 
 //------------------------------------------------------------------------------------------------
-// ?startBuildingSound@WorkerAIUpdate@@UAEXPBVAudioEventRTS@@W4ObjectID@@@Z present-unmatched
-void WorkerAIUpdate::startBuildingSound( const AudioEventRTS *sound, ObjectID constructionSiteID )
-{
-	m_buildingSound = *sound;
-	m_buildingSound.setObjectID( constructionSiteID );
-	m_buildingSound.setPlayingHandle( TheAudio->addAudioEvent( &m_buildingSound ) );
-}
+// WorkerAIUpdate::startBuildingSound: Zero Hour copy removed.
 
 //------------------------------------------------------------------------------------------------
-// ?finishBuildingSound@WorkerAIUpdate@@UAEXXZ present-unmatched
-void WorkerAIUpdate::finishBuildingSound()
-{
-	TheAudio->removeAudioEvent( m_buildingSound.getPlayingHandle() );
-}
+// WorkerAIUpdate::finishBuildingSound: Zero Hour copy removed.
 
 //------------------------------------------------------------------------------------------------
-// ?getUpgradedSupplyBoost@WorkerAIUpdate@@ present-unmatched
-Int WorkerAIUpdate::getUpgradedSupplyBoost() const
-{
-	Player *player = getObject()->getControllingPlayer();
-	static const UpgradeTemplate *workerShoeTemplate = TheUpgradeCenter->findUpgrade( "Upgrade_GLAWorkerShoes" );
-		
-	if (player && workerShoeTemplate && player->hasUpgradeComplete(workerShoeTemplate))
-		return getWorkerAIUpdateModuleData()->m_upgradedSupplyBoost;
-	else
-		return 0;
-}
+// WorkerAIUpdate::getUpgradedSupplyBoost: Zero Hour copy removed.
 
 
 // ------------------------------------------------------------------------------------------------
