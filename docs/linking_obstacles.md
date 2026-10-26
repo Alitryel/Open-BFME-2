@@ -175,6 +175,14 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open. Updated: 2026-10-26.**
 
+- **RepairDock transfer prerequisite (2026-10-26):**
+  [the scoped receiver repair](../reverse/attempt_support/consolidation-repairdock-xfer-prerequisite-20261026-codex.md)
+  shares the pool-key and transfer receiver. Normal composition now accepts
+  four donors, five rows / 203 bytes instead of three donors / 137 bytes.
+  Strict-current edited objects preserve all non-debug sections and code/data
+  reference facts; provider candidates and bindings are unchanged. Constructor
+  C2511, action C2039 and both mixed donors remain. No merge, debt retirement,
+  linked-byte gain or census confirmation is claimed.
 - **SpecialPowerCreate declaration prerequisite (2026-10-26):**
   [the bounded pool/callback repair](../reverse/attempt_support/consolidation-specialpowercreate-view-20261026-codex.md)
   shares the existing measured callback receiver with the pool-key consumer.
