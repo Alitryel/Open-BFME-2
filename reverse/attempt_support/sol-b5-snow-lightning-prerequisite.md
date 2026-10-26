@@ -126,3 +126,43 @@ Final progress.py origin/master: BYTE-MATCHED 7,978,500 (100%); LINKING
 47e030bafc. All deltas zero; no new census or ownership receipt. This session's
 result is the verified extra lightning donor accepted by normal composition;
 file reduction, recovered bytes and debt retirements each remain zero.
+
+## Recovery verification, 2026-10-26 11:12 UTC
+
+The next session found a clean tree and two rebased, unpublished commits:
+2fd1e86bfd (prerequisite) and c227ff7a1c (handoff). No preserved source edit,
+preparation backup or running build needed recovery. `git pull --rebase origin
+master` and `check_csv.py` passed. Keep the six file claims above until these
+commits actually land; a queued publisher response is not publication.
+
+Fresh `./build.sh` on the five Snow consumers plus GameClient/Eva.cpp passes
+46/46 rows, 12 funclet pins and string/float/import checks using six current
+dependency receipts. The same six-source `find_declared_unmatched.py` passes.
+Rerunning the scoped provider, composed-selection and composed-binding proofs
+preserves all 27 selected definitions, both data sets and all 56 relocation
+bindings; no divergent duplicate provider appears. Composition uses the saved
+verified artifact from the inherited trial; no unchanged merge trial was
+repeated and no new merge is claimed.
+
+The outgoing compatibility audit covers both inherited commits and this
+recovery record. `git diff --name-status --find-renames origin/master..HEAD`
+shows only the two prerequisite edits and this handoff. Combined path and
+basename searches in tools, hooks, workflows, source/includes, docs and reverse
+registers find only the five expected header consumers and historical evidence.
+There are no path moves or active consumers needing updates. Neither affected
+source has a code-identity, data, header or MS-header debt key; W3DSnowMath's
+separate MS-header finding remains intact. File reduction, debt retirement and
+recovered bytes remain zero.
+
+Official BFME 1 master was fetched again: c0a8ed722b differs from the clean
+verified input ff391a5e90. A pointer advance still requires the full reference
+update verification outside this prerequisite scope; no success receipt or
+input change was made. The allocation queue remains family B shard 1/2 with
+no listed HELD entry. Per the inherited-work-first instruction, no new target
+or claim was selected before recovering publication of this batch.
+
+`progress.py origin/master` again reports BYTE-MATCHED 7,978,500 (100%),
+LINKING 7,370,962 (98.11%) and LINKED 7,614,012 (98.75%), all deltas zero.
+The remaining source prerequisites listed above are unchanged. After confirmed
+publication, release the six file claims and settle landed RVAs, then select a
+fresh allocated prerequisite. No maintainer-only runner or helper agent ran.
