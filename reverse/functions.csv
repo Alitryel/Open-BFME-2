@@ -29451,7 +29451,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ?refreshTerrain@Radar@@UAEXPAVTerrainLogic@@@Z,,0x002D7AA6,10,Code/GameEngine/Source/Common/System/Radar.cpp,matched,leaf clearer via Radar neighbours plus and-zero
 ?rva00028C70@Rva00028C70@@QAEHDH@Z,,0x00028C70,29,Code/GameEngine/Source/Common/Rva00028C70Forward.cpp,matched,Rva forwarder to bfmeFwdOneSUA via BfmeThingSUA cast
 ?rva006003A5@Rva006003FC@@QAEXPAVObject@@@Z,,0x006003A5,8,Code/GameEngine/Source/Common/Rva006003A5.cpp,matched,vslot via slot2 plus pinned performUpgradeFX
-?rva0033EF86@Rva0033EEC9@@QAEXPBUCoord3D@@@Z,,0x0033EF86,8,Code/GameEngine/Source/Common/Rva0033EF86.cpp,matched,leaf forward via member plus rowed setPosition
+?rva0033EF86@Rva0033EEC9@@QAEXPBUCoord3D@@@Z,,0x0033EF86,8,Code/GameEngine/Source/GameLogic/Object/Update/ProjectileStreamUpdate.cpp,matched,leaf forward via member plus rowed setPosition
 ?rva0042094D@Rva0042094D@@QAEHH@Z,,0x0042094D,24,Code/GameEngine/Source/Common/Rva0042094DGet.cpp,matched,bounded array getter 0-8 else 0
 ?xfer@RenderObjectUpdateModuleInfo@FXParticleSystem@@MAEXPAVXfer@@@Z,,0x00562182,177,Code/GameEngine/Source/GameClient/System/FXParticleSystem/RenderObjectUpdateModuleInfoXfer.cpp,matched,slot3 xfer CRC Version1 plus 12 vars plus mode
 ??0Rva0052BE33@@QAE@ABV0@@Z,,0x0052BE33,99,Code/GameEngine/Source/Common/System/Rva0052BE33CopyCtor.cpp,matched,Copy ctor three strings via pinned StringBase copy 0x000365F0 caller 0x0052C3AE unlocks 0x0052C392
