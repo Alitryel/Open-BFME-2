@@ -156,8 +156,6 @@ Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	wrong-name	?g_Va009FEDF0@@3P
 Code/GameEngine/Source/Common/Rva0050E9D3Enable.cpp	wrong-name	?g_Va00A01E48@@3PAUGlobalA01E48@@A	0x00A01E48
 Code/GameEngine/Source/Common/Rva00515921Permuted.cpp	wrong-name	?$S1@?1??goodCampaignRva00515921@@YAHM_N@Z@4IA	0x00A04900
 Code/GameEngine/Source/Common/Rva00515921Permuted.cpp	wrong-name	?campaign@?1??goodCampaignRva00515921@@YAHM_N@Z@4VAsciiString@@A	0x00A048FC
-Code/GameEngine/Source/Common/Rva005189CFText.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
-Code/GameEngine/Source/Common/Rva005189CFText.cpp	wrong-name	?g_00DB95F4@@3PAPBDA	0x009B95F4
 Code/GameEngine/Source/Common/Rva0051AF0BEnable.cpp	wrong-name	?g_009FEF10@@3PAVRva002BA8F1Logic@@A	0x009FEF10
 Code/GameEngine/Source/Common/Rva0051AF0BEnable.cpp	wrong-name	?g_Va009FE4CC@@3PAVRva00222479ByteOneSetter@@A	0x009FE4CC
 Code/GameEngine/Source/Common/Rva0051AF0BEnable.cpp	wrong-name	?g_Va00A01E48@@3PAUGlobalA01E48@@A	0x00A01E48

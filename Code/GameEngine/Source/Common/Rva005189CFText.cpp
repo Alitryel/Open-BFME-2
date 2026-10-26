@@ -82,11 +82,8 @@ class BfmeAptWindowManager
 public:
 	void bfmeSetText(const AsciiString &a, const UnicodeString &u, bool b);
 };
-class Rva00222A8BTarget
-{
-};
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
-extern const char *rva00202B6CNames[];
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+extern const char *BfmeLODLevelNames[];
 class AptOptions
 {
 	char m_pad[0x310];
@@ -98,7 +95,7 @@ void AptOptions::rva005189CF()
 {
 	AsciiString key;
 	if (m_310 >= 0 && m_310 <= 5)
-		key.format("APT:MasterOption_%s", rva00202B6CNames[m_310]);
+		key.format("APT:MasterOption_%s", BfmeLODLevelNames[m_310]);
 	UnicodeString u;
 	if (((StringBase<char> &)key).m_data != 0 && ((StringBase<char> &)key).m_data->length != 0)
 	{
@@ -107,5 +104,5 @@ void AptOptions::rva005189CF()
 		((StringBase<unsigned short> &)u).concat(L") - ");
 	}
 	((StringBase<unsigned short> &)u).concat(TheGameText->fetch("APT:CannotChangeGraphics", 0));
-	((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(AsciiString("APT:CannotChangeGraphics"), u, false);
+	g_bfmeAptWindowManager->bfmeSetText(AsciiString("APT:CannotChangeGraphics"), u, false);
 }
