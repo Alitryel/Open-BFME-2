@@ -178,6 +178,8 @@ public:
 class WaterTracksRenderSystem {
 public:
  WaterTracksRenderSystem();
+ ~WaterTracksRenderSystem();
+ void shutdown();void releaseTrack(FeNode *);
  void init();void ReAcquireResources();
  WaterTracksObj *bindTrack(waveType);
  void rva000FE188();
@@ -191,6 +193,7 @@ public:
  AsciiString filename;
 };
 
+class WaterTracksRenderSystem;
 extern WaterTracksRenderSystem *TheWaterTracksRenderSystem;
 
 class Rva0007E90ECallee {public:char unknown00[0x28];AsciiString file;void rva000FF5E6(int);};
