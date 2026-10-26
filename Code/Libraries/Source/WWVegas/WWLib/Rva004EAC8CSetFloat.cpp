@@ -11,7 +11,7 @@ struct Rva004EAC8CItem
 class Rva004EAC8C
 {
 public:
-	void rva004EAC8C(float v);
+	void rva004EAC8C(float delay);
 private:
 	void *pad0;
 	Rva004EAC8CItem *single;
@@ -19,14 +19,14 @@ private:
 	Rva004EAC8CItem **end;
 };
 
-void Rva004EAC8C::rva004EAC8C(float v)
+void Rva004EAC8C::rva004EAC8C(float delay)
 {
-	single->f = v;
+	single->f = delay;
 	Rva004EAC8CItem **e = end;
 	Rva004EAC8CItem **p = begin;
 	while (p != e)
 	{
-		(*p)->f = v;
+		(*p)->f = delay;
 		++p;
 	}
 }
