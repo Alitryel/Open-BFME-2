@@ -285,7 +285,7 @@ public:
 	int rva00536AF5(AsciiString factionPrefix);
 };
 
-static const char *kFactions[] = { "Men", "Elves", "Dwarves", "Isengard", "Mordor", "Wild" };
+extern const char *g_rva0033A3F4Table[];
 
 int UserPreferences::rva00535CE4(AsciiString factionPrefix)
 {
@@ -425,7 +425,7 @@ int UserPreferences::rva00535C40()
 	AsciiString dummy;
 	int sum = 0;
 	for (int i = 0; i < 6; ++i)
-		sum += rva00535BF6(AsciiString(kFactions[i]));
+		sum += rva00535BF6(AsciiString(g_rva0033A3F4Table[i]));
 	return sum;
 }
 
@@ -434,7 +434,7 @@ int UserPreferences::rva005373AF()
 	AsciiString dummy;
 	int sum = 0;
 	for (int i = 0; i < 6; ++i)
-		sum += rva00535CE4(AsciiString(kFactions[i]));
+		sum += rva00535CE4(AsciiString(g_rva0033A3F4Table[i]));
 	return sum;
 }
 
