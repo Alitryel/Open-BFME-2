@@ -37921,7 +37921,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x004D6C9C,16,code,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,proposed,K,K=Rva004D6C9C,Code/GameEngine/Source/GameLogic/AI/Squad.cpp
 0x004D6CAC,75,code,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/AI/Squad.cpp N=Code/GameEngine/Source/GameLogic/AI/Squad.cpp,Code/GameEngine/Source/GameLogic/AI/SquadGetAllObjectsAndRemoveDead.cpp
 0x004D6CF7,88,code,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,approved,S,S=Code/GameEngine/Source/GameLogic/AI/Squad.cpp N=Code/GameEngine/Source/GameLogic/AI/Squad.cpp,Code/GameEngine/Source/GameLogic/AI/SquadGetAllObjectsAndRemoveDead.cpp
-0x004D6D4F,70,code,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,approved,C,C=0x004D6CF7..0x004D6D95,Code/GameEngine/Source/Common/Gen0018BC70BfmeCompact.cpp
+0x004D6D4F,70,code,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,approved,C,C=0x004D6CF7..0x004D6D95,Code/GameEngine/Source/GameLogic/AI/Squad.cpp
 0x004D6D95,94,code,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,approved,C,C=0x004D6CF7..0x004D6DF3,Code/GameEngine/Source/GameLogic/AI/Squad.cpp
 0x004D6DF3,162,code-unledgered,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,approved,C,C=0x004D6CF7..0x004D6E95,
 0x004D6E95,47,code,Code/GameEngine/Source/GameLogic/AI/Squad.cpp,approved,C,C=0x004D6CF7..0x004D6EC4,Code/GameEngine/Source/GameLogic/AI/Squad.cpp

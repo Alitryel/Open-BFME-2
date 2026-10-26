@@ -70,3 +70,42 @@ The current source batch still needs the pre-push link-batch report for
 selected providers, lost bytes, input freshness, and affected consumer
 bindings. No C++ bytes were recovered and the new destination plus absorbed
 donor leaves the source-file count unchanged for this TU.
+
+## Additional allocated trials, 2026-10-26 (Shard 2/5)
+
+- `GarrisonContain.cpp`: allocator approved; scoped planner currency check and
+  `--plan` completed. Dry run accepted zero unchanged donors. Compile blockers
+  include `Coord3D` redefinitions (`Coord3D.h:7`), private/protected member
+  access (`ObjectModule::m_object`, `GarrisonContain::validateRallyPoint`,
+  `Team::m_id`), missing generated members (`GarrisonContain::rva0047801C`,
+  `rva004787B0`), and duplicate `Xfer`, `ObjectID`, `AsciiString`, `GameLogic`
+  or `_STL` declarations. All five mixed donors were left untouched.
+- `TerrainRoads.cpp`: allocator approved; scoped planner currency check and
+  `--plan` completed. Dry run accepted zero unchanged donors. Two donors fail
+  on the existing `SubsystemInterface` parse errors in
+  `reference/shims/subsystem_bfme2/subsystem_interface.h:36`; another needs
+  undeclared `TerrainRoadType::m_08`/`m_0C` and further members; one donor has a
+  byte mismatch; another refers to absent `TerrainRoadCollection` declarations.
+  No source, ledger, or claims were changed.
+
+## Squad compact merge completed, 2026-10-26 (Shard 2/5)
+
+`Squad.cpp` passed allocation and scoped planner checks. The approved unchanged
+`Gen0018BC70BfmeCompact.cpp` donor merged into Squad; the tool preserved four
+matched bodies and repointed the 70-byte body in `functions.csv` and `tu_map.csv`.
+The other two donors remain rejected: both hit duplicate `_STL::allocator`
+template/specialization errors in `reference/shims/bfmealloc/stl/_alloc.h`.
+The mixed `SquadGetAllObjectsAndRemoveDead.cpp` carve was inspected and refused
+because a namespace/extern-C block defines content; it remains untouched.
+
+Verification: `./build.sh Squad.cpp` passed 4/4 rows, its declaration scan and
+`check_csv.py` passed, staged code identity reported zero new findings, staged
+data identity reported zero findings, and the TU ownership check passed. No
+identity, data or header-queue keys referenced the absorbed path. The path audit
+found only tool-repointed owner entries (`functions.csv`, `tu_map.csv`), the
+stale census row in `reverse/link_status.csv` (retained as historical measurement),
+and historical attempt-support notes; tools, hooks, workflows, includes, build
+inputs and active registries have no hard-coded consumer for the donor path.
+The pre-push audit still must compare selected providers and affected consumers
+for this outgoing source change. This merge reduces Code source files by one;
+matched coverage is unchanged and no identity debt is claimed retired.
