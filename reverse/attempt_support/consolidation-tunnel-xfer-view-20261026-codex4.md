@@ -125,3 +125,25 @@ File reduction: zero. Identity debt retired: zero. Recovered C++ bytes: zero.
 The C++ TU count is unchanged; two private headers have been added across the
 batch. A dry-run acceptance is a prerequisite unblock, not a Luna landing,
 census increase or ownership receipt.
+
+## Inherited batch recovery, next session
+
+The next session found the two source prerequisites still unpublished, rebased
+as 197aa4aeb8 and 3149dc6f2a. No unfinished source edits or merge were present.
+After pulling master and passing check_csv.py (98,252 function rows), repeated
+`./build.sh` for the seed, list getter and Xfer: 13/13 matched; string, float
+and import checks pass. The same three sources pass find_declared_unmatched.py.
+Recomputed allowed_symbols._object_defs and data_check.object_facts from their
+current objects: every definition fingerprint, size, COMDAT selection, undefined
+reference and data binding equals the previous verified after-snapshot; no
+unread object. Receipts: build/codex4-recovery-build.txt and
+build/codex4-recovery-identity.txt. The earlier composition evidence remains
+applicable because all three consumer objects and source prerequisites agree.
+
+Reaudited origin/master..HEAD plus this handoff: no source paths move or vanish;
+the only new Code paths are the two private headers. Combined include searches
+across Code, tools, hooks, workflows and docs still show just the three built
+consumers and the prefix include. No active consumer or protected register needs
+repointing. Historical evidence and existing debt remain unchanged. Retain the
+previously listed claims until the publisher confirms the inherited batch lands.
+This is inherited recovery, excluded from new prerequisite results.
