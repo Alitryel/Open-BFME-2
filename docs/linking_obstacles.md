@@ -228,6 +228,14 @@ authored-byte previews or commit-title gains into a projected headline.
   Mixed/vendored rows, cross-family donor coordination and the active memory
   inventory update remain for a future merge. No merge, debt retirement, file
   reduction or census gain is claimed.
+- **BridgeTower interface trial (2026-10-26):**
+  [The restored partial-view trial](../reverse/attempt_support/consolidation-bridgetower-interface-prerequisite-20261026-codex.md)
+  preserves the 54-byte interface body and removes two unused private helper
+  definitions without changing retained sections or bindings. The full ordinary
+  dry run finds the seed/interface candidate but refuses its final retry with
+  stale cached diagnostics, reproducing the FireSpread/DebugIOCon verifier
+  defect. The source is restored and the false reject logged; fix the cache
+  separately before retrying. No accepted merge or source repair is claimed.
 - **TunnelTracker contain-list prerequisite (2026-10-26):**
   [The shared receiver/environment repair](../reverse/attempt_support/consolidation-tunneltracker-contain-prerequisite-20261026-codex.md)
   clears the contain-list refusal: ordinary composition now accepts seed plus
