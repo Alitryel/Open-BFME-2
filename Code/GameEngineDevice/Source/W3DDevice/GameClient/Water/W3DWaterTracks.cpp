@@ -164,7 +164,32 @@ struct FeNode {unsigned char m_pad0[0x30];int m_30;unsigned char m_pad1[0x3c-0x3
 
 enum waveType {WaveTypePond,WaveTypeOcean};
 
-class WaterTracksRenderSystem {public:WaterTracksObj *bindTrack(waveType);void rva000FE188();__declspec(noinline) FeNode*rva000FE207(const float*,const float*,int);unsigned char m_pad[0x10];FeNode *m_tail10;FeNode *m_head14;};
+// The separately matched constructor and init fix the resource fields at
+// 0/C, list links at 10/14, strips at 18/1C and filename at 28.
+class VertexMaterialClass;
+class ShaderClass {
+public:
+ ShaderClass() : bits(0x10441b) {}
+ static ShaderClass _PresetAlphaShader;
+ unsigned int bits;
+ enum CullMode { CULL_MODE_DISABLE=0 };
+ void Set_Cull_Mode(CullMode) {bits &= 0xffefffff;}
+};
+class WaterTracksRenderSystem {
+public:
+ WaterTracksRenderSystem();
+ void init();void ReAcquireResources();
+ WaterTracksObj *bindTrack(waveType);
+ void rva000FE188();
+ __declspec(noinline) FeNode *rva000FE207(const float *,const float *,int);
+ void *vertexBuffer,*indexBuffer;
+ VertexMaterialClass *material;
+ ShaderClass shader;
+ FeNode *m_tail10,*m_head14;
+ int stripX,stripY,batch;
+ float level;
+ AsciiString filename;
+};
 
 extern WaterTracksRenderSystem *TheWaterTracksRenderSystem;
 

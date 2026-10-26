@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /DNDEBUG /MD
 // BFME1 ba7ddda7e8 WaterTracksRenderSystemInit.cpp supplies init semantics.
 // Native000FE93B..000FE9C7 RET0 independently measures level+74, list10/14,
 // strips18/1C, material8 and shaderC. Constructor FE2A3 already rowed182B;
@@ -8,8 +8,13 @@
 // index/vertex allocation plus write-lock loop, confirming ReAcquireResources.
 // Reuse the donor's minimal material and shader call views. These avoid
 // importing unrelated mapper dependencies into this initializer.
+#include "ascii_string.h"
+struct FeNode {unsigned char m_pad0[0x30];int m_30;unsigned char m_pad1[0x3c-0x34];unsigned char m_flag3c;unsigned char m_pad2[0x58-0x3d];float m_58;float m_5c;float m_60;float m_64;unsigned char m_pad3[0xb0-0x68];FeNode *m_next;FeNode *m_prev;};
+class WaterTracksObj;
+enum waveType {WaveTypePond,WaveTypeOcean};
 class ShaderClass {
 public:
+ ShaderClass() : bits(0x10441b) {}
  static ShaderClass _PresetAlphaShader;
  unsigned int bits;
  enum CullMode { CULL_MODE_DISABLE=0 };
@@ -30,13 +35,18 @@ public:
 };
 class WaterTracksRenderSystem {
 public:
+ WaterTracksRenderSystem();
  void init();void ReAcquireResources();
+ WaterTracksObj *bindTrack(waveType);
+ void rva000FE188();
+ __declspec(noinline) FeNode *rva000FE207(const float *,const float *,int);
  void *vertexBuffer,*indexBuffer;
  VertexMaterialClass *material;
  ShaderClass shader;
- BfmeThingSH *used,*free;
+ FeNode *m_tail10,*m_head14;
  int stripX,stripY,batch;
  float level;
+ AsciiString filename;
 };
 void WaterTracksRenderSystem::init()
 {
@@ -46,15 +56,15 @@ void WaterTracksRenderSystem::init()
  material=VertexMaterialClass::Get_Preset((VertexMaterialClass::PresetType)0);
  shader=ShaderClass::_PresetAlphaShader;
  shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
- if(free || used)return;
+ if(m_head14 || m_tail10)return;
  int i=0;
  while(i<2000) {
-  BfmeThingSH *mod=new BfmeThingSH;
+  FeNode *mod=(FeNode *)new BfmeThingSH;
   if(!mod)break;
-  mod->prev=0;
-  mod->next=free;
-  if(free)free->prev=mod;
+  mod->m_prev=0;
+  mod->m_next=m_head14;
+  if(m_head14)m_head14->m_prev=mod;
   ++i;
-  free=mod;
+  m_head14=mod;
  }
 }
