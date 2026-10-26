@@ -80,7 +80,8 @@ private:
 }
 
 extern int BfmeLogicFramesPerSecond;
-extern const BfmeFixedStorage0004543D g_defaultStorage009FEFA4;
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 // +0x34/+0x38 members: the ctor unwind actions release them through the
 // rowed 0x0010F149 handle dtor.
@@ -146,11 +147,11 @@ Rva003B1101::Rva003B1101()
 	, m_7c(0.0f)
 {
 	_STL::vector<ScienceType, _STL::allocator<ScienceType> > &vec24 = m_24;
-	m_60.initFromStorages(g_defaultStorage009FEFA4, g_defaultStorage009FEFA4);
+	m_60.initFromStorages(
+		*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE),
+		*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE));
 	vec24.erase(vec24.begin(), vec24.end());
-	m_78.initFromStorages(g_defaultStorage009FEFA4, g_defaultStorage009FEFA4);
+	m_78.initFromStorages(
+		*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE),
+		*reinterpret_cast<const BfmeFixedStorage0004543D *>(&KINDOFMASK_NONE));
 }
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?g_defaultStorage009FEFA4@@3VBfmeFixedStorage0004543D@@B=?g_00DFEFA4StoragePrototype@@3PAEA")
