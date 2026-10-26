@@ -3965,6 +3965,10 @@ alternatename	Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicIn
 alternatename	Code/GameEngine/Source/GameClient/LivingWorld/LivingWorldIconSubObjectCtor.cpp	?rva003FCCC9@Rva003FB65C@@QAEXE@Z	1
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopy.cpp	??1Rva00078460Elem@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	??0TreeHintOpaque00304573@@QAE@ABU0@@Z	1
+alternatename	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	?clear@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@_STL@@QAEXXZ	1
+alternatename	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	?clear@?$_Rb_tree@HU?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@_STL@@QAEXXZ	1
+alternatename	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	?erase@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@2@@Z	1
+alternatename	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	?erase@?$_Rb_tree@HU?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@2@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/ResourceEntryOwnerRva004E7E3A.cpp	?cb@Cb00359D42@@UAEXHMD@Z	1
 alternatename	Code/GameEngine/Source/GameClient/ResourceEntryOwnerRva004E7E3A.cpp	?cb@Rva004E7E3AClaimantCallback@@UAEXHMD@Z	1
 alternatename	Code/GameEngine/Source/GameClient/Rva00222A8BAptCallLevel.cpp	?invoke@Rva00222A8BTarget@@QAEXPAXPBDH10000@Z	1
@@ -5928,10 +5932,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva002FFC74.cpp	??4R
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00301621.cpp	??1Rva00301621Record@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00332613.cpp	??0Rva00332613Record@@QAE@ABU0@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00337D21.cpp	??0Rva00337D21Record@@QAE@ABU0@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358E26.cpp	?clear@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@_STL@@QAEXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358E26.cpp	?erase@?$_Rb_tree@HU?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00358E26Record@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00358E26Record@@@_STL@@@2@@2@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358FEE.cpp	?clear@?$_Rb_tree@HU?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@_STL@@QAEXXZ	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358FEE.cpp	?erase@?$_Rb_tree@HU?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00358FEERecord@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00358FEERecord@@@_STL@@@2@@2@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00383A51.cpp	?clear@?$_Rb_tree@HU?$pair@$$CBHURva00383A51Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00383A51Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00383A51Record@@@_STL@@@2@@_STL@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00383A51.cpp	?erase@?$_Rb_tree@HU?$pair@$$CBHURva00383A51Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00383A51Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00383A51Record@@@_STL@@@2@@_STL@@QAEXU?$_Rb_tree_iterator@U?$pair@$$CBHURva00383A51Record@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva00383A51Record@@@_STL@@@2@@2@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00384ED4.cpp	?clear@?$_Rb_tree@HU?$pair@$$CBHURva00384ED4Record@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00384ED4Record@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00384ED4Record@@@_STL@@@2@@_STL@@QAEXXZ	1
@@ -17987,6 +17987,9 @@ pragma_optimize	Code/GameEngine/Source/GameClient/MapUtil.cpp	"t",off	1
 pragma_optimize	Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp	"",on	2
 pragma_optimize	Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp	"s",on	2
 pragma_optimize	Code/GameEngine/Source/GameClient/MapUtilGetDefaultMap.cpp	"t",off	1
+pragma_optimize	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	"",on	2
+pragma_optimize	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	"s",off	2
+pragma_optimize	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	"t",on	2
 pragma_optimize	Code/GameEngine/Source/GameClient/SubtitleManagerAccessors.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/SubtitleManagerAccessors.cpp	"s",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/View.cpp	"",on	1
@@ -19025,12 +19028,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00332613.cpp	"t
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00337D21.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00337D21.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00337D21.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358E26.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358E26.cpp	"s",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358E26.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358FEE.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358FEE.cpp	"s",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358FEE.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00383A51.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00383A51.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00383A51.cpp	"t",on	1
@@ -20617,6 +20614,10 @@ present_unmatched	Code/GameEngine/Source/GameClient/MapMetaDataCopyDeferred.cpp	
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	addMap@MapCache@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	getMapDir@MapCache@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/MapUtil.cpp	getUserMapDir@MapCache@@	1
+present_unmatched	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	Rva00358E26Record::operator<	1
+present_unmatched	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	Rva00358E26Record::operator==	1
+present_unmatched	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	Rva00358FEERecord::operator<	1
+present_unmatched	Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp	Rva00358FEERecord::operator==	1
 present_unmatched	Code/GameEngine/Source/GameClient/MessageStream/SelectionXlatTranslateGameMessage.cpp	SelectionTranslator::translateGameMessage	1
 present_unmatched	Code/GameEngine/Source/GameClient/ParabolicEase.cpp	clamp	1
 present_unmatched	Code/GameEngine/Source/GameClient/Rva00089894ArrayElement.cpp	Rva00089894ArrayElement::~Rva00089894ArrayElement	1
@@ -23538,10 +23539,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000556AB.cpp	
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva000556AB.cpp	Rva000556ABRecord::operator==	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva001DDBC6.cpp	Rva001DDBC6Record::operator<	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva001DDBC6.cpp	Rva001DDBC6Record::operator==	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358E26.cpp	Rva00358E26Record::operator<	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358E26.cpp	Rva00358E26Record::operator==	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358FEE.cpp	Rva00358FEERecord::operator<	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00358FEE.cpp	Rva00358FEERecord::operator==	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00383A51.cpp	Rva00383A51Record::operator<	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00383A51.cpp	Rva00383A51Record::operator==	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00384ED4.cpp	Rva00384ED4Record::operator<	1
