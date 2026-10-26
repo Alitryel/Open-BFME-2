@@ -3,6 +3,8 @@
 // carried at Open-BFME-1 575ba2b04743f190f069805fbdc59936123c45da.
 // Target: WB 126D0C0 names clientUpdate; native 4C9053..4C908B.
 // Only the accessed fields and virtual slots are modeled. No vtable is emitted.
+#include "AnimatedParticleSysBoneClientUpdateView.h"
+
 template<int N> class ParticleBoneDrawSlots : public ParticleBoneDrawSlots<N-1> {
 public:
     virtual void unknownSlot(char (*)[N]);
@@ -29,14 +31,6 @@ public:
 class Rva002B224BDwordField {
 public:
     int get() const;
-};
-class AnimatedParticleSysBoneClientUpdate {
-public:
-    virtual void clientUpdate();
-private:
-    void *moduleData;
-    Drawable *drawable;
-    unsigned life;
 };
 void AnimatedParticleSysBoneClientUpdate::clientUpdate()
 {
