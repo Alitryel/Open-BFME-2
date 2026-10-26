@@ -1,4 +1,4 @@
-// cl: /FIzh_ascii.h /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims
+// cl: /FIzh_ascii.h /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include
 // stlport
 // TU Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
@@ -57,6 +57,53 @@ public:
 	virtual unsigned getWidth();
 };
 
+// tu-skeleton: 0x005C4F88 29B ??_GProcessAnimateWindow@@UAEPAXI@Z -- matched in Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSpiralCtor.cpp (not merged yet)
+
+// tu-skeleton: 0x005C4FEB 4B ?get@Rva005C4FEBByteField@@QBEEXZ -- matched in Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowDestructors.cpp
+
+/*
+**	Command & Conquer Generals Zero Hour(tm)
+**	Copyright 2025 Electronic Arts Inc.
+**
+**	This program is free software: you can redistribute it and/or modify
+**	it under the terms of the GNU General Public License as published by
+**	the Free Software Foundation, either version 3 of the License, or
+**	(at your option) any later version.
+**
+**	This program is distributed in the hope that it will be useful,
+**	but WITHOUT ANY WARRANTY; without even the implied warranty of
+**	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**	GNU General Public License for more details.
+**
+**	You should have received a copy of the GNU General Public License
+**	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// Donor: GeneralsMD ProcessAnimateWindow.cpp and ProcessAnimateWindow.h at
+// BFME1 revision 10af19f44a89ab7ecc23195bb9a842ceafbc02c9.
+// The constructor was already verified at RVA0x005C4FEF. It installs the
+// BottomTimed vtable VA0x00C7481C, whose slot0 targets the shared deleting
+// destructor RVA0x005C5990/28B. That wrapper calls RVA0x005C6317/7B before
+// optional operator delete. The empty donor derived destructor runs the
+// inline base destructor and therefore restores the BASE vptr VA0x00C74804.
+// Native base table: deleting destructor RVA0x005C4F88/29B; four __purecall
+// entries at RVA0x0003B810; no-op setMaxDuration ret4 at RVA0x0047A69C.
+// This independently matches the donor abstract base's virtual hierarchy.
+// Derived dtors fold to this body; only BottomTimed claims its address.
+
+ProcessAnimateWindowSlideFromBottomTimed::~ProcessAnimateWindowSlideFromBottomTimed()
+{
+}
+
+ProcessAnimateWindowSlideFromBottomTimed::ProcessAnimateWindowSlideFromBottomTimed()
+{
+    m_maxDuration = 1000;
+}
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp
+
 // ---- from Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSpiralCtor.cpp
 
 // ??0ProcessAnimateWindowSpiral@@QAE@XZ @0x005C4FFF
@@ -65,10 +112,6 @@ ProcessAnimateWindowSpiral::ProcessAnimateWindowSpiral( void )
 	m_maxR = reinterpret_cast<BFMEDisplayWidthSlot *>(TheDisplay)->getWidth() / 2;
 	m_deltaTheta = .33f;
 }
-
-// tu-skeleton: 0x005C4FEB 4B ?get@Rva005C4FEBByteField@@QBEEXZ -- matched in Code/GameEngine/Source/Common/Disp8ByteFieldGetters.cpp (not merged yet)
-
-// tu-skeleton: 0x005C4FEF 16B ??0ProcessAnimateWindowSlideFromBottomTimed@@QAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowDestructors.cpp (not merged yet)
 
 // ---- from Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp
 
@@ -694,7 +737,62 @@ Bool ProcessAnimateWindowSlideFromRightFast::reverseAnimateWindow( AnimateWindow
 
 // tu-skeleton: 0x005C5112 211B ?initAnimateWindow@ProcessAnimateWindowSlideFromRight@@UAEXPAVAnimateWindow@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowRightFastInitReverse.cpp (not merged yet)
 
-// tu-skeleton: 0x005C51E5 233B ?reverseAnimateWindow@ProcessAnimateWindowSlideFromRight@@UAE_NPAVAnimateWindow@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSlideFromRightReverse.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSlideFromRightReverse.cpp
+
+#pragma optimize("gsy", on)
+
+#pragma optimize("", on)
+
+#pragma optimize("sy", on)
+
+#pragma optimize("", on)
+
+// ?reverseAnimateWindow@ProcessAnimateWindowSlideFromRight@@UAE_NPAVAnimateWindow@@@Z @0x005C51E5
+Bool ProcessAnimateWindowSlideFromRight::reverseAnimateWindow( AnimateWindow *animWin )
+{
+	if(!animWin)
+	{
+		DEBUG_ASSERTCRASH( animWin, ("animWin was passed into updateAnimateWindow as a NULL Pointer... bad bad bad!"));
+		return TRUE;
+	}
+	if(animWin->isFinished())
+		return TRUE;
+	if(timeGetTime() < animWin->getStartTime())
+		return FALSE;
+	GameWindow *win = animWin->getGameWindow();
+	if(!win)
+	{
+		DEBUG_ASSERTCRASH( win, ("animWin contains a NULL Pointer for it's GameWindow... Whatup wit dat?"));
+		return TRUE;
+	}
+	ICoord2D curPos = animWin->getCurPos();
+	ICoord2D startPos = animWin->getStartPos();
+	Coord2D vel = animWin->getVel();
+	curPos.x += (Int)vel.x;
+
+	if(curPos.x > startPos.x)
+	{
+		animWin->setFinished( TRUE );
+		win->winSetPosition(startPos.x, curPos.y);
+		return TRUE;
+	}
+	win->winSetPosition(curPos.x, curPos.y);
+	animWin->setCurPos(curPos);
+
+	ICoord2D endPos = animWin->getEndPos();
+	Real slowedX;
+	if( curPos.x - endPos.x <= m_slowDownThreshold )
+		slowedX = vel.x * m_speedUpRatio;
+	else
+		slowedX = -m_maxVel.x;
+	if( slowedX > -m_maxVel.x)
+		slowedX = -m_maxVel.x;
+	Coord2D slowedVel;
+	slowedVel.x = slowedX;
+	slowedVel.y = vel.y;
+	animWin->setVel(slowedVel);
+	return FALSE;
+}
 
 // tu-skeleton: 0x005C530D 208B ?initAnimateWindow@ProcessAnimateWindowSlideFromLeft@@UAEXPAVAnimateWindow@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowRightFastInitReverse.cpp (not merged yet)
 
@@ -729,8 +827,6 @@ Bool ProcessAnimateWindowSlideFromRightFast::reverseAnimateWindow( AnimateWindow
 // tu-skeleton: 0x005C6106 232B ?updateAnimateWindow@ProcessAnimateWindowSlideFromTop@@UAE_NPAVAnimateWindow@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/SlideTopUpdate.cpp (not merged yet)
 
 // tu-skeleton: 0x005C61EE 234B ?reverseAnimateWindow@ProcessAnimateWindowSlideFromTopFast@@UAE_NPAVAnimateWindow@@@Z -- matched in Code/GameEngine/Source/GameClient/GUI/SlideTopUpdate.cpp (not merged yet)
-
-// tu-skeleton: 0x005C6317 7B ??1ProcessAnimateWindowSlideFromBottomTimed@@UAE@XZ -- matched in Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowDestructors.cpp (not merged yet)
 
 // tu-skeleton: 0x005C631E 175B ?initReverseAnimateWindow@ProcessAnimateWindowSlideFromRightFast@@UAEXPAVAnimateWindow@@I@Z -- matched in Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowRightFastInitReverse.cpp (not merged yet)
 

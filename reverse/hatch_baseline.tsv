@@ -17948,14 +17948,12 @@ pragma_optimize	Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsHandl
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsHandlerWait.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/MapMetaData_MPPositionWriters.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/MapMetaData_MPPositionWriters.cpp	"t",on	1
-pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	"",on	2
-pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	"gsy",on	1
+pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	"",on	4
+pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	"gsy",on	2
+pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	"sy",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	"y",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowRightFastInitReverse.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowRightFastInitReverse.cpp	"y",on	2
-pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSlideFromRightReverse.cpp	"",on	2
-pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSlideFromRightReverse.cpp	"gsy",on	1
-pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSlideFromRightReverse.cpp	"sy",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSlideFromRightUpdate.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSlideFromRightUpdate.cpp	"gsy",on	1
 pragma_optimize	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindowSpiralInitReverse.cpp	"",on	2
