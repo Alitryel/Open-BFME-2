@@ -1538,7 +1538,6 @@ Code/GameEngine/Source/GameNetwork/Rva00803890FeslDtor.cpp	wrong-name	_Rva008038
 Code/GameEngine/Source/GameNetwork/WOLBrowser/Rva001776a0Cluster.cpp	wrong-name	?g_bfmeObjECF@@3VBfmeObjECFPtr@@A	0x009F7040
 Code/GameEngine/Source/GameNetwork/createServiceHubImpl.cpp	wrong-name	?g_Va0130A588@@3PAVServiceHubImpl@@A	0x00A09FA4
 Code/GameEngine/Source/GameNetwork/native_connection_timing_ConnectionManager_getPlayerName.cpp	wrong-name	?TheEmptyString@UnicodeString@@2V1@B	0x00A0C898
-Code/GameEngine/Source/Main/AudioManagerRegainFocus.cpp	wrong-name	?g_audioMixer@@3PAVAudioMixer@@A	0x009FE6E8
 Code/GameEngine/Source/Main/WinMain.cpp	wrong-name	?theBfmeDfe6e8@@3PAVBfmeDfe6e8@@A	0x009FE6E8
 Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerUnselectProvider.cpp	wrong-name	?TheVideoPlayer@@3PAVVideoPlayer@@A	0x00A0ABA8
 Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp	wrong-name	?TheW3DRadarFormatCaps@@3PAVW3DRadarFormatCaps@@A	0x009EDA7C
