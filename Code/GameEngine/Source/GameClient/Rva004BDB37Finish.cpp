@@ -65,7 +65,7 @@ public:
 
 private:
 	char m_pad00[0x1C];
-	void *m_20;
+	void *m_curDamageState;
 	int m_24;
 };
 
@@ -77,7 +77,7 @@ void Rva004BDB37::rva004BDB37()
 	bool immediate = false;
 	for (int remainingIterations = 3; remainingIterations != 0; --remainingIterations) {
 		edi->v21(1);
-		((Object *)(*(Thing **)((char *)this - 8)))->rva0028FCD9((int)m_20, m_24);
+		((Object *)(*(Thing **)((char *)this - 8)))->rva0028FCD9((int)m_curDamageState, m_24);
 		(*(Thing **)((char *)this - 8))->getDrawable()->rva00274176(immediate);
 	}
 	v10();

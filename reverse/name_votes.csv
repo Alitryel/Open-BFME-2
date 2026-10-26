@@ -7781,3 +7781,13 @@ Code/GameEngine/Source/Common/Rva003EFDF5.cpp|class||Rva003EFDF5Inner,10c2a65e1d
 Code/GameEngine/Source/Common/Rva0014D887Init.cpp|class||Rva0014D887Inner,1feea3aa189a1fd8a202c09a,gpt-6.1-sol,w4-10261022-9,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/Common/Rva0014D887Init.cpp|function|0x0014D887|rva0014D887,cc8e357b606cb95be57791c8,gpt-6.1-sol,w4-10261022-9,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|f,d350dd311609ed250c00cc0d,gpt-6.1-sol,w4-10261022-11,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva001F526E.cpp|class||Data001F526E,9286e44d2d045e874e3e7c52,gpt-6.1-sol,w5-10261028-7,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|a,3734c305874680394dc06a9b,gpt-6.1-sol,w5-10261028-7,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|b,6abb6d2a3a0a6dcdfd0dfad4,gpt-6.1-sol,w5-10261028-7,w-f0819d403c17,2026-10-26
+Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141DC0::pushFront|arg,13323173e6a033d1a8e429a2,gpt-6.1-sol,w5-10261028-8,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|DelegateDesc|f,bbed1dd92e3fc0c4eee9cf0b,gpt-6.1-sol,w5-10261028-11,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|param|MakeBinding|f,5c49d5bcf5d6fbeefdd72c45,gpt-6.1-sol,w5-10261028-11,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|param|computeCylinderEmissionPosition|z,b73863d9b5d29332e33a80d9,gpt-6.1-sol,w5-10261028-13,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|member|Rva004BDB37|m_20,bca814d4fc98afacedc8191a,gpt-6.1-sol,w5-10261028-14,w-f0819d403c17,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|bfmeFloorD|d,b5ddaa02bd7be0bd261cae60,gpt-6.1-sol,w5-10261028-16,w-f0819d403c17,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|bfmeCeilD|d,9278ca595e4a85f6f1553244,gpt-6.1-sol,w5-10261028-16,w-f0819d403c17,2026-10-26
