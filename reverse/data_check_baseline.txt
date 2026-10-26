@@ -315,7 +315,7 @@ Code/GameEngine/Source/Common/System/GarrisonUpgradePoolKey.cpp	wrong-name	?$S1@
 Code/GameEngine/Source/Common/System/GeometryUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B6ABF@GeometryUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03EF4
 Code/GameEngine/Source/Common/System/INI_Rva003396D3ParseKillerScience.cpp	wrong-name	?g_scienceStoreLoaded@@3HA	0x009FE0E0
 Code/GameEngine/Source/Common/System/LevelUpUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B3D61@LevelUpUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03DE8
-Code/GameEngine/Source/Common/System/LocomotorSetUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B3EC6@LocomotorSetUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03DF4
+Code/GameEngine/Source/GameLogic/Object/Upgrade/LocomotorSetUpgrade.cpp	wrong-name	?$S1@?1??rva0004B3EC6@LocomotorSetUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03DF4
 Code/GameEngine/Source/GameLogic/Object/Upgrade/MaxHealthUpgrade.cpp	wrong-name	?$S1@?1??rva0004B627F@MaxHealthUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03EBC
 Code/GameEngine/Source/Common/System/ModelConditionUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B63E3@ModelConditionUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03EC8
 Code/GameEngine/Source/Common/System/RadarUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B4727@RadarUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03E1C
