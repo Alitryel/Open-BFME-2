@@ -1275,3 +1275,23 @@ Census confirmation: awaiting the next census.
 - **Remaining / next check:** reconcile `HAnimClass` (and the HRaw/HCompressed overrides) to the
   retail layout above in one shared view for `hcanim.cpp`, `hrawanim.cpp`, `htree.cpp`,
   `HRawLoadW3D*.cpp`, re-verifying every virtual-call offset in their matched bodies.
+
+### LINK-024: `LivingWorldBuildingCtor.cpp` needs placeholder `Rva004E0D67` named `LivingWorldBuilding`
+Status: Open. Updated: 2026-10-26; inspected revision: d40f06e91c.
+Evidence / affected units: `Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBuildingCtor.cpp`
+(298 B) has three unresolved names on current inputs (`link_check.py`, index 47e030bafc):
+`??1LivingWorldBuilding@@UAE@XZ`, `?LoadPostProcess@LivingWorldBuilding@@UAEXXZ`, `??1Rva004E0790@@QAE@XZ`.
+Target facts: retail ctor 0x004E119C stores vptrs 0x00C61618 (Snapshot) and 0x00C61610 (RegionTurnObserverView).
+0x00C61618 slots: 0 = 0x004E0E5C (rowed `??_GRva004E0D67` in `OpaqueScalarDeletingDtorsB11.cpp`, which calls the
+dtor 0x004E0D67, rowed `??1Rva004E0D67` in `Rva004E0D67Dtor.cpp`), 1 = 0x000B3FD0 (the shared empty `ret`),
+2 = 0x004E0777 `GetSnapshotName`, 3 = 0x004E0E78 `DoXfer`. The ctor's +0x3C unwind funclet (0x0079198E) jumps to
+0x002B2E8E, the ICF-folded holder dtor already rowed as `??1ArmySummaryEntryRef@@QAE@XZ` (fold-proof in
+`Rva002B4076Dispatch.cpp`).
+Completed: none (investigation only).
+Remaining / next check: rename class `Rva004E0D67` to `LivingWorldBuilding` (dtor row and the B11 `??_G` row;
+drop the `??1Rva004E0D67` pin), reconciling B11's one-slot `EmitVtableTag` view with the ctor TU's vtables;
+give `LoadPostProcess` its empty body or a fold-proof row at 0x000B3FD0 (precedent: `SpawnArmy::loadPostProcess`);
+respell the ctor's `Rva004E0790` holder dtor to `ArmySummaryEntryRef` (or rename the class). Then
+`link_check.py` the ctor with `Rva004E0D67Dtor.cpp` and `OpaqueScalarDeletingDtorsB11.cpp`.
+Clearance: pending.
+Census confirmation: not claimed.
