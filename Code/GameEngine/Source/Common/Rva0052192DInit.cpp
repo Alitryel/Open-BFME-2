@@ -5,9 +5,9 @@
 extern int g_00E04930;
 // g_00E04930: matched references place it at VA 0xe04930 (zero-filled .bss).
 int g_00E04930;
-extern int g_00DD179C;
+extern int g_skirmishMode;
 // g_00DD179C: matched references place it at VA 0xdd179c (retail .data initial value -1).
-int g_00DD179C = -1;
+int g_skirmishMode = -1;
 struct GlobalA01E48;
 extern class Shell *TheShell;
 class Shell {
@@ -29,7 +29,7 @@ void AptSkirmish::OpenScreen(int mode)
 {
     if (g_00E04930 != 0)
         return;
-    g_00DD179C = mode;
+    g_skirmishMode = mode;
     ((Shell *)(*(GlobalA01E48 **)&TheShell))->push(AsciiString("Skirmish.apt"), false);
     if (g_00E04930 == 0)
         return;

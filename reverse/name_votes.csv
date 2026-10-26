@@ -8070,3 +8070,10 @@ Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp|param|Rva005D3CA6::rva005D3
 Code/GameEngine/Source/Common/Rva00034C90Finish.cpp|class||Rva00034C90Block,9df556f4b02fc1891ca7e46e,gpt-6.1-sol,w5-10261348-6,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|param|Rva005ED15DCreateAutoResolve|c,da850587e394675bc459d41e,gpt-6.1-sol,w5-10261348-10,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/Rva0052DB11.cpp|local|Rva0052DB11::rva0052DB11|s,87d79a6679cf66dadb741f02,gpt-6.1-sol,w5-10261348-11,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|param|Rva005ED15DCreateAutoResolve|b,e280687d869fb7ec7765c618,gpt-6.1-sol,w1-10261341-1,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp|param|Rva005ED15DCreateAutoResolve|c,da850587e394675bc459d41e,gpt-6.1-sol,w1-10261341-1,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|member|Rva004BDB37|m_24,50b577c287b0e83023ffc461,gpt-6.1-sol,w1-10261341-4,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva00404927Method.cpp|member|Rva00404901Coefficients|field04,3cbeb5a47fde48aa31861014,gpt-6.1-sol,w1-10261341-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva00404927Method.cpp|member|Rva00404901Coefficients|field08,06bef5298fa90a191f040205,gpt-6.1-sol,w1-10261341-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva002860CF.cpp|member|Rva002860CFS|m_10,6d5090bc9d1f9ddf7a0e94d6,gpt-6.1-sol,w1-10261341-8,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva0052192DInit.cpp|global||g_00DD179C,cfc1521924b8ea982bf14067,gpt-6.1-sol,w1-10261341-10,w-6d5d2b593eca,2026-10-26

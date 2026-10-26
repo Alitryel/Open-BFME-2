@@ -187,9 +187,9 @@ void StrategicVeterancy::Hide()
 
 // Retail 0x005ED15D (59 bytes, cdecl; unnamed in WorldBuilder): builds the
 // auto-resolve veterancy data StrategicInGameUI::BattleResolver keeps.
-StrategicVeterancy::Data *__cdecl Rva005ED15DCreateAutoResolve(void *livingWorldLogic, void *b, void *c)
+StrategicVeterancy::Data *__cdecl Rva005ED15DCreateAutoResolve(void *livingWorldLogic, void *livingWorldBattle, void *c)
 {
-	return new StrategicVeterancy::Data::AutoResolve(livingWorldLogic, b, c);
+	return new StrategicVeterancy::Data::AutoResolve(livingWorldLogic, livingWorldBattle, c);
 }
 
 // Native 0x005EC296..0x005EC422; WB 0x015EB200 independently confirms

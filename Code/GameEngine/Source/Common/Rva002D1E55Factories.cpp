@@ -238,11 +238,11 @@ private:
 	char m_pad[0x6DC];
 };
 
-extern int g_00DD179C;
+extern int g_skirmishMode;
 
 AptSkirmish *__stdcall Rva002D21BBCreate(void *context)
 {
-	return new AptSkirmish(context, g_00DD179C);
+	return new AptSkirmish(context, g_skirmishMode);
 }
 
 class Rva00523825;	// the factory row's return spelling
