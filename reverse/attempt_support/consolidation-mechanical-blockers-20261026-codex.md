@@ -156,3 +156,25 @@ and historical evidence; no active tool, hook, workflow, include or build
 consumer hard-codes the four absorbed file paths. The outgoing pre-push audit
 must still compare selected providers, COMDATs and affected consumers. Net
 source-file change is four files removed; all matched rows remain covered.
+
+## PlayerTemplate merge trial, 2026-10-26 (Shard 2/5)
+
+`PlayerTemplate.cpp` passed scoped planner and allocator checks. Its dry run
+accepted no unchanged donor among 15 donor files / 62 approved rows. Rejected
+donors require missing declarations/members (`rva001FD367`, `reset`,
+`m_playerTemplates`, `TheNameKeyGenerator`, `BfmeObject476`, vector operator[]),
+collide on STL templates/StringBase, or fail byte verification (the two
+`Rva001FD42B/458` destructors). The existing list/map helper donors have
+redefinition or declaration prerequisites. These require Sol's source work.
+
+Inspected all 16 mixed files listed by the plan with `--split FILE`; none had a
+split accepted unchanged for `PlayerTemplate.cpp`. Compile-based dry runs were
+rerun serially after an initial parallel inspection collided on the tool's
+shared temporary TU filename. `GapBodiesGE51.cpp` carved five rows but fails on
+StringBase and Rva001FD42B redefinitions; `PlayerTemplateProductionParsers.cpp`
+carved three rows but fails on `PlayerTemplateVector::operator[]`; and
+`ReloadIniFileNotices.cpp` carved two rows but fails on missing
+`PlayerTemplateStore::attemptReload` and `rva001B5384Slot2`. Other split blockers
+were no definition spells the row name, unsupported namespace/extern-C carve,
+residual loss of `0x000589BE`, or vendored source. No source change or claim was
+made. The initial parallel attempt left no scratch files under `Code/`.
