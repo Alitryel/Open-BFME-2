@@ -4695,6 +4695,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpda
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdateCtor.cpp	??0SupplyCenterDockUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdateCtor.cpp	?unused@BehaviorModuleOther@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdateUpdate.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/RepairDockUpdate.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/Rva005839A7IdResize.cpp	?resize@?$vector@URva005839A7Id@@V?$allocator@URva005839A7Id@@@_STL@@@_STL@@QAEXIURva005839A7Id@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/SupplyCenterDockUpdateConstructor.cpp	?supplyCenterDockUpdateIface1Anchor@SupplyCenterDockUpdateIface1@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/SupplyCenterDockUpdateConstructor.cpp	?supplyCenterDockUpdateIface2Anchor@SupplyCenterDockUpdateIface2@@UAEXXZ	1
@@ -4832,7 +4833,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdateCto
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdateCtor.cpp	_vtbl_00C6FFFC	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdateDtor.cpp	?setFloat@Secondary20@@UAEXM@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdateModuleDataCtor.cpp	_vtbl_00C4ED70	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/RepairDockUpdateModuleDataCtor.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/ReplaceObjectUpdateModuleDataCtor.cpp	_vtbl_00C56C78	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/ReplenishUnitsBehaviorCtor.cpp	_vtbl_00C49F20	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/ReplenishUnitsBehaviorCtor.cpp	_vtbl_00C49F68	1

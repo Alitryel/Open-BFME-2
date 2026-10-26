@@ -771,7 +771,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/RadiateFearUpdateModuleDataCtor.c
 Code/GameEngine/Source/GameLogic/Object/Update/RadiateFearUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00049BFDD@RadiateFearUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B40
 Code/GameEngine/Source/GameLogic/Object/Update/RadiusDecalUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000391445@RadiusDecalUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A027B4
 Code/GameEngine/Source/GameLogic/Object/Update/RainOfFireUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004AC148@RainOfFireUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03CF8
-Code/GameEngine/Source/GameLogic/Object/Update/RepairDockUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004A11F4@RepairDockUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03BA0
+Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/RepairDockUpdate.cpp	wrong-name	?$S1@?1??rva0004A11F4@RepairDockUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03BA0
 Code/GameEngine/Source/GameLogic/Object/Update/ReplaceObjectUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004B29FF@ReplaceObjectUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03DA4
 Code/GameEngine/Source/GameLogic/Object/Update/RespawnUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004AF116@RespawnUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03D6C
 Code/GameEngine/Source/GameLogic/Object/Update/RousingSpeechUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004ACED8@RousingSpeechUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03D14

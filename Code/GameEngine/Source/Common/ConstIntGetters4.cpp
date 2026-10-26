@@ -1094,14 +1094,6 @@ int Rva004A0E06Get(void)
 	return (int)"SupplyCenterDockUpdate";
 }
 
-// ?Rva004A11CEGet@@YAHXZ @ 0x004a11ce (6B): returns 0x00bf534c.
-// Follows a ret-8 (prev C2-08-00), carried by 1 .rdata vtable slot,
-// no direct callers, no branch sources. Opaque address-derived name.
-int Rva004A11CEGet(void)
-{
-	return (int)"RepairDockUpdate";
-}
-
 // ?Rva004A13E0Get@@YAHXZ @ 0x004a13e0 (6B): returns 0x00bf5068.
 // Follows a ret-8 (prev C2-08-00), carried by 1 .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.
