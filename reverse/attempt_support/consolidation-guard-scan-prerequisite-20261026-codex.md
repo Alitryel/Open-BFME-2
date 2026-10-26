@@ -153,3 +153,23 @@ remain intentional. The original scoped before/after provider and identity
 receipts remain available in build/; the recovery changes only this handoff.
 Publish this recovered batch before selecting another trial. Read and record
 the pre-push audit's freshness and selected-provider report.
+
+## Standalone-inline ordering trial
+
+After the recovered batch and SupplyWarehouse prerequisite, a bounded follow-up
+moved AIUpdateInterface::getGoalObject's inline body outside its class and added
+an early StateMachine forward declaration in the seed. The normal build kept
+**6/6** functions and one data row exact. The required frozen-file check refused
+the newly exposed standalone unrowed inline definition, however. The source
+was restored immediately; no present-unmatched marker, hatch or composition
+trial followed. The restored build again passed 6/6 and the frozen check passed.
+The exact boundary is recorded through re_log.py. Scratch source/object backups
+and build receipts are `build/codex-guard-order-*`.
+
+This is not a demonstrated additional donor unblock. A future repair needs
+complete compatible receiver declarations and honest row ownership, without
+exposing an unrowed body or weakening a check. The only retained AITNGuard
+source change is the already verified shared Object receiver. No additional
+claim was acquired for the abandoned trial; pending-publication file claims
+still protect that retained prerequisite. The outgoing source-path audit is
+unchanged by this documentation and attempt record.

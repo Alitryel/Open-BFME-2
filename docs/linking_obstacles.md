@@ -185,6 +185,9 @@ authored-byte previews or commit-title gains into a projected headline.
   A forward-declaration-only StateMachine trial admitted no further donors:
   its callers require the full receiver declaration. The trial was reverted
   and its exact compile boundary is recorded in the handoff and attempt log.
+  A standalone-inline ordering follow-up retained all six exact rows but the
+  frozen-file check refused its newly exposed unrowed helper; it was restored
+  before any further composition trial. Full receiver reconciliation remains.
   No merge, debt retirement, census gain or later Luna landing is claimed.
 - **DefaultProductionExitUpdate Xfer prerequisite (2026-10-26):**
   [canonical operand adoption](../reverse/attempt_support/consolidation-default-exit-xfer-prerequisite-20261026-codex.md)
