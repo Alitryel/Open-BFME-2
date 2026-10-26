@@ -104,3 +104,21 @@ evidence is retained in the preceding index handoff. No maintainer-only run
 was started. File reduction, identity debt retired and recovered C++ bytes:
 all zero. The verified result is prerequisite repair and scoped acceptance,
 with the remaining helper-provider blocker explicitly retained.
+
+## Recovery check, subsequent session
+
+Recovered clean unpublished evidence commits 6f40f71262 and eb2f3c3b03.
+Fresh pull/rebase and check_csv pass. Current ./build.sh on chunkio, its
+constructor donor, debug_except, ExceptionFilter and CopyDialogReport passes
+41/41 rows, three data rows, 139 literals, 13 empty strings and 38 imports.
+Re-running the saved selected-provider comparison reproduces zero changes
+for chunkio's 36 names and exactly the same three debug helper differences
+across 26 names; data binding/definition sets agree for both compositions.
+The saved composed objects remain scoped evidence, not fresh census receipts.
+
+Outgoing origin/master..HEAD plus this edit contains only evidence and the
+attempt log: no source moves or path consumer updates. BFME1 official fetch
+finds clean pinned ff391a5e versus upstream 2e633fd1; preserve verified inputs
+with the inherited full-update verification blocker and no success marker.
+No source claims or unfinished Code edits were inherited. Publication retried
+with this recovery commit, keeping evidence claims until confirmed landing.
