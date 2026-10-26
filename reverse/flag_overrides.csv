@@ -202,7 +202,6 @@ Code/GameEngine/Source/Common/Rva0013107ACtor.cpp,-O1,2,2,region default loses r
 Code/GameEngine/Source/Common/Rva00148AC4Contains.cpp,-O1,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva0015A390OwnerCtor_Rva00548FAC.cpp,-Os,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva00170999.cpp,-O1,9,8,region default loses rows
-Code/GameEngine/Source/Common/Rva001718A0MeshUnlink.cpp,-G7,2,2,region default loses rows
 Code/GameEngine/Source/Common/Rva0024D60.cpp,-Od,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva0033A68AWrapper.cpp,-O1,1,1,region default loses rows
 Code/GameEngine/Source/Common/Rva0037E270Lookup.cpp,-O1,2,1,region default loses rows
@@ -646,6 +645,7 @@ Code/Libraries/Source/WWVegas/WW3D2/coltest.cpp,,2,2,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/distlod.cpp,,10,2,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp,-G7,14,7,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/matpass.cpp,,3,1,region default loses rows
+Code/Libraries/Source/WWVegas/WW3D2/meshmdl.cpp,-G7,2,2,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/pot.cpp,-G7,2,2,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/ringobj.cpp,,9,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp,-O2 -G7,5,5,region default loses rows
