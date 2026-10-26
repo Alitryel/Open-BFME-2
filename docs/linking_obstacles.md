@@ -175,6 +175,14 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open. Updated: 2026-10-26.**
 
+- **DefaultProductionExitUpdate Xfer prerequisite (2026-10-26):**
+  [canonical operand adoption](../reverse/attempt_support/consolidation-default-exit-xfer-prerequisite-20261026-codex.md)
+  retires one header-queue row while preserving all three matched rows, the
+  exact EH graph, 37 code definitions, 42 non-debug sections and every
+  code/data reference fact. No provider or consumer binding changes.
+  Composition still accepts no donors: pool/constructor members and legacy
+  Coord3D/Xfer definitions remain incompatible. No merge unblock, identity
+  retirement, census gain or later Luna landing is claimed.
 - **HeaderTemplate provider inspection (2026-10-26):**
   [The scoped inspection](../reverse/attempt_support/consolidation-headertemplate-pushfront-prerequisite-20261026-codex.md)
   confirms 3/3 exact creation rows but an incorrect typed node-provider chain:
