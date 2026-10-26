@@ -4,16 +4,7 @@
 typedef int Int;
 Int GetGameLogicRandomValue(Int lo, Int hi, char *file, int line);
 
-class LargeGroupAudioUpdate
-{
-public:
-	Int rva004AB7C8() const;
-
-private:
-	unsigned char m_pad00[0x14];
-	Int m_14;
-	Int m_18;
-};
+#include "LargeGroupAudioUpdateView.h"
 
 Int LargeGroupAudioUpdate::rva004AB7C8() const
 {
