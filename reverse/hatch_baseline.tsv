@@ -5330,6 +5330,7 @@ alternatename	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DGhostObjectSce
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DGhostObjectScene.cpp	?slot04@W3DGhostObject@@UAEXXZ	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DGhostObjectScene.cpp	?updateOrphanedObjects@GhostObjectManager@@UAEXPAHH@Z	1
 alternatename	Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DTerrainLogic.cpp	_strcpy	1
+alternatename	Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp	??RRva006038D4Less@@QBE_NPBD0@Z	1
 alternatename	Code/Libraries/Source/ATL/atlbase.cpp	??0Rva00800630Owner@@QAE@XZ	1
 alternatename	Code/Libraries/Source/ATL/atlbase.cpp	?m@Gen_00800540@@QAEPAXXZ	1
 alternatename	Code/Libraries/Source/ATL/atlimage.cpp	??1Bitmap@Gdiplus@@UAE@XZ	1
@@ -6083,7 +6084,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_copy_backward_assign24
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	??1stdio_istreambuf@_SgI@@UAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	??1stdio_ostreambuf@_SgI@@UAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_create_filebuf.cpp	?_S_count@_Loc_init@ios_base@_STL@@0JA	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_find_00603A2D.cpp	??RRva006038D4Less@@QBE_NPBD0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_copyrecord8_sort.cpp	??RBfmeCopyRecord8KeyAscending@@QBE_NABUBfmeCopyRecord8@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_copyrecord8_sort.cpp	??RBfmeCopyRecord8KeyDescending@@QBE_NABUBfmeCopyRecord8@@0@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_deque_e8_pushback_aux.cpp	?vectorSmallAllocate@_STL@@YAPAXII@Z	1
@@ -18150,6 +18150,8 @@ pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	"s",on	4
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/camerashakesystem_shaker.cpp	"",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/camerashakesystem_shaker.cpp	"s",on	1
+pragma_optimize	Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp	"",on	1
+pragma_optimize	Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/Apt/AptValue/Rva006CDE50Collect.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/Apt/AptValue/Rva006CDE50Collect.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/Apt/AptValueShutdownBFME2.cpp	"",on	1
@@ -19348,8 +19350,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/sharebuf_vector4_copy_ctor.c
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/sharebuf_vector4_copy_ctor.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/stlport_comparator_ptr_sort.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/stlport_comparator_ptr_sort.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_lookup_00603C0F.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_lookup_00603C0F.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/stlport_funptr_value_sort.cpp	"",on	1

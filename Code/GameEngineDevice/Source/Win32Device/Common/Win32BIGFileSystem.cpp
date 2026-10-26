@@ -7,6 +7,8 @@
 #define _STLP_BFME_TREE_NODE_BASE_O2  // emit retail's _Rb_tree_node_base::_S_minimum/_S_maximum (vendor/stlport/stl/_tree.h)
 #include <map>
 #define _STLP_BFME_TREE_NODE_BASE_O2  // emit retail's _Rb_tree_node_base::_S_minimum/_S_maximum (vendor/stlport/stl/_tree.h)
+#include <stl/_alloc.h>
+#pragma comment(linker, "/alternatename:??RRva006038D4Less@@QBE_NPBD0@Z=?Rva0006038D4CStrLess@@YG_NPBD0@Z")
 
 class Rva0060426C;
 
@@ -260,17 +262,72 @@ private:
 	TreeIntPtr00603FD2 m_04;
 };
 
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
+
+struct Rva00603A00Mapped
+{
+	unsigned int m_bits;
+};
+
+typedef _STL::pair<const char* const, Rva00603A00Mapped> Rva00603A00Pair;
+
+// Preserve retail's inline node/buffer free; the public allocator is supplied by its verified owner.
+namespace _STL {
+#pragma optimize("gsy", on)
+template <> __forceinline void allocator<_Rb_tree_node< ::Rva00603A00Pair > >::deallocate(_Rb_tree_node< ::Rva00603A00Pair > *p, size_t) const { if (p != 0) free(p); }
+#pragma optimize("", on)
+}
+
+typedef _STL::_Rb_tree<const char*, Rva00603A00Pair, _STL::_Select1st<Rva00603A00Pair>, _STL::less<const char*>, _STL::allocator<Rva00603A00Pair> > Rva00603A00Tree;
+
+template void Rva00603A00Tree::_M_erase(Rva00603A00Tree::_Link_type);
+
+template void Rva00603A00Tree::clear();
+
+template Rva00603A00Tree::~_Rb_tree();
+
+// Native603C52..603C57 tail JMP603AA8 to the sole owned tree destructor.
+// Unadjusted receiver only; original wrapper and enclosing type unknown.
+struct Rva00603C52TreeRelease { void release(); };
+
+typedef _STL::pair<const char* const, Rva00603A00Mapped> Rva00603A2DPair;
+
+typedef _STL::_Rb_tree<const char*, Rva00603A2DPair, _STL::_Select1st<Rva00603A2DPair>, Rva006038D4Less, _STL::allocator<Rva00603A2DPair> > Rva00603A2DTree;
+
+template Rva00603A2DTree::_Link_type Rva00603A2DTree::_M_find<const char*>(const char* const &) const;
+
 // tu-skeleton: 0x00603944 188B ?init@Win32BIGFileSystem@@UAEX_N@Z -- matched in Code/GameEngine/Source/Common/Win32BIGFileSystem_init.cpp (not merged yet)
 
-// tu-skeleton: 0x00603A00 45B ?_M_erase@?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@U?$less@PBD@2@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@AAEXPAU?$_Rb_tree_node@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp (not merged yet)
+// ---- from Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp
 
-// tu-skeleton: 0x00603A2D 82B ??$_M_find@PBD@?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@URva006038D4Less@@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@QBDURva00603A00Mapped@@@_STL@@@1@ABQBD@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_find_00603A2D.cpp (not merged yet)
+// ?_M_erase@?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@U?$less@PBD@2@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@AAEXPAU?$_Rb_tree_node@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@Z @ 0x00603A00 (45B).
+// ?clear@?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@U?$less@PBD@2@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@QAEXXZ @ 0x00603A7F (41B).
+// ??1?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@U?$less@PBD@2@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@QAE@XZ @ 0x00603AA8 (56B).
+// C-string keyed red-black tree node eraser in the 0x00600854-0x00604518 strcmp-keyed family.
+// Evidence: self-recursive right then left-walk with GameMemory free 0x00030830 matches the rowed
+// 45B int-int erase 0x000692F5 modulo reloc; caller is clear 0x00603A7F which passes root [eax+4];
+// sibling find 0x00603A2D uses the same header layout ([ebx]=header [edi+4]=root left+8 right+12)
+// with node key at +0x10 compared via the rowed C-string Less 0x006038D4, proving key PBD.
+// Comparator less<PBD> here is unproven by erase (no calls) and is a standard placeholder; the true
+// C-string ordering is proven by the sibling find. Mapped is an opaque trivial 4-byte placeholder;
+// erase/find bytes are independent of trivial mapped size and type, true mapped unknown.
 
-// tu-skeleton: 0x00603A7F 41B ?clear@?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@U?$less@PBD@2@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp (not merged yet)
+void Rva00603C52TreeRelease::release() {
+    reinterpret_cast<Rva00603A00Tree *>(this)->~_Rb_tree();
+}
 
-// tu-skeleton: 0x00603AA8 56B ??1?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@U?$less@PBD@2@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp (not merged yet)
+// ---- from Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_find_00603A2D.cpp
+
+// ??$_M_find@PBD@?$_Rb_tree@PBDU?$pair@QBDURva00603A00Mapped@@@_STL@@U?$_Select1st@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@URva006038D4Less@@V?$allocator@U?$pair@QBDURva00603A00Mapped@@@_STL@@@2@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@QBDURva00603A00Mapped@@@_STL@@@1@ABQBD@Z @ 0x00603A2D (82B).
+// C-string keyed _Rb_tree _M_find in the 0x00600854-0x00604518 strcmp-keyed family.
+// Evidence: SGI _M_find shape (y=header x=root loop with _S_key at +0x10 via rowed C-string Less 0x006038D4); prev/next rows 0x00603A00/0x00603A7F share header layout ([ebx]=header [edi+4]=root left+8 right+12) and // cl: flags; callers 0x00600B58 0x00603C2B 0x006045CA unblock on landing; node key at +0x10 compared via Less.
+// Comparator Rva006038D4Less is the shared strcmp ordering whose operator() body is byte-identical (27B) to the rowed free helper 0x006038D4; it is declared only here and pinned there as ICF twin. Mapped is the opaque 4-byte placeholder from the sibling erase TU; _M_find bytes are independent of trivial mapped type.
+// Both spellings consume two stack pointers and return the same bool; the
+// free provider ignores the comparator's extra ECX `this` value.
 
 // tu-skeleton: 0x00603AE0 42B ??0?$_Rb_tree@HU?$pair@$$CBHV?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@@_STL@@U?$_Select1st@U?$pair@$$CBHV?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHV?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@@_STL@@@2@@_STL@@QAE@ABU?$less@H@1@ABV?$allocator@U?$pair@$$CBHV?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@@_STL@@@1@@Z -- matched in Code/GameEngine/Source/GameLogic/Map/SidesListCtor.cpp (not merged yet)
+
+// ---- from Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp
 
 // ---- from Code/GameEngine/Source/Common/Rva00604374Create.cpp
 
@@ -421,14 +478,6 @@ Rva006044A0Pair Rva006044A0::rva0060458E(const Rva0060426C &v)
 	return rva006044A0(v);
 }
 
-// tu-skeleton: 0x00603B9C 115B ?_M_copy@?$_Rb_tree@IU?$pair@$$CBIPAX@_STL@@U?$_Select1st@U?$pair@$$CBIPAX@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIPAX@_STL@@@2@@_STL@@AAEPAU?$_Rb_tree_node@U?$pair@$$CBIPAX@_STL@@@2@PAU32@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_ptr_lower.cpp (not merged yet)
-
-// tu-skeleton: 0x00603C0F 67B ?rva00603C0F@Rva00603C0F@@QAEPBXPBD0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_lookup_00603C0F.cpp (not merged yet)
-
-// tu-skeleton: 0x00603C52 5B ?release@Rva00603C52TreeRelease@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp (not merged yet)
-
-// tu-skeleton: 0x00603C57 8B ??1Rva00603C57@@QAE@XZ -- matched in Code/GameEngine/Source/Common/RvaAdjustorDtorFamily.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/Common/Rva00603C5F.cpp
 
 int Rva00604465::rva00603C5F(const char *a)
@@ -515,10 +564,6 @@ File *Rva00603C0F::rva00603D02(const char *filename, int access, const Rva00603D
 	return localFile;
 }
 
-// tu-skeleton: 0x00603EEB 165B ??0?$_Rb_tree@IU?$pair@$$CBIPAX@_STL@@U?$_Select1st@U?$pair@$$CBIPAX@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIPAX@_STL@@@2@@_STL@@QAE@ABV01@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_ptr_lower.cpp (not merged yet)
-
-// tu-skeleton: 0x00603F90 28B ??_GRva00603C57@@QAEPAXI@Z -- matched in Code/GameEngine/Source/Common/FamilyDeletingDtors12.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/Common/Rva00604289Construct.cpp
 
 // ??0Rva0060426C@@QAE@ABV0@@Z @0x0060426C 29B: copy ctor copies dword +0 then map<unsigned void*> at +4 via rowed Rb_tree copy 0x00603EEB. Evidence: callers 0x00604289 0x006045A2; callee rowed.
@@ -541,12 +586,6 @@ Rva00603FD2::Rva00603FD2(unsigned const *a, TreeIntPtr00603FD2 const &b) : m_00(
 {
 }
 
-// tu-skeleton: 0x00603FEF 9B ??$_Destroy@VRva00603C57@@@_STL@@YAXPAVRva00603C57@@@Z -- matched in Code/GameEngine/Source/Common/DestroyInstances.cpp (not merged yet)
-
-// tu-skeleton: 0x00603FF8 548B ?getFileListInDirectory@Win32BIGFileSystem@@UBEXABVAsciiString@@00AAV?$set@VAsciiString@@UBfmeStringNoCaseLess@@V?$allocator@VAsciiString@@@_STL@@@_STL@@_N@Z -- matched in Code/GameEngine/Source/Common/System/Win32BIGFileSystemGetFileListInDirectory.cpp (not merged yet)
-
-// tu-skeleton: 0x0060421C 53B ?rva0060421C@Rva0060421C@@QAEXPAURva0060421CNode@@@Z -- matched in Code/GameEngine/Source/Common/RvaTreeEraseValueDtorFamily.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WWLib/RvaPairFactoryFamily.cpp
 
 // BFME1 donor 9cbfb551fe20dae985f91f2319d8997287b6a705 clean make_pair
@@ -559,6 +598,22 @@ Rva00603FD2::Rva00603FD2(unsigned const *a, TreeIntPtr00603FD2 const &b) : m_00(
 // Constructor definitions remain with their independently verified home units.
 
 Rva00603FD2 Rva00604251(const unsigned&key,const TreeIntPtr00603FD2&value) {return Rva00603FD2(&key,value);}
+
+// tu-skeleton: 0x00603B9C 115B ?_M_copy@?$_Rb_tree@IU?$pair@$$CBIPAX@_STL@@U?$_Select1st@U?$pair@$$CBIPAX@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIPAX@_STL@@@2@@_STL@@AAEPAU?$_Rb_tree_node@U?$pair@$$CBIPAX@_STL@@@2@PAU32@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_ptr_lower.cpp (not merged yet)
+
+// tu-skeleton: 0x00603C0F 67B ?rva00603C0F@Rva00603C0F@@QAEPBXPBD0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_lookup_00603C0F.cpp (not merged yet)
+
+// tu-skeleton: 0x00603C57 8B ??1Rva00603C57@@QAE@XZ -- matched in Code/GameEngine/Source/Common/RvaAdjustorDtorFamily.cpp (not merged yet)
+
+// tu-skeleton: 0x00603EEB 165B ??0?$_Rb_tree@IU?$pair@$$CBIPAX@_STL@@U?$_Select1st@U?$pair@$$CBIPAX@_STL@@@2@U?$less@I@2@V?$allocator@U?$pair@$$CBIPAX@_STL@@@2@@_STL@@QAE@ABV01@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_ptr_lower.cpp (not merged yet)
+
+// tu-skeleton: 0x00603F90 28B ??_GRva00603C57@@QAEPAXI@Z -- matched in Code/GameEngine/Source/Common/FamilyDeletingDtors12.cpp (not merged yet)
+
+// tu-skeleton: 0x00603FEF 9B ??$_Destroy@VRva00603C57@@@_STL@@YAXPAVRva00603C57@@@Z -- matched in Code/GameEngine/Source/Common/DestroyInstances.cpp (not merged yet)
+
+// tu-skeleton: 0x00603FF8 548B ?getFileListInDirectory@Win32BIGFileSystem@@UBEXABVAsciiString@@00AAV?$set@VAsciiString@@UBfmeStringNoCaseLess@@V?$allocator@VAsciiString@@@_STL@@@_STL@@_N@Z -- matched in Code/GameEngine/Source/Common/System/Win32BIGFileSystemGetFileListInDirectory.cpp (not merged yet)
+
+// tu-skeleton: 0x0060421C 53B ?rva0060421C@Rva0060421C@@QAEXPAURva0060421CNode@@@Z -- matched in Code/GameEngine/Source/Common/RvaTreeEraseValueDtorFamily.cpp (not merged yet)
 
 // tu-skeleton: 0x006042B6 149B ?rva006042B6@Win32BIGFileSystem@@UAE_NPBD0H@Z -- matched in Code/GameEngine/Source/GameClient/Rva006042B6.cpp (not merged yet)
 

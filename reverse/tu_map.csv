@@ -48800,10 +48800,10 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00603925,19,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/Rva00603925Next.cpp
 0x00603938,6,code,,,-,,Code/GameEngine/Source/Common/MiscStringGetters.cpp
 0x00603944,188,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,Z,Z=Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp S=Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp N=Code/GameEngine/Source/Common/Win32BIGFileSystem.cpp,Code/GameEngine/Source/Common/Win32BIGFileSystem_init.cpp
-0x00603A00,45,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603A2D,Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp
-0x00603A2D,82,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603A7F,Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_find_00603A2D.cpp
-0x00603A7F,41,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603AA8,Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp
-0x00603AA8,56,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603AE0,Code/Libraries/Source/WWVegas/WWLib/stlport_cstring_tree_erase_00603A00.cpp
+0x00603A00,45,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603A2D,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp
+0x00603A2D,82,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603A7F,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp
+0x00603A7F,41,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603AA8,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp
+0x00603AA8,56,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603AE0,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp
 0x00603AE0,42,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603B0A,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00603AE0.cpp
 0x00603B0A,146,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603B9C,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp
 0x00603B9C,115,code,Code/GameEngineDevice/Source/Win32Device/Common/Win32BIGFileSystem.cpp,approved,C,C=0x00603944..0x00603C0F,Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_ptr_lower.cpp
