@@ -888,7 +888,7 @@ separate strict receipt limitation encountered there.
 
 ### LINK-017: stale link index lacks strict receipts for pending consolidation providers
 
-**Status: Open. Updated: 2026-10-26; inspected revision: 78cb0834c7.**
+**Status: Open. Updated: 2026-10-26; inspected revision: c511118e28.**
 
 - **Evidence / scope:** outgoing `NetCommandRef.cpp`, `AptValueGCAllocator.cpp`
   and a mechanical MessageStream trial. `tools/link_check.py --fetch-index`
@@ -903,13 +903,21 @@ separate strict receipt limitation encountered there.
   `763dc8759f` and reported 55 source objects without current receipts. A
   subsequent `link_check.py --fetch-index` imported 22,673 objects but left the
   available index at `47e030bafc`; current `origin/master` later advanced to
-  `5ef173d2435`, so the provider/consumer comparison remains unverified.
+  `c511118e28`, so the provider/consumer comparison remains unverified.
+  `link_check.py --fetch-index` still returns `47e030bafc`. A fresh audit of the
+  pending RepairDockUpdate range marks its base inconclusive and reports 181
+  retired objects with provisional provider-disappeared findings. The newer
+  index does not yet verify that range.
   The 2026-10-26 AptRenderingContext trial added a current destination and
   refreshed strict receipts for its outgoing RepairDockUpdate composition and
   ConstIntGetters4 split. Its scoped audit still used index 763dc8759f, reported
   232 retired objects and provisional provider-disappeared findings, and marked
   the baseline inconclusive against current `origin/master`. The changed
   provider/consumer comparison remains unverified; the Apt trial was restored.
+  A later HighlanderBody merge/split trial refreshed all four outgoing objects,
+  but the audit against the same index still reported an inconclusive baseline,
+  264 retired objects and provisional provider-disappeared findings. That trial
+  also remains restored; no changed binding is verified from this index.
 - A `GameMemory.cpp` merge trial accepted four donors and byte-built 5/5 rows;
   its staged code-identity/data checks reported one shadow identity finding
   and zero data findings. The scoped audit against current `origin/master`
