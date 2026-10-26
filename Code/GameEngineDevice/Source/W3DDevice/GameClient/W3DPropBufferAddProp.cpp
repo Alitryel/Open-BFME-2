@@ -245,7 +245,7 @@ extern GlobalData *TheWritableGlobalData;
 struct PropBufferGlobalDataView
 {
 	char m_unrecovered00[ 0x1C ];
-	Bool m_bfmeGlobal1C;																											///< 0x1C
+	Bool m_showProps;																											///< 0x1C
 };
 
 struct TProp
@@ -320,7 +320,7 @@ Int W3DPropBuffer::addPropType(const AsciiString &modelName, Bool bfmeFlag)
 //=============================================================================
 void W3DPropBuffer::addProp(Int id, Coord3D location, Real angle,Real scale, const AsciiString &modelName, Bool bfmeFlag)
 {
-	if (!((const PropBufferGlobalDataView *)TheWritableGlobalData)->m_bfmeGlobal1C) {
+	if (!((const PropBufferGlobalDataView *)TheWritableGlobalData)->m_showProps) {
 		return;
 	}
 	if (m_numProps >= MAX_PROPS) {

@@ -25,9 +25,9 @@ private:
 // ?store_row absent-from-retail
 // TU-local inline equivalent of donor Vector4::Set: evaluate all input
 // components before writing the row, without emitting its wrong SSE COMDAT.
-static __forceinline void store_row(Vector4 &row, float a, float b, float c, float d)
+static __forceinline void store_row(Vector4 &row, float xComponent, float yComponent, float zComponent, float wComponent)
 {
- row.X = a; row.Y = b; row.Z = c; row.W = d;
+ row.X = xComponent; row.Y = yComponent; row.Z = zComponent; row.W = wComponent;
 }
 Rva0007B890MatrixBasisCtor::Rva0007B890MatrixBasisCtor(
  const Vector3 &xAxis, const Vector3 &yAxis, const Vector3 &zAxis, const Vector3 &position)
