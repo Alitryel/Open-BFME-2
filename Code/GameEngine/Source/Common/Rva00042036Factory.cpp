@@ -7,6 +7,8 @@ public:
 	~BfmeSnapshotBase();
 };
 
+#include <new>
+
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class GODupBase : public BfmeSnapshotBase, public SubsystemInterface
@@ -24,8 +26,6 @@ public:
 	Rva000647B5();
 	~Rva000647B5();
 };
-
-void *__cdecl operator new(unsigned int size);
 
 class Rva00042036
 {
