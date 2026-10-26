@@ -149,7 +149,7 @@ existing LINK-011 preview clearances retained for its two rows.
 | `Code/GameEngine/Source/GameLogic/Object/Rva005003C7EqualRange.cpp` | 24 | 2 (C=1, S=1) | Open |
 | `Code/GameEngine/Source/Common/BfmeThreeHundredThirtyFour.cpp` | 22 | 2 (U=2) | Open |
 | `Code/GameEngine/Source/Common/System/XferBlockWriter_rva009D86E0_Rva0060CB97.cpp` | 21 | 2 (U=2) | Open |
-| `Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarScheme_trolBarScheme_QAEXPAVControlBarSchemeAnimation_Z.cpp` | 18 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarScheme_trolBarScheme_QAEXPAVControlBarSchemeAnimation_Z.cpp` | 18 | 2 (U=2) | 2026-10-26 at b749c0bf05: repair landed / awaiting census. The owned table 0x0080CD88 was Zero Hour's (unrowed `parseImagePart`/`parseAnimatingPart`); now retail's 68 entries with the rowed factories 0x00320158/0x003201A9. link_check (index 47e030bafc): LINKS 0 -> 18 B; table consumers still link. |
 | `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AssaultTransportAIUpdate.cpp` | 17 | 2 (C=2) | Open |
 | `Code/GameEngine/Source/Common/System/BitFlagsClear.cpp` | 14 | 2 (C=1, S=1) | Open |
 | `Code/GameEngine/Source/GameLogic/Object/Die/DieModule.cpp` | 13 | 2 (U=2) | Open |
