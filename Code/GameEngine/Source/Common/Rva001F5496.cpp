@@ -33,11 +33,11 @@ private:
 void Rva001F5496::rva001F5496(const RvaSmartPtr12 &arg)
 {
 	m_smart = arg;
-	void *p = arg.m_ptr;
-	int v;
-	if (p != 0)
-		v = ((Target001F5496 *)p)->m_val;
+	void *m_slaveSystem = arg.m_ptr;
+	int m_slaveSystemID;
+	if (m_slaveSystem != 0)
+		m_slaveSystemID = ((Target001F5496 *)m_slaveSystem)->m_val;
 	else
-		v = 0;
-	m_val168 = v;
+		m_slaveSystemID = 0;
+	m_val168 = m_slaveSystemID;
 }

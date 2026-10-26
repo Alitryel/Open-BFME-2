@@ -90,8 +90,8 @@ if ((m_moduleData != 0 || m_moduleData == 0)) {
  if(value!=0x28 && value!=0x27) {_ReadWriteBarrier(); return true;}
  Rva0044EDA6Virt *virt=*(Rva0044EDA6Virt **)((char *)m_object+0x250);
  if(!virt)return false;
- unsigned a=virt->s69(0);unsigned b=virt->s28();
- if(a>=b)return false;
+ unsigned a=virt->s69(0);unsigned m_containMax=virt->s28();
+ if(a>=m_containMax)return false;
  _ReadWriteBarrier(); return true;
 }
 }

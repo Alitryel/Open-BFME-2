@@ -106,7 +106,7 @@ template <class T>
 class Rva005F4C8ERef
 {
 public:
-	__forceinline Rva005F4C8ERef(T *p) : m_p(p) { if (p) p->addRef(); }
+	__forceinline Rva005F4C8ERef(T *pointer) : m_p(pointer) { if (pointer) pointer->addRef(); }
 	Rva005F4C8ERef(const Rva005F4C8ERef &other);
 	~Rva005F4C8ERef();
 private:

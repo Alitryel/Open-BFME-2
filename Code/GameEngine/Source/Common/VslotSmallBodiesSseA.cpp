@@ -196,19 +196,19 @@ public:
 	virtual void v13();
 	virtual void v14();
 	virtual void v15(Int a, Rva00509DF8Arg *b);
-	void rva00509DF8(Int a, Rva00509DF8Arg *b);
+	void rva00509DF8(Int a, Rva00509DF8Arg *m_targetObject);
 private:
 	char m_pad04[0x128];
 	Real m_shockWaveRadius;
 };
-void Rva00509DF8::rva00509DF8(Int a, Rva00509DF8Arg *b)
+void Rva00509DF8::rva00509DF8(Int a, Rva00509DF8Arg *m_targetObject)
 {
-	if (b)
+	if (m_targetObject)
 	{
-		if (v01(a, b))
-			v15(a, b);
+		if (v01(a, m_targetObject))
+			v15(a, m_targetObject);
 		if (m_shockWaveRadius > 0.0f)
-			v06(a, &b->m_38);
+			v06(a, &m_targetObject->m_38);
 	}
 }
 

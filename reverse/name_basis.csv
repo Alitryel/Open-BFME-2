@@ -2529,3 +2529,8 @@ param,Rva002B6194List::forEach::c,Rva002B6194List::forEach::targetArmy,inferred,
 member,PalantirImpl::m_c4,PalantirImpl::m_heroSelect,inferred,agree:nl-388939fffb79,Code/GameEngine/Source/Common/System/Rva002D36AE.cpp,
 member,GameBrowser::m_bfme10,GameBrowser::m_protocol,inferred,agree:nl-80fa17c08d85,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,
 member,GameBrowser::m_bfme6dc,GameBrowser::m_requestTimeout,inferred,agree:nl-cf90591d0cf2,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp,
+local,Rva001F5496::rva001F5496::v,Rva001F5496::rva001F5496::m_slaveSystemID,inferred,agree:nl-e09246476edd,Code/GameEngine/Source/Common/Rva001F5496.cpp,0x001F5496
+local,Rva001F5496::rva001F5496::p,Rva001F5496::rva001F5496::m_slaveSystem,inferred,agree:nl-b0384f0dad2c,Code/GameEngine/Source/Common/Rva001F5496.cpp,0x001F5496
+param,Rva005F4C8ERef::p,Rva005F4C8ERef::pointer,inferred,agree:nl-10701ed01f20,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,
+param,Rva00509DF8::rva00509DF8::b,Rva00509DF8::rva00509DF8::m_targetObject,inferred,agree:nl-aea7080f560a,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x00509DF8
+local,SpecialAbilityUpdate::rva0044EDA6::b,SpecialAbilityUpdate::rva0044EDA6::m_containMax,inferred,agree:nl-2342fbb249c3,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp,0x0044EDA6
