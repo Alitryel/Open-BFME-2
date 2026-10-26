@@ -21,6 +21,8 @@ class AptValue;
 
 class EAStringC;
 
+class AptRenderingContext;
+
 class BfmeAptValue006DCD20 { public: int isCharacterInst() const; };
 
 extern bool rva006EE6C0(AptValue *, const EAStringC *, AptValue *);
@@ -152,6 +154,9 @@ public:
 	int rva006E24D0();
 public:
 	void ClearCIH(int arg);
+	// Existing rectangle workers, also used by the rowed bounds builder.
+	void rva006E1DD0(void *pRect);
+	void rva006E1C40(AptRenderingContext *context, int arg);
 public:
 	int rva006E0B80(int nLvl) const;
 	int rva006E0B60() const;
