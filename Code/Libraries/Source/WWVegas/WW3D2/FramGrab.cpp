@@ -24,6 +24,9 @@ extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA(const char *)
 // the older Generals object and cannot represent BFME's buffered frame ring.
 class FrameGrabClass
 {
+	// The buffered-frame callers' verified private views grant this access.
+	friend class BfmeThingTXA;
+	friend class BfmeOwnerYX;
 public:
 	enum MODE
 	{
