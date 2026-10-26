@@ -911,7 +911,7 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DStreakDrawDes
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DBoatWakeModelDrawPoolKey.cpp	wrong-name	?$S1@?1??rva0000D0C93@W3DBoatWakeModelDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EBC10
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DBuffDrawPoolKey.cpp	wrong-name	?$S1@?1??rva000CEE07@W3DBuffDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EBBB8
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DDebrisDrawPoolKey.cpp	wrong-name	?$S1@?1??rva0000B1C97@W3DDebrisDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EA2FC
-Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DDefaultDrawPoolKey.cpp	wrong-name	?$S1@?1??rva0000B21CF@W3DDefaultDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EA308
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDefaultDraw.cpp	wrong-name	?$S1@?1??rva0000B21CF@W3DDefaultDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EA308
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DFloorDrawPoolKey.cpp	wrong-name	?$S1@?1??rva000CF161@W3DFloorDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EBBD0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DHordeModelDrawPoolKey.cpp	wrong-name	?$S1@?1??rva000078B38@W3DHordeModelDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009E1FC4
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DLaserDrawPoolKey.cpp	wrong-name	?$S1@?1??rva000C9BCC@W3DLaserDraw@@SA?AW4NameKeyType@@XZ@4IA	0x009EBB64
