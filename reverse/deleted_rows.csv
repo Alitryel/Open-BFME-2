@@ -2649,3 +2649,5 @@ __ehhandler$?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x00787763,"Re
 ?Rva002E3777Invoke@Rva002E3766Holder@@QAEXH@Z,0x002E3777,"Renamed to ?notifyObjectEntered@Rva002E3766Holder@@QAEXH@Z by tools/rename.py (inferred)"
 ?Rva002E3794Invoke@Rva002E3766Holder@@QAEXH@Z,0x002E3794,"Renamed to ?notifyObjectExited@Rva002E3766Holder@@QAEXH@Z by tools/rename.py (inferred)"
 ?Rva002E6E7FEqualsOne@@YAII@Z,0x002E6E7F,"Renamed to ?isGroundLayer@@YAII@Z by tools/rename.py (inferred)"
+?rva005E95B9@Rva005E95B9@@QAEXXZ,0x005E95B9,"Renamed to ?updateWaterTransform@Rva005E95B9@@QAEXXZ by tools/rename.py (inferred)"
+?rva0027F4F8@Rva0027F4F8@@QAEPAXH@Z,0x0027F4F8,"Renamed to ?getWaterHandleByID@Rva0027F4F8@@QAEPAXH@Z by tools/rename.py (inferred)"

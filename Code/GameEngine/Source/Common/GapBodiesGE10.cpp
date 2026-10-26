@@ -115,13 +115,13 @@ struct Rva005E95B9Data
 class Rva005E95B9
 {
 public:
-	void rva005E95B9();
+	void updateWaterTransform();
 private:
 	char m_pad[8];
 	Rva005E95B9Data *m_08;
 };
 
-void Rva005E95B9::rva005E95B9()
+void Rva005E95B9::updateWaterTransform()
 {
 	if (TheLivingWorldLogic && (unsigned char)((Rva002B254F *)TheLivingWorldLogic)->rva002B254F())
 		((Rva003F81FDProxy *)((Rva002B256E *)TheLivingWorldLogic)->rva002B256E())->rva003F8361(m_08->m_08);

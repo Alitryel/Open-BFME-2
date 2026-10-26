@@ -244,7 +244,7 @@ private:
 class Rva0027F4F8
 {
 public:
-	void *rva0027F4F8(Int id);
+	void *getWaterHandleByID(Int id);
 };
 
 class Rva0027C230
@@ -611,7 +611,7 @@ void TerrainLogic::xfer(Xfer *xfer)
 		{
 			Int triggerID;
 			xfer->xferInt(&triggerID);
-			const WaterHandle *water = (const WaterHandle *)((Rva0027F4F8 *)m_field50)->rva0027F4F8(triggerID);
+			const WaterHandle *water = (const WaterHandle *)((Rva0027F4F8 *)m_field50)->getWaterHandleByID(triggerID);
 			if (water == NULL)
 				throw XferException(5, 0);
 			m_waterToUpdate[i].waterTable = water;

@@ -2439,3 +2439,8 @@ param,Rva00330A37::rva00330A37::a7,Rva00330A37::rva00330A37::opacityFadeTimeTwo,
 member,AudioData::m_10,AudioData::m_ambientStreamFolder,inferred,agree:nl-a1284c9dd5cc,Code/GameEngine/Source/Common/AudioEventRTS_generateFilenamePrefix.cpp,
 param,AudioEventRTS::generateFilenamePrefix::v,AudioEventRTS::generateFilenamePrefix::audioTypeToPlay,inferred,agree:nl-4403bd79bf59,Code/GameEngine/Source/Common/AudioEventRTS_generateFilenamePrefix.cpp,0x002D9622
 class,Rva0030C2CECursor,RiverAreaIterator,inferred,agree:nl-4da679e6b03c,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+function,?rva005E95B9@Rva005E95B9@@QAEXXZ,?updateWaterTransform@Rva005E95B9@@QAEXXZ,inferred,agree:nl-b45caf314402,Code/GameEngine/Source/Common/GapBodiesGE10.cpp,0x005E95B9
+function,?rva0027F4F8@Rva0027F4F8@@QAEPAXH@Z,?getWaterHandleByID@Rva0027F4F8@@QAEPAXH@Z,inferred,agree:nl-914f6919c94e,Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp,0x0027F4F8
+carry,Rva0027F4F8::rva0027F4F8::entry,Rva0027F4F8::getWaterHandleByID::entry,inferred,scope renamed by Rename rva0027F4F8 to getWaterHandleByID (inferred),Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp,0x0027F4F8
+member,CommTAPIRef::m_field88,CommTAPIRef::m_lineHandle,inferred,agree:nl-725e215ab96e,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,
+member,CommTAPIRef::m_field8C,CommTAPIRef::m_callHandle,inferred,agree:nl-881be5e6bc36,Code/Libraries/Source/DirtySock/Y4CommTapi.cpp,

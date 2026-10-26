@@ -7,8 +7,8 @@ struct CommTAPIRef
 	char m_name[ 0x2C ];
 	void *m_transport;
 	char m_gap7C[ 0x0C ];
-	int m_field88;
-	int m_field8C;
+	int m_lineHandle;
+	int m_callHandle;
 	int m_state;
 	char m_gap94[ 0x104 ];
 	unsigned int m_workerId;
@@ -91,8 +91,8 @@ extern "C" CommTAPIRef *CommTAPIConstruct( int first, int second, int third )
 	}
 
 	comm->m_transport = CommSerialConstruct( first, second, third );
-	comm->m_field88 = -1;
-	comm->m_field8C = -1;
+	comm->m_lineHandle = -1;
+	comm->m_callHandle = -1;
 	comm->m_state = 2;
 	return comm;
 }
