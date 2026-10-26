@@ -2482,9 +2482,6 @@ alternatename	Code/GameEngine/Source/Common/BfmeConv1773.cpp	??0BfmeScopeCO@@QAE
 alternatename	Code/GameEngine/Source/Common/BfmeConv1773.cpp	?bfmeCloseCN@BfmeInnerCN@@QAEXPAX@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1773.cpp	?bfmeStepCN@BfmeTargetCN@@QAEDH@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1857.cpp	_bfmeScanYA	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv1867.cpp	_bfmeFreeAYX@4	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv1867.cpp	_bfmeFreeBYX@4	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv1867.cpp	_bfmeVftYX	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1945.cpp	?Rva00627810@ShroudManager@@QAEXPAX@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv2008.cpp	?bfmeExpandEAN@BfmeLexEAN@@QAEDPAD@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv2131.cpp	?bfmeOneCDE@BfmeOwnerCDE@@QAEXPAX@Z	1
@@ -5660,6 +5657,11 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/DynamicVBAccessClassDeinit.cpp
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DynamicVBAccessClassDeinit.cpp	?bfmeDynamicVBOffsets@@3PAGA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DynamicVectorBfmeHandleCtor.cpp	_vtbl_00BD4688	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/FontCharsClassGetCharData.cpp	?Get_Char_Data@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z	1
+alternatename	Code/Libraries/Source/WWVegas/WW3D2/FramGrab.cpp	?bfmeReleaseATXA@@YGXPAX@Z	1
+alternatename	Code/Libraries/Source/WWVegas/WW3D2/FramGrab.cpp	?bfmeReleaseBTXA@@YGXPAX@Z	1
+alternatename	Code/Libraries/Source/WWVegas/WW3D2/FramGrab.cpp	_bfmeFreeAYX@4	1
+alternatename	Code/Libraries/Source/WWVegas/WW3D2/FramGrab.cpp	_bfmeFreeBYX@4	1
+alternatename	Code/Libraries/Source/WWVegas/WW3D2/FramGrab.cpp	_bfmeVftYX	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/GenBase009EB7D0Ctor.cpp	_GenBase009EB7D0_vtbl	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Gen_dtor_00970f60.cpp	?slot00@Rva009EB810TailBase@@UAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Gen_dtor_00970f60.cpp	?slot04@Rva009EB810TailBase@@UAEXXZ	1
@@ -5699,8 +5701,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva0012C99DRun.cpp	?ji_006291a
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00144690Dtor.cpp	??1DX8PolygonRendererList@@UAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva001514B2ForwardAndApply.cpp	?get@Rva001514B2@@QAEPAXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva0061F090Siblings.cpp	_g_bfme00E09C0C	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00958200BfmeThingTXACtor.cpp	?bfmeReleaseATXA@@YGXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/Rva00958200BfmeThingTXACtor.cpp	?bfmeReleaseBTXA@@YGXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp	?link@Gen_00943CF0@@AAEXPAXHHH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp	?second@Gen_00943CF0@@AAEXPAX000@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/SceneOwnership.cpp	?unlink@Gen_00943CF0@@AAEXPAX@Z	1
