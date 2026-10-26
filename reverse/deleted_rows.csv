@@ -2653,3 +2653,5 @@ __ehhandler$?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x00787763,"Re
 ?rva0027F4F8@Rva0027F4F8@@QAEPAXH@Z,0x0027F4F8,"Renamed to ?getWaterHandleByID@Rva0027F4F8@@QAEPAXH@Z by tools/rename.py (inferred)"
 ?BfmeAnimationRecordFields@@3QBUFieldParse@@B,0x007CA560,"Renamed to ?animationRecordFields@@3QBUFieldParse@@B by tools/rename.py (inferred)"
 ?rva004E81DE@Rva004E81DE@@UAEXPAXM_N@Z,0x004E81DE,"Renamed to ?rva004E81DE@ClaimedDecalUpdateCallback@@UAEXPAXM_N@Z by tools/rename.py (inferred)"
+??_GRva0037DEE4@@UAEPAXI@Z,0x001EB815,"Retired opaque scalar deleting dtor: vtable 0x00BDF158 slot0 belongs to CarryoverUnit (dtor 0x0037DEE4 rowed ??1CarryoverUnit); re-rowed as ??_GCarryoverUnit@@UAEPAXI@Z in CarryoverUnit.cpp"
+??_GRva001FE06A@@UAEPAXI@Z,0x001FE772,"Retired opaque scalar deleting dtor: vtable 0x00BE1BE8 slot0 is already rowed ??_GPlayerTemplate@@UAEPAXI@Z (BfmeObject476Copy.cpp, dtor 0x001FE06A ??1PlayerTemplate)"
