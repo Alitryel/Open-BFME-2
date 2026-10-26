@@ -26,6 +26,18 @@ Read-only rejected trials (no claims or source edits):
   at-location donor fails C1083 (cannot open `Lib/Coord3D.h`); module-data dtor
   fails byte verification. Six mixed donors stayed untouched.
 
+- Follow-up split trial for `OCLSpecialPower.cpp`: `VslotSmallBodiesF.cpp`
+  carved row `0x004C31EC` and the merge verifier accepted it unchanged; both
+  sides built and `find_declared_unmatched.py` passed. The staged composition
+  failed `git diff --cached --check` on newly added whitespace-only lines at
+  OCLSpecialPower.cpp:266, :353 and :369, introduced where the tool rewrote
+  existing closing-brace whitespace. Per the mechanical lane, the trial was
+  restored without editing the TU body; file and RVA claims were released.
+- `AptString.cpp`: dry-run accepted unchanged donors
+  `Rva006D7090Factory.cpp`, `AptStringCharCodeAt.cpp`, and
+  `AptStringObjectMemberLookup.cpp`; applying was skipped because claims for
+  the destination and all moved rows are held by `halilkkaya-tu-b`.
+
 No rejected candidate was applied or claimed. These prerequisites require the
 Sol lane; do not repeat unchanged dry runs. No identity debt retirement or
 recovered bytes are claimed.
