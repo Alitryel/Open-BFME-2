@@ -2477,3 +2477,7 @@ member,Rva004BDB37::m_20,Rva004BDB37::m_curDamageState,inferred,agree:nl-9dc73ac
 class,Rva0014D887Inner,ID3DXEffectVtbl,inferred,agree:nl-2fc9af9871ef,Code/GameEngine/Source/Common/Rva0014D887Init.cpp,
 param,Rva002F57E6Query::rva002F57E6::b,Rva002F57E6Query::rva002F57E6::locomotorSet,inferred,agree:nl-2bed03229087,Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp,0x002F57E6
 function,?rva006F7660@Rva006F7600@@QAEPAXH@Z,?getMask@Rva006F7600@@QAEPAXH@Z,inferred,agree:nl-a9268ecf4c14,Code/Libraries/Source/Apt/Rva006F7600Remove.cpp,0x006F7660
+member,Rva0042CA4B::m_10,Rva0042CA4B::m_turnPhase,inferred,agree:nl-293de055502f,Code/GameEngine/Source/Common/Rva0042C936.cpp,
+param,Rva005F2A52AptCall::pF1,Rva005F2A52AptCall::xPos,inferred,agree:nl-4fb8614def3b,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2A52
+param,Rva005F2A52AptCall::pF2,Rva005F2A52AptCall::yPos,inferred,agree:nl-49d22e724c0e,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2A52
+member,Rva0050B7D2Arg::m_08,Rva0050B7D2Arg::m_targetID,inferred,agree:nl-5bfd2c9a4077,Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp,

@@ -139,7 +139,7 @@ private:
 	unsigned char m_pad00[0x08];
 	Rva0042CA4BTarget *m_08;	// +0x08
 	unsigned char m_pad0C[0x04];
-	int m_10;					// +0x10
+	int m_turnPhase;					// +0x10
 	Rva0042C936 m_behavior;			// +0x14
 };
 
@@ -149,11 +149,11 @@ void Rva0042CA4B::update()
 	{
 		m_08->m_94 = false;
 		int value = TheLivingWorldLogic->m_f4;
-		if (value != m_10)
+		if (value != m_turnPhase)
 		{
 			reinterpret_cast<Rva000AD6F4 *>(&m_behavior)->clear();
 			m_behavior.assign(StrategicInGameUI::Rva0042C9BAFactory(value, (int)m_08));
-			m_10 = value;
+			m_turnPhase = value;
 		}
 	}
 }

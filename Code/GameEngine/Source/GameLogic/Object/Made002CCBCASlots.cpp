@@ -93,7 +93,7 @@ struct Rva0050B7D2Arg
 {
 	int m_00;
 	int m_04;
-	ObjectID m_08; // +0x08
+	ObjectID m_targetID; // +0x08
 };
 class Rva00507823
 {
@@ -122,7 +122,7 @@ private:
 };
 void Made002CCBCA::rva0050B7D2(const Rva0050B7D2Arg *arg, int value)
 {
-	Object *object = TheGameLogic->findObjectByID(arg->m_08);
+	Object *object = TheGameLogic->findObjectByID(arg->m_targetID);
 	if (!object)
 		return;
 	Rva0050B7D2Iface *iface = object->m_250;
@@ -143,7 +143,7 @@ void Made002CCBCA::rva0050B7D2(const Rva0050B7D2Arg *arg, int value)
 }
 void Made002CCBCA::rva0050B843(const Rva0050B7D2Arg *arg, int value)
 {
-	Object *object = TheGameLogic->findObjectByID(arg->m_08);
+	Object *object = TheGameLogic->findObjectByID(arg->m_targetID);
 	if (!object)
 		return;
 	Rva0050B7D2Iface *iface = object->m_250;
@@ -174,7 +174,7 @@ bool Made002CCBCA::rva0050B745(const Rva0050B7D2Arg *arg, Object *source)
 {
 	if (!rva005075D6(arg, source))
 		return false;
-	Object *object = TheGameLogic->findObjectByID(arg->m_08);
+	Object *object = TheGameLogic->findObjectByID(arg->m_targetID);
 	if (object && object->m_250)
 	{
 		Rva0050B745Contain *contain = (Rva0050B745Contain *)object->rva0028C197();

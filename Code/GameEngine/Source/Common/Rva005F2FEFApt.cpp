@@ -226,9 +226,9 @@ __forceinline const char *GetStr005F2A52(const AsciiString &asciiString)
 	return stringData ? stringData + 8 : "";
 }
 
-int __cdecl Rva005F2A52AptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, int *pInt, float *pF1, float *pF2)
+int __cdecl Rva005F2A52AptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, int *pInt, float *xPos, float *yPos)
 {
-	return target->rva00222B19(level, prefix, function, 3, GetStr005F2A52(Rva00222834Get(*pInt)), (void *)GetStr005F2A52(Rva002228E8Get(*pF1)), (void *)GetStr005F2A52(Rva002228E8Get(*pF2)), 0, 0);
+	return target->rva00222B19(level, prefix, function, 3, GetStr005F2A52(Rva00222834Get(*pInt)), (void *)GetStr005F2A52(Rva002228E8Get(*xPos)), (void *)GetStr005F2A52(Rva002228E8Get(*yPos)), 0, 0);
 }
 
 void StrategicHUD::ArmyDetailsMovieClip::Impl::ShowMemberRank(int rank)
