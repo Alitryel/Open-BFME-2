@@ -37,3 +37,11 @@ subset passed `./build.sh Code/GameEngine/Source/Common/RTS/TunnelTracker.cpp`,
 COMDAT/provider checks. Old path mentions remain only in provenance comments
 and historical evidence (`reverse/link_status.csv` and prior attempt notes); no
 active path consumer needed repair.
+
+After rebasing onto `origin/master` at `4d2094622a`, the refreshed pre-push
+`link_batch_audit.py` was inconclusive: its provider index is at `763dc8759f`
+and it reports that the current `TunnelTracker.cpp` object lacks a current
+receipt. Do not treat this as link clearance; carry the unit into the next
+census. `docs/linking_obstacles.md` is currently claimed by
+`yasinschroeder-codex`, so this seat left that shared register untouched and
+hands off the audit evidence for its owner to record.
