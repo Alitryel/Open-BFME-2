@@ -90,10 +90,10 @@ public:
 
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 
-struct Rva599825Node
+struct DozerListNode
 {
-	Rva599825Node *m_next;
-	Rva599825Node *m_prev;
+	DozerListNode *m_next;
+	DozerListNode *m_prev;
 	int m_value;
 };
 
@@ -119,8 +119,8 @@ void AIDozerManager::rva00599825(int id)
 		return;
 	if (obj->m_key != m_cmp->m_key)
 		return;
-	Rva599825Node *head = *(Rva599825Node **)&m_ids;
-	for (Rva599825Node *cur = head->m_next; cur != head; cur = cur->m_next) {
+	DozerListNode *head = *(DozerListNode **)&m_ids;
+	for (DozerListNode *cur = head->m_next; cur != head; cur = cur->m_next) {
 		if (cur->m_value == myId)
 			return;
 	}
@@ -143,15 +143,15 @@ void AIDozerManager::DoXfer(Xfer *xfer)
 	unsigned int count;
 	{
 		int numDozers = 0;
-		Rva599825Node *head = *(Rva599825Node **)&m_ids;
-		for (Rva599825Node *cur = head->m_next; cur != head; cur = cur->m_next)
+		DozerListNode *head = *(DozerListNode **)&m_ids;
+		for (DozerListNode *cur = head->m_next; cur != head; cur = cur->m_next)
 			++numDozers;
 		count = (unsigned int)numDozers;
 	}
 	*xfer == count;
 	if (xfer->IsStoring()) {
-		Rva599825Node *head = *(Rva599825Node **)&m_ids;
-		for (Rva599825Node *cur = head->m_next; cur != head; cur = cur->m_next)
+		DozerListNode *head = *(DozerListNode **)&m_ids;
+		for (DozerListNode *cur = head->m_next; cur != head; cur = cur->m_next)
 			XferObjectID(xfer, (ObjectID *)&cur->m_value);
 	} else if (xfer->IsLoading()) {
 		m_ids.clear();
@@ -173,9 +173,9 @@ void AIDozerManager::DoXfer(Xfer *xfer)
 void AIDozerManager::rva00599EDC()
 {
     bool removeFirst = false;
-    Rva599825Node *head = *(Rva599825Node **)&m_ids;
-    for (Rva599825Node *node = head->m_next; node != head;
-         node = node->m_next, head = *(Rva599825Node **)&m_ids) {
+    DozerListNode *head = *(DozerListNode **)&m_ids;
+    for (DozerListNode *node = head->m_next; node != head;
+         node = node->m_next, head = *(DozerListNode **)&m_ids) {
         Object *obj = TheGameLogic->findObjectByID((ObjectID)node->m_value);
         if (obj == 0 || (obj->m_flag94 & 1) || (obj->m_flag438 & 1)) {
             if (node != head->m_next) {

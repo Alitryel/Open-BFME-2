@@ -2486,3 +2486,5 @@ local,Rva0049D526::rva0049D526::v,Rva0049D526::rva0049D526::flags,inferred,agree
 param,Rva002F1DDCTree::rva002F0DD6::w,Rva002F1DDCTree::rva002F0DD6::forceRight,inferred,agree:nl-c72e4ce58c5d,Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp,0x002F0DD6
 param,bfmeAnchorRva00340BDCDtor::p,bfmeAnchorRva00340BDCDtor::state,inferred,agree:nl-cf9d7e3fc155,Code/GameEngine/Source/Common/Rva00340BDCDtor.cpp,
 param,hasListeners::p,hasListeners::listeners,inferred,agree:nl-612d42b42516,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
+class,Rva599825Node,DozerListNode,inferred,agree:nl-b1f2a2bf4961,Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp,
+class,Rva007F2A50Owner,FeslOwner,inferred,agree:nl-b14e17ba3a15,Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp,
