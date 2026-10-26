@@ -9423,7 +9423,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00160C00,110,code,,displaced,-,Z=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp S=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HTreeClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 0x00160C70,61,code,Code/Libraries/Source/WWVegas/WWLib/GeometryShape.cpp,proposed,N,N=Code/Libraries/Source/WWVegas/WWLib/GeometryShape.cpp,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_geometryshape_base.cpp
 0x00160CB0,770,code-unledgered,,,-,,
-0x00160FC0,142,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/Rva00160FC0Storage.cpp
+0x00160FC0,142,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 0x00161050,77,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 0x001610A0,23,code,,,-,,Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp
 0x001610C0,34,code,,,-,,Code/GameEngine/Source/Common/System/ArchiveFile.cpp
@@ -9438,7 +9438,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00162060,112,code,,displaced,-,Z=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp S=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HTreeClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 0x001622B0,1335,code-unledgered,,,-,,
 0x001627F0,7,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_wide_string_default_ctor.cpp
-0x00162800,86,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp
+0x00162800,86,code,,,-,,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 0x00162860,32,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp
 0x00162880,32,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp
 0x001628A0,761,code-unledgered,,,-,,
@@ -9458,7 +9458,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00166570,55,code,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp,approved,C,C=0x00166510..0x001665B0,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp
 0x001665B0,288,code,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp,approved,C,C=0x00166510..0x001666D0,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 0x001666D0,267,code,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp S=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HTreeClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassInitDefault.cpp
-0x001667E0,26,code,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp S=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HTreeClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassDestructor.cpp
+0x001667E0,26,code,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp S=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HTreeClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 0x00166800,371,code,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp S=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HTreeClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassLoadW3D.cpp
 0x00166980,229,code,Code/Libraries/Source/WWVegas/WW3D2/htree.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp S=Code/Libraries/Source/WWVegas/WW3D2/htree.cpp N=Code/Libraries/Source/WWVegas/WW3D2/HTreeClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCaptureBone.cpp
 0x00166A70,413,code,Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp,approved,Z,Z=Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp S=Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp N=Code/Libraries/Source/WWVegas/WW3D2/Line3DClass.cpp,Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp

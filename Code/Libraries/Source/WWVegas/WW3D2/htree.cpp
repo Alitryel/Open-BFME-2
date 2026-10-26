@@ -1,4 +1,4 @@
-// cl: /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfme2htree /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
+// cl: /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/shims/bfme2htree /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib /Ireference/shims/archivefile_directory_dtor /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include
 // stlport
 // TU Code/Libraries/Source/WWVegas/WW3D2/htree.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 #include <windows.h>
@@ -25,6 +25,13 @@
 #include <iterator>
 #include <stl/_algobase.h>
 #include <stl/_iterator_base.h>
+//
+// HTreeClass destructor, retail 0x001667E0, 26 bytes.
+// Calls Free then the C allocator on the first owned-sequence word at +0x1C.
+// Use the existing htree.h member spelling so the body composes with that TU;
+// the retail field is a pointer, stored by the current header as a 32-bit word.
+
+extern "C" void __cdecl free(void *);
 
 // Retail links the size-optimized WeightInfoStruct vector deleting destructor (??_E
 // 0x0004554B); it takes the optimization state of the first function that needs it,
@@ -172,6 +179,52 @@ struct BfmeRva00166110
 	BfmeRva00161350Elem *EndOfStorage;
 };
 
+void *operator new[](unsigned int);
+
+void operator delete[](void *);
+
+class Rva00160FC0Item
+{
+public:
+    virtual void slot00() = 0;
+    virtual void slot04() = 0;
+    virtual unsigned int bytes() = 0;
+};
+
+class Rva00160FC0Input
+{
+public:
+    virtual void slot00() = 0;
+    virtual void slot04() = 0;
+    virtual void slot08() = 0;
+    virtual void slot0C() = 0;
+    virtual void slot10() = 0;
+    virtual void slot14() = 0;
+    virtual void slot18() = 0;
+    virtual void slot1C() = 0;
+    virtual void slot20() = 0;
+    virtual void slot24() = 0;
+    virtual void slot28() = 0;
+    virtual void slot2C() = 0;
+    virtual void slot30() = 0;
+    virtual int count() = 0;
+    char unknown04[0x54];
+    Rva00160FC0Item **records;
+};
+
+struct HTreeStorageFields
+{
+    Rva00160FC0Input *input;
+    unsigned char *storage;
+    unsigned int capacity;
+};
+
+struct Rva00162800Record { Rva00162800Record(); Rva00162800Record(const Rva00162800Record&); ~Rva00162800Record(); Rva00162800Record&operator=(const Rva00162800Record&); private: char bytes[36]; };
+
+namespace _STL {template<> void _Construct<Rva00162800Record,Rva00162800Record>(Rva00162800Record*,const Rva00162800Record&);}
+
+template _STL::_Vector_base<Rva00162800Record,_STL::allocator<Rva00162800Record> >::_Vector_base(unsigned int,const _STL::allocator<Rva00162800Record>&);
+
 // tu-skeleton: 0x001606E0 1144B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
 
 // tu-skeleton: 0x00160B60 68B ?Get_Bone_Index@HTreeClass@@QBEHPBD@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
@@ -182,19 +235,11 @@ struct BfmeRva00166110
 
 // ---- from Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 
-// TU Code/Libraries/Source/WWVegas/WW3D2/htree.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 
 #pragma optimize("gsy", on)
 
 #pragma optimize("", on)
-
-// tu-skeleton: 0x001606E0 1144B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
-
-// tu-skeleton: 0x00160B60 68B ?Get_Bone_Index@HTreeClass@@QBEHPBD@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
-
-// tu-skeleton: 0x00160BB0 22B ?Get_Bone_Name@HTreeClass@@QBEPBDH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
-
-// tu-skeleton: 0x00160BD0 35B ?Get_Parent_Index@HTreeClass@@QBEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassScale.cpp
 
@@ -237,27 +282,15 @@ void HTreeClass::Scale(float factor)
 	ScaleFactor *= factor;
 }
 
-// tu-skeleton: 0x00160CB0 770B ?Slave_Update@HTreeClass@@QAEXPBV1@ABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
-
-// tu-skeleton: 0x00160FC0 142B ?rva00160FC0@HTreeClass@@QAEXPAVRva00160FC0Input@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/Rva00160FC0Storage.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 
-// TU Code/Libraries/Source/WWVegas/WW3D2/htree.cpp: generated by tools/tu_skeleton.py from tu_map.csv (approved rows, retail order)
 
-// tu-skeleton: 0x001606E0 1144B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
 
-// tu-skeleton: 0x00160B60 68B ?Get_Bone_Index@HTreeClass@@QBEHPBD@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
 
-// tu-skeleton: 0x00160BB0 22B ?Get_Bone_Name@HTreeClass@@QBEPBDH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
 
-// tu-skeleton: 0x00160BD0 35B ?Get_Parent_Index@HTreeClass@@QBEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassBoneLookup.cpp (not merged yet)
 
-// tu-skeleton: 0x00160C00 110B ?Scale@HTreeClass@@QAEXM@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassScale.cpp (not merged yet)
 
-// tu-skeleton: 0x00160CB0 770B ?Slave_Update@HTreeClass@@QAEXPBV1@ABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
-// tu-skeleton: 0x00160FC0 142B ?rva00160FC0@HTreeClass@@QAEXPAVRva00160FC0Input@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/Rva00160FC0Storage.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WWLib/Rva00161050Finish.cpp
 
@@ -284,14 +317,6 @@ __forceinline Rva00161050::Rva00161050(const Rva00161050 &other)
 {
 }
 
-// tu-skeleton: 0x001610A0 23B ?size@?$vector@URunwayInfo@ParkingPlaceBehavior@@V?$allocator@URunwayInfo@ParkingPlaceBehavior@@@_STL@@@_STL@@QBEIXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp (not merged yet)
-
-// tu-skeleton: 0x001610C0 34B ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@_STL@@QBEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@2@IPBX@Z -- matched in Code/GameEngine/Source/Common/System/ArchiveFile.cpp (not merged yet)
-
-// tu-skeleton: 0x00161150 45B ?rva00161150CopyWalk@@YAPAUElem36@@PAU1@00@Z -- matched in Code/GameEngine/Source/Common/ElementStrideWalks.cpp (not merged yet)
-
-// tu-skeleton: 0x00161180 43B ??$__uninitialized_fill_n@PAUElem36@@IU1@@_STL@@YAPAUElem36@@PAU1@IABU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WWLib/StlportCapturedBoneCopyBackward.cpp
 
 // STLport 4.5.3 random-access copy for the HTree captured-bone record.
@@ -312,41 +337,23 @@ __forceinline Rva00161050::Rva00161050(const Rva00161050 &other)
 // The nested transform is required for retail's +0x1C loop address bases.
 // Record names preserve existing positional pins; original type names are unknown.
 
-// tu-skeleton: 0x001614F0 526B ?read_pivots@HTreeClass@@AAE_NAAVChunkLoadClass@@_N@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
-// tu-skeleton: 0x00161700 2338B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NPAVHAnimClass@@HMABVMatrix3D@@PAV3@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
-// tu-skeleton: 0x00162030 48B ?Is_Bone_Captured@HTreeClass@@QBE_NH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassIsBoneCaptured.cpp (not merged yet)
 
-// tu-skeleton: 0x00162060 112B ?Control_Bone@HTreeClass@@QAEXHABVMatrix3D@@_N@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/htree_control.cpp (not merged yet)
 
-// tu-skeleton: 0x001620D0 442B ?Get_Bone_Control@HTreeClass@@QBEXHAAVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClass_Get_Bone_Control.cpp (not merged yet)
 
-// tu-skeleton: 0x00162290 18B ?rva00162290@HTreeClass@@QBEHXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001622B0 1335B ?Capture_Update@HTreeClass@@QAEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001627F0 7B ?get_allocator@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QBE?AV?$allocator@G@2@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_wide_string_default_ctor.cpp (not merged yet)
 
-// tu-skeleton: 0x00162800 86B ??0?$_Vector_base@URva00162800Record@@V?$allocator@URva00162800Record@@@_STL@@@_STL@@QAE@IABV?$allocator@URva00162800Record@@@1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp (not merged yet)
 
-// tu-skeleton: 0x00162860 32B ??$__copy_backward_ptrs@PAURva00162860Record@@PAU1@@_STL@@YAPAURva00162860Record@@PAU1@00ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp (not merged yet)
 
-// tu-skeleton: 0x00162880 32B ??$__copy_ptrs@PAUBfmePod36@@PAU1@@_STL@@YAPAUBfmePod36@@PAU1@00U__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
 
-// tu-skeleton: 0x001628A0 769B ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00162BB0 3785B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00163A80 2850B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHRawAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001645B0 4715B ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00165820 2277B ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001661F0 70B ?Release_Bone@HTreeClass@@QAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReleaseBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00166240 43B ?erase@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@QAEPAUBfmePod36@@PAU3@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WW3D2/htree.cpp
 
@@ -783,33 +790,19 @@ HTreeClass * HTreeClass::Create_Interpolated(const HTreeClass * tree_base,
 // Retail's call sites in this unit's matched rows land on bodies rowed under
 // other spellings at the same addresses (same ABI). Bind the spellings used here.
 
-// tu-skeleton: 0x001662A0 285B ??0HTreeClass@@QAE@ABV0@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCopyConstructor.cpp (not merged yet)
 
-// tu-skeleton: 0x00166510 90B ?Free@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFree.cpp (not merged yet)
 
-// tu-skeleton: 0x00166570 55B ?push_back@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEXABUElem36@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
 
-// tu-skeleton: 0x001665B0 288B ?insert@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEPAUElem36@@PAU3@ABU3@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/Rva001665B0Finish.cpp (not merged yet)
 
-// tu-skeleton: 0x001666D0 267B ?Init_Default@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassInitDefault.cpp (not merged yet)
 
-// tu-skeleton: 0x001667E0 26B ??1HTreeClass@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassDestructor.cpp (not merged yet)
 
-// tu-skeleton: 0x00166800 371B ?Load_W3D@HTreeClass@@QAEHAAVChunkLoadClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassLoadW3D.cpp (not merged yet)
 
-// tu-skeleton: 0x00166980 229B ?Capture_Bone@HTreeClass@@QAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCaptureBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001610A0 23B ?size@?$vector@URunwayInfo@ParkingPlaceBehavior@@V?$allocator@URunwayInfo@ParkingPlaceBehavior@@@_STL@@@_STL@@QBEIXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp (not merged yet)
 
-// tu-skeleton: 0x001610C0 34B ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@_STL@@QBEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@2@IPBX@Z -- matched in Code/GameEngine/Source/Common/System/ArchiveFile.cpp (not merged yet)
 
-// tu-skeleton: 0x00161150 45B ?rva00161150CopyWalk@@YAPAUElem36@@PAU1@00@Z -- matched in Code/GameEngine/Source/Common/ElementStrideWalks.cpp (not merged yet)
 
-// tu-skeleton: 0x00161180 43B ??$__uninitialized_fill_n@PAUElem36@@IU1@@_STL@@YAPAUElem36@@PAU1@IABU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
 
-// tu-skeleton: 0x001614F0 526B ?read_pivots@HTreeClass@@AAE_NAAVChunkLoadClass@@_N@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
-// tu-skeleton: 0x00161700 2338B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NPAVHAnimClass@@HMABVMatrix3D@@PAV3@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassIsBoneCaptured.cpp
 
@@ -884,28 +877,6 @@ void HTreeClass::Get_Bone_Control(int index,Matrix3D &out) const
  }
 }
 
-// tu-skeleton: 0x00162290 18B ?rva00162290@HTreeClass@@QBEHXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
-
-// tu-skeleton: 0x001622B0 1335B ?Capture_Update@HTreeClass@@QAEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
-
-// tu-skeleton: 0x001627F0 7B ?get_allocator@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QBE?AV?$allocator@G@2@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_wide_string_default_ctor.cpp (not merged yet)
-
-// tu-skeleton: 0x00162800 86B ??0?$_Vector_base@URva00162800Record@@V?$allocator@URva00162800Record@@@_STL@@@_STL@@QAE@IABV?$allocator@URva00162800Record@@@1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp (not merged yet)
-
-// tu-skeleton: 0x00162860 32B ??$__copy_backward_ptrs@PAUElem36@@PAU1@@_STL@@YAPAUElem36@@PAU1@00ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp (not merged yet)
-
-// tu-skeleton: 0x00162880 32B ??$__copy_ptrs@PAUBfmePod36@@PAU1@@_STL@@YAPAUBfmePod36@@PAU1@00U__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
-
-// tu-skeleton: 0x001628A0 769B ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
-
-// tu-skeleton: 0x00162BB0 3785B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
-
-// tu-skeleton: 0x00163A80 2850B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHRawAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
-
-// tu-skeleton: 0x001645B0 4715B ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
-
-// tu-skeleton: 0x00165820 2277B ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReleaseBone.cpp
 
 // Use the same target HTree and math declarations as the destination TU.
@@ -951,14 +922,6 @@ found:
     OwnedSequence1C[1] -= sizeof(BfmeRva00161350Elem);
 }
 
-// tu-skeleton: 0x00166240 43B ?erase@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@QAEPAUBfmePod36@@PAU3@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
-
-// tu-skeleton: 0x001662A0 285B ??0HTreeClass@@QAE@ABV0@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCopyConstructor.cpp (not merged yet)
-
-// tu-skeleton: 0x00166510 90B ?Free@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFree.cpp (not merged yet)
-
-// tu-skeleton: 0x00166570 55B ?push_back@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEXABUElem36@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WWLib/Rva001665B0Finish.cpp
 
 // ?insert@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEPAUElem36@@PAU3@ABU3@@Z
@@ -972,55 +935,30 @@ found:
 // flags (/G7 /arch:SSE) compile a different copy, and retail kept another unit's. This unit-local
 // overload keeps the inlined code and offers the link no second copy.
 
-// tu-skeleton: 0x001666D0 267B ?Init_Default@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassInitDefault.cpp (not merged yet)
 
-// tu-skeleton: 0x001667E0 26B ??1HTreeClass@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassDestructor.cpp (not merged yet)
 
-// tu-skeleton: 0x00166800 371B ?Load_W3D@HTreeClass@@QAEHAAVChunkLoadClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassLoadW3D.cpp (not merged yet)
 
-// tu-skeleton: 0x00166980 229B ?Capture_Bone@HTreeClass@@QAEXH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCaptureBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00160CB0 770B ?Slave_Update@HTreeClass@@QAEXPBV1@ABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
-// tu-skeleton: 0x00160FC0 142B ?rva00160FC0@HTreeClass@@QAEXPAVRva00160FC0Input@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/Rva00160FC0Storage.cpp (not merged yet)
 
-// tu-skeleton: 0x001610A0 23B ?size@?$vector@URunwayInfo@ParkingPlaceBehavior@@V?$allocator@URunwayInfo@ParkingPlaceBehavior@@@_STL@@@_STL@@QBEIXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp (not merged yet)
 
-// tu-skeleton: 0x001610C0 34B ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@_STL@@QBEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@2@IPBX@Z -- matched in Code/GameEngine/Source/Common/System/ArchiveFile.cpp (not merged yet)
 
-// tu-skeleton: 0x00161150 45B ?rva00161150CopyWalk@@YAPAUElem36@@PAU1@00@Z -- matched in Code/GameEngine/Source/Common/ElementStrideWalks.cpp (not merged yet)
 
-// tu-skeleton: 0x00161180 43B ??$__uninitialized_fill_n@PAUElem36@@IU1@@_STL@@YAPAUElem36@@PAU1@IABU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
 
-// tu-skeleton: 0x001614F0 526B ?read_pivots@HTreeClass@@AAE_NAAVChunkLoadClass@@_N@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
-// tu-skeleton: 0x00161700 2338B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NPAVHAnimClass@@HMABVMatrix3D@@PAV3@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
 
-// tu-skeleton: 0x00162290 18B ?rva00162290@HTreeClass@@QBEHXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001622B0 1335B ?Capture_Update@HTreeClass@@QAEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001627F0 7B ?get_allocator@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QBE?AV?$allocator@G@2@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_wide_string_default_ctor.cpp (not merged yet)
 
-// tu-skeleton: 0x00162800 86B ??0?$_Vector_base@URva00162800Record@@V?$allocator@URva00162800Record@@@_STL@@@_STL@@QAE@IABV?$allocator@URva00162800Record@@@1@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp (not merged yet)
 
-// tu-skeleton: 0x00162860 32B ??$__copy_backward_ptrs@PAUElem36@@PAU1@@_STL@@YAPAUElem36@@PAU1@00ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp (not merged yet)
 
-// tu-skeleton: 0x00162880 32B ??$__copy_ptrs@PAUBfmePod36@@PAU1@@_STL@@YAPAUBfmePod36@@PAU1@00U__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
 
-// tu-skeleton: 0x001628A0 769B ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00162BB0 3785B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00163A80 2850B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHRawAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x001645B0 4715B ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00165820 2277B ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
 
-// tu-skeleton: 0x00166240 43B ?erase@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@QAEPAUBfmePod36@@PAU3@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
 
-// tu-skeleton: 0x001662A0 285B ??0HTreeClass@@QAE@ABV0@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCopyConstructor.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFree.cpp
 
@@ -1062,11 +1000,107 @@ void HTreeClass::Free(void)
 	Unknown30 = 0;
 }
 
+// tu-skeleton: 0x00160CB0 770B ?Slave_Update@HTreeClass@@QAEXPBV1@ABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/Rva00160FC0Storage.cpp
+
+// ?rva00160FC0@HTreeClass@@QAEXPAVRva00160FC0Input@@@Z
+// Native00160FC0..0016104E RET4. Input+58 holds six-pointer records;
+// visit five pointers in each record after the first. Virtual slots34/8
+// provide the record count and byte counts. Receiver28/2C/30 holds the input
+// cache and byte storage/capacity. Original method and input identities unknown.
+// Volatile record-pointer access preserves the native repeated loads; the
+// original source qualifier is unknown. Explicit array allocation preserves
+// the target array operators rather than VC7.1 trivial-array scalar lowering.
+
+void HTreeClass::rva00160FC0(Rva00160FC0Input *next)
+{
+    // Interpret only the three trailing words proved by this native body.
+    HTreeStorageFields &cache = *reinterpret_cast<HTreeStorageFields *>(&Unknown28);
+    if (next != cache.input)
+    {
+        cache.input = next;
+        unsigned int size = 0;
+        Rva00160FC0Item *volatile *record = next->records + 6;
+        int left = next->count() - 1;
+        for (; left > 0; --left)
+        {
+            for (int i = 0; i < 5; ++i)
+                if (record[i])
+                    size += record[i]->bytes();
+            record += 6;
+        }
+        if (size > cache.capacity)
+        {
+            operator delete[](cache.storage);
+            cache.capacity = size;
+            cache.storage = static_cast<unsigned char *>(operator new[](size));
+        }
+        memset(cache.storage, 0xFF, size);
+    }
+}
+
+// tu-skeleton: 0x001610A0 23B ?size@?$vector@URunwayInfo@ParkingPlaceBehavior@@V?$allocator@URunwayInfo@ParkingPlaceBehavior@@@_STL@@@_STL@@QBEIXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp (not merged yet)
+
+// tu-skeleton: 0x001610C0 34B ?allocate@?$allocator@U?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@_STL@@@_STL@@QBEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@VArchivedFileInfo@@@_STL@@@2@IPBX@Z -- matched in Code/GameEngine/Source/Common/System/ArchiveFile.cpp (not merged yet)
+
+// tu-skeleton: 0x00161150 45B ?rva00161150CopyWalk@@YAPAUElem36@@PAU1@00@Z -- matched in Code/GameEngine/Source/Common/ElementStrideWalks.cpp (not merged yet)
+
+// tu-skeleton: 0x00161180 43B ??$__uninitialized_fill_n@PAUElem36@@IU1@@_STL@@YAPAUElem36@@PAU1@IABU1@ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
+
+// tu-skeleton: 0x001614F0 526B ?read_pivots@HTreeClass@@AAE_NAAVChunkLoadClass@@_N@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
+
+// tu-skeleton: 0x00161700 2338B ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NPAVHAnimClass@@HMABVMatrix3D@@PAV3@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp (not merged yet)
+
+// tu-skeleton: 0x00162290 18B ?rva00162290@HTreeClass@@QBEHXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x001622B0 1335B ?Capture_Update@HTreeClass@@QAEHH@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x001627F0 7B ?get_allocator@?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@_STL@@QBE?AV?$allocator@G@2@XZ -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_wide_string_default_ctor.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp
+
+// Reference: pristine STLport4.5.3. Address-derived opaque ABI view.
+// Target boundary and stride independently establish storage width; no game class identity inferred.
+// The emitted unsigned max copy must match retail RVA 0x00013740.
+// Define it for speed, then restore this unit's flags for its own bodies.
+
+#pragma optimize("s", off)
+
+#pragma optimize("t", on)
+
+#pragma optimize("", on)
+
+// tu-skeleton: 0x00162860 32B ??$__copy_backward_ptrs@PAUElem36@@PAU1@@_STL@@YAPAUElem36@@PAU1@00ABU__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00162860.cpp (not merged yet)
+
+// tu-skeleton: 0x00162880 32B ??$__copy_ptrs@PAUBfmePod36@@PAU1@@_STL@@YAPAUBfmePod36@@PAU1@00U__false_type@0@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
+
+// tu-skeleton: 0x001628A0 769B ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x00162BB0 3785B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x00163A80 2850B ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHRawAnimClass@@M@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x001645B0 4715B ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x00165820 2277B ?Combo_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimComboClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassFirstCapturedBone.cpp (not merged yet)
+
+// tu-skeleton: 0x00166240 43B ?erase@?$vector@UBfmePod36@@V?$allocator@UBfmePod36@@@_STL@@@_STL@@QAEPAUBfmePod36@@PAU3@0@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_pod_vector_o2_bodies.cpp (not merged yet)
+
+// tu-skeleton: 0x001662A0 285B ??0HTreeClass@@QAE@ABV0@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassCopyConstructor.cpp (not merged yet)
+
 // tu-skeleton: 0x00166570 55B ?push_back@?$vector@UElem36@@V?$allocator@UElem36@@@_STL@@@_STL@@QAEXABUElem36@@@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_vector_elem36_push_back.cpp (not merged yet)
 
 // tu-skeleton: 0x001666D0 267B ?Init_Default@HTreeClass@@QAEXXZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassInitDefault.cpp (not merged yet)
 
-// tu-skeleton: 0x001667E0 26B ??1HTreeClass@@QAE@XZ -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassDestructor.cpp (not merged yet)
+// ---- from Code/Libraries/Source/WWVegas/WW3D2/HTreeClassDestructor.cpp
+
+HTreeClass::~HTreeClass()
+{
+	Free();
+	if (OwnedSequence1C[0])
+		free(reinterpret_cast<void *>(OwnedSequence1C[0]));
+}
 
 // tu-skeleton: 0x00166800 371B ?Load_W3D@HTreeClass@@QAEHAAVChunkLoadClass@@@Z -- matched in Code/Libraries/Source/WWVegas/WW3D2/HTreeClassLoadW3D.cpp (not merged yet)
 

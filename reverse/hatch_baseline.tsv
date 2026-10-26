@@ -18600,8 +18600,10 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hlod_read_header.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hlod_read_header.cpp	"gsy",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hrawanim.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/hrawanim.cpp	"gsy",on	2
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"gsy",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"s",off	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/htree.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/layer.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/layer.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/light.cpp	"",on	1
@@ -19216,9 +19218,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00759B40.cpp	"s
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00759B40.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00056BFE.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00056BFE.cpp	"y",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp	"s",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva00162800.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0021582C.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0021582C.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlVectorRva0021582C.cpp	"t",on	1
