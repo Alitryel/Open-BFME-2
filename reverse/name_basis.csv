@@ -2524,3 +2524,5 @@ member,Rva002EBA88::m_10,Rva002EBA88::m_free,inferred,agree:nl-a9b79529b76e,Code
 param,Rva002EBA88::rva002EBA88::a4,Rva002EBA88::rva002EBA88::allocFunc,inferred,agree:nl-706892ba38ba,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
 param,Rva002EBA88::rva002EBA88::a5,Rva002EBA88::rva002EBA88::freeFunc,inferred,agree:nl-8ccd02fa8a7a,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
 member,W3DVolumetricShadowSubMesh::m_10,W3DVolumetricShadowSubMesh::m_numSilhouetteEdges,inferred,agree:nl-de83dcb6ea67,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp,
+param,Rva002B6194List::forEach::a,Rva002B6194List::forEach::sourceArmy,inferred,agree:nl-b41b8c33f654,Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp,0x002B6194
+param,Rva002B6194List::forEach::c,Rva002B6194List::forEach::targetArmy,inferred,agree:nl-bafd1852a229,Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp,0x002B6194

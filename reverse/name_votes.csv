@@ -7989,3 +7989,15 @@ Code/GameEngine/Source/Common/Rva00085553Init.cpp|param|Rva00085553Get|a,02ea8ea
 Code/GameEngine/Source/Common/Rva00151632Dtor.cpp|class||Rva00151632Link,10c523b307983b9dfa836f18,gpt-6.1-sol,w4-10261231-6,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|class||Rva003B8E89Record,24e2d2df29b92a73f0dd024d,gpt-6.1-sol,w4-10261231-7,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526::rva0049D57F|v,4d73ef92e54e13f371264527,gpt-6.1-sol,w4-10261231-8,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|param|Rva0049A64B::isClearToApproach|a,a380432cd9ca7c0e37e5bd07,gpt-6.1-sol,w2-10261239-3,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6151List::forEach|arg,8fce5de3c2955cb49069be7d,gpt-6.1-sol,w2-10261239-5,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6194List::forEach|a,8babf22c78abf35cd0cba20f,gpt-6.1-sol,w2-10261239-5,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6194List::forEach|b,4fb7f5ce6ef3f4dba37b8eb1,gpt-6.1-sol,w2-10261239-5,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6194List::forEach|c,20661d4a29661222ddc0a391,gpt-6.1-sol,w2-10261239-5,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6194List::forEach|d,adad427cdaf8c73c68ce9ee5,gpt-6.1-sol,w2-10261239-5,w-dce04682aaeb,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|x,3ee0068e47b3a23577aaa74b,gpt-6.1-sol,w2-10261239-6,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|a,720823d5e21e31a7c9ab7aff,gpt-6.1-sol,w2-10261239-9,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|b,e29d7f1b6902f138d19e1de4,gpt-6.1-sol,w2-10261239-9,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|param|swapEntries|o,81936cf35a05f00a819abd53,gpt-6.1-sol,w2-10261239-10,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|t,0422c8d4660e81af373399d8,gpt-6.1-sol,w2-10261239-10,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva000D3A17.cpp|local|Rva000D3A17::rva000D3A17|p,4678e1f8eda620af0ea6e8fc,gpt-6.1-sol,w2-10261239-12,w-dce04682aaeb,2026-10-26

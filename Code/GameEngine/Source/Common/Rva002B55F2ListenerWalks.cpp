@@ -213,7 +213,7 @@ private:
 class Rva002B6194List
 {
 public:
-	void forEach(Rva002B2FCBFn fn, int a, int b, int c, int d);
+	void forEach(Rva002B2FCBFn fn, int sourceArmy, int b, int targetArmy, int d);
 	void apply(Rva002B2FCB &call);
 
 private:
@@ -223,13 +223,13 @@ private:
 	unsigned int m_index;	// +0x0C
 };
 
-void Rva002B6194List::forEach(Rva002B2FCBFn fn, int a, int b, int c, int d)
+void Rva002B6194List::forEach(Rva002B2FCBFn fn, int sourceArmy, int b, int targetArmy, int d)
 {
 	Rva002B2FCB call;
 	call.m_fn = fn;
-	call.m_4 = a;
+	call.m_4 = sourceArmy;
 	call.m_8 = b;
-	call.m_c = c;
+	call.m_c = targetArmy;
 	call.m_10 = d;
 	apply(call);
 }
