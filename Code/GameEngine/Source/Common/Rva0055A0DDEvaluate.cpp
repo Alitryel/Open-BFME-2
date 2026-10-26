@@ -1,4 +1,6 @@
 // cl: /O1 /G7 /arch:SSE /MD /Ireference/shims/sweep
+// platformsdk
+// dxsdk
 // Clean BFME1 6d9434269164392c5ba62aaa7c15a86b5b020d76,
 // game/GameEngine/Source/Common/Bezier/BezierSegmentEvaluation.cpp.
 // Copyright 2025 Electronic Arts Inc.; GPL-3.0-or-later.
@@ -11,8 +13,16 @@
 // Inline dot products preserve the target's scalar SSE arithmetic.
 typedef float Real;
 #include "../../../Libraries/Include/Lib/Coord3D.h"
-#include "d3dx8math.h"
-extern const D3DXMATRIX g_Rva009D2398Basis(-1,3,-3,1,3,-6,3,0,-3,3,0,0,1,0,0,0);
+#include <d3dx9math.h>
+struct _D3DXMATRIX : public D3DXMATRIX
+{
+	_D3DXMATRIX(float _11, float _12, float _13, float _14,
+	            float _21, float _22, float _23, float _24,
+	            float _31, float _32, float _33, float _34,
+	            float _41, float _42, float _43, float _44)
+		: D3DXMATRIX(_11, _12, _13, _14, _21, _22, _23, _24, _31, _32, _33, _34, _41, _42, _43, _44) {}
+};
+extern const _D3DXMATRIX g_Rva009D2398Basis(-1,3,-3,1,3,-6,3,0,-3,3,0,0,1,0,0,0);
 class Rva0055A246
 {
 public:
