@@ -36,14 +36,14 @@ __forceinline long fast_float2long_round(Real f)
 // argument slot before storing the float, then pops the second slot.
 __forceinline long realFloor(Real x)
 {
-	Real f = (Real)floor((double)x);
-	return fast_float2long_round(f);
+	Real flooredValue = (Real)floor((double)x);
+	return fast_float2long_round(flooredValue);
 }
 
 __forceinline long realCeil(Real x)
 {
-	Real f = (Real)ceil((double)x);
-	return fast_float2long_round(f);
+	Real ceilingValue = (Real)ceil((double)x);
+	return fast_float2long_round(ceilingValue);
 }
 
 #define REAL_TO_INT_FLOOR(x) realFloor(x)

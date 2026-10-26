@@ -2306,3 +2306,7 @@ param,Rva00136794::Rva00136794::f,Rva00136794::Rva00136794::scale,inferred,agree
 param,Rva00136794::Rva00136794::r,Rva00136794::Rva00136794::options,inferred,agree:nl-c4235023ad46,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
 member,Rva00509E43Template::m_610,Rva00509E43Template::m_shockwaveResistance,inferred,agree:nl-67729e09473b,Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp,
 local,W3DModelDraw::rva000B7C24::tmp,W3DModelDraw::rva000B7C24::conditionFlags,inferred,agree:nl-85f14f79aa22,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawAttachableSubModels.cpp,0x000B7C24
+local,realFloor::f,realFloor::flooredValue,inferred,agree:nl-f52aa697fffc,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp,
+local,realCeil::f,realCeil::ceilingValue,inferred,agree:nl-a476aec8a095,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp,
+param,Rva0006EE7A::Rva0006EE7A#2::b3,Rva0006EE7A::Rva0006EE7A#2::idx3,inferred,agree:nl-877ddc193206,Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp,
+param,Rva0006EE7A::Rva0006EE7A#2::b4,Rva0006EE7A::Rva0006EE7A#2::idx4,inferred,agree:nl-ee63f8061086,Code/Libraries/Source/WWVegas/WW3D2/Rva0006EE7ABitSet.cpp,
