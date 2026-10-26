@@ -81,37 +81,29 @@ protected:
 	void updateTexture();
 
 private:
-	unsigned char pad00[0x28];
-	int *m_curNumTreeIndices;
-	unsigned char pad2c[0x34 - 0x2c];
-	void *m_field34;
-	void *m_texture38;
-	unsigned char pad3c[0x5bc - 0x3c];
-	float m_swayRate;
-	unsigned char pad5c0[0x1958 - 0x5c0];
-	Rva000E89BDTree m_trees[2000];
-	int m_numTrees;
-	bool m_anythingChanged;
-	bool m_anyPushChanged;
-	bool m_flag4fb5e;
-	unsigned char pad4fb5f[0x4fb6d - 0x4fb5f];
-	bool m_updateAllKeys;
-	bool m_needToUpdateTexture;
-	unsigned char pad4fb6f[0x4fb70 - 0x4fb6f];
-	Rva000E89BDType m_treeTypes[64];
-	unsigned char pad51270[4];
-	bool m_prevChanged;
-	unsigned char pad51275[3];
-	int m_treeIndexStep;
-	int m_nextKey;
+	// Match the seed's opaque base, record/type arrays and tail storage.
+	void *m_baseVtable;
+	unsigned char m_storage[0x5BC - 4];
+	float m_pushRateScale;
+	unsigned char m_pad5c0[0x1958 - 0x5C0];
+	unsigned char m_records[2000 * 0xA0];
+	int m_count;
+	unsigned char m_4fb5c, m_4fb5d, m_4fb5e, m_4fb5f;
+	unsigned char m_pad4fb60[0x4FB6C - 0x4FB60];
+	unsigned char m_4fb6c, m_4fb6d, m_4fb6e, m_4fb6f;
+	unsigned char m_types[64 * 0x5C];
+	int m_numTypes;
+	int m_51274;
+	int m_51278;
+	int m_5127c;
 };
 
 // ?drawShrubs@W3DShrubBuffer@@QAEXH@Z
 void W3DShrubBuffer::drawShrubs(int arg)
 {
-	if (!m_field34)
+	if (!(*reinterpret_cast<void **>(m_storage + 0x30)))
 		return;
-	if (!m_updateAllKeys)
+	if (!m_4fb6d)
 		return;
 	if (!((Rva000E89BDGlobalData *)TheWritableGlobalData)->flag1c)
 		return;
@@ -127,59 +119,59 @@ void W3DShrubBuffer::drawShrubs(int arg)
 	if (!pause)
 		((Rva000E6406SwayView *)this)->rva000E6406(*info);
 
-	m_updateAllKeys = false;
-	if (m_needToUpdateTexture) {
-		m_needToUpdateTexture = false;
+	m_4fb6d = false;
+	if (m_4fb6e) {
+		m_4fb6e = false;
 		updateTexture();
 	}
-	if (!m_texture38)
+	if (!(*reinterpret_cast<void **>(m_storage + 0x34)))
 		return;
 
 	for (int k = 30; k > 0; k--) {
-		if (m_nextKey >= m_numTrees)
-			m_nextKey = 0;
-		m_trees[m_nextKey].shroudState = 0;
-		m_nextKey++;
+		if (m_5127c >= m_count)
+			m_5127c = 0;
+		reinterpret_cast<Rva000E89BDTree *>(m_records)[m_5127c].shroudState = 0;
+		m_5127c++;
 	}
-	if (m_flag4fb5e)
+	if (m_4fb5e)
 		rva000E76B8();
 
 	int playerIndex = ThePlayerList ? ((Rva000E89BDPlayerList *)ThePlayerList)->local->index : 0;
-	for (int curTree = 0; curTree < m_numTrees; curTree += m_treeIndexStep) {
-		int type = m_trees[curTree].treeType;
+	for (int curTree = 0; curTree < m_count; curTree += m_51278) {
+		int type = reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].treeType;
 		if (type < 0)
 			continue;
-		if (m_trees[curTree].toppleState != 0)
+		if (reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].toppleState != 0)
 			continue;
-		if (!m_trees[curTree].visible)
+		if (!reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].visible)
 			continue;
 		if (!ThePlayerList || !TheShroudManager)
-			m_trees[curTree].shroudState = 1;
-		if (m_trees[curTree].shroudState == 0)
-			m_trees[curTree].shroudState = ((Rva00739800 *)TheShroudManager)->rva00739800(playerIndex, &m_trees[curTree].location);
-		if (m_trees[curTree].shroudState >= 3 || m_trees[curTree].shroudState <= 0)
+			reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].shroudState = 1;
+		if (reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].shroudState == 0)
+			reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].shroudState = ((Rva00739800 *)TheShroudManager)->rva00739800(playerIndex, &reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].location);
+		if (reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].shroudState >= 3 || reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].shroudState <= 0)
 			continue;
 		if (pause)
 			continue;
-		if (m_trees[curTree].pushAsideDelta != 0.0f) {
-			m_trees[curTree].pushAside += m_trees[curTree].pushAsideDelta;
-			if (m_trees[curTree].pushAside >= 1.0f) {
-				m_trees[curTree].pushAsideDelta = -1.0 / ((float)m_treeTypes[type].data->framesToMoveInward * m_swayRate);
-			} else if (m_trees[curTree].pushAside <= 0.0f) {
-				m_trees[curTree].pushAsideDelta = 0.0f;
-				m_trees[curTree].pushAside = 0.0f;
+		if (reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAsideDelta != 0.0f) {
+			reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAside += reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAsideDelta;
+			if (reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAside >= 1.0f) {
+				reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAsideDelta = -1.0 / ((float)reinterpret_cast<Rva000E89BDType *>(m_types)[type].data->framesToMoveInward * m_pushRateScale);
+			} else if (reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAside <= 0.0f) {
+				reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAsideDelta = 0.0f;
+				reinterpret_cast<Rva000E89BDTree *>(m_records)[curTree].pushAside = 0.0f;
 			}
 		}
 	}
 
-	m_prevChanged = m_anythingChanged;
-	if (m_anythingChanged) {
+	(*reinterpret_cast<bool *>(&m_51274)) = (*reinterpret_cast<bool *>(&m_4fb5c));
+	if ((*reinterpret_cast<bool *>(&m_4fb5c))) {
 		loadShrubsInVertexAndIndexBuffers();
-		m_anythingChanged = false;
-	} else if (m_anyPushChanged) {
-		m_anyPushChanged = false;
+		(*reinterpret_cast<bool *>(&m_4fb5c)) = false;
+	} else if (m_4fb5d) {
+		m_4fb5d = false;
 		rva000E8365();
 	}
-	if (*m_curNumTreeIndices != 0)
+	if (*(*reinterpret_cast<int **>(m_storage + 0x24)) != 0)
 		((Rva000EC9C6 *)this)->rva000E663B(arg);
 }
