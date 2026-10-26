@@ -35,3 +35,16 @@ template void __destroy_aux<Rva001EB63C *>(Rva001EB63C *, Rva001EB63C *, const _
 template void __destroy_aux<Rva001EB940 *>(Rva001EB940 *, Rva001EB940 *, const __false_type &);
 template void __destroy_aux<Rva005C8FBD *>(Rva005C8FBD *, Rva005C8FBD *, const __false_type &);
 }
+
+// StlportVectorClearRva00475F2A.cpp and StlportVectorEraseRangeDeferred.cpp
+// destroy four-byte Rva004758F4Element ranges through this same loop
+// (0x00470398) and declare _Destroy for it only, so this unit supplies it: the
+// element is the 0x001EB940 holder, and the loop is __destroy_aux's over it.
+struct Rva004758F4Element : Rva001EB940 {};
+namespace _STL {
+template <> void _Destroy<Rva004758F4Element *>(Rva004758F4Element *first, Rva004758F4Element *last)
+{
+	for (; first != last; ++first)
+		_Destroy(static_cast<Rva001EB940 *>(first));
+}
+}

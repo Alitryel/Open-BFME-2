@@ -33,13 +33,5 @@ void _STL::vector<Rva00475F2AElement>::_M_clear()
 		free(start);
 }
 
-// The retail call in this body reads 0x00470398, an address the ledger already
-// carries as ??$__destroy_aux@PAURva001EB940@@@_STL@@YAXPAURva001EB940@@0ABU__false_type@0@@Z. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:??$_Destroy@PAURva004758F4Element@@@_STL@@YAXPAURva004758F4Element@@0@Z=??$__destroy_aux@PAURva001EB940@@@_STL@@YAXPAURva001EB940@@0ABU__false_type@0@@Z")
-
-// Placeholder names this unit's own object settles.  In retail each one holds
-// what the unit's matched code references or installs: the rowed function of
-// the vftable slot it occupies, or the function or datum the instruction
-// reaches, so bind the placeholder to that row's name.
-#pragma comment(linker, "/alternatename:??$_Destroy@PAURva004758F4Element@@@_STL@@YAXPAURva004758F4Element@@0@Z=??$__destroy_aux@PAURva001EB940@@@_STL@@YAXPAURva001EB940@@0ABU__false_type@0@@Z")
+// The retail call reads 0x00470398, the stride-4 loop StlportDestroyAuxFamily28.cpp
+// defines for Rva004758F4Element.
