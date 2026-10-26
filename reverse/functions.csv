@@ -6955,7 +6955,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??1Rva00253E19@@UAE@XZ,,0x00253E19,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor three vptrs tail-jmp opaque base
 ??1Rva00253EF5@@UAE@XZ,,0x00253EF5,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor three vptrs tail-jmp opaque base
 ??1Rva0033EEC9@@UAE@XZ,,0x0033EEC9,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor three vptrs tail-jmp opaque base
-??1Rva00373CB1@@UAE@XZ,,0x00373CB1,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
+??1StealthUpdate@@UAE@XZ,,0x00373CB1,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1Rva003A4322@@UAE@XZ,,0x003A4322,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1Rva003A49D1@@UAE@XZ,,0x003A49D1,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
 ??1Rva003A4CAE@@UAE@XZ,,0x003A4CAE,25,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,opaque MI dtor
@@ -10689,7 +10689,7 @@ _luaU_undump,,0x00756D10,133,Code/Libraries/Source/Lua/lundump.c,matched,object-
 ??_GRva00253EF5@@UAEPAXI@Z,,0x00253ED9,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ?get@Rva00151DB8SubDwordField@@QBEHXZ,,0x00151DB8,7,Code/GameEngine/Source/Common/Disp8SubDwordFieldGetters.cpp,matched,disp8 sub dword getter; opaque holder
 ??_GRva0033EEC9@@UAEPAXI@Z,,0x0033F017,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
-??_GRva00373CB1@@UAEPAXI@Z,,0x00373F3D,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GStealthUpdate@@UAEPAXI@Z,,0x00373F3D,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ?name@Rva001E3E56Named@@QBEPBDXZ,,0x001E3E56,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning Locomotor; vtable ref in .rdata; address-derived placeholder name
 ??_GRva003A4322@@UAEPAXI@Z,,0x003A43EC,28,Code/GameEngine/Source/Common/Rva0024A797Derived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ?get@Rva00217490SubDwordField@@QBEHXZ,,0x00217490,7,Code/GameEngine/Source/Common/Disp8SubDwordFieldGetters.cpp,matched,disp8 sub dword getter; opaque holder

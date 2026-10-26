@@ -79,13 +79,17 @@ public:
 	virtual void f2();
 };
 
-class Rva00373CB1 : public UpdateModule, public MiBase1, public Rva00373CB1_B2
+// StealthUpdate (retail module class, module_factory_registrations.csv): its
+// constructor 0x00374B02 stores the same three vftables (0x00817F20 at +0,
+// the shared 0x007EFF90 at +0xC, 0x00817F14 at +0x10) as this destructor,
+// and slot 0 of 0x00817F20 is the deleting destructor 0x00373F3D.
+class StealthUpdate : public UpdateModule, public MiBase1, public Rva00373CB1_B2
 {
 public:
-	virtual ~Rva00373CB1();
+	virtual ~StealthUpdate();
 };
 
-Rva00373CB1::~Rva00373CB1()
+StealthUpdate::~StealthUpdate()
 {
 }
 

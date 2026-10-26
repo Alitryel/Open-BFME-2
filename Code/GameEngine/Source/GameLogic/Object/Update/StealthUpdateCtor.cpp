@@ -53,32 +53,12 @@ struct UpgradeMaskType
 	unsigned long m_words[32];
 };
 
-class ObjectModule
-{
-public:
-	virtual ~ObjectModule();
-protected:
-	const ModuleData *m_moduleData; // +0x04
-	Object *m_object; // +0x08
-};
-
-class BehaviorModuleInterface
-{
-public:
-	virtual void getBody();
-};
-
-class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
-{
-};
-
-class UpdateModuleInterface
-{
-public:
-	virtual void update();
-};
-
-class UpdateModule : public BehaviorModule, public UpdateModuleInterface
+// The flattened view Rva0024A797Derived.cpp gives StealthUpdate's destructor:
+// UpdateModule's own vptr at +0x00, then the two interface vptrs at +0x0C
+// (the shared 0x007EFF90) and +0x10 (0x00817F14), so this constructor's
+// vftable copies are the ones that unit's destructor stores. The interface
+// bases are novtable: retail stores only the three StealthUpdate vftables.
+class UpdateModule
 {
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
@@ -86,10 +66,21 @@ public:
 protected:
 	Object *getObject() const { return m_object; }
 	void setWakeFrame(Object *obj, UpdateSleepTime wakeDelay);
-private:
-	UnsignedInt m_nextCallFrameAndPhase; // +0x14
-	Int m_indexInLogic; // +0x18
-	Int m_reserved1C; // +0x1C
+
+	const ModuleData *m_moduleData; // +0x04
+	Object *m_object; // +0x08
+};
+
+class __declspec(novtable) MiBase1
+{
+public:
+	virtual void f1();
+};
+
+class __declspec(novtable) Rva00373CB1_B2
+{
+public:
+	virtual void f2();
 };
 
 class StealthUpdateModuleData
@@ -108,7 +99,7 @@ public:
 	void rva003743CF(void *status, Bool set);
 };
 
-class StealthUpdate : public UpdateModule
+class StealthUpdate : public UpdateModule, public MiBase1, public Rva00373CB1_B2
 {
 public:
 	StealthUpdate(Thing *thing, const ModuleData *moduleData);
@@ -116,6 +107,7 @@ public:
 private:
 	const StealthUpdateModuleData *getStealthUpdateModuleData() const { return (const StealthUpdateModuleData *)m_moduleData; }
 
+	UnsignedInt m_updateModuleFields[3]; // +0x14..+0x1F, UpdateModule's own (set by its constructor)
 	UnsignedInt m_stealthAllowedFrame; // +0x20
 	UnsignedInt m_detectionExpiresFrame; // +0x24
 	UnsignedInt m_framesGranted; // +0x28
