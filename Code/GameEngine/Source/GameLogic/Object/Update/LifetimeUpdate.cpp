@@ -76,7 +76,9 @@ public:
 private:
 	UnsignedInt calcSleepDelay(UnsignedInt minFrames, UnsignedInt maxFrames);
 
-	unsigned char m_pad14[0x14];
+	unsigned char m_pad14[0x20 - 0x14];
+	UnsignedInt m_dieFrame; // +0x20, calcSleepDelay and xfer
+	UnsignedInt m_birthFrame; // +0x24, calcSleepDelay and xfer
 	bool m_28; // +0x28
 };
 
