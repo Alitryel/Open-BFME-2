@@ -48,7 +48,7 @@ public:
 	};
 };
 
-class Rva004E81DE
+class ClaimedDecalUpdateCallback
 {
 public:
 	virtual void rva004E81DE(void *claimantId, float value, bool on);
@@ -57,7 +57,7 @@ private:
 	void *m_08;												// +0x08
 };
 
-void Rva004E81DE::rva004E81DE(void *claimantId, float value, bool on)
+void ClaimedDecalUpdateCallback::rva004E81DE(void *claimantId, float value, bool on)
 {
 	if (on)
 		m_target->updateClaimedDecalForClaimant((_STL::list<ClaimedDecal, _STL::allocator<ClaimedDecal> > *)m_08, (ObjectID)(int)claimantId, value);

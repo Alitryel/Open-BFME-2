@@ -2457,3 +2457,5 @@ class,Rva003598A5Obj,TerrainResourceCellVisitor,inferred,agree:nl-f08bd697a238,C
 param,Rva0035A97E::rva0035A97E::a,Rva0035A97E::rva0035A97E::cellX,inferred,agree:nl-7191da2d0d1f,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x0035A97E
 param,Rva0035A97E::rva0035A97E::b,Rva0035A97E::rva0035A97E::cellY,inferred,agree:nl-3009c5834616,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x0035A97E
 local,Rva0028D796::rva0028D796::c,Rva0028D796::rva0028D796::levelRank,inferred,agree:nl-0edc03b7dac4,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp,0x0028D796
+class,Rva004E81DE,ClaimedDecalUpdateCallback,inferred,agree:nl-5543072b7f92,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,
+carry,Rva004E81DE::rva004E81DE::claimantId,ClaimedDecalUpdateCallback::rva004E81DE::claimantId,inferred,scope renamed by Rename Rva004E81DE to ClaimedDecalUpdateCallback (inferred),Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x004E81DE
