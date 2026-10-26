@@ -281,6 +281,21 @@ authored-byte previews or commit-title gains into a projected headline.
   but changed a static guard name outside the data baseline. Both experiments
   were restored, the false reject was logged and source claims released. No
   source repair, merge unblock, debt retirement or census gain is claimed.
+- **FireWeaponWhenDamaged ctor/dtor prerequisite (2026-10-26):** a scoped
+  measured declaration view makes the ordinary dry run accept four rows / 838
+  bytes versus none. Both standalone objects and all 34 binding facts are
+  unchanged; scratch composition preserves six code/six data definitions and
+  every COMDAT/vtable binding. See consolidation-fireweapondamaged-prerequisite-
+  20261026-codex.md. Pool/update/xfer methods, mixed donors and the Libraries
+  allocator-specialization provider remain prerequisites. No merge, debt
+  retirement or measured linking gain is claimed.
+- **UpdateModule current-verifier follow-up (2026-10-26):** ordinary dry run now
+  accepts seed/xfer (two rows / 116 bytes); scoped build, strict receipts and COFF
+  composition checks preserve three external definitions and all bindings/data.
+  No source edit or merge is needed; mixed wake-frame split hatch growth remains.
+  See consolidation-updatemodule-prerequisite-20261026-codex.md. HealContain's
+  pool/xfer still need explicit-vptr versus virtual-receiver reconciliation;
+  see consolidation-healcontain-prerequisite-20261026-codex.md. No measured gain.
 - **FireSpreadUpdate minimal retry (2026-10-26):** the separate cache fix permits
   the ordinary seed/pool dry run to accept six rows / 286 bytes after a
   TU-scoped declaration view adds the existing pool member. All five standalone
