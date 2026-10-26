@@ -27,10 +27,16 @@ enum NetCommandType
 // through the _N pin at 0x005811B5.
 bool DoesCommandRequireACommandID(NetCommandType type);
 
+class AsciiString;
+
 class NetCommandMsg
 {
 public:
 	virtual ~NetCommandMsg();
+	virtual void *getObjectMemoryPool();
+	virtual int getSortNumber();
+	virtual AsciiString getContentsAsAsciiString();
+	void attach();
 	void detach();
 
 public:
@@ -80,21 +86,18 @@ public:
 	NetCommandNode *m_prev; ///< retail this+0x08, cleared by reset
 };
 
-// BFME2's message handle shares the node layout (command at +0, next at
-// +4, prev at +8) under its own name, which is what removeMessage's
-// mangling carries.
 class NetCommandRef
 {
 public:
-	NetCommandMsg *getCommand() { return m_command; }
-	NetCommandRef *getNext() { return m_next; }
-	UnsignedByte getRelay() const { return m_relay; }
-	void setRelay(UnsignedByte relay) { m_relay = relay; }
+	NetCommandRef(NetCommandMsg *msg);
+	AsciiString rva0058B8BA();
 
-	NetCommandMsg *m_command;
+private:
+	NetCommandMsg *m_msg;
 	NetCommandRef *m_next;
 	NetCommandRef *m_prev;
-	UnsignedByte m_relay; ///< retail this+0x0C, copied by appendList
+	UnsignedByte m_relay;
+	UnsignedInt m_timeLastSent;
 };
 
 class NetCommandList
