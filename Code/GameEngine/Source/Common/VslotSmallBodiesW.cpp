@@ -56,7 +56,7 @@ public:
 // file at VA 0x00DFEFF0 while the flag at VA 0x00E03745 is set, then sets
 // +0x49 and answers true.
 extern unsigned char g_00E03745;
-extern void *g_00DFEFF0;
+extern "C" FILE *theLogicRandomLogFile;
 class Rva003400F9
 {
 public:
@@ -67,8 +67,8 @@ private:
 };
 bool Rva003400F9::computePath()
 {
-	if (g_00E03745 && g_00DFEFF0)
-		fprintf((FILE *)g_00DFEFF0, "CritterDesync: ComputePath3");
+	if (g_00E03745 && theLogicRandomLogFile)
+		fprintf(theLogicRandomLogFile, "CritterDesync: ComputePath3");
 	m_49 = true;
 	return true;
 }

@@ -746,7 +746,6 @@ Code/GameEngine/Source/Common/VslotSmallBodiesQ.cpp	wrong-name	?g_rva00709A00Pen
 Code/GameEngine/Source/Common/VslotSmallBodiesS.cpp	wrong-name	?g_rva00514878Flags@@3PAURva00514878Flags@@A	0x00A01E48
 Code/GameEngine/Source/Common/VslotSmallBodiesS.cpp	wrong-name	?g_rva00514878Target@@3PAVRva00222A8BTarget@@A	0x009FE4CC
 Code/GameEngine/Source/Common/VslotSmallBodiesS.cpp	wrong-name	?g_rva0051E2FBTarget@@3PAVRva0051E2FBTarget@@A	0x009FDC14
-Code/GameEngine/Source/Common/VslotSmallBodiesW.cpp	wrong-name	?g_00DFEFF0@@3PAXA	0x009FEFF0
 Code/GameEngine/Source/Common/VtableSlotBodiesR3F.cpp	wrong-name	?g_Va00DE204C@@3HA	0x009E204C
 Code/GameEngine/Source/Common/W3DVolumetricShadowManagerReAcquire.cpp	wrong-name	?D3DDevice@DX8Wrapper@@2PAUIDirect3DDevice8@@A	0x009EDA34
 Code/GameEngine/Source/Common/WW3DOptionSetter.cpp	wrong-name	?g_WW3D_IsInitted@@3EA	0x009EC3D4
