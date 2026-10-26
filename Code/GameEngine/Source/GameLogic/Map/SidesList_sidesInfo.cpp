@@ -317,14 +317,7 @@ public:
 
 enum { XFER_INVALID_DATA = 5 };
 
-class SubsystemInterface
-{
-public:
-	virtual ~SubsystemInterface();
-	SubsystemInterface &operator=(const SubsystemInterface &that);	// 0x00329880
-private:
-	int m_subsystemData[2];
-};
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class SidesListSnapshotBase
 {

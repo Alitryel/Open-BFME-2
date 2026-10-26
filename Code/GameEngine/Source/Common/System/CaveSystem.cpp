@@ -27,7 +27,7 @@ template<> _Vector_base<BfmeE16, allocator<BfmeE16> >::_Vector_base(const alloca
 extern const void *const g_00BBB554[];
 
 // 0x001B4E63 is the rowed SubsystemInterface ctor.
-class SubsystemInterface { public: SubsystemInterface(); };
+#include "../../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
 class __declspec(novtable) BFME2NativeNetwork
 {
