@@ -80,7 +80,7 @@ int Rva005DBB7A::rva005DBB7A(unsigned short row, unsigned short column) const
 struct GameStatsRow
 {
 	int m_words[5];
-	bool m_14;
+	bool m_dirty;
 };
 
 struct GameStatsRowVector
@@ -94,17 +94,17 @@ struct GameStatsRowVector
 class GameStatsTable
 {
 public:
-	bool rva005DD7FB(unsigned index) const;
+	bool isRowDirty(unsigned index) const;
 private:
 	int m_00;
 	GameStatsRowVector m_records;
 };
 
-bool GameStatsTable::rva005DD7FB(unsigned index) const
+bool GameStatsTable::isRowDirty(unsigned index) const
 {
 	if (index >= m_records.size())
 		return false;
-	return m_records[index].m_14;
+	return m_records[index].m_dirty;
 }
 
 // --- 0x005E18EA (28B, cdecl): the colour of TheLivingWorldLogic's +0x98

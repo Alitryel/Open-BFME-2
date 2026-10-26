@@ -2299,3 +2299,8 @@ param,store_row::b,store_row::yComponent,inferred,agree:nl-73a24ca45d7a,Code/Lib
 param,store_row::c,store_row::zComponent,inferred,agree:nl-cb5e07f85ca3,Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp,
 param,store_row::d,store_row::wComponent,inferred,agree:nl-0fdc9fdba0f8,Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp,
 member,Rva0052DB11Head::m_14,Rva0052DB11Head::m_goalList,inferred,agree:nl-88ed7a3a4bce,Code/GameEngine/Source/Common/Rva0052DB11.cpp,
+member,GameStatsRow::m_14,GameStatsRow::m_dirty,inferred,agree:nl-dcea2f7e6f84,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,
+function,?rva005DD7FB@GameStatsTable@@QBE_NI@Z,?isRowDirty@GameStatsTable@@QBE_NI@Z,inferred,agree:nl-277c6ba3d8ab,Code/GameEngine/Source/Common/GapBodiesGE38.cpp,0x005DD7FB
+param,Rva00136794::Rva00136794::s1,Rva00136794::Rva00136794::mangledName,inferred,agree:nl-8f46495c0995,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
+param,Rva00136794::Rva00136794::f,Rva00136794::Rva00136794::scale,inferred,agree:nl-d8e76a517464,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
+param,Rva00136794::Rva00136794::r,Rva00136794::Rva00136794::options,inferred,agree:nl-c4235023ad46,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
