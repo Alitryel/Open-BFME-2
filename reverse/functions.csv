@@ -24616,7 +24616,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ?getWaterHeight@W3DTerrainLogic@@UAEMPAX@Z,,0x0027D85B,51,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,matched,vslot 30 of 0x007C5890 via honest address name plus grid global 0x00DBB710 plus pooled 0.0f
 ?setCoord3D@Parameter@@IAEXPBUCoord3D@@@Z,,0x003B27E2,22,Code/GameEngine/Source/GameLogic/ScriptEngine/ParameterSetCoord3D.cpp,matched,ZH Scripts.cpp donor type 0x10 coord at 0x14
 ?getCoord3D@Parameter@@QBEXPAUCoord3D@@@Z,,0x003B27BB,39,Code/GameEngine/Source/GameLogic/ScriptEngine/ParameterGetCoord3D.cpp,matched,ZH Scripts.cpp donor SSE zeroing coord at 0x14
-?xfer@ShipSlowDeathBehavior@@MAEXPAVXfer@@@Z,,0x0045ED0E,33,Code/GameEngine/Source/GameLogic/Object/Behavior/ShipSlowDeathBehaviorXfer.cpp,matched,slot 3 of vtable 0x008423FC via rowed base xfer 0x45D3CB and Version1 0x53EE
+?xfer@ShipSlowDeathBehavior@@MAEXPAVXfer@@@Z,,0x0045ED0E,33,Code/GameEngine/Source/GameLogic/Object/Behavior/ShipSlowDeathBehavior.cpp,matched,slot 3 of vtable 0x008423FC via rowed base xfer 0x45D3CB and Version1 0x53EE
 ?xfer@GiantBirdSlowDeathBehavior@@MAEXPAVXfer@@@Z,,0x00461F34,75,Code/GameEngine/Source/GameLogic/Object/Behavior/GiantBirdSlowDeathBehaviorXfer.cpp,matched,slot3 of vtable 0x00842E64 via Version1 plus base SlowDeathBehavior xfer
 ?XferStancesEnum@@YAXPAVXfer@@PAH@Z,,0x0045ED66,24,Code/GameEngine/Source/Common/System/XferEnumHelpers.cpp,matched,labelled-enum helper StancesEnum string via XferEnum slot 37
 ?xfer@StancesBehavior@@MAEXPAVXfer@@@Z,,0x0045ED9D,56,Code/GameEngine/Source/GameLogic/Object/Behavior/StancesBehaviorXfer.cpp,matched,slot 3 of vtable 0x008424DC via Version slot 0x28 and rowed base 0x44DF9F and helper 0x45ED66
