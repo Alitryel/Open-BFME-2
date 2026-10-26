@@ -114,18 +114,21 @@ public:
 	virtual void slot3C(); virtual void slot40(); virtual void slot44(); virtual void slot48();
 	virtual void slot4C(int report);
 };
-class Debug
+class BfmeAwakenDebug
 {
 public:
-	virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0C();
-	virtual void slot10(); virtual void slot14(); virtual void slot18(); virtual void slot1C();
-	virtual void slot20(); virtual void slot24(); virtual void slot28(); virtual void slot2C();
-	virtual void slot30(); virtual void slot34(); virtual void slot38(); virtual void slot3C();
-	virtual void slot40(); virtual void slot44(); virtual void slot48(); virtual void slot4C();
-	virtual void slot50(); virtual void slot54(); virtual void slot58(); virtual void slot5C();
-	virtual void slot60(); virtual void slot64(); virtual void slot68();
-	virtual BfmeAwakenLog *slot6C(int first, int second, int third);
+	virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
+	virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
+	virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c();
+	virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c();
+	virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c();
+	virtual void v50(); virtual void v54(); virtual void v58(); virtual void v5c();
+	virtual void v60();
+	virtual void v64(); virtual void v68();
+	virtual BfmeAwakenLog *v6c(int first, int second, int third);
 };
+
+class Debug;
 extern Debug *theDebug;
 extern bool _bfme_debugReportingEnabled();
 extern void _bfme_debugRecordCallsite(int kind);
@@ -134,8 +137,8 @@ extern void _bfme_debugRecordCallsite(int kind);
 	do { \
 		if (_bfme_debugReportingEnabled()) { \
 			_bfme_debugRecordCallsite(1); \
-			theDebug->slot60(); \
-			theDebug->slot6C(0, 0, 0)->slot38(MESSAGE)->slot4C(2); \
+			reinterpret_cast<BfmeAwakenDebug *>(theDebug)->v60(); \
+			reinterpret_cast<BfmeAwakenDebug *>(theDebug)->v6c(0, 0, 0)->slot38(MESSAGE)->slot4C(2); \
 		} \
 	} while (0)
 

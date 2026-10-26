@@ -85,11 +85,11 @@ public:
 
 private:
 	unsigned char m_pad0000[0x1958];
-	Rva000E8C2DTree m_trees[2000];
-	Int m_numTrees;
-	bool m_anythingChanged;
-	unsigned char m_pad4fb5d[0x4fb70 - 0x4fb5d];
-	Rva000E8C2DType m_treeTypes[64];
+	unsigned char m_records[2000 * 0xA0];
+	Int m_count;
+	unsigned char m_4fb5c, m_4fb5d, m_4fb5e, m_4fb5f;
+	unsigned char m_pad4fb60[0x4FB70 - 0x4FB60];
+	unsigned char m_types[64 * 0x5C];
 };
 
 // File-static matrix copy (LK3-style): the TU's copy-ctor COMDAT loses
@@ -106,63 +106,63 @@ static void CopyShrubMatrix3D(Matrix3D &dst, const Matrix3D &src)
 // ?startMorph@W3DShrubBuffer@@QAEXHH@Z
 void W3DShrubBuffer::startMorph(Int index, Int request)
 {
-	Int type = m_trees[index].m_treeType;
-	if (index >= m_numTrees)
+	Int type = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_treeType;
+	if (index >= m_count)
 		return;
 	if (type < 0)
 		return;
 	if (request == 1) {
-		if (m_treeTypes[type].m_data->m_flag54)
+		if (reinterpret_cast<Rva000E8C2DType *>(m_types)[type].m_data->m_flag54)
 			return;
 	}
 	if (request == 2) {
-		if (!m_treeTypes[type].m_data->m_flag54)
+		if (!reinterpret_cast<Rva000E8C2DType *>(m_types)[type].m_data->m_flag54)
 			return;
 	}
 
-	m_trees[index].m_sinkFrames = m_treeTypes[type].m_data->m_duration;
-	m_trees[index].m_request = request;
-	if (m_trees[index].m_topple != 0) {
-		m_trees[index].m_topple->Release_Ref();
-		m_trees[index].m_topple = 0;
+	reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_sinkFrames = reinterpret_cast<Rva000E8C2DType *>(m_types)[type].m_data->m_duration;
+	reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_request = request;
+	if (reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple != 0) {
+		reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple->Release_Ref();
+		reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple = 0;
 	}
-	m_trees[index].m_topple = Create_Render_Obj(m_treeTypes[type].m_modelName.str());
-	rva0010E4F6(m_trees[index].m_topple, false);
-	reinterpret_cast<SceneClass *>(W3DDisplay::m_3DScene)->Add_Render_Object(m_trees[index].m_topple);
+	reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple = Create_Render_Obj(reinterpret_cast<Rva000E8C2DType *>(m_types)[type].m_modelName.str());
+	rva0010E4F6(reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple, false);
+	reinterpret_cast<SceneClass *>(W3DDisplay::m_3DScene)->Add_Render_Object(reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple);
 	Matrix3D transform;
-	CopyShrubMatrix3D(transform, m_trees[index].m_topple->Get_Transform());
-	transform[0][3] = m_trees[index].m_location.x;
-	transform[1][3] = m_trees[index].m_location.y;
-	transform[2][3] = m_trees[index].m_location.z;
-	Matrix3 rotation(m_trees[index].m_transform);
+	CopyShrubMatrix3D(transform, reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple->Get_Transform());
+	transform[0][3] = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.x;
+	transform[1][3] = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.y;
+	transform[2][3] = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.z;
+	Matrix3 rotation(reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_transform);
 	transform.Set_Rotation(rotation);
-	m_trees[index].m_topple->Set_Transform(transform);
+	reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple->Set_Transform(transform);
 
-	if (m_trees[index].m_pushAside != 0) {
-		m_trees[index].m_pushAside->Release_Ref();
-		m_trees[index].m_pushAside = 0;
+	if (reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside != 0) {
+		reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside->Release_Ref();
+		reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside = 0;
 	}
-	if (m_treeTypes[type].m_field58 != -2) {
-		m_trees[index].m_pushAside = Create_Render_Obj(m_treeTypes[m_trees[index].m_toppledType].m_data->m_modelName.str());
-		rva0010E4F6(m_trees[index].m_pushAside, false);
-		reinterpret_cast<SceneClass *>(W3DDisplay::m_3DScene)->Add_Render_Object(m_trees[index].m_pushAside);
-		transform = m_trees[index].m_pushAside->Get_Transform();
-		transform[0][3] = m_trees[index].m_location.x;
-		transform[1][3] = m_trees[index].m_location.y;
-		transform[2][3] = m_trees[index].m_location.z;
+	if (reinterpret_cast<Rva000E8C2DType *>(m_types)[type].m_field58 != -2) {
+		reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside = Create_Render_Obj(reinterpret_cast<Rva000E8C2DType *>(m_types)[reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_toppledType].m_data->m_modelName.str());
+		rva0010E4F6(reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside, false);
+		reinterpret_cast<SceneClass *>(W3DDisplay::m_3DScene)->Add_Render_Object(reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside);
+		transform = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside->Get_Transform();
+		transform[0][3] = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.x;
+		transform[1][3] = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.y;
+		transform[2][3] = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.z;
 		transform.Set_Rotation(rotation);
-		m_trees[index].m_pushAside->Set_Transform(transform);
+		reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside->Set_Transform(transform);
 	}
-	if (m_trees[index].m_topple != 0)
-		Rva0010E87A_SetOpacity(m_trees[index].m_topple, 1.0f);
-	if (m_trees[index].m_pushAside != 0)
-		Rva0010E87A_SetOpacity(m_trees[index].m_pushAside, 0.0f);
-	if (m_treeTypes[type].m_data->m_effect != 0) {
+	if (reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple != 0)
+		Rva0010E87A_SetOpacity(reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_topple, 1.0f);
+	if (reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside != 0)
+		Rva0010E87A_SetOpacity(reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_pushAside, 0.0f);
+	if (reinterpret_cast<Rva000E8C2DType *>(m_types)[type].m_data->m_effect != 0) {
 		Coord3D position;
-		position.x = m_trees[index].m_location.x;
-		position.y = m_trees[index].m_location.y;
-		position.z = m_trees[index].m_location.z;
-		FXList::doFXPos(m_treeTypes[type].m_data->m_effect, &position, 0, 0.0f, 0);
+		position.x = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.x;
+		position.y = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.y;
+		position.z = reinterpret_cast<Rva000E8C2DTree *>(m_records)[index].m_location.z;
+		FXList::doFXPos(reinterpret_cast<Rva000E8C2DType *>(m_types)[type].m_data->m_effect, &position, 0, 0.0f, 0);
 	}
-	m_anythingChanged = true;
+	m_4fb5c = true;
 }
