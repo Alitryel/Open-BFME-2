@@ -75,3 +75,20 @@ Keep destination, pool-key and this evidence file's claims until publication
 is confirmed; release scopes and settle landed RVAs afterward. Inherited buffer
 claims and the ghost-attempt evidence claim remain pending with the same batch.
 No recovered C++ bytes, source file reduction or debt retirement is counted.
+
+Recovery check (following session, 2026-10-26): inherited unpublished commits
+are c47479dc67 (buffer), 97081f35fa (ghost handoff), 79b46a86a6 (supply).
+At base bcb191bfeb, rebuilt the three supply/release sources: 6/6 exact;
+rebuilt buffer seed/Slots/ReAcquire: 16/16 exact. Declaration scan on the three
+changed-source scope files passes. Re-ran both standalone proof scripts in
+`after` mode against their preserved before receipts: all five supply rows /
+eight bindings and all 17 buffer rows /24 bindings, emitted providers, COMDAT
+selection flags, undefined symbols and data facts remain identical.
+`check_csv.py` and outgoing `git diff --check` pass. Complete pending batch
+changes the same two source files in place; no source path move, include,
+active tooling, hook, workflow, build-input or registry consumer changes.
+No protected-register keys are removed. Previous composition limitations
+remain, so these are declaration/layout prerequisites, not merge clearances.
+Official BFME1 upstream now reports 8e29d319, while preserved verified input
+remains de077dd5; full cross-repository update verification is still incomplete.
+No success receipt was written and no reference pointer was changed.
