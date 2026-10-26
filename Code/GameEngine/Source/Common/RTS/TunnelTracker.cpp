@@ -6,32 +6,7 @@
 // 77-byte visitor, contain-list header +0x10 and node links/payload +0/+4/+8.
 // GeneralsMD TunnelTracker.cpp (BFME1 34f59164f6) explains the mutation-safe
 // traversal: advance before the callback, which may remove the current item.
-class Object;
-
-typedef void (__cdecl *ContainIterateFunc)(Object *object, void *userData);
-
-struct TunnelContainedNode
-{
-    TunnelContainedNode *m_next;
-    TunnelContainedNode *m_prev;
-    Object *m_object;
-};
-
-class TunnelTracker
-{
-public:
-    void iterateContained(ContainIterateFunc func, void *userData, bool reverse);
-    void healObjects(float frames);
-    static void healObject(Object *object, void *frames);
-    Object *getCurNemesis();
-    void updateNemesis(const Object *target);
-private:
-    char m_unrecovered00[0x10];
-    TunnelContainedNode *m_containHead;
-    char m_unrecovered14[0x20 - 0x14];
-    int m_curNemesisID;
-    unsigned int m_nemesisTimestamp;
-};
+#include "TunnelTrackerNemesisView.h"
 
 // ?Rva004F53A3Destroy@@YAXPAVObject@@@Z, retail 0x004F53A3, 32 bytes.
 // Chain from 0x0028FB6F: pushes Object+0x274 into Object::rva0028FB6F then
@@ -39,19 +14,6 @@ private:
 // (esi from stack, plain ret); rowed rva0028FB6F 0x28FB6F and rowed
 // destroyObject 0x242C09; TheGameLogic at 0x00DFE78C; neighbours
 // 0x004F5334 and 0x004F553F prove Thing TU and /O1 /DNDEBUG /MD /EHsc.
-class Object
-{
-public:
-	void rva0028FB6F(void *param);
-	int getID() const { return m_id; }
-	char m_pad00[4];
-	void *m_template;
-	char m_pad08[0x74 - 8];
-	int m_id;
-	char m_pad78[0x274 - 0x78];
-	void *m_274;
-};
-
 extern GameLogic *TheGameLogic;
 
 // ?rva004F5436@Rva004F5436@@QAEHPAVBfmeTab1026@@@Z, retail 0x004F5436, 61 bytes.

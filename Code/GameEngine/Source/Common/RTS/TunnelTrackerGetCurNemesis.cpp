@@ -9,35 +9,13 @@
 // to BfmeLogicFramesPerSecond*4). Pinned name, rowed findObjectByID 0x00049DC5 and rowed
 // Object stealth query 0x002943B2. Callers at 0x004F5938 plus AITNGuard.
 
-class Player;
-
-class Object
-{
-public:
-	bool rva002943B2(const Player *viewer);
-	bool isEffectivelyDead() const { return (m_deadFlag & 1) != 0; }
-
-private:
-	unsigned char m_pad[0x438];
-	unsigned char m_deadFlag;
-};
+#include "TunnelTrackerNemesisView.h"
 
 #include "../GameLogicObjectLookupView.h"
 
 
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
-
-class TunnelTracker
-{
-public:
-	Object *getCurNemesis();
-
-private:
-	unsigned char m_pad[0x20];
-	int m_curNemesisID;
-	unsigned int m_nemesisTimestamp;
-};
 
 Object *TunnelTracker::getCurNemesis()
 {
