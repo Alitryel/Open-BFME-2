@@ -814,7 +814,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/WeaponSetSpecialAbilityUpdatePool
 Code/GameEngine/Source/GameLogic/Object/Update/WoundArrowUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004C6999@WoundArrowUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A042B4
 Code/GameEngine/Source/GameLogic/Object/Upgrade/AllowBannerSpawnUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva004B8520@AllowBannerSpawnUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F3C
 Code/GameEngine/Source/GameLogic/Object/Upgrade/CostModifierUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva004B59B7@CostModifierUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03E98
-Code/GameEngine/Source/GameLogic/Object/Upgrade/ExperienceScalarUpgradePoolKey.cpp	wrong-name	?$S1@?1??rva0004B6142@ExperienceScalarUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03EB0
+Code/GameEngine/Source/GameLogic/Object/Upgrade/ExperienceScalarUpgrade.cpp	wrong-name	?$S1@?1??rva0004B6142@ExperienceScalarUpgrade@@SA?AW4NameKeyType@@XZ@4IA	0x00A03EB0
 Code/GameEngine/Source/GameLogic/Object/Upgrade/GrantUpgradeCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8FAB@GrantUpgradeCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F84
 Code/GameEngine/Source/GameLogic/Object/Upgrade/InheritUpgradeCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B9471@InheritUpgradeCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03FA4
 Code/GameEngine/Source/GameLogic/Object/Upgrade/LockWeaponCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8C57@LockWeaponCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F6C

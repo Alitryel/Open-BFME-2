@@ -4952,7 +4952,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/CastleUpgradeModul
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/CastleUpgradeModuleDataCtor.cpp	_vfn_0050B5C6	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/CommandPointsUpgradeModuleDataCtor.cpp	??1Rva00253487Base@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/DoCommandUpgradeModuleDataCtor.cpp	_vtbl_00BF3840	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/ExperienceScalarUpgradeModuleDataCtor.cpp	_vtbl_00BF2558	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/ExperienceScalarUpgrade.cpp	_vtbl_00BF2558	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/LevelUpUpgradeModuleDataCtor.cpp	_vfn_00065212	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/LevelUpUpgradeModuleDataCtor.cpp	_vfn_000B3FD0	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Upgrade/LevelUpUpgradeModuleDataCtor.cpp	_vfn_000B69A1	1
