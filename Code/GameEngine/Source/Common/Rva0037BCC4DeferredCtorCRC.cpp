@@ -21,12 +21,16 @@ public:
 // Base ctor 0x001B4E63 / dtor 0x001B4E74 by their row names ??0/??1SubsystemInterface (SubsystemInterface.cpp).
 #include "../../../Libraries/Source/subsystem/SubsystemInterface.h"
 
-class Rva0037D097CRCView
+// The CRC queue's list wrappers at 0x0037D097/0x0037BD64 are rowed (ICF-shared)
+// under FXList's names; bind to those owners and cast at the call.
+class FXNugget;
+class FXList
 {
 public:
-    void rva0037D097(unsigned int crc);
-    unsigned int rva0037BD64();
+    void addFXNugget(FXNugget *nugget);
+    int rva0037BD64();
 };
+class Rva0037D097CRCView;
 
 class Rva0037B5DF;
 
@@ -116,8 +120,8 @@ public:
 void Rva0037BBED::rva0037D0A7(unsigned int crc, int player, bool fromPlayback, unsigned int frame)
 {
     if (fromPlayback)
-        m_0c->rva0037D097(crc);
-    m_0c->rva0037BD64();
+        reinterpret_cast<FXList *>(m_0c)->addFXNugget(reinterpret_cast<FXNugget *>(crc));
+    reinterpret_cast<FXList *>(m_0c)->rva0037BD64();
     if (frame > 0)
     {
         Rva00241529CRCView *logic = reinterpret_cast<Rva00241529CRCView *>(TheGameLogic);

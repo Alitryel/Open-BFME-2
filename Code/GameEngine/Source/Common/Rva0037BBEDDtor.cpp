@@ -26,6 +26,9 @@ class Rva0037BBED : public SubsystemInterface
 {
 public:
 	virtual ~Rva0037BBED();
+	// Slot 1 of vtable 0x00C18828 (rowed in Rva0037BCC4.cpp); keeps this
+	// COMDAT copy identical to the constructor's.
+	virtual void init();
 private:
 	int m_0c;
 	void *m_10;

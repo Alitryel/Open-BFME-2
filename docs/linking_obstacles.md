@@ -747,6 +747,13 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
     confirms all 4 link cleanly (`LINKED 0 -> 297` bytes).
 - **Remaining / next check:** await confirmation in the maintainer's next link census run.
 - **Clearance / census confirmation:** cleared in ordinary-preview scope; census confirmation pending.
+- **Recorder `Rva0037BBED` (2026-10-26):** `Rva0037BCC4DeferredCtorCRC.cpp` (157 B) lost
+  `??_7Rva0037BBED@@6B@` to the 1-slot copies in `OpaqueScalarDeletingDtorsB07.cpp` and
+  `Rva0037BBEDDtor.cpp`; all three now declare retail slots 0..1 (dtor, `init` at 0x0037B326).
+  Its CRC-queue calls bind to the ledger's ICF owners `FXList::addFXNugget` (0x0037D097) and
+  `FXList::rva0037BD64` through casts. `link_check.py`: 3 of 3 link, `LINKED 1,017 -> 1,174`.
+  Retail vtable 0x00C18828 has 14 slots, slots 2..13 folded foreign bodies; no copy reproduces
+  them yet. Census confirmation pending.
 
 ### LINK-012: shattersystem.cpp's Zero Hour WW3D2 views emit divergent shared COMDATs
 
