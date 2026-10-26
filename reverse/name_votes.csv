@@ -8158,3 +8158,10 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|param
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|param|W3DPropBuffer::addProp|bfmeFlag,3c78706482432e7c3d0cc0d2,gpt-6.1-sol,w1-10261459-5,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp|local|Team::rva0039DE46|b3,db60a43e42adda7d0238cf9e,gpt-6.1-sol,w1-10261459-6,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp|local|Team::rva0039DE46|b4,1dcde280c36b34df10fa61cd,gpt-6.1-sol,w1-10261459-6,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp|class||Rva00419CD4,de4e613734ac89d3bb603266,gpt-6.1-sol,w4-10261512-4,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|member|Filter|m_04,7808ffa93ca73fa29abe29b2,gpt-6.1-sol,w4-10261512-6,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|param|Rva002CA9CA::rva002CAC6E|a,33494440f7e020f8c15369ed,gpt-6.1-sol,w4-10261512-6,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp|local|Rva002CA9CA::rva002CAC6E|n,cfe34287881ea9822b1b78a5,gpt-6.1-sol,w4-10261512-6,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva00418A8EOuter.cpp|class||Rva00418AB2Host,573181011977bfd05e1774c9,gpt-6.1-sol,w4-10261512-7,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva000B6498Free.cpp|class||Rva000B6498Node,50bf1f71cdc8cc6d44de1756,gpt-6.1-sol,w4-10261512-10,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva000B6498Free.cpp|class||Rva000B6498Head,e0df43f032fb235db6c78887,gpt-6.1-sol,w4-10261512-10,w-eb83eac9adc1,2026-10-26

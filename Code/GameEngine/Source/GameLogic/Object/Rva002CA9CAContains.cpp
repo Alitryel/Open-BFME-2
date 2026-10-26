@@ -63,7 +63,7 @@ struct FilterInner
 struct Filter
 {
 	char m_pad[4];
-	FilterInner *m_04;
+	FilterInner *m_weaponTemplate;
 };
 
 class VirtNode2
@@ -221,7 +221,7 @@ void Rva002CA9CA::rva002CA970(int firingWeapon, int source, const void *weapon, 
 	while (cur != m_17c)
 	{
 		VirtNode2 *obj = (VirtNode2 *)cur->m_data;
-		if (flt != 0 && (flt->m_04->m_flag & 0x20) != 0)
+		if (flt != 0 && (flt->m_weaponTemplate->m_flag & 0x20) != 0)
 		{
 			if (obj->v04(firingWeapon, weapon))
 			{

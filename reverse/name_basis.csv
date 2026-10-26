@@ -2569,3 +2569,4 @@ function,?rva004A2BF0@Rva004A2BF0@@QAE_NPAVObject@@@Z,?allow@Rva004A2BF0@@QAE_NP
 class,Rva00151632Link,FXShaderAssetImpl,inferred,agree:nl-5e48b83f3700,Code/GameEngine/Source/Common/Rva00151632Dtor.cpp,
 member,Glob004E93E8::m_860,Glob004E93E8::m_forceAI,inferred,agree:nl-948b13a7c586,Code/GameEngine/Source/Common/Rva004E93E8Find.cpp,
 local,Rotate_Z::tmp1,Rotate_Z::rowX,inferred,agree:nl-4a0899f41fa2,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp,
+member,Filter::m_04,Filter::m_weaponTemplate,inferred,agree:nl-c6a5f589f99d,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,
