@@ -140,7 +140,7 @@ existing LINK-011 preview clearances retained for its two rows.
 | `Code/GameEngine/Source/Common/Rva006F84C0DeletingDtor.cpp` | 35 | 2 (C=1, S=1) | Open |
 | `Code/GameEngine/Source/Common/BfmeConv901.cpp` | 33 | 2 (U=2) | Open |
 | `Code/GameEngine/Source/Common/PlayerAITypeSetCtor.cpp` | 33 | 2 (U=2) | Open |
-| `Code/GameEngine/Source/Common/S2DualVptrDerivedCtors.cpp` | 32 | 2 (U=2) | Open |
+| `Code/GameEngine/Source/Common/S2DualVptrDerivedCtors.cpp` | 32 | 2 (U=2) | 2026-10-26 ("Link AudioManager ctor unit through the shared Rva005109D view"): preview LINKS 0 -> 32 B (with MilesAudioManager.cpp, Rva005109DDtor.cpp, SubsystemInterface.cpp, all unchanged). AudioManager now uses MilesAudioManager.cpp's novtable `Rva005109D` (SubsystemInterface + Snapshot) view; unrowed `Rva00694E00` copy, keepOwn `/alternatename` and the `GenBase009A1A30` alias pin removed. Census pending. |
 | `Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DPropDraw.cpp` | 32 | 2 (C=2) | Open |
 | `Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-cd13.cpp` | 28 | 2 (U=1, C=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva004F6FE1.cpp` | 27 | 2 (C=1, S=1) | Open |
