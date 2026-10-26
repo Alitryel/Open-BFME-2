@@ -89,3 +89,86 @@ Inherited commits through 82645feee3 are already on origin/master; their stale
 file/RVA claims were released at session start. The BFME 1 official-upstream
 check found local clean c0385ef6 versus official 3de5959c; full reference-update
 verification remains pending and no freshness success receipt was fabricated.
+
+## Follow-up: allocator declaration ordering
+
+The remaining worker-loop compile error has a local prefix-header trial.
+PingThreadMemoryPrefix.h contains the donor's unchanged stdlib include,
+throwing C-linkage GameMemory::free declaration and free macro together.
+Both the seed and worker-loop donor include it before STL headers, so the
+composer cannot hoist the macro ahead of its declaration or instantiate the
+seed's allocators with a different declaration. This follows the already
+landed local BfmeLadderStringPrefix.h composition prerequisite; no shared shim
+or compiler flag is changed.
+
+`./build.sh` on seed, startThreads and Thread_Function again verifies 22/22
+rows, four literals and eight imports. Frozen checks pass the changed sources
+and header. Saved pre-edit objects compared with allowed_symbols._object_defs
+show **263 external code definitions unchanged** (248 seed, one startThreads,
+14 worker loop), including their digests, sizes and COMDAT selection kinds.
+All three objects' undefined-symbol sets are unchanged. Paths and link order
+are unchanged, preserving selected code providers for external consumers.
+Parent-EH-normalized scanning again gives the identical 60 binding tuples.
+Receipts: build/sol-b5-ping-prefix-build.txt, prefix-before/*.obj and
+prefix-proof.json. `eh_verify.py` on all three sources reports EXACT 5, no
+exceptions or missing objects (build/sol-b5-ping-prefix-eh.txt).
+
+The raw shadow code-identity report has one false positive: its old $L33627
+pin now reads the preceding PingRequest cleanup when scanning
+Unwind@00b988e4, reporting a wrong destructor at 0x00613AC0. The exact parent
+EH graph places that row at $L33628; all five funclets are identified by the
+normal byte verifier. This is recorded with re_log.py as a false-reject
+diagnostic, explicitly noting that shadow reporting is not an enforcement
+rejection. No checker, baseline, pin or ledger identity is changed to suppress
+the finding. A tooling owner should make identity scanning use the same exact
+parent-EH placement as the byte verifier, in a separate tested repair.
+
+The follow-up publication audit includes the pending first prerequisite
+(`3d502b66bf`, based on c85d92855d) and this staged change. There are no
+source moves or deleted paths. The one new private header has exactly two
+active source consumers (seed and Thread_Function), confirmed by repository
+search and both compiled dependency receipts. Both consumers were rebuilt
+together. No tool, hook, workflow, build input or path-keyed register requires
+repointing; historical EA paths remain unchanged. Header count rises by one;
+source-file reduction, debt retired and recovered bytes remain zero.
+
+## Publication and claims
+
+The first prerequisite was committed as 3d502b66bf; the publisher initially
+retained it for batching. At this handoff's preparation, the pending range
+is c85d92855d..HEAD plus the follow-up staged changes audited above. If the
+runner still holds either commit, retain the following file claims until the
+runner confirms publication, then release them and settle landed RVAs:
+
+- Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp
+- Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread_Pinger_startThreads.cpp
+- Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread_PingThreadClass_Thread_Function.cpp
+- Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThreadMemoryPrefix.h
+- reverse/attempt_support/consolidation-sol-b5-ping-20261026.md
+
+All are held by yasinschroeder-codexb5. No inherited claims remain. Final
+publication status and any rebased commit IDs are in the runner's session
+metadata. No Luna merge or census improvement is claimed by this seat.
+
+## Final normal composition result
+
+`python3 tools/tu_skeleton.py --merge TU --dry-run` completes successfully
+(build/sol-b5-ping-prefix-after.txt). It still accepts exactly seed,
+startThreads and WWLib/Rva005503B1Factory.cpp: three files / 20 rows.
+The worker-loop donor now compiles in the normal merger; its rejection is
+`bytes`, replacing the earlier GameMemory::free compile diagnostic. The
+normal report does not localize which row in that combined trial mismatches.
+This is a demonstrated compile prerequisite repair, **not** a further
+accepted-row increase. The net demonstrated acceptance gain this session is
+four rows from the first declaration repair. No merge was applied.
+
+The remaining combined-byte blocker for Thread_Function at 0x005501F4
+(extent 400) is recorded through re_log.py. A later owner should investigate
+merged compiler/header/template context with the supported scoped verifier;
+standalone source remains fully byte-exact. The Common StringBase and
+WWLib basic_string specialization compile blockers are unchanged.
+
+The ordinary search took roughly 52 minutes on the container's 0.14 CPU
+quota. It was polled to completion without duplicate launch. Ghost's
+unchanged blocker was inspected separately; no further target is opened
+at the end of this session. AptCIH is now allocated but was not attempted.

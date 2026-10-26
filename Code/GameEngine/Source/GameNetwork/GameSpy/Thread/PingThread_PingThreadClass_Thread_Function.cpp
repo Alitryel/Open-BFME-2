@@ -16,11 +16,7 @@
 // called as PingThreadClass::doPing with this in ECX, IP and timeout.
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE
-// STL allocators call the game's C-linkage free wrapper at RVA 0x00030830.
-// Its throwing declaration preserves cleanup states at the call sites.
-#include <stdlib.h>
-namespace GameMemory { extern "C" void __cdecl free(void *) throw(...); }
-#define free GameMemory::free
+#include "PingThreadMemoryPrefix.h"
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #include <cstddef>
 #include <winsock.h>	// This one has to be here. Prevents collisions with winsock2.h
