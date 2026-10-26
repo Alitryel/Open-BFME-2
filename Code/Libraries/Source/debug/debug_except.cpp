@@ -24,6 +24,13 @@
 #define EXCEPTION_PRIV_INSTRUCTION        0xC0000096UL
 #define EXCEPTION_SINGLE_STEP              0x80000004UL
 #define EXCEPTION_STACK_OVERFLOW           0xC00000FDUL
+#include <malloc.h>
+#define ListView_InsertColumn(list, index, column) \
+	SendMessageA((list), 0x101B, (unsigned int)(index), (long)(column))
+#define ListView_InsertItem(list, item) SendMessageA((list), 0x1007, 0, (long)(item))
+#define ListView_SetItem(list, item) SendMessageA((list), 0x1006, 0, (long)(item))
+#pragma comment(linker, "/alternatename:??6@YAAAVDebug@@AAV0@ABUSignature@DebugStackwalk@@@Z=??6@YAAAVDebug@@AAV0@ABVSignature@DebugStackwalk@@@Z")
+#pragma comment(linker, "/alternatename:?g_crashAttachments@@3PAUCrashAttachment@@A=?g_debugTypedLogs@@3PAUDebugTypedLog@@A")
 
 extern "C" __declspec(dllimport) int __cdecl wsprintfA(
     char *, const char *, ...);
@@ -254,6 +261,423 @@ extern "C" void Rva0088E090ResumeOtherThreads(RvaOpenThreadFn openThread, RvaHan
 	} while (Thread32Next(snapshot, &entry));
 }
 
+typedef void *HMODULE;
+
+typedef unsigned long DWORD;
+
+struct STARTUPINFOA
+{
+	DWORD cb;
+	unsigned char m_rest[0x40];
+};
+
+struct PROCESS_INFORMATION
+{
+	void *hProcess;
+	void *hThread;
+	DWORD dwProcessId;
+	DWORD dwThreadId;
+};
+
+extern "C"
+{
+	__declspec(dllimport) int __stdcall MessageBoxA(HWND owner, const char *text,
+		const char *caption, unsigned int type);
+	__declspec(dllimport) void __stdcall OutputDebugStringA(const char *text);
+	__declspec(dllimport) DWORD __stdcall GetModuleFileNameA(HMODULE module, char *name, DWORD size);
+	__declspec(dllimport) DWORD __stdcall GetCurrentProcessId(void);
+	__declspec(dllimport) DWORD __stdcall GetCurrentThreadId(void);
+	__declspec(dllimport) int __cdecl wsprintfA(char *out, const char *fmt, ...);
+	__declspec(dllimport) int __stdcall CreateProcessA(const char *application, char *commandLine,
+		void *processAttributes, void *threadAttributes, int inheritHandles, DWORD creationFlags,
+		void *environment, const char *currentDirectory, STARTUPINFOA *startupInfo,
+		PROCESS_INFORMATION *processInformation);
+	__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *value);
+	__declspec(dllimport) unsigned int __cdecl _control87(unsigned int newValue, unsigned int mask);
+	__declspec(dllimport) void __stdcall InitCommonControls(void);
+	__declspec(dllimport) int __stdcall DialogBoxIndirectParamA(void *instance, const void *dialogTemplate,
+		HWND parent, int(__stdcall *dialogProc)(HWND, unsigned int, unsigned int, long), long initParam);
+	__declspec(dllimport) __declspec(noreturn) void __stdcall ExitProcess(unsigned int exitCode);
+	__declspec(dllimport) int __stdcall EnumThreadWindows(DWORD threadId,
+		int(__stdcall *callback)(void *, long), long param);
+	__declspec(dllimport) int __stdcall ShowWindow(HWND window, int command);
+	__declspec(dllimport) HMODULE __stdcall LoadLibraryA(const char *fileName);
+	__declspec(dllimport) void *__stdcall GetProcAddress(HMODULE module, const char *procName);
+	__declspec(dllimport) int __stdcall FreeLibrary(HMODULE module);
+	__declspec(dllimport) int __stdcall EndDialog(HWND dialog, int result);
+	__declspec(dllimport) HWND __stdcall GetDlgItem(HWND dialog, int id);
+	__declspec(dllimport) long __stdcall SendMessageA(HWND window, unsigned int message,
+		unsigned int wParam, long lParam);
+	__declspec(dllimport) long __stdcall SendDlgItemMessageA(HWND dialog, int id,
+		unsigned int message, unsigned int wParam, long lParam);
+	__declspec(dllimport) void *__stdcall CreateFontA(int height, int width, int escapement,
+		int orientation, int weight, unsigned long italic, unsigned long underline,
+		unsigned long strikeOut, unsigned long charSet, unsigned long outPrecision,
+		unsigned long clipPrecision, unsigned long quality, unsigned long pitchAndFamily,
+		const char *faceName);
+}
+
+struct LVCOLUMNA
+{
+	unsigned int mask;
+	int fmt;
+	int cx;
+	char *pszText;
+	int cchTextMax;
+	int iSubItem;
+	int iImage;
+	int iOrder;
+};
+
+struct LVITEMA
+{
+	unsigned int mask;
+	int iItem;
+	int iSubItem;
+	unsigned int state;
+	unsigned int stateMask;
+	char *pszText;
+	int cchTextMax;
+	int iImage;
+	long lParam;
+	int iIndent;
+};
+
+Debug &operator<<(Debug &dbg, const DebugStackwalk::Signature &sig);
+
+struct Rva0088A1F0Owner
+{
+	void broadcast();
+};
+
+// One entry of the crash attachment list packed into the report blob.
+struct CrashAttachment
+{
+	DWORD id;
+	const void *data;
+	unsigned size;
+};
+
+void *DebugReAllocMemory(void *oldPtr, unsigned newSize);
+
+int __stdcall EnumThreadWndProc(void *window, long param);
+
+int __stdcall ExceptionDlgProc(HWND hWnd, unsigned int uMsg, unsigned int wParam, long lParam);
+
+extern "C" void d_0088d240(_EXCEPTION_POINTERS *exptr, bool fullDump);
+
+void DebugCopyToClipboard(const char *text);
+
+typedef int(__stdcall *ReportFaultProc)(_EXCEPTION_POINTERS *exptr, DWORD mode);
+
+extern Debug *theDebug;
+
+// Dialog state shared by the filter and the dialog procedure (file statics
+// in Zero Hour debug_except.cpp).
+static _EXCEPTION_POINTERS *g_exceptionPointers;
+
+          // 0x00DE0DE8
+static const char *g_exceptionReportText;
+
+                 // 0x00DE0DF4
+static char g_exceptionRegisterInfo[1024];
+
+                // 0x00DE09E8
+static char g_exceptionVersionInfo[256];
+
+                  // 0x00DE08E8
+static DebugStackwalk::Signature g_exceptionStackSignature;
+
+ // 0x00DE0E08
+// ?g_crashAttachments@@3PAUCrashAttachment@@A: the global at this VA is ?g_debugTypedLogs@@3PAUDebugTypedLog@@A; this name is an alias for it.
+extern CrashAttachment * g_crashAttachments;
+
+extern unsigned g_debugTypedLogCount;
+
+                   // 0x00DE0DF0
+// g_crashMailerCommand: matched references place it at VA 0xde1210 (zero-filled).
+char g_crashMailerCommand[512] = { 0 };
+
+// ?g_exceptionDialogTemplate@@3PAEA @0x00DB35D0 (606B): the retail
+// crash-report dialog (DLGTEMPLATEEX, title Exception, 11 items).
+// Parsed from the image (see sizes in commit); retail bytes copied exactly.
+unsigned char g_exceptionDialogTemplate[606] =
+{
+	0x01, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x80, 0x02, 0x00, 0x00,
+	0xC2, 0x0A, 0xC0, 0x90, 0x0B, 0x00, 0x00, 0x00, 0x00, 0x00, 0xDF, 0x01,
+	0xF5, 0x00, 0x00, 0x00, 0x00, 0x00, 0x45, 0x00, 0x78, 0x00, 0x63, 0x00,
+	0x65, 0x00, 0x70, 0x00, 0x74, 0x00, 0x69, 0x00, 0x6F, 0x00, 0x6E, 0x00,
+	0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x01, 0x4D, 0x00, 0x53, 0x00,
+	0x20, 0x00, 0x53, 0x00, 0x61, 0x00, 0x6E, 0x00, 0x73, 0x00, 0x20, 0x00,
+	0x53, 0x00, 0x65, 0x00, 0x72, 0x00, 0x69, 0x00, 0x66, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x50,
+	0xA6, 0x01, 0xE0, 0x00, 0x32, 0x00, 0x0E, 0x00, 0x01, 0x00, 0x00, 0x00,
+	0xFF, 0xFF, 0x80, 0x00, 0x4F, 0x00, 0x4B, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x50,
+	0x71, 0x01, 0xE0, 0x00, 0x32, 0x00, 0x0E, 0x00, 0x04, 0x00, 0x00, 0x00,
+	0xFF, 0xFF, 0x80, 0x00, 0x44, 0x00, 0x65, 0x00, 0x62, 0x00, 0x75, 0x00,
+	0x67, 0x00, 0x20, 0x00, 0x62, 0x00, 0x72, 0x00, 0x65, 0x00, 0x61, 0x00,
+	0x6B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x81, 0x00, 0x02, 0x50, 0x07, 0x00, 0x07, 0x00,
+	0x09, 0x01, 0x09, 0x00, 0x64, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x82, 0x00,
+	0x45, 0x00, 0x78, 0x00, 0x54, 0x00, 0x79, 0x00, 0x70, 0x00, 0x65, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x80, 0x10, 0x02, 0x50, 0x07, 0x00, 0x13, 0x00, 0x09, 0x01, 0x1C, 0x00,
+	0x65, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x82, 0x00, 0x45, 0x00, 0x78, 0x00,
+	0x4D, 0x00, 0x73, 0x00, 0x67, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x50,
+	0x07, 0x00, 0x32, 0x00, 0x1E, 0x00, 0x08, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
+	0xFF, 0xFF, 0x82, 0x00, 0x4C, 0x00, 0x6F, 0x00, 0x63, 0x00, 0x61, 0x00,
+	0x74, 0x00, 0x69, 0x00, 0x6F, 0x00, 0x6E, 0x00, 0x3A, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x81, 0x12, 0x02, 0x50, 0x07, 0x00, 0x3B, 0x00, 0x09, 0x01, 0x13, 0x00,
+	0x66, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x82, 0x00, 0x45, 0x00, 0x78, 0x00,
+	0x41, 0x00, 0x64, 0x00, 0x64, 0x00, 0x72, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x81, 0x10, 0x02, 0x50,
+	0x07, 0x00, 0x56, 0x00, 0x09, 0x01, 0x0A, 0x00, 0x67, 0x00, 0x00, 0x00,
+	0xFF, 0xFF, 0x82, 0x00, 0x56, 0x00, 0x65, 0x00, 0x72, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x02, 0x50, 0x07, 0x00, 0x67, 0x00, 0x28, 0x00, 0x08, 0x00,
+	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x82, 0x00, 0x53, 0x00, 0x74, 0x00,
+	0x61, 0x00, 0x63, 0x00, 0x6B, 0x00, 0x20, 0x00, 0x74, 0x00, 0x72, 0x00,
+	0x61, 0x00, 0x63, 0x00, 0x65, 0x00, 0x3A, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x80, 0x81, 0x50,
+	0x07, 0x00, 0x73, 0x00, 0xD1, 0x01, 0x6A, 0x00, 0x68, 0x00, 0x00, 0x00,
+	0x53, 0x00, 0x79, 0x00, 0x73, 0x00, 0x4C, 0x00, 0x69, 0x00, 0x73, 0x00,
+	0x74, 0x00, 0x56, 0x00, 0x69, 0x00, 0x65, 0x00, 0x77, 0x00, 0x33, 0x00,
+	0x32, 0x00, 0x00, 0x00, 0x4C, 0x00, 0x69, 0x00, 0x73, 0x00, 0x74, 0x00,
+	0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x01, 0x41, 0xA1, 0x50, 0x18, 0x01, 0x07, 0x00,
+	0xC0, 0x00, 0x67, 0x00, 0x69, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x83, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x01, 0x50, 0x07, 0x00, 0xE0, 0x00, 0x32, 0x00, 0x0E, 0x00,
+	0x09, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x80, 0x00, 0x43, 0x00, 0x6F, 0x00,
+	0x70, 0x00, 0x79, 0x00, 0x20, 0x00, 0x54, 0x00, 0x65, 0x00, 0x78, 0x00,
+	0x74, 0x00, 0x00, 0x00, 0x00, 0x00,
+};
+
+typedef int(__stdcall *IsDebuggerPresentProc)(void);
+
+void *DebugAllocMemory(unsigned int numBytes);
+
+void DebugFreeMemory(void *ptr);
+
+// Title and report text the dialog shows (set by the dialog driver).
+extern "C"
+{
+	// g_rva0088E000MessageText: matched references place it at VA 0xde08dc (retail .data initial value 0).
+	const char *g_rva0088E000MessageText = 0;
+	// g_rva0088E000WindowText: matched references place it at VA 0xde08e0 (retail .data initial value 0).
+	const char *g_rva0088E000WindowText = 0;
+}
+
+struct Rva0088E100Context
+{
+	RvaDword processId;
+	RvaDword threadId;
+	RvaOpenThreadFn openThread;
+	RvaHandle snapshot;
+};
+
+extern "C"
+{
+	// Written by the dialog driver at 0x0088E1A0 and by the timer callback.
+	extern long g_Rva013373BCTimerTicks;
+	extern unsigned char g_Rva013373C0DialogClosed;
+	extern long g_Rva013373C4DialogGeneration;
+
+	__declspec(dllimport) void __stdcall Sleep(RvaDword milliseconds);
+
+	void Rva0088E090ResumeOtherThreads(RvaOpenThreadFn openThread, RvaHandle snapshot,
+		RvaDword processId, RvaDword keepThreadId);
+}
+
+extern "C" RvaDword __stdcall Rva0088E100WatchdogThread(void *parameter)
+{
+	Sleep(3000);
+
+	long generation = g_Rva013373C4DialogGeneration;
+	long seconds = 3;
+	while (!g_Rva013373C0DialogClosed)
+	{
+		if (seconds - g_Rva013373BCTimerTicks >= 3)
+		{
+			if (!g_Rva013373C0DialogClosed && generation == g_Rva013373C4DialogGeneration)
+			{
+				const Rva0088E100Context *context = (const Rva0088E100Context *)parameter;
+				Rva0088E090ResumeOtherThreads(context->openThread, context->snapshot,
+					context->processId, context->threadId);
+				return 1;
+			}
+			break;
+		}
+		Sleep(1000);
+		++seconds;
+	}
+
+	return 0;
+}
+
+// Both this body and Debug_CrashDone reference the native lock at VA
+// 0x00DE0884. Reuse that storage and its declared type; a second typed
+// definition would allocate a separate lock in the linked image.
+struct DebugCriticalSection;
+
+extern DebugCriticalSection g_bfmeCsDWC;
+
+// The dialog procedure (retail 0x0003D6A0), matched in AssertCrashDialogProc.cpp.
+int __stdcall AssertCrashDialogProc(void *hWnd, unsigned int uMsg, unsigned int wParam, long lParam);
+
+extern "C"
+{
+	__declspec(dllimport) RvaHandle __stdcall LoadLibraryA(const char *fileName);
+	__declspec(dllimport) void *__stdcall GetProcAddress(RvaHandle module, const char *procName);
+	__declspec(dllimport) RvaDword __stdcall GetCurrentProcessId(void);
+	__declspec(dllimport) RvaDword __stdcall GetCurrentThreadId(void);
+	__declspec(dllimport) RvaDword __stdcall SuspendThread(RvaHandle thread);
+	__declspec(dllimport) int __stdcall GetExitCodeThread(RvaHandle thread, RvaDword *exitCode);
+	__declspec(dllimport) void __stdcall EnterCriticalSection(DebugCriticalSection *lock);
+	__declspec(dllimport) void __stdcall LeaveCriticalSection(DebugCriticalSection *lock);
+	__declspec(dllimport) RvaHandle __stdcall CreateThread(void *security, RvaDword stackSize,
+		RvaDword(__stdcall *start)(void *), void *parameter, RvaDword flags, RvaDword *threadId);
+	__declspec(dllimport) unsigned int __stdcall SetTimer(void *hWnd, unsigned int id,
+		unsigned int elapse, void(__stdcall *proc)(RvaHandle, unsigned int, unsigned int, RvaDword));
+	__declspec(dllimport) int __stdcall KillTimer(void *hWnd, unsigned int id);
+	__declspec(dllimport) int __stdcall DialogBoxIndirectParamA(void *instance, const void *dialogTemplate,
+		void *parent, int(__stdcall *dialogProc)(void *, unsigned int, unsigned int, long), long initParam);
+
+	RvaHandle __stdcall CreateToolhelp32Snapshot(RvaDword flags, RvaDword processId);
+	int __stdcall Thread32First(RvaHandle snapshot, RvaThreadEntry32 *entry);
+	int __stdcall Thread32Next(RvaHandle snapshot, RvaThreadEntry32 *entry);
+
+	// Retail reaches kernel32!CloseHandle at the close slot (IAT 0x00BBA180),
+	// so the real import name is declared instead of the donor's TU-local alias.
+	__declspec(dllimport) int __stdcall CloseHandle(RvaHandle handle);
+
+	extern const char *g_rva0088E000MessageText;
+	extern const char *g_rva0088E000WindowText;
+	// Retail's assert-crash DLGTEMPLATE at RVA 0x009B3838 (.data, 464 bytes: the dialog header, then the
+	// UTF-16 caption and control records), copied byte for byte; it holds no pointers.
+	unsigned char g_Rva012D4FD0AssertCrashTemplate[464] =
+	{
+		0x01, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x80, 0x02, 0x00, 0x00, 0xC2, 0x0A, 0xC0, 0x90,
+		0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x49, 0x01, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0x00,
+		0x73, 0x00, 0x73, 0x00, 0x65, 0x00, 0x72, 0x00, 0x74, 0x00, 0x2F, 0x00, 0x43, 0x00, 0x72, 0x00,
+		0x61, 0x00, 0x73, 0x00, 0x68, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x01, 0x4D, 0x00,
+		0x53, 0x00, 0x20, 0x00, 0x53, 0x00, 0x61, 0x00, 0x6E, 0x00, 0x73, 0x00, 0x20, 0x00, 0x53, 0x00,
+		0x65, 0x00, 0x72, 0x00, 0x69, 0x00, 0x66, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x50, 0x10, 0x01, 0x07, 0x00, 0x32, 0x00, 0x0E, 0x00,
+		0x02, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x80, 0x00, 0x26, 0x00, 0x53, 0x00, 0x6B, 0x00, 0x69, 0x00,
+		0x70, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x01, 0x50, 0x10, 0x01, 0x15, 0x00, 0x32, 0x00, 0x0E, 0x00, 0x05, 0x00, 0x00, 0x00,
+		0xFF, 0xFF, 0x80, 0x00, 0x26, 0x00, 0x49, 0x00, 0x67, 0x00, 0x6E, 0x00, 0x6F, 0x00, 0x72, 0x00,
+		0x65, 0x00, 0x20, 0x00, 0x61, 0x00, 0x6C, 0x00, 0x6C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x50, 0x10, 0x01, 0x23, 0x00,
+		0x32, 0x00, 0x0E, 0x00, 0x07, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x80, 0x00, 0x53, 0x00, 0x69, 0x00,
+		0x6C, 0x00, 0x65, 0x00, 0x6E, 0x00, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x50, 0x10, 0x01, 0x38, 0x00, 0x32, 0x00, 0x0E, 0x00,
+		0x04, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x80, 0x00, 0x44, 0x00, 0x65, 0x00, 0x62, 0x00, 0x75, 0x00,
+		0x67, 0x00, 0x20, 0x00, 0x62, 0x00, 0x72, 0x00, 0x65, 0x00, 0x61, 0x00, 0x6B, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x50,
+		0x10, 0x01, 0x63, 0x00, 0x32, 0x00, 0x15, 0x00, 0x03, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x80, 0x00,
+		0x41, 0x00, 0x62, 0x00, 0x6F, 0x00, 0x72, 0x00, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x08, 0xA1, 0x50, 0x07, 0x00, 0x07, 0x00,
+		0x03, 0x01, 0x71, 0x00, 0x64, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x81, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x50, 0x10, 0x01, 0x4E, 0x00,
+		0x32, 0x00, 0x0E, 0x00, 0x09, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x80, 0x00, 0x43, 0x00, 0x6F, 0x00,
+		0x70, 0x00, 0x79, 0x00, 0x20, 0x00, 0x54, 0x00, 0x65, 0x00, 0x78, 0x00, 0x74, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0xC7, 0xC7, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x2E, 0x50, 0x41, 0x58, 0x00, 0x00, 0x00, 0x00, 0x30, 0xC7, 0xC7, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x2E, 0x50, 0x41, 0x56, 0x44, 0x65, 0x62, 0x75, 0x67, 0x40, 0x40, 0x00
+	};
+	// g_Rva013373BCTimerTicks: matched references place it at VA 0xde0df8 (zero-filled .bss).
+	long g_Rva013373BCTimerTicks = 0;
+	// g_Rva013373C0DialogClosed: matched references place it at VA 0xde0dfc (zero-filled .bss).
+	unsigned char g_Rva013373C0DialogClosed = 0;
+	// g_Rva013373C4DialogGeneration: matched references place it at VA 0xde0e00 (zero-filled .bss).
+	long g_Rva013373C4DialogGeneration = 0;
+
+	RvaDword __stdcall Rva0088E100WatchdogThread(void *parameter);
+	void __stdcall Rva0088E190TimerTick(RvaHandle, unsigned int, unsigned int, RvaDword);
+	void Rva0088E090ResumeOtherThreads(RvaOpenThreadFn openThread, RvaHandle snapshot,
+		RvaDword processId, RvaDword keepThreadId);
+
+	// Retail 0x0003D870: the 1 Hz dialog timer callback only bumps the tick
+	// counter the watchdog thread watches. Gap body between the watchdog
+	// thread (0x0003D7E0+139) and the dialog driver (0x0003D880).
+	void __stdcall Rva0088E190TimerTick(RvaHandle, unsigned int, unsigned int, RvaDword)
+	{
+		++g_Rva013373BCTimerTicks;
+	}
+}
+
+extern "C" int Rva0088E1A0ShowAssertCrashDialog(const char *windowText, const char *messageText)
+{
+	RvaHandle kernel = LoadLibraryA("kernel32");
+	RvaOpenThreadFn openThread = (RvaOpenThreadFn)GetProcAddress(kernel, "OpenThread");
+	RvaHandle snapshot = CreateToolhelp32Snapshot(4, 0);
+
+	RvaThreadEntry32 entry;
+	entry.dwSize = sizeof(RvaThreadEntry32);
+
+	RvaDword processId = GetCurrentProcessId();
+	RvaDword threadId = GetCurrentThreadId();
+
+	if (openThread != 0 && Thread32First(snapshot, &entry))
+	{
+		do
+		{
+			if (entry.th32OwnerProcessID == processId && entry.th32ThreadID != threadId)
+			{
+				RvaHandle thread = openThread(2, 0, entry.th32ThreadID);
+				SuspendThread(thread);
+				CloseHandle(thread);
+			}
+		} while (Thread32Next(snapshot, &entry));
+	}
+
+	++g_Rva013373C4DialogGeneration;
+	g_Rva013373BCTimerTicks = 0;
+	g_Rva013373C0DialogClosed = 0;
+
+	Rva0088E100Context context;
+	context.processId = processId;
+	context.threadId = threadId;
+	context.snapshot = snapshot;
+	context.openThread = openThread;
+
+	RvaDword watchdogId;
+	RvaHandle watchdog = CreateThread(0, 0, Rva0088E100WatchdogThread, &context, 0, &watchdogId);
+	unsigned int timer = SetTimer(0, 0, 1000, Rva0088E190TimerTick);
+
+	LeaveCriticalSection(&g_bfmeCsDWC);
+
+	g_rva0088E000WindowText = windowText;
+	g_rva0088E000MessageText = messageText;
+
+	int result = DialogBoxIndirectParamA(0, g_Rva012D4FD0AssertCrashTemplate, 0,
+		AssertCrashDialogProc, 0);
+
+	unsigned char watchdogRanFirst = 0;
+	RvaDword exitCode;
+	if (GetExitCodeThread(watchdog, &exitCode) && exitCode == 1)
+		watchdogRanFirst = 1;
+	g_Rva013373C0DialogClosed = 1;
+
+	if (timer != 0)
+		KillTimer(0, timer);
+
+	EnterCriticalSection(&g_bfmeCsDWC);
+
+	if (openThread != 0 && watchdogRanFirst == 0)
+		Rva0088E090ResumeOtherThreads(openThread, snapshot, processId, threadId);
+
+	CloseHandle(snapshot);
+	return result;
+}
+
+// ---- from Code/Libraries/Source/debug/debug_except.cpp
+
 // ---- from Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionGetType.cpp
 
 const char *DebugExceptionhandler::GetExceptionType(
@@ -356,10 +780,6 @@ void bfmeGoSZA(BfmeStreamSZA *out, BfmeCtxSZA *ctx)
 	out->bfmeAddSZA("Exception occured at\n")->bfmeAddSZA(m_bfmeBuf)->bfmeAddSZA(".");
 }
 
-// tu-skeleton: 0x0003CC20 39B ?initialize@Rva0088D8B0Owner@@QAEPAV1@PAXIIEE@Z -- matched in Code/GameEngine/Source/Common/Rva0088D8E0RecordInitialize.cpp (not merged yet)
-
-// tu-skeleton: 0x0003CC50 33B ?initialize0088D8E0@@YAXPAURva0088D8E0Record@@PAXII@Z -- matched in Code/GameEngine/Source/Common/Rva0088D8E0RecordInitialize.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/Common/Bfme/Rva008830D0.cpp
 
 Rva008830D0Class *Rva008830D0Class::d_008830d0( int dummy )
@@ -383,12 +803,6 @@ Rva0088D930Object *Rva0088D930Object::invoke(int unused)
 	dispatch("%", 2);
     return this;
 }
-
-// tu-skeleton: 0x0003CCE0 17B ?set@Rva0003CCE0Owner@@QAEPAV1@PAURva0003CCE0Inner@@@Z -- matched in Code/GameEngine/Source/Common/Rva0089CompactHelpers.cpp (not merged yet)
-
-// tu-skeleton: 0x0003CD00 11B ??0?$_Scan_for_char_val@V?$char_traits@D@_STL@@@_STL@@QAE@D@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_istream.cpp (not merged yet)
-
-// tu-skeleton: 0x0003CD10 17B ?set@Rva0088D990Owner@@QAEPAV1@PAURva0088D990Inner@@@Z -- matched in Code/GameEngine/Source/Common/Rva0089CompactHelpers.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler_LogFPURegisters.cpp
 
@@ -446,16 +860,6 @@ void DebugExceptionhandler::LogFPURegisters(Debug &dbg, struct _EXCEPTION_POINTE
 	dbg << Debug::FillChar() << Debug::Dec();
 }
 
-// tu-skeleton: 0x0003CFB0 957B ?ExceptionDlgProc@@YGHPAXIIJ@Z -- matched in Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp (not merged yet)
-
-// tu-skeleton: 0x0003D004 873B (unledgered) -- unmatched, no code, never credited
-
-// tu-skeleton: 0x0003D370 14B ?rva0003D370@@YAPAXXZ -- matched in Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp (not merged yet)
-
-// tu-skeleton: 0x0003D380 17B ?EnumThreadWndProc@@YGHPAXJ@Z -- matched in Code/Libraries/Source/debug/debug_debug.cpp (not merged yet)
-
-// tu-skeleton: 0x0003D3A0 767B ?DebugCopyDialogReport@@YAXXZ -- matched in Code/Libraries/Source/WWVegas/WWDebug/DebugCopyDialogReport.cpp (not merged yet)
-
 // ---- from Code/Libraries/Source/WWVegas/WWDebug/AssertCrashDialogProc.cpp
 
 // ?AssertCrashDialogProc@@YGHPAXIIJ@Z
@@ -489,11 +893,8 @@ int __stdcall AssertCrashDialogProc(HWND dialog, unsigned int message, unsigned 
 
 // ---- from Code/Libraries/Source/WWVegas/WWDebug/Rva0088E090ResumeOtherThreads.cpp
 
-// tu-skeleton: 0x0003D7E0 139B _Rva0088E100WatchdogThread@4 -- matched in Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp (not merged yet)
 
-// tu-skeleton: 0x0003D870 9B _Rva0088E190TimerTick@16 -- matched in Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp (not merged yet)
 
-// tu-skeleton: 0x0003D880 410B _Rva0088E1A0ShowAssertCrashDialog -- matched in Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionhandler_LogRegisters.cpp
 
@@ -530,4 +931,435 @@ void DebugExceptionhandler::LogRegisters(Debug &dbg, struct _EXCEPTION_POINTERS 
         << "\n" << Debug::FillChar() << Debug::Dec();
 }
 
-// tu-skeleton: 0x0003DCD0 1255B ?ExceptionFilter@DebugExceptionhandler@@SGJPAU_EXCEPTION_POINTERS@@@Z -- matched in Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp (not merged yet)
+// tu-skeleton: 0x0003CC20 39B ?initialize@Rva0088D8B0Owner@@QAEPAV1@PAXIIEE@Z -- matched in Code/GameEngine/Source/Common/Rva0088D8E0RecordInitialize.cpp (not merged yet)
+
+// tu-skeleton: 0x0003CC50 33B ?initialize0088D8E0@@YAXPAURva0088D8E0Record@@PAXII@Z -- matched in Code/GameEngine/Source/Common/Rva0088D8E0RecordInitialize.cpp (not merged yet)
+
+// tu-skeleton: 0x0003CCE0 17B ?set@Rva0003CCE0Owner@@QAEPAV1@PAURva0003CCE0Inner@@@Z -- matched in Code/GameEngine/Source/Common/Rva0089CompactHelpers.cpp (not merged yet)
+
+// tu-skeleton: 0x0003CD00 11B ??0?$_Scan_for_char_val@V?$char_traits@D@_STL@@@_STL@@QAE@D@Z -- matched in Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_istream.cpp (not merged yet)
+
+// tu-skeleton: 0x0003CD10 17B ?set@Rva0088D990Owner@@QAEPAV1@PAURva0088D990Inner@@@Z -- matched in Code/GameEngine/Source/Common/Rva0089CompactHelpers.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp
+
+//
+// The exception half of Zero Hour's debug_except.cpp as BFME2 ships it:
+// ExceptionDlgProc (retail 0x0003CFB0, 957 bytes) and
+// DebugExceptionhandler::ExceptionFilter (0x0003DCD0, 1255 bytes including
+// the int3 after the final ExitProcess). They share the dialog state as file
+// statics, as in Zero Hour; the filter's retail scheduling (the exPtrs store
+// sinking past the DialogBoxIndirectParamA pushes) only reproduces when the
+// compiler knows those globals cannot alias.
+//
+// ExceptionDlgProc, BFME2 changes read from the retail bytes:
+// - WM_COMMAND closes the dialog for controls 1 and 4 (with that id) and
+//   copies the prepared report text to the clipboard for control 9.
+// - WM_INITDIALOG hides control 4 unless kernel32's IsDebuggerPresent,
+//   looked up at run time, reports a debugger. Ghidra splits the body at
+//   this block (0x0003D004); it is one function.
+// - The register listing drops '\r' characters before splitting lines.
+//
+// ExceptionFilter, installed by the Debug constructor and reached from
+// LocalSETranslator and the RaiseException hook, BFME2 changes:
+// - The stack walk runs first (full walk), and the registered crash
+//   attachments are packed into an _alloca'd "____" / id / data / "----"
+//   blob before the minidump writer (0x0003C550) runs.
+// - crashmailer.exe is started with the process id and the game's path.
+// - The log goes through InterlockedIncrement(disableAssertsEtc); the
+//   exception location is logged inline; the FPU state is cleared and
+//   masked before LogFPURegisters; the text of the exception log is kept
+//   for the dialog's copy button.
+// - All I/O targets are flushed, the game window minimised, and Windows
+//   Error Reporting (faultrep.dll ReportFault) gets the exception first; the
+//   dialog only follows for results 3, 4 and 5, and never for a crash
+//   raised by CrashDone (code 0x04560123). Answering the dialog with the
+//   debugger button breaks into it.
+// - The process always ends with ExitProcess(666).
+// - Two local buffers are named exePath and buf because MSVC orders stack
+//   slots by name; these names reproduce retail's frame.
+
+// Retail RepeatChar/MemDump copies are frameless /O2-style; this TU builds
+// /Oy-, so emit those select-any copies with fast frame omission.
+
+#pragma optimize("ty", on)
+
+#pragma optimize("", on)
+
+// This TU spells Signature as a struct; debug_stack.cpp's same-layout type is a class.
+
+// ?ExceptionDlgProc@@YGHPAXIIJ@Z
+int __stdcall ExceptionDlgProc(HWND hWnd, unsigned int uMsg, unsigned int wParam, long lParam)
+{
+	switch (uMsg)
+	{
+	case 0x110: // WM_INITDIALOG
+		break;
+	case 0x111: // WM_COMMAND
+		if ((unsigned short)wParam == 1 || (unsigned short)wParam == 4)
+			EndDialog(hWnd, (unsigned short)wParam);
+		else if ((unsigned short)wParam == 9)
+			DebugCopyToClipboard(g_exceptionReportText);
+	default:
+		return 0;
+	}
+
+	// the debugger button only makes sense with a debugger attached
+	HMODULE kernel = LoadLibraryA("kernel32");
+	if (kernel)
+	{
+		IsDebuggerPresentProc isDebuggerPresent =
+			(IsDebuggerPresentProc)GetProcAddress(kernel, "IsDebuggerPresent");
+		if (isDebuggerPresent && !isDebuggerPresent())
+			ShowWindow(GetDlgItem(hWnd, 4), 0);
+	}
+
+	// version
+	SendDlgItemMessageA(hWnd, 103, 0xC, 0, (long)g_exceptionVersionInfo);
+
+	// registers
+	char *p = g_exceptionRegisterInfo;
+	for (char *q = p;; q++)
+	{
+		if (!*q || *q == '\n')
+		{
+			bool quit = !*q;
+			*q = 0;
+			SendDlgItemMessageA(hWnd, 105, 0x180, 0, (long)p);
+			if (quit)
+				break;
+			p = q + 1;
+		}
+		else if (*q == '\r')
+			*q = 0;
+	}
+
+	// yes, this generates a GDI leak but we're crashing anyway
+	SendDlgItemMessageA(hWnd, 105, 0x30, (unsigned int)CreateFontA(13, 0, 0, 0, 400,
+		0, 0, 0, 0, 0, 0, 0, 0x31, 0), 1);
+
+	// exception type
+	SendDlgItemMessageA(hWnd, 100, 0xC, 0, (long)
+		DebugExceptionhandler::GetExceptionType(g_exceptionPointers, g_exceptionRegisterInfo));
+	SendDlgItemMessageA(hWnd, 101, 0xC, 0, (long)g_exceptionRegisterInfo);
+
+	// address
+	_CONTEXT &ctx = *g_exceptionPointers->ContextRecord;
+	DebugStackwalk::Signature::GetSymbol(ctx.Eip, g_exceptionRegisterInfo,
+		sizeof(g_exceptionRegisterInfo));
+	SendDlgItemMessageA(hWnd, 102, 0xC, 0, (long)g_exceptionRegisterInfo);
+
+	// stack
+	// (this code is a little messy because we're dealing with a raw list control)
+	HWND list;
+	list = GetDlgItem(hWnd, 104);
+	if (!g_exceptionStackSignature.Size())
+	{
+		LVCOLUMNA c;
+		c.mask = 6;
+		c.pszText = "";
+		c.cx = 690;
+		ListView_InsertColumn(list, 0, &c);
+
+		LVITEMA item;
+		item.iItem = 0;
+		item.iSubItem = 0;
+		item.mask = 1;
+		item.pszText = "No stack data available - check for dbghelp.dll";
+
+		item.iItem = ListView_InsertItem(list, &item);
+	}
+	else
+	{
+		// add columns first
+		LVCOLUMNA c;
+		c.mask = 6;
+		c.pszText = "";
+		c.cx = 0; // first column is empty (can't right-align 1st column)
+		ListView_InsertColumn(list, 0, &c);
+
+		c.mask = 7;
+		c.pszText = "Address";
+		c.cx = 60;
+		c.fmt = 1;
+		ListView_InsertColumn(list, 1, &c);
+
+		c.mask = 6;
+		c.pszText = "Module";
+		c.cx = 120;
+		ListView_InsertColumn(list, 2, &c);
+
+		c.pszText = "Symbol";
+		c.cx = 300;
+		ListView_InsertColumn(list, 3, &c);
+
+		c.pszText = "File";
+		c.cx = 130;
+		ListView_InsertColumn(list, 4, &c);
+
+		c.pszText = "Line";
+		c.cx = 80;
+		ListView_InsertColumn(list, 5, &c);
+
+		// now add stack walk lines
+		for (unsigned k = 0; k < g_exceptionStackSignature.Size(); k++)
+		{
+			DebugStackwalk::Signature::GetSymbol(g_exceptionStackSignature.GetAddress(k),
+				g_exceptionRegisterInfo, sizeof(g_exceptionRegisterInfo));
+
+			LVITEMA item;
+			item.iItem = k;
+			item.iSubItem = 0;
+			item.mask = 0;
+			item.iItem = ListView_InsertItem(list, &item);
+			item.mask = 1;
+
+			item.iSubItem++;
+			item.pszText = strtok(g_exceptionRegisterInfo, " ");
+			ListView_SetItem(list, &item);
+
+			item.iSubItem++;
+			item.pszText = strtok(0, ",");
+			ListView_SetItem(list, &item);
+
+			item.iSubItem++;
+			item.pszText = strtok(0, ",");
+			ListView_SetItem(list, &item);
+
+			item.iSubItem++;
+			item.pszText = strtok(0, ":");
+			ListView_SetItem(list, &item);
+
+			item.iSubItem++;
+			item.pszText = strtok(0, "");
+			ListView_SetItem(list, &item);
+		}
+	}
+
+	return 1;
+}
+
+// ?ExceptionFilter@DebugExceptionhandler@@SGJPAU_EXCEPTION_POINTERS@@@Z
+long __stdcall DebugExceptionhandler::ExceptionFilter(_EXCEPTION_POINTERS *pExPtrs)
+{
+	// we should not be calling ourselves!
+	static bool inExceptionFilter;
+	if (inExceptionFilter)
+	{
+		MessageBoxA(0, "Exception in exception handler", "Fatal error", 0);
+		return 0;
+	}
+	inExceptionFilter = true;
+
+	if (pExPtrs->ExceptionRecord->ExceptionCode == 0xC00000FD) // EXCEPTION_STACK_OVERFLOW
+	{
+		// almost everything we are about to do will generate a second
+		// stack overflow... double fault... so give at least a little warning
+		OutputDebugStringA("EA/DEBUG: EXCEPTION_STACK_OVERFLOW\n");
+	}
+
+	Debug &dbg = *theDebug;
+	bool raisedByCrash = pExPtrs->ExceptionRecord->ExceptionCode == 0x04560123;
+	DebugStackwalk::StackWalk(g_exceptionStackSignature, pExPtrs->ContextRecord, true);
+
+	// pack the crash attachments for the dump
+	unsigned size = 8;
+	for (unsigned k = 0; k < g_debugTypedLogCount; k++)
+		size += g_crashAttachments[k].size + 8;
+	char *blob = (char *)_alloca(size);
+	if (blob)
+	{
+		*(DWORD *)blob = 0x5F5F5F5F; // "____"
+		blob += 4;
+		for (unsigned i = 0; i < g_debugTypedLogCount; i++)
+		{
+			*(DWORD *)blob = g_crashAttachments[i].id;
+			blob += 4;
+			memcpy(blob, g_crashAttachments[i].data, g_crashAttachments[i].size);
+			blob += g_crashAttachments[i].size;
+			*(DWORD *)blob = 0x2D2D2D2D; // "----"
+			blob += 4;
+		}
+		*(DWORD *)blob = 0x5F5F5F5F;
+	}
+	d_0088d240(pExPtrs, dbg.m_fullMiniDump);
+
+	// hand the crash to the mailer
+	char exePath[512];
+	GetModuleFileNameA(0, exePath, sizeof(exePath));
+	wsprintfA(g_crashMailerCommand, "crashmailer.exe %i %s", GetCurrentProcessId(), exePath);
+	STARTUPINFOA startup;
+	memset(&startup, 0, sizeof(startup));
+	startup.cb = sizeof(startup);
+	PROCESS_INFORMATION process;
+	CreateProcessA(0, g_crashMailerCommand, 0, 0, 0, 0x20, 0, 0, &startup, &process);
+
+	// we're logging an exception
+	InterlockedIncrement(&dbg.disableAssertsEtc);
+	if (dbg.curType != 7)
+		dbg.Debug::FlushOutput(true);
+	dbg.Debug::StartOutput(DebugIOInterface::Exception, "");
+
+	// start off with the exception type & buf
+	dbg << "\n" << Debug::RepeatChar('=', 80) << "\n";
+	dbg << GetExceptionType(pExPtrs, g_exceptionRegisterInfo) << ":\n"
+		<< g_exceptionRegisterInfo << "\n\n";
+	char buf[512];
+	DebugStackwalk::Signature::GetSymbol(pExPtrs->ContextRecord->Eip, buf, sizeof(buf));
+	dbg << "Exception occured at\n" << buf << ".";
+	dbg << "\n\n";
+
+	// build info must be saved off for dialog...
+	unsigned curOfs = dbg.ioBuffer[3].used;
+	dbg.WriteBuildInfo();
+	unsigned len = dbg.ioBuffer[3].used - curOfs;
+	if (len >= sizeof(g_exceptionVersionInfo))
+		len = sizeof(g_exceptionVersionInfo) - 1;
+	memcpy(g_exceptionVersionInfo, dbg.ioBuffer[3].buffer + curOfs, len);
+	g_exceptionVersionInfo[len] = 0;
+	dbg << "\n\n";
+
+	// save off register info as well...
+	curOfs = dbg.ioBuffer[3].used;
+	LogRegisters(dbg, pExPtrs);
+	dbg << "\n";
+	__asm fnclex
+	_control87(0x8001F, 0x8001F);
+	LogFPURegisters(dbg, pExPtrs);
+	dbg << "\n";
+	len = dbg.ioBuffer[3].used - curOfs;
+	if (len >= sizeof(g_exceptionRegisterInfo))
+		len = sizeof(g_exceptionRegisterInfo) - 1;
+	memcpy(g_exceptionRegisterInfo, dbg.ioBuffer[3].buffer + curOfs, len);
+	g_exceptionRegisterInfo[len] = 0;
+
+	// now finally add stack & EIP dump
+	dbg << g_exceptionStackSignature << "\n";
+	dbg << "Bytes around EIP:"
+		<< Debug::MemDump::Char(((char *)(pExPtrs->ContextRecord->Eip)) - 32, 80);
+
+	// keep the report for the dialog's copy button
+	const char *report = dbg.GetOutputBuffer(DebugIOInterface::Exception);
+	if (report)
+	{
+		char *copy = (char *)DebugReAllocMemory((void *)g_exceptionReportText, strlen(report));
+		g_exceptionReportText = copy;
+		if (copy)
+			strcpy(copy, report);
+	}
+
+	dbg.Debug::FlushOutput(true);
+	((Rva0088A1F0Owner *)&dbg)->broadcast();
+
+	HWND window = 0;
+	EnumThreadWindows(GetCurrentThreadId(), EnumThreadWndProc, (long)&window);
+	if (window)
+		ShowWindow(window, 6);
+
+	// let Windows Error Reporting have a go first
+	int reported = 3;
+	HMODULE faultrep = LoadLibraryA("faultrep.dll");
+	if (faultrep)
+	{
+		ReportFaultProc reportFault = (ReportFaultProc)GetProcAddress(faultrep, "ReportFault");
+		if (reportFault)
+			reported = reportFault(pExPtrs, 0);
+		FreeLibrary(faultrep);
+	}
+
+	if ((reported == 3 || reported == 5 || reported == 4) && !raisedByCrash)
+	{
+		// Show a dialog box
+		InitCommonControls();
+		g_exceptionPointers = pExPtrs;
+		dbg.m_inAssertDialog = true;
+		if (DialogBoxIndirectParamA(0, g_exceptionDialogTemplate, 0, ExceptionDlgProc, 0) == 4)
+		{
+			dbg.m_inAssertDialog = false;
+			__asm int 3
+		}
+		dbg.m_inAssertDialog = false;
+	}
+
+	// Now die
+	inExceptionFilter = false;
+	ExitProcess(666);
+}
+
+// tu-skeleton: 0x0003D004 873B (unledgered) -- unmatched, no code, never credited
+
+// tu-skeleton: 0x0003D370 14B ?rva0003D370@@YAPAXXZ -- matched in Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp (not merged yet)
+
+// tu-skeleton: 0x0003D380 17B ?EnumThreadWndProc@@YGHPAXJ@Z -- matched in Code/Libraries/Source/debug/debug_debug.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/WWVegas/WWDebug/DebugCopyDialogReport.cpp
+
+//
+// Copy button of the assert/crash dialog, retail 0x0003D3A0 (767 bytes);
+// the dialog procedure at 0x0003D6A0 calls it for control 9. It joins the
+// dialog title, the report text and the three build-info strings of the
+// Debug singleton (virtuals at slots 0xA0/0xA4/0xA8), each non-empty one
+// followed by "\r\n", and hands the result to DebugCopyToClipboard; when
+// the buffer cannot be allocated it copies the report text alone. The
+// title pointer is read before the buffer is cleared, which is where
+// retail loads it. The name is descriptive; no symbol survives for it.
+
+// ?DebugCopyDialogReport@@YAXXZ
+void DebugCopyDialogReport()
+{
+	unsigned int size = 0;
+	if (*g_rva0088E000WindowText)
+		size = strlen(g_rva0088E000WindowText) + 2;
+	if (*g_rva0088E000MessageText)
+		size += strlen(g_rva0088E000MessageText) + 2;
+	if (*theDebug->GetVersion())
+		size += strlen(theDebug->GetVersion()) + 2;
+	if (*theDebug->GetInternalVersion())
+		size += strlen(theDebug->GetInternalVersion()) + 2;
+	if (*theDebug->GetBuildDate())
+		size += strlen(theDebug->GetBuildDate()) + 2;
+
+	char *text = (char *)DebugAllocMemory(size + 1);
+	if (text)
+	{
+		const char *title = g_rva0088E000WindowText;
+		*text = 0;
+		if (*title)
+		{
+			strcat(text, title);
+			strcat(text, "\r\n");
+		}
+		if (*g_rva0088E000MessageText)
+		{
+			strcat(text, g_rva0088E000MessageText);
+			strcat(text, "\r\n");
+		}
+		if (*theDebug->GetVersion())
+		{
+			strcat(text, theDebug->GetVersion());
+			strcat(text, "\r\n");
+		}
+		if (*theDebug->GetInternalVersion())
+		{
+			strcat(text, theDebug->GetInternalVersion());
+			strcat(text, "\r\n");
+		}
+		if (*theDebug->GetBuildDate())
+		{
+			strcat(text, theDebug->GetBuildDate());
+			strcat(text, "\r\n");
+		}
+
+		DebugCopyToClipboard(text);
+		DebugFreeMemory(text);
+	}
+	else
+	{
+		// out of memory: copy at least the report itself
+		DebugCopyToClipboard(g_rva0088E000MessageText);
+	}
+}
+
+// ---- from Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp
+
+// ---- from Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp

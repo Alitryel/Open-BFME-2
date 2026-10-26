@@ -130,3 +130,29 @@ matched coverage is unchanged and no identity debt is claimed retired.
   duplicate `FireSpreadUpdateModuleData`. `Rva0024A797Derived.cpp` has no row
   approved for this TU. These are Sol prerequisites; no unchanged blocker was
   retried, and no claims or source edits were made.
+
+## Debug exception merge applied, 2026-10-26 (Shard 2/5)
+
+`debug_except.cpp` passed allocator, planner currency and TU approval checks.
+The merge accepted four unchanged donors (`DebugExceptionFilter`,
+`DebugCopyDialogReport`, the watchdog and dialog-driver fragments), preserving
+15 matched rows. The record-initializer donor remains rejected on bytes. The
+merge tool transferred four donors' protected keys, kept hatch totals, moved
+12 data-ledger names, repointed three data rows, six function rows, six TU-map
+rows and the Microsoft-header queue entry, and printed a follow-up to check
+whether TU-keyed data debt can now retire.
+
+`./build.sh debug_except.cpp` passed 15/15 rows, all 141 string literals, 53
+named imports and three byte-verified data rows. The declaration scan, CSV,
+staged TU ownership and class gates passed. Staged data check reported one
+finding, entirely within the existing baseline; the `wrong-name` key for
+`?g_crashAttachments@@3PAUCrashAttachment@@A` at `0x009E0DEC` remains debt for
+Sol. Staged code identity reported one new shadow finding: the existing
+`/alternatename:?g_crashAttachments=...?g_debugTypedLogs` directive is reported
+as unreferenced at the merged TU. Preserve this finding for Sol's identity lane;
+no identity debt is claimed retired. The current path search found only the
+repointed ledgers/queue, historical census paths, source provenance comments
+and historical evidence; no active tool, hook, workflow, include or build
+consumer hard-codes the four absorbed file paths. The outgoing pre-push audit
+must still compare selected providers, COMDATs and affected consumers. Net
+source-file change is four files removed; all matched rows remain covered.

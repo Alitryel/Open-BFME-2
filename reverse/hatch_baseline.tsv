@@ -2321,13 +2321,6 @@ address_global	Code/Libraries/Source/WWVegas/WW3D2/renderasset.cpp	g_Va00DB6218	
 address_global	Code/Libraries/Source/WWVegas/WW3D2/simplestreakrender.cpp	g_Va00DEE86C	3
 address_global	Code/Libraries/Source/WWVegas/WW3D2/simplestreakrender.cpp	g_Va00DEE870	3
 address_global	Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp	g_Va00DEE8E8	6
-address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373BCTimerTicks	2
-address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373C0DialogClosed	3
-address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373C4DialogGeneration	3
-address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp	g_Rva012D4FD0AssertCrashTemplate	2
-address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp	g_Rva013373BCTimerTicks	3
-address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp	g_Rva013373C0DialogClosed	3
-address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E1A0ShowAssertCrashDialog.cpp	g_Rva013373C4DialogGeneration	2
 address_global	Code/Libraries/Source/WWVegas/WWLib/HordeMeleeSwarmXfer.cpp	g_Rva0107301CEmptyString	3
 address_global	Code/Libraries/Source/WWVegas/WWLib/Rva001532E1Erase.cpp	g_Rva00153565Vec	4
 address_global	Code/Libraries/Source/WWVegas/WWLib/Rva00153565Register.cpp	g_Rva00153565Vec	7
@@ -2353,6 +2346,10 @@ address_global	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_range_c
 address_global	Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_range_ctors.cpp	g_Va00DDEF38	2
 address_global	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00436e3b.cpp	g_Va00E032EC	3
 address_global	Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_science_base_001FF76E.cpp	g_Va00DB9440	1
+address_global	Code/Libraries/Source/debug/debug_except.cpp	g_Rva012D4FD0AssertCrashTemplate	2
+address_global	Code/Libraries/Source/debug/debug_except.cpp	g_Rva013373BCTimerTicks	5
+address_global	Code/Libraries/Source/debug/debug_except.cpp	g_Rva013373C0DialogClosed	6
+address_global	Code/Libraries/Source/debug/debug_except.cpp	g_Rva013373C4DialogGeneration	5
 alternatename	Code/GameEngine/Include/Common/BfmeAudioEventPrefix136.h	??1BfmeAudioEventPrefix136@@UAE@XZ	1
 alternatename	Code/GameEngine/Include/Common/BfmeAudioEventPrefix136.h	??_GBfmeAudioEventPrefix136@@UAEPAXI@Z	1
 alternatename	Code/GameEngine/Include/Common/BfmeAudioEventPrefix136.h	?rva002D96D3@BfmeAudioEventPrefix136@@QAEXABUOpaqueRefElement4@@@Z	1
@@ -5790,8 +5787,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp	?Apply@GridCl
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp	?Apply@GridEnvironmentMapperClass@@UAEXH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp	?Apply@WSClassicEnvironmentMapperClass@@UAEXH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/vertmaterial.cpp	?Apply@WSEnvironmentMapperClass@@UAEXH@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp	??6@YAAAVDebug@@AAV0@ABUSignature@DebugStackwalk@@@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp	?g_crashAttachments@@3PAUCrashAttachment@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WWDebug/Debug_IsLogEnabled.cpp	?UpdateFrameStatus@Debug@@AAEXAAUFrameHashEntry@1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWDebug/debug_stack.cpp	?StackWalk@DebugStackwalk@@SAHAAUSignature@1@PAU_CONTEXT@@_N@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/BFMEPoolCriticalSectionLock.cpp	?spin@LockClass@FastCriticalSectionClass@@CIXPAI@Z	1
@@ -6249,6 +6244,8 @@ alternatename	Code/Libraries/Source/WWVegas/WWMath/matrix3.cpp	??4Matrix3@@QAEAA
 alternatename	Code/Libraries/Source/WWVegas/WWMath/vehiclecurve.cpp	??0GadgetCreateView@@QAE@XZ	1
 alternatename	Code/Libraries/Source/assetmanager/assetmanager_impl.cpp	?bfmeAskEME@BfmeObjEME@@QAE_NPAX@Z	1
 alternatename	Code/Libraries/Source/debug/BfmeDebugFlag9F57.cpp	?_bfme_debugReportingEnabled@@YA_NXZ	1
+alternatename	Code/Libraries/Source/debug/debug_except.cpp	??6@YAAAVDebug@@AAV0@ABUSignature@DebugStackwalk@@@Z	1
+alternatename	Code/Libraries/Source/debug/debug_except.cpp	?g_crashAttachments@@3PAUCrashAttachment@@A	1
 alternatename	Code/Libraries/Source/subsystem/Rva00221088Ctor.cpp	??1Rva00221088@@UAE@XZ	1
 alternatename	Code/Libraries/Source/subsystem/Rva00221088Ctor.cpp	?rva001B5384@Rva00221088@@QAEXXZ	1
 alternatename	Code/Libraries/Source/xfer/xfer_crc.cpp	?bfmeBaseUpdate@Gen009D6330@@QAEXPAXPBXI@Z	1
@@ -18765,8 +18762,8 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugCmdInterfaceDebugCtor.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugCmdInterfaceDebugCtor.cpp	"y",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugExceptionFilter.cpp	"ty",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIONetConstructorThunk.cpp	"y",off	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIONetPipeDestructorThunk.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIONet_Create.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWDebug/DebugIOOds_Create.cpp	"y",off	1
@@ -19534,6 +19531,8 @@ pragma_optimize	Code/Libraries/Source/assetmanager/AssetManagerImplUpdate.cpp	""
 pragma_optimize	Code/Libraries/Source/assetmanager/AssetManagerImplUpdate.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/assetmanager/assetmanager_impl.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/assetmanager/assetmanager_impl.cpp	"gsy",on	1
+pragma_optimize	Code/Libraries/Source/debug/debug_except.cpp	"",on	1
+pragma_optimize	Code/Libraries/Source/debug/debug_except.cpp	"ty",on	1
 pragma_optimize	Code/Libraries/Source/debug/debug_io_con.cpp	"y",off	1
 pragma_optimize	Code/Libraries/Source/debug/debug_io_con.cpp	"y",on	1
 pragma_optimize	Code/Libraries/Source/debug/debug_io_net.cpp	"y",off	2
