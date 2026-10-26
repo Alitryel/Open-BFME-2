@@ -121,6 +121,19 @@ class IncludeOrderTests(unittest.TestCase):
                                 "/Ireference/open-bfme-1/game/WWLib"])
 
 
+class PreludeOrderTests(unittest.TestCase):
+    def test_a_declaration_between_includes_stays_between_them(self):
+        # CrateSystem.cpp declares KindOfMaskType between two includes; the second header needs it
+        tu = "Code/T.cpp"
+        seed = ('// cl: /MD\n#include "A.h"\ntypedef int Mask;\n#include "B.h"\n'
+                'typedef int AfterAll;\nint f() { return 1; }\n')
+        out = T.compose(tu, [], [tu], {tu: seed}, ["/MD"], "first")
+        at = {name: out.index(name) for name in ('"A.h"', "typedef int Mask;", '"B.h"', "typedef int AfterAll;")}
+        self.assertLess(at['"A.h"'], at["typedef int Mask;"])
+        self.assertLess(at["typedef int Mask;"], at['"B.h"'])
+        self.assertLess(at['"B.h"'], at["typedef int AfterAll;"])
+
+
 class BraceInitialisedDataTests(unittest.TestCase):
     def test_operator_equals_and_default_arguments_are_still_bodies(self):
         text = ("Transition &Transition::operator=(const Transition &o) { return *this; }\n"

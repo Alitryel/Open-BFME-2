@@ -492,7 +492,12 @@ def compose(tu, sk, files, texts, flags, strategy, drop=frozenset(), drop_all=fr
             chosen[k] = pick
     pps, decls, seen = [], [], set()
     for f in files:
-        for kind, c in parsed[f]:
+        # a declaration before the file's last #include (a type an included header
+        # needs, e.g. CrateSystem.cpp's KindOfMaskType) stays among the includes
+        last_inc = max((i for i, (kind, c) in enumerate(parsed[f])
+                        if kind == "pp" and re.match(r"#\s*include\b", c.strip())), default=-1)
+        for at, (kind, c) in enumerate(parsed[f]):
+            into = pps if at < last_inc else decls
             if kind == "pp":
                 line = c.strip()
                 # only an #include repeats harmlessly; a conditional or a #define
@@ -505,12 +510,12 @@ def compose(tu, sk, files, texts, flags, strategy, drop=frozenset(), drop_all=fr
                     continue   # cl saw it defined earlier: the seed's copy, else a header (includes come first)
                 if k[0] in ("type", "typedef") and k[1] in drop and k not in seen:
                     seen.add(k)    # the seed's own spelling, whichever spelling the strategy chose
-                    decls.append(c.strip("\n"))
+                    into.append(c.strip("\n"))
                     continue
                 if k in seen or (k in chosen and chosen[k][1] != f):
                     continue
                 seen.add(k)
-                decls.append((chosen[k][0] if k in chosen else c).strip("\n"))
+                into.append((chosen[k][0] if k in chosen else c).strip("\n"))
     body, done, bodies = [], set(), set()
     for t, led in sk:
         f = led["source"] if led else None
