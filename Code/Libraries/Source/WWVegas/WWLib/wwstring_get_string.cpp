@@ -7,7 +7,9 @@
 // The data word keeps its existing FastCriticalSectionClass spelling.
 // Retail acquires these string pools through the pool backend at 0x6577F;
 // use its shared guard rather than emit the event-backend constructor name.
-#include "mutex.h"
+// wwstring.h supplies the existing StringClass lock-word declaration.
+// Get_String uses BFMEPoolCriticalSection below; no FastCriticalSection guard
+// is constructed here. Including mutex.h would redefine the seed's lock view.
 #include "bfme_pool_critical_section.h"
 #include "always.h"
 #undef W3DNEWARRAY
