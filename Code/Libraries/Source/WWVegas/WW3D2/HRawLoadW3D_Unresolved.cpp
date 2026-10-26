@@ -162,6 +162,9 @@ public:
 	bool							Get_Orientation(Quaternion& orientation, int pividx,float frame) const;
 	void							Get_Transform(Matrix3D& transform, int pividx,float frame) const;
 	bool							Get_Visibility(int pividx,float frame);
+	// BFME: per-pivot fade blend (retail 0x0018D540), declared as hrawanim.h does
+	// so this unit's HRawAnimClass vtable copy agrees with hrawanim.cpp's.
+	virtual float				Get_VisibilityF(int pividx,float frame);
 
 	bool							Is_Node_Motion_Present(int pividx);
 	int							Get_Num_Pivots(void) const { return NumNodes; }

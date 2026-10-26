@@ -1115,19 +1115,23 @@ separate strict receipt limitation encountered there.
   identically and deterministically with BFME_OBJSTORE=off, so ANY member
   growth of the canonical class perturbs that dependent's compiled EH funclet
   layout. The trial reverted
-  (everse/re_attempts.log, 2026-10-26 retraction and blocked entries); the
+  (
+everse/re_attempts.log, 2026-10-26 retraction and blocked entries); the
   ledger row keeps the V class-key spelling of its private-view unit and
-  everse/header_queue.tsv keeps the row.
+  
+everse/header_queue.tsv keeps the row.
 - **Remaining / next check:** member additions to Coord3D.h ship only
   together with a dependent recompute (the precedent header extensions
   24ef6a5e83 and 505f43a1c73 landed with their own dependent work). For
   the Coord3D queue (13 private-body units and 42 view users in
-  everse/header_queue.tsv), inventory a dependent set that reproduces
+  
+everse/header_queue.tsv), inventory a dependent set that reproduces
   PlayerInitFromDict.cpp 31/31 with the grown header before publishing any
   new member; the coord3d_crossproduct.cpp adoption resumes then. Related
   view-shape blocks: TeamPrototypeMoveTeamTo.cpp (inlined user copy-ctor
   by-value staging) and AISpecialPowerPickers.cpp (array-of-Coord3D EH
-  unwind registration) are recorded in everse/re_attempts.log.
+  unwind registration) are recorded in 
+everse/re_attempts.log.
 - **Clearance:** none; no header or dependent change is claimed verified.
 - **Census confirmation:** n/a (adoption lane; surfaced via the scoped header
   gate, not the link census).
@@ -1227,3 +1231,32 @@ Remaining / next check: None.
 Clearance: `tools/link_check.py Code/GameEngine/Source/Common/BfmeConv1879.cpp`
 reports: LINKS (0 -> 82 bytes). Exact 1/1 byte match preserved.
 Census confirmation: awaiting the next census.
+
+### LINK-023: `HAnimClass` views disagree on the vtable layout (`hcanim.cpp` vs `bfmehrawanim`)
+
+(Filed as LINK-020 in its `reverse/re_attempts.log` entry for 0x0018D2A0; renumbered on rebase.)
+
+**Status: Open (partial repair landed). Updated: 2026-10-26; inspected revision: 60517e12b1.**
+
+- **Evidence / scope:** `Code/Libraries/Source/WWVegas/WW3D2/HRawLoadW3D_Unresolved.cpp`
+  (149 B, `HRawAnimClass` ctor 0x0018D2A0) lost `??_7HAnimClass@@6BRefCountClass@@@` to
+  `hcanim.cpp` and `??_7HRawAnimClass@@6BRefCountClass@@@` to `hrawanim.cpp`. The two winning
+  copies come from incompatible `HAnimClass` views: `hcanim.cpp` reads BFME 1's
+  `game/.../WW3D2/hanim.h` (23 slots, with `Get_Translation/Get_Orientation(int,float)`,
+  `_bfme_hanim_fade`, `_bfme_hanim_v21`), `hrawanim.cpp` reads `reference/shims/bfmehrawanim/hanim.h`
+  (21 slots; `HRawAnimClass` appends `Get_VisibilityF` as slot 21). A unit that constructs
+  `HRawAnimClass` emits both vtables, so no local view can agree with both owners.
+- **Retail (target facts, read from 0x007D5CB8 / 0x007D5D20 / 0x007D5D88, 23 slots each):**
+  0 Delete_This, 1 deleting dtor, 2 `Get_Name` (lea +10), 3 dword +40 (name key), 4 lea +30
+  (hierarchy name), 5 +44 frames, 6 +4C rate, 7 `Get_Total_Time`, 8 `Get_Translation(Vector3&,..)`,
+  9 `Get_Orientation(Quaternion&,..)`, 10 `Get_Transform`, 11 `Get_Visibility`, 12 fade
+  (`Get_VisibilityF` / `_bfme_hanim_fade`), 13 +48 `Get_Num_Pivots`, 14 `Is_Node_Motion_Present`,
+  15..19 `Has_*`, 20 `Has_VisibilityF` (base returns true), 21 `Class_ID`, 22 pure (raw 0x0018E6F0,
+  compressed 0x0018FB70). Neither view has this layout; retail's HRaw ctor stores no `HAnimClass` vptr.
+- **Completed:** the unit's `HRawAnimClass` view declares `Get_VisibilityF` as `hrawanim.h` does;
+  its HRaw vtable copy now has `hrawanim.obj`'s digest. `./build.sh` 1/1. Tried
+  `__declspec(novtable)` on its `HAnimClass` view: the vtable goes but an out-of-line
+  `??0HAnimClass@@QAE@XZ` copy then differs from retail's, so reverted.
+- **Remaining / next check:** reconcile `HAnimClass` (and the HRaw/HCompressed overrides) to the
+  retail layout above in one shared view for `hcanim.cpp`, `hrawanim.cpp`, `htree.cpp`,
+  `HRawLoadW3D*.cpp`, re-verifying every virtual-call offset in their matched bodies.
