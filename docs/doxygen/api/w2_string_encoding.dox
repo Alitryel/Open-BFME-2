@@ -87,7 +87,7 @@
 /// quoted_printable.cpp includes BFME 1's quoted_printable.h, which has the
 /// same four prototypes. UnicodeString::translate(const char *) is in
 /// StringUtf8Translation.cpp, and readUnicodeString in
-/// GameEngine/Source/Common/System/ReadUnicodeString.cpp.
+/// GameEngine/Source/Common/Recorder.cpp.
 ///
 /// \par Modding
 /// - None of the matched callers of the four quoted-printable functions is
@@ -156,13 +156,13 @@
 /// but never advanced. The Unicode decoder lives in
 /// quoted_printable_unicode.cpp and has the same shape.
 
-/// \file ReadUnicodeString.cpp
+/// \fn UnicodeString readUnicodeString(_iobuf *file)
 /// \ingroup grp_w2_string_encoding
-/// \brief readUnicodeString: reads one NUL-terminated UTF-16 string from a
-///        C runtime FILE.
+/// \brief Reads one NUL-terminated UTF-16 string from a C runtime FILE.
 ///
-/// Ported from Open-BFME-1's ReadUnicodeString.cpp. Retail keeps no symbol
-/// for this function; the name is carried from the BFME 1 donor.
+/// Lives in Recorder.cpp, the retail translation unit it was merged back
+/// into. Ported from Open-BFME-1's ReadUnicodeString.cpp. Retail keeps no
+/// symbol for this function; the name is carried from the BFME 1 donor.
 
 /// \fn AsciiString AsciiStringToQuotedPrintable(AsciiString original)
 /// \brief Escapes a narrow string so that it contains only letters, digits
