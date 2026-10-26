@@ -1,5 +1,6 @@
 // cl: /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
+// platformsdk
 //
 // GameClient's drawable table of contents: the save-game list pairing each
 // drawable template name with the 16-bit id stored in its place.
@@ -1280,8 +1281,10 @@ int rva00239539(void *, bool);
 int rva0023BDD7(void *, bool);
 int rva0023958B(void *, bool);
 int rva00239122(void *, bool);
-extern "C" __declspec(dllimport) unsigned int __stdcall timeGetTime(void);
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long milliseconds);
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#include <mmsystem.h>
 
 // ZH GameClient::GameClient. Retail 0x0023BC36: Snapshot vptr 0xBBB554 is
 // stored first, then the GameClient vptrs 0x00BED850/0x00BED840, unwind states

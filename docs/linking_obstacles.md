@@ -399,9 +399,13 @@ authored-byte previews or commit-title gains into a projected headline.
   adopting the same header: all 92 rows, eleven EXACT EH graphs and complete
   object facts remain unchanged; owning acceptance retires its queue item.
   The icoord.cpp base/operator item and census confirmation stay open.
+  Its shared-header gate passes 2,107 functions and 25 data rows across 259
+  sources. A separate SDK-header adoption preserves the whole GameClient
+  object, all 92 rows and eleven EXACT EH graphs while retiring its two
+  private Windows declarations through the owning Microsoft-header scanner.
   GameClient's separate SubsystemInterface item still needs its fourteen
-  virtual slots reconciled with the canonical base; its Microsoft-header
-  item remains in the same-file queue.
+  virtual slots reconciled with the canonical base. Existing shadow identity
+  and TheMessageStream data-name diagnostics remain unchanged.
   Publication preparation on bf438b551c preserves all five new coordinate
   consumer objects' source inputs and the contract/header after rebase;
   the seven-commit batch retires five header and two Microsoft-header items.

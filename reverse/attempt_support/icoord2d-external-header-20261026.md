@@ -55,3 +55,32 @@ Microsoft-header items. Its base view has fourteen virtual slots, whereas
 the canonical base currently exposes only its destructor; adoption needs
 slot evidence and dependent-source validation. No census, ownership or
 runtime improvement is claimed by this header-only cleanup.
+
+## Completed shared gate and SDK declarations
+
+Commit `306bf80b31` passes the normal dependent gate over 259 sources:
+2,107 functions, 25 data rows, three STLport folds, 595 string literals plus
+63 empty references, 786 floats and 232 imports. Converged-data enforcement
+finds zero second names and zero unjudged rows. The separate changed-source
+repeat is not added to these totals; it again passes 92 rows and eleven
+EXACT EH graphs. The source's fourteen shadow code-identity findings and
+one shadow data-name finding for TheMessageStream remain; complete-object
+equivalence shows this change preserves their definitions and references.
+
+The following whole-file change replaces both private Windows imports,
+timeGetTime and Sleep, with the toolchain's actual `<windows.h>` and
+`<mmsystem.h>`, using the existing `// platformsdk` build opt-in. Configuration
+defines WIN32_LEAN_AND_MEAN and NOMINMAX avoid unused Windows declarations
+and macro substitution of the file's existing STL max overload. The SDK's
+DWORD timeGetTime return replaces the private unsigned-int spelling while
+retaining its native 32-bit imported call and external symbol.
+
+Normal verification again passes 92/92 rows, eleven EXACT EH graphs and all
+three import references. Complete object comparison preserves the same
+353 non-debug sections, 16,313 bytes, 991 relocations and external identities,
+including linker directives; no external-name normalization is used. The
+frozen check passes. The owning Microsoft-header scan is clean, and its
+scoped refresh removes exactly the one queue item for these two declarations,
+preserving every unrelated queue byte. Receipts are `iteration36-build.log`,
+`iteration36-verification.log` and the normal `iteration36-commit.log`.
+Only the SubsystemInterface item remains queued for this source.
