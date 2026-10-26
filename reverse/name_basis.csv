@@ -2413,3 +2413,6 @@ member,Rva002E99F9Query::m_0,Rva002E99F9Query::m_acceptableSurfaces,inferred,agr
 class,Rva005FDE81Entry,PlayerTab,inferred,agree:nl-eb51c304f46b,Code/GameEngine/Source/Common/GapBodiesGE12.cpp,
 function,?rva0052586B@Rva0052586B@@QAEXXZ,?resetHeroSlots@Rva0052586B@@QAEXXZ,inferred,agree:nl-2ce80d294bc5,Code/GameEngine/Source/Common/VslotSmallBodiesF.cpp,0x0052586B
 param,Drawable::rva0027656F::a1,Drawable::rva0027656F::parentDrawableID,inferred,agree:nl-805fa9647580,Code/GameEngine/Source/GameClient/Drawable_rva0027656F.cpp,0x0027656F
+member,Obj0052A22C::m_74,Obj0052A22C::m_id,inferred,agree:nl-b49c1ae4e89f,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,
+param,Rva005243FA::c,Rva005243FA::searchValue,inferred,agree:nl-90cd403df73f,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,0x005243FA
+param,Rva005ED15DCreateAutoResolve::a,Rva005ED15DCreateAutoResolve::livingWorldLogic,inferred,agree:nl-d76772728914,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,0x005ED15D

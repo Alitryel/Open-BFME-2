@@ -8,7 +8,7 @@
 struct Obj0052A22C
 {
 	char m_pad[0x74];
-	int m_74;
+	int m_id;
 };
 
 struct Holder00529E19
@@ -24,7 +24,7 @@ struct Holder0052A22C
 
 void Holder0052A22C::rva0052A22C(Obj0052A22C *obj)
 {
-	((Holder00529E19 *)this)->Rva00529DA9(obj ? obj->m_74 : 0);
+	((Holder00529E19 *)this)->Rva00529DA9(obj ? obj->m_id : 0);
 }
 
 // ?Rva005258F8@@YGXHH@Z @0x005258F8 30B
@@ -47,10 +47,10 @@ void __stdcall Rva00525407(Pair005258F8 *pair);
 struct Rva00523DB7;
 const Rva00523DB7 *Rva0052408BFind(const Rva00523DB7 *first, const Rva00523DB7 *last, const Rva00523DB7 *val, int tag);
 
-int Rva005243FA(int a, int b, int c)
+int Rva005243FA(int a, int b, int searchValue)
 {
 	char tag;
-	return (int)Rva0052408BFind((const Rva00523DB7 *)a, (const Rva00523DB7 *)b, (const Rva00523DB7 *)c, (int)&tag);
+	return (int)Rva0052408BFind((const Rva00523DB7 *)a, (const Rva00523DB7 *)b, (const Rva00523DB7 *)searchValue, (int)&tag);
 }
 
 // ?setObject@Rva0052A287@@QAEXPAUObj0052A22C@@@Z @0x0052A287 7B
