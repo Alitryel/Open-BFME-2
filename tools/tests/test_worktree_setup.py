@@ -61,6 +61,12 @@ def repos(tmp_path):
     return upstream, main
 
 
+def bref(superproject, seat, pin):
+    """The borrow ref a seat of `superproject` keeps in each donor store."""
+    common = Path(run(superproject, "rev-parse", "--path-format=absolute", "--git-common-dir"))
+    return ws.borrow_ref(f"{ws.owner_key(common)}/{seat}", pin)
+
+
 def store_state(main):
     store = main / ".git" / "modules" / SUB
     files = sorted((p.relative_to(store).as_posix(), p.stat().st_mtime_ns)
@@ -184,7 +190,7 @@ def test_borrow_ref_keeps_the_pin_through_donor_gc(repos, tmp_path):
     wt = tmp_path / "wt"
     pin = ws.create(wt, cwd=main)
     donor = main / SUB
-    assert borrow_refs(donor) == [ws.borrow_ref("wt", pin)]
+    assert borrow_refs(donor) == [bref(main, "wt", pin)]
     # Move the donor to an unrelated commit and drop all its own refs to the pin.
     run(upstream, "checkout", "-q", "--orphan", "other")
     run(upstream, "rm", "-rq", "--cached", ".")
@@ -201,7 +207,7 @@ def test_borrow_ref_keeps_the_pin_through_donor_gc(repos, tmp_path):
     run(wt / SUB, "fsck", "--connectivity-only")
     assert ws.verify(wt) == pin
     # Without the borrow ref the same gc drops the pin, and check says so.
-    run(donor, "update-ref", "-d", ws.borrow_ref("wt", pin))
+    run(donor, "update-ref", "-d", bref(main, "wt", pin))
     run(donor, "gc", "-q", "--prune=now")
     assert not has_object(donor, pin)
     with pytest.raises(ws.SetupError, match="git fsck"):
@@ -216,10 +222,10 @@ def test_remove_and_prune_borrows_drop_the_seat_refs(repos, tmp_path):
     assert len(borrow_refs(donor)) == 2
     ws.remove(tmp_path / "a")
     assert not (tmp_path / "a").exists()
-    assert borrow_refs(donor) == [ws.borrow_ref("b", pin)]
+    assert borrow_refs(donor) == [bref(main, "b", pin)]
     # A seat removed behind the tool's back leaves a stale ref for prune-borrows.
     run(main, "worktree", "remove", "--force", str(tmp_path / "b"))
-    assert ws.prune_borrows(main) == [ws.borrow_ref("b", pin)]
+    assert ws.prune_borrows(main) == [bref(main, "b", pin)]
     assert borrow_refs(donor) == []
 
 
@@ -244,8 +250,8 @@ def test_pull_never_recurses_and_prepare_fetches_the_new_pin_at_depth_1(repos, t
     donor = main / SUB
     # The donor fetched the pin alone, never its history, and keeps it.
     assert has_object(donor, three) and not has_object(donor, two)
-    assert ws.borrow_ref("wt", three) in borrow_refs(donor)
-    assert ws.borrow_ref("wt", old) in borrow_refs(donor)
+    assert bref(main, "wt", three) in borrow_refs(donor)
+    assert bref(main, "wt", old) in borrow_refs(donor)
 
 
 def test_a_donor_wildcard_refspec_is_never_copied(repos, tmp_path):
@@ -284,7 +290,7 @@ def test_short_path_worker_with_an_embedded_gitdir(repos, tmp_path):
     gitdir = Path(run(wt / SUB, "rev-parse", "--path-format=absolute", "--git-dir"))
     assert (gitdir / "objects/info/alternates").read_text(encoding="utf-8") == \
         ws.posix(worker / SUB / ".git" / "objects") + "\n"
-    assert borrow_refs(worker / SUB) == [ws.borrow_ref("wt", pin)]
+    assert borrow_refs(worker / SUB) == [bref(worker, "wt", pin)]
     assert (wt / SUB / "game" / "game.cpp").read_text(encoding="utf-8") == "int y;\n"
 
 
@@ -309,3 +315,103 @@ def test_prepare_keeps_history_a_seat_unshallowed(repos, tmp_path):
     assert ws.prepare(wt) == pin
     assert not (gitdir / "shallow").exists()
     assert run(sub, "rev-list", "--count", "HEAD") == "3"
+
+
+def pack_state(store):
+    return sorted((p.name, p.stat().st_mtime_ns) for p in (store / "objects/pack").iterdir())
+
+
+def test_the_donor_fetch_never_runs_auto_gc(repos, tmp_path):
+    upstream, main = repos
+    store = main / ".git" / "modules" / SUB
+    donor = main / SUB
+    run(donor, "repack", "-adq")
+    # Any second pack trips auto gc, and gc runs in the foreground.
+    run(donor, "config", "gc.autoPackLimit", "1")
+    run(donor, "config", "gc.autoDetach", "false")
+    run(donor, "config", "transfer.unpackLimit", "1")
+    marker = tmp_path / "auto-gc-ran"
+    hook = store / "hooks" / "pre-auto-gc"
+    hook.parent.mkdir(exist_ok=True)
+    hook.write_text(f"#!/bin/sh\necho ran > '{ws.posix(marker)}'\n", encoding="utf-8",
+                    newline="\n")
+    hook.chmod(0o755)
+    before = pack_state(store)
+    three = commit_upstream(upstream, "int three;\n", "three")
+    run(main, "update-index", "--cacheinfo", f"160000,{three},{SUB}")
+    run(main, "commit", "-qm", "repin")
+    assert ws.create(tmp_path / "wt", cwd=main) == three
+    assert not marker.exists()
+    after = pack_state(store)
+    assert set(before) <= set(after) and len(after) > len(before)
+
+
+def short_path_worker(main, tmp_path, name="w01"):
+    worker = tmp_path / name
+    run(tmp_path, "clone", "-q", "--shared", "--no-recurse-submodules", str(main), str(worker))
+    pin = ws.pinned_commit(worker)
+    run(tmp_path, "clone", "-q", "--shared", "--no-checkout", "--no-recurse-submodules",
+        str(main / SUB), str(worker / SUB))
+    run(worker / SUB, "checkout", "-q", "--detach", pin)
+    return worker, pin
+
+
+def drop_all_but_borrows_and_gc(repo):
+    run(repo, "symbolic-ref", "HEAD", "refs/heads/empty")
+    run(repo, "rm", "-rqf", "--cached", "--ignore-unmatch", ".")
+    for ref in run(repo, "for-each-ref", "--format=%(refname)").splitlines():
+        if not ref.startswith(ws.BORROW_PREFIX):
+            run(repo, "update-ref", "--no-deref", "-d", ref)
+    run(repo, "reflog", "expire", "--expire=now", "--all")
+    run(repo, "gc", "-q", "--prune=now")
+
+
+def test_borrow_refs_reach_every_store_in_the_alternates_chain(repos, tmp_path):
+    # The worker's BFME 1 is a `clone --shared` of the primary's: the pinned
+    # objects live in the primary store, which the worker's refs never protect.
+    upstream, main = repos
+    worker, pin = short_path_worker(main, tmp_path)
+    # A second worker sharing the primary store, with a seat of the same id.
+    other, _ = short_path_worker(main, tmp_path, "w02")
+    wt = tmp_path / "wt"
+    assert ws.create(wt, cwd=worker) == pin
+    ref = bref(worker, "wt", pin)
+    assert borrow_refs(worker / SUB) == [ref]
+    assert borrow_refs(main / SUB) == [ref]
+    drop_all_but_borrows_and_gc(main / SUB)
+    run(wt / SUB, "fsck", "--connectivity-only")
+    assert ws.verify(wt) == pin
+    # A new pin is fetched into the store at the end of the chain, so every
+    # store can hold a ref to it.
+    three = commit_upstream(upstream, "int three;\n", "three")
+    run(worker, "update-index", "--cacheinfo", f"160000,{three},{SUB}")
+    run(worker, "commit", "-qm", "repin")
+    run(wt, "pull", "-q", "--no-rebase", str(worker), "master")
+    assert ws.prepare(wt) == three
+    for repo in (worker / SUB, main / SUB):
+        assert bref(worker, "wt", three) in borrow_refs(repo)
+    drop_all_but_borrows_and_gc(main / SUB)
+    run(wt / SUB, "fsck", "--connectivity-only")
+    # One worker's remove or prune-borrows never drops the other's refs.
+    ws.create(tmp_path / "w02-seats" / "wt", cwd=other)
+    theirs = bref(other, "wt", pin)
+    assert theirs != ref and theirs in borrow_refs(main / SUB)
+    ws.remove(wt)
+    assert borrow_refs(worker / SUB) == [] and borrow_refs(main / SUB) == [theirs]
+    assert ws.prune_borrows(worker) == [] and borrow_refs(main / SUB) == [theirs]
+
+
+def test_prune_borrows_keeps_a_locked_or_registered_seat(repos, tmp_path):
+    _, main = repos
+    wt = tmp_path / "wt"
+    pin = ws.create(wt, cwd=main)
+    ref = bref(main, "wt", pin)
+    run(main, "worktree", "lock", "--reason", "on a removable drive", str(wt))
+    wt.rename(tmp_path / "away")
+    assert ws.prune_borrows(main) == []
+    run(main, "worktree", "prune")
+    assert ws.prune_borrows(main) == [] and borrow_refs(main / SUB) == [ref]
+    run(main, "worktree", "unlock", str(wt))
+    assert ws.prune_borrows(main) == []  # registered until git prunes it
+    run(main, "worktree", "prune")
+    assert ws.prune_borrows(main) == [ref]
