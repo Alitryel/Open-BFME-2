@@ -2410,3 +2410,4 @@ function,?rva0055CDEC@FXPSEmitterLineVolumeModule@@QAE?AUCoord3D0055CDEC@@IIII@Z
 carry,FXPSEmitterLineVolumeModule::rva0055CDEC::fraction,FXPSEmitterLineVolumeModule::getPosition::fraction,inferred,scope renamed by Rename rva0055CDEC to getPosition (inferred),Code/GameEngine/Source/GameClient/FXParticleSystemLineSample.cpp,0x0055CDEC
 member,Rva002E99F9Arg1::m_10,Rva002E99F9Arg1::m_validLocomotorSurfaces,inferred,agree:nl-fafb87fa3dd6,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,
 member,Rva002E99F9Query::m_0,Rva002E99F9Query::m_acceptableSurfaces,inferred,agree:nl-7e710624a30c,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,
+class,Rva005FDE81Entry,PlayerTab,inferred,agree:nl-eb51c304f46b,Code/GameEngine/Source/Common/GapBodiesGE12.cpp,

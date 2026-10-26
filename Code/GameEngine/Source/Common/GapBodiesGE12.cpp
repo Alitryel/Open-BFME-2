@@ -179,7 +179,7 @@ int Rva005FD4AA::rva005FD4DD(int index) const
 
 // --- 0x005FDE81 (70B): a numeric string naming one of the +0x28 vector's
 // 12-byte entries selects it (virtual slot 4).
-struct Rva005FDE81Entry
+struct PlayerTab
 {
 	char m_data[12];
 };
@@ -195,8 +195,8 @@ public:
 	void OnTabClicked(const char *text);
 private:
 	char m_pad[0x28 - 4];
-	Rva005FDE81Entry *m_begin;
-	Rva005FDE81Entry *m_end;
+	PlayerTab *m_begin;
+	PlayerTab *m_end;
 };
 
 void Rva005FE750::OnTabClicked(const char *text)
