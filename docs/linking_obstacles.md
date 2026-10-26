@@ -182,6 +182,9 @@ authored-byte previews or commit-title gains into a projected headline.
   COMDAT policies and provider/consumer facts; exact EH placement resolves
   renumbered cleanup labels without altering the ledger or identity checker.
   Eight other donors still need state-machine/body/AI-data declarations.
+  A forward-declaration-only StateMachine trial admitted no further donors:
+  its callers require the full receiver declaration. The trial was reverted
+  and its exact compile boundary is recorded in the handoff and attempt log.
   No merge, debt retirement, census gain or later Luna landing is claimed.
 - **DefaultProductionExitUpdate Xfer prerequisite (2026-10-26):**
   [canonical operand adoption](../reverse/attempt_support/consolidation-default-exit-xfer-prerequisite-20261026-codex.md)

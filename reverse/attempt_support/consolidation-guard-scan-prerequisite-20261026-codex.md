@@ -109,3 +109,47 @@ a legacy-layout/snapshot interface task. PlayerList's private transfer uses a
 different virtual-slot contract, so its queued canonical adoption is not a
 forward-declaration-only fix. These read-only reviews created no source edits
 or claims. TheMessageStream naming decision (issue #116) is left to maintainers.
+
+## Follow-up trial and final handoff
+
+A one-line StateMachine forward declaration was tested after 589371761d.
+Both objects retained all non-debug sections, code/data/provider facts and
+22 EH-resolved reference facts; six matched rows still passed. The ordinary
+composition dry-run nevertheless accepted exactly the same seed and scan:
+state/inner/aggressor/machine donors then failed because AIUpdateInterface
+calls getGoalObject through the incomplete StateMachine. A forward declaration
+alone is insufficient; reconcile full receiver declarations and their ordering
+before retrying those donors. The speculative line was reverted. No additional
+donor, row, byte or debt retirement is claimed. The blocked verdict is recorded
+through re_log.py against lookForInnerTarget at 0x005461A2. Scratch evidence is
+build/codex-guard-forward-{trial.txt,object-proof.json,section-delta.json,
+reference-eh-located-delta.json,data-delta.json}.
+
+After restoration, the supported two-source build again verifies **6/6**
+functions plus one data row; frozen-file checks pass and EH is **1 EXACT**.
+The preceding shared-header commit's full gate also verified **33/33** rows
+across the two consumers and conservatively selected Eva.cpp. Eva's dependency
+receipt contains no AITNGuardObjectView.h dependency and its object stayed
+current; it is not an additional direct consumer of the header.
+
+Verified prerequisite commits e99d78dd3d and 589371761d remain pending the
+runner's publication batch as of this handoff. The final documentation commit
+does not change the audited path set or provider/consumer bindings. Keep the
+nine scope claims listed above until the runner confirms these commits landed,
+then release them and settle landed RVAs. No abandoned trial body or claim is
+left behind; the retained scope claims belong to the pending verified batch.
+
+## Inherited-batch recovery receipt
+
+The next session found a clean tree with the three inherited commits rebased
+to 498c3fefd2, 6ef523cc8d and 105e6a62c7 atop origin/master 26a7b4f8f6.
+`git pull --rebase origin master` and `check_csv.py` passed. The supported
+three-source build revalidated **9/9** functions and one data row using current
+receipts. The complete outgoing path audit again finds no source move or
+deletion, and the scoped Object header still has exactly the two intended
+direct consumers. Active tools, hooks, workflows, includes, build inputs and
+registries need no path update. Existing original-path/provenance mentions
+remain intentional. The original scoped before/after provider and identity
+receipts remain available in build/; the recovery changes only this handoff.
+Publish this recovered batch before selecting another trial. Read and record
+the pre-push audit's freshness and selected-provider report.
