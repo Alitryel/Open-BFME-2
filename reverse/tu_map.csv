@@ -53803,8 +53803,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006E9580,333,code,Code/Libraries/Source/Apt/AptMiscObjects.cpp,approved,F,F=Code/Libraries/Source/Apt/AptMiscObjects.cpp,Code/GameEngine/Source/Common/Rva006E9580Vslot.cpp
 0x006E96D0,95,code,Code/GameEngine/Source/Common/S4Dtor00587B30.cpp,proposed,N,N=Code/GameEngine/Source/Common/S4Dtor00587B30.cpp,Code/Libraries/Source/Apt/AptMiscObjects.cpp
 0x006E9730,102,code,,,-,,Code/Libraries/Source/Apt/Rva006e9730Cluster.cpp
-0x006E97A0,26,code,,,-,,Code/GameEngine/Source/Common/Rva006E97A0Cluster.cpp
-0x006E97C0,51,code,,,-,,Code/GameEngine/Source/Common/SmallGaps/releasePair.cpp
+0x006E97A0,26,code,,,-,,Code/Libraries/Source/Apt/AptMiscObjects.cpp
+0x006E97C0,51,code,,,-,,Code/Libraries/Source/Apt/AptMiscObjects.cpp
 0x006E9A40,163,code-unledgered,,,-,,
 0x006E9AF0,42,code,,,-,,Code/Libraries/Source/Apt/AptMiscObjects.cpp
 0x006E9B20,35,code,,,-,,Code/GameEngine/Source/Common/Rva006D6470Derived.cpp

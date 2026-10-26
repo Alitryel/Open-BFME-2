@@ -21734,8 +21734,8 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A18184,4,.data,global,?g_rva008B2BD0_4@@3PAVRva008B2BD0Item@@A,Code/GameEngine/Source/Common/Rva008B2BD0ReleaseGlobals.cpp,owned,,1,2
 0x00A18188,4,.data,global,?g_rva008B2BD0_5@@3PAVRva008B2BD0Item@@A,Code/GameEngine/Source/Common/Rva008B2BD0ReleaseGlobals.cpp,owned,,1,2
 0x00A1818C,4,.data,global,?g_pRva006E97A0Object@@3PAVRva006E97A0Object@@A,,unowned,,0,6
-0x00A18190,4,.data,global,?Rva008A4AC0First@@3PAURva008A4AC0Object@@A,Code/GameEngine/Source/Common/SmallGaps/releasePair.cpp,owned,,1,2
-0x00A18194,4,.data,global,?Rva008A4AC0Second@@3PAURva008A4AC0Object@@A,Code/GameEngine/Source/Common/SmallGaps/releasePair.cpp,owned,,1,2
+0x00A18190,4,.data,global,?Rva008A4AC0First@@3PAURva008A4AC0Object@@A,Code/Libraries/Source/Apt/AptMiscObjects.cpp,owned,,1,2
+0x00A18194,4,.data,global,?Rva008A4AC0Second@@3PAURva008A4AC0Object@@A,Code/Libraries/Source/Apt/AptMiscObjects.cpp,owned,,1,2
 0x00A18198,4,.data,global,?g_Va00E18198@@3PAVAcac0Releaseable@@A,Code/GameEngine/Source/Common/Rva008ACAC0GlobalReleases.cpp,owned,,1,2
 0x00A1819C,4,.data,global,?g_Va00E1819C@@3PAVAcac0Releaseable@@A,Code/GameEngine/Source/Common/Rva008ACAC0GlobalReleases.cpp,owned,,1,2
 0x00A181A0,4,.data,global,?g_Va00E181A0@@3PAVAcac0Releaseable@@A,Code/GameEngine/Source/Common/Rva008ACAC0GlobalReleases.cpp,owned,,1,2

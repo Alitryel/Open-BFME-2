@@ -231,6 +231,38 @@ public:
  static AptValue *sMethod_removeListener(AptValue *,int);
 };
 
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
+//
+// Singleton releaser sitting between the S4 two-member destructors and the
+// 0x006E9xxx block. Clears the pointer at 0x00E1818C after one slot-1 virtual
+// call on its object (vtable+4, no stack arguments). No callee is named and the
+// only relocation is the masked DIR32 global, so the body is the evidence;
+// identity is unproven and the names are this image's address.
+
+class Rva006E97A0Object
+{
+public:
+	virtual void slot0();
+	virtual void slot1();
+};
+
+Rva006E97A0Object * g_pRva006E97A0Object;
+
+// ?releasePair@@YAXXZ
+// BFME 2: Open-BFME-1's SmallGaps/releasePair.cpp (submodule 10af19f44a, BFME 1
+// 0x008A4AC0), byte-identical in game.dat at 0x006E97C0. bfme1_sweep lists it as
+// ambiguous with its twin bfmeGo1062B, already rowed at 0x006E8EF0: masked, the
+// two are the same bytes. The DIR32 operands tell them apart. The twin releases
+// VA 0xe1816c/0xe18170 (BfmeConv1062.cpp's globals) and this copy releases
+// VA 0xe18190/0xe18194, so those two globals are defined here (zero-filled .bss;
+// no other unit references them).
+struct Rva008A4AC0Object { virtual void slot0(); virtual void release(); };
+
+Rva008A4AC0Object* Rva008A4AC0First;
+
+	// VA 0x00e18190
+Rva008A4AC0Object* Rva008A4AC0Second;
+
 // tu-skeleton: 0x006E8FD0 309B ?sMethod_load@AptLoadVars@@SAPAVAptValue@@PAV2@H@Z -- matched in Code/Libraries/Source/Apt/AptObject/AptLoadVarsLookup.cpp (not merged yet)
 
 // tu-skeleton: 0x006E9110 402B ?sMethod_send@AptLoadVars@@SAPAVAptValue@@PAV2@H@Z -- matched in Code/Libraries/Source/Apt/AptObject/AptLoadVarsLookup.cpp (not merged yet)
@@ -242,6 +274,8 @@ public:
 // tu-skeleton: 0x006E9530 80B ?sMethod_getBytesLoaded@AptLoadVars@@SAPAVAptValue@@PAV2@H@Z -- matched in Code/Libraries/Source/Apt/AptObject/AptLoadVarsLookup.cpp (not merged yet)
 
 // tu-skeleton: 0x006E9580 333B ?rva006E9580@Rva006E9580@@QAE_NHPAVEAStringC@@PAVBfmeAptValue006DCD20@@@Z -- matched in Code/GameEngine/Source/Common/Rva006E9580Vslot.cpp (not merged yet)
+
+// ---- from Code/Libraries/Source/Apt/AptMiscObjects.cpp
 
 // ---- from Code/GameEngine/Source/Common/S4TwoMemberDestructors.cpp
 
@@ -256,11 +290,8 @@ public:
 // Both members destroy through 0x006D3010 and the base through 0x006D6470
 // (pins, REL32-decoded from retail).
 
-// tu-skeleton: 0x006E9730 102B ?rva006e9730@@YAPAVAptValue@@PAV1@@Z -- matched in Code/Libraries/Source/Apt/Rva006e9730Cluster.cpp (not merged yet)
 
-// tu-skeleton: 0x006E97A0 26B ?Rva006E97A0@@YAXXZ -- matched in Code/GameEngine/Source/Common/Rva006E97A0Cluster.cpp (not merged yet)
 
-// tu-skeleton: 0x006E97C0 51B ?releasePair@@YAXXZ -- matched in Code/GameEngine/Source/Common/SmallGaps/releasePair.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/Apt/AptMiscObjects.cpp
 
@@ -317,10 +348,6 @@ void Rva006E9A40List::add(AptCIH *element){
  }
 ++mnElements;int index;for(index=mnElements;maElements[index];++index){if(index>=mnMaxElements)index=0;}maElements[index]=element;element->slot0();
 }
-
-// tu-skeleton: 0x006E9B20 35B ??_GRva006E8F30@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva006D6470Derived.cpp (not merged yet)
-
-// tu-skeleton: 0x006E9B50 35B ??_GRva006E9B50@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva006CBF40Deferred.cpp (not merged yet)
 
 // ---- from Code/Libraries/Source/Apt/AptObject/AptMathObjectLookup.cpp
 
@@ -519,6 +546,34 @@ AptValue *AptMouse::objectMemberLookup(AptValue *const,const EAStringC *const na
  }
  return 0;
 }
+
+// tu-skeleton: 0x006E9730 102B ?rva006e9730@@YAPAVAptValue@@PAV1@@Z -- matched in Code/Libraries/Source/Apt/Rva006e9730Cluster.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/Rva006E97A0Cluster.cpp
+
+	// retail RVA 0x00A1818C (.data, 4 bytes), defined here: nothing else owns it
+
+// ?Rva006E97A0@@YAXXZ @ 0x006E97A0 (26B)
+void Rva006E97A0(void)
+{
+	if (g_pRva006E97A0Object) {
+		g_pRva006E97A0Object->slot1();
+		g_pRva006E97A0Object = 0;
+	}
+}
+
+// ---- from Code/GameEngine/Source/Common/SmallGaps/releasePair.cpp
+
+	// VA 0x00e18194
+void releasePair()
+{
+	if (Rva008A4AC0First) { Rva008A4AC0First->release(); Rva008A4AC0First = 0; }
+	if (Rva008A4AC0Second) { Rva008A4AC0Second->release(); Rva008A4AC0Second = 0; }
+}
+
+// tu-skeleton: 0x006E9B20 35B ??_GRva006E8F30@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva006D6470Derived.cpp (not merged yet)
+
+// tu-skeleton: 0x006E9B50 35B ??_GRva006E9B50@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva006CBF40Deferred.cpp (not merged yet)
 
 // tu-skeleton: 0x006EA700 1064B ?objectMemberLookup@AptLoadVars@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z -- matched in Code/Libraries/Source/Apt/AptObject/AptLoadVarsLookup.cpp (not merged yet)
 

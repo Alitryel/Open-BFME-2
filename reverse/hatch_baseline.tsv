@@ -984,7 +984,6 @@ address_global	Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp	g_Va0087A290	1
 address_global	Code/GameEngine/Source/Common/Rva005FFCCBAppend.cpp	g_Rva0107301CEmptyString	3
 address_global	Code/GameEngine/Source/Common/Rva0060147B.cpp	g_Va00E06E60	2
 address_global	Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp	g_Va00DBB710	2
-address_global	Code/GameEngine/Source/Common/Rva006E97A0Cluster.cpp	g_pRva006E97A0Object	4
 address_global	Code/GameEngine/Source/Common/Rva00740A45Create.cpp	g_Rva00789900Table	1
 address_global	Code/GameEngine/Source/Common/Rva00740A60Get.cpp	g_Rva00740A60Table	3
 address_global	Code/GameEngine/Source/Common/Rva00755C80GuardedQuery.cpp	g_Va001FDEB0	2
@@ -2164,6 +2163,7 @@ address_global	Code/Libraries/Source/Apt/AptCharacterObjectMemberLookup.cpp	g_Va
 address_global	Code/Libraries/Source/Apt/AptCharacterObjectMemberLookup.cpp	g_Va00E181F8	6
 address_global	Code/Libraries/Source/Apt/AptCharacterObjectMemberLookup.cpp	g_Va00E181FC	6
 address_global	Code/Libraries/Source/Apt/AptCharacterObjectMemberLookup.cpp	g_Va00E18200	6
+address_global	Code/Libraries/Source/Apt/AptMiscObjects.cpp	g_pRva006E97A0Object	4
 address_global	Code/Libraries/Source/Apt/AptObject/AptFactoryConstructors.cpp	g_pRva006E97A0Object	2
 address_global	Code/Libraries/Source/Apt/AptObject/AptFactoryConstructors_AptError.cpp	g_pRva006E97A0Object	2
 address_global	Code/Libraries/Source/Apt/AptValue.cpp	g_Rva01337A20	2
