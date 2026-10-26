@@ -117,9 +117,11 @@ public:
 	// inlines it but still emits the loser COMDAT. Rebinding there emits only
 	// this unique (trivially kept) copy. No flags touched.
 	Object *bfme_object() { return m_object; }
-	Bool isVisible() const { return m_isVisible; }
 
 private:
+	// The matched caller reads this measured byte directly. Defining a local
+	// Drawable::isVisible would emit a conflicting shared COMDAT.
+	friend class SwayClientUpdate;
 	unsigned char m_pad000[0xFC];
 	Object *m_object; // +0xFC
 	unsigned char m_pad100[0x1A0 - 0x100];
@@ -170,7 +172,7 @@ void SwayClientUpdate::clientUpdate()
 	else
 	{
 		// Otherwise, only update visible drawables
-		if (!draw || !draw->isVisible())
+		if (!draw || !draw->m_isVisible)
 			return;
 	}
 

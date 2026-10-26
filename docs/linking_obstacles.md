@@ -175,6 +175,17 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open. Updated: 2026-10-25.**
 
+- **Sway declaration prerequisite (2026-10-26):**
+  [the scoped receiver and identity evidence](../reverse/attempt_support/consolidation-sway-receiver-20261026-codex.md)
+  reconciles the seed, pool-key and transfer receivers. Ordinary composition now
+  accepts all three sources (6 rows / 1,218 bytes), while the constructor still
+  lacks a compatible declaration and the mixed getter stays behind. This is a
+  demonstrated prerequisite unblock; no merge or later Luna landing is claimed.
+  The separate visibility cleanup removes Sway's divergent seven-byte
+  `Drawable::isVisible` COMDAT and preserves every retained section and code/data
+  reference fact. The selected GameLogicInit copy remains the same. Identity
+  register retirement is zero; scoped current-provider verification and its
+  limits are recorded in the handoff. No census or linked-byte gain is claimed.
 - **Evidence / scope:** recurring historical names include `AudioEventRTS`
   destruction, assignment and `setObjectID`; `UpdateModule::crc`;
   `DamageInfo` / `DamageInfoInput` / `DamageInfoOutput` transfer methods;

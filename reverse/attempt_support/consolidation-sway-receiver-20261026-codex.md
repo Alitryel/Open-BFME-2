@@ -99,6 +99,68 @@ Keep the four source/header file claims and this handoff claim until confirmed
 publication. The inherited docs/linking_obstacles.md and
 consolidation-sol-prerequisites-20261026-codex.md claims also await that push.
 
+The prerequisite is committed as `240fd4de66`. Its header-dependent gate passes
+33/33 rows in four sources, including Eva.cpp, and its final scoped gate passes
+6/6 rows plus one EXACT EH graph. The shadow identity gate reports the existing
+divergent Drawable::isVisible definition in the seed; paired object equality
+above proves this repair did not introduce it. It is a separate cleanup target,
+not a retired register key. The publish wrapper held the two pending commits
+(`92faf73b14`, `240fd4de66`) for its normal batch policy; no pre-push batch audit
+has run yet, and no claim is released on that basis.
+
+## Separate visibility-definition cleanup
+
+The follow-up removes the seed's local Drawable::isVisible inline definition
+and makes the already measured m_isVisible byte accessible to SwayClientUpdate
+through a friend declaration. The caller reads that field directly. This adds
+no synthetic method or retail name and changes no receiver layout. The three
+seed rows (997 bytes) still match, with string/float/import and frozen-file
+checks passing; supported strict preparation also passes for the seed.
+
+Paired object facts show exactly one removed non-debug section: the seven-byte
+`?isVisible@Drawable@@QBE_NXZ` COMDAT, bytes `8a8141040000c3`, digest
+`3d138beef324`. There are no added sections. Every retained section's bytes,
+COMDAT policy, flags and relocations are unchanged after normalizing section
+renumbering; data definitions and references are equal. External code counts
+fall 17 to 16. Undefined references and aliases are unchanged.
+
+The supported allowed_symbols selected-provider view keeps GameLogicInit.obj
+with digest `9f92d305be56` and size 7 before and after. The two variants become
+one; no undefined referrer to that name exists in the inspected object graph.
+The selected provider's original receipt was not strict-current, so its source
+was claimed for supported preparation before accepting this as current binding
+evidence. That preparation and the final composition/gate results follow below.
+
+`repair_queue.py retire identity` reports that the identity register holds no
+key for this source and changes no register. This clears an unregistered
+shadow finding; **identity debt retired remains zero**. Scratch evidence is
+`build/codex-sway-identity-{object-proof,section-delta,reference-delta,data-delta}.json`
+and the paired `provider-before.json` / `provider-after.json` under that prefix.
+
 Recovered C++ bytes: 0. Source files removed: 0. Identity debt retired: 0.
 Matched coverage is preserved; no linked-byte or ownership improvement is
 claimed from a preview or from an old census.
+
+Additional allocated triage: the SpecialPowerCreate plan has six approved rows,
+three direct donors and two mixed donors. The Create-prefix planner records
+constructor hatch/unledgered-definition and receiver/compiler discrepancies;
+the constructor retains its existing unmatched destructor. Frozen-file checks
+pass for the callback, pool-key and constructor. No source was changed or
+claim taken for this read-only triage.
+
+The selected-provider refresh now passes: `link_check.py --prepare-current
+Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp` verifies **194/194
+rows**, six data rows, 89 literals plus 12 empty-string references, seven float
+literals and 15 imports with a strict reusable receipt. The initial concurrent
+composition trial moved preparation inputs and was correctly refused with no
+witness accepted; the sequential retry passes without relaxing any check.
+GameLogicInit.cpp was claimed for this verification only and is unchanged.
+
+The final Sway composition dry run again accepts the same three sources and
+six rows / 1,218 bytes; its constructor and mixed-getter blockers are unchanged.
+`link_check.py --new-variants --paths-from
+build/codex-sway-identity-sources.txt` exits zero. The outgoing compatibility
+audit remains the inherited documentation plus receiver repair and this
+cleanup: no existing source paths move, and only the already verified three
+consumers include the new scoped header. No protected register changes. Keep
+the additional GameLogicInit.cpp file claim until publication is confirmed.
