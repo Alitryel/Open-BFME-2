@@ -15,15 +15,15 @@ public:
 	static _Rb_tree_node_base *__cdecl _M_increment(_Rb_tree_node_base *);
 };
 }
-struct Rva005E4E1BNode
+struct ArmyIconMapNode
 {
 	_STL::_Rb_tree_node_base m_base;
 	int m_key10;
 };
-struct Rva005E4E1BHeader
+struct ArmyIconMapHeader
 {
 	char m_00[8];
-	Rva005E4E1BNode *m_leftmost;
+	ArmyIconMapNode *m_leftmost;
 };
 class Rva005F2278
 {
@@ -43,18 +43,18 @@ private:
 	char m_00[0x14];
 	Rva005F2278 *m_14;
 	char m_pad18[0x1C - 0x18];
-	Rva005E4E1BHeader *m_1C;
+	ArmyIconMapHeader *m_1C;
 };
 void Rva005E4E1B::rva005E4E1B()
 {
-	Rva005E4E1BHeader *end = m_1C;
-	Rva005E4E1BNode *it = end->m_leftmost;
-	if (it == (Rva005E4E1BNode *)end)
+	ArmyIconMapHeader *end = m_1C;
+	ArmyIconMapNode *it = end->m_leftmost;
+	if (it == (ArmyIconMapNode *)end)
 		return;
 	do {
 		int k = it->m_key10;
 		if (m_14->rva005F2278(k))
 			((Rva005E4DAF *)this)->Deselect(k);
-		it = (Rva005E4E1BNode *)&*_STL::_Rb_global<bool>::_M_increment(&it->m_base);
-	} while (it != (Rva005E4E1BNode *)end);
+		it = (ArmyIconMapNode *)&*_STL::_Rb_global<bool>::_M_increment(&it->m_base);
+	} while (it != (ArmyIconMapNode *)end);
 }

@@ -2509,3 +2509,6 @@ carry,?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,?save
 param,SpecialAbilityUpdate::rva0044EDA6::arg,SpecialAbilityUpdate::rva0044EDA6::targetPos,inferred,agree:nl-2ed5cbd3121a,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp,0x0044EDA6
 param,Rva00136794::Rva00136794::v3,Rva00136794::Rva00136794::excludedSubObjects,inferred,agree:nl-90878bc4ed36,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
 class,Rva004E52DCNode,TerrainClaimNode,inferred,agree:nl-ddb697a1f686,Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp,
+class,Rva005E4E1BNode,ArmyIconMapNode,inferred,agree:nl-a53f1dd8e5af,Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
+class,Rva005E4E1BHeader,ArmyIconMapHeader,inferred,agree:nl-a7f1f7f5517a,Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
+carry,Rva005E4E1BHeader::m_leftmost,ArmyIconMapHeader::m_leftmost,inferred,scope renamed by Rename Rva005E4E1BHeader to ArmyIconMapHeader (inferred),Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
