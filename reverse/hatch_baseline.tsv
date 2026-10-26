@@ -18272,11 +18272,11 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp	"",
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/HTreeClassReadPivots.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/LightEnvironmentClassConstructor.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/LightEnvironmentClassConstructor.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DClassCtor.cpp	"",on	2
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DClassCtor.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DClassCtor.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DClassRender.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DClassRender.cpp	"gsy",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DCompileView.h	"",on	2
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DCompileView.h	"gsy",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/Line3DCompileView.h	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassDestructor.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassDestructor.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/LineGroupClassRender.cpp	"",on	1
@@ -18419,9 +18419,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjAssign.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjAssign.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjBounds.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjBounds.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjClassDerivedDtors.cpp	"",on	2
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjClassDerivedDtors.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjClassDerivedDtors.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjCollision.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjCollision.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/RenderObjCopy.cpp	"",on	2
@@ -18609,9 +18606,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/lightenvironment.cpp	"t",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp	"",on	2
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp	"",on	2

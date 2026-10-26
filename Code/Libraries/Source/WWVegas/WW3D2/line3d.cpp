@@ -15,13 +15,10 @@
 // It can also change how later array constructions here compile; checked to
 // change nothing else in this unit, but if a function added later that builds
 // an array will not match, try it without this block.
-struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma optimize("gsy", on)
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
-#pragma optimize("s", on)
-#include "refcount.h"
-#pragma optimize("", on)
+#include "Line3DCompileView.h"
+// Preserve the endpoint donor's inline-only views before full headers load.
+#include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
+#include "../../../../../reference/shims/bfme_matrix3d_bool_link/matrix3d.h"
 #define Matrix4x4 Matrix4
 #include "winbase_shim.h"
 #include "always.h"

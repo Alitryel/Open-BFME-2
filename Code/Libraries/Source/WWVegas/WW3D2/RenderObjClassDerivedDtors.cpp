@@ -7,10 +7,7 @@
 // It can also change how later array constructions here compile; checked to
 // change nothing else in this unit, but if a function added later that builds
 // an array will not match, try it without this block.
-struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma optimize("gsy", on)
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
+#include "Line3DCompileView.h"
 #define Matrix3x3 Matrix3
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -47,9 +44,6 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 // RefCountClass's inline members and deleting destructor are retail's
 // size-optimised bodies: compile them for size, as hlod.cpp does.
-#pragma optimize("s", on)
-#include "refcount.h"
-#pragma optimize("", on)
 #include "rendobj.h"
 
 class Rva00166DE0 : public RenderObjClass

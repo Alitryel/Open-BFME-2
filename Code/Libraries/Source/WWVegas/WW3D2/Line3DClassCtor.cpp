@@ -7,13 +7,7 @@
 // optimization state of the first function that needs it; retail links the
 // /O1 body at 0x00001423. Instantiate it first in an unemitted anchor (the
 // lookuptable.cpp pattern) so this unit's copy is that body.
-struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma optimize("gsy", on)
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
-#pragma optimize("s", on)
-#include "refcount.h"
-#pragma optimize("", on)
+#include "Line3DCompileView.h"
 #include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
 /*
 ** Command & Conquer Generals Zero Hour(tm)
@@ -42,6 +36,10 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 class Line3DClass : public W3DMPO, public RenderObjClass {
 public:
+    // The copy and assignment bodies belong to this same retail TU; retain
+    // their declarations when the endpoint view is composed with that seed.
+    Line3DClass(const Line3DClass &);
+    Line3DClass &operator=(const Line3DClass &);
     Line3DClass(const Vector3&, const Vector3&, float, float, float, float, float);
     virtual RenderObjClass* Clone() const;
     virtual int Class_ID() const;
