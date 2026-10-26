@@ -1,5 +1,10 @@
 # Retire stale forward-range string identity keys
 
+Publication update, 2026-10-26: upstream `bf438b551c` already contains the
+independent retirement of all three string keys documented below. Rebase
+preserves that current register exactly. The checks below remain historical
+evidence; this branch now claims zero net retirement for these three keys.
+
 Inspected upstream `fce2c6327a`, with verified BFME 1 reference `f633d0e97a`.
 The default identity queue served BfmeConv1486.cpp at RVA 0x0002A730.
 The complete source already calls the recovered owner at 0x00028820,

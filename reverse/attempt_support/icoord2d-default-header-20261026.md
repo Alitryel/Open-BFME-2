@@ -130,3 +130,36 @@ Two ICoord2D queue items remain: GameClientDrawableTOC's external default
 constructor and icoord.cpp's base/operator view. Receipts:
 `iteration34-before-build.log`, `iteration34-after-build.log`,
 `iteration34-accept.log`, and the normal `iteration34-commit.log`.
+
+## Rebased publication preparation
+
+The seven new commits through `ecbe75d06f` are rebased on upstream
+`bf438b551c`. All five changed coordinate consumers and the shared contract/
+header are byte-for-byte identical to their pre-rebase versions. Upstream
+also advances its verified BFME 1 pointer from `ff391a5e90` to `de077dd5dd`;
+the clean local submodule is synchronized to that pinned commit without
+changing nested references. Publication remains subject to the normal
+outgoing gate at these inputs; no new full-reference verification is claimed
+before that gate completes.
+
+The rebase preserves upstream's independent string-identity retirements
+and audio resize repair. The final audio source uses upstream's equivalent
+DrawableVector spelling; its whole-file check passes four functions and
+one data row. Three earlier string-key retirements now contribute zero net
+debt change. All six historical INI queue conflicts are resolved through
+the owning scoped scanner, keeping unrelated upstream queue entries.
+
+The current net against `bf438b551c` is 19 header-queue rows, seven Microsoft-
+header queue rows, three identity keys and 19 hatch entries removed, with
+no additions to those registers and no net data-debt key retirement. This
+seven-commit addition removes five header items and two Microsoft-header
+items. Its five changed sources retain 61 function rows / 13,151 ledger
+bytes; repeated checks of one source are not counted as extra functions.
+
+The refreshed path audit covers all seven deleted INI donors across the
+whole outgoing range: 61 mentions in 24 tracked files, all source comments,
+attempt history or the historical census. No active tooling/include/registry
+consumer remains. The exact scan is `iteration34-path-audit.log`.
+`check_csv.py` passes 98,272 function rows, 15,668 symbols and 2,218 data rows.
+Fresh `progress.py origin/master` retains C++ exact 7,984,346 (+0) and the
+unchanged historical census; the authorized debt-cleanup loop continues.

@@ -395,6 +395,11 @@ authored-byte previews or commit-title gains into a projected headline.
   adoption preserves both drawing and the native constructor owner (649
   bytes), with complete object equivalence, and retires its queue item.
   Two ICoord2D items and census confirmation stay open.
+  Publication preparation on bf438b551c preserves all five new coordinate
+  consumer objects' source inputs and the contract/header after rebase;
+  the seven-commit batch retires five header and two Microsoft-header items.
+  The synchronized upstream BFME 1 pointer de077dd5dd still requires the
+  outgoing publication gate at these inputs; no new census is asserted.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through
