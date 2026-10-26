@@ -41,13 +41,13 @@ public:
     int above(float first, float second) const;
 private:
     char unknown0[4];
-    float field04,field08;
+    float m_firstCoefficient,m_secondCoefficient;
     char unknown0C[4];
     float m_threshold;
 };
 int Rva00404901Coefficients::above(float first, float second) const
 {
-    if (second*field08 - first*field04 > m_threshold)
+    if (second*m_secondCoefficient - first*m_firstCoefficient > m_threshold)
         return 1;
     return 0;
 }

@@ -8128,3 +8128,7 @@ Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva0055F4CE|m_1C,3
 Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|member|Rva0055F4CE|m_2C,e798d17720738d39018f5641,gpt-6.1-sol,w5-10261418-15,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp|param|Rva00509DF8::rva00509DF8|a,0774f16343771735b5299aba,gpt-6.1-sol,w5-10261418-15,w-f0819d403c17,2026-10-26
 Code/GameEngine/Source/Common/Rva002CF21BGet.cpp|param|ThingFactory::newDrawable|a3,2240d7a81171a334258f560b,gpt-6.1-sol,w5-10261418-16,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|global||g_00C078DC,c0451af66a326ca06e0452a6,gpt-6.1-sol,w4-10261437-1,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva00404927Method.cpp|member|Rva00404901Coefficients|field04,3cbeb5a47fde48aa31861014,gpt-6.1-sol,w4-10261437-5,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva00404927Method.cpp|member|Rva00404901Coefficients|field08,06bef5298fa90a191f040205,gpt-6.1-sol,w4-10261437-5,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp|class||Rva005FContextView,040760a0387d7745a1213e4b,gpt-6.1-sol,w4-10261437-8,w-eb83eac9adc1,2026-10-26
