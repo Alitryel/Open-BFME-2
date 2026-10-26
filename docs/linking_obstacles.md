@@ -1025,6 +1025,16 @@ separate strict receipt limitation encountered there.
   but the audit against the same index still reported an inconclusive baseline,
   264 retired objects and provisional provider-disappeared findings. That trial
   also remains restored; no changed binding is verified from this index.
+  On 2026-10-26, the RandomSoundSelectorClientBehavior TU trial accepted its
+  five rows and passed its byte build, frozen-file, ledger, identity, data,
+  ownership and class checks. `link_check.py --prepare-current` produced a
+  strict current receipt for the merged TU. Its scoped `link_batch_audit.py`
+  against outgoing base `eeee783b2fa447d3dd4566274c7811690f594f9c` still used
+  provider index `47e030bafc` (census base `763dc8759f`), reported 206 retired
+  objects and 1,080 provisional provider-disappeared findings, and marked the
+  base inconclusive. No changed provider/consumer binding is verified for this
+  composition; the trial was restored after preserving its patch and audit in
+  `build/consolidation/randomsound/`.
 - A `GameMemory.cpp` merge trial accepted four donors and byte-built 5/5 rows;
   its staged code-identity/data checks reported one shadow identity finding
   and zero data findings. The scoped audit against current `origin/master`

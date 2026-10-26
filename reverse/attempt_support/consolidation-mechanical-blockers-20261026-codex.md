@@ -112,6 +112,25 @@ matched coverage is unchanged and no identity debt is claimed retired.
 
 ## Additional allocated blockers (Shard 2/5)
 
+- `SquishCollide.cpp`: allocation, scoped planner currency and TU approval
+  passed. The dry run accepted `SquishCollideOnCollide.cpp` (row
+  `0x004BBA65`) but rejected `SquishCollidePoolKey.cpp` with C2143 (missing
+  `;` before `*`) and C2501 (`TheNameKeyGenerator` missing a type declaration),
+  and `SquishCollideCtor.cpp` with C2504 (`CollideModule` base undefined) and
+  C2511 (constructor signature absent). The plan marked
+  `Rva004BB68EDerived.cpp` mixed, but its split trial reported no row approved
+  for this TU; the current `tu_map.csv` row `0x004BB9F9` has no approved
+  destination. No claims or source edits were made. The otherwise accepted
+  body remains unapplied because this outgoing composition cannot receive a
+  verified provider/consumer audit from the stale link index described in
+  LINK-017.
+- `WeaponSetUpgrade.cpp`: the current read-only plan has three approved rows
+  and two donor files. Its unchanged merge dry run accepted no donors and
+  rejected `WeaponSetUpgradeConstructor.cpp` with exact diagnostics C2039
+  (`getModuleNameKey` is not a member of `WeaponSetUpgrade`) and C2270
+  (`'"'`). This is a current seed/declaration prerequisite for Sol, separate
+  from the earlier constructor trial documented above; no claims or edits were
+  made.
 - `CrateCollide.cpp`: allocator and scoped planner approved the TU; dry run
   accepted no donors. `CrateCollideXfer.cpp` needs undefined `BehaviorModule`
   and base declarations; `CrateCollideIsValidToExecute.cpp` has C2511 because
