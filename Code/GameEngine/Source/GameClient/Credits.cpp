@@ -361,6 +361,8 @@ private:
 
 // ---- from Code/GameEngine/Source/GameClient/Credits.cpp
 
+// ---- from Code/GameEngine/Source/GameClient/Credits.cpp
+
 // BFME1 clean donor ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f:
 // game/GameEngine/Source/GameClient/CreditsGetUnicodeString.cpp, over ZH Credits.cpp.
 // Retail 0x005B76AC..0x005B776E, 194 bytes, RET8 with hidden UnicodeString result.
@@ -632,14 +634,6 @@ void CreditsManager::addText(AsciiString text)
 	}
 }
 
-// tu-skeleton: 0x005B72BE 41B ??0Rva0040C1F0@@QAE@XZ -- matched in Code/GameEngine/Source/Common/R3ScalarFieldConstructors3.cpp (not merged yet)
-
-// tu-skeleton: 0x005B72E7 107B ??1Rva005B72E7@@QAE@XZ -- matched in Code/GameEngine/Source/Common/Rva005B72E7Dtor.cpp (not merged yet)
-
-// tu-skeleton: 0x005B7352 28B ??_GRva005B72E7@@QAEPAXI@Z -- matched in Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-08-5B7352.cpp (not merged yet)
-
-// tu-skeleton: 0x005B7426 17B ?rva005B7426@Rva005B7426@@QAEXXZ -- matched in Code/GameEngine/Source/Common/VslotSmallBodiesG.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/Common/Rva005B77F1Dtor.cpp
 
 // ??1Rva005B77F1@@UAE@XZ @0x005B77F1 151B.
@@ -766,5 +760,16 @@ void BfmeSinkBOE::bfmeDoBOE(void *one, void *two)
 		drawIt = drawIt->m_next;
 	}
 }
+
+// tu-skeleton: 0x005B72BE 41B ??0Rva0040C1F0@@QAE@XZ -- matched in Code/GameEngine/Source/Common/R3ScalarFieldConstructors3.cpp (not merged yet)
+
+// tu-skeleton: 0x005B72E7 107B ??1Rva005B72E7@@QAE@XZ -- matched in Code/GameEngine/Source/Common/Rva005B72E7Dtor.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-08-5B7352.cpp
+
+// ?famgenDelete005B72E7@@YAXPAVRva005B72E7@@@Z present-unmatched
+void famgenDelete005B72E7(Rva005B72E7 *p) { delete p; }
+
+// tu-skeleton: 0x005B7426 17B ?rva005B7426@Rva005B7426@@QAEXXZ -- matched in Code/GameEngine/Source/Common/VslotSmallBodiesG.cpp (not merged yet)
 
 // tu-skeleton: 0x005B7DC3 54B ?Run@Rva005B7DC3Box@@QAEXXZ -- matched in Code/GameEngine/Source/Common/Rva005B7DC3Box.cpp (not merged yet)

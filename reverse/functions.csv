@@ -28450,7 +28450,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ??1Rva005B77F1@@UAE@XZ,,0x005B77F1,151,Code/GameEngine/Source/GameClient/Credits.cpp,matched,chain from 0x005B72E7 plus deleting-dtor 0x005B7888
 ?rva005505E3@Rva005505E3@@QAEXXZ,,0x005505E3,29,Code/GameEngine/Source/Common/Rva005505E3Lock.cpp,matched,scoped criticalsection lock at plus0xA0 via rowed lock
 ?rva00550041@Rva0055011A@@UAEXXZ,,0x00550041,66,Code/Libraries/Source/WWVegas/WWLib/Rva0055011A00550041.cpp,matched,slot10 lock plus map clear via rowed callees; spelled virtual: slot 10 of vftable 0x00C6AB90 that the class's own constructor install at +0; retail never calls it directly
-??_GRva005B72E7@@QAEPAXI@Z,,0x005B7352,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-08-5B7352.cpp,matched,chain from 0x005B72E7 plus flag delete
+??_GRva005B72E7@@QAEPAXI@Z,,0x005B7352,28,Code/GameEngine/Source/GameClient/Credits.cpp,matched,chain from 0x005B72E7 plus flag delete
 ??_GRva005B77F1@@UAEPAXI@Z,,0x005B7888,28,Code/GameEngine/Source/GameClient/Credits.cpp,matched,chain from 0x005B77F1 plus slot0 0x873918; rehomed from FamilyDeletingDtors_muse-08-5B7888.cpp: Rva005B77F1Dtor.cpp owns ~Rva005B77F1 and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
 ?write@Rva005D32EC@@QAEHPAD@Z,,0x005D32EC,37,Code/GameEngine/Source/Common/System/RegistryAsciiPath.cpp,matched,unlock PlusStringText 0x0050F219 plus Pair 0x000B44F0 caller 0x005D3311
 ?write@Rva005D3311@@QAEHPAD@Z,,0x005D3311,37,Code/GameEngine/Source/Common/System/RegistryAsciiPath.cpp,matched,chain from 0x005D32EC plus Pair 0x000B44F0 callers 0x005D3365 0x005F985C
