@@ -8,6 +8,7 @@
 // newObject 4-arg with zeroed CreateMask, FindPositionOptions floats from globals,
 // orientation/position/ID inlined at Object+0x38/+0x44/+0x74, audio via 0x2D97D6/0x2D9531/0x2D9A43.
 #include "Common/BfmeAudioEventPrefix136.h"
+#include "UnitCrateCollideView.h"
 
 class Object;
 class Player;
@@ -200,22 +201,6 @@ class UnitCrateCollideModuleData : public CrateCollideModuleData
 public:
 	unsigned int m_unitCount;	// +0x5C
 	AsciiString m_unitType;	// +0x60
-};
-
-class CrateCollide
-{
-public:
-	virtual ~CrateCollide();
-protected:
-	virtual bool executeCrateBehavior(Object *other);
-	virtual bool isValidToExecute(const Object *other) const;
-};
-
-class UnitCrateCollide : public CrateCollide
-{
-	const UnitCrateCollideModuleData *m_moduleData;	// +4
-protected:
-	virtual bool executeCrateBehavior(Object *other);
 };
 
 bool UnitCrateCollide::executeCrateBehavior(Object *other)
