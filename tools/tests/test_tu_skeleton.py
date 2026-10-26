@@ -316,6 +316,41 @@ class MergeDiagnosticsTests(unittest.TestCase):
         self.assertTrue(all("C2065" in reason for reason in out["rejected"].values()))
         apply.assert_not_called()
 
+    def test_a_seed_that_fails_under_its_donors_flags_is_retried_with_its_own(self):
+        # CrateSystem.cpp, RiderChangeContain.cpp: the donor majority's flags plus a donor's
+        # /I shim (bfmealloc without /D_STLP_USE_STATIC_LIB) broke the seed, which verifies
+        # under its own `// cl:` line; the seed's own flags are now tried when nothing else works.
+        tu, donor = "Code/T.cpp", "Code/A.cpp"
+        texts = {tu: "// cl: /DSEED /Ireference/shims/own\nseed",
+                 donor: "// cl: /DDONOR /Ireference/shims/donor\ndonor"}
+        don = {tu: [{"target_rva": "0x1000"}],
+               donor: [{"target_rva": "0x1010"}, {"target_rva": "0x1020"}]}
+        tried = []
+
+        class Verifier:
+            fd = SimpleNamespace(MANAGED=re.compile(r"(?!)"), overrides=lambda: {})
+            flags = None
+            errors = ["fixture.cpp(1) : error C2950: allocator<char>"]
+            all_errors = errors
+
+            def matched(self, text, rows):
+                if text in texts.values():
+                    return {r["target_rva"] for r in rows}
+                tried.append(text)
+                # the seed verifies only without the donor's include directory
+                return {r["target_rva"] for r in rows} if "/DSEED" in text and "donor" not in text else None
+
+        def fake_compose(tu_, sk, files, texts_, flags, *a, **k):
+            return " ".join(flags) + " " + " ".join(files)
+
+        with patch.object(T, "Verifier", return_value=Verifier()),                 patch.object(T, "compose", side_effect=fake_compose),                 patch.object(T, "apply") as apply:
+            out = T._merge(tu, [], don, {"accepted": [], "rejected": {}}, True, texts=texts)
+        self.assertTrue(any("/DSEED" in t and "/Ireference/shims/donor" in t for t in tried))
+        self.assertTrue(any("/DSEED" in t and "/Ireference/shims/donor" not in t for t in tried))
+        self.assertNotIn("blocked", out)
+        self.assertEqual(out["accepted"], [tu, donor])
+        apply.assert_not_called()
+
     def test_a_final_reverify_failure_blocks_instead_of_writing_the_token(self):
         # A PlayerList.cpp merge accepted its donors, but the final re-composition failed to
         # compile; attempt() then returned "compile", and apply() wrote that word as the TU.
