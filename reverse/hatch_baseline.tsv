@@ -5097,12 +5097,12 @@ alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	_
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadLookupStat.cpp	?Rva00030830FreeAllocation@@YAXPAX@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadStats.cpp	?Rva00030830FreeAllocation@@YAXPAX@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadStats_PackStatKey.cpp	?Rva00030830FreeAllocation@@YAXPAX@Z	1
+alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	??1GameResultsCounter@@QAE@XZ	1
+alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	??1Rva0064C290Tree@@QAE@XZ	1
+alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	??1Rva00660470Deque@@QAE@XZ	1
+alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	??1Rva00660610Deque@@QAE@XZ	1
+alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	?bfmeClearVHX@Rva0055011A@@AAEXXZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread_Pinger_getPing.cpp	?Rva00030830FreeAllocation@@YAXPAX@Z	1
-alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Rva006609D0Destructor_Rva0054ffa5.cpp	??1GameResultsCounter@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Rva006609D0Destructor_Rva0054ffa5.cpp	??1Rva0064C290Tree@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Rva006609D0Destructor_Rva0054ffa5.cpp	??1Rva00660470Deque@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Rva006609D0Destructor_Rva0054ffa5.cpp	??1Rva00660610Deque@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Rva006609D0Destructor_Rva0054ffa5.cpp	?bfmeClearVHX@Rva0055011A@@AAEXXZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c	_Rva00860380	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/ghttp/ghttpCommon.c	_ghiSocketSelect	1
 alternatename	Code/GameEngine/Source/GameNetwork/GameSpy/nonport.c	_ntohl@4	1
@@ -18074,6 +18074,9 @@ pragma_optimize	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/BuddyThread_Un
 pragma_optimize	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/BuddyThread_Unresolved.cpp	"s",off	1
 pragma_optimize	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/BuddyThread_Unresolved.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread_GameResultsInterface_createNewGameResultsInterface.cpp	"gty",on	1
+pragma_optimize	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	"",on	1
+pragma_optimize	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	"s",off	1
+pragma_optimize	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PingThread.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/GameNetwork/Rva00559CE5Wrapper.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameNetwork/Rva00559CE5Wrapper.cpp	"y",on	1
 pragma_optimize	Code/GameEngine/Source/GameNetwork/Rva00580B40.cpp	"",on	1
@@ -19172,9 +19175,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00534743.cpp	"t
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005472F8.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005472F8.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva005472F8.cpp	"t",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0054FE47.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0054FE47.cpp	"s",off	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0054FE47.cpp	"t",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00551B02.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00551B02.cpp	"s",off	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00551B02.cpp	"t",on	1
