@@ -1,4 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
+// dxsdk
+// platformsdk
 // Ported from Open-BFME-1's game/GameEngineDevice/Source/W3DDevice/GameClient/W3DSmudge_copyRect.cpp
 // (donor revision 6583b3c1ff21db4a561285717028fdafc780b7db) with /O1 /arch:SSE
 // added to its flags, the settings W3DView.cpp's donor bodies match under.
@@ -12,106 +14,11 @@
 
 #include <string.h>
 
+// The native calls use Direct3D 9 slots; take the SDK signatures and
+// Windows types from their owning headers.
+#include <d3d9.h>
+
 typedef int Int;
-typedef unsigned int UINT;
-typedef unsigned long DWORD;
-typedef long HRESULT;
-#define S_OK 0
-#define D3DLOCK_READONLY 0x00000010L
-#define D3DMULTISAMPLE_NONE 0
-#define D3DTEXF_NONE 0
-#define TRUE 1
-
-struct RECT
-{
-	long left;
-	long top;
-	long right;
-	long bottom;
-};
-
-struct D3DSURFACE_DESC
-{
-	unsigned Format;
-	unsigned Type;
-	unsigned Usage;
-	unsigned Pool;
-	unsigned MultiSampleType;
-	unsigned MultiSampleQuality;
-	unsigned Width;
-	unsigned Height;
-};
-
-struct D3DLOCKED_RECT
-{
-	long Pitch;
-	void *pBits;
-};
-
-struct IDirect3DSurface9
-{
-	virtual HRESULT __stdcall QueryInterface(void *, void **) = 0;
-	virtual DWORD __stdcall AddRef() = 0;
-	virtual DWORD __stdcall Release() = 0;
-	virtual HRESULT __stdcall GetDevice(void **) = 0;
-	virtual HRESULT __stdcall SetPrivateData(void *, const void *, DWORD, DWORD) = 0;
-	virtual HRESULT __stdcall GetPrivateData(void *, void *, DWORD *) = 0;
-	virtual HRESULT __stdcall FreePrivateData(void *) = 0;
-	virtual DWORD __stdcall SetPriority(DWORD) = 0;
-	virtual DWORD __stdcall GetPriority() = 0;
-	virtual void __stdcall PreLoad() = 0;
-	virtual DWORD __stdcall GetType() = 0;
-	virtual HRESULT __stdcall GetContainer(void *, void **) = 0;
-	virtual HRESULT __stdcall GetDesc(D3DSURFACE_DESC *) = 0;
-	virtual HRESULT __stdcall LockRect(D3DLOCKED_RECT *, const RECT *, DWORD) = 0;
-	virtual HRESULT __stdcall UnlockRect() = 0;
-};
-
-struct IDirect3DDevice9
-{
-	virtual HRESULT __stdcall QueryInterface(void *, void **) = 0;
-	virtual DWORD __stdcall AddRef() = 0;
-	virtual DWORD __stdcall Release() = 0;
-	virtual HRESULT __stdcall unused03() = 0;
-	virtual HRESULT __stdcall unused04() = 0;
-	virtual HRESULT __stdcall unused05() = 0;
-	virtual HRESULT __stdcall unused06() = 0;
-	virtual HRESULT __stdcall unused07() = 0;
-	virtual HRESULT __stdcall unused08() = 0;
-	virtual HRESULT __stdcall unused09() = 0;
-	virtual HRESULT __stdcall unused10() = 0;
-	virtual HRESULT __stdcall unused11() = 0;
-	virtual HRESULT __stdcall unused12() = 0;
-	virtual HRESULT __stdcall unused13() = 0;
-	virtual HRESULT __stdcall unused14() = 0;
-	virtual HRESULT __stdcall unused15() = 0;
-	virtual HRESULT __stdcall unused16() = 0;
-	virtual HRESULT __stdcall unused17() = 0;
-	virtual HRESULT __stdcall unused18() = 0;
-	virtual HRESULT __stdcall unused19() = 0;
-	virtual HRESULT __stdcall unused20() = 0;
-	virtual HRESULT __stdcall unused21() = 0;
-	virtual HRESULT __stdcall unused22() = 0;
-	virtual HRESULT __stdcall unused23() = 0;
-	virtual HRESULT __stdcall unused24() = 0;
-	virtual HRESULT __stdcall unused25() = 0;
-	virtual HRESULT __stdcall unused26() = 0;
-	virtual HRESULT __stdcall unused27() = 0;
-	virtual HRESULT __stdcall CreateRenderTarget(UINT Width, UINT Height, unsigned Format,
-		unsigned MultiSample, DWORD MultisampleQuality, int Lockable,
-		IDirect3DSurface9 **ppSurface, void **pSharedHandle) = 0;
-	virtual HRESULT __stdcall unused29() = 0;
-	virtual HRESULT __stdcall unused30() = 0;
-	virtual HRESULT __stdcall unused31() = 0;
-	virtual HRESULT __stdcall unused32() = 0;
-	virtual HRESULT __stdcall unused33() = 0;
-	virtual HRESULT __stdcall StretchRect(IDirect3DSurface9 *pSourceSurface, const RECT *pSourceRect,
-		IDirect3DSurface9 *pDestSurface, const RECT *pDestRect, unsigned Filter) = 0;
-	virtual HRESULT __stdcall unused35() = 0;
-	virtual HRESULT __stdcall unused36() = 0;
-	virtual HRESULT __stdcall unused37() = 0;
-	virtual HRESULT __stdcall GetRenderTarget(DWORD RenderTargetIndex, IDirect3DSurface9 **ppRenderTarget) = 0;
-};
 
 struct IDirect3DDevice8;
 class DX8Wrapper
