@@ -1714,7 +1714,7 @@ address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerS
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptPlayerStatusScreen.cpp	g_Va00A04450	6
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptQuitMenuCallbacks.cpp	g_Va00E0330C	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptQuitMenuCallbacks.cpp	g_Va00E0492C	2
-address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadCallbacks.cpp	g_Va00E032E8	5
+address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadCallbacks.cpp	g_Va00E032E8	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00435DE7Dtor.cpp	g_Va00E0333C	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSkirmishCallbacks.cpp	g_Va00E0333C	2
 address_global	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSkirmishCallbacks_OnUpdateData.cpp	g_Va00E0333C	1
@@ -2953,7 +2953,6 @@ alternatename	Code/GameEngine/Source/Common/RTS/PlayerDestructor.cpp	?v1@Player@
 alternatename	Code/GameEngine/Source/Common/RTS/PlayerDestructor.cpp	?v2@Player@@UAEXXZ	2
 alternatename	Code/GameEngine/Source/Common/RTS/PlayerDestructor.cpp	?xfer@Player@@UAEXPAVXfer@@@Z	2
 alternatename	Code/GameEngine/Source/Common/RTS/PlayerO1Shard.cpp	?iterateObjects@Player@@QBEXP6AXPAVObject@@PAX@Z1@Z	1
-alternatename	Code/GameEngine/Source/Common/RTS/PlayerRva002AF19B.cpp	_TheUpgradeCenter	1
 alternatename	Code/GameEngine/Source/Common/RTS/PlayerTemplate.cpp	?_M_new_node@?$hashtable@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@@_STL@@AAEPAU?$_Hashtable_node@U?$pair@$$CBHURva001FDC0FRecord@@@_STL@@@2@ABU?$pair@$$CBHURva001FDC0FRecord@@@2@@Z	1
 alternatename	Code/GameEngine/Source/Common/RTS/Player_Radar.cpp	?okToPlayRadarEdgeSound@Player@@QAE_NXZ	1
 alternatename	Code/GameEngine/Source/Common/RTS/Rva000D3FA0Destructor.cpp	?crc@Rva000D3FA0Map@@MAEXPAVXfer@@@Z	1
@@ -20692,7 +20691,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehav
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	loadPostProcess@BridgeBehavior@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	onDelete@BridgeBehavior@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehavior.cpp	onDie@BridgeBehavior@@UAEXPBVDamageInfo@@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehavior.cpp	loadPostProcess@BridgeScaffoldBehavior@@MAEXXZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp	crc@BridgeTowerBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp	getBridgeID@BridgeTowerBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeTowerBehavior.cpp	loadPostProcess@BridgeTowerBehavior@@	1
