@@ -20,7 +20,7 @@ struct NoCaseTreeValue4
 
 void __cdecl Rva0041FA07Construct(void *dest, const void *source);
 
-struct Rva0041FA34Node
+struct HashtableNode
 {
 	void *_M_next;
 	_STL::pair<const AsciiString, NoCaseTreeValue4> _M_val;
@@ -34,7 +34,7 @@ public:
 
 void *Rva0041FA34::rva0041FA34(const void *obj)
 {
-	Rva0041FA34Node *node = (Rva0041FA34Node *)_STL::allocator<char>().allocate(12, 0);
+	HashtableNode *node = (HashtableNode *)_STL::allocator<char>().allocate(12, 0);
 	node->_M_next = 0;
 	Rva0041FA07Construct(&node->_M_val, (const _STL::pair<const AsciiString, NoCaseTreeValue4> *)obj);
 	return node;

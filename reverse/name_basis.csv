@@ -2386,3 +2386,4 @@ param,Rva002E3766Holder::Rva002E3794Invoke::arg,Rva002E3766Holder::Rva002E3794In
 local,Rva0052DB11::rva0052DB11::o,Rva0052DB11::rva0052DB11::presentNode,inferred,agree:nl-7c9ede1b0d5d,Code/GameEngine/Source/Common/Rva0052DB11.cpp,0x0052DB11
 function,?Rva005CD841Find@@YA_NPAX@Z,?hasListeners@@YA_NPAX@Z,inferred,agree:nl-a4de7a7439c3,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
 carry,Rva005CD841Find::visitor,hasListeners::visitor,inferred,scope renamed by Rename Rva005CD841Find to hasListeners (inferred),Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
+class,Rva0041FA34Node,HashtableNode,inferred,agree:nl-eced53e87f33,Code/GameEngine/Source/GameClient/Rva0041FA34NewNode.cpp,
