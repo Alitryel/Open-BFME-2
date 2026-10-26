@@ -10,7 +10,7 @@ struct AudioData
 	AsciiString m_soundsFolder;
 	AsciiString m_musicFolder;
 	AsciiString m_C;
-	AsciiString m_10;
+	AsciiString m_ambientStreamFolder;
 };
 
 class AudioManager
@@ -104,9 +104,9 @@ public:
 	static const AsciiString *generateFilenamePrefix(int audioType);
 };
 
-const AsciiString *AudioEventRTS::generateFilenamePrefix(int v)
+const AsciiString *AudioEventRTS::generateFilenamePrefix(int audioTypeToPlay)
 {
-	switch (v) {
+	switch (audioTypeToPlay) {
 	case 0:
 		return &TheAudio->slot134()->m_musicFolder;
 	case 1:
@@ -115,7 +115,7 @@ const AsciiString *AudioEventRTS::generateFilenamePrefix(int v)
 	case 4:
 		return &TheAudio->slot134()->m_soundsFolder;
 	case 3:
-		return &TheAudio->slot134()->m_10;
+		return &TheAudio->slot134()->m_ambientStreamFolder;
 	case 5:
 		return &AsciiString::TheEmptyString;
 	default:
