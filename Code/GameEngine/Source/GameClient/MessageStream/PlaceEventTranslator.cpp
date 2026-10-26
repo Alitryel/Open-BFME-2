@@ -20,11 +20,7 @@
 extern GameLogic *TheGameLogic;
 
 // ICoord2D; the rowed drag test below spells it with its address-derived name.
-struct Rva001EDD80Pair
-{
-	int x, y;
-};
-typedef Rva001EDD80Pair ICoord2D;
+#include "PlaceEventTranslatorView.h"
 // Give local pixel coordinates a lexical lifetime just as PlaceCoord does.
 // The empty destructor emits no work. It preserves retail's overlapping
 // mouse/anchor and build/builder spill homes with the canonical GameLogic API.
@@ -174,8 +170,6 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 // constructor and empty destructor at both caller and owning definition.
 bool Rva0030596CIntersects(void *thing, PlaceCoord pos, float angle);
 
-#define V(n) virtual void slot##n();
-#define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
 struct PlacementOptions
 {
 	char m_pad[0x1C];
@@ -185,14 +179,61 @@ struct PlacementOptions
 class InGameUI
 {
 public:
-	V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9) V(10) V(11) V(12) V(13) V(14)
+	virtual void slot0();
+	virtual void slot1();
+	virtual void slot2();
+	virtual void slot3();
+	virtual void slot4();
+	virtual void slot5();
+	virtual void slot6();
+	virtual void slot7();
+	virtual void slot8();
+	virtual void slot9();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
 	virtual void message(AsciiString format, ...); // 0x3C
-	V(16) V(17) V(18) V(19) V(20) V(21) V(22) V(23) V(24)
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
 	virtual void displayCantBuildMessage(int lbc); // 0x64
-	V(26) V(27) V(28) V(29) V(30) V(31) V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39) V(40) V(41) V(42) V(43) V(44) V(45) V(46)
+	virtual void slot26();
+	virtual void slot27();
+	virtual void slot28();
+	virtual void slot29();
+	virtual void slot30();
+	virtual void slot31();
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual void slot36();
+	virtual void slot37();
+	virtual void slot38();
+	virtual void slot39();
+	virtual void slot40();
+	virtual void slot41();
+	virtual void slot42();
+	virtual void slot43();
+	virtual void slot44();
+	virtual void slot45();
+	virtual void slot46();
 	virtual void clearMode(bool b); // 0xBC
 	virtual PlacementOptions *getOptions(); // 0xC0
-	V(49) V(50) V(51) V(52) V(53) V(54)
+	virtual void slot49();
+	virtual void slot50();
+	virtual void slot51();
+	virtual void slot52();
+	virtual void slot53();
+	virtual void slot54();
 	virtual void placeBuildAvailable(const ThingTemplate *build, const Object *buildDozer); // 0xDC
 	virtual const ThingTemplate *getPendingPlaceType(); // 0xE0
 	virtual ObjectID getPendingPlaceSourceObjectID(); // 0xE4
@@ -204,9 +245,21 @@ public:
 	virtual bool canPlacePort(); // 0xFC
 	virtual void clearPlacementPort(bool b); // 0x100
 	virtual void resetPlacementPort(); // 0x104
-	V(66) V(67) V(68) V(69) V(70) V(71) V(72)
+	virtual void slot66();
+	virtual void slot67();
+	virtual void slot68();
+	virtual void slot69();
+	virtual void slot70();
+	virtual void slot71();
+	virtual void slot72();
 	virtual DrawableList *getAllSelectedDrawables(); // 0x124
-	V(74) V(75) V(76) V(77) V(78) V(79) V(80)
+	virtual void slot74();
+	virtual void slot75();
+	virtual void slot76();
+	virtual void slot77();
+	virtual void slot78();
+	virtual void slot79();
+	virtual void slot80();
 	virtual void setRadiusCursorNone(); // 0x144
 };
 extern InGameUI *TheInGameUI;
@@ -214,7 +267,96 @@ extern InGameUI *TheInGameUI;
 class View
 {
 public:
-	V10(0) V10(1) V10(2) V10(3) V10(4) V10(5) V10(6) V10(7) V10(8)
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual void slot28();
+	virtual void slot29();
+	virtual void slot30();
+	virtual void slot31();
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual void slot36();
+	virtual void slot37();
+	virtual void slot38();
+	virtual void slot39();
+	virtual void slot40();
+	virtual void slot41();
+	virtual void slot42();
+	virtual void slot43();
+	virtual void slot44();
+	virtual void slot45();
+	virtual void slot46();
+	virtual void slot47();
+	virtual void slot48();
+	virtual void slot49();
+	virtual void slot50();
+	virtual void slot51();
+	virtual void slot52();
+	virtual void slot53();
+	virtual void slot54();
+	virtual void slot55();
+	virtual void slot56();
+	virtual void slot57();
+	virtual void slot58();
+	virtual void slot59();
+	virtual void slot60();
+	virtual void slot61();
+	virtual void slot62();
+	virtual void slot63();
+	virtual void slot64();
+	virtual void slot65();
+	virtual void slot66();
+	virtual void slot67();
+	virtual void slot68();
+	virtual void slot69();
+	virtual void slot70();
+	virtual void slot71();
+	virtual void slot72();
+	virtual void slot73();
+	virtual void slot74();
+	virtual void slot75();
+	virtual void slot76();
+	virtual void slot77();
+	virtual void slot78();
+	virtual void slot79();
+	virtual void slot80();
+	virtual void slot81();
+	virtual void slot82();
+	virtual void slot83();
+	virtual void slot84();
+	virtual void slot85();
+	virtual void slot86();
+	virtual void slot87();
+	virtual void slot88();
+	virtual void slot89();
 	virtual void screenToTerrain(const ICoord2D *screen, Coord3D *world, bool b); // 0x168
 };
 extern View *TheTacticalView;
@@ -222,10 +364,30 @@ extern View *TheTacticalView;
 class BuildAssistant
 {
 public:
-	V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9) V(10) V(11) V(12) V(13) V(14) V(15)
+	virtual void slot0();
+	virtual void slot1();
+	virtual void slot2();
+	virtual void slot3();
+	virtual void slot4();
+	virtual void slot5();
+	virtual void slot6();
+	virtual void slot7();
+	virtual void slot8();
+	virtual void slot9();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
 	virtual int isLocationLegalToBuild(const Coord3D *worldPos, const ThingTemplate *build, float angle,
 		int options, Object *builderObject, Object *player); // 0x40
-	V(17) V(18) V(19) V(20) V(21) V(22)
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
 	virtual bool isBuildPort(const ThingTemplate *build, Object *builderObject); // 0x5C
 	virtual int canMakeUnit(Object *builder, const ThingTemplate *build, int count); // 0x60
 	bool getPortTransform(const Coord3D *worldPos, const ThingTemplate *build, float angle,
@@ -245,7 +407,24 @@ extern GhostObjectManager *TheGhostObjectManager;
 class MessageStream
 {
 public:
-	V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9) V(10) V(11) V(12) V(13) V(14) V(15) V(16) V(17)
+	virtual void slot0();
+	virtual void slot1();
+	virtual void slot2();
+	virtual void slot3();
+	virtual void slot4();
+	virtual void slot5();
+	virtual void slot6();
+	virtual void slot7();
+	virtual void slot8();
+	virtual void slot9();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
 	virtual GameMessage *appendMessage(GameMessage::Type type); // 0x48
 };
 extern MessageStream *TheMessageStream;
@@ -259,33 +438,89 @@ struct MiscAudio
 class AudioManager
 {
 public:
-	V10(0) V10(1) V(20) V(21) V(22) V(23) V(24)
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual void slot15();
+	virtual void slot16();
+	virtual void slot17();
+	virtual void slot18();
+	virtual void slot19();
+	virtual void slot20();
+	virtual void slot21();
+	virtual void slot22();
+	virtual void slot23();
+	virtual void slot24();
 	virtual void addAudioEvent(const BfmeAudioEventPrefix136 *eventToAdd); // 0x64
-	V(26) V(27) V(28) V(29) V10(3) V(40) V(41) V(42) V(43) V(44) V(45) V(46) V(47) V(48) V(49)
-	V(50) V(51) V(52) V(53) V(54) V(55) V(56) V(57) V(58) V(59) V(60) V(61) V(62) V(63) V(64)
-	V(65) V(66) V(67) V(68) V(69) V(70) V(71) V(72) V(73) V(74) V(75) V(76) V(77)
+	virtual void slot26();
+	virtual void slot27();
+	virtual void slot28();
+	virtual void slot29();
+	virtual void slot30();
+	virtual void slot31();
+	virtual void slot32();
+	virtual void slot33();
+	virtual void slot34();
+	virtual void slot35();
+	virtual void slot36();
+	virtual void slot37();
+	virtual void slot38();
+	virtual void slot39();
+	virtual void slot40();
+	virtual void slot41();
+	virtual void slot42();
+	virtual void slot43();
+	virtual void slot44();
+	virtual void slot45();
+	virtual void slot46();
+	virtual void slot47();
+	virtual void slot48();
+	virtual void slot49();
+	virtual void slot50();
+	virtual void slot51();
+	virtual void slot52();
+	virtual void slot53();
+	virtual void slot54();
+	virtual void slot55();
+	virtual void slot56();
+	virtual void slot57();
+	virtual void slot58();
+	virtual void slot59();
+	virtual void slot60();
+	virtual void slot61();
+	virtual void slot62();
+	virtual void slot63();
+	virtual void slot64();
+	virtual void slot65();
+	virtual void slot66();
+	virtual void slot67();
+	virtual void slot68();
+	virtual void slot69();
+	virtual void slot70();
+	virtual void slot71();
+	virtual void slot72();
+	virtual void slot73();
+	virtual void slot74();
+	virtual void slot75();
+	virtual void slot76();
+	virtual void slot77();
 	virtual MiscAudio *getMiscAudio(); // 0x138
 };
 extern AudioManager *TheAudio;
-#undef V10
-#undef V
 
-enum GameMessageDisposition
-{
-	KEEP_MESSAGE = 0,
-	DESTROY_MESSAGE = 1
-};
 
-class PlaceEventTranslator
-{
-public:
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
-	ICoord2D m_downPos;
-	unsigned int m_downFrame;
-	unsigned int m_upFrame;
-	bool m_isDown;
-	bool m_isDragging;
-};
 
 GameMessageDisposition PlaceEventTranslator::translateGameMessage(const GameMessage *msg)
 {

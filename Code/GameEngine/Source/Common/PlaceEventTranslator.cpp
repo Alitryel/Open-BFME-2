@@ -8,28 +8,14 @@
 // at priority 30, Zero Hour's PlaceEventTranslator slot in GameClient::init.
 // Retail's vtable has a second slot, the folded deleting destructor
 // 0x004296EE (??_GRva0042CBB6); this view does not model it yet.
-class GameMessage;
-enum GameMessageDisposition
-{
-	KEEP_MESSAGE = 0,
-	DESTROY_MESSAGE = 1
-};
-
-class PlaceEventTranslator
-{
-public:
-	PlaceEventTranslator();
-	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
-private:
-	int m_04;
-	int m_08;
-	int m_0C;
-	int m_10;
-	unsigned char m_14;
-	unsigned char m_15;
-};
+#include "../GameClient/MessageStream/PlaceEventTranslatorView.h"
 
 PlaceEventTranslator::PlaceEventTranslator()
-	: m_04(0), m_08(0), m_0C(0), m_10(0), m_14(0), m_15(0)
 {
+	m_downPos.x = 0;
+	m_downPos.y = 0;
+	m_downFrame = 0;
+	m_upFrame = 0;
+	m_isDown = false;
+	m_isDragging = false;
 }
