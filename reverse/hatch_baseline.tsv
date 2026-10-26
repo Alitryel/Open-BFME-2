@@ -2077,9 +2077,6 @@ address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DAptAux_P
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DAptAux_PostDraw_W3dDrawRenderingUnit.cpp	g_Va00DEC49C	1
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0004D47DParticleRender.cpp	g_Va00DB5F7D	4
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp	g_Va00BBB8D8	2
-address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp	g_Va00DFE118	2
-address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093349.cpp	g_Va00DFE118	2
-address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093457Finish.cpp	g_Va00DFE118	2
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0009CD9BSunRaysSetup.cpp	g_Va00DE5E2C	3
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0009CD9BSunRaysSetup.cpp	g_Va00DE5E38	3
 address_global	Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0009D55BProductCtor.cpp	g_Va00DB4AB4	1

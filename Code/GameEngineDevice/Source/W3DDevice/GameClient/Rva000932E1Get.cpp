@@ -7,12 +7,10 @@
 // Evidence: callers 0x0009355B 0x00093FFA; unblocks 0x00093507; Snow weather global VA 0x00DFE118.
 #include "W3DSnowResourceView.h"
 extern float g_Va00BBB8D8;
-WeatherSetting *g_Va00DFE118;
-#define TheWeather00DFE118 g_Va00DFE118
 float W3DSnowManager::rva000932E1()
 {
 	float def = g_Va00BBB8D8;
-	const WeatherSetting *gv = TheWeather00DFE118;
+	const WeatherSetting *gv = TheWeatherSetting.m_object;
 	const WeatherSetting *weatherSetting = (gv == 0) ? 0 : (const WeatherSetting *)gv->getFinalOverride();
 	if (weatherSetting->m_54 != 0) {
 		if (m_50 != 0) {

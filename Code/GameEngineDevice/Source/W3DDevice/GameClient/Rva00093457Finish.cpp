@@ -11,16 +11,14 @@
 // 0x001E35DF).
 #include "W3DSnowResourceView.h"
 #define TheOther00E01CE4 ((*(Rva00E01CE4Holder **)&TheGlobalWeatherSystem))
-#define TheWeather00DFE118 (g_Va00DFE118)
 struct Rva00E01CE4Holder { char m_pad[0x10]; int m_10; };
 extern class GlobalWeatherSystem *TheGlobalWeatherSystem;
-extern WeatherSetting *g_Va00DFE118;
 void W3DSnowManager::rva00093457()
 {
 	m_58 = 0;
 	m_AC = 0;
 	m_A8 = TheOther00E01CE4->m_10;
-	const WeatherSetting *gv = TheWeather00DFE118;
+	const WeatherSetting *gv = TheWeatherSetting.m_object;
 	const WeatherSetting *weatherSetting = (gv == 0) ? 0 : (const WeatherSetting *)gv->getFinalOverride();
 	if (weatherSetting->m_46 == 0) {
 		m_3c = m_64;
@@ -29,11 +27,11 @@ void W3DSnowManager::rva00093457()
 	} else {
 		const WeatherSetting *o2 = (gv == 0) ? 0 : (const WeatherSetting *)gv->getFinalOverride();
 		m_3c = o2->m_3c;
-		const WeatherSetting *o3 = TheWeather00DFE118;
+		const WeatherSetting *o3 = TheWeatherSetting.m_object;
 		if (o3 != 0)
 			o3 = (const WeatherSetting *)o3->getFinalOverride();
 		m_14 = o3->m_40;
-		const WeatherSetting *o4 = TheWeather00DFE118;
+		const WeatherSetting *o4 = TheWeatherSetting.m_object;
 		if (o4 != 0)
 			o4 = (const WeatherSetting *)o4->getFinalOverride();
 		m_48 = o4->m_4c;

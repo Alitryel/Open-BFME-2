@@ -238,3 +238,117 @@ subset for Luna; no downstream landing is asserted.
   }
 }
 ```
+
+## Canonical weather data binding cleanup (separate prerequisite commit)
+
+The existing matched global at `reverse/data_rows.csv` RVA 0x009FE118 is
+`?TheWeatherSetting@@3V?$OVERRIDE@VWeatherSetting@@@@A`, owned by
+`Code/GameEngine/Source/GameClient/Snow.cpp`. This is target ledger evidence,
+not a new donor name or a naming vote. The three now-compatible donors use
+`TheWeatherSetting.m_object` from their shared partial view instead of the
+redundant `g_Va00DFE118` binding. The foreign canonical owner is untouched.
+The getter's duplicate data definition is removed.
+
+Verification: `./build.sh` on the seed and three donors: 18/18 exact;
+`find_declared_unmatched.py`: all defined functions matched; scoped
+`data_check.py`: four original findings become zero; `--converged`: ten
+addresses, zero second names, zero unjudged rows. Each of the three registered
+wrong-name keys was retired through `repair_queue.py retire data SOURCE`.
+`hatch_counters.py --update` removes three address-global keys (six counted
+occurrences). No code-identity key is retired. File reduction and recovered
+bytes both remain zero.
+
+Saved before/after COFF receipts prove 50 unchanged code bindings, unchanged
+code bytes, sizes, flags and COMDAT selection. The only external relocation
+renaming is the canonical weather binding at the same RVA; undefined-symbol
+changes and removal of one duplicate data definition are precisely checked.
+Global provider review inspects 25 selected code names: exactly the three
+weather readers change relocation-sensitive hashes; normalizing that proven
+data rename reproduces each original hash, with no unrelated provider change.
+The supported normal merge dry-run still accepts all four files (17 composed
+rows / 18 standalone rows including the EH alias). Its composed code providers,
+50 bindings, data bindings and definitions agree with the verified standalone
+inputs. No external code definition is dropped or new undefined name introduced.
+
+Pre-publication tooling audit covers the entire unpublished batch starting at
+435cecfbc5, including the AptArray prerequisite and this staged data cleanup.
+`git diff --name-status --find-renames origin/master..HEAD` is saved locally;
+merge-base review distinguishes concurrent upstream changes. There are no moved,
+deleted or renamed source paths, ledger repoints, build flags or tool changes.
+The new Snow header has exactly four direct consumers, all verified together.
+Combined path/basename searches through tools, hooks, workflows, source includes
+and registries find no consumer needing repointing; historical EA paths stay.
+Only the owning data and hatch registers shrink in this cleanup. Planner
+currency and CSV checks are rerun. Remaining Snow class/template/method and mixed
+source prerequisites described above remain for subsequent scoped work; no Luna
+landing or census improvement is claimed.
+
+Local receipts for this cleanup:
+
+```json
+{
+  "delta": {
+    "rows": 18,
+    "unchanged_code_bindings": 50,
+    "data_rebinding_only": true,
+    "removed_duplicate_data_definitions": 1,
+    "canonical_rva": "0x009FE118"
+  }
+}
+{
+  "provider-proof": {
+    "inspected_selected_names": 25,
+    "canonical_data_rebinding_definition_changes": 3,
+    "unrelated_selected_changes": 0
+  }
+}
+{
+  "composition": {
+    "snow-global": {
+      "accepted": [
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnow.cpp",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000932E1Get.cpp",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093349.cpp",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00093457Finish.cpp"
+      ],
+      "rejected": {
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0009322DLightning.cpp": "compile: Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.3525bed807d06f86.tu_skeleton.cpp(37) : error C2953: 'OVERRIDE' : template class has already been defined | Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.3525bed807d06f86.tu_skeleton.cpp(39) : error C2955: 'OVERRIDE' : use of cla",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowManagerRenderSubBox.cpp": "compile: Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.2d441e0ef7ed401a.tu_skeleton.cpp(290) : error C2039: 'renderSubBox' : is not a member of 'W3DSnowManager' | Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.2d441e0ef7ed401a.tu_skeleton.cpp(295) : error C2065: 'm_emitterSpacing' : ",
+        "Code/GameEngine/Source/GameClient/Rva00093ACBFinish.cpp": "compile: Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.32b6fa8382d58c28.tu_skeleton.cpp(23) : error C2953: 'RefCountPtr' : template class has already been defined | Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.32b6fa8382d58c28.tu_skeleton.cpp(49) : error C2953: 'OVERRIDE' : templat",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowManager_reset.cpp": "compile: Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.d4d294501ebac1ac.tu_skeleton.cpp(183) : error C2039: 'reset' : is not a member of 'W3DSnowManager' | Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.d4d294501ebac1ac.tu_skeleton.cpp(185) : error C2039: 'reset' : is not a member of",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowBlendPhase.cpp": "compile: Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.bd88bcdbffbc5d6b.tu_skeleton.cpp(18) : error C2953: 'OVERRIDE' : template class has already been defined | Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.bd88bcdbffbc5d6b.tu_skeleton.cpp(20) : error C2955: 'OVERRIDE' : use of cla",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowStateTransition.cpp": "compile: Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.f41c89e1e77f477e.tu_skeleton.cpp(12) : error C2953: 'OVERRIDE' : template class has already been defined | Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.f41c89e1e77f477e.tu_skeleton.cpp(14) : error C2955: 'OVERRIDE' : use of cla",
+        "Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSnowManagerRender.cpp": "compile: Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.9fb1d5f01aae26dd.tu_skeleton.cpp(50) : error C2953: 'OVERRIDE' : template class has already been defined | Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\.W3DSnow.9fb1d5f01aae26dd.tu_skeleton.cpp(52) : error C2955: 'OVERRIDE' : use of cla"
+      },
+      "rows": 17,
+      "standalone_rows": 18,
+      "definitions": 25,
+      "changed": [],
+      "dropped_definitions": [],
+      "new_undefined": []
+    }
+  }
+}
+{
+  "composed-bindings": {
+    "snow-global": {
+      "rows": 18,
+      "before_refs": 50,
+      "after_refs": 50,
+      "removed_bindings": [],
+      "added_bindings": [],
+      "preexisting_divergent_copies": {}
+    }
+  }
+}
+{
+  "composed-selection": {
+    "snow-global": {
+      "inspected_names": 25,
+      "selected_provider_changes": [],
+      "data_binding_sets_equal": true,
+      "data_definition_sets_equal": true
+    }
+  }
+}
+```
