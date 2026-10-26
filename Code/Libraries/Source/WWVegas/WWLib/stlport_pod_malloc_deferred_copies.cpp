@@ -21,20 +21,22 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
-// These elements copy through real copy constructors; their _Construct
-// bodies are rowed under the real element names, so call those.
+// The const-copy helpers of the two operator= bodies call retail's rowed
+// element copy bodies: 0x005385F3 calls 0x00469C61 and 0x004C3121 calls
+// 0x0060C9D9. These are call-target bindings, not element identities.
 struct BfmePod16;
-struct BfmeNarrowRecord0041A617;
 struct BfmePod8;
-void __cdecl Rva004C3A9FConstruct(void *, const void *);
+struct BfmeFloat4Record00469C61;
+struct Rva0060C9D9Element;
 namespace _STL {
-template <> void _Construct<BfmeNarrowRecord0041A617, BfmeNarrowRecord0041A617>(BfmeNarrowRecord0041A617 *, const BfmeNarrowRecord0041A617 &);
-// 0x0041A727
+template <> void _Construct<BfmeFloat4Record00469C61, BfmeFloat4Record00469C61>(BfmeFloat4Record00469C61 *, const BfmeFloat4Record00469C61 &);
+template <> void _Construct<Rva0060C9D9Element, Rva0060C9D9Element>(Rva0060C9D9Element *, const Rva0060C9D9Element &);
+// 0x00469C61
 template <> __declspec(dllimport) __forceinline void _Construct<BfmePod16, BfmePod16>(BfmePod16 *p, const BfmePod16 &v)
-{ _Construct((BfmeNarrowRecord0041A617 *)p, (const BfmeNarrowRecord0041A617 &)v); }
-// 0x004C3A9F
+{ _Construct((BfmeFloat4Record00469C61 *)p, (const BfmeFloat4Record00469C61 &)v); }
+// 0x0060C9D9
 template <> __declspec(dllimport) __forceinline void _Construct<BfmePod8, BfmePod8>(BfmePod8 *p, const BfmePod8 &v)
-{ ::Rva004C3A9FConstruct(p, &v); }
+{ _Construct((Rva0060C9D9Element *)p, (const Rva0060C9D9Element &)v); }
 }
 // Suppress this TU's non-retail copy of ?erase@?$vector@UBfmePod12@@V?$allocator@UBfmePod12@@@_STL@@@_STL@@QAEPAUBfmePod12@@PAU3@0:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
@@ -83,6 +85,22 @@ struct BfmePod8 { int a[2]; };
 namespace _STL { template <> BfmePod8 *allocator<BfmePod8>::allocate(size_t, const void *) const; }
 struct BfmePod12 { int a[3]; };
 struct BfmePod16 { int a[4]; };
+// Retail's const-copy helpers of the two operator= bodies (0x001D9AD9 and
+// 0x004C3121 for 8 bytes, 0x0007C25C and 0x005385F3 for 16) have no unwind
+// path although this unit enables exceptions: STLport's no-EH bodies
+// (as in stlport_vector_e8_o1.cpp).
+namespace _STL {
+template <> inline BfmePod8 *__uninitialized_copy<const BfmePod8 *, BfmePod8 *>(const BfmePod8 *first, const BfmePod8 *last, BfmePod8 *result, const __false_type &)
+{ BfmePod8 *cur = result; for (; first != last; ++first, ++cur) _Construct(cur, *first); return cur; }
+template <> template <> inline BfmePod8 *vector<BfmePod8>::_M_allocate_and_copy<const BfmePod8 *>(size_t n, const BfmePod8 *first, const BfmePod8 *last)
+{ pointer result = this->_M_end_of_storage.allocate(n); __uninitialized_copy(first, last, result, __false_type()); return result; }
+}
+namespace _STL {
+template <> inline BfmePod16 *__uninitialized_copy<const BfmePod16 *, BfmePod16 *>(const BfmePod16 *first, const BfmePod16 *last, BfmePod16 *result, const __false_type &)
+{ BfmePod16 *cur = result; for (; first != last; ++first, ++cur) _Construct(cur, *first); return cur; }
+template <> template <> inline BfmePod16 *vector<BfmePod16>::_M_allocate_and_copy<const BfmePod16 *>(size_t n, const BfmePod16 *first, const BfmePod16 *last)
+{ pointer result = this->_M_end_of_storage.allocate(n); __uninitialized_copy(first, last, result, __false_type()); return result; }
+}
 struct BfmePod40 { int a[10]; };
 // bfme link decl-only BfmePod40
 namespace _STL { template <> vector<BfmePod40, allocator<BfmePod40> >::~vector(); }
