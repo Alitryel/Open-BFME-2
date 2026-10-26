@@ -21,11 +21,7 @@
 typedef float Real;
 
 // class-gate: allow Region3D codegen view declaring the rowed out-of-line copy constructor 0x0009AC04 (the canonical header has only the implicit inline copy); same 24-byte lo/hi layout
-struct Region3D
-{
-	Region3D(const Region3D &) throw();
-	float x_min, y_min, z_min, x_max, y_max, z_max;
-};
+#include "../../../../../Libraries/Include/Lib/Region3D.h"
 
 class RenderObjClass
 {

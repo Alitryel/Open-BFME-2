@@ -13,7 +13,7 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Coord3D.h"
-struct Region3D { Coord3D lo,hi; };
+#include "../../../Libraries/Include/Lib/Region3D.h"
 typedef _STL::list<Coord3D> Coord3DList;
 class WaypointMap : public _STL::map<AsciiString,Coord3D> { public: int numStartSpots; };
 struct PlayerPosition { bool human,computer,loadAIScripts; int forceTeam; _STL::set<AsciiString> factions; PlayerPosition(); ~PlayerPosition(); };
