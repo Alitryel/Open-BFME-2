@@ -490,6 +490,15 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open. Updated: 2026-10-25.**
 
+- **Polygon renderer consolidation subset (2026-10-26, inspected cdf6e90a59):**
+  [the scoped provider prerequisite](../reverse/attempt_support/sol-b5-polygon-provider-20261026.md)
+  found a 9/9-byte-exact merge changing the earliest scoped vector-constructor
+  helper from 34 to 50 bytes. Keeping the existing optimization anchor in the
+  TU's first include preserves the original 34-byte helper during composition.
+  All nine rows, 12 selected scoped definitions/COMDAT flags, 18 references and
+  five data bindings verify. The prerequisite is verified; the two-donor merge
+  is left to Luna. Global selection and census confirmation are unclaimed.
+
 - **Evidence / scope:** string erase/replace helpers and Render2D container
   destruction can resolve a symbol while retaining an incorrect selected body.
   Read the [prior linking handoff](../reverse/attempt_support/link-seat-20261025-final.md)

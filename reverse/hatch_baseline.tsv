@@ -18186,6 +18186,8 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererCtor.cpp	"gsy
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererCtor.cpp	"s",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererRegisterMeshTypeBFME2.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererRegisterMeshTypeBFME2.cpp	"s",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8PolygonRendererVci.h	"",on	1
+pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8PolygonRendererVci.h	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8RendererAddMesh.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8RendererAddMesh.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/DX8RendererAddMesh.cpp	"s",on	1
@@ -18545,8 +18547,6 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8caps.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	"",on	2
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8indexbuffer.cpp	"s",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp	"",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8polygonrenderer.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	"",on	3
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	"s",on	2
