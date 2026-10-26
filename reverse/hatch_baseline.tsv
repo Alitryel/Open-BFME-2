@@ -4696,9 +4696,9 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DestroyEnvironmentU
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DestroyEnvironmentUpdateModuleDataCtor.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DetachableRiderUpdateCtorModuleFactoryBody.cpp	?slot@DRU_Iface1@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DetachableRiderUpdateCtorModuleFactoryBody.cpp	?slot@DRU_Iface2@@UAEXXZ	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdate.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdateCtor.cpp	??0SupplyCenterDockUpdateBase@@QAE@PAVThing@@PBVModuleData@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdateCtor.cpp	?unused@BehaviorModuleOther@@EAEXXZ	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdateModuleDataCtor.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/DockUpdateUpdate.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/Rva005839A7IdResize.cpp	?resize@?$vector@URva005839A7Id@@V?$allocator@URva005839A7Id@@@_STL@@@_STL@@QAEXIURva005839A7Id@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/SupplyCenterDockUpdateConstructor.cpp	?supplyCenterDockUpdateIface1Anchor@SupplyCenterDockUpdateIface1@@UAEXXZ	1
