@@ -48,3 +48,35 @@ mixed source. The unchanged merge trial accepted no donor:
 The mixed `GameClientDrawableTOC.cpp` row at `0x001DB432` is inside a
 namespace/extern-C block the split tool cannot carve. No trial changed source,
 ledgers, claims, or routing.
+
+## Additional allocated trials
+
+- `HealContain.cpp`: its unchanged merge dry run accepted
+  `HealContainModuleDataParse.cpp`, but the required accepted split donor
+  `ConstIntGetters4.cpp` was held by another worker, so no part was applied.
+  The `FlatMultiVptrDestructors.cpp` split for `0x00466B45` was blocked because
+  a copied helper or datum would grow a hatch. My destination/donor/RVA claims
+  were released; the other worker's claims were untouched.
+- `MoneyCrateCollide.cpp`: unchanged merge accepted no donors. Its ctor donor
+  fails with C2504 (`CrateCollide` base undefined); its pool-key donor fails
+  with C2039 (`getModuleNameKey` not a member of `MoneyCrateCollide`).
+- `W3DSnow.cpp`: unchanged merge accepted no donors. The constructor trial
+  fails on undeclared `WeatherSetting`/`OVERRIDE`; getters, reset, blend-phase
+  and state-transition trials fail on missing `W3DSnowManager` members/fields;
+  render-sub-box and render trials lack `W3DSnowManager`; the game-client
+  finish donor lacks its `SnowManager` base. The mixed render-as-quads split
+  for `0x00093CC3` was rejected because the residual loses matched row
+  `0x00083BD4`.
+- `SupplyCenterProductionExitUpdate.cpp`: merge accepted no donors. The pool
+  key has no declared `getModuleNameKey`; the ctor has undefined `UpdateModule`;
+  the accepted-donor verification also fails on explicit instantiation of
+  `_STL::allocator<char>`. Its mixed source has no rows approved for this TU.
+- `StealthUpgrade.cpp`: its three-row constructor donor stopped compiling
+  after the accepted split added a class view, and the pool-key and
+  implementation donors still fail on undeclared members. The verified split
+  of `0x004B532D` from `ModuleNameGetters3.cpp` was retained; it changes no
+  source-file count.
+
+The PreorderCreate merge audit records two new shadow `wrong-name` findings
+for its transferred local-static data keys (`0x00A03F90` and `0x00A03F94`).
+The converged data check remains clean; neither key was claimed retired.

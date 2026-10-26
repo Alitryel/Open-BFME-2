@@ -36,3 +36,7 @@ retirement.
   No identity or data debt is claimed retired. The pre-push link batch audit
   still must report selected providers, lost bytes and input freshness for the
   complete outgoing range; no link gain is claimed here.
+- The commit hook's shadow data check identifies two outside-baseline
+  `wrong-name` findings after the path transfer: local-static keys at
+  `0x00A03F90` and `0x00A03F94`. `data_check.py --converged` remains clean.
+  They are reported for follow-up and are not credited as retired debt.
