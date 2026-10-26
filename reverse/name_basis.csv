@@ -2416,3 +2416,9 @@ param,Drawable::rva0027656F::a1,Drawable::rva0027656F::parentDrawableID,inferred
 member,Obj0052A22C::m_74,Obj0052A22C::m_id,inferred,agree:nl-b49c1ae4e89f,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,
 param,Rva005243FA::c,Rva005243FA::searchValue,inferred,agree:nl-90cd403df73f,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,0x005243FA
 param,Rva005ED15DCreateAutoResolve::a,Rva005ED15DCreateAutoResolve::livingWorldLogic,inferred,agree:nl-d76772728914,Code/GameEngine/Source/GameClient/GUI/InGame/Strategic/StrategicVeterancy.cpp,0x005ED15D
+member,Rva0042CA4B::m_14,Rva0042CA4B::m_behavior,inferred,agree:nl-542916eda3af,Code/GameEngine/Source/Common/Rva0042C936.cpp,
+function,?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,?assign@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,inferred,agree:nl-b57616b59f5c,Code/GameEngine/Source/Common/Rva0042C936.cpp,0x0042C936
+carry,Rva0042C936::rva0042C936::holder,Rva0042C936::assign::holder,inferred,scope renamed by Rename rva0042C936 to assign (inferred),Code/GameEngine/Source/Common/Rva0042C936.cpp,0x0042C936
+param,Rva002CA9CA::rva002CA970::a1,Rva002CA9CA::rva002CA970::firingWeapon,inferred,agree:nl-176ae4964a50,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CA970
+local,Rva002CA9CA::rva002CAC6E::p1,Rva002CA9CA::rva002CAC6E::fireFX,inferred,agree:nl-f36f1f2af293,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CAC6E
+local,Rva002CA9CA::rva002CAC6E::p2,Rva002CA9CA::rva002CAC6E::preAttackFX,inferred,agree:nl-515604f04510,Code/GameEngine/Source/GameLogic/Object/Rva002CA9CAContains.cpp,0x002CAC6E

@@ -114,7 +114,7 @@ public:
 	bool rva002CA9CA(int id, const void *arg);
 	bool rva002CAA59(int source, const void *weapon);
 	void postProcessLoad();
-	void rva002CA970(int a1, int source, const void *weapon, int position);
+	void rva002CA970(int firingWeapon, int source, const void *weapon, int position);
 	float getProjectileNuggetRadiusIfAlliesAffected(const void *arg);
 	bool rva002CAD8B();
 	void rva002CAC6E(int a, int context);
@@ -212,7 +212,7 @@ bool Rva002CA9CA::rva002CAA59(int source, const void *weapon)
 	return false;
 }
 
-void Rva002CA9CA::rva002CA970(int a1, int source, const void *weapon, int position)
+void Rva002CA9CA::rva002CA970(int firingWeapon, int source, const void *weapon, int position)
 {
 	(void)source;
 	(void)position;
@@ -223,9 +223,9 @@ void Rva002CA9CA::rva002CA970(int a1, int source, const void *weapon, int positi
 		VirtNode2 *obj = (VirtNode2 *)cur->m_data;
 		if (flt != 0 && (flt->m_04->m_flag & 0x20) != 0)
 		{
-			if (obj->v04(a1, weapon))
+			if (obj->v04(firingWeapon, weapon))
 			{
-				obj->v0c(a1, weapon);
+				obj->v0c(firingWeapon, weapon);
 			}
 		}
 		cur = cur->m_next;
@@ -299,12 +299,12 @@ void Rva002CA9CA::rva002CAC6E(int a, int context)
 	char *esi = (char *)this + 0xB8;
 	int n = 4;
 	do {
-		Rva001E11F8 *p1 = *(Rva001E11F8 **)(esi - 0x14);
-		if (p1)
-			p1->rva001E11F8(a, context);
-		Rva001E11F8 *p2 = *(Rva001E11F8 **)(esi);
-		if (p2)
-			p2->rva001E11F8(a, context);
+		Rva001E11F8 *fireFX = *(Rva001E11F8 **)(esi - 0x14);
+		if (fireFX)
+			fireFX->rva001E11F8(a, context);
+		Rva001E11F8 *preAttackFX = *(Rva001E11F8 **)(esi);
+		if (preAttackFX)
+			preAttackFX->rva001E11F8(a, context);
 		esi += 4;
 	} while (--n != 0);
 	ListNode *cur = m_17c->m_next;

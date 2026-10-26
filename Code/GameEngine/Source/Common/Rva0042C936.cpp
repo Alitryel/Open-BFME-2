@@ -1,6 +1,6 @@
 // cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z, retail 0x0042C936, 65 bytes.
+// ?assign@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z, retail 0x0042C936, 65 bytes.
 // Setter with ownership-transfer holder: takes old at +0, stores released holder ptr,
 // calls old virtual slot0 with 0, deletes returned pointer via rowed operator delete,
 // returns this. Evidence: single caller 0x0042CA4B, __thiscall via ecx plus ret 4,
@@ -32,7 +32,7 @@ class Rva0042C936
 {
 public:
 	Rva0042C936Helper *m_ptr;
-	Rva0042C936 *rva0042C936(Holder0042C936 holder);
+	Rva0042C936 *assign(Holder0042C936 holder);
 };
 
 // ??1Holder0042C936@@QAE@XZ present-unmatched
@@ -50,7 +50,7 @@ inline Rva0042C936Helper *Holder0042C936::release()
 	return releasedPtr;
 }
 
-Rva0042C936 *Rva0042C936::rva0042C936(Holder0042C936 holder)
+Rva0042C936 *Rva0042C936::assign(Holder0042C936 holder)
 {
 	Rva0042C936Helper *old = m_ptr;
 	m_ptr = holder.release();
@@ -140,7 +140,7 @@ private:
 	Rva0042CA4BTarget *m_08;	// +0x08
 	unsigned char m_pad0C[0x04];
 	int m_10;					// +0x10
-	Rva0042C936 m_14;			// +0x14
+	Rva0042C936 m_behavior;			// +0x14
 };
 
 void Rva0042CA4B::update()
@@ -151,8 +151,8 @@ void Rva0042CA4B::update()
 		int value = TheLivingWorldLogic->m_f4;
 		if (value != m_10)
 		{
-			reinterpret_cast<Rva000AD6F4 *>(&m_14)->clear();
-			m_14.rva0042C936(StrategicInGameUI::Rva0042C9BAFactory(value, (int)m_08));
+			reinterpret_cast<Rva000AD6F4 *>(&m_behavior)->clear();
+			m_behavior.assign(StrategicInGameUI::Rva0042C9BAFactory(value, (int)m_08));
 			m_10 = value;
 		}
 	}
