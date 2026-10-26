@@ -119,7 +119,7 @@ struct W3DVolumetricShadowSubMesh
 	Rva0010811EVertex *m_vertices;
 	char *m_polygonFlags;
 	int *m_indices;
-	int m_10;
+	int m_numSilhouetteEdges;
 	bool m_isShadowMesh;
 };
 
@@ -189,7 +189,7 @@ W3DVolumetricShadowV2::W3DVolumetricShadowV2(W3DVolumetricShadowV2 **prevLink, R
 		m_submesh[k].m_vertices = new Rva0010811EVertex[mmc->m_vertexCount];
 		m_submesh[k].m_polygonFlags = new char[mmc->m_polyCount];
 		m_submesh[k].m_indices = new int[mmc->m_polyCount * 3];
-		m_submesh[k].m_10 = 0;
+		m_submesh[k].m_numSilhouetteEdges = 0;
 		m_submesh[k].m_isShadowMesh = meshes[k]->Get_Name() != 0 && strstr(meshes[k]->Get_Name(), "SHADOW") != 0;
 		mmc->Release_Ref();
 	}

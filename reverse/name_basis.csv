@@ -2519,3 +2519,8 @@ local,Rva000B5C41::rva000B5A72::v158,Rva000B5C41::rva000B5A72::staticSortLevelWh
 member,BfmeThingVJQ::m_bfme34,BfmeThingVJQ::m_useInternet,inferred,agree:nl-7519b4939b0c,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,
 local,Pathfinder::FindBrokenBridge::r3,Pathfinder::FindBrokenBridge::startZoneRoot,inferred,agree:nl-2c9e405fd207,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
 local,Pathfinder::FindBrokenBridge::r4,Pathfinder::FindBrokenBridge::endZoneRoot,inferred,agree:nl-b3f4e94a7c4f,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
+param,famgenDelete#4::p,famgenDelete#4::autoBattleResolver,inferred,agree:nl-3a7a3a31d177,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+member,Rva002EBA88::m_10,Rva002EBA88::m_free,inferred,agree:nl-a9b79529b76e,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,
+param,Rva002EBA88::rva002EBA88::a4,Rva002EBA88::rva002EBA88::allocFunc,inferred,agree:nl-706892ba38ba,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
+param,Rva002EBA88::rva002EBA88::a5,Rva002EBA88::rva002EBA88::freeFunc,inferred,agree:nl-8ccd02fa8a7a,Code/GameEngine/Source/GameLogic/AI/Rva002EBA88.cpp,0x002EBA88
+member,W3DVolumetricShadowSubMesh::m_10,W3DVolumetricShadowSubMesh::m_numSilhouetteEdges,inferred,agree:nl-de83dcb6ea67,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp,

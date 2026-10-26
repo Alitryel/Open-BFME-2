@@ -22,7 +22,7 @@ void famgenDelete(Rva004FA2E2 *p) { delete p; }
 
 // ??_GRva002B74DE@@QAEPAXI@Z @0x002B813F 28B: calls pinned ~Rva002B74DE 0x002B74DE
 class Rva002B74DE { public: ~Rva002B74DE(); };
-void famgenDelete(Rva002B74DE *p) { delete p; }
+void famgenDelete(Rva002B74DE *autoBattleResolver) { delete autoBattleResolver; }
 
 // ??_GRva00527CCE@@QAEPAXI@Z @0x002D33BB 28B: calls pinned ~Rva00527CCE 0x00527CCE
 class Rva00527CCE { public: ~Rva00527CCE(); };
