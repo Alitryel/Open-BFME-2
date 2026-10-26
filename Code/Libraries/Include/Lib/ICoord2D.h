@@ -17,7 +17,10 @@ struct ICoord2D {
     // Other units retain aggregate construction and their existing by-value ABI.
     ICoord2D(int ax, int ay);
     #endif
-    #ifdef ICOORD2D_VIEW_DEFAULT_CTOR
+    #if defined(ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR)
+    // Native array construction in MetaEventTranslator takes the external ctor.
+    ICoord2D();
+    #elif defined(ICOORD2D_VIEW_DEFAULT_CTOR)
     // Native empty constructor 0x0047A6A9/3; no coordinate initialization.
     // Select before the first include; this constructed view lasts for the TU.
     ICoord2D() {}

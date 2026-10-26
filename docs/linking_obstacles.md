@@ -394,7 +394,14 @@ authored-byte previews or commit-title gains into a projected headline.
   static-guard data-name diagnostics remain in shadow. Vertical-button
   adoption preserves both drawing and the native constructor owner (649
   bytes), with complete object equivalence, and retires its queue item.
-  Two ICoord2D items and census confirmation stay open.
+  The [external-constructor view](../reverse/attempt_support/icoord2d-external-header-20261026.md)
+  then lets GameClientDrawableTOC.cpp retain native array construction while
+  adopting the same header: all 92 rows, eleven EXACT EH graphs and complete
+  object facts remain unchanged; owning acceptance retires its queue item.
+  The icoord.cpp base/operator item and census confirmation stay open.
+  GameClient's separate SubsystemInterface item still needs its fourteen
+  virtual slots reconciled with the canonical base; its Microsoft-header
+  item remains in the same-file queue.
   Publication preparation on bf438b551c preserves all five new coordinate
   consumer objects' source inputs and the contract/header after rebase;
   the seven-commit batch retires five header and two Microsoft-header items.

@@ -47,13 +47,14 @@
     "decided_by": "Retail export and byte-verified owner; two integer stores at offsets0/4 in the eight-byte receiver. ThrowingNewHelpers constructor5CF07E calls this existing owner. An opt-in declaration retains its constructed temporary while default header users retain their aggregate construction and ABI, following the existing Coord2D/Coord3D/ICoord3D constructor-view contracts."
    },
    {
-    "declaration": "#ifdef ICOORD2D_VIEW_DEFAULT_CTOR\n// Native empty constructor 0x0047A6A9/3; no coordinate initialization.\n// Select before the first include; this constructed view lasts for the TU.\nICoord2D() {}\n#endif",
+    "declaration": "#if defined(ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR)\n// Native array construction in MetaEventTranslator takes the external ctor.\nICoord2D();\n#elif defined(ICOORD2D_VIEW_DEFAULT_CTOR)\n// Native empty constructor 0x0047A6A9/3; no coordinate initialization.\n// Select before the first include; this constructed view lasts for the TU.\nICoord2D() {}\n#endif",
     "name": "??0ICoord2D@@QAE@XZ",
     "rva": "0x0047A6A9",
     "size": 3,
     "source": "Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/Gadget/W3DPushButtonImageDrawVertical.cpp",
     "required_define": "ICOORD2D_VIEW_DEFAULT_CTOR",
-    "decided_by": "Retail export and matched owner at 0x0047A6A9: MOV EAX,ECX; RET, with no field stores. Existing private views in button rendering use the same empty inline constructor. Opt-in keeps those constructed-expression semantics without changing aggregate initialization or by-value ABI in ordinary header consumers. This is a compiler view prerequisite for composition, not proof that arbitrary views may share a TU."
+    "decided_by": "Retail export and matched owner at 0x0047A6A9: MOV EAX,ECX; RET, with no field stores. Existing private views in button rendering use the same empty inline constructor. Opt-in keeps those constructed-expression semantics without changing aggregate initialization or by-value ABI in ordinary header consumers. This is a compiler view prerequisite for composition, not proof that arbitrary views may share a TU. GameClientDrawableTOC.cpp requires the declaration-only mode: native MetaEventTranslator 0x001DB432/92 passes ctor VA0x0087A6A9 and count3/stride8 to the vector constructor iterator at RVA0x00001423. Its existing object has only the undefined ??0ICoord2D@@QAE@XZ coordinate symbol; class-key is not encoded in this name. Keeping the ordinary throwing thiscall declaration preserves that call and its exception model.",
+    "external_declaration_define": "ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR"
    }
   ]
  },

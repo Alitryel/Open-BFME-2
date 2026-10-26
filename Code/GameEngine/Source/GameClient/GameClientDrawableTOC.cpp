@@ -80,12 +80,9 @@ class Coord2D;
 // BFME 2's ICoord2D has an out-of-line default constructor (0x0047A6A9, a
 // folded return-this body): MetaEventTranslator's array of three is built
 // through the vector constructor iterator.
-class ICoord2D
-{
-public:
-	ICoord2D();
-	int x, y;
-};
+#define ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#undef ICOORD2D_VIEW_EXTERN_DEFAULT_CTOR
 class Region2D;
 class IRegion2D;
 class RealRange;
