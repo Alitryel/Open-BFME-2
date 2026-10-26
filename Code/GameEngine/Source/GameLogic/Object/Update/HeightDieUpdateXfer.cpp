@@ -29,7 +29,7 @@ class AsciiString;
 class UnicodeString;
 class PooledString;
 struct XferUnknown11;
-class Coord3DBase;
+struct Coord3DBase;
 class ICoord3D;
 class Region3D;
 class IRegion3D;
@@ -55,44 +55,8 @@ public:
 	unsigned char m_minimum;
 };
 
-typedef bool Bool;
-typedef int Int;
-typedef unsigned int UnsignedInt;
-
-class Coord3DBase
-{
-public:
-	float x;
-	float y;
-	float z;
-};
-
-
-
-class UpdateModule
-{
-public:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-private:
-	char m_unrecovered04[ 0x20 - 0x04 ];
-};
-
-typedef unsigned int UnsignedInt;
-
-class HeightDieUpdate : public UpdateModule
-{
-protected:
-	virtual void xfer( Xfer *xfer );
-private:
-	Bool m_hasDied;																														///< 0x20
-	Bool m_particlesDestroyed;																								///< 0x21
-	char m_unrecovered22[ 0x24 - 0x22 ];
-	Coord3DBase m_lastPosition;																								///< 0x24
-	UnsignedInt m_earliestDeathFrame;																					///< 0x30
-};
+#include "../../../../../Libraries/Include/Lib/Coord3DBase.h"
+#include "HeightDieUpdateView.h"
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
@@ -118,7 +82,7 @@ void HeightDieUpdate::xfer( Xfer *xfer )
 	*xfer == m_particlesDestroyed;
 
 	// last position
-	*xfer == m_lastPosition;
+	*xfer == reinterpret_cast<Coord3DBase &>(m_lastPosition);
 
 	// earliest death frame
 	*xfer == m_earliestDeathFrame;

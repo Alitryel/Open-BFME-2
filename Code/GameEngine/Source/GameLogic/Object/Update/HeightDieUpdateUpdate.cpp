@@ -33,11 +33,6 @@ typedef float Real;
 class ModuleData;
 class Object;
 
-enum UpdateSleepTime
-{
-	UPDATE_SLEEP_NONE = 1
-};
-
 enum PathfindLayerEnum
 {
 	LAYER_INVALID = 0,
@@ -177,68 +172,7 @@ public:
 
 extern PartitionManager *ThePartitionManager;
 
-class HeightDieUpdateModuleData
-{
-public:
-	char m_unknown00[0x08];
-	Real m_targetHeightAboveTerrain; // +0x08
-	Bool m_targetHeightIncludesStructures; // +0x0C
-	Bool m_onlyWhenMovingDown; // +0x0D
-	Real m_destroyAttachedParticlesAtHeight; // +0x10
-	Bool m_snapToGroundOnDeath; // +0x14
-	UnsignedInt m_initialDelay; // +0x18
-};
-
-class BehaviorModuleBase
-{
-public:
-	virtual void behaviorModuleBaseAnchor();
-	const ModuleData *m_moduleData;
-	Object *m_object;
-};
-
-class BehaviorModuleOther
-{
-public:
-	virtual void behaviorModuleOtherAnchor();
-};
-
-class BehaviorModule : public BehaviorModuleBase, public BehaviorModuleOther
-{
-public:
-	Object *getObject() const { return m_object; }
-};
-
-class UpdateModuleInterface
-{
-public:
-	virtual UpdateSleepTime update();
-};
-
-class UpdateModule : public BehaviorModule, public UpdateModuleInterface
-{
-protected:
-	unsigned m_nextCallFrameAndPhase;
-	int m_indexInLogic;
-	int m_bfmeReserved;
-};
-
-class HeightDieUpdate : public UpdateModule
-{
-public:
-	virtual UpdateSleepTime update();
-
-protected:
-	const HeightDieUpdateModuleData *getHeightDieUpdateModuleData() const
-	{
-		return (const HeightDieUpdateModuleData *)m_moduleData;
-	}
-
-	Bool m_hasDied; // +0x20
-	Bool m_particlesDestroyed; // +0x21
-	Coord3D m_lastPosition; // +0x24
-	UnsignedInt m_earliestDeathFrame; // +0x30
-};
+#include "HeightDieUpdateView.h"
 
 // ?update@HeightDieUpdate@@UAE?AW4UpdateSleepTime@@XZ @0x0048FD1B 604B
 UpdateSleepTime HeightDieUpdate::update( void )
