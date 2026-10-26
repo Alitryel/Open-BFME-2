@@ -2501,3 +2501,8 @@ param,Rva00222B19AptCall::a2,Rva00222B19AptCall::thirdArgument,inferred,agree:nl
 param,Rva00222B19AptCall::a3,Rva00222B19AptCall::fourthArgument,inferred,agree:nl-4feaa9322918,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
 param,Rva00222B19AptCall::a4,Rva00222B19AptCall::fifthArgument,inferred,agree:nl-e1187d6ded91,Code/GameEngine/Source/GameClient/Rva00222B19AptCallLevel.cpp,0x00222B19
 member,BfmeThingVJQ::m_bfme35,BfmeThingVJQ::m_useLan,inferred,agree:nl-20a77febd186,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,
+class,Rva0030C2CEElem,RiverAreaEntry,inferred,agree:nl-d0c283f3697c,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+class,Rva0030C2CECollection,RiverAreaSet,inferred,agree:nl-79a7da074f85,Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+carry,Rva0030C2CECollection::m_begin,RiverAreaSet::m_begin,inferred,scope renamed by Rename Rva0030C2CECollection to RiverAreaSet (inferred),Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+carry,Rva0030C2CECollection::m_end,RiverAreaSet::m_end,inferred,scope renamed by Rename Rva0030C2CECollection to RiverAreaSet (inferred),Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,
+carry,?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,?saveRiverAreas@@YAXPAVRiverAreaSet@@PAVDataChunkOutput@@@Z,inferred,scope renamed by Rename Rva0030C2CECollection to RiverAreaSet (inferred),Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,0x0030C2CE

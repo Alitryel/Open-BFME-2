@@ -36,7 +36,7 @@ public:
 
 extern const char *g_00DB9650[];
 
-struct Rva0030C2CEElem
+struct RiverAreaEntry
 {
 	int m_int00;
 	void *m_ptr04;
@@ -53,17 +53,17 @@ struct Rva0030C2CEArea
 	Rva0053850B m_quadStrip;
 };
 
-class Rva0030C2CECollection
+class RiverAreaSet
 {
 public:
 	char m_pad00[0x14];
-	Rva0030C2CEElem *m_begin;
-	Rva0030C2CEElem *m_end;
+	RiverAreaEntry *m_begin;
+	RiverAreaEntry *m_end;
 };
 
 struct RiverAreaIterator
 {
-	Rva0030C2CECollection *m_store;
+	RiverAreaSet *m_store;
 	int m_index;
 };
 
@@ -76,7 +76,7 @@ extern "C" inline __declspec(noinline) bool __cdecl rva0007E394CursorEqual(const
 	return a.m_store == b.m_store && a.m_index == b.m_index;
 }
 
-void __cdecl saveRiverAreas(Rva0030C2CECollection *coll, DataChunkOutput *out)
+void __cdecl saveRiverAreas(RiverAreaSet *coll, DataChunkOutput *out)
 {
 	out->openDataChunk("RiverAreas", 2);
 	int count = (int)(coll->m_end - coll->m_begin);
@@ -92,7 +92,7 @@ void __cdecl saveRiverAreas(Rva0030C2CECollection *coll, DataChunkOutput *out)
 	{
 		do
 		{
-			Rva0030C2CEElem *begin = cur.m_store->m_begin;
+			RiverAreaEntry *begin = cur.m_store->m_begin;
 			int idx = cur.m_index;
 			{
 			char *base = (char *)begin;
