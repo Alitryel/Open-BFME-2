@@ -219,6 +219,11 @@ authored-byte previews or commit-title gains into a projected headline.
   objects and all thirteen composed code definitions retain bytes, COMDAT
   choices and data/reference facts. Other receiver/list/save-load prerequisites
   and Xfer identity debt remain; no merge or later Luna landing is claimed.
+  The full header hook passes 36/36 rows. Its shadow getBodyModule divergence
+  is the existing cross-owner +0x254 versus +0x194 receiver discrepancy:
+  preserved/current contain objects both emit the same seven-byte +0x254
+  provider. No new provider, changed binding or identity retirement is claimed;
+  the scoped receipt and earlier TunnelContain owner handoff record the boundary.
   The preceding six-commit batch landed at 0b692726c4 with 40/40 push-hook rows
   exact. Its link audit remains inconclusive: index 763dc8759f predates outgoing
   base dd4a917878 and Eva.cpp lacks a current audit receipt. Carry the batch

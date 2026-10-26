@@ -106,3 +106,27 @@ This prerequisite: recovered bytes **0**, file reduction **0**, debt retired
 Keep claims for seed, contain donor, shared view, this handoff and the obstacle
 register until publication is confirmed; release them after landing. There is
 no unfinished source trial or moved row awaiting recovery.
+
+## Final hook identity warning and publication handoff
+
+The prerequisite's full header gate passed 36/36 rows, including the shared
+header consumers. Its shadow identity report flagged divergent
+`?getBodyModule@Object@@QBEPAVBodyModuleInterface@@XZ`. The preserved contain
+object and current object both already define the same seven-byte +0x254
+getter (digest `489e997541f4`); moving its declaration into the shared view
+added no provider or changed body. Receipt:
+build/codex-tunneltracker-body-provider-proof.json. The earlier
+consolidation-tunnel-xfer-view-20261026-codex4.md handoff records this existing
+cross-owner +0x254 versus +0x194 discrepancy and its provider inventory.
+Resolving those other private receivers requires their owners' claims and
+evidence. This prerequisite preserves its correct existing copy and retires
+no identity key.
+
+The final rebase picked up the normal 08:28 census at 47e030bafc and unrelated
+mechanical consolidation/debt work; it touched no source in this repair.
+check_csv.py still passes 98,271 functions, 15,683 symbols and 2,215 data rows.
+The outgoing source prerequisite is now 2d2d0cb165. Its complete pending path
+audit still contains no moved or deleted source, protected-register change,
+or new consumer; the before/after and composition receipts remain applicable.
+The new census is repository-wide evidence, not an attributable gain for this
+prerequisite. Retain the five listed file scopes if final publication defers.
