@@ -204,14 +204,15 @@ static int procedural_texture_count;
 static int record_count;
 static int texture_change_count;
 static DynamicVectorClass<TextureStatisticsStruct> texture_statistics;
-static int lastFrameTextureMemory;
-static int lastFrameTextureCount;
-static int lastFrameLightmapTextureMemory;
-static int lastFrameLightmapTextureCount;
-static int lastFrameProceduralTextureMemory;
-static int lastFrameProceduralTextureCount;
+// The reporting getters in statistics.cpp own these same retail counters.
+extern int last_frame_texture_memory;
+extern int last_frame_texture_count;
+extern int last_frame_lightmap_texture_memory;
+extern int last_frame_lightmap_texture_count;
+extern int last_frame_procedural_texture_memory;
+extern int last_frame_procedural_texture_count;
 static int lastFrameRecordCount;
-static int lastFrameTextureChangeCount;
+extern int last_frame_texture_change_count;
 
 class Debug_Statistics
 {
@@ -229,14 +230,14 @@ static StringClass textureStatisticsString;
 
 void Record_Texture_End()
 {
-	lastFrameTextureMemory = texture_memory;
-	lastFrameTextureCount = texture_count;
-	lastFrameLightmapTextureMemory = lightmap_texture_memory;
-	lastFrameLightmapTextureCount = lightmap_texture_count;
-	lastFrameProceduralTextureMemory = procedural_texture_memory;
-	lastFrameProceduralTextureCount = procedural_texture_count;
+	last_frame_texture_memory = texture_memory;
+	last_frame_texture_count = texture_count;
+	last_frame_lightmap_texture_memory = lightmap_texture_memory;
+	last_frame_lightmap_texture_count = lightmap_texture_count;
+	last_frame_procedural_texture_memory = procedural_texture_memory;
+	last_frame_procedural_texture_count = procedural_texture_count;
 	lastFrameRecordCount = record_count;
-	lastFrameTextureChangeCount = texture_change_count;
+	last_frame_texture_change_count = texture_change_count;
 
 	textureStatisticsString.bfmeAssignInline("");
 	if (recordTextureMode == Debug_Statistics::RECORD_TEXTURE_DETAILS)
@@ -244,7 +245,7 @@ void Record_Texture_End()
 		char temporary[1024];
 		_snprintf(temporary, sizeof(temporary),
 			"Set_DX8_Texture count: %d\nactual changes: %d\n\nid      refs changes  size      name\n--------------------------------------\n",
-			lastFrameRecordCount, lastFrameTextureChangeCount);
+			lastFrameRecordCount, last_frame_texture_change_count);
 		textureStatisticsString += temporary;
 		for (int index = 0; index < texture_count; ++index)
 		{

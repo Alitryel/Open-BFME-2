@@ -571,6 +571,19 @@ authored-byte previews or commit-title gains into a projected headline.
 
 **Status: Open; three storage subsets repaired. Updated: 2026-10-25.**
 
+- **Texture-statistics scalar subset (2026-10-26, control `d831bc24031`):**
+  [The scoped ownership repair](../reverse/attempt_support/texture-statistics-data-20261026-bce2/readme.md)
+  binds recording mode and seven reporting counters to their existing
+  `statistics.cpp` owners, retiring sixteen data-register keys through the
+  owning tool. All 51 cohort rows, four EH graphs and three strict preparation
+  receipts pass; all 79 emitted code definitions retain their bytes and code
+  references. Both consumers keep their 1,780 ordinary-preview bytes against
+  index `47e030bafc`; the provider's existing findings are unchanged. The
+  reporting-mode extern trial changed scheduling and was restored. Current-frame
+  counters need the claimed reset provider; vector/handle/string storage needs
+  full extent and initializer/teardown reconciliation. No family closure,
+  census gain or image-ownership receipt is claimed; LINK-017 still applies.
+
 - **Evidence / scope:** the [linking handoff](../reverse/attempt_support/link-seat-20261025-final.md)
   identifies missing shader/filter root objects and the unowned 52-byte
   ScreenBWFilter group at `0x009B5B54`. Complete native objects and vtables are

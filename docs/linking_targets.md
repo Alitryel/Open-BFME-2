@@ -522,3 +522,14 @@ handoff's reported matched-byte values.
 | Three-or-more-blocker table above | 290 | 95,078 |
 | Coverage remainder outside represented rows | - | 14 |
 | **Census total** | **375** | **149,612** |
+
+### Data-ownership follow-up outside the blocked shortlist
+
+2026-10-26, control `d831bc24031`: `DebugStatisticsRecordTexture.cpp` and
+`DebugStatisticsRecordTextureEnd.cpp` keep their existing 774/1,006 authored
+ordinary-preview bytes while binding eight scalar globals to `statistics.cpp`.
+Sixteen data-debt keys retire; all 51 cohort rows and four EH graphs pass.
+The unchanged provider retains its prior index findings. Remaining counter,
+mode-scheduling and object-lifetime prerequisites are recorded in
+[the scoped evidence](../reverse/attempt_support/texture-statistics-data-20261026-bce2/readme.md)
+and LINK-007. No addition to the census totals above is claimed.

@@ -214,7 +214,8 @@ static int record_count;
 static int texture_count;
 static int texture_memory;
 static int lightmap_texture_count;
-static Debug_Statistics::RecordTextureMode record_texture_mode;
+// Shared with the mode setter/getter in statistics.cpp (retail RVA 0x009EE8F4).
+extern Debug_Statistics::RecordTextureMode record_texture_mode;
 static int procedural_texture_count;
 static RefCountPtr<TextureClass> latest_texture;
 static DynamicVectorClass<TextureStatisticsStruct> texture_statistics;
