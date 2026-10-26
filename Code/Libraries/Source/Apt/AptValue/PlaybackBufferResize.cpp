@@ -29,7 +29,7 @@ Rva006CDD50Item *__cdecl Rva006CDE00Copy(Rva006CDD50Iterator,Rva006CDD50Iterator
 class AptValueNameEntry {public:EAStringC name;int value;AptValueNameEntry(const EAStringC&n,int v):name(n),value(v){} __forceinline AptValueNameEntry(){value=0;}};
 AptValueNameEntry *__cdecl resizeArray(AptValueNameEntry *,int,int);
 class Rva006CE660Vec {public:void rva006CEB10(const EAStringC &);void rva006D0930(const EAStringC *,int,int,int);void rva006D0A10(const EAStringC *);void reserve(int); void insert(AptValueNameEntry *const &,AptValueNameEntry *const &,const Rva006CDD50Iterator &);void append(AptValueNameEntry *);int count,capacity;AptValueNameEntry *data;AptValueNameEntry inlineItems[2];
- Rva006CDD50Iterator begin(){Rva006CDD50Item *p=reinterpret_cast<Rva006CDD50Item *>(data);return Rva006CDD50Iterator(p,p,p+count);}
+ Rva006CDD50Iterator begin(){Rva006CDD50Item *firstItem=reinterpret_cast<Rva006CDD50Item *>(data);return Rva006CDD50Iterator(firstItem,firstItem,firstItem+count);}
  Rva006CDD50Iterator end(){return Rva006CDD50Iterator(reinterpret_cast<Rva006CDD50Item *>(data+count),reinterpret_cast<Rva006CDD50Item *>(data),reinterpret_cast<Rva006CDD50Item *>(data+count));}};
 void Rva006CE660Vec::reserve(int want){
  if(want<=capacity)return;if(want<=1){capacity=want;return;}

@@ -2492,3 +2492,6 @@ local,Rva007FA2C0::scan::p,Rva007FA2C0::scan::requestSlot,inferred,agree:nl-8ea9
 function,_Rva00020AC0,__Locale_wchar_toupper,inferred,agree:nl-9e71c9fd509e,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020AC0
 local,bfmeFloorD::d,bfmeFloorD::floorValue,inferred,agree:nl-97d4f7ae3b82,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,
 local,bfmeCeilD::d,bfmeCeilD::ceilValue,inferred,agree:nl-eff59b65a7e1,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp,
+local,Rotate_Z::c,Rotate_Z::cosTheta,inferred,agree:nl-a9bcbc5f3a11,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp,
+local,Rotate_Z::s,Rotate_Z::sinTheta,inferred,agree:nl-5e6c3e4ee936,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp,
+local,begin::p,begin::firstItem,inferred,agree:nl-43aa87326f13,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,

@@ -7880,3 +7880,14 @@ Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|class||Rva002B55F2Cal
 Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|class||Rva002B565FCall,4acacb28117b3a9b5795b22d,gpt-6.1-sol,w3-10261125-9,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|class||Rva002B5739Call,910d5146b61c6faa21341346,gpt-6.1-sol,w3-10261125-9,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|class||Rva003B8E89Record,24e2d2df29b92a73f0dd024d,gpt-6.1-sol,w3-10261125-10,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp|function|0x00529FB7|rva00529FB7,3216d014c084db7e67f5018a,gpt-6.1-sol,w2-10261117-1,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002B6C9F.cpp|param|Rva002B6C9F::rva002B6C9F|a2,29c8f21e1d83bdfb1e25e663,gpt-6.1-sol,w2-10261117-2,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|f,ac85e5ad2d989559625f5252,gpt-6.1-sol,w2-10261117-6,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|class||Rva002742E5Listener,3ad7471bb1f84ea85fae5234,gpt-6.1-sol,w2-10261117-7,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00274176|p,63ec5e2a27c2840f2d2e6b50,gpt-6.1-sol,w2-10261117-7,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva0027434D|p,464d3d20a99fbef0749c61a8,gpt-6.1-sol,w2-10261117-7,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002E8C23.cpp|param|Rva002EDE5B|a,4936eb2bd84b6758bfeed0d2,gpt-6.1-sol,w2-10261117-11,w-dce04682aaeb,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local|Rotate_Z|tmp1,25739ba0ba4fca841b845131,gpt-6.1-sol,w2-10261117-12,w-dce04682aaeb,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local|Rotate_Z|c,c8815db16e9dcce2133a16dc,gpt-6.1-sol,w2-10261117-12,w-dce04682aaeb,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local|Rotate_Z|s,620009ac9d42959b9d4cde1b,gpt-6.1-sol,w2-10261117-12,w-dce04682aaeb,2026-10-26
+Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp|local|begin|p,3f47f0919fd36387c64f09cd,gpt-6.1-sol,w2-10261117-13,w-dce04682aaeb,2026-10-26

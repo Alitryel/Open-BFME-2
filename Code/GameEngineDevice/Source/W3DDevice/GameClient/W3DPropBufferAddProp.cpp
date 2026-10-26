@@ -80,26 +80,26 @@ public:
 	__forceinline void Rotate_Z( float theta )
 	{
 		float tmp1,tmp2;
-		float c; float s;
+		float cosTheta; float sinTheta;
 
-		c = cosf(theta);
-		s = sinf(theta);
+		cosTheta = cosf(theta);
+		sinTheta = sinf(theta);
 		// Codegen nudge, no effect on the result: without an early second use
-		// of s, MSVC 7.1 sinks the float conversion of the sine into its first
-		// product and commutes row 0's s*tmp2 against retail's operand order.
-		float sCopy = s;
+		// of sinTheta, MSVC 7.1 sinks the float conversion of the sine into its first
+		// product and commutes row 0'sinTheta sinTheta*tmp2 against retail'sinTheta operand order.
+		float sCopy = sinTheta;
 
 		tmp1 = Row[0][0]; tmp2 = Row[0][1];
-		Row[0][0] = (float)( c*tmp1 + s*tmp2);
-		Row[0][1] = (float)(-s*tmp1 + c*tmp2);
+		Row[0][0] = (float)( cosTheta*tmp1 + sinTheta*tmp2);
+		Row[0][1] = (float)(-sinTheta*tmp1 + cosTheta*tmp2);
 
 		tmp1 = Row[1][0]; tmp2 = Row[1][1];
-		Row[1][0] = (float)( c*tmp1 + s*tmp2);
-		Row[1][1] = (float)(-s*tmp1 + c*tmp2);
+		Row[1][0] = (float)( cosTheta*tmp1 + sinTheta*tmp2);
+		Row[1][1] = (float)(-sinTheta*tmp1 + cosTheta*tmp2);
 
 		tmp1 = Row[2][0]; tmp2 = Row[2][1];
-		Row[2][0] = (float)( c*tmp1 + s*tmp2);
-		Row[2][1] = (float)(-s*tmp1 + c*tmp2);
+		Row[2][0] = (float)( cosTheta*tmp1 + sinTheta*tmp2);
+		Row[2][1] = (float)(-sinTheta*tmp1 + cosTheta*tmp2);
 	}
 	__forceinline void Scale( float scale )
 	{	// uniform scale all 3 axis
