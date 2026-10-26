@@ -36,7 +36,7 @@ public: void forEach(void (Rva00359C06Listener::*)(void*,int,int),void*,int,int)
 
 struct CellClaimant { int player; unsigned int object; };
 struct ResourceCell { CellClaimant *first,*last,*capacity; int state; };
-struct Rva003598A5Obj { virtual void f(int,int); };
+struct TerrainResourceCellVisitor { virtual void f(int,int); };
 class TerrainResourceManager {
 public:
     void rva003598A5(int,int,int,void *);
@@ -56,7 +56,7 @@ private:
 };
 void TerrainResourceManager::rva003598A5(int low,int high,int cellY,void *visitor)
 {
-    Rva003598A5Obj *cellVisitor=static_cast<Rva003598A5Obj *>(visitor);
+    TerrainResourceCellVisitor *cellVisitor=static_cast<TerrainResourceCellVisitor *>(visitor);
     for(int cellX=low;cellX<=high;++cellX) cellVisitor->f(cellX,cellY);
 }
 
