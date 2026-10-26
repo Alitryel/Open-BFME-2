@@ -41,3 +41,25 @@ other donors remained untouched after unchanged trial failures:
 The merge removes two source files net and preserves five matched rows. No
 identity or data debt was retired. The existing census snapshot has not been
 rerun and is not evidence for the new source composition.
+
+## Mixed-source split follow-up
+
+The allocated TU's mixed plan had one row in
+`UpgradeModuleDataGetterBuildFieldParse.cpp` approved for this destination.
+`tu_skeleton.py --split FILE --for TU --dry-run` accepted the unchanged 34-byte
+row at `0x004B3A90` and its associated `s_commandSetTable`; it carved the row
+into the existing destination and retained seven donor rows. The second mixed
+file, `FireWeaponWhenDeadBehaviorDerived.cpp`, had no row approved for this TU
+and its split was refused unchanged.
+
+- `./build.sh CommandSetUpgrade.cpp UpgradeModuleDataGetterBuildFieldParse.cpp`
+  passed 13/13 matched rows across both files, including byte, string, float,
+  import and funclet checks.
+- `find_declared_unmatched.py` reported no unmatched definitions in either
+  file; `eh_verify.py` reported one exact EH row.
+- Staged code identity reported zero new findings in shadow mode; staged TU
+  ownership, converged data, CSV and case-collision checks passed.
+- The split tool updated the destination in `docs/doxygen/sources.cfg`; no
+  source path was added or removed, so this split has zero net source-file
+  reduction. The pre-push provider, lost-byte and freshness audit remains
+  required for the full pending range.

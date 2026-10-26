@@ -161,14 +161,6 @@ static ArmorUpgradeFieldParse s_armorTable[4] = {
 	{ 0, 0, 0, 0 }
 };
 
-// Baseline8 typed tables (codex-verifier-r10 target_tables inventory; labels,
-// offsets and callbacks retail-real, every callback a rowed provider).
-// CommandSet 0x00C572C0 32B: CommandSet@0x118 via rowed parseAsciiString 0x2F11E.
-static BaselineFieldParse s_commandSetTable[2] = {
-	{ "CommandSet", &INI::parseAsciiString, 0, 0x118 },
-	{ 0, 0, 0, 0 }
-};
-
 static const FieldParse s_statusBitsTable;
 
 // AttributeModifier 0x00C58818 32B: AttributeModifier@0x118 via rowed 0x2F11E.
@@ -215,13 +207,6 @@ static BaselineFieldParse s_spellRechargeTable[4] = {
 	{ "LabelForPalantirString", &INI::parseAsciiString, 0, 0x128 },
 	{ 0, 0, 0, 0 }
 };
-
-// ?buildFieldParse@CommandSetUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z
-void CommandSetUpgradeModuleData::buildFieldParse(MultiIniFieldParse &parse)
-{
-	parse.add(reinterpret_cast<const FieldParse *>(Rva004CE29DGet()), 8);
-	parse.add(reinterpret_cast<const FieldParse *>(&s_commandSetTable), 0);
-}
 
 // ?buildFieldParse@StatusBitsUpgradeModuleData@@SAXAAVMultiIniFieldParse@@@Z
 void StatusBitsUpgradeModuleData::buildFieldParse(MultiIniFieldParse &parse)
