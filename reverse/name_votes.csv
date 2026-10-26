@@ -7943,3 +7943,8 @@ Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,2
 Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#15|p,b4edcbf70eb86bbf84de857b,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#16|p,c72d4d0acf07fd66b5c48e36,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#17|p,0d0514126875cdddc8816411,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002DA153Scale.cpp|local|Rva002DA153::rva002DA153|t,b89db7d313b6dd2754978d8d,gpt-6.1-sol,w3-10261159-1,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva0007E90EBodies.cpp|function|0x0007E90E|rva0007E90E,57625cb2ff31dcdc3118300e,gpt-6.1-sol,w3-10261159-5,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva002860CF.cpp|member|Rva002860CFS|m_10,6f7b84adc898fc1f50c7b5f3,gpt-6.1-sol,w3-10261159-8,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|member|Arg000B5A72|m158,d47c20ba27652cdd9e356ff3,gpt-6.1-sol,w3-10261159-13,w-46dfa4623b23,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp|local|Rva000B5C41::rva000B5A72|v158,49565c31d59903515584d3af,gpt-6.1-sol,w3-10261159-13,w-46dfa4623b23,2026-10-26

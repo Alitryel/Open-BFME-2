@@ -2514,3 +2514,5 @@ class,Rva005E4E1BHeader,ArmyIconMapHeader,inferred,agree:nl-a7f1f7f5517a,Code/Ga
 carry,Rva005E4E1BHeader::m_leftmost,ArmyIconMapHeader::m_leftmost,inferred,scope renamed by Rename Rva005E4E1BHeader to ArmyIconMapHeader (inferred),Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
 param,famgenDelete#14::p,famgenDelete#14::sideCommandBarImpl,inferred,agree:nl-0baafa9ba491,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
 param,Rva005D19F8::Rva005D19F8::a,Rva005D19F8::Rva005D19F8::root,inferred,agree:nl-54758029d162,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005D19F8
+member,Arg000B5A72::m158,Arg000B5A72::m_staticSortLevelWhileFading,inferred,agree:nl-21dc53fc136c,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,
+local,Rva000B5C41::rva000B5A72::v158,Rva000B5C41::rva000B5A72::staticSortLevelWhileFading,inferred,agree:nl-dad049caf5cb,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawDistanceOpacity.cpp,0x000B5A72

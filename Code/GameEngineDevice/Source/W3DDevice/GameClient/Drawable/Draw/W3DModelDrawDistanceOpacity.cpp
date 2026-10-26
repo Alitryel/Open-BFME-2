@@ -144,7 +144,7 @@ struct Arg000B5A72
 	float m148;
 	float m14C;
 	char _pad[0x158 - 0x14C - 4];
-	int m158;
+	int m_staticSortLevelWhileFading;
 };
 
 class Rva000B5C41
@@ -185,7 +185,7 @@ void Rva000B5C41::rva000B5A72(Arg000B5A72 *moduleData)
 		m08->rva002707FA(1);
 		m50->s101(0);
 		m50->s23(1, 1.0f);
-		if (moduleData->m158 < 0)
+		if (moduleData->m_staticSortLevelWhileFading < 0)
 			return;
 		m50->m98 = 0;
 		return;
@@ -204,7 +204,7 @@ void Rva000B5C41::rva000B5A72(Arg000B5A72 *moduleData)
 	if (lm != 0 && lm->m1778 <= 1) {
 		m08->rva002707FA(0);
 		m50->s101(1);
-		if (moduleData->m158 < 0)
+		if (moduleData->m_staticSortLevelWhileFading < 0)
 			return;
 		m50->m98 = 0;
 		return;
@@ -218,9 +218,9 @@ void Rva000B5C41::rva000B5A72(Arg000B5A72 *moduleData)
 	}
 	m50->s23(1, res);
 	m50->mBC = 1;
-	int v158 = moduleData->m158;
-	if (v158 < 0)
+	int staticSortLevelWhileFading = moduleData->m_staticSortLevelWhileFading;
+	if (staticSortLevelWhileFading < 0)
 		return;
-	m50->m98 = v158;
+	m50->m98 = staticSortLevelWhileFading;
 	return;
 }
