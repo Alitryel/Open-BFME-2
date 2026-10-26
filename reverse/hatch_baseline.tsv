@@ -4675,7 +4675,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DelayedWeaponSetUpg
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DelayedWeaponSetUpgradeUpdateDtor.cpp	?anchor@UpdateModuleInterface@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DelayedWeaponSetUpgradeUpdateDtor.cpp	?setDelay@DelayedUpgradeUpdateInterface@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DeletionUpdateModuleDataFriendNew.cpp	_vtbl_00C4ED70	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdateModuleDataCtor.cpp	_vtbl_00C4ED70	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdate.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DestroyEnvironmentUpdateCtor.cpp	?unused@BehaviorModuleBase@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DestroyEnvironmentUpdateCtor.cpp	?unused@BehaviorModuleOther@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/DestroyEnvironmentUpdateCtor.cpp	?update@UpdateModule@@UAEXXZ	1

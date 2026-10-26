@@ -3,7 +3,6 @@
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../Common/RTS/XYDistanceCallView.h"
 #include "../../../Common/PartitionRangeQueryCallView.h"
-
 // ?update@DemoTrapUpdate@@UAE?AW4UpdateSleepTime@@XZ 0x00495ABA 360B
 // DemoTrapUpdate::update via ZH DemoTrapUpdate.cpp update plus BFME1
 // game/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdate.cpp wide-result
@@ -15,44 +14,37 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_NONE = 1,
 	UPDATE_SLEEP_FOREVER = 0x3fffffff
 };
-
 enum ObjectStatusTypes
 {
 	STATUS_UNDER_CONSTRUCTION = 2,
 	STATUS_SOLD = 0x13
 };
-
 enum WeaponSlotType
 {
 	WEAPONSLOT_PRIMARY = 0
 };
-
 enum Relationship
 {
 	RELATIONSHIP_ENEMIES = 0
 };
-
 template <int N>
 class BitFlags
 {
 public:
 	unsigned int m_bits[7];
 };
-
 class Weapon
 {
 public:
 	unsigned char m_pad00[0x0c];
 	WeaponSlotType m_slot;
 };
-
 class Thing
 {
 public:
 	bool isAnyKindOf(const BitFlags<69> &mask) const;
 	bool isAboveTerrain() const;
 };
-
 class Object : public Thing
 {
 public:
@@ -64,23 +56,36 @@ public:
 	unsigned char m_pad44[0x438 - 0x44];
 	unsigned char m_dead438;
 };
-
 class Rva000CBA20Point
 {
 public:
 	float x;
 	float y;
 };
-
 extern PartitionManager *ThePartitionManager;
-
 class Rva00495A2B
 {
 public:
 	void rva00495A2B();
 };
-
 #include "DemoTrapUpdateModuleDataView.h"
+// ??0DemoTrapUpdateModuleData@@QAE@XZ at retail 0x0049597A (55 bytes).
+// The module-data half of DemoTrapUpdate: vtable immediate 0x00C4ED70 modelled
+// as an explicit first member (OCLUpdateModuleDataCtor precedent, so no vtable
+// is emitted and no dtor row is owed), an uninitialised word at +0x04 retail
+// never stores, the detonation weapon key at +0x08, a 0x1C zero block at +0x0C
+// constructed through the shared memset helper pinned at 0x24C7B3 (it memsets
+// 0x1C via the CRT memset import thunk at 0x6291AE; the pin claims only the
+// address), then the table-backed slots: ManualModeWeaponSlot +0x28,
+// DetonationWeaponSlot +0x2C, ProximityModeWeaponSlot +0x30, the
+// TriggerDetonationRange real at +0x34, ScanRate at +0x38 and the three mode
+// flags at +0x3C/+0x3D/+0x3E. Field identity is retail's own INI table at
+// 0x00C4EEC8 (landed buildFieldParse row) joined to the Zero Hour
+// DemoTrapUpdate donor (DefaultProximityMode, DetonationWeaponSlot,
+// ProximityModeWeaponSlot, ManualModeWeaponSlot, TriggerDetonationRange,
+// DetonateWhenKilled). Body order is load-bearing and follows retail.
+extern "C" const void *const vtbl_00C4ED70[];
+#pragma comment(linker, "/alternatename:_vtbl_00C4ED70=??_7BeaconClientUpdateModuleData@@6B@")
 
 class DemoTrapUpdate
 {
@@ -106,7 +111,23 @@ private:
 
 // tu-skeleton: 0x00495935 69B ?getModuleNameKey@DemoTrapUpdate@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdatePoolKey.cpp (not merged yet)
 
-// tu-skeleton: 0x0049597A 55B ??0DemoTrapUpdateModuleData@@QAE@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdateModuleDataCtor.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdateModuleDataCtor.cpp
+
+  // folded, 9 classes; via ??_7BeaconClientUpdateModuleData@@6B@
+
+DemoTrapUpdateModuleData::DemoTrapUpdateModuleData()
+	: m_vtable( reinterpret_cast<const void *>(((unsigned int)vtbl_00C4ED70)) )
+{
+	m_defaultsToProximityMode = false;
+	m_autoDetonationWithFriends = false;
+	m_manualModeWeaponSlot = 0;
+	m_detonationWeaponSlot = 0;
+	m_proximityModeWeaponSlot = 0;
+	m_scanRate = 0;
+	m_detonationWeapon = 0;
+	m_detonateWhenKilled = false;
+	m_triggerDetonationRange = 0.0f;
+}
 
 // tu-skeleton: 0x004959B1 50B ??0DemoTrapUpdate@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdateConstructor.cpp (not merged yet)
 
@@ -117,6 +138,8 @@ private:
 // tu-skeleton: 0x00495A74 53B ?xfer@DemoTrapUpdate@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdateXfer.cpp (not merged yet)
 
 // tu-skeleton: 0x00495AA9 17B ?buildFieldParse@DemoTrapUpdateModuleData@@SAXAAVMultiIniFieldParse@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Update/ModuleDataBuildFieldParse.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdate.cpp
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Update/DemoTrapUpdateUpdate.cpp
 
