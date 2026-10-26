@@ -39,7 +39,7 @@ public:
     BfmeAptValue006DCD20 *checkedString();
 };
 
-class AptCIH {public:bool rva006CFCD0()const;void *rva006E1170()const;int rva006E1F90(int);};
+class AptCIH {public:bool rva006CFCD0()const;void *rva006E1170()const;int rva006E1F90(int);void factorySetProperty(int,float,bool);};
 
 struct AptNativeHash;
 
@@ -259,11 +259,26 @@ struct BfmePickWorld1284
 
 BfmePickWorld1284 *g_bfmeHolderBU;
 
+struct ButtonHitTestRecord;
+
+// Partial operand view shared with the matched BIL validation and coordinate
+// update bodies: count/list +0x10/+0x14, value +0x44, bounds/offsets
+// +0x48..+0x5C and coordinates +0x74/+0x78. Keep current at +0x6C.
 class AptAnimationPoolData {
 public:
-	char pad[0x6C];
+	char pad[0x10];
+	int mBILCount;
+	ButtonHitTestRecord *aButtonInstanceList;
+	char pad18[0x44 - 0x18];
+	BfmeAptValue006DCD20 *mValue;
+	float m48, m4C, m50, m54, m58, m5C;
+	char pad60[0x6C - 0x60];
 public:
 	AptCIH *current;
+	char pad70[4];
+	int m74, m78;
+	bool validateBIL();
+	void Rva006F9EF0();
 public:
 	void rva006E6540();
 public:
