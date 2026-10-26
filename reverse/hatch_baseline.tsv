@@ -2307,7 +2307,6 @@ address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva0011C0F0Finish.cpp	g_Va00D
 address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva001263B7Finish.cpp	g_Va00BBB8D8	1
 address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva0012641FClear.cpp	g_Va00DEE86C	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva0012641FClear.cpp	g_Va00DEE870	2
-address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva00129640Cluster.cpp	g_Va00DEE8E8	6
 address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva00155AD0.cpp	g_Va00DB5FBC	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva00155AD0.cpp	g_Va00DB5FC0	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/Rva00155AD0.cpp	g_Va00DB5FC4	2
@@ -2324,6 +2323,7 @@ address_global	Code/Libraries/Source/WWVegas/WW3D2/pointgr.cpp	g_Va00DB5F7D	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/renderasset.cpp	g_Va00DB6218	2
 address_global	Code/Libraries/Source/WWVegas/WW3D2/simplestreakrender.cpp	g_Va00DEE86C	3
 address_global	Code/Libraries/Source/WWVegas/WW3D2/simplestreakrender.cpp	g_Va00DEE870	3
+address_global	Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp	g_Va00DEE8E8	6
 address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373BCTimerTicks	2
 address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373C0DialogClosed	3
 address_global	Code/Libraries/Source/WWVegas/WWDebug/Rva0088E100DialogWatchdog.cpp	g_Rva013373C4DialogGeneration	3
@@ -5646,8 +5646,6 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Create_DX8_Surface.
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_D3DCalls.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Set_Render_Target_Depth.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Set_Render_Target_Surface.cpp	?D3DCallCount@DX8Wrapper@@0IA	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordPolys.cpp	?CurrentCaps@DX8Wrapper@@2PAVDX8Caps@@A	1
-alternatename	Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordPolys.cpp	?NPatchesLevel@WW3D@@2IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DynamicIBAccessWriteLock.cpp	??0WriteLock@BfmeSortingIBAccess@@QAE@PAU1@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DynamicIBAccessWriteLock.cpp	??1WriteLock@BfmeSortingIBAccess@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/DynamicVBAccessClassDeinit.cpp	?bfmeDynamicVBInUse@@3PA_NA	1
@@ -5776,6 +5774,8 @@ alternatename	Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp	??0SnapshotDupRep
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/part_ldr.cpp	?bfmeInitTUA@BfmeSubTUA@@QAEXXZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/promoted__Reset_HAnimComboClass_QAEXXZ_00974DC0.cpp	?TheHAnimComboDataPool@@3V?$ObjectPoolClass@VHAnimComboDataClass@@$0BAA@@@A	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/render2dsentence.cpp	??4BfmeRendererVectorBase@@QAEAAV0@ABV0@@Z	1
+alternatename	Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp	?CurrentCaps@DX8Wrapper@@2PAVDX8Caps@@A	1
+alternatename	Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp	?NPatchesLevel@WW3D@@2IA	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	??1BfmeElemVVE@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	??1BfmeElementA@@QAE@XZ	1
 alternatename	Code/Libraries/Source/WWVegas/WW3D2/streakRender.cpp	??1MaterialPassStage@@QAE@XZ	1

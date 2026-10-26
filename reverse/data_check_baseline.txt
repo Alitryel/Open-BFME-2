@@ -1609,8 +1609,8 @@ Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Do_Onetime_Device_Dependent_Inits
 Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Do_Onetime_Device_Dependent_Inits.cpp	wrong-name	?g_dx8FilterMode@@3W4TextureFilterMode@TextureFilterClass@@A	0x009B5F9C
 Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Set_Render_Target_Depth.cpp	wrong-name	?D3DCallCount@DX8Wrapper@@0IA	0x009EDA98
 Code/Libraries/Source/WWVegas/WW3D2/DX8Wrapper_Set_Render_Target_Surface.cpp	wrong-name	?D3DCallCount@DX8Wrapper@@0IA	0x009EDA98
-Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordPolys.cpp	wrong-name	?CurrentCaps@DX8Wrapper@@2PAVDX8Caps@@A	0x009EDA7C
-Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordPolys.cpp	wrong-name	?NPatchesLevel@WW3D@@2IA	0x009B5F94
+Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp	wrong-name	?CurrentCaps@DX8Wrapper@@2PAVDX8Caps@@A	0x009EDA7C
+Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp	wrong-name	?NPatchesLevel@WW3D@@2IA	0x009B5F94
 Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordTexture.cpp	duplicate-def	_lightmap_texture_count	0x009EE8E0
 Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordTexture.cpp	duplicate-def	_lightmap_texture_memory	0x009EE8A8
 Code/Libraries/Source/WWVegas/WW3D2/DebugStatisticsRecordTexture.cpp	duplicate-def	_procedural_texture_count	0x009EE8FC
@@ -1686,7 +1686,7 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva00118C20State.cpp	wrong-name	?g_Va00DEC4A
 Code/Libraries/Source/WWVegas/WW3D2/Rva001263B7Finish.cpp	wrong-name	?g_009B624C@@3HA	0x009B624C
 Code/Libraries/Source/WWVegas/WW3D2/Rva0012641FClear.cpp	wrong-name	?g_00DEE86C@@3VRva005F2577Holder@@A	0x009EE86C
 Code/Libraries/Source/WWVegas/WW3D2/Rva0012641FClear.cpp	wrong-name	?g_00DEE870@@3VRva005F2577Holder@@A	0x009EE870
-Code/Libraries/Source/WWVegas/WW3D2/Rva001296F0Destroy.cpp	wrong-name	_textureStatisticsString	0x009EE91C
+Code/Libraries/Source/WWVegas/WW3D2/statistics.cpp	wrong-name	_textureStatisticsString	0x009EE91C
 Code/Libraries/Source/WWVegas/WW3D2/Rva001499D0Cluster.cpp	wrong-name	?g_rva009eda24@@3HA	0x009EDA24
 Code/Libraries/Source/WWVegas/WW3D2/Rva0014A4F0Cluster.cpp	wrong-name	?g_Va00DEDA24@@3HA	0x009EDA24
 Code/Libraries/Source/WWVegas/WW3D2/Rva00173230Finish.cpp	wrong-name	?g_0DB5F90@@3IC	0x009B5F90
