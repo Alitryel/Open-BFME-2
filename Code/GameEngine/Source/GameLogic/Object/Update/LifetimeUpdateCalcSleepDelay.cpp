@@ -4,7 +4,7 @@
 // TU (DeletionUpdate_calcSleepDelay precedent): retail pins __LINE__ 118
 // (push 0x76) for the random call, met by padding the call onto its own
 // line 118, and reads the GameLogic frame at +0x40 (four past the reference
-// header's +0x3C), so this TU carries a TU-local GameLogic view. Lifetime
+// header's +0x3C), through the canonical GameLogic lookup view. Lifetime
 // adds m_birthFrame at +0x24 beside m_dieFrame at +0x20 (cf. rowed xfer
 // ?xfer@Rva003A49D1@@MAEXPAVXfer@@@Z at 0x003A4AFA which xfers +0x20/+0x24
 // then bool +0x28). The "LifetimeUpdate.cpp" file literal below is the BFME2
@@ -12,15 +12,15 @@
 // its matched row 0x00233FF4.
 typedef unsigned int UnsignedInt;
 
-class GameLogic
-{
-public:
-	__declspec(dllimport) __forceinline UnsignedInt getFrame() { return m_frame; } // Native +0x40 inline frame load.
+#include "../../../Common/GameLogicObjectLookupView.h"
 
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40 (retail; reference header says +0x3C)
-};
+
+
+
+
+
+
+
 
 extern GameLogic *TheGameLogic;
 
