@@ -12,17 +12,30 @@ packing transfer (2.5 GB RAM).
 
 This tool gives the worktree its own submodule gitdir, in the worktree's own
 `modules/` (where git itself would put it), that borrows the main checkout's
-objects through objects/info/alternates and copies its shallow list. Nothing
-is fetched or packed; the cost is writing the checkout. Git never writes into
+objects through objects/info/alternates and the shallow boundaries it needs.
+Nothing is packed; the cost is writing the checkout. Git never writes into
 an alternate object store, so commits, gc and fetches in the worktree's
 submodule stay in the worktree's gitdir; nothing links into another checkout.
 
-The main checkout must already hold the pinned commit; otherwise the tool
-refuses and names the one-time fetch for the main checkout.
+The donor is the main checkout's own BFME 1 gitdir, wherever git says it is
+(`.git/modules/...`, or an embedded `.git` in a short-path fleet worker). A pin
+the donor lacks is fetched into the donor at depth 1, never with its history;
+if that fetch fails the tool refuses and names the one-time fetch. The donor
+keeps a ref refs/worktree-borrow/<seat>/<pin> for every pin a seat borrows, so
+gc in the donor never drops objects a seat needs; `remove` drops a seat's refs
+and `prune-borrows` drops the refs of seats that no longer exist. The tool
+never prunes or repacks the donor.
+
+A seat's superproject gets submodule.recurse=false and
+fetch.recurseSubmodules=false in its config.worktree: a recursive pull to a
+new pin would fetch the pin's whole ancestry into the seat. After pulling,
+run `worktree_setup.py prepare` to move the seat to the new pin.
 
   python3 tools/worktree_setup.py create .claude/worktrees/NAME --branch NAME [--base origin/master]
-  python3 tools/worktree_setup.py prepare [WORKTREE]
+  python3 tools/worktree_setup.py prepare [WORKTREE]    (also after every pull)
   python3 tools/worktree_setup.py check [WORKTREE]
+  python3 tools/worktree_setup.py remove WORKTREE
+  python3 tools/worktree_setup.py prune-borrows
 
 --inputs-only checks out only inputs/ (toolchains, reference headers, vendor):
 enough for ./build.sh, not for tools that read Open-BFME-1's game/ or targets/.
@@ -34,6 +47,16 @@ from pathlib import Path
 
 SUBMODULE = "reference/open-bfme-1"
 INPUTS_ONLY = ("inputs",)
+BORROW_PREFIX = "refs/worktree-borrow/"
+# The only refspec a seat fetches with, whatever the donor uses: a
+# refs/heads/* wildcard makes a seat fetch pull upstream's other branches
+# below the shallow boundary (600k objects, 7.5 GB RAM).
+SEAT_REFSPEC = "+refs/heads/master:refs/remotes/origin/master"
+# A seat superproject's config.worktree: no recursive fetch or update, and the
+# submodule active even where the shared config never ran `submodule init`
+# (short-path fleet workers).
+SEAT_CONFIG = (("submodule.recurse", "false"), ("fetch.recurseSubmodules", "false"),
+               (f"submodule.{SUBMODULE}.active", "true"))
 
 
 class SetupError(Exception):
@@ -72,6 +95,31 @@ def is_link(path):
     return False
 
 
+def donor_store(common):
+    """The main checkout's BFME 1 gitdir, as git resolves it.
+
+    `.git/modules/...` for a normal submodule; an embedded `.git` directory in
+    a short-path fleet worker. Uninitialized: the modules path, which
+    fetch_hint() then names.
+    """
+    donor_sub = common.parent / SUBMODULE
+    if not (donor_sub / ".git").exists():
+        return common / "modules" / SUBMODULE
+    proc = git(donor_sub, "rev-parse", "--path-format=absolute", "--git-dir",
+               "--git-common-dir", check=False)
+    lines = proc.stdout.splitlines()
+    if proc.returncode != 0 or len(lines) != 2:
+        raise SetupError(f"cannot resolve the gitdir of {donor_sub}:\n{proc.stderr.strip()}")
+    store = Path(lines[1])
+    if posix(store) == posix(common):
+        raise SetupError(f"{donor_sub}/.git resolves to the superproject's own gitdir")
+    return store
+
+
+def borrow_ref(seat_id, pin):
+    return f"{BORROW_PREFIX}{seat_id}/{pin}"
+
+
 def layout(worktree):
     """Paths for one linked worktree: its submodule dir, gitdir and the main store."""
     worktree = Path(worktree).resolve()
@@ -84,11 +132,15 @@ def layout(worktree):
             f"{SUBMODULE} the normal way (tools/setup_hooks.sh).")
     modules = Path(out(top, "rev-parse", "--path-format=absolute",
                        "--git-path", f"modules/{SUBMODULE}"))
+    seat_id = git_dir.name
+    if git(top, "check-ref-format", borrow_ref(seat_id, "x"), check=False).returncode != 0:
+        raise SetupError(f"worktree id {seat_id!r} cannot name a borrow ref")
     return {
         "top": top,
         "sub": top / SUBMODULE,
         "gitdir": modules,
-        "main_store": common / "modules" / SUBMODULE,
+        "seat_id": seat_id,
+        "main_store": donor_store(common),
         "main_top": common.parent,
     }
 
@@ -127,17 +179,42 @@ def missing_objects(store, pin):
     return [line[1:] for line in proc.stdout.splitlines() if line.startswith("?")]
 
 
-def require_main_objects(paths, pin):
+def require_main_objects(paths, pin, ref=None):
+    """The donor holds every object of the pin, fetched at depth 1 if not.
+
+    With `ref`, the fetch lands on that borrow ref and the ref is pointed at
+    the pin, so gc in the donor keeps what the seat borrows.
+    """
     store = paths["main_store"]
     if not (store / "objects").is_dir():
         raise SetupError(
             f"the main checkout has no {SUBMODULE} object store ({store}).\n"
             + fetch_hint(paths, pin))
-    missing = missing_objects(store, pin)
-    if missing:
-        raise SetupError(
-            f"the main checkout's {SUBMODULE} store lacks {len(missing)} object(s) of "
-            f"the pinned commit {pin} (first: {missing[0]}).\n" + fetch_hint(paths, pin))
+    if missing_objects(store, pin):
+        # Bounded: the pin alone, never its history, tags or submodules.
+        proc = git(store, "fetch", "-q", "--depth", "1", "--no-tags",
+                   "--no-recurse-submodules", "origin", f"{pin}:{ref}" if ref else pin,
+                   check=False, git_dir=store, configs=("fetch.recurseSubmodules=false",))
+        missing = missing_objects(store, pin)
+        if missing:
+            raise SetupError(
+                f"the main checkout's {SUBMODULE} store lacks {len(missing)} object(s) "
+                f"of the pinned commit {pin} (first: {missing[0]}), and a depth-1 fetch "
+                f"of it into that store failed:\n  {proc.stderr.strip() or '(no error)'}\n"
+                + fetch_hint(paths, pin))
+    if ref:
+        git(store, "update-ref", ref, pin, git_dir=store)
+
+
+def borrow_refs(store, seat_id=None):
+    prefix = BORROW_PREFIX + (f"{seat_id}/" if seat_id else "")
+    return out(store, "for-each-ref", "--format=%(refname)", prefix,
+               git_dir=store).splitlines()
+
+
+def drop_borrow_refs(store, refs):
+    for ref in refs:
+        git(store, "update-ref", "-d", ref, git_dir=store)
 
 
 def own_gitdir(paths):
@@ -186,24 +263,66 @@ def write_alternates(gitdir, store):
     alternates.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
 
+def cat_batch(gitdir, oids, check_only=False):
+    """{oid: raw object bytes, or True with check_only} for the oids gitdir has."""
+    if not oids:
+        return {}
+    mode = "--batch-check" if check_only else "--batch"
+    proc = subprocess.run(["git", f"--git-dir={gitdir}", "cat-file", mode],
+                          input="".join(f"{oid}\n" for oid in oids).encode(),
+                          capture_output=True)
+    if proc.returncode != 0:
+        raise SetupError(f"git cat-file {mode} failed in {gitdir}: "
+                         f"{proc.stderr.decode(errors='replace').strip()}")
+    found, data, pos = {}, proc.stdout, 0
+    for oid in oids:
+        end = data.index(b"\n", pos)
+        header = data[pos:end].split()
+        pos = end + 1
+        if len(header) < 3:  # "<oid> missing"
+            continue
+        if check_only:
+            found[oid] = True
+            continue
+        size = int(header[2])
+        found[oid] = data[pos:pos + size]
+        pos += size + 1
+    return found
+
+
 def merge_shallow(gitdir, store):
-    """Borrowed history ends where the main store's does: share its shallow list."""
+    """Borrowed history ends where the main store's does: add the main store's
+    shallow boundaries, but only those whose parents the seat cannot read.
+
+    A seat that deepened or unshallowed its own history keeps it; a boundary
+    is never added back over parents the seat holds.
+    """
     source = store / "shallow"
     if not source.exists():
         return
     target = gitdir / "shallow"
     have = set(target.read_text(encoding="utf-8").split()) if target.exists() else set()
-    have |= set(source.read_text(encoding="utf-8").split())
-    target.write_text("".join(f"{oid}\n" for oid in sorted(have)), encoding="utf-8",
-                      newline="\n")
+    wanted = [oid for oid in source.read_text(encoding="utf-8").split() if oid not in have]
+    parents = {}
+    for oid, raw in cat_batch(gitdir, wanted).items():
+        header = raw.split(b"\n\n", 1)[0]
+        parents[oid] = [line.split()[1].decode() for line in header.splitlines()
+                        if line.startswith(b"parent ")]
+    present = cat_batch(gitdir, sorted({p for ps in parents.values() for p in ps}),
+                        check_only=True)
+    needed = {oid for oid, ps in parents.items() if any(p not in present for p in ps)}
+    if needed:
+        target.write_text("".join(f"{oid}\n" for oid in sorted(have | needed)),
+                          encoding="utf-8", newline="\n")
 
 
 def submodule_url(top):
     return out(top, "config", "-f", ".gitmodules", f"submodule.{SUBMODULE}.url")
 
 
-def enable_worktree_hooks(top):
-    """core.hooksPath=.githooks for this worktree only (config.worktree)."""
+def configure_worktree(top):
+    """core.hooksPath=.githooks and no submodule recursion, for this worktree
+    only (config.worktree)."""
     if out(top, "config", "--bool", "--get", "extensions.worktreeConfig", check=False) != "true":
         if out(top, "config", "--local", "--bool", "--get", "core.bare", check=False) == "true":
             raise SetupError("the shared config sets core.bare=true; move it to the main "
@@ -213,6 +332,8 @@ def enable_worktree_hooks(top):
                              "worktree's config.worktree before enabling extensions.worktreeConfig")
         git(top, "config", "--local", "extensions.worktreeConfig", "true")
     git(top, "config", "--worktree", "core.hooksPath", ".githooks")
+    for key, value in SEAT_CONFIG:
+        git(top, "config", "--worktree", key, value)
 
 
 def prepare(worktree, inputs_only=False):
@@ -220,8 +341,8 @@ def prepare(worktree, inputs_only=False):
     top, sub, gitdir, store = paths["top"], paths["sub"], paths["gitdir"], paths["main_store"]
     pin = pinned_commit(top)
     check_target(paths)
-    require_main_objects(paths, pin)
-    enable_worktree_hooks(top)
+    require_main_objects(paths, pin, borrow_ref(paths["seat_id"], pin))
+    configure_worktree(top)
     sub.mkdir(parents=True, exist_ok=True)
     # A gitdir whose HEAD never resolved is a failed earlier run: redo it.
     existing = (gitdir / "HEAD").exists() and git(
@@ -238,16 +359,9 @@ def prepare(worktree, inputs_only=False):
         git(sub, "remote", "set-url", "origin", url, git_dir=gitdir)
     else:
         git(sub, "remote", "add", "origin", url, git_dir=gitdir)
-    # The main store's narrow refspec (master only). The default refs/heads/*
-    # makes every `git pull` (submodule.recurse=true) fetch upstream's other
-    # branches below the shallow boundary: 600k objects, 7.5 GB RAM.
-    refspecs = out(store, "config", "--get-all", "remote.origin.fetch",
-                   check=False, git_dir=store).splitlines()
-    if not refspecs:
-        raise SetupError(f"{store} has no remote.origin.fetch to copy")
-    git(sub, "config", "--replace-all", "remote.origin.fetch", refspecs[0], git_dir=gitdir)
-    for refspec in refspecs[1:]:
-        git(sub, "config", "--add", "remote.origin.fetch", refspec, git_dir=gitdir)
+    # Master only, replacing whatever the donor or an earlier run set.
+    git(sub, "config", "--replace-all", "remote.origin.fetch", SEAT_REFSPEC, git_dir=gitdir)
+    git(sub, "config", "remote.origin.tagOpt", "--no-tags", git_dir=gitdir)
     if not existing:
         git(sub, "update-ref", "--no-deref", "HEAD", pin)
         if inputs_only:
@@ -261,7 +375,7 @@ def prepare(worktree, inputs_only=False):
 
 def verify(worktree):
     paths = layout(worktree)
-    top, sub = paths["top"], paths["sub"]
+    top, sub, store = paths["top"], paths["sub"], paths["main_store"]
     pin = pinned_commit(top)
     problems = []
     for parent in (sub.parent, sub):
@@ -278,9 +392,26 @@ def verify(worktree):
         status = git(top, "submodule", "status", "--", SUBMODULE, check=False).stdout
         if not status.startswith(" "):
             problems.append(f"git submodule status: {status.strip()!r}")
+        refspecs = out(sub, "config", "--get-all", "remote.origin.fetch",
+                       check=False).splitlines()
+        if refspecs != [SEAT_REFSPEC]:
+            problems.append(f"{SUBMODULE} fetches {refspecs}, not only {SEAT_REFSPEC}")
+        ref = borrow_ref(paths["seat_id"], pin)
+        if out(store, "rev-parse", "--verify", "--quiet", ref, check=False,
+               git_dir=store) != pin:
+            problems.append(f"the donor {store} has no {ref}; its gc may drop the pin")
+        fsck = git(sub, "fsck", "--connectivity-only", "--no-dangling", "--no-progress",
+                   check=False)
+        if fsck.returncode != 0:
+            detail = (fsck.stdout + fsck.stderr).strip().splitlines()[:3]
+            problems.append(f"{SUBMODULE} objects are missing (git fsck): " + "; ".join(detail))
     hooks = out(top, "config", "--get", "core.hooksPath", check=False)
     if hooks != ".githooks":
         problems.append(f"core.hooksPath is {hooks!r}, not .githooks")
+    for key, value in SEAT_CONFIG:
+        got = out(top, "config", "--worktree", "--get", key, check=False)
+        if got != value:
+            problems.append(f"config.worktree {key} is {got!r}, not {value}")
     if problems:
         raise SetupError("worktree not ready:\n  " + "\n  ".join(problems))
     return pin
@@ -301,10 +432,11 @@ def create(path, branch=None, base="HEAD", inputs_only=False, cwd=None):
     if branch is not None and git(cwd, "rev-parse", "--verify", "--quiet",
                                   f"refs/heads/{branch}", check=False).returncode == 0:
         start = branch
-    # Refuse before `worktree add`, not after it leaves a half-made worktree.
+    # Refuse before `worktree add`, not after it leaves a half-made worktree;
+    # prepare() then pins the commit with the seat's borrow ref.
     common = Path(out(cwd, "rev-parse", "--path-format=absolute", "--git-common-dir"))
-    require_main_objects({"main_store": common / "modules" / SUBMODULE,
-                          "main_top": common.parent}, pinned_commit(cwd, start))
+    require_main_objects({"main_store": donor_store(common), "main_top": common.parent},
+                         pinned_commit(cwd, start))
     args = ["worktree", "add"]
     if branch is None:
         args += ["--detach", str(path), base]
@@ -316,6 +448,49 @@ def create(path, branch=None, base="HEAD", inputs_only=False, cwd=None):
     return prepare(path, inputs_only=inputs_only)
 
 
+def remove(worktree):
+    """`git worktree remove` a clean seat, then drop its borrow refs."""
+    paths = layout(worktree)
+    top, sub, store = paths["top"], paths["sub"], paths["main_store"]
+    if out(top, "status", "--porcelain", "--ignore-submodules=none"):
+        raise SetupError(f"{top} has changes or untracked files; commit or remove them first")
+    if (sub / ".git").exists():
+        if out(sub, "status", "--porcelain"):
+            raise SetupError(f"{sub} has changes or untracked files")
+        own = [ref for ref in out(sub, "for-each-ref", "--format=%(refname)").splitlines()
+               if not ref.startswith("refs/remotes/")]
+        if own:
+            raise SetupError(f"{sub} has its own refs ({', '.join(own)}); push or delete them")
+        head = out(sub, "rev-parse", "HEAD", check=False)
+        if head and git(store, "cat-file", "-e", f"{head}^{{commit}}", check=False,
+                        git_dir=store).returncode != 0:
+            raise SetupError(f"{sub} HEAD {head} exists only in the seat; keep it first")
+    # --force: git refuses any worktree holding a submodule gitdir; the checks
+    # above stand in for the ones --force skips.
+    git(paths["main_top"], "worktree", "remove", "--force", str(top))
+    drop_borrow_refs(store, borrow_refs(store, paths["seat_id"]))
+
+
+def live_seat(common, seat_id):
+    pointer = common / "worktrees" / seat_id / "gitdir"
+    if not pointer.is_file():
+        return False
+    return Path(pointer.read_text(encoding="utf-8").strip()).exists()
+
+
+def prune_borrows(cwd=None):
+    """Drop the borrow refs of seats that no longer exist; return them."""
+    common = Path(out(Path(cwd or Path.cwd()), "rev-parse", "--path-format=absolute",
+                      "--git-common-dir"))
+    store = donor_store(common)
+    if not (store / "objects").is_dir():
+        return []
+    stale = [ref for ref in borrow_refs(store)
+             if not live_seat(common, ref[len(BORROW_PREFIX):].split("/", 1)[0])]
+    drop_borrow_refs(store, stale)
+    return stale
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -325,18 +500,32 @@ def main(argv=None):
     c.add_argument("--base", default="HEAD", help="start point (default HEAD)")
     c.add_argument("--inputs-only", action="store_true",
                    help=f"check out only {', '.join(INPUTS_ONLY)}/ of {SUBMODULE}")
-    p = sub.add_parser("prepare", help="set up hooks and the submodule in an existing worktree")
+    p = sub.add_parser("prepare", help="set up hooks and the submodule in an existing "
+                                       "worktree; rerun after every pull")
     p.add_argument("path", nargs="?", default=".")
     p.add_argument("--inputs-only", action="store_true",
                    help=f"check out only {', '.join(INPUTS_ONLY)}/ of {SUBMODULE}")
-    k = sub.add_parser("check", help="verify a worktree's hooks, gitdir and pin")
+    k = sub.add_parser("check", help="verify a worktree's hooks, gitdir, pin and objects")
     k.add_argument("path", nargs="?", default=".")
+    r = sub.add_parser("remove", help="remove a clean worktree and its borrow refs")
+    r.add_argument("path")
+    sub.add_parser("prune-borrows", help="drop the borrow refs of worktrees that are gone")
     args = parser.parse_args(argv)
     try:
         if args.cmd == "create":
             pin = create(args.path, args.branch, args.base, args.inputs_only)
         elif args.cmd == "prepare":
             pin = prepare(args.path, args.inputs_only)
+        elif args.cmd == "remove":
+            remove(args.path)
+            print(f"worktree_setup: removed {args.path} and its borrow refs")
+            return 0
+        elif args.cmd == "prune-borrows":
+            stale = prune_borrows()
+            print(f"worktree_setup: dropped {len(stale)} stale borrow ref(s)")
+            for ref in stale:
+                print(f"  {ref}")
+            return 0
         else:
             pin = verify(args.path)
     except SetupError as exc:

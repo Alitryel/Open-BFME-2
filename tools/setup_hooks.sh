@@ -29,6 +29,9 @@ git config merge.union.driver "if [ -f tools/merge_rows.py ] && [ -f .githooks/r
 git config submodule.recurse true
 # A linked worktree borrows the main checkout's objects instead: a bare
 # `submodule update --init` there downloads Open-BFME-1's whole history.
+# worktree_setup.py also turns recursion off in that worktree's
+# config.worktree (a recursive pull to a new pin fetches its ancestry);
+# after pulling there, run `tools/worktree_setup.py prepare`.
 if [ "$(git rev-parse --path-format=absolute --git-dir)" != "$(git rev-parse --path-format=absolute --git-common-dir)" ]; then
     sh .githooks/run-python3 tools/worktree_setup.py prepare
 else

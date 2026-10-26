@@ -70,9 +70,9 @@ def store_state(main):
 
 def test_create_borrows_objects_and_isolates_the_gitdir(repos, tmp_path):
     upstream, main = repos
-    before = store_state(main)
     wt = tmp_path / "wt"
     pin = ws.create(wt, branch="seat", base="HEAD", cwd=main)
+    before = store_state(main)
     assert pin == run(main, "rev-parse", f"HEAD:{SUB}")
     sub = wt / SUB
     assert (sub / "game" / "game.cpp").read_text(encoding="utf-8") == "int y;\n"
@@ -93,7 +93,7 @@ def test_create_borrows_objects_and_isolates_the_gitdir(repos, tmp_path):
     assert run(main / SUB, "rev-parse", "HEAD") == pin
 
 
-def test_prepare_is_idempotent_and_copies_the_narrow_refspec(repos, tmp_path):
+def test_prepare_is_idempotent_and_sets_the_narrow_refspec(repos, tmp_path):
     upstream, main = repos
     store = main / ".git" / "modules" / SUB
     run(main, "--git-dir", str(store), "config", "--replace-all", "remote.origin.fetch",
@@ -112,12 +112,14 @@ def test_prepare_is_idempotent_and_copies_the_narrow_refspec(repos, tmp_path):
     assert ws.verify(wt) == pin
 
 
-def test_refuses_a_pin_the_main_store_lacks(repos, tmp_path):
+def test_refuses_a_pin_the_main_store_cannot_fetch(repos, tmp_path):
     upstream, main = repos
-    (upstream / "game" / "game.cpp").write_text("int z;\n", encoding="utf-8")
-    run(upstream, "commit", "-qam", "two")
-    newer = run(upstream, "rev-parse", "HEAD")
-    # Pin a commit the main checkout never fetched.
+    # Pin a commit that is neither in the main checkout nor upstream.
+    elsewhere = tmp_path / "elsewhere"
+    run(tmp_path, "clone", "-q", str(upstream), str(elsewhere))
+    (elsewhere / "game" / "game.cpp").write_text("int z;\n", encoding="utf-8")
+    run(elsewhere, "commit", "-qam", "two")
+    newer = run(elsewhere, "rev-parse", "HEAD")
     run(main, "update-index", "--cacheinfo", f"160000,{newer},{SUB}")
     run(main, "commit", "-qm", "repin")
     with pytest.raises(ws.SetupError) as err:
@@ -162,12 +164,148 @@ def test_inputs_only_checks_out_inputs(repos, tmp_path):
     assert not (wt / SUB / "game").exists()
 
 
-def test_merge_shallow_unions_and_writes_lf(tmp_path):
-    store, gitdir = tmp_path / "store", tmp_path / "gitdir"
-    store.mkdir()
-    gitdir.mkdir()
-    (store / "shallow").write_text("b" * 40 + "\n" + "a" * 40 + "\n", encoding="utf-8")
-    (gitdir / "shallow").write_text("c" * 40 + "\n", encoding="utf-8")
-    ws.merge_shallow(gitdir, store)
-    assert (gitdir / "shallow").read_bytes() == \
-        ("a" * 40 + "\n" + "b" * 40 + "\n" + "c" * 40 + "\n").encode()
+def commit_upstream(upstream, text, message):
+    (upstream / "game" / "game.cpp").write_text(text, encoding="utf-8")
+    run(upstream, "commit", "-qam", message)
+    return run(upstream, "rev-parse", "HEAD")
+
+
+def has_object(repo, oid):
+    return subprocess.run(["git", "cat-file", "-e", oid], cwd=repo,
+                          capture_output=True).returncode == 0
+
+
+def borrow_refs(donor):
+    return run(donor, "for-each-ref", "--format=%(refname)", ws.BORROW_PREFIX).splitlines()
+
+
+def test_borrow_ref_keeps_the_pin_through_donor_gc(repos, tmp_path):
+    upstream, main = repos
+    wt = tmp_path / "wt"
+    pin = ws.create(wt, cwd=main)
+    donor = main / SUB
+    assert borrow_refs(donor) == [ws.borrow_ref("wt", pin)]
+    # Move the donor to an unrelated commit and drop all its own refs to the pin.
+    run(upstream, "checkout", "-q", "--orphan", "other")
+    run(upstream, "rm", "-rq", "--cached", ".")
+    (upstream / "other.txt").write_text("unrelated\n", encoding="utf-8")
+    run(upstream, "add", "other.txt")
+    run(upstream, "commit", "-qm", "unrelated")
+    run(donor, "fetch", "-q", "origin", "other")
+    run(donor, "checkout", "-q", "--detach", "FETCH_HEAD")
+    for ref in run(donor, "for-each-ref", "--format=%(refname)").splitlines():
+        if not ref.startswith(ws.BORROW_PREFIX):
+            run(donor, "update-ref", "--no-deref", "-d", ref)
+    run(donor, "reflog", "expire", "--expire=now", "--all")
+    run(donor, "gc", "-q", "--prune=now")
+    run(wt / SUB, "fsck", "--connectivity-only")
+    assert ws.verify(wt) == pin
+    # Without the borrow ref the same gc drops the pin, and check says so.
+    run(donor, "update-ref", "-d", ws.borrow_ref("wt", pin))
+    run(donor, "gc", "-q", "--prune=now")
+    assert not has_object(donor, pin)
+    with pytest.raises(ws.SetupError, match="git fsck"):
+        ws.verify(wt)
+
+
+def test_remove_and_prune_borrows_drop_the_seat_refs(repos, tmp_path):
+    _, main = repos
+    pin = ws.create(tmp_path / "a", cwd=main)
+    ws.create(tmp_path / "b", cwd=main)
+    donor = main / SUB
+    assert len(borrow_refs(donor)) == 2
+    ws.remove(tmp_path / "a")
+    assert not (tmp_path / "a").exists()
+    assert borrow_refs(donor) == [ws.borrow_ref("b", pin)]
+    # A seat removed behind the tool's back leaves a stale ref for prune-borrows.
+    run(main, "worktree", "remove", "--force", str(tmp_path / "b"))
+    assert ws.prune_borrows(main) == [ws.borrow_ref("b", pin)]
+    assert borrow_refs(donor) == []
+
+
+def test_pull_never_recurses_and_prepare_fetches_the_new_pin_at_depth_1(repos, tmp_path):
+    upstream, main = repos
+    run(main, "config", "submodule.recurse", "true")  # tools/setup_hooks.sh sets it
+    wt = tmp_path / "wt"
+    old = ws.create(wt, branch="seat", cwd=main)
+    assert run(wt, "config", "--get", "submodule.recurse") == "false"
+    assert run(wt, "config", "--get", "fetch.recurseSubmodules") == "false"
+    two = commit_upstream(upstream, "int two;\n", "two")
+    three = commit_upstream(upstream, "int three;\n", "three")
+    run(main, "update-index", "--cacheinfo", f"160000,{three},{SUB}")
+    run(main, "commit", "-qm", "repin")
+    run(wt, "pull", "-q", "--no-rebase", ".", "master")
+    # The pull fetched nothing into the seat's submodule and left it alone.
+    assert run(wt / SUB, "rev-parse", "HEAD") == old
+    counts = run(wt / SUB, "count-objects", "-v")
+    assert "count: 0" in counts and "in-pack: 0" in counts
+    assert ws.prepare(wt) == three
+    assert run(wt / SUB, "rev-parse", "HEAD") == three
+    donor = main / SUB
+    # The donor fetched the pin alone, never its history, and keeps it.
+    assert has_object(donor, three) and not has_object(donor, two)
+    assert ws.borrow_ref("wt", three) in borrow_refs(donor)
+    assert ws.borrow_ref("wt", old) in borrow_refs(donor)
+
+
+def test_a_donor_wildcard_refspec_is_never_copied(repos, tmp_path):
+    upstream, main = repos
+    wildcard = "+refs/heads/*:refs/remotes/origin/*"
+    run(main / SUB, "config", "--replace-all", "remote.origin.fetch", wildcard)
+    run(upstream, "branch", "side")
+    wt = tmp_path / "wt"
+    ws.create(wt, cwd=main)
+    assert run(wt / SUB, "config", "--get-all", "remote.origin.fetch") == ws.SEAT_REFSPEC
+    run(wt / SUB, "fetch", "-q", "origin")
+    fetched = run(wt / SUB, "for-each-ref", "--format=%(refname)", "refs/remotes/")
+    assert "refs/remotes/origin/master" in fetched.splitlines()
+    assert "side" not in fetched
+    # A wildcard added later fails check, and prepare rewrites it.
+    run(wt / SUB, "config", "--add", "remote.origin.fetch", wildcard)
+    with pytest.raises(ws.SetupError, match="fetches"):
+        ws.verify(wt)
+    ws.prepare(wt)
+    assert run(wt / SUB, "config", "--get-all", "remote.origin.fetch") == ws.SEAT_REFSPEC
+
+
+def test_short_path_worker_with_an_embedded_gitdir(repos, tmp_path):
+    # tools/setup_local_fleet.py --short-path: a clone whose BFME 1 is a
+    # `clone --shared` with its own .git directory, no .git/modules.
+    _, main = repos
+    worker = tmp_path / "w01"
+    run(tmp_path, "clone", "-q", "--shared", "--no-recurse-submodules", str(main), str(worker))
+    pin = ws.pinned_commit(worker)
+    run(tmp_path, "clone", "-q", "--shared", "--no-checkout", "--no-recurse-submodules",
+        str(main / SUB), str(worker / SUB))
+    run(worker / SUB, "checkout", "-q", "--detach", pin)
+    assert (worker / SUB / ".git").is_dir() and not (worker / ".git" / "modules").exists()
+    wt = tmp_path / "wt"
+    assert ws.create(wt, cwd=worker) == pin
+    gitdir = Path(run(wt / SUB, "rev-parse", "--path-format=absolute", "--git-dir"))
+    assert (gitdir / "objects/info/alternates").read_text(encoding="utf-8") == \
+        ws.posix(worker / SUB / ".git" / "objects") + "\n"
+    assert borrow_refs(worker / SUB) == [ws.borrow_ref("wt", pin)]
+    assert (wt / SUB / "game" / "game.cpp").read_text(encoding="utf-8") == "int y;\n"
+
+
+def test_prepare_keeps_history_a_seat_unshallowed(repos, tmp_path):
+    upstream, _ = repos
+    commit_upstream(upstream, "int two;\n", "two")
+    commit_upstream(upstream, "int three;\n", "three")
+    main = tmp_path / "shallow-main"
+    main.mkdir()
+    run(main, "init", "-q")
+    run(main, "submodule", "add", "-q", "--depth", "1", upstream.as_uri(), SUB)
+    run(main, "commit", "-qm", "pin")
+    assert (main / ".git/modules" / SUB / "shallow").exists()
+    wt = tmp_path / "wt"
+    pin = ws.create(wt, cwd=main)
+    sub = wt / SUB
+    gitdir = Path(run(sub, "rev-parse", "--path-format=absolute", "--git-dir"))
+    assert (gitdir / "shallow").read_text(encoding="utf-8").split() == [pin]
+    assert run(sub, "rev-list", "--count", "HEAD") == "1"
+    run(sub, "fetch", "-q", "--unshallow", "origin")
+    assert run(sub, "rev-list", "--count", "HEAD") == "3"
+    assert ws.prepare(wt) == pin
+    assert not (gitdir / "shallow").exists()
+    assert run(sub, "rev-list", "--count", "HEAD") == "3"
