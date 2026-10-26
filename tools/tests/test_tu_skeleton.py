@@ -316,6 +316,48 @@ class MergeDiagnosticsTests(unittest.TestCase):
         self.assertTrue(all("C2065" in reason for reason in out["rejected"].values()))
         apply.assert_not_called()
 
+    def test_a_final_reverify_failure_blocks_instead_of_writing_the_token(self):
+        # A PlayerList.cpp merge accepted its donors, but the final re-composition failed to
+        # compile; attempt() then returned "compile", and apply() wrote that word as the TU.
+        tu, donor = "Code/T.cpp", "Code/A.cpp"
+        texts = {tu: "seed", donor: "donor"}
+        don = {tu: [{"target_rva": "0x1000"}], donor: [{"target_rva": "0x1010"}]}
+
+        class Verifier:
+            fd = SimpleNamespace(MANAGED=re.compile(r"(?!)"), overrides=lambda: {})
+            errors = ["fixture.cpp(1) : fatal error C1001: internal compiler error"]
+            all_errors = []
+            flags = []
+
+            def __init__(self, fail_from=None):
+                self.calls, self.fail_from = 0, fail_from
+
+            def matched(self, text, rows):
+                self.calls += 1
+                if self.fail_from is not None and self.calls >= self.fail_from:
+                    return None
+                return {r["target_rva"] for r in rows}
+
+        carry = SimpleNamespace(report=lambda: {}, problems=[])
+        probe = Verifier()
+        with patch.object(T, "Verifier", return_value=probe), \
+                patch.object(T, "compose", return_value="composed"), \
+                patch.object(T, "Carry", return_value=carry), \
+                patch.object(T, "apply", return_value=set()) as apply:
+            T._merge(tu, [], don, {"accepted": [], "rejected": {}}, False, texts=texts)
+        apply.assert_called_once()
+        self.assertEqual(apply.call_args[0][2], "composed")
+
+        flaky = Verifier(fail_from=probe.calls)   # every call from the final re-verification on fails
+        with patch.object(T, "Verifier", return_value=flaky), \
+                patch.object(T, "compose", return_value="composed"), \
+                patch.object(T, "Carry", return_value=carry), \
+                patch.object(T, "apply", return_value=set()) as apply:
+            out = T._merge(tu, [], don, {"accepted": [], "rejected": {}}, False, texts=texts)
+        apply.assert_not_called()
+        self.assertTrue(out["blocked"].startswith("the accepted donors did not re-verify (compile"))
+        self.assertIn("C1001", out["blocked"])
+
 
 class ClaimTests(unittest.TestCase):
     def test_the_scope_is_the_tu_every_donor_and_every_moved_row(self):

@@ -803,6 +803,11 @@ def _merge(tu, sk, don, report, dry_run, texts=None, applier=None):
         report["rejected"].update({f: "its flag override is not carried by the verified merge" for f in ov})
         return _merge(tu, sk, {f: r for f, r in don.items() if f not in ov}, report, dry_run, texts, applier)
     text = attempt(acc, flags)
+    if text in ("compile", "bytes"):   # the accepted set no longer re-verifies (a flaky compile, an ICE):
+        report["rejected"].update(rej)  # never write the failure token as the TU's text
+        report["blocked"] = (f"the accepted donors did not re-verify ({text}"
+                             + (": " + " | ".join(v.errors)[:300] if text == "compile" else "") + ")")
+        return report
     if ov:   # the TU spells the override's flags (flag_defaults check)
         text = v.effective(text, [r for f in acc for r in don[f]])
     report.update(accepted=acc, flags=flags, rows=score)
