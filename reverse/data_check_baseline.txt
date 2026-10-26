@@ -1153,4 +1153,3 @@ Code/Libraries/Source/WWVegas/WWLib/stlport_wide_istream.cpp	wrong-name	??_8?$ba
 Code/Libraries/Source/WWVegas/WWLib/stlport_wide_ofstream.cpp	wrong-name	??_8?$basic_ofstream@GV?$char_traits@G@_STL@@@_STL@@7B@	0x007BCD4C
 Code/Libraries/Source/WWVegas/WWLib/stlport_wide_ofstream.cpp	wrong-name	??_8?$basic_ostream@GV?$char_traits@G@_STL@@@_STL@@7B@	0x007BBDC4
 Code/Libraries/Source/WWVegas/WWLib/stlport_wide_ofstream_name_ctor_0084BF70.cpp	wrong-name	??_8?$basic_ofstream@GV?$char_traits@G@_STL@@@_STL@@7B@	0x007BCD4C
-Code/Libraries/Source/debug/Rva00889300DebugForwarders.cpp	wrong-name	?TheBfmeAwakenDebug@@3PAVBfmeAwakenDebug@@A	0x009E0880
