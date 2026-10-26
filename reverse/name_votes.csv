@@ -7631,3 +7631,16 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|pa
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|param|realCeil|x,0df28ae1e0251b23a686884b,gpt-6.1-sol,w5-10260826-18,w-f0819d403c17,2026-10-26
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|local|W3DShrubBuffer::rva000E7734|x,d203da039577930bd1da7f2c,gpt-6.1-sol,w5-10260826-18,w-f0819d403c17,2026-10-26
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|local|W3DShrubBuffer::rva000E7734|y,fb2f48dc4cab23241be004d6,gpt-6.1-sol,w5-10260826-18,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva00595C79Permuted.cpp|class||Rva00595C79Address,bcd1a6d7e637319539415f30,gpt-6.1-sol,w4-10260839-3,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a4,026af9cc92ab4a0a71418609,gpt-6.1-sol,w4-10260839-8,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a6,3e32110dff250828e2c4199d,gpt-6.1-sol,w4-10260839-8,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp|param|Rva00330A37::rva00330A37|a7,5e251988caa1ffa64616ac6f,gpt-6.1-sol,w4-10260839-8,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameNetwork/Rva007EA9C0Init.cpp|member|Rva007EA9C0Owner|m_254,431c913bb78b6beb84dcbca2,gpt-6.1-sol,w4-10260839-11,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva002BFF5A.cpp|function|0x002BFF5A|rva002BFF5A,3a2acb94ae5cd8b51d353009,gpt-6.1-sol,w4-10260839-17,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|param|SpecialAbilityUpdate::rva0044EDA6|arg,ffaf93ca674de15445dea127,gpt-6.1-sol,w4-10260839-18,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp|function|0x00529FB7|rva00529FB7,235a2809619102f4e22d5fcb,gpt-6.1-sol,w4-10260839-20,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7EC,5df5009ee70e627abad75566,gpt-6.1-sol,w4-10260839-21,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7FC,479102d400ca1375d4db95af,gpt-6.1-sol,w4-10260839-21,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|member|Rva0030C2CEArea|m_int60,7b517a8a542ed1ef70ea2454,gpt-6.1-sol,w4-10260839-22,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|saveRiverAreas|tmp,728c210b30635994aabb924b,gpt-6.1-sol,w4-10260839-22,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|local|EA::Allocator::GeneralAllocator::realloc|d,659271eced96eb04f2873b31,gpt-6.1-sol,w4-10260839-24,w-eb83eac9adc1,2026-10-26
