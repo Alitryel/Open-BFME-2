@@ -1108,7 +1108,6 @@ Code/Libraries/Source/WWVegas/WWLib/stlport_filebuf_base.cpp	wrong-name	?_M_page
 Code/Libraries/Source/WWVegas/WWLib/stlport_ifstream_name_ctor_0084C300.cpp	wrong-name	??_8?$basic_ifstream_lib0084C300@DV?$char_traits@D@_STL@@@_STL@@7B@	0x007BCD34
 Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_ptr_init_002213D9.cpp	wrong-name	?$S1@?1??Rva002213D9Get@@YAPAV?$map@HPAXU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@XZ@4IA	0x009FE4B8
 Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_ptr_init_002213D9.cpp	wrong-name	?s_map@?1??Rva002213D9Get@@YAPAV?$map@HPAXU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@XZ@4V23@A	0x009FE4AC
-Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_ostringstream.cpp	wrong-name	??_8?$basic_ostream@DV?$char_traits@D@_STL@@@_STL@@7B@	0x007BBDC4
 Code/Libraries/Source/WWVegas/WWLib/stlport_ofstream_fd_ctor.cpp	wrong-name	??_8?$basic_ofstream@DV?$char_traits@D@_STL@@@_STL@@7B@	0x007BCD24
 Code/Libraries/Source/WWVegas/WWLib/stlport_wide_fstream.cpp	wrong-name	??_8?$basic_iostream@GV?$char_traits@G@_STL@@@_STL@@7B?$basic_istream@GV?$char_traits@G@_STL@@@1@@	0x007BCD2C
 Code/Libraries/Source/WWVegas/WWLib/stlport_wide_fstream.cpp	wrong-name	??_8?$basic_iostream@GV?$char_traits@G@_STL@@@_STL@@7B?$basic_ostream@GV?$char_traits@G@_STL@@@1@@	0x007BBDC4
