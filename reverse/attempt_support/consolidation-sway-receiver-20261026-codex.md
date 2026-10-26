@@ -164,3 +164,13 @@ audit remains the inherited documentation plus receiver repair and this
 cleanup: no existing source paths move, and only the already verified three
 consumers include the new scoped header. No protected register changes. Keep
 the additional GameLogicInit.cpp file claim until publication is confirmed.
+
+The separate visibility cleanup is committed as `a3b9a2d300`. Its scoped hook
+passes 3/3 rows, zero new code-identity findings and no data findings. The
+publish wrapper returned because another agent was pushing; inherited
+92faf73b14 and both Sway commits remain pending at that point. The combined
+path audit was repeated when the separate SpecialPowerCreate scoped header
+added two consumers; see
+[its bounded repair](consolidation-specialpowercreate-view-20261026-codex.md).
+The earlier SpecialPowerCreate read-only triage was followed by that separately
+claimed repair; Sway's demonstrated unblock and remaining blockers are unchanged.

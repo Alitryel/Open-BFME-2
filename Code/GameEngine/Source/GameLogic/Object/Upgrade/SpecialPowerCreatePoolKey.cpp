@@ -9,10 +9,7 @@
 // static-guard EH prologue; globals are TU-local externs (DIR32 slots patch
 // from retail, no pins; nameToKey resolves via its matched row).
 
-enum NameKeyType
-{
-	NK_UNKNOWN = 0
-};
+#include "../Create/SpecialPowerCreateView.h"
 
 class NameKeyGenerator
 {
@@ -21,12 +18,6 @@ public:
 };
 
 extern NameKeyGenerator *TheNameKeyGenerator;
-
-class SpecialPowerCreate
-{
-public:
-	virtual NameKeyType getModuleNameKey() const;
-};
 
 // ?getModuleNameKey@SpecialPowerCreate@@UBE?AW4NameKeyType@@XZ
 NameKeyType SpecialPowerCreate::getModuleNameKey() const

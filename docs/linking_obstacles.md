@@ -173,8 +173,17 @@ authored-byte previews or commit-title gains into a projected headline.
 
 ### LINK-004: missing or incompatible shared providers and declarations
 
-**Status: Open. Updated: 2026-10-25.**
+**Status: Open. Updated: 2026-10-26.**
 
+- **SpecialPowerCreate declaration prerequisite (2026-10-26):**
+  [the bounded pool/callback repair](../reverse/attempt_support/consolidation-specialpowercreate-view-20261026-codex.md)
+  shares the existing measured callback receiver with the pool-key consumer.
+  Both strict-current objects retain every non-debug section, definition and
+  code/data reference fact. Normal composition now accepts both donors, three
+  rows / 136 bytes instead of only the pool's two rows / 79 bytes. This is a
+  demonstrated prerequisite unblock; no merge or later Luna landing is claimed.
+  The constructor still fails C2511, both mixed donors stay behind, and the
+  pool's data register entries remain. No census or linked-byte gain is claimed.
 - **Sway declaration prerequisite (2026-10-26):**
   [the scoped receiver and identity evidence](../reverse/attempt_support/consolidation-sway-receiver-20261026-codex.md)
   reconciles the seed, pool-key and transfer receivers. Ordinary composition now

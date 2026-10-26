@@ -8,32 +8,8 @@
 // 008596A4 at10; its slot1 points004B93EF. CreateModule.h provides the
 // callback name; names of the queried interfaces remain
 // unresolved. No Object or module layout beyond these accesses is inferred.
-class SpecialPowerBuildResult {
-public:
- virtual void s0();virtual void s1();virtual void s2();virtual void s3();
- virtual void s4();virtual void s5();virtual void s6();virtual void s7();
-};
-class SpecialPowerModuleScanFace {
-public:
- virtual void s0();virtual void s1();virtual void s2();virtual void s3();
- virtual void s4();virtual void s5();virtual void s6();virtual void s7();
- virtual SpecialPowerBuildResult *s8();
-};
-struct SpecialPowerModuleScan { unsigned char prefix[0xC]; SpecialPowerModuleScanFace face; };
-class Object {
-public: unsigned char prefix[0x244]; SpecialPowerModuleScan **modules;
-};
-struct SpecialPowerCreateHead {virtual void anchor();unsigned char prefix[4];Object *object;unsigned char tail[4];};
-class SpecialPowerCreateFace {
-public:
- virtual void s0();virtual void onBuildComplete();virtual void s2();virtual bool shouldDoCreate();
- virtual void s4();virtual void s5();virtual void s6();virtual void s7();
- virtual void s8();virtual void s9();virtual void s10();virtual void s11();
- virtual void s12();
-};
-class SpecialPowerCreate : public SpecialPowerCreateHead, public SpecialPowerCreateFace {
-public:virtual void onBuildComplete();bool flag;
-};
+#include "SpecialPowerCreateView.h"
+
 void SpecialPowerCreate::onBuildComplete()
 {
  if(shouldDoCreate()) {
