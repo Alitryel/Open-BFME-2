@@ -87,3 +87,35 @@ base or method evidence.
 Local receipts: `iteration27-before-build.log`, `iteration27-after-build.log`,
 `iteration27-accept.log`, `iteration27-eh.log`, `iteration27-coff-parity.log`,
 and `iteration27-commit.log`.
+
+## Publication qualification after rebase
+
+The second normal commit gate passes all 17 rows and both EH graphs. Its
+shadow identity check reports two divergent TemplateCountKey allocator
+COMDATs (`_STLP_alloc_proxy::allocate` and `allocator::allocate`) outside the
+register. Complete before/after object parity above includes those unchanged
+definitions and their relocation targets. They remain a separate provider
+prerequisite; header acceptance is not a claim that this unit links cleanly.
+
+The series is rebased onto upstream `5e6511da79`; the two header commits are
+now `e548acf0d1` and `32da969550`. No upstream source or header overlaps the
+series' edited paths. Ledger integrity passes with 98,273 function rows,
+15,683 symbols and 2,218 data rows. The new official census at `47e030bafc`
+(2026-10-26 08:28) records LINKING 7,370,962 and LINKED 7,614,012 bytes.
+These upstream measurements do not measure this PR. Fresh progress against
+master retains C++ exact 7,984,346 (+0) and BYTE-MATCHED 100%.
+
+The complete pending path audit was repeated for
+`5e6511da79..32da969550`: all seven absorbed INI paths, their basenames and
+stems were searched together across tracked consumers. The 73 occurrences
+in 32 files are source comments, prior attempt evidence, historical census
+rows, documentation, or the independent BFME 1 reference. No active tool,
+hook, configuration, source include or current ownership registry depends
+on a removed donor. `iteration27-path-audit.log` retains the complete hits.
+No path changes follow this audit in the publication batch.
+
+Two historical streak-data retirements now duplicate upstream `462ffdd1f8`;
+the rebase preserves its register and removes that credit from this PR.
+Net against current master: fourteen header rows, six identity keys,
+nineteen hatch occurrences and five Microsoft-header queue rows retired;
+three verified data rows added. No net data-debt key retirement remains.

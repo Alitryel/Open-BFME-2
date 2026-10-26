@@ -365,8 +365,10 @@ authored-byte previews or commit-title gains into a projected headline.
   prerequisite. The final dependent gate passes 1,927 functions and 25 data
   rows across 252 sources. The second whole-file adoption in
   StrategicInGameUIPlanningPhaseBuildingSelectionCtor.cpp preserves all 17
-  rows and two exact EH graphs, retiring its own queue item. Seven remaining
-  ICoord2D items and census status stay open.
+  rows and two exact EH graphs, retiring its own queue item. Its unchanged
+  TemplateCountKey allocator COMDATs still have two divergent-definition
+  diagnostics in the shadow identity check; no clean-link verdict is claimed.
+  Seven remaining ICoord2D items and census confirmation stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through
