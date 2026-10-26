@@ -3231,7 +3231,6 @@ alternatename	Code/GameEngine/Source/Common/Rva003896E7Permuted.cpp	?TheGameSpyB
 alternatename	Code/GameEngine/Source/Common/Rva003908A7Memset.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva0039597COpAssign.cpp	?Rva00395D45CopyAux@@YAPAVRva0039597C@@PAV1@00PADH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00395F57CanUnpack.cpp	_theLogicRandomLogFile	1
-alternatename	Code/GameEngine/Source/Common/Rva0039AD56Dtor.cpp	??1ExperienceTracker@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva0039B1F9Refresh.cpp	?bfmeCalcEFC@@YGMH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva003ADEBFUIntCtor.cpp	_Rva003ADEBF_v0	1
 alternatename	Code/GameEngine/Source/Common/Rva003ADFDBCopyCtor.cpp	_Rva003ADEBF_v0	1
@@ -4465,6 +4464,7 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Die/ReflectDamageModuleDat
 alternatename	Code/GameEngine/Source/GameLogic/Object/Die/Rva00485C86Finish.cpp	_TheUpgradeCenter	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Die/SpecialPowerCompletionDieModuleDataCtor.cpp	_vtbl_00C4ED70	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Die/UpgradeDieOnDie.cpp	_TheUpgradeCenter	1
+alternatename	Code/GameEngine/Source/GameLogic/Object/ExperienceTracker.cpp	??1ExperienceTracker@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/GhostObjectCtorDtor.cpp	?crc@GhostObject@@MAEXPAVXfer@@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Ctor.cpp	?g_009FEFA4@@3VBfmeFixedStorage0004543D@@B	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/ObjectCreationList.cpp	?findObjectCreationList@ObjectCreationListStore@@QAEPBVObjectCreationList@@PBD@Z	1
