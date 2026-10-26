@@ -7918,3 +7918,14 @@ Code/GameEngine/Source/Common/Rva005C41C9Refresh.cpp|param|Rva005C41C9::rva005C4
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|s2,8d1123533838152e9c1e71d4,gpt-6.1-sol,w5-10261146-15,w-f0819d403c17,2026-10-26
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v2,dc4275beab4fc26ec4ed9d9c,gpt-6.1-sol,w5-10261146-15,w-f0819d403c17,2026-10-26
 Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v3,b120a7b2a8e8e5215b830fce,gpt-6.1-sol,w5-10261146-15,w-f0819d403c17,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|member|Rva000E7734GlobalData|m_flag1c,8bfc1e00f1434e7288ec3f6c,gpt-6.1-sol,w4-10261153-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|member|Rva000E7734GlobalData|m_flag1d,33619af4b55c5ebe632a54dd,gpt-6.1-sol,w4-10261153-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|param|realFloor|x,1a0faf154a4038171d6b6234,gpt-6.1-sol,w4-10261153-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|param|realCeil|x,df3d47ae7f948714dc60a586,gpt-6.1-sol,w4-10261153-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|local|W3DShrubBuffer::rva000E7734|x,91eb863db28744af560fa045,gpt-6.1-sol,w4-10261153-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShrubBufferUnitMoved.cpp|local|W3DShrubBuffer::rva000E7734|y,41acdc5312a301a44b30d2c4,gpt-6.1-sol,w4-10261153-2,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/BfmeConv793.cpp|local|clearMissingVariant|r,944fdbf534842a62d50814c7,gpt-6.1-sol,w4-10261153-3,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|class||Rva005E4E1BNode,ee625cc4adc6b462ab2eed52,gpt-6.1-sol,w4-10261153-6,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|class||Rva005E4E1BHeader,44f2103526d9c27012bf3371,gpt-6.1-sol,w4-10261153-6,w-eb83eac9adc1,2026-10-26
+Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141DC0::pushFront|arg,222e944617dbb2c36c8f4c47,gpt-6.1-sol,w4-10261153-9,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|local|Rva0010F5A8::execute|m_fraction0C,d2f4527b761051af2180998d,gpt-6.1-sol,w4-10261153-11,w-eb83eac9adc1,2026-10-26
