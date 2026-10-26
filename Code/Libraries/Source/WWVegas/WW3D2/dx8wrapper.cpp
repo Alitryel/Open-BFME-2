@@ -248,16 +248,27 @@ unsigned long DX8Wrapper::FrameCount = 0;
 bool								_DX8SingleThreaded										= false;
 
 unsigned							number_of_DX8_calls										= 0;
-static unsigned				last_frame_matrix_changes								= 0;
-static unsigned				last_frame_material_changes							= 0;
-static unsigned				last_frame_vertex_buffer_changes						= 0;
-static unsigned				last_frame_index_buffer_changes						= 0;
-static unsigned				last_frame_light_changes								= 0;
-static unsigned				last_frame_texture_changes								= 0;
-static unsigned				last_frame_render_state_changes						= 0;
-static unsigned				last_frame_texture_stage_state_changes				= 0;
-static unsigned				last_frame_number_of_DX8_calls						= 0;
-static unsigned				last_frame_draw_calls									= 0;
+extern int G009EDA9C;
+extern int G009EDAA0;
+extern int G009EDAA4;
+extern int G009EDAA8;
+extern int G009EDAAC;
+extern int G00DEDAB0;
+extern int G00DEDAB4;
+extern int G00DEDAB8;
+extern int G00DEDABC;
+extern int G00DEDAC0;
+
+#define last_frame_matrix_changes (*(unsigned *)&G009EDA9C)
+#define last_frame_material_changes (*(unsigned *)&G009EDAA0)
+#define last_frame_vertex_buffer_changes (*(unsigned *)&G009EDAA4)
+#define last_frame_index_buffer_changes (*(unsigned *)&G009EDAA8)
+#define last_frame_light_changes (*(unsigned *)&G009EDAAC)
+#define last_frame_texture_changes (*(unsigned *)&G00DEDAB0)
+#define last_frame_render_state_changes (*(unsigned *)&G00DEDAB4)
+#define last_frame_texture_stage_state_changes (*(unsigned *)&G00DEDAB8)
+#define last_frame_number_of_DX8_calls (*(unsigned *)&G00DEDABC)
+#define last_frame_draw_calls (*(unsigned *)&G00DEDAC0)
 
 static D3DDISPLAYMODE DesktopMode;
 
@@ -355,11 +366,6 @@ struct DX8WrapperStageHelper : public DX8Wrapper
 // Full family comment sits with the Bfme reset views further down.
 struct BfmeResetResource { void Add_Ref(); void Release_Ref(); };
 
-// Retail sets this byte while releasing the current render-state buffers
-// (store site 0x0051FD3F). The converted BFME1 tree carries it as an
-// address-derived extern; no original spelling is asserted here either.
-static unsigned char g_rva00DB621CFlag;
-
 // Retail Invalidate_Cached_Render_States is at 0x0011FD10 (226B): Zero Hour's
 // body (see the converted BFME1 dx8wrapper.cpp) with the texture-stage half
 // extracted into the helper above, which retail calls.
@@ -383,7 +389,7 @@ void DX8Wrapper::Invalidate_Cached_Render_States(void)
 	}
 	DX8WrapperStageHelper::Rva0011CC60InvalidateTextureStages();
 
-	g_rva00DB621CFlag=1;
+	ShaderClass::Invalidate();
 
 	//Need to explicitly set render_state pointers to NULL.  Retail keeps each
 	//clear inside its non-null branch, rather than unconditionally storing zero.
