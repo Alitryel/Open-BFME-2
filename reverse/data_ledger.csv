@@ -10649,7 +10649,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00843BE8,16,.rdata,vtable,??_7OpenContain@@6BUpdateModule@@@,,literal,??_7CaveContain@@6BB2@@@;??_7OpenContain@@6BUpdateModule@@@;_s_secondary10@Code/GameEngine/Source/GameLogic/Object/Contain/CaveContainCtor.cpp,1,4
 0x00843BF8,192,.rdata,vtable,??_7CaveContain@@6BB1@@@,,literal,??_7CaveContain@@6BB1@@@;_s_secondary0C@Code/GameEngine/Source/GameLogic/Object/Contain/CaveContainCtor.cpp,1,2
 0x00843CB8,108,.rdata,vtable,??_7CaveContain@@6BB0@@@,,literal,??_7CaveContain@@6BB0@@@;_s_vtable@Code/GameEngine/Source/GameLogic/Object/Contain/CaveContainCtor.cpp,1,2
-0x00843D24,36,.rdata,global,?g_00C43D24@@3QBUFieldParse@@B,Code/GameEngine/Source/GameLogic/Object/Contain/HealContainModuleDataParse.cpp,owned,,1,1
+0x00843D24,36,.rdata,global,?g_00C43D24@@3QBUFieldParse@@B,Code/GameEngine/Source/GameLogic/Object/Contain/HealContain.cpp,owned,,1,1
 0x00843D48,376,.rdata,vtable,??_7Rva00220240FlatDtor@@6BRva00220240FlatDtorM2@@@,,literal,??_7Rva00220240FlatDtor@@6BRva00220240FlatDtorM2@@@;_s_secondary20@Code/GameEngine/Source/GameLogic/Object/Contain/HealContainCtor.cpp,1,2
 0x00843EC0,16,.rdata,vtable,??_7Rva00220240FlatDtor@@6BRva00220240FlatDtorM1@@@,,literal,??_7Rva00220240FlatDtor@@6BRva00220240FlatDtorM1@@@;_s_secondary10@Code/GameEngine/Source/GameLogic/Object/Contain/HealContainCtor.cpp,1,2
 0x00843ED0,244,.rdata,vtable,??_7Rva00220240FlatDtor@@6BRva00039D6AFlatBase@@@,,literal,??_7Rva00220240FlatDtor@@6BRva00039D6AFlatBase@@@;_s_vtable@Code/GameEngine/Source/GameLogic/Object/Contain/HealContainCtor.cpp,1,2
