@@ -493,6 +493,17 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
             | python3 tools/data_check.py --converged --ref "$local_sha" --converged-base "$base" --sources-from - \
             || fail "data identity: a second name for a converged data address in outgoing sources (see above)"
     fi
+    # One shadow link comparison for the complete outgoing batch, after the
+    # byte gate has refreshed its objects. A stale census index is reported as
+    # inconclusive; neither it nor a missing receipt can prove a regression.
+    link_scope=$(mktemp) || fail "temporary link audit source list"
+    if [ "${#verify[@]}" -ne 0 ]; then
+        printf '%s\0' "${verify[@]}" > "$link_scope"
+    fi
+    BFME_SHADOW_BUDGET_S=60 shadow_cap python3 tools/link_batch_audit.py \
+        --base "$base" --tip "$local_sha" --sources-from "$link_scope" < /dev/null \
+        || echo "pre-push: link batch audit inconclusive (shadow check did not finish)" >&2
+    rm -f "$link_scope"
     # Replayed commits, SHADOW: an outgoing commit with the author, author date and
     # subject of one already upstream (a possible replay), or whose patch-id or added
     # ledger lines are already there (a replay). Seats re-pushed old commits 3,541 times

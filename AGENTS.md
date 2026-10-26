@@ -196,6 +196,10 @@ verified and easy to rebase. Detail for the hook rules:
   moves or consumers change. Core ledger repointing still accompanies each
   applied move. Checklist: `docs/consolidation.md` ("Tooling compatibility audit
   before pushing").
+- The pre-push hook runs `tools/link_batch_audit.py` once for the outgoing
+  source batch. Read its selected-provider, lost-byte and input-freshness
+  report. Investigate findings, carry inconclusive cases into the next census,
+  and record link obstacles in `docs/linking_obstacles.md`.
 - Never start, re-run or approve `tools/nightly_measure.py`, the nightly
   workflow (`.github/workflows/nightly-measure.yml`, `docs/nightly_actions.md`)
   or `tools/audit/run_nightly.cmd` (the maintainer's scheduled tasks). Ask a

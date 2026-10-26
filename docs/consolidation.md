@@ -184,9 +184,11 @@ after which no row would remain, a TU path holding rows the map places elsewhere
   has not placed stay in the file until it places them.
 - **TU paths that hold another TU's rows** are skipped by the queue for the same
   reason (`blocked: ... split it first`).
-- **Linking.** `tools/link_check.py` cannot preview a new path before a census
-  has seen it; an existing TU path is previewable. A merge that changes which
-  COMDAT copy a link keeps shows up in the next census.
+- **Linking.** The pre-push `tools/link_batch_audit.py` compares selected
+  providers and changed-unit unresolved symbols once across the outgoing
+  batch, using current object receipts. It reports stale inputs as inconclusive
+  and leaves consumer byte totals for the next census. Review its shadow
+  findings and update the shared linking obstacle register.
 
 ## Consolidation verification checks
 
