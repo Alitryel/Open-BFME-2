@@ -214,16 +214,8 @@ void BridgeScaffoldBehavior::reverseMotion( void )
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
 // ------------------------------------------------------------------------------------------------
-// ?loadPostProcess@BridgeScaffoldBehavior@@MAEXXZ present-unmatched
-void BridgeScaffoldBehavior::loadPostProcess( void )
-{
-
-	// extend base class
-	UpdateModule::loadPostProcess();
-
-}
-
-  // end loadPostProcess
+// BridgeScaffoldBehavior::loadPostProcess: no own body in retail; its vtable
+// slot 1 holds the shared fold 0x00497805 -> UpdateModule::loadPostProcess.
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeScaffoldBehavior_getBridgeScaffoldBehaviorInterfaceFromObject.cpp
 
