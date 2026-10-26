@@ -23,6 +23,7 @@
 // Coord3D: retail user ctors (member-wise copy ctor, 0x004216D3) plus ZH header-inline sub.
 #define COORD3D_VIEW_INLINE
 #include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+#include "SquishCollideView.h"
 class Object;
 class GeometryInfo 
 {
@@ -80,24 +81,11 @@ enum Relationship
  ENEMIES=0,NEUTRAL=1,ALLIES=2
 }
 ;
-enum NameKeyType 
-{
- NK_UNKNOWN=0
-}
-;
 enum WeaponSlotType 
 {
  SLOT_PRIMARY=0
 }
 ;
-class NameKeyGenerator
-{
- public:NameKeyType nameToKey(const char*);
- 
-}
-;
-extern NameKeyGenerator *TheNameKeyGenerator;
-class Module;
 class StateMachine 
 {
  public:Object* getGoalObject();
@@ -375,53 +363,6 @@ class Rva0028E8D4
 class Rva0028CECFOwner 
 {
  public:bool rva0028CECF();
- 
-}
-;
-class ModuleData;
-class Module 
-{
- public:virtual ~Module();
- protected:const ModuleData*m_data;
- 
-}
-;
-class ObjectModule:public Module 
-{
- protected:Object*m_object;
- Object*getObject()const
- {
-  return m_object;
-  
- }
- 
-}
-;
-class BehaviorModule:public ObjectModule 
-{
- 
-}
-;
-class BehaviorModuleInterface 
-{
- public:virtual void anchor();
- 
-}
-;
-class CollideModuleInterface 
-{
- public:virtual void onCollide(Object*,const Coord3D*,const Coord3D*)=0;
- 
-}
-;
-class CollideModule:public BehaviorModule,public BehaviorModuleInterface,public CollideModuleInterface 
-{
- 
-}
-;
-class SquishCollide: public CollideModule 
-{
- public:virtual void onCollide(Object*,const Coord3D*,const Coord3D*);
  
 }
 ;

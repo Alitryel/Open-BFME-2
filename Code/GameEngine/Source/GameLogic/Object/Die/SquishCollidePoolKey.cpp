@@ -9,24 +9,7 @@
 // static-guard EH prologue; globals are TU-local externs (DIR32 slots patch
 // from retail, no pins; nameToKey resolves via its matched row).
 
-enum NameKeyType
-{
-	NK_UNKNOWN = 0
-};
-
-class NameKeyGenerator
-{
-public:
-	NameKeyType nameToKey(const char *name);
-};
-
-extern NameKeyGenerator *TheNameKeyGenerator;
-
-class SquishCollide
-{
-public:
-	virtual NameKeyType getModuleNameKey() const;
-};
+#include "../Collide/SquishCollideView.h"
 
 // ?getModuleNameKey@SquishCollide@@UBE?AW4NameKeyType@@XZ
 NameKeyType SquishCollide::getModuleNameKey() const
