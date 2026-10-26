@@ -32,6 +32,7 @@ class AptNativeHash {
 public:
  AptNativeHash(int);
  void Set(const EAStringC *const,AptValue *const);
+ void DestroyGCPointers();
  static void *operator new(unsigned int size) {return ((Rva006DB160 *)g_pChainBlockAllocator)->allocBlock(size);}
  static void operator delete(void *p,unsigned int size) {g_pChainBlockAllocator->freeBlock(p,size);}
 };

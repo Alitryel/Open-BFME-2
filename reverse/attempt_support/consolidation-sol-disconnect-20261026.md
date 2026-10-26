@@ -52,3 +52,42 @@ composition with this interface mismatch.
 Both blocked verdicts are in reverse/re_attempts.log. These read-only trials
 provide no file reduction, debt retirement, recovered bytes or linked-byte
 gain. No maintainer-only runner was invoked.
+
+## Win32LocalFileSystem owner handoff
+
+The allocated Win32Device destination's current in-memory plan approves 22
+ordinary rows in four donors and four mixed files. Its parent-directory naming
+planner was refreshed and checked. The Device wide-list donor passes the
+frozen-file check. The older mechanical C2511 refusal is explained by current
+declarations: Common/Rva006047F3Family.cpp's LocalFileSystem base has `_v7`,
+while Win32LocalFileSystemGetFileListWide.cpp implements the const five-argument
+UnicodeString overload at native slot 7 (0x006050B9, 619 bytes). Common's
+FilenameList typedef is an AsciiString set; Device's same typedef names a
+UnicodeString set. The raw-buffer wide overload at slot 15 is a separate API.
+
+This requires the Common owner's interface/typedef reconciliation, preserving
+both native overloads, the slot-7 table binding, comparator owner 0x00037B40
+and existing comparator/set provider receipts. No Common source was claimed
+or edited and no speculative declaration was added to Device to mask the
+selected-view mismatch. The unchanged failed composition was not repeated.
+Record blocked and release the two Device file claims. Receipt:
+build/sol-localfs-plan-20261026.txt. This is an owner handoff, not an unblock.
+
+## Win32DIKeyboard owner handoff
+
+The allocated destination's current plan approves eight ordinary rows in two
+files, with no mixed or refused donors. Its parent planner and currency check
+pass, as do both frozen-file checks. One ordinary dry-run rejects the sole
+worker: GameLogic/AI/DirectInputKeyboardOpen.cpp expects DI8Obj/DIDevObj pointers
+with explicit `m_table` views, whereas the Device seed's same fields use
+IDirectInput8/IDirectInputDevice8 virtual interfaces. The selected class gives
+C2039 at the worker's `m_table` dereference. Receipt:
+build/sol-keyboard-trial-20261026.txt.
+
+The pointer offsets agree (0xE20/0xE24); that does not make the source interfaces
+interchangeable. Reconcile the worker with the existing interface, or agree
+on a shared complete interface with its GameLogic owner, preserving the
+create-device/format/cooperative-level/property/acquire slots and current
+data owners. No GameLogic source was claimed or edited. The Device destination
+claim was released after the blocked verdict. No row, provider or debt gain
+is claimed by this investigation.
