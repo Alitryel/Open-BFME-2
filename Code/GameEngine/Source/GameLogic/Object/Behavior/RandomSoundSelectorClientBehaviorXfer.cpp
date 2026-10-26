@@ -9,28 +9,9 @@
 // the ctor); donor is BFME1 RandomSoundSelectorClientBehavior (float m_randomSelection
 // plus uint m_lastFrame) which reroll 0x004CBCF2 and getSelectedValue 0x004CBD44 prove.
 
-class ClientFrameSubsystem; extern class GameClient *TheGameClient;
+#include "../../../GameClient/Drawable/Behavior/RandomSoundSelectorClientBehaviorView.h"
 
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-class Thing;
-class ModuleData;
-class Object;
+class ClientFrameSubsystem; extern class GameClient *TheGameClient;
 
 typedef float Real;
 Real GetGameClientRandomValueReal(Real lo, Real hi, char *file, int line);
@@ -49,47 +30,6 @@ public:
 };
 
 #define TheRva00DFE77C (*(Rva00DFE77CHolder **)&TheGameClient)
-
-struct RandomSoundSelectorClientBehaviorModuleDataView
-{
-	char m_pad[0x1DD];
-	bool m_rerollOnEveryFrame;
-};
-
-#include "../../../../Include/Common/BfmeXfer.h"
-
-class ObjectModule
-{
-public:
-	ObjectModule(Thing *thing, const ModuleData *moduleData);
-	virtual ~ObjectModule();
-	void xfer(Xfer *xfer);
-
-protected:
-	const ModuleData *m_moduleData;
-	Object *m_object;
-};
-
-class SoundSelectorSecondary
-{
-public:
-	virtual void secondarySlot();
-};
-
-class RandomSoundSelectorClientBehavior : public ObjectModule, public SoundSelectorSecondary
-{
-public:
-	RandomSoundSelectorClientBehavior(Thing *thing, const ModuleData *moduleData);
-
-protected:
-	virtual void xfer(Xfer *xfer);
-
-private:
-	void reroll();
-
-	float m_randomSelection;
-	unsigned int m_lastFrame;
-};
 
 void RandomSoundSelectorClientBehavior::xfer(Xfer *xfer)
 {
