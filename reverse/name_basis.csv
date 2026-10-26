@@ -2325,3 +2325,5 @@ param,Rva0028ECDBHost::rva0028ECDB::a,Rva0028ECDBHost::rva0028ECDB::position,inf
 local,Rva0028D796::rva0028D796::b,Rva0028D796::rva0028D796::currentRank,inferred,agree:nl-178218719199,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp,0x0028D796
 param,W3DTerrainLogic::Rva0027D815::x,W3DTerrainLogic::Rva0027D815::worldX,inferred,agree:nl-5ac777ac684d,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D815
 param,W3DTerrainLogic::Rva0027D815::y,W3DTerrainLogic::Rva0027D815::worldY,inferred,agree:nl-ba43b3926eef,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D815
+param,Rva0056574BFill::x,Rva0056574BFill::fillValue,inferred,agree:nl-ae78d54d314b,Code/GameEngine/Source/Common/Rva0056574BFill.cpp,0x0056574B
+local,Rva006C2D20Sink::rva006C2D20::p,Rva006C2D20Sink::rva006C2D20::writePosition,inferred,agree:nl-f334e8f8965d,Code/GameEngine/Source/Common/Rva006C2D20Describe.cpp,0x006C2D20

@@ -7,10 +7,10 @@
 // through honest pin Rva0052C404Construct at 0x0052C404.
 void __cdecl Rva0052C404Construct(void *d, const void *s);
 
-void *__cdecl Rva0056574BFill(void *first, unsigned int count, const void *x)
+void *__cdecl Rva0056574BFill(void *first, unsigned int count, const void *fillValue)
 {
 	char *cur = (char *)first;
 	for (; count > 0; --count, cur += 16)
-		Rva0052C404Construct(cur, x);
+		Rva0052C404Construct(cur, fillValue);
 	return cur;
 }

@@ -82,58 +82,58 @@ int Rva006C2D20Sink::rva006C2D20(const char *block, const char *buffer, unsigned
 	void *data = (void *)(block + 8);
 	char *end = (char *)buffer + bufferLength;
 	unsigned int baseLength = rva00031430(block, (char *)buffer, bufferLength);
-	char *p = (char *)buffer + baseLength;
-	if (p > buffer && p[-1] == m_lineEnd)
-		*--p = 0;
+	char *writePosition = (char *)buffer + baseLength;
+	if (writePosition > buffer && writePosition[-1] == m_lineEnd)
+		*--writePosition = 0;
 
 	unsigned int len;
 	if (((GeneralAllocatorDebug *)this)->rva006C25F0Run6(data, 3, (int)&len, 4, 0, 2)) {
 		unsigned int flags = len;
-		if (flags && end - p >= 0x18) {
-			strcpy(p, "flags:");
-			p += 6;
+		if (flags && end - writePosition >= 0x18) {
+			strcpy(writePosition, "flags:");
+			writePosition += 6;
 			if (flags & 1) {
-				strcpy(p, " high");
-				p += 5;
+				strcpy(writePosition, " high");
+				writePosition += 5;
 			}
 			if (flags & 2) {
-				strcpy(p, " end-fit");
-				p += 8;
+				strcpy(writePosition, " end-fit");
+				writePosition += 8;
 			}
-			*p++ = m_separator;
-			*p = 0;
+			*writePosition++ = m_separator;
+			*writePosition = 0;
 		}
 	}
 
 	len = 0x200;
 	char name[0x200];
 	if (((GeneralAllocatorDebug *)this)->rva006C25F0Run6(data, 5, (int)name, len, &len, 2) && len
-		&& (unsigned int)(end - p) >= len + 12) {
-		unsigned int charsWritten = _snprintf(p, end - p, "name: %s%c", name, m_separator);
-		p += charsWritten;
+		&& (unsigned int)(end - writePosition) >= len + 12) {
+		unsigned int charsWritten = _snprintf(writePosition, end - writePosition, "name: %s%c", name, m_separator);
+		writePosition += charsWritten;
 	}
 
 	SourceLocation loc;
 	if (((GeneralAllocatorDebug *)this)->rva006C25F0Run6(data, 6, (int)&loc, 8, 0, 2)) {
-		if ((unsigned int)(end - p) >= strlen(loc.file) + 0x16) {
-			unsigned int charsWritten = _snprintf(p, end - p, "loc: %s, %d%c", loc.file, loc.line, m_separator);
-			p += charsWritten;
+		if ((unsigned int)(end - writePosition) >= strlen(loc.file) + 0x16) {
+			unsigned int charsWritten = _snprintf(writePosition, end - writePosition, "loc: %s, %d%c", loc.file, loc.line, m_separator);
+			writePosition += charsWritten;
 		}
 	}
 
 	unsigned long stack[0x18];
 	if (((GeneralAllocatorDebug *)this)->rva006C25F0Run6(data, 7, (int)stack, 0x60, &len, 2)) {
 		unsigned int stackLen = len;
-		if (stackLen && end - p > 0x20) {
-			strcpy(p, "stack: ");
-			p += 7;
-			p += Rva006C50D0Describe(stack, stackLen >> 2, p, end - p - 4);
-			*p++ = m_separator;
-			*p = 0;
+		if (stackLen && end - writePosition > 0x20) {
+			strcpy(writePosition, "stack: ");
+			writePosition += 7;
+			writePosition += Rva006C50D0Describe(stack, stackLen >> 2, writePosition, end - writePosition - 4);
+			*writePosition++ = m_separator;
+			*writePosition = 0;
 		}
 	}
 
-	*p++ = m_lineEnd;
-	*p = 0;
+	*writePosition++ = m_lineEnd;
+	*writePosition = 0;
 	return 0;
 }
