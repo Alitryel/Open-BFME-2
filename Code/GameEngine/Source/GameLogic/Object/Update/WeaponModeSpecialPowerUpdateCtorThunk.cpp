@@ -24,8 +24,12 @@ class BehaviorModule
 {
 public:
 	virtual void behaviorModuleAnchor();
+
+protected:
+	// Match the existing BehaviorModule cleanup providers.
 	virtual ~BehaviorModule();
 
+public:
 	unsigned int m_04;
 	Object *m_object;							///< retail this+0x08
 };

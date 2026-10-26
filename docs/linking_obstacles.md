@@ -180,12 +180,18 @@ authored-byte previews or commit-title gains into a projected headline.
   all four requested objects current, both callers preview cleanly for their
   already-counted 422 bytes. This binding/ordinary-preview subset is cleared;
   no new headline gain or census confirmation is claimed.
-- **Remaining special-power prerequisite:** the actual destructor's unit
+- **Historical special-power prerequisite:** the actual destructor's unit
   `SpecialPowerModuleDtor_Unresolved.cpp` still conflicts on the two
   BehaviorModule vtables and the SpecialPowerModule vtable (three first-copy
   COMDAT findings). Reconcile those native class/table definitions before
   claiming the family's closed-strict or executable closure; the scoped
   evidence above records the exact names. The broader entry remains open.
+- **Follow-up verification (2026-10-25, after `aa31e9bac4`):** the dtor and its
+  14 public-spelling consumers now preview cleanly (1,434 B). The constructor
+  and WeaponMode consumer also need their local `BehaviorModule` destructor
+  declared protected to bind the existing providers. Both corrected views
+  byte-verify with exact EH; the constructor previews 340 B and WeaponMode
+  retains its previously linked 112 B. See the LINK-014 follow-up below.
 - **Native-interface/debt follow-up (2026-10-25, after `17d211067f`):**
   [the bounded zero-slot repair and ABI handoff](../reverse/attempt_support/behavior-zero-slot-hatch-20261025/readme.md)
   replaces one linker alias with a real, whole-body-verified C++ zero-result
@@ -546,7 +552,7 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
 
 ### LINK-013: INI consolidation made a non-retail `set<AsciiString, BfmeStringNoCaseLess>::insert_unique` the kept copy
 
-**Status: Repair landed / awaiting verification. Updated: 2026-10-25; inspected revision: d7fa8a31b.**
+**Status: Cleared in the eight-unit ordinary preview; census pending. Updated: 2026-10-25; inspected revision: aa31e9bac4.**
 
 - **Evidence / scope:** the census at f995f30157 lost the six units that call
   `_Rb_tree<AsciiString, …, BfmeStringNoCaseLess>::insert_unique` (row 0x0002C908, 153 B,
@@ -567,7 +573,11 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
     `INI::scanInt`, …) from `INI_ctor.obj` and `INI_scanInt.obj`. Those units were merged
     into INI.cpp after f995f30157, so these duplicates are stale-index artifacts, not this
     repair.
-- **Remaining / next check:** the next census confirms the six units. INI.cpp's own link
+- **Current-provider verification:** the LINK-014 follow-up checks all eight
+  insert_unique / _M_find units together and previews all 11,872 B clean,
+  including INI.cpp. The historical duplicate-index and __lower_bound
+  prerequisites below are cleared in that bounded check.
+- **Historical remaining / next check:** the next census confirms the six units. INI.cpp's own link
   also depends on the separate `__lower_bound` provider repair.
 - **Clearance:** preview scope only (five of six units against the f995f30157 index).
 - **Census confirmation:** awaiting the next census.
@@ -613,6 +623,34 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
   public-spelling ports.
 - **Clearance:** preview scope only (the units listed above and the 14 ports).
 - **Census confirmation:** awaiting the next census.
+
+#### Current-provider follow-up, 2026-10-25
+
+The [39-source verification](../reverse/attempt_support/link-regression-clusters-20261025.md)
+at `aa31e9bac4` plus the two consumer access corrections confirms the six
+historical regression clusters in ordinary preview. All eight AsciiString
+units link (11,872 B), as do htree (2,175 B), all three E8 owners (928 B),
+the FX template destructor (64 B), and BfmeConv499 (27 B). These are inherited
+repairs verified together, rather than additional changes made by this pass.
+
+The expanded check exposed two consumers of the public `BehaviorModule`
+destructor formerly emitted by the minimal SpecialPower view:
+`SpecialPowerModuleCtor.cpp` and `WeaponModeSpecialPowerUpdateCtorThunk.cpp`.
+Their local views now declare that destructor protected, matching the 16
+existing indexed providers. Normal verification passes 6/6 rows across both
+consumers and a provider, with both consumer EH graphs EXACT. The constructor
+links for 340 B; WeaponMode keeps its census-linked 112 B. No forwarding
+implementation or new alias is retained.
+
+The recorded combined result at that base is 32/39 clean units; six independent
+candidates and the broader DumbProjectile provider unit were blocked as detailed
+in the evidence. Concurrent upstream repairs in LINK-015 and LINK-016 supersede
+the VectorClass<Vector3> and XferSave residuals from that snapshot.
+OCL's protected SpecialPower destructor, findPositionAround and
+FindPositionOptions remain open. Float-format's attempted active append
+declaration triggers VC7.1 C1001; its alternate syntax fails C2768/C2244/C1506.
+Both float trials were restored. Broader family closure and census
+confirmation remain pending.
 
 ### LINK-015: naming `VectorClass<Vector3>`'s deleting destructor proved the consumers' inlined copies wrong
 

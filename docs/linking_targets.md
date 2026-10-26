@@ -50,7 +50,7 @@ Follow-up: **Recheck the existing repair and its prerequisites** before retrying
 | Unit | Matched bytes | Census blocker | Follow-up |
 | --- | ---: | --- | --- |
 | `MeshLoadContextAddLegacyMaterial.cpp` | 2,828 | Wrong selected | Recheck repair |
-| `stlport_float_format.cpp` | 2,620 | COMDAT losers | Recheck repair |
+| `stlport_float_format.cpp` | 2,620 | COMDAT losers | 2026-10-25: still blocked (2,619 current bytes); active append declaration hits VC7.1 C1001, alternate syntax rejected. Trials restored. [Evidence](../reverse/attempt_support/link-regression-clusters-20261025.md). |
 | `MaterialCollectorDestructor.cpp` | 1,686 | Wrong selected | Recheck repair |
 | `MaterialCollectorCollectMaterials.cpp` | 1,506 | Wrong selected | Recheck repair |
 | `PositionStartSpots.cpp` | 994 | Wrong selected | See LINK-006 map-metadata subset |
@@ -73,7 +73,7 @@ Each row retains the handoff's investigation lead alongside the census category.
 
 | Unit | Matched bytes | Census blocker | Follow-up / prerequisite |
 | --- | ---: | --- | --- |
-| `Rva0056616BCopyDeferred.cpp` | 481 | Wrong selected | Missing destructors and selected copy |
+| `Rva0056616BCopyDeferred.cpp` | 481 | Wrong selected | 2026-10-25: current 333 B parent still blocked by selected vector<BfmePod32> copy. [Evidence](../reverse/attempt_support/link-regression-clusters-20261025.md). |
 | `stlport_narrow_ostringstream_dtor.cpp` | 429 | COMDAT losers | STL conflicts; compiler C1001 |
 | `vector_class_vector3_ctor.cpp` | 218 | Wrong selected | LINK-015: preview links 194 B (2026-10-26); census pending |
 | `Rva001F9524Concat.cpp` | 185 | COMDAT losers | Symbol identity debt |
@@ -265,7 +265,7 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/GameEngine/Source/GameLogic/AI/StateMachineDefineState.cpp` | 233 | 4 (C=2, S=2) | Open |
 | `Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate.cpp` | 231 | 28 (U=17, C=6, S=5) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/Rva00240230VectorInsertOverflow_Rva00541d10.cpp` | 231 | 8 (U=2, C=3, S=3) | Open |
-| `Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleDtor_Unresolved.cpp` | 230 | 3 (C=3) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleDtor_Unresolved.cpp` | 230 | 3 (C=3) | 2026-10-25: aa31e9bac4 and paired current-provider checks clear 222 B and 14 public consumers (1,212 B); LINK-014. Census pending. |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00584405.cpp` | 225 | 3 (U=1, C=1, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva001506BF.cpp` | 222 | 8 (C=4, S=4) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva0015079D.cpp` | 222 | 8 (C=4, S=4) | Open |
@@ -370,7 +370,7 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva005FE3DC.cpp` | 45 | 3 (U=1, C=1, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/stlport_unguarded_insertion_sort_s4sortelem20.cpp` | 45 | 3 (U=2, S=1) | Open |
 | `Code/Libraries/Source/WWVegas/WWLib/stlport_numpunct_virtuals.cpp` | 44 | 4 (U=4) | Open |
-| `Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecialPower.cpp` | 40 | 3 (U=2, C=1) | Open |
+| `Code/GameEngine/Source/GameLogic/Object/SpecialPower/OCLSpecialPower.cpp` | 40 | 3 (U=2, C=1) | 2026-10-25: current-provider preview still has protected SpecialPower dtor, findPositionAround and FindPositionOptions blockers; LINK-014. |
 | `Code/Libraries/Source/WWVegas/WW3D2/decalsys.cpp` | 39 | 8 (U=8) | Open |
 | `Code/GameEngine/Source/GameLogic/Object/Behavior/ParkingPlaceBehavior.cpp` | 38 | 15 (U=8, C=6, S=1) | Open |
 | `Code/GameEngine/Source/GameLogic/Object/Update/DockUpdate/RailedTransportDockUpdate.cpp` | 37 | 10 (U=8, C=2) | Open |

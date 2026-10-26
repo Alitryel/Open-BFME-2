@@ -150,6 +150,8 @@ class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
 {
 public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
+protected:
+	// Use the existing base-cleanup providers' protected spelling.
 	virtual ~BehaviorModule();
 };
 
