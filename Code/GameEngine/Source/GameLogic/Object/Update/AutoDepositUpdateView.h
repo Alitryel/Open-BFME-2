@@ -74,4 +74,3 @@ protected:
 	bool m_awardInitialCaptureBonus; // +0x24
 	bool m_initialized; // +0x25
 };
-
