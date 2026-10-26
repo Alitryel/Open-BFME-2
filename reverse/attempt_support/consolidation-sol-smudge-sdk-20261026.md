@@ -97,3 +97,19 @@ Measurements for this prerequisite: Microsoft-header queue files -1, local
 Microsoft occurrences -6; file reduction 0; code/data identity debt retired 0;
 recovered/authored C++ bytes 0; newly accepted downstream rows 0. This is a
 verified header cleanup and narrower blocker handoff, not a linked-byte claim.
+
+## Recovery verification, 12:20 UTC
+
+The next session preserved and rebased all three inherited commits onto
+655f117955. The complete outgoing range contains three in-place source edits
+and evidence/queue updates, with no source moves or consumer path changes.
+The tooling compatibility audit therefore requires no repointing of active
+tools, hooks, workflows, includes, build inputs or registries.
+`./build.sh` on both Smudge sources and the Vector3 donor passes 12/12
+(including three verified funclet placements); declared-unmatched passes.
+The saved full-section and external-provider comparisons for Smudge, meshmdl
+and both buffer donors pass again against the current objects: code, data,
+relocations, COMDAT selections and undefined references retain the previously
+recorded equivalence and explicit SDK library-directive differences.
+All six inherited file claims are renewed pending publication. No new trial
+is part of this recovery commit; the runner publisher handles the batch.
