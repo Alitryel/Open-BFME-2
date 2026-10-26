@@ -673,7 +673,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/TransportAIUpdatePoolKey
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WanderAIUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004A9384@WanderAIUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03CA4
 Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterface_requestPath_Rva0026893F.cpp	wrong-name	?g_00DFEFF0@@3PAXA	0x009FEFF0
 Code/GameEngine/Source/GameLogic/Object/Update/AnimalAIUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00047EC1A@AnimalAIUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A0374C
-Code/GameEngine/Source/GameLogic/Object/Update/AnimatedParticleSysBoneClientUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004C900E@AnimatedParticleSysBoneClientUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A04320
+Code/GameEngine/Source/GameClient/Drawable/Update/AnimatedParticleSysBoneClientUpdate.cpp	wrong-name	?$S1@?1??rva0004C900E@AnimatedParticleSysBoneClientUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A04320
 Code/GameEngine/Source/GameLogic/Object/Update/ArrowStormUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004907F7@ArrowStormUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A039A4
 Code/GameEngine/Source/GameLogic/Object/Update/AssaultTransportAIUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00048F411@AssaultTransportAIUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03978
 Code/GameEngine/Source/GameLogic/Object/Update/AssistedTargetingUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000486E31@AssistedTargetingUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A038B0
