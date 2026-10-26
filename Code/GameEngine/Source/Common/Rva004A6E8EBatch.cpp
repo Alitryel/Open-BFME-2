@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva004A6E8E@Rva004A6EHolder@@QAE_NXZ 0x004A6E8E 56B and ?rva004A6EC6@Rva004A6EHolder@@QAE_NH@Z 0x004A6EC6 68B
+// ?loseOneBox@Rva004A6EHolder@@QAE_NXZ 0x004A6E8E 56B and ?gainOneBox@Rva004A6EHolder@@QAE_NH@Z 0x004A6EC6 68B
 // Two bool helpers sharing the rowed broadcast ?Rva0027164EBroadcast (0x0027164E) via BuildListInfo::getDesiredGatherers.
 // this is interior (Module at Object+0x3E0): [esi-0x3E0]=obj+0 (Aux with +0x64), [esi-0x3DC]=obj+4 (BuildListInfo), [esi+0x1C]=counter.
 // Honest address names; class identity unproven.
@@ -9,13 +9,13 @@ struct Rva004A6EAux { unsigned char m_pad[0x64]; int m_maxBoxes; };
 struct Rva004A6EObj { Rva004A6EAux* m_moduleData; BuildListInfo* m_04; };
 class Rva004A6EHolder {
 public:
-  bool rva004A6E8E();
-  bool rva004A6EC6(int unused);
+  bool loseOneBox();
+  bool gainOneBox(int unused);
 private:
   unsigned char m_pad[0x1c];
   int m_numberBoxes;
 };
-bool Rva004A6EHolder::rva004A6E8E()
+bool Rva004A6EHolder::loseOneBox()
 {
   if (m_numberBoxes == 0) return false;
   Rva004A6EObj* obj = (Rva004A6EObj*)((char*)this - 0x3e0);
@@ -26,7 +26,7 @@ bool Rva004A6EHolder::rva004A6E8E()
   draw->Rva0027164EBroadcast(obj->m_moduleData->m_maxBoxes, m_numberBoxes);
   return true;
 }
-bool Rva004A6EHolder::rva004A6EC6(int unused)
+bool Rva004A6EHolder::gainOneBox(int unused)
 {
   (void)unused;
   Rva004A6EObj* obj = (Rva004A6EObj*)((char*)this - 0x3e0);

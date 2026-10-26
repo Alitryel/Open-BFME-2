@@ -320,8 +320,8 @@ void W3DTerrainLogic::Rva0027D960(void *water, float *out)
 	for (; i < pointCount; ++i)
 	{
 		float xy[2];
-		Rva0027D960Water *w2 = (Rva0027D960Water *)water;
-		Rva0027D960Real *real1 = (Rva0027D960Real *)((char *)water + 0x18 + w2->m_inner18->m_off04);
+		Rva0027D960Water *pointWaterView = (Rva0027D960Water *)water;
+		Rva0027D960Real *real1 = (Rva0027D960Real *)((char *)water + 0x18 + pointWaterView->m_inner18->m_off04);
 		((Rva0007E016 *)real1)->rva0007E016((int)xy, i);
 		if (out[0] > xy[0])
 			out[0] = xy[0];
@@ -331,8 +331,8 @@ void W3DTerrainLogic::Rva0027D960(void *water, float *out)
 			out[1] = xy[1];
 		if (xy[1] > out[4])
 			out[4] = xy[1];
-		Rva0027D960Water *w3 = (Rva0027D960Water *)water;
-		Rva0027D960Real *real2 = (Rva0027D960Real *)((char *)water + 0x18 + w3->m_inner18->m_off04);
+		Rva0027D960Water *heightWaterView = (Rva0027D960Water *)water;
+		Rva0027D960Real *real2 = (Rva0027D960Real *)((char *)water + 0x18 + heightWaterView->m_inner18->m_off04);
 		float m_waterHeight = (float)real2->getFinal();
 		out[5] = m_waterHeight;
 		out[2] = m_waterHeight;

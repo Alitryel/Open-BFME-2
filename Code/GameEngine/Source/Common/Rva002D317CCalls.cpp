@@ -52,8 +52,8 @@ void Rva002D317C::rva002D317C(const float *position, const float *size, int c, i
 {
 	(void)c;
 	(void)d;
-	int ix0 = (int)(position[0] + 0.5f);
-	int iy0 = (int)(position[1] + 0.5f);
+	int radarX = (int)(position[0] + 0.5f);
+	int radarY = (int)(position[1] + 0.5f);
 	int ix1 = (int)(size[0] + 0.5f);
 	int iy1 = (int)(size[1] + 0.5f);
 	int posX;
@@ -65,15 +65,15 @@ void Rva002D317C::rva002D317C(const float *position, const float *size, int c, i
 	if (rect[0] != posX || rect[1] != posY)
 		m_window->winSetPosition(rect[0], rect[1]);
 	m_window->winGetSize(&sizeW, &sizeH);
-	int w = rect[2] - rect[0];
-	if (w != sizeW || (rect[3] - rect[1]) != sizeH)
-		m_window->winSetSize(w, rect[3] - rect[1]);
-	if (ix0 == rect[0] && iy0 == rect[1] && ix1 == (rect[2] - rect[0]) && iy1 == (rect[3] - rect[1]))
-		TheRadar->unk1C(ix0, iy0, ix1, iy1, -1);
+	int windowWidth = rect[2] - rect[0];
+	if (windowWidth != sizeW || (rect[3] - rect[1]) != sizeH)
+		m_window->winSetSize(windowWidth, rect[3] - rect[1]);
+	if (radarX == rect[0] && radarY == rect[1] && ix1 == (rect[2] - rect[0]) && iy1 == (rect[3] - rect[1]))
+		TheRadar->unk1C(radarX, radarY, ix1, iy1, -1);
 	else
 	{
 		TheRadar->rva002D7BB7(rect);
-		TheRadar->unk1C(ix0, iy0, ix1, iy1, -1);
+		TheRadar->unk1C(radarX, radarY, ix1, iy1, -1);
 		TheRadar->rva002D7BD3();
 	}
 }

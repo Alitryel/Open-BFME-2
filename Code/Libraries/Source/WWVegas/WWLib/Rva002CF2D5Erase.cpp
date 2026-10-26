@@ -21,8 +21,8 @@ void Rva002CF2D5::_M_erase(Rva002CF2D5Node *node)
 {
 	while (node != 0) {
 		_M_erase(node->m_right);
-		Rva002CF2D5Node *y = node->m_left;
+		Rva002CF2D5Node *leftChild = node->m_left;
 		free(node);
-		node = y;
+		node = leftChild;
 	}
 }

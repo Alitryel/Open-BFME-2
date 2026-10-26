@@ -2366,3 +2366,13 @@ member,Rva002BEFE5::m_60,Rva002BEFE5::m_targetX,inferred,agree:nl-0ffefce57974,C
 member,Rva002BEFE5::m_68,Rva002BEFE5::m_targetZ,inferred,agree:nl-3794dc0709fa,Code/GameEngine/Source/Common/Rva002BEFE5.cpp,
 global,?g_00C37468@@3QBUFieldParse@@B,?g_logicTurnFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-529f8a2b6c22,Code/GameEngine/Source/Common/Rva003F8F2BParse.cpp,0x00837468
 member,Rva006FE400::m_p20,Rva006FE400::m_stringObject,inferred,agree:nl-1f9a0686b349,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,
+local,Rva002D317C::rva002D317C::ix0,Rva002D317C::rva002D317C::radarX,inferred,agree:nl-201a5b4ce5cb,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
+local,Rva002D317C::rva002D317C::iy0,Rva002D317C::rva002D317C::radarY,inferred,agree:nl-c8eb1217dbeb,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
+local,Rva002D317C::rva002D317C::w,Rva002D317C::rva002D317C::windowWidth,inferred,agree:nl-472f641d2a54,Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,0x002D317C
+function,?rva004A6E8E@Rva004A6EHolder@@QAE_NXZ,?loseOneBox@Rva004A6EHolder@@QAE_NXZ,inferred,agree:nl-80518d0fb22b,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6E8E
+carry,Rva004A6EHolder::rva004A6E8E::draw,Rva004A6EHolder::loseOneBox::draw,inferred,scope renamed by Rename rva004A6E8E to loseOneBox (inferred),Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6E8E
+function,?rva004A6EC6@Rva004A6EHolder@@QAE_NH@Z,?gainOneBox@Rva004A6EHolder@@QAE_NH@Z,inferred,agree:nl-9392c7641014,Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6EC6
+carry,Rva004A6EHolder::rva004A6EC6::draw,Rva004A6EHolder::gainOneBox::draw,inferred,scope renamed by Rename rva004A6EC6 to gainOneBox (inferred),Code/GameEngine/Source/Common/Rva004A6E8EBatch.cpp,0x004A6EC6
+local,W3DTerrainLogic::Rva0027D960::w2,W3DTerrainLogic::Rva0027D960::pointWaterView,inferred,agree:nl-5788f426d4b5,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D960
+local,W3DTerrainLogic::Rva0027D960::w3,W3DTerrainLogic::Rva0027D960::heightWaterView,inferred,agree:nl-0e15700da947,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,0x0027D960
+local,Rva002CF2D5::_M_erase::y,Rva002CF2D5::_M_erase::leftChild,inferred,agree:nl-2ea505c91064,Code/Libraries/Source/WWVegas/WWLib/Rva002CF2D5Erase.cpp,0x002CF2D5
