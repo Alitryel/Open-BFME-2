@@ -81,13 +81,29 @@ class BfmeAptValue006DCD20
 {
 public:
 	virtual void slot0();
+	virtual void release();
 	void rva006DD6C0(EAStringC *pBuffer);
+	int isArray() const;
+	BfmeAptValue006DCD20 *rva006DCFA0();
+	void rva006D9500(int nCapacity);
+	void SetAt(int nIndex, BfmeAptValue006DCD20 *pNewValue);
+	void rva006D95E0(int nIndex, BfmeAptValue006DCD20 *pValue);
+
+	// Existing array-view storage used by Rva006D94A0Cluster.cpp and
+	// AptArray_DestroyGCPointers.cpp; the comparator only passes pointers.
+	unsigned int m_flags;
+	char m_pad[0x18];
+	BfmeAptValue006DCD20 **m_data;
+	int mnCapacity;
+	int mnLength;
 };
 
 extern "C" int __cdecl strcmp(const char *left, const char *right);
 
-// _rva006D9D70Comparator
-extern "C" int __cdecl rva006D9D70Comparator(const void *a, const void *b)
+// _rva006D9D70Comparator. Keep C linkage in its declaration so the
+// definition follows the complete value view during TU composition.
+extern "C" int __cdecl rva006D9D70Comparator(const void *a, const void *b);
+int __cdecl rva006D9D70Comparator(const void *a, const void *b)
 {
 	BfmeAptValue006DCD20 *left = *(BfmeAptValue006DCD20 **)a;
 	BfmeAptValue006DCD20 *right = *(BfmeAptValue006DCD20 **)b;
