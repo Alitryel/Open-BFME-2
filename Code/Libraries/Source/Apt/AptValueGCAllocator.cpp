@@ -42,8 +42,12 @@ public:
  };
  unsigned int unused;
  Pool *first;
+ // CleanPool's matched body observes the live-item count at +0x14.
+ char m_pad08[12];
+ int mnItemsAllocated;
  AptValue *GetFirstAptValue();
  AptValue *GetNextAptValue(const AptValue *);
+ void CleanPool();
 };
 
 int Rva006CD3F0Get(void *);
