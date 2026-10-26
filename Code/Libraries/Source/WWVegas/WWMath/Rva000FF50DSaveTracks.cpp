@@ -17,17 +17,20 @@ extern "C" __declspec(dllimport) int __cdecl fclose(struct _iobuf *file);
 
 #include "../../../../../reference/shims/wwmath/Vector2.h"
 
+// These field spellings agree with the matched WaterTracksObj initializer.
+// Native save and init independently access type30, endpoints58/60, offset68
+// and nextB0; this reconciles the existing view without asserting a new class name.
 class WaterTracksObj
 {
 public:
 	char m_pad00[0x30];
-	int m_type;
+	int type;
 	char m_pad34[0x58 - 0x34];
-	Vector2 m_initStart;
-	Vector2 m_initEnd;
-	int m_initTimeOffset;
+	Vector2 initStart;
+	Vector2 initEnd;
+	int initOffset;
 	char m_pad6C[0xB0 - 0x6C];
-	WaterTracksObj *m_nextSystem;
+	WaterTracksObj *next;
 };
 
 class Rva000FF50D
@@ -55,14 +58,14 @@ void Rva000FF50D::saveTracks()
 		WaterTracksObj *track = m_used;
 		while (track != 0)
 		{
-			if (track->m_initTimeOffset == 0)
+			if (track->initOffset == 0)
 			{
-				fwrite(&track->m_initStart, 8, 1, file);
-				fwrite(&track->m_initEnd, 8, 1, file);
-				fwrite(&track->m_type, 4, 1, file);
+				fwrite(&track->initStart, 8, 1, file);
+				fwrite(&track->initEnd, 8, 1, file);
+				fwrite(&track->type, 4, 1, file);
 				++trackCount;
 			}
-			track = track->m_nextSystem;
+			track = track->next;
 		}
 		fwrite(&trackCount, 4, 1, file);
 		fclose(file);
