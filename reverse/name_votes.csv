@@ -7791,3 +7791,14 @@ Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp|param|computeCylinderEmis
 Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|member|Rva004BDB37|m_20,bca814d4fc98afacedc8191a,gpt-6.1-sol,w5-10261028-14,w-f0819d403c17,2026-10-26
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|bfmeFloorD|d,b5ddaa02bd7be0bd261cae60,gpt-6.1-sol,w5-10261028-16,w-f0819d403c17,2026-10-26
 Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapCastRay.cpp|local|bfmeCeilD|d,9278ca595e4a85f6f1553244,gpt-6.1-sol,w5-10261028-16,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|a,70f12c86294a36743d9cd3a8,gpt-6.1-sol,w2-10261035-1,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva001F51AD.cpp|local|Rva001F51AD::rva001F51AD|b,d2ce5271cfba5732a9f27e9f,gpt-6.1-sol,w2-10261035-1,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp|param|Rva002F57E6Query::rva002F57E6|b,0d08dbafc8648b293e78254f,gpt-6.1-sol,w2-10261035-4,w-dce04682aaeb,2026-10-26
+Code/Libraries/Source/Apt/Rva006F7600Remove.cpp|function|0x006F7660|rva006F7660,073843bcc2141b20fde9377d,gpt-6.1-sol,w2-10261035-8,w-dce04682aaeb,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp|function|0x001F696E|Rva001F696EPut,52e1da576ebca8c0989219e3,gpt-6.1-sol,w2-10261035-10,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva006ED1E0Cluster.cpp|local|Rva006ED2A0Base::~Rva006ED2A0Base|p,90784da6a69ea156e9487dcf,gpt-6.1-sol,w2-10261035-11,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|member|Rva0049355E|m_18,2f1b4bf23a2211302a051e81,gpt-6.1-sol,w2-10261035-12,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp|function|0x005FD956|rva005FD956,f9ca146738582d9f06ba9fe7,gpt-6.1-sol,w2-10261035-14,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002DA153Scale.cpp|local|Rva002DA153::rva002DA153|t,46f43bd6014c04c0cc940f17,gpt-6.1-sol,w2-10261035-15,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002DA153Scale.cpp|local|Rva002DA153::rva002DA153|v,88673bb7e27b946241f7f1d0,gpt-6.1-sol,w2-10261035-15,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002DA153Scale.cpp|local|Rva002DA153::rva002DA153|c,dd6b8f86d268bc167646d8ba,gpt-6.1-sol,w2-10261035-15,w-dce04682aaeb,2026-10-26

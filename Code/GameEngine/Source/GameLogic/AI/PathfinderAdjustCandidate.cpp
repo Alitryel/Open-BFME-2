@@ -18,10 +18,10 @@ public:
 };
 class Rva002F57E6Query {
 public:
- bool rva002F57E6(unsigned int a,unsigned int b,unsigned char mode,unsigned int x,int y,unsigned int layer,unsigned int radius,unsigned char center,Rva002F70E5Coord *destination,float originalZ,int *word);
+ bool rva002F57E6(unsigned int a,unsigned int locomotorSet,unsigned char mode,unsigned int x,int y,unsigned int layer,unsigned int radius,unsigned char center,Rva002F70E5Coord *destination,float originalZ,int *word);
  char pad[0x24]; int minX,minY,maxX,maxY;
 };
-bool Rva002F57E6Query::rva002F57E6(unsigned int a,unsigned int b,unsigned char mode,unsigned int x,int y,unsigned int layer,unsigned int radius,unsigned char center,Rva002F70E5Coord *destination,float originalZ,int *word) {
+bool Rva002F57E6Query::rva002F57E6(unsigned int a,unsigned int locomotorSet,unsigned char mode,unsigned int x,int y,unsigned int layer,unsigned int radius,unsigned char center,Rva002F70E5Coord *destination,float originalZ,int *word) {
  Pathfinder *pathfinder=(Pathfinder *)this; Object *object=(Object *)a;
  PathfindCell *cell=pathfinder->getCell((PathfindLayerEnum)layer,(int)x,y);
  if(!cell) return false;

@@ -2475,3 +2475,5 @@ param,DelegateDesc::f,DelegateDesc::functorMethod,inferred,agree:nl-885fb3c8def8
 param,MakeBinding::f,MakeBinding::callbackMethod,inferred,agree:nl-b5fa299bed18,Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,
 member,Rva004BDB37::m_20,Rva004BDB37::m_curDamageState,inferred,agree:nl-9dc73ace9f50,Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp,
 class,Rva0014D887Inner,ID3DXEffectVtbl,inferred,agree:nl-2fc9af9871ef,Code/GameEngine/Source/Common/Rva0014D887Init.cpp,
+param,Rva002F57E6Query::rva002F57E6::b,Rva002F57E6Query::rva002F57E6::locomotorSet,inferred,agree:nl-2bed03229087,Code/GameEngine/Source/GameLogic/AI/PathfinderAdjustCandidate.cpp,0x002F57E6
+function,?rva006F7660@Rva006F7600@@QAEPAXH@Z,?getMask@Rva006F7600@@QAEPAXH@Z,inferred,agree:nl-a9268ecf4c14,Code/Libraries/Source/Apt/Rva006F7600Remove.cpp,0x006F7660

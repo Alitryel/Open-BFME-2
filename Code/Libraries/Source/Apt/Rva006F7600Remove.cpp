@@ -8,7 +8,7 @@ class Rva006F7600
 {
 public:
     void remove(int i);
-    void *rva006F7660(int i);
+    void *getMask(int i);
     void rva006F7570(struct Rva006F7570Item *pItem);
 private:
     friend class AptAnimationPoolData;
@@ -61,11 +61,11 @@ void Rva006F7600::rva006F7570(Rva006F7570Item *pItem)
     ++m_nElements;
 }
 
-// ?rva006F7660@Rva006F7600@@QAEPAXH@Z @0x006F7660 62B. Ghidra-unlisted
+// ?getMask@Rva006F7600@@QAEPAXH@Z @0x006F7660 62B. Ghidra-unlisted
 // checked element read of the same 32-slot array: the AptDisplayList.cpp
 // line 0x555 "i >= 0 && i < nElements" assert (retail texts), then slot i;
 // the asm breakpoint keeps the load after it, as native.
-void *Rva006F7600::rva006F7660(int i)
+void *Rva006F7600::getMask(int i)
 {
     if (i < 0 || i >= m_nElements) {
         g_bfmeAptAssertAtE17734("i >= 0 && i < nElements", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp", 0x555);
