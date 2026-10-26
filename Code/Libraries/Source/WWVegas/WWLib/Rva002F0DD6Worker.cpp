@@ -42,7 +42,7 @@ public:
 struct Rva002F1DDCIter
 {
 	Rva002F1DDCNode *node;
-	Rva002F1DDCIter(Rva002F1DDCNode *p) : node(p) {}
+	Rva002F1DDCIter(Rva002F1DDCNode *treeNode) : node(treeNode) {}
 };
 
 class Rva002F1DDCTree

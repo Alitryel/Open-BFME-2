@@ -17,7 +17,7 @@ struct Rva000ECF79Data {
 struct Rva000ECF79Type {
  void *mesh; Vector3 offset; SphereClass bounds; const void *data;
  unsigned char gap24[0x20]; unsigned char shadow; unsigned char alignment[3];
- AsciiString textureName,modelName,nameC,nameD; int field58;
+ AsciiString textureName,modelName,nameC,nameD; int m_morphTreeType;
 };
 struct Rva000ECF79Tree {
  Vector3 location; float scale; Matrix3D transform;
@@ -26,7 +26,7 @@ struct Rva000ECF79Tree {
  float pushAsideSource; float pushAsideDelta; Vector3 vector74;
  unsigned int lastFrame; float m_angularAccumulation; bool flag88; unsigned char gap89[3]; int m_options;
  Matrix3D matrix90; int m_sinkFramesLeft; bool flagc4; unsigned char gapc5[3];
- int fieldc8,typecc,fieldd0,fieldd4,fieldd8,fielddc,fielde0,fielde4;
+ int m_morphState,typecc,fieldd0,m_morphFramesLeft,fieldd8,fielddc,m_alpha,m_targetAlpha;
 };
 extern float GetGameClientRandomValueReal(float,float,char*,int);
 extern int GetGameClientRandomValue(int,int,char*,int);
@@ -72,7 +72,7 @@ void W3DTreeBuffer::addTree(unsigned int id,Rva000ECF79Coord location,float scal
   if(type<0) return;
   needUpdate=true;
  }
- types[type].field58=rva000ECDF5(data->name48,shadowKind,textureName);
+ types[type].m_morphTreeType=rva000ECDF5(data->name48,shadowKind,textureName);
  float randomScale=GetGameClientRandomValueReal(1.0f-randomScaleAmount,1.0f+randomScaleAmount,
   "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\W3DTreeBuffer.cpp",0x2a7);
  trees[numTrees].transform=*transform;
@@ -81,7 +81,7 @@ void W3DTreeBuffer::addTree(unsigned int id,Rva000ECF79Coord location,float scal
  trees[numTrees].location=Vector3(location.x,location.y,location.z);
  trees[numTrees].treeType=type;
  trees[numTrees].typecc=type;
- trees[numTrees].fieldd0=types[type].field58;
+ trees[numTrees].fieldd0=types[type].m_morphTreeType;
  trees[numTrees].bounds=types[type].bounds;
  scaleBounds(trees[numTrees].bounds.Center,trees[numTrees].scale);
  trees[numTrees].bounds.Radius*=trees[numTrees].scale;
@@ -94,13 +94,13 @@ void W3DTreeBuffer::addTree(unsigned int id,Rva000ECF79Coord location,float scal
   "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\W3DTreeBuffer.cpp",0x2c3);
  trees[numTrees].pushAside=0;
  trees[numTrees].lastFrame=0;
- trees[numTrees].fieldc8=0;
- trees[numTrees].fielde0=255;
- trees[numTrees].fielde4=255;
+ trees[numTrees].m_morphState=0;
+ trees[numTrees].m_alpha=255;
+ trees[numTrees].m_targetAlpha=255;
  trees[numTrees].flagc4=false;
  trees[numTrees].fieldd8=0;
  trees[numTrees].fielddc=0;
- trees[numTrees].fieldd4=0;
+ trees[numTrees].m_morphFramesLeft=0;
  trees[numTrees].pushAsideSource=0;
  trees[numTrees].pushAsideDelta=0;
  trees[numTrees].vector74.Set(0,0,0);

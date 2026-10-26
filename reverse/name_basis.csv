@@ -2348,3 +2348,9 @@ carry,?swapNodes@Rva0032AAEE@@QAEXHH@Z,?swapNodes@IndexedList@@QAEXHH@Z,inferred
 carry,Rva0032AAEE::swapNodes::savedIndex,IndexedList::swapNodes::savedIndex,inferred,scope renamed by Rename Rva0032AAEE to IndexedList (inferred),Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
 carry,Rva0032AAEE::swapNodes::firstIndex,IndexedList::swapNodes::firstIndex,inferred,scope renamed by Rename Rva0032AAEE to IndexedList (inferred),Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
 carry,Rva0032AAEE::swapNodes::secondIndex,IndexedList::swapNodes::secondIndex,inferred,scope renamed by Rename Rva0032AAEE to IndexedList (inferred),Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineResolveName.cpp,0x0032AAEE
+member,Rva000ECF79Type::field58,Rva000ECF79Type::m_morphTreeType,inferred,agree:nl-5e20a71c694e,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+member,Rva000ECF79Tree::fieldc8,Rva000ECF79Tree::m_morphState,inferred,agree:nl-d6d5d583effa,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+member,Rva000ECF79Tree::fieldd4,Rva000ECF79Tree::m_morphFramesLeft,inferred,agree:nl-ed3d4585e1fa,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+member,Rva000ECF79Tree::fielde0,Rva000ECF79Tree::m_alpha,inferred,agree:nl-3a6c3657c90c,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+member,Rva000ECF79Tree::fielde4,Rva000ECF79Tree::m_targetAlpha,inferred,agree:nl-5e3506354cf2,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp,
+param,Rva002F1DDCIter::p,Rva002F1DDCIter::treeNode,inferred,agree:nl-116424f4d842,Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp,
