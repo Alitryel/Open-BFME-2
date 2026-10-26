@@ -1051,14 +1051,15 @@ def def_spans(text):
 
 
 # ---- file-scope data and brace blocks: definitions, never duplicated
-DATA_PREFIX = re.compile(r"^(?:extern|typedef|using|template|friend|class|struct|enum|union|static_assert|namespace)\b")
+DATA_PREFIX = re.compile(r"^(?:typedef|using|template|friend|class|struct|enum|union|static_assert|namespace)\b")
 
 
 def data_decls(text):
     """[(start, end, text, ident, internal)] of file-scope object definitions
     among the `;`-terminated chunks (`int g = 0;`, `static int s;`, `Foo *p;`):
-    a definition, so it may live in one file only. Prototypes, externs,
-    typedefs and type declarations are declarations and may be repeated."""
+    a definition, so it may live in one file only. An initialized `extern`
+    is also a definition. Prototypes, uninitialized externs, typedefs and
+    type declarations are declarations and may be repeated."""
     out, pos = [], 0
     for kind, c in chunks(text):
         at = text.find(c, pos)
@@ -1080,6 +1081,9 @@ def data_decls(text):
                 depth -= 1
             elif ch == "=" and depth == 0 and eq < 0 and s[i + 1:i + 2] != "=":
                 eq = i
+        external = bool(re.match(r"^extern\b", s))
+        if external and eq < 0:
+            continue            # an extern without an initializer is only a declaration
         if paren and not re.search(r"\(\s*\*\s*[A-Za-z_]\w*\s*\)", s[:eq if eq >= 0 else len(s)]):
             continue            # a prototype (or a function-pointer declarator, which is data)
         declarator = s[:eq] if eq >= 0 else s[:-1]
@@ -1088,7 +1092,8 @@ def data_decls(text):
         if not m or m.group(1) in ("return", "goto", "break", "continue"):
             continue
         tokens = declarator.split()
-        internal = tokens[0] == "static" or ("const" in tokens[:-1] and "*" not in declarator and "&" not in declarator)
+        internal = not external and (tokens[0] == "static" or
+                                     ("const" in tokens[:-1] and "*" not in declarator and "&" not in declarator))
         out.append((at, at + len(c), c, m.group(1), internal))
     return out
 
@@ -1214,7 +1219,9 @@ def carve(text, take, rowed=frozenset(), data_rowed=frozenset()):
                 return Carve(refused=f"file-scope static `{ident}` is used by carved and staying bodies")
             externs.append(ident)
             decl = re.sub(r"\s*=.*$", "", norm(c).rstrip(";"), flags=re.S)
-            extern_lines.append((b, f"extern {decl};"))
+            if not re.match(r"^extern\b", decl):
+                decl = "extern " + decl
+            extern_lines.append((b, decl + ";"))
             donor_cuts.append((a, b))
         elif used_out:
             data_moved.append(ident)

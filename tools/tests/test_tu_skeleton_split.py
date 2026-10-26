@@ -201,6 +201,37 @@ void C::c() { s_calls++; }
 
 
 class DataPlacementTests(unittest.TestCase):
+    def test_initialized_extern_table_moves_with_its_only_user(self):
+        text = ('extern const int table[] = { 1, 0 };\n'
+                'void moved() { use(table); }\nvoid stays() {}\n')
+        cv = T.carve(text, {0}, data_rowed={"table"})
+        self.assertIsNone(cv.refused)
+        self.assertEqual(cv.data_moved, ["table"])
+        self.assertIn('extern const int table[] = { 1, 0 };', cv.donor)
+        self.assertNotIn('table', cv.residual)
+
+    def test_initialized_extern_const_is_external_when_both_sides_use_it(self):
+        for definition in ('extern const int table[] = { 1, 0 };',
+                           'extern const int table = 1;'):
+            with self.subTest(definition=definition):
+                text = definition + '\nvoid moved() { use(table); }\nvoid stays() { use(table); }\n'
+                cv = T.carve(text, {0}, data_rowed={"table"})
+                self.assertIsNone(cv.refused)
+                self.assertEqual(cv.externs, ["table"])
+                self.assertIn(definition, cv.residual)
+                self.assertNotIn(definition, cv.donor)
+                self.assertNotIn('extern extern', cv.donor)
+                self.assertIn('extern const int table', cv.donor)
+
+    def test_uninitialized_externs_remain_declarations_on_both_sides(self):
+        text = ('extern const int table[];\nextern int counter;\n'
+                'void moved() { use(table); }\nvoid stays() { counter++; }\n')
+        cv = T.carve(text, {0})
+        self.assertEqual(T.data_decls(text), [])
+        for side in (cv.donor, cv.residual):
+            self.assertIn('extern const int table[];', side)
+            self.assertIn('extern int counter;', side)
+
     def spans(self):
         sp = T.def_spans(DATA)
         return sp, {T.head_names(c)[1] if k != "macro" and T.head_names(c) else c: i for i, (_, _, c, k) in enumerate(sp)}
