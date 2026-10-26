@@ -8143,3 +8143,13 @@ Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::R
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|param|W3DTerrainLogic::Rva0027D77D|y,cd30487bfee2d5e7893305a4,gpt-6.1-sol,w3-10261431-10,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp|local|W3DTerrainLogic::Rva0027D960|c,9279e8ec3e61e3752fdddf53,gpt-6.1-sol,w3-10261431-10,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/Rva00151632Dtor.cpp|class||Rva00151632Link,10c523b307983b9dfa836f18,gpt-6.1-sol,w3-10261431-13,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6126List::forEach|arg,4e8a9c113743a0363b454cda,gpt-6.1-sol,w6-10261450-2,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6194List::forEach|b,1d9581a37dabecc3c25c49ab,gpt-6.1-sol,w6-10261450-2,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva002B55F2ListenerWalks.cpp|param|Rva002B6194List::forEach|d,4f72144b2aa86849d7e86566,gpt-6.1-sol,w6-10261450-2,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::Restart|h,851fd3df04268d137ac582bf,gpt-6.1-sol,w6-10261450-8,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::Restart|q,65df0acb303f014dff54c82a,gpt-6.1-sol,w6-10261450-8,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/FormationTranslatorRva00431C9D.cpp|local|FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D|h,f4cab0910db999ea894e7cb6,gpt-6.1-sol,w6-10261450-8,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcementUnits.cpp|local|LivingWorldAutoResolveBattle::enumerateReinforcementUnits|p,f5369ff659f1c0e28a966fcb,gpt-6.1-sol,w6-10261450-11,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/SmallGaps/Rva007F9A40GetOrCreateSlot.cpp|param|BfmeMgrVPE::rva007F9A40GetOrCreateSlot|a4,629194aaa096af9fcea43687,gpt-6.1-sol,w6-10261450-13,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,717a8412ac8583a4bc7c573a,gpt-6.1-sol,w6-10261450-14,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva004E93E8Find.cpp|member|Glob004E93E8|m_860,afdd8d83250f8c2b0575c405,gpt-6.1-sol,w6-10261450-15,w-06f458dbecf5,2026-10-26
