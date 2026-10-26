@@ -16812,7 +16812,6 @@ uw_00761422,,0x00761422,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_0076142a,,0x0076142A,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5888
 uw_00761463,,0x00761463,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3416
 uw_0076150e,,0x0076150E,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4586
-uw_00761537,,0x00761537,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0076159b,,0x0076159B,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_0076160a,,0x0076160A,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L319
 uw_0076161c,,0x0076161C,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1029
@@ -17196,7 +17195,6 @@ uw_00769da1,,0x00769DA1,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;obje
 uw_00769db4,,0x00769DB4,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2603
 uw_00769e05,,0x00769E05,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6359
 uw_00769f76,,0x00769F76,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9869
-uw_00769f88,,0x00769F88,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00769fae,,0x00769FAE,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9995
 uw_0076a044,,0x0076A044,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9869
 uw_0076a056,,0x0076A056,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9869
@@ -17216,8 +17214,6 @@ uw_0076a56b,,0x0076A56B,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;obje
 uw_0076a588,,0x0076A588,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_0076a5e9,,0x0076A5E9,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2600
 uw_0076a6f3,,0x0076A6F3,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
-uw_0076a70d,,0x0076A70D,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4797
-uw_0076a71f,,0x0076A71F,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0076a73b,,0x0076A73B,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3166
 uw_0076a758,,0x0076A758,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L6026
 uw_0076a76a,,0x0076A76A,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -17549,7 +17545,6 @@ uw_00772bfa,,0x00772BFA,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;obje
 uw_00772c5c,,0x00772C5C,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11028
 uw_00772ca6,,0x00772CA6,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L7283
 uw_00772cfe,,0x00772CFE,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
-uw_00772d57,,0x00772D57,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4840
 uw_00772e40,,0x00772E40,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6433
 uw_00772e52,,0x00772E52,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1491
 uw_00772e86,,0x00772E86,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5897
@@ -17559,7 +17554,6 @@ uw_00772f1e,,0x00772F1E,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;obje
 uw_00772f4a,,0x00772F4A,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_00772f8f,,0x00772F8F,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7229
 uw_00772fb4,,0x00772FB4,11,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11101
-uw_00772fd4,,0x00772FD4,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00773097,,0x00773097,14,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11121
 uw_007730f2,,0x007730F2,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
 uw_00773146,,0x00773146,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3421
@@ -17663,7 +17657,6 @@ uw_007759a2,,0x007759A2,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;obje
 uw_007759aa,,0x007759AA,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3434
 uw_007759f0,,0x007759F0,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2911
 uw_00775a02,,0x00775A02,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3309
-uw_00775a17,,0x00775A17,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00775ad1,,0x00775AD1,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11294
 uw_00775b0a,,0x00775B0A,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L6424
 uw_00775b12,,0x00775B12,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L6434
@@ -17725,7 +17718,6 @@ uw_007766a9,,0x007766A9,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_00776739,,0x00776739,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3562
 uw_0077677d,,0x0077677D,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2948
 uw_007767bd,,0x007767BD,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3309
-uw_007767d2,,0x007767D2,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00776827,,0x00776827,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7665
 uw_00776839,,0x00776839,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7638
 uw_00776841,,0x00776841,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7647
@@ -17756,7 +17748,6 @@ uw_00776e06,,0x00776E06,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;obje
 uw_00776e18,,0x00776E18,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5852
 uw_00776e58,,0x00776E58,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5253
 uw_00776e60,,0x00776E60,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2603
-uw_00776eb5,,0x00776EB5,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5253
 uw_00776ebd,,0x00776EBD,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2603
 uw_00776f70,,0x00776F70,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00776fe9,,0x00776FE9,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2611
@@ -17766,8 +17757,6 @@ uw_00777025,,0x00777025,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;obj
 uw_00777057,,0x00777057,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2722
 uw_00777062,,0x00777062,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2725
 uw_0077707b,,0x0077707B,14,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9224
-uw_00777089,,0x00777089,14,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4947
-uw_00777097,,0x00777097,14,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4948
 uw_007770d9,,0x007770D9,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2882
 uw_007770e4,,0x007770E4,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2611
 uw_007770ef,,0x007770EF,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2613
@@ -17832,8 +17821,6 @@ uw_00778727,,0x00778727,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;obj
 uw_00778aec,,0x00778AEC,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7638
 uw_00778b18,,0x00778B18,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L12395
 uw_00778b69,,0x00778B69,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11711
-uw_00778b71,,0x00778B71,11,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4344
-uw_00778b7c,,0x00778B7C,11,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4347
 uw_00778c19,,0x00778C19,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_00778c21,,0x00778C21,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_00778c29,,0x00778C29,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2973
@@ -18049,7 +18036,6 @@ uw_0077cb74,,0x0077CB74,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obje
 uw_0077cb86,,0x0077CB86,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_0077cbaf,,0x0077CBAF,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4998
 uw_0077cbd5,,0x0077CBD5,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11915
-uw_0077cbfb,,0x0077CBFB,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0077cc0d,,0x0077CC0D,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1419
 uw_0077cc1f,,0x0077CC1F,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4998
 uw_0077cc77,,0x0077CC77,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4998
@@ -18087,7 +18073,6 @@ uw_0077d4d0,,0x0077D4D0,11,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;obj
 uw_0077d4f0,,0x0077D4F0,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9857
 uw_0077d521,,0x0077D521,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11925
 uw_0077d53b,,0x0077D53B,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2884
-uw_0077d6c0,,0x0077D6C0,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0077d6c8,,0x0077D6C8,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2881
 uw_0077d701,,0x0077D701,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
 uw_0077d709,,0x0077D709,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -18286,7 +18271,6 @@ uw_007814ef,,0x007814EF,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;obje
 uw_00781501,,0x00781501,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1455
 uw_00781536,,0x00781536,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6469
 uw_00781702,,0x00781702,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3309
-uw_00781717,,0x00781717,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0078181d,,0x0078181D,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2706
 uw_007819fa,,0x007819FA,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00781a43,,0x00781A43,14,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L11743
@@ -18467,7 +18451,6 @@ uw_00784334,,0x00784334,8,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;obje
 uw_007843e6,,0x007843E6,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L3363
 uw_0078440e,,0x0078440E,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2596
 uw_007844b0,,0x007844B0,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7800
-uw_007844d7,,0x007844D7,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_007844ea,,0x007844EA,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3568
 uw_0078452b,,0x0078452B,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L2881
 uw_0078455d,,0x0078455D,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3425
@@ -18475,7 +18458,6 @@ uw_00784565,,0x00784565,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;obje
 uw_00784591,,0x00784591,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L3566
 uw_007845a6,,0x007845A6,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7800
 uw_007845d8,,0x007845D8,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3498
-uw_007845ea,,0x007845EA,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_007845fc,,0x007845FC,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0078464f,,0x0078464F,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
 uw_00784685,,0x00784685,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7800
@@ -18543,7 +18525,6 @@ uw_00785881,,0x00785881,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;obje
 uw_0078597d,,0x0078597D,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7620
 uw_00785a07,,0x00785A07,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L8722
 uw_00785a3b,,0x00785A3B,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
-uw_00785a4d,,0x00785A4D,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5577
 uw_00785a74,,0x00785A74,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5577
 uw_00785b0f,,0x00785B0F,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
 uw_00785be6,,0x00785BE6,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L315
@@ -18645,7 +18626,6 @@ uw_00787281,,0x00787281,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;obj
 uw_007872a1,,0x007872A1,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_007872b3,,0x007872B3,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L9857
 uw_007872d9,,0x007872D9,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L7800
-uw_00787318,,0x00787318,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_0078732a,,0x0078732A,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
 uw_0078733c,,0x0078733C,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_0078734e,,0x0078734E,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -19211,7 +19191,6 @@ uw_00792448,,0x00792448,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obje
 uw_0079251c,,0x0079251C,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5100
 uw_00792524,,0x00792524,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2709
 uw_0079252f,,0x0079252F,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2712
-uw_0079257a,,0x0079257A,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5253
 uw_00792582,,0x00792582,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2598
 uw_0079262e,,0x0079262E,11,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L1998
 uw_00792666,,0x00792666,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -19462,7 +19441,6 @@ uw_00797cd7,,0x00797CD7,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;obj
 uw_00797d10,,0x00797D10,11,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2596
 uw_00797d55,,0x00797D55,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_00797d71,,0x00797D71,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3154
-uw_00797db9,,0x00797DB9,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5607
 uw_00797ddd,,0x00797DDD,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_00797e16,,0x00797E16,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3154
 uw_00797e5e,,0x00797E5E,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L320
@@ -19526,7 +19504,6 @@ uw_0079951b,,0x0079951B,11,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obj
 uw_007996b1,,0x007996B1,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L3362
 uw_007996e0,,0x007996E0,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5120
 uw_00799705,,0x00799705,11,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L10281
-uw_0079972c,,0x0079972C,11,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4331
 uw_00799777,,0x00799777,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4775
 uw_00799789,,0x00799789,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L12285
 uw_00799791,,0x00799791,11,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4777
@@ -20110,7 +20087,6 @@ uw_007a4278,,0x007A4278,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;obje
 uw_007a42ac,,0x007A42AC,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3698
 uw_007a42c6,,0x007A42C6,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3707
 uw_007a42f2,,0x007A42F2,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5048
-uw_007a430f,,0x007A430F,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L5048
 uw_007a434f,,0x007A434F,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L2595
 uw_007a43f3,,0x007A43F3,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L3507
 uw_007a4426,,0x007A4426,11,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L7016
@@ -98251,3 +98227,27 @@ $L4676,,0x00776362,8,Code/Libraries/Source/WWVegas/WWLib/stlport_list_002b8ff3_f
 $L4135,,0x0076F1CD,8,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00222C5A.cpp,matched,gen-funclet;parent=??1?$pair@$$CBVAsciiString@@UTreeHintRef00222C5A@@@_STL@@QAE@XZ; Matched parent 0x00222C5A's EH graph is EXACT (eh_verify) and binds compiler label $L4135 to retail Unwind@00b6f1cd 0x76F1CD; replaces generated uw_0076f1cd
 $L4816,,0x00779853,8,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00304bef.cpp,matched,gen-funclet;parent=??0?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@QAE@ABU01@@Z; Matched parent 0x00303DDF's EH graph is EXACT (eh_verify) and binds compiler label $L4816 to retail Unwind@00b79853 0x779853; replaces generated uw_00779853
 $L6758,,0x00787DE3,8,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00436e3b.cpp,matched,gen-funclet;parent=??0?$pair@$$CBVAsciiString@@UTreeHintOpaque0043671B@@@_STL@@QAE@ABU01@@Z; Matched parent 0x00435DAA's EH graph is EXACT (eh_verify) and binds compiler label $L6758 to retail Unwind@00b87de3 0x787DE3; replaces generated uw_00787de3
+$L1547,,0x007845EA,8,Code/GameEngine/Source/Common/BfmeRectVNH_ctor.cpp,matched,gen-funclet;parent=??0BfmeRectVNH@@QAE@IABVAsciiString@@D@Z; Matched parent 0x003FD498's EH graph is EXACT (eh_verify) and binds compiler label $L1547 to retail Unwind@00b845ea 0x7845EA; replaces generated uw_007845ea
+$L6214,,0x00776EB5,8,Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB05.cpp,matched,gen-funclet;parent=??1Rva002C6354@@UAE@XZ; Matched parent 0x002C6354's EH graph is EXACT (eh_verify) and binds compiler label $L6214 to retail Unwind@00b76eb5 0x776EB5; replaces generated uw_00776eb5
+$L443,,0x00775A17,8,Code/GameEngine/Source/Common/RTS/PlayerRelationMapDtor_Rva002AD078.cpp,matched,gen-funclet;parent=??1PlayerRelationMap@@MAE@XZ; Matched parent 0x002AD078's EH graph is EXACT (eh_verify) and binds compiler label $L443 to retail Unwind@00b75a17 0x775A17; replaces generated uw_00775a17
+$L443,,0x00781717,8,Code/GameEngine/Source/Common/RTS/TeamRelationMapDtor_Rva003A2563.cpp,matched,gen-funclet;parent=??1TeamRelationMap@@MAE@XZ; Matched parent 0x003A2563's EH graph is EXACT (eh_verify) and binds compiler label $L443 to retail Unwind@00b81717 0x781717; replaces generated uw_00781717
+$L4807,,0x00761537,8,Code/GameEngine/Source/Common/Rva000AAD26FamilyDtors.cpp,matched,gen-funclet;parent=??1EventParameter@@UAE@XZ; Matched parent 0x000B6971's EH graph is EXACT (eh_verify) and binds compiler label $L4807 to retail Unwind@00b61537 0x761537; replaces generated uw_00761537
+$L419,,0x00769F88,8,Code/GameEngine/Source/Common/Rva001E3E43CopyCtor.cpp,matched,gen-funclet;parent=??0Rva001E3E43@@QAE@ABV0@@Z; Matched parent 0x001E4641's EH graph is EXACT (eh_verify) and binds compiler label $L419 to retail Unwind@00b69f88 0x769F88; replaces generated uw_00769f88
+$L4749,,0x0076A70D,8,Code/GameEngine/Source/Common/Rva001ED41BConstructor.cpp,matched,gen-funclet;parent=??0Rva001ED41B@@QAE@XZ; Matched parent 0x001ED3C0's EH graph is EXACT (eh_verify) and binds compiler label $L4749 to retail Unwind@00b6a70d 0x76A70D; replaces generated uw_0076a70d
+$L4689,,0x0076A71F,8,Code/GameEngine/Source/Common/Rva001ED41BDtor.cpp,matched,gen-funclet;parent=??1Rva001ED41B@@UAE@XZ; Matched parent 0x001ED41B's EH graph is EXACT (eh_verify) and binds compiler label $L4689 to retail Unwind@00b6a71f 0x76A71F; replaces generated uw_0076a71f
+$L1358,,0x007A430F,8,Code/GameEngine/Source/Common/Rva00221C15Dtor.cpp,matched,gen-funclet;parent=??1PlayerPanelMovieClip@Impl@DynamicAutoResolveDialog@StrategicInGameUI@@UAE@XZ; Matched parent 0x005EB095's EH graph is EXACT (eh_verify) and binds compiler label $L1358 to retail Unwind@00ba430f 0x7A430F; replaces generated uw_007a430f
+$L374,,0x00772D57,8,Code/GameEngine/Source/Common/Rva00261058Ctor.cpp,matched,gen-funclet;parent=??0Rva00261058@@QAE@PAVObject@@_N@Z; Matched parent 0x00261058's EH graph is EXACT (eh_verify) and binds compiler label $L374 to retail Unwind@00b72d57 0x772D57; replaces generated uw_00772d57
+$L362,,0x00772FD4,8,Code/GameEngine/Source/Common/Rva0026E7EADtor.cpp,matched,gen-funclet;parent=??1Rva0026E7EA@@UAE@XZ; Matched parent 0x0026E7EA's EH graph is EXACT (eh_verify) and binds compiler label $L362 to retail Unwind@00b72fd4 0x772FD4; replaces generated uw_00772fd4
+$L341,,0x007767D2,8,Code/GameEngine/Source/Common/Rva002BAEAB.cpp,matched,gen-funclet;parent=??1Rva002BAEAB@@QAE@XZ; Matched parent 0x002BAEAB's EH graph is EXACT (eh_verify) and binds compiler label $L341 to retail Unwind@00b767d2 0x7767D2; replaces generated uw_007767d2
+$L5894,,0x00777097,14,Code/GameEngine/Source/Common/Rva002CD169Ctor.cpp,matched,gen-funclet;parent=??0Rva002CD4A6@@QAE@XZ; Matched parent 0x002CD169's EH graph is EXACT (eh_verify) and binds compiler label $L5894 to retail Unwind@00b77097 0x777097; replaces generated uw_00777097
+$L5893,,0x00777089,14,Code/GameEngine/Source/Common/Rva002CD169Ctor.cpp,matched,gen-funclet;parent=??0Rva002CD4A6@@QAE@XZ; Matched parent 0x002CD169's EH graph is EXACT (eh_verify) and binds compiler label $L5893 to retail Unwind@00b77089 0x777089; replaces generated uw_00777089
+$L1370,,0x00778B7C,11,Code/GameEngine/Source/Common/Rva002E3EB8Permuted.cpp,matched,gen-funclet;parent=??0PolygonTrigger@@QAE@H@Z; Matched parent 0x002E3EB8's EH graph is EXACT (eh_verify) and binds compiler label $L1370 to retail Unwind@00b78b7c 0x778B7C; replaces generated uw_00778b7c
+$L1369,,0x00778B71,11,Code/GameEngine/Source/Common/Rva002E3EB8Permuted.cpp,matched,gen-funclet;parent=??0PolygonTrigger@@QAE@H@Z; Matched parent 0x002E3EB8's EH graph is EXACT (eh_verify) and binds compiler label $L1369 to retail Unwind@00b78b71 0x778B71; replaces generated uw_00778b71
+$L358,,0x0077CBFB,8,Code/GameEngine/Source/Common/Rva0033FF2BDtor.cpp,matched,gen-funclet;parent=??1Rva0033FF2B@@UAE@XZ; Matched parent 0x0033FF2B's EH graph is EXACT (eh_verify) and binds compiler label $L358 to retail Unwind@00b7cbfb 0x77CBFB; replaces generated uw_0077cbfb
+$L377,,0x0077D6C0,8,Code/GameEngine/Source/Common/Rva0034C5E0.cpp,matched,gen-funclet;parent=??0Rva0034C5E0@@QAE@XZ; Matched parent 0x00356FDC's EH graph is EXACT (eh_verify) and binds compiler label $L377 to retail Unwind@00b7d6c0 0x77D6C0; replaces generated uw_0077d6c0
+$L587,,0x007844D7,8,Code/GameEngine/Source/Common/Rva003FAFB9Dtor.cpp,matched,gen-funclet;parent=??1Rva003FAFB9@@UAE@XZ; Matched parent 0x003FAFB9's EH graph is EXACT (eh_verify) and binds compiler label $L587 to retail Unwind@00b844d7 0x7844D7; replaces generated uw_007844d7
+$L348,,0x00785A4D,8,Code/GameEngine/Source/Common/Rva0040FB4ADtor.cpp,matched,gen-funclet;parent=??1Rva0040FB4A@@UAE@XZ; Matched parent 0x0040FB4A's EH graph is EXACT (eh_verify) and binds compiler label $L348 to retail Unwind@00b85a4d 0x785A4D; replaces generated uw_00785a4d
+$L360,,0x00787318,8,Code/GameEngine/Source/Common/Rva00426EB0Dtor.cpp,matched,gen-funclet;parent=??1Rva00426EB0@@UAE@XZ; Matched parent 0x00426EB0's EH graph is EXACT (eh_verify) and binds compiler label $L360 to retail Unwind@00b87318 0x787318; replaces generated uw_00787318
+$L350,,0x0079257A,8,Code/GameEngine/Source/Common/Rva004E9BC6Dtor.cpp,matched,gen-funclet;parent=??1Rva004E9B46@@UAE@XZ; Matched parent 0x004E9BC6's EH graph is EXACT (eh_verify) and binds compiler label $L350 to retail Unwind@00b9257a 0x79257A; replaces generated uw_0079257a
+$L327,,0x00797DB9,8,Code/GameEngine/Source/Common/Rva0054080ADtor.cpp,matched,gen-funclet;parent=??1Rva0054080A@@UAE@XZ; Matched parent 0x0054080A's EH graph is EXACT (eh_verify) and binds compiler label $L327 to retail Unwind@00b97db9 0x797DB9; replaces generated uw_00797db9
+$L3786,,0x0079972C,11,Code/GameEngine/Source/Common/Rva0055B048Ctor.cpp,matched,gen-funclet;parent=??0Rva0055B0CC@@QAE@XZ; Matched parent 0x0055B048's EH graph is EXACT (eh_verify) and binds compiler label $L3786 to retail Unwind@00b9972c 0x79972C; replaces generated uw_0079972c
