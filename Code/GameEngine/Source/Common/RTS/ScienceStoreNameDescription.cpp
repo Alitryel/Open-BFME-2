@@ -9,37 +9,7 @@
 
 #define NULL 0
 
-enum ScienceType
-{
-	SCIENCE_INVALID = -1
-};
-
-#include "unicode_string.h"
-
-
-class Overridable
-{
-public:
-	void *m_vftable;
-	Overridable *m_nextOverride;
-	int m_isOverride;
-	int m_third;
-};
-
-class ScienceInfo : public Overridable
-{
-public:
-	ScienceType m_science;
-	UnicodeString m_name;
-	UnicodeString m_description;
-};
-
-class ScienceStore
-{
-	const ScienceInfo *findScienceInfo(ScienceType st) const;
-public:
-	bool getNameAndDescription(ScienceType st, UnicodeString &name, UnicodeString &description) const;
-};
+#include "ScienceStoreQueryView.h"
 
 // ?getNameAndDescription@ScienceStore@@QBE_NW4ScienceType@@AAVUnicodeString@@1@Z
 bool ScienceStore::getNameAndDescription(ScienceType st, UnicodeString &name, UnicodeString &description) const

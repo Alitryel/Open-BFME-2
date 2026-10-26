@@ -8,18 +8,8 @@
 // TheScienceStore into ECX first; the body never reads it. Via rowed isEmpty
 // 0x00001E2F.
 #include "ascii_string.h"
-enum ScienceType { SCIENCE_INVALID = -1 };
-enum NameKeyType { NAMEKEY_INVALID = -1 };
-class NameKeyGenerator {
-public:
-	NameKeyType nameToKey(const AsciiString &str);
-};
+#include "RTS/ScienceStoreQueryView.h"
 extern NameKeyGenerator *TheNameKeyGenerator;
-
-class ScienceStore {
-public:
-	ScienceType getScienceFromInternalName(const AsciiString &name) const;
-};
 
 ScienceType ScienceStore::getScienceFromInternalName(const AsciiString &name) const
 {

@@ -5,14 +5,11 @@
 #include <utility>
 #include <vector>
 #include "ascii_string.h"
+#include "ScienceStoreQueryView.h"
 #include <map>
 #include <stl/_algobase.h>
 #include <algorithm>
 
-enum ScienceType
-{
-	SCIENCE_INVALID = -1
-};
 
 class Rva0043D3A8
 {
@@ -102,17 +99,6 @@ private:
 // It is Zero Hour's and BFME1's ScienceStore::getInternalNameForScience (BFME1
 // 0x000E71F0: the same invalid test, then NameKeyGenerator::keyToName).
 // RET8 accounts for the hidden return pointer and key, not a free ABI.
-enum NameKeyType
-{
-	NAMEKEY_INVALID = -1
-};
-
-class NameKeyGenerator
-{
-public:
-	const AsciiString &keyToName(NameKeyType key);
-};
-
 extern NameKeyGenerator *TheNameKeyGenerator;
 
 //
@@ -182,35 +168,6 @@ struct SciencePrereqGroup
 	ScienceType *m_capacity;
 };
 
-class ScienceInfo
-{
-	char m_pad[0x30];
-public:
-	bool m_grantable;
-};
-
-class ScienceStore
-{
-private:
-	const ScienceInfo *findScienceInfo(ScienceType st) const;
-public:
-	bool isScienceGrantable(ScienceType st) const;
-public:
-	bool playerHasPrereqsForScience(const Rva0043D3A8 *holder, ScienceType science) const;
-public:
-	int getSciencePurchaseCost(ScienceType science) const;
-public:
-	bool rva001FF4D3(Rva0043D3A8 *holder, ScienceType science) const;
-public:
-	bool isValidScience(ScienceType st) const;
-public:
-	AsciiString getInternalNameForScience(ScienceType science) const;
-public:
-	Bool playerHasRootPrereqsForScience( const Player *player, ScienceType st ) const;
-private:
-	Bool rva000E7C20SciencePrereqMemo( const Player *player, ScienceType st,
-		void *memo ) const;
-};
 
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
