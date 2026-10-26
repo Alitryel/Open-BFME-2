@@ -56,12 +56,13 @@ extern ThingFactory *TheThingFactory;
 class BfmeAwakenLog
 {
 public:
-	virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
-	virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
-	virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c();
-	virtual void v30(); virtual void v34(); virtual BfmeAwakenLog *v38(const char *message);
-	virtual void v3c(); virtual void v40(); virtual void v44(); virtual void v48();
-	virtual void v4c(int value);
+	virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0C();
+	virtual void slot10(); virtual void slot14(); virtual void slot18(); virtual void slot1C();
+	virtual void slot20(); virtual void slot24(); virtual void slot28(); virtual void slot2C();
+	virtual void slot30(); virtual void slot34();
+	virtual BfmeAwakenLog *slot38(const char *text);
+	virtual void slot3C(); virtual void slot40(); virtual void slot44(); virtual void slot48();
+	virtual void slot4C(int report);
 };
 
 class BfmeAwakenDebug
@@ -100,11 +101,12 @@ public:
 	Int rva000E8F9D(const AsciiString &templateName, Int shadowKind, const AsciiString &textureName);
 
 private:
-	unsigned char prefix[0x4fb6e];
-	bool m_needUpdate;
-	unsigned char alignment[1];
-	Rva000E8F9DTreeType m_treeTypes[64];
-	Int m_numTreeTypes;
+	unsigned char m_pad0000[0x4FB5C];
+	unsigned char m_4fb5c, m_4fb5d, m_4fb5e, m_4fb5f;
+	unsigned char m_pad4fb60[0x4FB6C - 0x4FB60];
+	unsigned char m_4fb6c, m_4fb6d, m_4fb6e, m_4fb6f;
+	unsigned char m_types[64 * 0x5C];
+	Int m_numTypes;
 };
 
 Int W3DShrubBuffer::rva000E8F9D(const AsciiString &asciiString, Int shadowKind, const AsciiString &textureName)
@@ -122,16 +124,16 @@ Int W3DShrubBuffer::rva000E8F9D(const AsciiString &asciiString, Int shadowKind, 
 		if (bfmeRva000387C0()) {
 			_bfme_debugRecordCallsite(1);
 			TheBfmeAwakenDebug->v60();
-			TheBfmeAwakenDebug->v6c(0, 0, 0)->v38("Shrub ")->v38(thingTemplate->m_name.str())
-				->v38(" requires a W3DTreeDrawModule.\n")->v4c(2);
+			TheBfmeAwakenDebug->v6c(0, 0, 0)->slot38("Shrub ")->slot38(thingTemplate->m_name.str())
+				->slot38(" requires a W3DTreeDrawModule.\n")->slot4C(2);
 		}
 		return -2;
 	}
 
 	Int index = -2;
-	for (Int i = 0; i < m_numTreeTypes; ++i) {
-		if (((const StringBase<char> &)m_treeTypes[i].m_modelName).compareNoCase(*(const StringBase<char> *)&data->m_modelName) == 0 &&
-			((const StringBase<char> &)m_treeTypes[i].m_nameC).compareNoCase(*(const StringBase<char> *)&data->m_nameC) == 0) {
+	for (Int i = 0; i < m_numTypes; ++i) {
+		if (((const StringBase<char> &)reinterpret_cast<Rva000E8F9DTreeType *>(m_types)[i].m_modelName).compareNoCase(*(const StringBase<char> *)&data->m_modelName) == 0 &&
+			((const StringBase<char> &)reinterpret_cast<Rva000E8F9DTreeType *>(m_types)[i].m_nameC).compareNoCase(*(const StringBase<char> *)&data->m_nameC) == 0) {
 			index = i;
 			break;
 		}
@@ -139,7 +141,7 @@ Int W3DShrubBuffer::rva000E8F9D(const AsciiString &asciiString, Int shadowKind, 
 	if (index < 0) {
 		index = addTreeType(data->m_modelName, data->m_nameC, data, shadowKind, textureName, thingTemplate->m_name);
 		if (index >= 0)
-			m_needUpdate = true;
+			m_4fb6e = true;
 	}
 	return index;
 }
