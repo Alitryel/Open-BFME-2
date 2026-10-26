@@ -27,7 +27,7 @@ struct Rva00509E43Template
 	unsigned char m_pad118[0x11F - 0x118];
 	unsigned char m_flags11F;				// +0x11F
 	unsigned char m_pad120[0x610 - 0x120];
-	float m_610;							// +0x610
+	float m_shockwaveResistance;							// +0x610
 };
 
 class Rva00509E43Body
@@ -93,7 +93,7 @@ bool Made002CC8A4::rva00509E43(int a, Object *obj)
 		if (!obj->rva0028DB0F(nonZero))
 		{
 			objectTemplate = obj->m_template04;
-			if (!(objectTemplate->m_610 * 0.2f >= m_limit128) || (nonZero && (objectTemplate->m_flags11F & 0x80)))
+			if (!(objectTemplate->m_shockwaveResistance * 0.2f >= m_limit128) || (nonZero && (objectTemplate->m_flags11F & 0x80)))
 			{
 				if (!obj->m_link274 || (obj->m_link274->m_template04->m_flags114 & 0x2000))
 				{

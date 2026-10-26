@@ -174,9 +174,9 @@ void W3DModelDraw::rva000B7C24()
 	for (_STL::vector<AttachableSubModel>::const_iterator it = w3DModelDrawModuleData->m_attachableSubModels.begin();
 		it != w3DModelDrawModuleData->m_attachableSubModels.end(); ++it)
 	{
-		ModelConditionFlags tmp = m_conditionFlags17c;
-		tmp.rva000B3ED3(it->m_conditionMask);
-		if (!Rva00045473Equal(&tmp, &it->m_conditionValue))
+		ModelConditionFlags conditionFlags = m_conditionFlags17c;
+		conditionFlags.rva000B3ED3(it->m_conditionMask);
+		if (!Rva00045473Equal(&conditionFlags, &it->m_conditionValue))
 			continue;
 
 		Int bone = m_renderObject->Get_Bone_Index(it->m_boneName.str());

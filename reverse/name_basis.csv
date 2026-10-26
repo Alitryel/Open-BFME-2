@@ -2304,3 +2304,5 @@ function,?rva005DD7FB@GameStatsTable@@QBE_NI@Z,?isRowDirty@GameStatsTable@@QBE_N
 param,Rva00136794::Rva00136794::s1,Rva00136794::Rva00136794::mangledName,inferred,agree:nl-8f46495c0995,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
 param,Rva00136794::Rva00136794::f,Rva00136794::Rva00136794::scale,inferred,agree:nl-d8e76a517464,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
 param,Rva00136794::Rva00136794::r,Rva00136794::Rva00136794::options,inferred,agree:nl-c4235023ad46,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
+member,Rva00509E43Template::m_610,Rva00509E43Template::m_shockwaveResistance,inferred,agree:nl-67729e09473b,Code/GameEngine/Source/GameLogic/Object/Made002CC8A4Rva00509E43.cpp,
+local,W3DModelDraw::rva000B7C24::tmp,W3DModelDraw::rva000B7C24::conditionFlags,inferred,agree:nl-85f14f79aa22,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawAttachableSubModels.cpp,0x000B7C24
