@@ -66,3 +66,57 @@ cleanup. `./build.sh` remains 1/1 exact with two strings; data_check reports
 zero findings and the frozen-file check passes. This lowers data debt by one;
 code-identity debt and file count are unchanged. Rechecked the complete pending
 batch and staged cleanup: no source-path changes or affected path consumers.
+
+## Bounds data-owner prerequisite
+
+The bounds donor defined `g_aptBoxAtE180C4` for the address whose existing
+`reverse/data_ledger.csv` owner is `_g_bfmeD1206`, supplied by
+`Code/GameEngine/Source/Common/Rva008AC6C0Accumulate.cpp`. Removed the duplicate
+storage and declared that unchanged owner using its existing `BfmeQ1206` type
+and C linkage; the bounds body reads it through its local 24-byte matrix view.
+This assigns no new name and changes no provider source or layout.
+
+- `./build.sh Code/Libraries/Source/Apt/Rva006E1E30Cluster.cpp`: 1/1 exact
+  (197 bytes), two strings, one verified data row. Frozen-file checks pass.
+- `./build.sh Code/GameEngine/Source/Common/Rva008AC6C0Accumulate.cpp`: 1/1
+  exact; this is read-only provider verification, no cross-family source edit.
+- Before/after allowed_symbols: five code references unchanged in offsets,
+  kinds and targets. data_check object facts: all six data bindings retain
+  their addresses, with the obsolete name replaced by the ledger owner; only
+  the obsolete duplicate data definition disappears.
+- data_check: zero findings; converged check: ten addresses, zero second names
+  or unjudged references. `repair_queue.py retire data` on the bounds donor:
+  PASS, two keys retired, zero still found. check_csv passes (98,272 functions,
+  15,668 symbols, 2,215 data rows). Identity debt is unchanged.
+- Repeated the supported four-file scoped composition trial after the repair:
+  the same three sources / 25 rows are accepted; bounds still returns the
+  empty `compile:` rejection. Captured compiler diagnostics from attempted
+  combinations include an undeclared AptCIH, incompatible bfmeSubmit1283
+  argument count and missing BfmeAptValue006DCD20::isUndefined; these do not yet
+  isolate the final bounds rejection. Keep that compile prerequisite open.
+  The data repair alone does not claim another admitted row.
+
+Final batch audit: outgoing commits plus this staged repair contain no source
+renames, deletions or ledger path moves. The only added source-support path is
+DX8PolygonRendererVci.h, with its intended seed include and total-keeping hatch
+transfer audited in sol-b5-polygon-provider-20261026.md. No active path consumer
+requires repointing. Three data-register keys retired across the two separate
+cleanups; no identity debt retired, no C++ bytes recovered, no source-file
+reduction. Both compatible donor sets remain for Luna, not a confirmed landing.
+
+At this handoff the inherited three commits plus recovery checks and the new
+prerequisite/cleanup commits remain pending the shared publisher. Earlier
+publish attempts returned that another agent was pushing. File claims retained
+until confirmed publication: AptArray.cpp, AptObject/AptArrayConstructor_Unresolved.cpp;
+AptCIH.cpp, AptCIHLevel006E0B80.cpp, Rva006E1DD0Cluster.cpp,
+Rva006E1E30Cluster.cpp; dx8polygonrenderer.cpp, DX8PolygonRendererCtor.cpp,
+DX8PolygonRendererCopyCtor.cpp, DX8PolygonRendererVci.h (under their existing
+Apt or WWVegas/WW3D2 paths). Released all nine RVA claims from the reverted
+polygon trial. Release the ten file claims after the queued batch lands.
+
+Other unchanged allocated blockers inspected: UDP requires missing methods and
+m_socket/m_err views; NAT requires coherent NAT/PortNegotiationSchema views and
+request-donor strtok_unimported. No changes or claims remain for either. The
+previously documented linegrp blocker was not retried. MessageStream issue #116
+was left untouched. BFME 1 freshness remains the inherited handoff limitation;
+no false success receipt or submodule update was written.

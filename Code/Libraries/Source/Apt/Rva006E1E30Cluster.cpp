@@ -49,7 +49,9 @@ public:
 };
 
 AptRenderingContext *g_aptRenderingContextAtE180C0; // VA 0x00E180C0
-BfmeM1208 g_aptBoxAtE180C4;                         // VA 0x00E180C4
+// Reuse the data ledger owner at VA 0x00E180C4 through the local matrix view.
+struct BfmeQ1206;
+extern "C" BfmeQ1206 g_bfmeD1206;
 
 class Rva006E1E30
 {
@@ -71,7 +73,7 @@ void Rva006E1E30::rva006E1E30(Rva006F9FC0Rect *out)
 			__debugbreak();
 	}
 
-	BfmeM1208 box = g_aptBoxAtE180C4;
+	BfmeM1208 box = *(const BfmeM1208 *)&g_bfmeD1206;
 	for (Rva006E1E30 *p = m_parent; p != 0; p = p->m_parent)
 		bfmeMul1208(&box, (const BfmeM1208 *)((char *)p + 0xC), &box);
 
