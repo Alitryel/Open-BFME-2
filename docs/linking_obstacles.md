@@ -228,6 +228,14 @@ authored-byte previews or commit-title gains into a projected headline.
   exact. Its link audit remains inconclusive: index 763dc8759f predates outgoing
   base dd4a917878 and Eva.cpp lacks a current audit receipt. Carry the batch
   into the next normal census; no link or ownership gain is claimed.
+- **FireSpreadUpdate declaration trial (2026-10-26):**
+  [The blocked prerequisite handoff](../reverse/attempt_support/consolidation-firespread-prerequisite-20261026-codex.md)
+  preserves 11/11 baseline rows. A minimal declaration trial kept every object
+  and binding fact but exposed stale diagnostics on cached compiler failures
+  in tu_skeleton's final recheck. The broader include variant accepted six rows
+  but changed a static guard name outside the data baseline. Both experiments
+  were restored, the false reject was logged and source claims released. No
+  source repair, merge unblock, debt retirement or census gain is claimed.
 - **HeaderTemplate provider inspection (2026-10-26):**
   [The scoped inspection](../reverse/attempt_support/consolidation-headertemplate-pushfront-prerequisite-20261026-codex.md)
   confirms 3/3 exact creation rows but an incorrect typed node-provider chain:
