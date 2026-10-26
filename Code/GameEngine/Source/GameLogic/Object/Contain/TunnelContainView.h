@@ -9,6 +9,7 @@
 class Thing;
 class ModuleData;
 class Player;
+class Xfer;
 class Object;
 typedef void (__cdecl *Rva004F553FCb)(void *data, void *user);
 typedef void (__cdecl *ContainIterateFunc)(Object *object, void *user);
@@ -82,7 +83,7 @@ public:
 	unsigned char m_pad000[0x2E8];
 	TunnelTracker *m_2E8; // WB names the list visitor; the sibling manager is the same tracker.
 };
-struct B00 { virtual void f00(); virtual void p01(); virtual void p02(); virtual void p03(); virtual void p04(); virtual void p05(); virtual void p06(); virtual void p07(); virtual void p08(); virtual void p09(); virtual void p10(); virtual void p11(); virtual void p12(); virtual void p13(); virtual void p14(); virtual void p15(); virtual void p16(); virtual void p17(); virtual void p18(); virtual void p19(); virtual void p20(); virtual void p21(); virtual void rvaPrimary58(); virtual void p23(); virtual void p24(); virtual void p25(); virtual void p26(); virtual void p27(); virtual void p28(); virtual void p29(); virtual void p30(); virtual void p31(); virtual void p32(); virtual Rva0036AE51ListView rva0047DD0F(); const ModuleData *m_moduleData; Object *m_object; };
+struct B00 { virtual void f00(); virtual void p01(); virtual void p02(); virtual void xfer(Xfer *xfer); virtual void p04(); virtual void p05(); virtual void p06(); virtual void p07(); virtual void p08(); virtual void p09(); virtual void p10(); virtual void p11(); virtual void p12(); virtual void p13(); virtual void p14(); virtual void p15(); virtual void p16(); virtual void p17(); virtual void p18(); virtual void p19(); virtual void p20(); virtual void p21(); virtual void rvaPrimary58(); virtual void p23(); virtual void p24(); virtual void p25(); virtual void p26(); virtual void p27(); virtual void p28(); virtual void p29(); virtual void p30(); virtual void p31(); virtual void p32(); virtual Rva0036AE51ListView rva0047DD0F(); const ModuleData *m_moduleData; Object *m_object; };
 struct B0C { virtual void f0C(); };
 struct B10 { virtual UpdateSleepTime update(); int m_14; int m_18; Object *m_1C; };
 struct B20 { virtual void f20(); virtual void c01(); virtual void c02(); virtual void c03(); virtual void c04(); virtual void c05(); virtual void c06(); virtual void c07(); virtual void c08(); virtual void c09(); virtual void c10(); virtual void c11(); virtual void c12(); virtual void c13(); virtual void c14(); virtual void c15(); virtual void c16(); virtual void c17(); virtual void c18(); virtual void c19(); virtual void c20(); virtual void c21(); virtual void c22(); virtual void onRemoving(Object *object); virtual void c24(); virtual void onSelling(); };
@@ -181,6 +182,8 @@ public:
 };
 class HordeGarrisonContain : public GarrisonContain
 {
+protected:
+	virtual void xfer(Xfer *xfer);
 public:
 	virtual bool isValidContainerFor(Object *obj, bool checkCapacity, bool a3);
 };
@@ -200,10 +203,12 @@ public:
 	virtual int rva0047DDD9(void *arg);
 	virtual Rva0036AE51ListView rva0047DE12();
 	virtual Rva0036AE51ListView rva0047DD0F();
+protected:
+	virtual void xfer(Xfer *xfer);
 private:
 	char m_pad9AC[0x9AC];
-	unsigned char m_flag9B0;
-	unsigned char m_flag9B1;
+	bool m_flag9B0;
+	bool m_flag9B1;
 };
 
 #endif

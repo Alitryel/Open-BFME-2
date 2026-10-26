@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB
+// stlport
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -25,46 +26,8 @@
 // 0x00479D28) runs first. Then, in the BFME 2 Xfer spelling: the light-CRC
 // early-out, the version, and ZH's two bools at +0x9E4/+0x9E5.
 
-class AsciiString;
-class UnicodeString;
-class PooledString;
-struct XferUnknown11;
-class Coord3DBase;
-class ICoord3D;
-class Region3D;
-class IRegion3D;
-class Coord2D;
-class ICoord2D;
-class Region2D;
-class IRegion2D;
-class RealRange;
-class RGBColor;
-class RGBAColorReal;
-class RGBAColorInt;
-class Snapshot;
-
-#include "../../../../Include/Common/BfmeXfer.h"
-
-typedef bool Bool;
-
-class HordeGarrisonContain
-{
-protected:
-	virtual void v00();
-	virtual void v01();
-	virtual void v02();
-	virtual void xfer( Xfer *xfer );
-	char m_unrecovered04[ 0x9E4 - 0x04 ];
-};
-
-class TunnelContain : public HordeGarrisonContain
-{
-protected:
-	virtual void xfer( Xfer *xfer );
-private:
-	Bool m_needToRunOnBuildComplete;																					///< 0x9E4
-	Bool m_isCurrentlyRegistered;																							///< 0x9E5
-};
+#include "TunnelContainView.h"
+#include "TunnelContainXferPrefix.h"
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
@@ -84,9 +47,9 @@ void TunnelContain::xfer( Xfer *xfer )
 	xfer->Version1();
 
 	// need to run on build complete
-	*xfer == m_needToRunOnBuildComplete;
+	*xfer == m_flag9B0;
 
 	// Currently registered with a Tunnel Tracker?
-	*xfer == m_isCurrentlyRegistered;
+	*xfer == m_flag9B1;
 
 }  // end xfer
