@@ -894,6 +894,8 @@ the VectorClass<Vector3> and XferSave residuals from that snapshot.
 OCL's protected SpecialPower destructor, findPositionAround and
 FindPositionOptions remain open. Float-format's attempted active append
 declaration triggers VC7.1 C1001; its alternate syntax fails C2768/C2244/C1506.
+An `extern template` declaration of the same member (the MSVC C4231 extension),
+tried in `urlBuilder.cpp` on 2026-10-26, also ends in C1001 (`_string.h(573)`); restored.
 Both float trials were restored. Broader family closure and census
 confirmation remain pending.
 
