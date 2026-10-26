@@ -20,14 +20,14 @@ struct Rva0014D887Center {
 	float m_z;
 	char m_pad0C[0x54 - 0x0C];
 };
-class Rva0014D887Inner {
+class ID3DXEffectVtbl {
 public:
 	char m_pad00[0x88];
 	void (__stdcall *m_fn88)(void *a, void *b, void *c);
 };
 class Rva0014D887Outer {
 public:
-	Rva0014D887Inner *m_body00;
+	ID3DXEffectVtbl *m_body00;
 };
 class Rva0014D887This {
 public:
@@ -65,6 +65,6 @@ zero:
 	buf[2] = 0.0f;
 done:
 	buf[3] = 0.0f;
-	Rva0014D887Inner *inner = effect->m_body00;
+	ID3DXEffectVtbl *inner = effect->m_body00;
 	inner->m_fn88(effect, parameter, buf);
 }
