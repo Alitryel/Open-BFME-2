@@ -270,13 +270,17 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::ca
 
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 
-namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
-
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
 
 // bfme link decl-only end
+// The bucket initializer (0x00148DDF) reads the vector end field and calls
+// the canonical reserve/fill-insert providers, as in SelectionIDMap.cpp.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline void vector<void *, allocator<void *> >::insert(void **pos, unsigned int n, void *const &x) { _M_fill_insert(pos, n, x); }
+}
 // Suppress this TU's non-retail copy of ??A?$vector@PAXV?$allocator@PAX@_STL@@@_STL@@QBEABQAXI@Z:
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL { template <> void *const &vector<void *>::operator[](size_t) const; }
@@ -306,22 +310,16 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 namespace _STL {
 template <> size_t vector<void*>::size() const;
 template <> void **vector<void*>::begin();
-template <> void **vector<void*>::end();
 }
 
 struct Rva0060CF76Element {Rva0060CF76Element();Rva0060CF76Element(const Rva0060CF76Element&);Rva0060CF76Element&operator=(const Rva0060CF76Element&);~Rva0060CF76Element(){}char bytes[8]; bool operator==(const Rva0060CF76Element&)const;};
 
-// Suppress this TU's non-retail bucket-init copy: the ICF-kept copy rowed at
-// 0x00148DDF serves the link, so the call binds the shared body.
-namespace _STL { template <> void hashtable<pair<const int, Rva0060CF76Element>, int, hash<int>, _Select1st<pair<const int, Rva0060CF76Element> >, equal_to<int>, allocator<pair<const int, Rva0060CF76Element> > >::_M_initialize_buckets(unsigned int); }
-
 template _STL::hashtable<_STL::pair<const int, Rva0060CF76Element>, int, _STL::hash<int>, _STL::_Select1st<_STL::pair<const int, Rva0060CF76Element> >, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, Rva0060CF76Element> > >::hashtable(unsigned int, const _STL::hash<int> &, const _STL::equal_to<int> &, const _STL::allocator<_STL::pair<const int, Rva0060CF76Element> > &);
 
-// Suppress this TU's non-retail vector<void*> begin/end copies (family2-LK3 rows 6/9):
+// Suppress this TU's non-retail vector<void*> begin copy (family2-LK3 row 6):
 // the retail copies serve the link. Plain declaration-only form (no __imp_).
 namespace _STL {
 template <> void **vector<void*>::begin();
-template <> void **vector<void*>::end();
 }
 
 // Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
