@@ -1108,3 +1108,55 @@ separate strict receipt limitation encountered there.
   reports: LINKS (0 -> 66 bytes). Full 2/2 matched rows preserved.
 - **Census confirmation:** awaiting the next census.
 
+
+### LINK-020: single-blocker census units (32 units, 2026-10-26 pass)
+Status: Open. Updated: 2026-10-26; inspected revision: 655f117955; census 2026-10-26 08:28 at 47e030bafc.
+Evidence / affected units: `link_rank.py --json` listed 32 census units with exactly one blocker
+(14 U, 8 L, 6 S, 3 A, 1 D). Two seats rechecked every one with `link_check.py --fetch-index` and
+`--refresh`. Neither committed a change.
+Completed:
+- Already link on current master (the census entry is stale; verified with `--refresh`, no edit):
+  `XferSave.cpp` (1,060 B), `VectorRangeEraseRva003F6975.cpp` (80 B), `stlport_float_format.cpp`,
+  `stlport_narrow_stringbuf_overflow_setbuf.cpp`, `stlport_narrow_ostringstream_dtor.cpp` (429 B),
+  `urlBuilder.cpp` (868 B), `StlportNarrowAppendCStr.cpp` (58 B), `Rva001F9524Concat.cpp` (160 B).
+- A trial declare-only `basic_string::append<const char*>` specialization in the STLport narrow-string
+  units hit C1001 at `_string.h(573)`. It was reverted, and those units link without it.
+Remaining / next check (each needs a decision, a row or a shared change; none is unit-local):
+- `_String_base<char>::_M_throw_out_of_range` (U in `stlport_narrow_string_copy`, `_substring_ctor`,
+  `_erase_count`, `_substr`): only a pin (0x00023A40) and a divergent specialization in
+  `stlport_vector_voidptr_alloc.cpp`. It needs an owner decision for the 11-byte body. Declare-only was
+  already tried (`reverse/attempt_support/link-seat2-20261023-winddown/readme.md`).
+- `_Destroy<Rva002BBB96Element*>` and `_Destroy<Rva004758F4Element*>` (U in
+  `StlportVectorDtorDeferred.cpp` and `StlportVectorClearRva00475F2A.cpp`): pins only (0x002BB6A5,
+  0x00470398); the owners are `__destroy_aux` rows with a two-argument push. This needs a `_Destroy`
+  owner row or a caller rewrite.
+- `AcademyStats::recordSpecialPowerUsed` (U in `SpecialPowerModule.cpp`) and
+  `vector<PrereqUnitRec>::operator=` (U in `StlSweepW5Rva0042830DAssignTwin.cpp`): no row anywhere.
+  Each body must be recovered and rowed.
+- `g_00DB5BD4` (U in `Rva000FDCD7Get.cpp`): lies inside the 144-byte data row `g_00DB5B88`
+  (0x9B5B88..0x9B5C18). This needs a data-ledger split.
+- `latest_texture` (U in `DebugStatisticsTextureShutdown.cpp`): a file-static in
+  `DebugStatisticsRecordTexture.cpp`; the thunk belongs in that TU (consolidation).
+- `@_RTC_CheckStackVars@8` (D in `RtcStack.cpp`): also defined by the vendored msvc71crt lib. This needs
+  an owner decision.
+- `ChunkLoadClass(FileClass*)` (U in `w3d_dep.cpp`): retail's constructor takes `BFMEChunkInput*`
+  (row 0x00614EF0). The unit also has six unresolved `__imp_` STL names.
+- `BridgeScaffoldBehavior.cpp`: the unresolved `UpdateModule::loadPostProcess` is gone on current
+  inputs, but duplicate-definition blockers (ctor, `update`, `xfer`, interface getter) remain.
+- `??_7Debug@@6B@` (L in `DebugDestructorThunk.cpp`): retail has 37 slots with `??_GDebug` at slot 16;
+  the shared `reference/shims/debugvtable` emits 35. A shared Debug view must shift the later slots
+  (already recorded three times in `re_attempts.log`).
+- `??_7GameWindow@@6B@` (L in `GameWindowDtor.cpp`): the 0x0080BBCC table is shared with
+  `BfmeAptScreenBase`. This needs a class-view reconcile.
+- `VectorClass<Vector3>` deleting destructor (S in `vector_class_vector3_ctor.cpp`): see LINK-015.
+- `PartitionData::updateCellsTouched` (S): the kept body is a 426 B SSE method, but retail 0x73AD90 is
+  a 1,158 B x87 body. This is an identity mismatch, not link order.
+- `WeaponTemplate::getName` (S in `Weapon_getName_Thunk.cpp`): an ICF alias at 0x28F940, shared with
+  `NetCommandMsg::getContentsAsAsciiString`. This needs an owner decision.
+- Pod28/Pod32 vector copy and `_M_fill_insert` (S in `Rva00541913CopyCtor.cpp`,
+  `Rva0056616BCopyDeferred.cpp`, `stlport_pod28_vector_resize_value.cpp`): see
+  `reverse/attempt_support/pod-copy-link-20261024/readme.md`.
+- `ConstIntGettersAddr.cpp` and `ConstIntGetters2Addr.cpp` (A): the flagged values are returned
+  constants, not addresses; there is no global to bind. This looks like a heuristic false positive.
+Clearance: the 8 already-linking units preview LINKS against index 47e030bafc with current objects.
+Census confirmation: awaiting the next census.
