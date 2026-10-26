@@ -82,6 +82,35 @@ The PreorderCreate merge audit records two new shadow `wrong-name` findings
 for its transferred local-static data keys (`0x00A03F90` and `0x00A03F94`).
 The converged data check remains clean; neither key was claimed retired.
 
+## Flex seat 4/5 follow-up
+
+- `RiderChangeContain.cpp`: unchanged merge accepted no donors. The ctor
+  requires a `TransportContain` default constructor; pool key is already
+  defined; Xfer has an `Xfer` redefinition/`Version1` issue; several module
+  data and behavior donors hit duplicate `AsciiString` declarations; the
+  parse donor triggers an MSVC internal compiler error; `RemoveFirst` needs
+  inaccessible `Module::m_moduleData`; `Rva047E59EKill.cpp` lacks
+  `Rva047E59EDamage8`. No edits or claims were made.
+- `UnpauseSpecialPowerUpgrade.cpp`: the merge trial accepted its pool key,
+  module-data ctor and upgrade-name-ref donors and byte-verified all four
+  rows. The two remaining donors need `getModuleNameKey` declarations. Staged
+  identity audit found a new unreferenced `/alternatename` for
+  `_vtbl_00BF2558`; `repair_queue.py retire data` refused two wrong-name local
+  static keys at `0x00A03E68` and `0x00A03E64`. The trial was restored and
+  claims released for Sol's identity review.
+- `AIUnitUpgrader.cpp`: the accepted destructor donor byte-verified six rows,
+  but staged identity audit found the destructor's binding at `0x00506B28`
+  collides with the existing `Rva00506B28DwordImmSetter::apply` owner. The
+  trial was restored and claims released.
+- `HealContain.cpp`: merged the accepted module-data parse donor; pool-key and
+  Xfer donors still need member declarations.
+- `ProjectileStreamUpdate.cpp`: merged the accepted `Rva0033EF86.cpp`; ctor,
+  pool-key, Xfer and `getAllPoints` donors remain blocked by missing declarations
+  or duplicate declarations.
+- `DynamicShroudClearingRangeUpdate.cpp`: merged accepted animate-grid-decals
+  and Xfer donors. Ctor, pool key, update and module-data ctor still require
+  declaration or special-member work.
+
 Publication handoff: the publisher stopped once with `Cannot rebase onto multiple
 branches`. A subsequent explicit `git pull --rebase origin master` fetched
 `5db17fb47684656adf2563faf60b3c9e4872f069` and rebased the complete 14-commit
