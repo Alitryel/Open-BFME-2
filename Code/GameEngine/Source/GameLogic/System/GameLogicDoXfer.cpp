@@ -336,7 +336,7 @@ public:
 	virtual ~SkirmishGameInfo();
 	char m_rest2[0xE3C - 0xDC];
 };
-extern SkirmishGameInfo *TheSkirmishGameInfo;
+extern GameInfo *TheSkirmishGameInfo;
 extern GameInfo *TheGameInfo;
 
 class SkirmishPreferences

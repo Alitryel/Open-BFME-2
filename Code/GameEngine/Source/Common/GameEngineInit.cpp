@@ -617,7 +617,7 @@ public:
 	Int m_3C;					// +0x3C
 };
 class SkirmishGameInfo : public GameInfo { public: SkirmishGameInfo(); char m_data[0xE3C - sizeof(GameInfo)]; };
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 
 class RecorderClass { public: Bool playbackFile(UnicodeString filename); };
 

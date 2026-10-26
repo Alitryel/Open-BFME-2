@@ -79,7 +79,7 @@ private:
 	int m_mapMask;
 };
 
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 
 void GameInfo::setMap(AsciiString mapName)
 {

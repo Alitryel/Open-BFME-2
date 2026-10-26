@@ -59,7 +59,7 @@ extern NetworkInterface *TheNetwork;
 extern LANAPI *TheLAN;
 extern GameSpyStagingRoom *TheGameSpyGame;
 class SkirmishGameInfo;
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 extern int NET_CRC_INTERVAL;
 AsciiString GameInfoToAsciiString(const GameInfo *, bool=true);
 

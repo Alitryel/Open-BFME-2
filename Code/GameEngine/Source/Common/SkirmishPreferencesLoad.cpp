@@ -29,7 +29,7 @@ public:AsciiString buildProfileKey(const char*);bool getGameInfo();
 };
 class GameSlot;
 class GameInfo {public:GameSlot *getSlot(int);};
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 class Rva003FF0E7DwordSlot {public:void set(int);};
 bool ParseAsciiStringToGameInfo(GameInfo*,AsciiString,bool);
 struct SkirmishStringDataView{char header[8];char text[1];};

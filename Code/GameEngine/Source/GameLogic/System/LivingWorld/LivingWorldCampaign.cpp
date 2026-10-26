@@ -79,7 +79,7 @@ public:
  GameSlot *getSlot(int);
 };
 extern GameInfo *TheGameInfo;
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 #include "Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Rva00210C66CmpBoolField {public: bool get() const;};

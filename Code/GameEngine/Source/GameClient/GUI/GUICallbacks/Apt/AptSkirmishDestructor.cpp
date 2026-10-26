@@ -20,7 +20,7 @@ class Rva005C1A36 { public: virtual ~Rva005C1A36(); private: char storage[0x30-4
 class SkirmishPreferences { public: virtual ~SkirmishPreferences(); private: char storage[0x20-4]; };
 class Rva0031455E { public: virtual ~Rva0031455E(); private: char storage[0x10-4]; };
 class GameInfo { public: virtual void* deleteObject(int); };
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 extern GameInfo *TheGameInfo;
 extern int g_00E04930;
 class AptPlayer { public: void RemoveOverButtonHandler(const AsciiString&); };

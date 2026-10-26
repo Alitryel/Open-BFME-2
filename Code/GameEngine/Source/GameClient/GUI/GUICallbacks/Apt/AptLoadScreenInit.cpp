@@ -102,7 +102,7 @@ public:
 };
 
 extern GameInfo *TheGameInfo;
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 
 class GameSpyStagingRoom
 {

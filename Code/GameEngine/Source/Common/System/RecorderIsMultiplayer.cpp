@@ -46,7 +46,7 @@ class NetworkInterface;
 extern NetworkInterface *TheNetwork;
 
 // 0x00A02EF0 is TheSkirmishGameInfo, defined in SkirmishGameOptionsMenu.cpp.
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 
 class RecorderClass
 {

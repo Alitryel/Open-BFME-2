@@ -93,7 +93,7 @@ public:
 };
 
 class GameInfo;
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 
 // Target Apt screen base handler; the existing matched implementation is
 // _bfme_AptGameWindow::rva0051274F.
@@ -261,7 +261,7 @@ public:
 	void setSeed(int seed); void setMap(AsciiString mapName);
 	void setMapCRC(unsigned crc); void setMapSize(unsigned size);
 };
-class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 extern int g_Va00E0333C;
 void __cdecl operator delete(void *p);
 class Panel00E0333C

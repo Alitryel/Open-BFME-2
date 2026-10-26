@@ -234,8 +234,7 @@ public:
 	GameSlot *getSlot(int index);
 };
 
-class SkirmishGameInfo;
-extern SkirmishGameInfo *TheSkirmishGameInfo;
+class GameInfo; extern GameInfo *TheSkirmishGameInfo;
 
 AsciiString GameInfoToAsciiString(const GameInfo *info, bool flag);
 
