@@ -854,3 +854,24 @@ The graphics follow-up above used a separate checkout with the pinned reference
 and completed ordinary compile-based verification. The original checkout was
 preserved; its mismatch did not block that isolated check. LINK-008 records the
 separate strict receipt limitation encountered there.
+
+### LINK-017: stale link index lacks strict receipts for pending consolidation providers
+
+**Status: Open. Updated: 2026-10-26; inspected revision: 78cb0834c7.**
+
+- **Evidence / scope:** outgoing `NetCommandRef.cpp`, `AptValueGCAllocator.cpp`
+  and a mechanical MessageStream trial. `tools/link_check.py --fetch-index`
+  fetched 763dc8759f, older than the outgoing base. The scoped
+  `tools/link_batch_audit.py` reported an inconclusive baseline and two changed
+  source objects without current receipts (first MessageStream.cpp).
+  `tools/link_check.py --prepare-current` refused NetCommandRef.cpp as not an
+  owned current Code provider.
+- **Completed:** MessageStream's byte build, frozen-file, ledger, data,
+  ownership and new-variant checks passed; the mechanical trial was restored
+  because provider/consumer comparison remained incomplete. See
+  `reverse/attempt_support/consolidation-run-20261026.md`.
+- **Remaining / next check:** after the next published census/index supplies
+  current receipts, rerun `link_batch_audit.py` for these exact source paths and
+  inspect selected-provider changes and affected consumers.
+- **Clearance:** none; no provider or consumer change is claimed verified.
+- **Census confirmation:** awaiting a current index and next census.
