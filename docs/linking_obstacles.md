@@ -1276,6 +1276,7 @@ Census confirmation: awaiting the next census.
   retail layout above in one shared view for `hcanim.cpp`, `hrawanim.cpp`, `htree.cpp`,
   `HRawLoadW3D*.cpp`, re-verifying every virtual-call offset in their matched bodies.
 
+<<<<<<< HEAD
 ### LINK-024: `LivingWorldBuildingCtor.cpp` needs placeholder `Rva004E0D67` named `LivingWorldBuilding`
 Status: Open. Updated: 2026-10-26; inspected revision: d40f06e91c.
 Evidence / affected units: `Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBuildingCtor.cpp`
@@ -1398,6 +1399,7 @@ units), then re-verify each unit's rowed callers still call 0x00666E80.
 Clearance: pending.
 Census confirmation: not claimed.
 
+<<<<<<< HEAD
 ### LINK-035: `StlSweepR3` vector-destructor units instantiated the whole `vector<RecordN>`
 Status: Open (5 of 7 repaired). Updated: 2026-10-26; inspected revision: 5fae0cc47f; index 47e030bafc.
 Evidence / affected units: `Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva<rva>.cpp` units holding one
@@ -1425,4 +1427,14 @@ Remaining / next check:
 - The `_Destroy<RvaNRecord *>` pins in `reverse/symbols.csv` for the five repaired units look
   unreferenced now; check every object before dropping them through the register's path.
 Clearance: the five units preview LINKS against index 47e030bafc with current objects.
+
+
+### LINK-036: StlportVectorEraseRangeDeferred historical blockers resolved by landed providers
+Status: Cleared. Updated: 2026-10-26; inspected revision: 6fced2088a.
+Evidence / affected units: `Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeDeferred.cpp`,
+`reverse/link_status.csv` reported unresolved blockers from census `2026-10-25 13:53 at 51fde01dff`.
+Completed: Verified unit against current objects; external callee dependencies have landed on master.
+Remaining / next check: None.
+Clearance: `tools/link_check.py Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeDeferred.cpp`
+reports: LINKS (0 -> 2,464 bytes). Full 59/59 matched rows verified.
 Census confirmation: awaiting the next census.

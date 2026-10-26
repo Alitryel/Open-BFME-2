@@ -189,7 +189,7 @@ through `tools/progress.py`'s provenance and retail-byte functions.
 | `Code/gen_small/uw_gen_009.cpp` | 2,533 | 113 (U=113) | Open |
 | `Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp` | 2,520 | 49 (U=42, C=4, S=3) | Open |
 | `Code/gen_small/uw_gen_014.cpp` | 2,489 | 271 (U=263, A=8) | Open |
-| `Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeDeferred.cpp` | 2,464 | 3 (U=3) | Open |
+| `Code/Libraries/Source/WWVegas/WWLib/StlportVectorEraseRangeDeferred.cpp` | 2,464 | 3 (U=3) | Cleared (LINK-036, link_check 2,464B) |
 | `Code/gen_small/uw_gen_006.cpp` | 2,448 | 103 (U=103) | Open |
 | `Code/gen_small/uw_gen_012.cpp` | 2,227 | 100 (U=100) | Open |
 | `Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp` | 1,750 | 20 (U=16, C=2, S=2) | Open |
