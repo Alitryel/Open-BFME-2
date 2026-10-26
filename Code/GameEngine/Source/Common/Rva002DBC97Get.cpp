@@ -157,7 +157,7 @@ public:
 	GameSlot *getSlot(int slotNum);
 };
 extern GameInfo *TheGameInfo;
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 
 class BfmeDfe6e4
 {

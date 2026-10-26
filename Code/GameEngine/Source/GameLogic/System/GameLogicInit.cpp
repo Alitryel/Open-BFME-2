@@ -3333,7 +3333,8 @@ public:
 };
 
 extern int st_DebugDLL;
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo;
+extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern LuaScriptEngine *TheLuaScriptEngine;
 extern GameEngine *TheGameEngine;
 class VictoryConditionsInterface; extern VictoryConditionsInterface *TheVictoryConditions;

@@ -24,7 +24,7 @@ class Player {public:bool isPlayerObserver()const;};
 class GameSlot {public:bool isOccupied()const;char pad00[0x34];AsciiString m_name;char pad38[0x4c-0x38];void *m_template; void *getTemplate()const{return m_template;}};
 class GameInfo {public:GameSlot *getSlot(int);};
 extern GameInfo *TheGameInfo;
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 class LivingWorldPlayer;
 class Rva002E2903Player;
 class Rva002BA8F1Logic {public:Rva002E2903Player *GetPlayerAtIndex(int);char pad00[0x8c];_STL::vector<LivingWorldPlayer*>m_players;};

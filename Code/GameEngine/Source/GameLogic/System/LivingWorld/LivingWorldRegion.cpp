@@ -390,7 +390,7 @@ class GameSlot;
 class GameInfo { public: GameSlot *getSlot(int); };
 // PrepareSkirmishOpponents reads native VA E02EF0, the existing owned
 // TheSkirmishGameInfo global. TheGameInfo is a different pointer at E02EEC.
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 struct RegionGameSlotPrefix {
     char before4C[0x4c];
     int armyID;

@@ -15,7 +15,7 @@ class NetworkInterface; extern NetworkInterface *TheNetwork;
 class LANAPI; extern LANAPI *TheLAN;
 class GameSpyStagingRoom; extern GameSpyStagingRoom *TheGameSpyGame;
 class RecorderClass; extern RecorderClass *TheRecorder;
-class GameInfo; class GameInfo; extern GameInfo *TheSkirmishGameInfo; // defined in SkirmishGameOptionsMenu.cpp
+class GameInfo; class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo; // defined in SkirmishGameOptionsMenu.cpp
 
 struct Bfme939Helper
 {

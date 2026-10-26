@@ -296,7 +296,7 @@ class LANAPI : public VSlots<56>
 public:
 	virtual LANGameInfo *GetMyGame() = 0;
 };
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern LANAPI *TheLAN;
 extern GameSpyStagingRoom *TheGameSpyGame;
 extern GameInfo *TheGameInfo;

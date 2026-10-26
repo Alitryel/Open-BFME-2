@@ -83,7 +83,7 @@ class SkirmishGameInfo;
 
 class GameInfo;
 
- extern GameInfo *TheSkirmishGameInfo;
+ extern SkirmishGameInfo *TheSkirmishGameInfo;
 
 extern int NET_CRC_INTERVAL;
 

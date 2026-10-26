@@ -609,7 +609,7 @@ public:
 };
 extern GameInfo *TheGameInfo;
 // Defined as a SkirmishGameInfo * in SkirmishGameOptionsMenu.cpp.
-class GameInfo; class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class GameInfo; class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 
 // TheGameText's vslot 15 fetch (Rva00515C64's view).
 class GameTextInterface

@@ -1487,3 +1487,27 @@ units (about 20 rows, 12 files, incl. `LinearCampaignCarryoverInsert.cpp`, `Rva0
 still byte-matches and that the POD-named helpers really are the same instantiation, not ICF folds.
 Clearance: pending.
 Census confirmation: not claimed.
+
+### LINK-041: 23 units lost `TheSkirmishGameInfo` after their declarations were respelled `GameInfo *`
+
+**Status: Repair landed, awaiting census. Updated: 2026-10-26; inspected revision: 35efd22768.**
+
+- **Evidence / scope:** the census at d1f046749a (97.47 %, after 98.11 % at 47e030bafc)
+  lost 33 units. 23 of them (71,793 B, led by `GameLogicInit.cpp` 28,160 B and
+  `GameEngineInit.cpp` 9,424 B) have one unresolved name,
+  `?TheSkirmishGameInfo@@3PAVGameInfo@@A`. 3a8ff9f8e0 respelled their declarations
+  `extern GameInfo *TheSkirmishGameInfo;` to match the data ledger's provisional name for
+  0x00A02EF0, but the only definition is `SkirmishGameInfo *TheSkirmishGameInfo` in
+  `SkirmishGameOptionsMenu.cpp` (`?TheSkirmishGameInfo@@3PAVSkirmishGameInfo@@A`), the type
+  Zero Hour's and BFME 1's `GameInfo.h` declare.
+- **Completed:** 3a8ff9f8e0 reverted (`Recorder.cpp` by hand, since files were merged into it
+  afterwards). `./build.sh` 728/728 rows across the 23 units; `tools/link_check.py` against
+  the d1f046749a index: 23/23 link, 0 -> 71,793 B.
+- **Remaining / next check:** the ledger row at 0x00A02EF0 is derived and provisional (it
+  lists both spellings); regenerate it with `tools/data_ledger.py` so it names the defined
+  `SkirmishGameInfo *` spelling, rather than respelling consumers to its current name. The
+  census's other 10 lost units (3,997 B: `GameFont.cpp` 1,758 B, `statistics.cpp` 986 B, five
+  `WW3D*` units, `CrateSystem.cpp`, `MultiplayerSettings.cpp`,
+  `MultiplayerColorDefinitionCopy.cpp`, `GapBodiesGE41_Rva00118610.cpp`) have other causes
+  and were not investigated here.
+- **Census confirmation:** awaiting the next census.

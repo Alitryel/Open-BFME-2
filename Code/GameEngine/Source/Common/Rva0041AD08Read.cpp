@@ -259,7 +259,7 @@ class SkirmishGameInfo:public GameInfo {
 public:SkirmishGameInfo();virtual~SkirmishGameInfo();
  char rest[0xE3C-sizeof(GameInfo)];
 };
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern GameInfo*TheGameInfo;
 void XferObjectID(Xfer*,ObjectID*);
 void XferDrawableID(Xfer*,int*);

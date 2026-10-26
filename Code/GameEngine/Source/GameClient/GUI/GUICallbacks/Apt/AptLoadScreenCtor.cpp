@@ -149,7 +149,7 @@ extern GameTextInterface *TheGameText;
 
 class GameInfo;
 class GameSpyInfoInterface;
-class GameInfo; extern GameInfo *TheSkirmishGameInfo;
+class SkirmishGameInfo; extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern GameSpyInfoInterface *TheGameSpyInfo;
 
 class GameSpyStagingRoom
