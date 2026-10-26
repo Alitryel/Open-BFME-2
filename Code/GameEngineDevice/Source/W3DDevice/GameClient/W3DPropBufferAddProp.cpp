@@ -79,7 +79,7 @@ public:
 	}
 	__forceinline void Rotate_Z( float theta )
 	{
-		float tmp1,tmp2;
+		float rowX,tmp2;
 		float cosTheta; float sinTheta;
 
 		cosTheta = cosf(theta);
@@ -89,17 +89,17 @@ public:
 		// product and commutes row 0'sinTheta sinTheta*tmp2 against retail'sinTheta operand order.
 		float sCopy = sinTheta;
 
-		tmp1 = Row[0][0]; tmp2 = Row[0][1];
-		Row[0][0] = (float)( cosTheta*tmp1 + sinTheta*tmp2);
-		Row[0][1] = (float)(-sinTheta*tmp1 + cosTheta*tmp2);
+		rowX = Row[0][0]; tmp2 = Row[0][1];
+		Row[0][0] = (float)( cosTheta*rowX + sinTheta*tmp2);
+		Row[0][1] = (float)(-sinTheta*rowX + cosTheta*tmp2);
 
-		tmp1 = Row[1][0]; tmp2 = Row[1][1];
-		Row[1][0] = (float)( cosTheta*tmp1 + sinTheta*tmp2);
-		Row[1][1] = (float)(-sinTheta*tmp1 + cosTheta*tmp2);
+		rowX = Row[1][0]; tmp2 = Row[1][1];
+		Row[1][0] = (float)( cosTheta*rowX + sinTheta*tmp2);
+		Row[1][1] = (float)(-sinTheta*rowX + cosTheta*tmp2);
 
-		tmp1 = Row[2][0]; tmp2 = Row[2][1];
-		Row[2][0] = (float)( cosTheta*tmp1 + sinTheta*tmp2);
-		Row[2][1] = (float)(-sinTheta*tmp1 + cosTheta*tmp2);
+		rowX = Row[2][0]; tmp2 = Row[2][1];
+		Row[2][0] = (float)( cosTheta*rowX + sinTheta*tmp2);
+		Row[2][1] = (float)(-sinTheta*rowX + cosTheta*tmp2);
 	}
 	__forceinline void Scale( float scale )
 	{	// uniform scale all 3 axis

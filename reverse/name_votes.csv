@@ -8153,3 +8153,8 @@ Code/GameEngine/Source/Common/LivingWorldAutoResolveBattle_enumerateReinforcemen
 Code/GameEngine/Source/Common/SmallGaps/Rva007F9A40GetOrCreateSlot.cpp|param|BfmeMgrVPE::rva007F9A40GetOrCreateSlot|a4,629194aaa096af9fcea43687,gpt-6.1-sol,w6-10261450-13,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C1E8C.cpp|function|0x002886C2|Rva002886C2,717a8412ac8583a4bc7c573a,gpt-6.1-sol,w6-10261450-14,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva004E93E8Find.cpp|member|Glob004E93E8|m_860,afdd8d83250f8c2b0575c405,gpt-6.1-sol,w6-10261450-15,w-06f458dbecf5,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local|Rotate_Z|tmp1,23e1a1dbaa4ca5ce2a44726e,gpt-6.1-sol,w1-10261459-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|param|W3DPropBuffer::addPropType|bfmeFlag,d4f3a983da905012449e0ab8,gpt-6.1-sol,w1-10261459-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|param|W3DPropBuffer::addProp|bfmeFlag,3c78706482432e7c3d0cc0d2,gpt-6.1-sol,w1-10261459-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp|local|Team::rva0039DE46|b3,db60a43e42adda7d0238cf9e,gpt-6.1-sol,w1-10261459-6,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/RTS/TeamRva0039DE46.cpp|local|Team::rva0039DE46|b4,1dcde280c36b34df10fa61cd,gpt-6.1-sol,w1-10261459-6,w-6d5d2b593eca,2026-10-26
