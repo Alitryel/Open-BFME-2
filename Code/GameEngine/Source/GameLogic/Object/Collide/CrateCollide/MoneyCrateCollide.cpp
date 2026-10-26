@@ -119,18 +119,29 @@ struct MoneyCrateCollideModuleData
 	unsigned int m_moneyProvided;	// +0x5C
 };
 
+enum NameKeyType
+{
+	NK_UNKNOWN = 0
+};
+
 class CrateCollide
 {
 public:
 	virtual ~CrateCollide();
 protected:
 	virtual bool executeCrateBehavior(Object *other);
+	// Partial primary prefix only; the cached name key is slot 4.
+	// No constructor/vtable is emitted through this receiver declaration.
+	virtual void primarySlot2();
+	virtual void primarySlot3();
 	const void *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
 };
 
 class MoneyCrateCollide : public CrateCollide
 {
+public:
+	virtual NameKeyType getModuleNameKey() const;
 protected:
 	virtual bool executeCrateBehavior(Object *other);
 private:
