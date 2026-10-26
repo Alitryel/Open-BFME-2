@@ -62,7 +62,7 @@ void famgenDelete(Rva00527E53 *p) { delete p; }
 
 // ??_GRva005282BA@@QAEPAXI@Z @0x00528566 28B: calls pinned ~Rva005282BA 0x005282BA
 class Rva005282BA { public: ~Rva005282BA(); };
-void famgenDelete(Rva005282BA *p) { delete p; }
+void famgenDelete(Rva005282BA *sideCommandBarImpl) { delete sideCommandBarImpl; }
 
 // ??_GRva005D32D4@@QAEPAXI@Z @0x0057854E 28B: calls pinned ~Rva005D32D4 0x005D32D4
 class Rva005D32D4 { public: ~Rva005D32D4(); };

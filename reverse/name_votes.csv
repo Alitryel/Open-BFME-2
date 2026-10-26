@@ -7929,3 +7929,17 @@ Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|class||Rva005E4E1BNode,ee625cc
 Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp|class||Rva005E4E1BHeader,44f2103526d9c27012bf3371,gpt-6.1-sol,w4-10261153-6,w-eb83eac9adc1,2026-10-26
 Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141DC0::pushFront|arg,222e944617dbb2c36c8f4c47,gpt-6.1-sol,w4-10261153-9,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/Common/Rva0010F5A8Finish.cpp|local|Rva0010F5A8::execute|m_fraction0C,d2f4527b761051af2180998d,gpt-6.1-sol,w4-10261153-11,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva005C802BFactory.cpp|param|Rva005D19F8::Rva005D19F8|a,54758029d1628fb8e573b8bb,gpt-6.1-sol,w2-10261206-4,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,52c2fe349dab0f6f6acb45bb,gpt-6.1-sol,w2-10261206-10,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete|p,695ae80ff45677edb000a754,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#3|p,3f49c8d1dfe48558b270ab89,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#4|p,9395f652b3e9f1f9c3247824,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#5|p,c198451df9287513d0562f5a,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#6|p,4cc651a85d9848963d0a660f,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#7|p,db49c50154b0514f302c6ac5,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#10|p,4cb8edf0bba0521bf575d368,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#11|p,6890a42f627d6fda1501ec5d,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#14|p,27fbb01268b400b852ebf198,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#15|p,b4edcbf70eb86bbf84de857b,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#16|p,c72d4d0acf07fd66b5c48e36,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#17|p,0d0514126875cdddc8816411,gpt-6.1-sol,w2-10261206-13,w-dce04682aaeb,2026-10-26

@@ -2512,3 +2512,5 @@ class,Rva004E52DCNode,TerrainClaimNode,inferred,agree:nl-ddb697a1f686,Code/GameE
 class,Rva005E4E1BNode,ArmyIconMapNode,inferred,agree:nl-a53f1dd8e5af,Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
 class,Rva005E4E1BHeader,ArmyIconMapHeader,inferred,agree:nl-a7f1f7f5517a,Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
 carry,Rva005E4E1BHeader::m_leftmost,ArmyIconMapHeader::m_leftmost,inferred,scope renamed by Rename Rva005E4E1BHeader to ArmyIconMapHeader (inferred),Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
+param,famgenDelete#14::p,famgenDelete#14::sideCommandBarImpl,inferred,agree:nl-0baafa9ba491,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,Rva005D19F8::Rva005D19F8::a,Rva005D19F8::Rva005D19F8::root,inferred,agree:nl-54758029d162,Code/GameEngine/Source/Common/Rva005C802BFactory.cpp,0x005D19F8
