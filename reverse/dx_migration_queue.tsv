@@ -1,12 +1,4 @@
 source	class	rows	matched_rows	shims	sdk	edits	detail
-Code/GameEngine/Source/GameNetwork/ConnectionManager.cpp	as-is+psdk	31	31	dinput.h	dinput.h		
-Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript.cpp	as-is+psdk	30	30	dinput.h	dinput.h		
-Code/GameEngine/Source/GameClient/MapUtil.cpp	as-is+psdk	19	19	dinput.h	dinput.h		
-Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/WOLBuddyOverlay.cpp	as-is+psdk	18	18	dinput.h	dinput.h		
-Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetRadioButton.cpp	as-is+psdk	9	9	dinput.h	dinput.h		
-Code/GameEngine/Source/GameClient/GUI/GameWindowManagerAssignDefaultGadgetLook.cpp	as-is+psdk	6	6	dinput.h	dinput.h		
-Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetProgressBar.cpp	as-is+psdk	2	2	dinput.h	dinput.h		
-Code/GameEngine/Source/GameClient/GUI/GameWindowManager.cpp	as-is+psdk	2	2	dinput.h	dinput.h		
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTaint.cpp	mechanical	13	13	d3d8_shim_validated.h	d3d9.h,d3d9caps.h,d3d9types.h,d3dx9.h,d3dx9anim.h,d3dx9core.h,d3dx9effect.h,d3dx9math.h,d3dx9math.inl,d3dx9mesh.h,d3dx9shader.h,d3dx9shape.h,d3dx9tex.h,d3dx9xof.h	+platformsdk;W3DTaint.cpp:IDirect3DDevice8->IDirect3DDevice9;W3DTaint.cpp:shim-path->d3d9.h	
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroud.cpp	mechanical	5	5	d3d8_shim_validated.h	d3d9.h,d3d9caps.h,d3d9types.h,d3dx9.h,d3dx9anim.h,d3dx9core.h,d3dx9effect.h,d3dx9math.h,d3dx9math.inl,d3dx9mesh.h,d3dx9shader.h,d3dx9shape.h,d3dx9tex.h,d3dx9xof.h	+platformsdk;W3DShroud.cpp:IDirect3DDevice8->IDirect3DDevice9;W3DShroud.cpp:shim-path->d3d9.h	
 Code/Libraries/Source/WWVegas/WW3D2/dx8fvf.cpp	mechanical	4	4	D3dx8core.h,d3d8.h,d3d8_shim_validated.h	d3d9.h,d3d9caps.h,d3d9types.h,d3dx9.h,d3dx9anim.h,d3dx9core.h,d3dx9effect.h,d3dx9math.h,d3dx9math.inl,d3dx9mesh.h,d3dx9shader.h,d3dx9shape.h,d3dx9tex.h,d3dx9xof.h	+platformsdk;dx8fvf.cpp:d3dx8core.h->d3dx9core.h;dx8fvf.h:d3d8.h->d3d9.h	
