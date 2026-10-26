@@ -8102,3 +8102,11 @@ Code/GameEngine/Source/Common/Rva005388C2Assign.cpp|local|QuadStrip2D::rva005382
 Code/GameEngine/Source/Common/GapBodiesGE12.cpp|class||Rva00431FF2,9ba6383625a2631cf70a626a,gpt-6.1-sol,w2-10261402-13,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/Common/BfmeTwoHundredOne.cpp|member|BfmeThingGL|m_bfmeHeld,ce4b5a77295715e3dabd6ea1,gpt-6.1-sol,w2-10261402-14,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/Common/Rva005C6CCC.cpp|local|Rva005C6D4D::rva005C6D9C|p,875d50525e3779ea723194ba,gpt-6.1-sol,w2-10261402-17,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameNetwork/Rva00318333.cpp|local|Rva00318333::rva00318768|o2,f7423e88b64db4a227377496,gpt-6.1-sol,w6-10261410-1,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp|class||Rva005FContextView,67472989b8e5d0809c06550c,gpt-6.1-sol,w6-10261410-3,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp|class||Rva005F52C0,e8ac610c3d73aa0c3171763f,gpt-6.1-sol,w6-10261410-3,w-06f458dbecf5,2026-10-26
+Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp|param|Rva00141DC0::pushFront|arg,140932d5025cc2bdb8ab2974,gpt-6.1-sol,w6-10261410-14,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|function|0x006CBC50|rva006CBC50,4c80b20a0e1e0787ef798656,gpt-6.1-sol,w6-10261410-16,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|global||g_00E177E2,02aef7a08aae168f2e36dd7d,gpt-6.1-sol,w6-10261410-16,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|global||g_00E177E8,1118103215e08fd5cadd010c,gpt-6.1-sol,w6-10261410-16,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005C436EDispatch.cpp|function|0x005C436E|rva005C436E,e42fe5da8d3df053a7af1524,gpt-6.1-sol,w6-10261410-18,w-06f458dbecf5,2026-10-26
