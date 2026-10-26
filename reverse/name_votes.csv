@@ -7760,3 +7760,15 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DPropBufferAddProp.cpp|local|Rotate_Z|s,620009ac9d42959b9d4cde1b,gpt-6.1-sol,w6-10260957-13,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7EC,0b801d463e67951383840ee1,gpt-6.1-sol,w6-10260957-14,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/GameLogic/Object/Die/DamageCreationListParse.cpp|global||g_00DCD7FC,cef90cddc10bd1b942f368b1,gpt-6.1-sol,w6-10260957-14,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|local|Rva004958AE::update|m_command14,e720e78ecb9b96ae66fb5319,gpt-6.1-sol,w1-10261006-2,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/RTS/PlayerAddScience.cpp|class||Rva002AD661Holder,4f573642c0a58734c75d7051,gpt-6.1-sol,w1-10261006-6,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva002BFF5A.cpp|function|0x002BFF5A|rva002BFF5A,5ce9d6614bcfd6a529f1b163,gpt-6.1-sol,w1-10261006-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva000FE1ACUpdate.cpp|global||g_00DEC224,56f577fa6f4db3a0dbdf4dc8,gpt-6.1-sol,w1-10261006-12,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|class||BfmeAVJP,64a4a9e81ed9fcdf2d6b59e0,gpt-6.1-sol,w1-10261006-13,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme10,222ffc160ae2b63d58eb6de3,gpt-6.1-sol,w1-10261006-13,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme14,856f4a90d08281a6331918b9,gpt-6.1-sol,w1-10261006-13,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme6dc,bc6c52b2361cc2756ac12f1a,gpt-6.1-sol,w1-10261006-13,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|member|Rva0054D222Prompt|m_callback20,cf3b510c2e2608b164a2d854,gpt-6.1-sol,w1-10261006-14,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/AI/Rva002EBC59.cpp|param|rva002EBC59|a1,1d26df7153ecc8e7cec22514,gpt-6.1-sol,w1-10261006-15,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|class||Rva002236F2Value,85bd98fc1b10f9ef90bc2377,gpt-6.1-sol,w1-10261006-16,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameClient/Rva002236F2Insert.cpp|class||Rva002236F2Node,db2920a02e59e7471d70c927,gpt-6.1-sol,w1-10261006-16,w-6d5d2b593eca,2026-10-26

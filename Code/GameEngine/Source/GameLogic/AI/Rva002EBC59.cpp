@@ -11,8 +11,8 @@ enum PathfindLayerEnum { LAYER_INVALID = 0 };
 PathfinderCellPoint __cdecl rva002E79A8(bool, int, int, PathfindLayerEnum);
 typedef void (__cdecl *Rva002E79A8View)(int, unsigned char, int, int, int);
 // ?rva002EBC59@@YAPAXPAX0HHH@Z @0x002EBC59 38B (name from build; see below).
-void *rva002EBC59(void *a1, void *a2, int cellX, int cellY, int layer)
+void *rva002EBC59(void *outPosition, void *a2, int cellX, int cellY, int layer)
 {
-	((Rva002E79A8View)&rva002E79A8)((int)a1, Rva002EBBFBIsOdd(a2), cellX, cellY, layer);
-	return a1;
+	((Rva002E79A8View)&rva002E79A8)((int)outPosition, Rva002EBBFBIsOdd(a2), cellX, cellY, layer);
+	return outPosition;
 }
