@@ -21656,7 +21656,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A17814,4,.data,global,?g_rva008A98B0_9@@3PAVRva008A98B0Releasable@@A,Code/GameEngine/Source/Common/Rva008A98B0ReleaseAll.cpp,owned,,1,2
 0x00A17818,4,.data,global,?g_rva008A98B0_10@@3PAVRva008A98B0Releasable@@A,Code/GameEngine/Source/Common/Rva008A98B0ReleaseAll.cpp,owned,,1,2
 0x00A1781C,4,.data,global,?g_rva008A98B0_11@@3PAVRva008A98B0Releasable@@A,Code/GameEngine/Source/Common/Rva008A98B0ReleaseAll.cpp,owned,,1,2
-0x00A17820,2048,.data,global,?Va00E17820FormatBuffer@@3PADA,Code/GameEngine/Source/Common/Rva006D7010Cluster.cpp,owned,,1,2
+0x00A17820,2048,.data,global,?Va00E17820FormatBuffer@@3PADA,Code/Libraries/Source/Apt/AptString.cpp,owned,,1,2
 0x00A18020,4,.data,global,?g_aptIntegerFreeList@@3PAVAptInteger@@A,Code/GameEngine/Source/Common/VslotSmallBodiesP.cpp,owned,,1,7
 0x00A18024,4,.data,global,?g_aptFloatFreeList@@3PAVAptFloat@@A,Code/GameEngine/Source/Common/VslotSmallBodiesP.cpp,owned,,1,7
 0x00A18028,4,.data,global,?g_aptBooleanFreeList@@3PAVAptBoolean@@A,Code/GameEngine/Source/Common/VslotSmallBodiesP.cpp,owned,,1,7
