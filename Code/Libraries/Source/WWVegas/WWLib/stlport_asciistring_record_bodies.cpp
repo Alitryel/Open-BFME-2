@@ -198,3 +198,18 @@ template void vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::clea
 // Both ABI aliases preserve the existing native pin endpoints.
 #pragma comment(linker, "/alternatename:??1BfmeStringHeadRecord184@@QAE@XZ=??1RunwayInfo@FlightDeckBehavior@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??4BfmeStringHeadRecord184@@QAEAAU0@ABU0@@Z=??4Rva003A35A0Element@@QAEAAU0@ABU0@@Z")
+
+// StlportVectorDtorDeferred.cpp and StlportVectorEraseRangeDeferred.cpp declare
+// _Destroy<Rva002BBB96Element *> only. Its retail body is the stride-0x34 loop
+// over the BfmeAssignRecord52 dtor (0x002B707E) at 0x002BB6A5, so the element is
+// that 52-byte record and this unit's flags supply the copy.
+// The loop is __destroy_aux's own, over the record base: this unit's flags keep
+// a derived element's destructor out of line, which retail's body never calls.
+struct Rva002BBB96Element : BfmeAssignRecord52 {};
+namespace _STL {
+template <> void _Destroy<Rva002BBB96Element *>(Rva002BBB96Element *first, Rva002BBB96Element *last)
+{
+	for (; first != last; ++first)
+		_Destroy(static_cast<BfmeAssignRecord52 *>(first));
+}
+}
