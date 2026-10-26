@@ -212,6 +212,17 @@ authored-byte previews or commit-title gains into a projected headline.
   COMDAT policies and data/reference facts are unchanged. Two mixed donors
   and existing vtable/data identity debt remain. No merge, debt retirement,
   census gain or later Luna landing is claimed.
+- **TunnelTracker contain-list prerequisite (2026-10-26):**
+  [The shared receiver/environment repair](../reverse/attempt_support/consolidation-tunneltracker-contain-prerequisite-20261026-codex.md)
+  clears the contain-list refusal: ordinary composition now accepts seed plus
+  donor, nine existing rows / 611 bytes, versus no accepted group. Both current
+  objects and all thirteen composed code definitions retain bytes, COMDAT
+  choices and data/reference facts. Other receiver/list/save-load prerequisites
+  and Xfer identity debt remain; no merge or later Luna landing is claimed.
+  The preceding six-commit batch landed at 0b692726c4 with 40/40 push-hook rows
+  exact. Its link audit remains inconclusive: index 763dc8759f predates outgoing
+  base dd4a917878 and Eva.cpp lacks a current audit receipt. Carry the batch
+  into the next normal census; no link or ownership gain is claimed.
 - **HeaderTemplate provider inspection (2026-10-26):**
   [The scoped inspection](../reverse/attempt_support/consolidation-headertemplate-pushfront-prerequisite-20261026-codex.md)
   confirms 3/3 exact creation rows but an incorrect typed node-provider chain:

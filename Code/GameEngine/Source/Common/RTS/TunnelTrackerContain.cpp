@@ -72,22 +72,7 @@ public:
 	virtual Real getMaxHealth() const;
 };
 
-class Object
-{
-public:
-	BodyModuleInterface *getBodyModule() const { return m_body; }
-	// Contained-by frame, read directly (an inline getContainedByFrame here
-	// would be a second COMDAT copy beside GarrisonContain's Zero Hour
-	// header view, which reads ZH's +0x1B8).
-	char m_pad00[0x74];
-	ObjectID m_id; // +0x74
-	char m_pad78[0x254 - 0x78];
-	BodyModuleInterface *m_body; // +0x254
-	char m_pad258[0x274 - 0x258];
-	Object *m_containedBy; // +0x274
-	char m_pad278[0x27C - 0x278];
-	UnsignedInt m_containedByFrame; // +0x27C
-};
+#include "TunnelTrackerNemesisView.h"
 
 extern GameLogic *TheGameLogic;
 
@@ -114,22 +99,6 @@ private:
 };
 typedef TunnelContainedItemsList ContainedItemsList;
 
-class TunnelTracker
-{
-public:
-	Int getContainMax() const;
-	void addToContainList( Object *obj );
-	static void healObject( Object *obj, void *frames );
-private:
-	char m_pad00[0x08];
-	_STL::list<ObjectID> m_tunnelIDs; // +0x08
-	char m_pad0C[0x10 - 0x0C];
-	ContainedItemsList m_containList; // +0x10
-	char m_pad14[0x18 - 0x14];
-	Int m_containListSize; // +0x18
-	UnsignedInt m_tunnelCount; // +0x1C
-};
-
 // ------------------------------------------------------------------------
 Int TunnelTracker::getContainMax() const
 {
@@ -139,7 +108,7 @@ Int TunnelTracker::getContainMax() const
 // ------------------------------------------------------------------------
 void TunnelTracker::addToContainList( Object *obj )
 {
-	m_containList.push_back(obj);
+	reinterpret_cast<TunnelContainedItemsList *>(&m_containHead)->push_back(obj);
 	++m_containListSize;
 }
 
