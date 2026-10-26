@@ -146,8 +146,10 @@ struct IDirect3DDevice8
 
 class DX8Wrapper
 {
+	friend class WW3D;
 public:
 	static bool Reset_Device(bool reload_assets);
+protected:
 	static IDirect3DDevice8 *D3DDevice;
 };
 

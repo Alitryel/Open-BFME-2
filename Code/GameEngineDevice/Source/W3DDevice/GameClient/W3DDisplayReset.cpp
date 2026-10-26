@@ -33,7 +33,8 @@ struct IDirect3DDevice8
 
 class DX8Wrapper
 {
-public:
+	friend class W3DDisplay;
+protected:
 	static IDirect3DDevice8 *D3DDevice;
 };
 

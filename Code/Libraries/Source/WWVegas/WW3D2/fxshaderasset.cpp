@@ -168,12 +168,6 @@ extern "C" HRESULT __stdcall D3DXCreateEffectFromFileA(IDirect3DDevice8 *device,
 	const char *filename, const D3DXMACRO *defines, void *include, unsigned long flags,
 	void *pool, ID3DXEffect **effect, ID3DXBuffer **errors);
 
-class DX8Wrapper
-{
-public:
-	static IDirect3DDevice8 *D3DDevice;
-};
-
 class File
 {
 public:
@@ -259,6 +253,13 @@ class FXShaderAsset
 public:
 	class Impl;
 	static bool s_isW3DView;
+};
+
+class DX8Wrapper
+{
+	friend class FXShaderAsset::Impl;
+protected:
+	static IDirect3DDevice8 *D3DDevice;
 };
 
 class FXShaderAsset::Impl

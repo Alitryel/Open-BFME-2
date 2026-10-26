@@ -38,7 +38,7 @@ class RenderInfoClass;class TextureBaseClass;
 class ShaderClass {public:static ShaderClass _PresetAlphaShader; unsigned int shaderBits;};
 namespace Debug_Statistics {void Record_DX8_Polys_And_Vertices(int,int,const ShaderClass&);}
 struct IDirect3DDevice8;
-class DX8Wrapper {public:static IDirect3DDevice8*D3DDevice;};
+class DX8Wrapper {friend class W3DSnowManager;protected:static IDirect3DDevice8*D3DDevice;};
 float Rva000930C0(float,float);
 __forceinline int WWMath::Float_To_Int_Floor (const float& f)
 {
