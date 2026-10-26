@@ -88,10 +88,10 @@ void Rva0049D526::rva0049D526(void *entry)
 	m_2C = entry;
 	Rva0049D526Src *src = *(Rva0049D526Src **)((char *)this + 0x08);
 	WeaponTemplateSetHead tmp(src->m_head);
-	unsigned v = *(unsigned *)((char *)&tmp + 8);
-	v >>= 9;
+	unsigned flags = *(unsigned *)((char *)&tmp + 8);
+	flags >>= 9;
 	_ReadWriteBarrier();
-	if ((v & 1) == 0)
+	if ((flags & 1) == 0)
 	{
 		m_D1 |= 2;
 		m_114 = 1;

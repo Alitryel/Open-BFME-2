@@ -7827,3 +7827,15 @@ Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526
 Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|class||Rva004E52DCNode,d9e80a1fa511ef15249f6d93,gpt-6.1-sol,w6-10261043-13,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva000B31CB.cpp|class||Rva000B31CBScale,a3e1bfca915735334a5b2688,gpt-6.1-sol,w6-10261043-14,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva000B31CB.cpp|class||Rva000B31CBHolder,c6b7fb4312232548aa58c0b2,gpt-6.1-sol,w6-10261043-14,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp|local|Rva0049D526::rva0049D526|v,ea62bed4331dfd4db5cf4438,gpt-6.1-sol,w1-10261053-1,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|class||Rva0010811EVertex,7bcb64467d566995b1b7a955,gpt-6.1-sol,w1-10261053-3,w-6d5d2b593eca,2026-10-26
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadowV2Constructor.cpp|member|W3DVolumetricShadowSubMesh|m_10,589c792d192394de69d27806,gpt-6.1-sol,w1-10261053-3,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/System/AsciiStringRvoGetters.cpp|function|0x004CFB8B|rva004CFB8B,542ac3d544a332006cc106ce,gpt-6.1-sol,w1-10261053-7,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|x,9ea7a93567d4fd22d38171b1,gpt-6.1-sol,w1-10261053-9,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp|param|Rva002F1DDCTree::rva002F0DD6|w,a6d7b6e8f463c56d33a4252b,gpt-6.1-sol,w1-10261053-9,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|member|Rva005FD4AARecord|m_08,050feee5e5d345a3a2de2908,gpt-6.1-sol,w1-10261053-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|member|Rva005FD4AARecord|m_0C,22aaf3d1047f3ed71ff8f60b,gpt-6.1-sol,w1-10261053-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|function|0x005FD4AA|rva005FD4AA,3567e3be45a989e43a59736a,gpt-6.1-sol,w1-10261053-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|function|0x005FD4BB|rva005FD4BB,77b02365de12983663e1c19d,gpt-6.1-sol,w1-10261053-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|function|0x005FD4CC|rva005FD4CC,6b33df6bcf213a62cafff840,gpt-6.1-sol,w1-10261053-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/GapBodiesGE12.cpp|function|0x005FD4DD|rva005FD4DD,1a57c06b2fcdf5d01b44918c,gpt-6.1-sol,w1-10261053-10,w-6d5d2b593eca,2026-10-26

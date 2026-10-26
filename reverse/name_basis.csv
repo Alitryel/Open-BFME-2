@@ -2482,3 +2482,5 @@ param,Rva005F2A52AptCall::pF1,Rva005F2A52AptCall::xPos,inferred,agree:nl-4fb8614
 param,Rva005F2A52AptCall::pF2,Rva005F2A52AptCall::yPos,inferred,agree:nl-49d22e724c0e,Code/GameEngine/Source/Common/Rva005F2FEFApt.cpp,0x005F2A52
 member,Rva0050B7D2Arg::m_08,Rva0050B7D2Arg::m_targetID,inferred,agree:nl-5bfd2c9a4077,Code/GameEngine/Source/GameLogic/Object/Made002CCBCASlots.cpp,
 param,Rva004EAC8C::rva004EAC8C::v,Rva004EAC8C::rva004EAC8C::delay,inferred,agree:nl-63f7efcc1c29,Code/Libraries/Source/WWVegas/WWLib/Rva004EAC8CSetFloat.cpp,0x004EAC8C
+local,Rva0049D526::rva0049D526::v,Rva0049D526::rva0049D526::flags,inferred,agree:nl-4c7c93452e2b,Code/GameEngine/Source/GameLogic/Object/Update/Rva0049D526.cpp,0x0049D526
+param,Rva002F1DDCTree::rva002F0DD6::w,Rva002F1DDCTree::rva002F0DD6::forceRight,inferred,agree:nl-c72e4ce58c5d,Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp,0x002F0DD6

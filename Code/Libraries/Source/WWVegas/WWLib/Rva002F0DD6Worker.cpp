@@ -50,7 +50,7 @@ class Rva002F1DDCTree
 public:
 	Rva002F1DDCIter rva002F0DD6(Rva002F1DDCNode *x,
 		Rva002F1DDCNode *parent, const Rva002F1DDCValue &value,
-		Rva002F1DDCNode *w);
+		Rva002F1DDCNode *forceRight);
 private:
 	Rva002F1DDCNode *m_header;
 	int m_count;
@@ -58,10 +58,10 @@ private:
 
 Rva002F1DDCIter Rva002F1DDCTree::rva002F0DD6(Rva002F1DDCNode *x,
 	Rva002F1DDCNode *parent, const Rva002F1DDCValue &value,
-	Rva002F1DDCNode *w)
+	Rva002F1DDCNode *forceRight)
 {
 	Rva002F1DDCNode *newNode;
-	if (parent == m_header || (w == 0 && (x != 0 || *(const unsigned int *)&value < parent->_key))) {
+	if (parent == m_header || (forceRight == 0 && (x != 0 || *(const unsigned int *)&value < parent->_key))) {
 		newNode = (Rva002F1DDCNode *)reinterpret_cast<Rva002F0DD6Tree *>(this)->rva002EF25B(reinterpret_cast<const Rva002F0DD6Value &>(value));
 		parent->_left = newNode;
 		if (parent == m_header) {
