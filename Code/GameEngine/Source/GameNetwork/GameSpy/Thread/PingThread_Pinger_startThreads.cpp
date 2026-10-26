@@ -38,16 +38,29 @@ private:
 class ThreadClass
 {
 public:
-	virtual ~ThreadClass();
-	virtual void Execute();
+    ThreadClass(const char *name);
+    virtual ~ThreadClass();
+    virtual void Execute();
+    void Set_Priority(int priority);
+    __declspec(noinline) bool Is_Running();
+    __declspec(noinline) void Stop();
+
+protected:
+    virtual void Thread_Function() = 0;
+
+private:
+    char m_name[0x40];
+    unsigned int m_threadId;
+    void *m_handle;
+    int m_priority;
 };
 
 class Rva0054F93F : public ThreadClass
 {
 public:
+	virtual void Thread_Function();
 	Rva0054F93F(int mutex);		// 0x0054F93F
 private:
-	char m_pad04[0x50 - 4];
 	int m_mutex50;
 };
 
