@@ -1253,7 +1253,6 @@ Code/GameEngine/Source/GameLogic/Object/Update/HordeWorkerAIUpdateCtor.cpp	wrong
 Code/GameEngine/Source/GameLogic/Object/Update/HordeWorkerAIUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00049ACD0@HordeWorkerAIUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03B24
 Code/GameEngine/Source/GameLogic/Object/Update/InvisibilityUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva0004A393C@InvisibilityUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03BEC
 Code/GameEngine/Source/GameLogic/Object/Update/InvisibilityUpdatePoolKey.cpp	wrong-name	?$S2@?1??rva0004A38BF@InvisibilityUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03BE4
-Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdate004AB90A.cpp	wrong-name	?g_00DFE1A8@@3PAVRva0020DXXX@@A	0x009FE1A8
 Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupAudioUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva004AB897@LargeGroupAudioUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03CDC
 Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupBonusUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva00048FFD4@LargeGroupBonusUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A0398C
 Code/GameEngine/Source/GameLogic/Object/Update/LaserUpdatePoolKey.cpp	wrong-name	?$S1@?1??rva000363102@LaserUpdate@@SA?AW4NameKeyType@@XZ@4IA	0x00A01E8C
