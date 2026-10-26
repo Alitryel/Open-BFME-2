@@ -80,11 +80,11 @@ struct Rva0044EDA6Outer
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-Bool SpecialAbilityUpdate::rva0044EDA6(int arg)
+Bool SpecialAbilityUpdate::rva0044EDA6(int targetPos)
 {
 if ((m_moduleData != 0 || m_moduleData == 0)) {
  const Rva0044EDA6Outer *data=(const Rva0044EDA6Outer *)m_moduleData;
- if (!data || !((Rva0044E7A8 *)this)->rva0044E7A8(arg)) return false;
+ if (!data || !((Rva0044E7A8 *)this)->rva0044E7A8(targetPos)) return false;
  const Overridable *fin=data->m_specialPowerTemplate->friend_getFinalOverride();
  int value=fin->m_val1C;
  if(value!=0x28 && value!=0x27) {_ReadWriteBarrier(); return true;}

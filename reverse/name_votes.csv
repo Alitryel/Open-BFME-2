@@ -7909,3 +7909,12 @@ Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp|local|sav
 Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp|class||Rva007F35D0Cursor,33a95b4590c6b90a336d2995,gpt-6.1-sol,w1-10261139-11,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva002B6C9F.cpp|param|Rva002B6C9F::rva002B6C9F|a2,dc90cda42b8cef34e4e89a0a,gpt-6.1-sol,w1-10261139-12,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva002B6C9F.cpp|param|Rva002B6C9F::rva002B6CE5|a2,27c350cd02be5dc6a597c565,gpt-6.1-sol,w1-10261139-12,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/WeaponGetStatus.cpp|local|Weapon::setClipPercentFull|f,721436fb04559cc9ee8a6652,gpt-6.1-sol,w5-10261146-1,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp|param|SpecialAbilityUpdate::rva0044EDA6|arg,ffaf93ca674de15445dea127,gpt-6.1-sol,w5-10261146-4,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva0033A9A5.cpp|class||Rva0033A9A5Entry,86d4ff20fd70e16f33ed36d1,gpt-6.1-sol,w5-10261146-9,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva004E52DCWalk.cpp|class||Rva004E52DCNode,d9e80a1fa511ef15249f6d93,gpt-6.1-sol,w5-10261146-10,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/ObjectGeometryInterfaceRva0028C0E3.cpp|member|Rva0028C0E3Receiver|word414,ffd0977ce3314ba3000f802a,gpt-6.1-sol,w5-10261146-12,w-f0819d403c17,2026-10-26
+Code/GameEngine/Source/Common/Rva005C41C9Refresh.cpp|param|Rva005C41C9::rva005C41C9|v,9e55256daaf7889399ebec1b,gpt-6.1-sol,w5-10261146-14,w-f0819d403c17,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|s2,8d1123533838152e9c1e71d4,gpt-6.1-sol,w5-10261146-15,w-f0819d403c17,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v2,dc4275beab4fc26ec4ed9d9c,gpt-6.1-sol,w5-10261146-15,w-f0819d403c17,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v3,b120a7b2a8e8e5215b830fce,gpt-6.1-sol,w5-10261146-15,w-f0819d403c17,2026-10-26
