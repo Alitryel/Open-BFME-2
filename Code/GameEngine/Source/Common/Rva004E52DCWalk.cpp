@@ -31,9 +31,9 @@ struct AngleRange{float first,last;};
 class Rva004E50C8{public:void rva004E50C8();Coord3D center;char pad0C[12];float radius;char pad1C[8];float opacity,minLength,maxLength;int color;_STL::list<Shadow*>shadows;_STL::list<AngleRange>angles;};
 
 
-struct Rva004E52DCNode
+struct TerrainClaimNode
 {
-	Rva004E52DCNode *m_next;
+	TerrainClaimNode *m_next;
 	char m_pad[4];
 	Rva004E50C8 m_sub;
 };
@@ -45,13 +45,13 @@ public:
 
 private:
 	void *m_00;
-	Rva004E52DCNode *m_04;
+	TerrainClaimNode *m_04;
 };
 
 // ?rva004E52DC@Rva004E52DC@@QAEXXZ @0x004E52DC 31B.
 void Rva004E52DC::rva004E52DC()
 {
-	for (Rva004E52DCNode *node = m_04->m_next; node != m_04; node = node->m_next)
+	for (TerrainClaimNode *node = m_04->m_next; node != m_04; node = node->m_next)
 		node->m_sub.rva004E50C8();
 }
 
