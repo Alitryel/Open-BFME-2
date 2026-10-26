@@ -1339,7 +1339,6 @@ Code/GameEngine/Source/GameNetwork/FeslConnectionHandlerRva007F9D00.cpp	drop-in 
 Code/GameEngine/Source/GameNetwork/FeslMessage_addInt64_rva007E8E90.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdio.h>	no	no	hand		prove with ./build.sh: byte gate is the authority	sprintf:same
 Code/GameEngine/Source/GameNetwork/FeslMessage_getInt64_rva007E8930.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdio.h>	no	no	hand		prove with ./build.sh: byte gate is the authority	sscanf:same
 Code/GameEngine/Source/GameNetwork/GUIUtil.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
-Code/GameEngine/Source/GameNetwork/GameInfoSetMap.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	NULL:same
 Code/GameEngine/Source/GameNetwork/GameSpy/BuddyDefs.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	2	<excpt.h>,<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	timeGetTime:same
 Code/GameEngine/Source/GameNetwork/GameSpy/Rva00382623StagingRoomInit.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<windows.h>	yes	yes	hand		prove with ./build.sh: byte gate is the authority	GetTickCount:same
 Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadPushStatsBfme.cpp	drop-in candidate	same	1	1	0	0	0	0	0	0	0	0	0	<stdio.h>	no	yes	hand		prove with ./build.sh: byte gate is the authority	_snprintf:same

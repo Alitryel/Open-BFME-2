@@ -9,9 +9,8 @@
 // Target facts read from this body: m_inGame at +0x10, m_mapName at +0x40,
 // m_mapMask at +0x4C; amIHost at vtable +0x30; File::close at +0x08;
 // FileSystem::openFile(name, 0, 0); the metadata predicates at +0x25/+0x26.
+#include <cstddef>
 #include "ascii_string.h"
-
-#define NULL 0
 
 class File
 {

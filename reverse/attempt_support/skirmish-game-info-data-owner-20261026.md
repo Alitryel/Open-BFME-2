@@ -83,3 +83,28 @@ the separately checked companion. Local receipts are
 the native/owner/data-parity/frozen logs and `iteration24-unused-menu-decl-*.log`.
 The independent comparison script and receipt are
 `iteration24-skirmish-coff-parity.py` and `.log` in that folder.
+
+## Publication and following file cleanup
+
+Published as `98500fc347` at 2026-10-26 08:44 UTC after the normal full gate:
+98,252 functions, 2,218 data rows, 214 STLport folds, all reference checks and
+the no-op image pass. The final EH audit reports 11,876 EXACT graphs and 24
+existing registered exceptions, with no missing object. Converged-data
+enforcement passes across 22,962 sources with no second names or unjudged rows.
+The shadow link audit does not finish within the hook's limit and uses an
+older census index; it gives no new provider-change or lost-byte verdict.
+Receipt: `iteration24-push.log` in the local evidence folder. PR 115 is updated.
+
+The required post-push rebase onto `97cecf650b` preserves upstream's GameFont
+debt transfer and all unrelated Microsoft-header queue rows. The owning
+identity retirement is rechecked after a normal byte build supplies the new
+upstream AptScriptColour object. No upstream source change overlaps this
+published series. These are rebase prerequisites, not additional repairs.
+
+At base `b93c847599`, the next queued item in GameInfoSetMap.cpp is its local
+`NULL` macro. Replacing that definition with `<cstddef>` preserves all 13 rows
+(1,216 bytes), its EXACT EH graph, three literals and eight empty references.
+The frozen-file check passes. The owning scoped Microsoft-header refresh
+removes exactly this one queue item and preserves every unrelated queue byte.
+No function body, pointer binding or ledger extent changes, and no C++ coverage
+or census increase is claimed. Receipts: `iteration25-map-{build,eh,ms-refresh}.log`.
