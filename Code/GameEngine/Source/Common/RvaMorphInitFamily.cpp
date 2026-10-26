@@ -41,7 +41,7 @@ class Rva005CDMorphBase : public Rva005CCDDD
 {
 public:
 	Rva005CDMorphBase(int a, int b, int c, int d, int e);
-	virtual ~Rva005CDMorphBase();
+	virtual ~Rva005CDMorphBase() {}
 private:
 	int m_0c;
 	int m_10;
@@ -61,25 +61,25 @@ Rva005CDMorphBase::Rva005CDMorphBase(int a, int b, int c, int d, int e)
 class Rva005CDSub84
 {
 public:
-	virtual ~Rva005CDSub84();
+	virtual ~Rva005CDSub84() {}
 };
 
 class Rva005CDSubA0
 {
 public:
-	virtual ~Rva005CDSubA0();
+	virtual ~Rva005CDSubA0() {}
 };
 
 class Rva005CDSubBC
 {
 public:
-	virtual ~Rva005CDSubBC();
+	virtual ~Rva005CDSubBC() {}
 };
 
 class Rva005CDSubD8
 {
 public:
-	virtual ~Rva005CDSubD8();
+	virtual ~Rva005CDSubD8() {}
 };
 
 class Rva005CDMorph
