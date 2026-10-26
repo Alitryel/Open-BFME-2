@@ -390,8 +390,11 @@ authored-byte previews or commit-title gains into a projected headline.
   retains both callbacks (1,559 bytes) and its complete object, retiring one
   further header item. Control-bar adoption retains all 50 rows, seven EXACT
   EH graphs and complete object facts, including static initialization guards
-  and by-value coordinate calls, retiring its queue item. Three ICoord2D
-  items and census confirmation stay open.
+  and by-value coordinate calls, retiring its queue item. Its six unchanged
+  static-guard data-name diagnostics remain in shadow. Vertical-button
+  adoption preserves both drawing and the native constructor owner (649
+  bytes), with complete object equivalence, and retires its queue item.
+  Two ICoord2D items and census confirmation stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through

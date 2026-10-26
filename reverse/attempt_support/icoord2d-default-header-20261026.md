@@ -107,3 +107,26 @@ name normalization is used. Frozen check passes and owning header acceptance
 retires exactly this source's queue row. Three ICoord2D items remain. Receipts:
 `iteration33-before-build.log`, `iteration33-after-build.log`,
 `iteration33-accept.log`, and the normal `iteration33-commit.log`.
+
+The control-bar commit's data check reports six existing shadow wrong-name
+findings for static initialization guards. Direct before/after comparison
+confirms all six guard names, sections, values, types and storage classes
+are identical, in addition to the full object comparison above. They are not
+new findings or retired data debt. Code identity reports zero new findings;
+converged-data enforcement passes.
+
+## Vertical button and constructor owner
+
+On `24bac8998a`, W3DPushButtonImageDrawVertical.cpp adopts the existing
+empty-constructor mode at its first include, before IRegion2D.h. The complete
+source was read, including all selection and tiling paths. Normal before/
+after builds retain both rows: drawing at `0x000A501C` (646 bytes) and the
+constructor at `0x0047A6A9` (three bytes), 649 bytes total. The real locals
+still emit the existing constructor owner; no artificial emitter is added.
+Full COFF comparison preserves 13 non-debug sections, 825 bytes, ten
+relocations and all external identities. No EH graph exists; frozen check
+passes. Normal header acceptance removes exactly this source's queue row.
+Two ICoord2D queue items remain: GameClientDrawableTOC's external default
+constructor and icoord.cpp's base/operator view. Receipts:
+`iteration34-before-build.log`, `iteration34-after-build.log`,
+`iteration34-accept.log`, and the normal `iteration34-commit.log`.

@@ -17,12 +17,9 @@ typedef int Color;
 class Image;
 
 // BFME ICoord2D has a user-declared empty constructor (retail ??0ICoord2D@@QAE@XZ).
-struct ICoord2D
-{
-	Int x;
-	Int y;
-	ICoord2D() {}
-};
+#define ICOORD2D_VIEW_DEFAULT_CTOR
+#include "../../../../../../Libraries/Include/Lib/ICoord2D.h"
+#undef ICOORD2D_VIEW_DEFAULT_CTOR
 
 #include "../../../../../../Libraries/Include/Lib/IRegion2D.h"
 
