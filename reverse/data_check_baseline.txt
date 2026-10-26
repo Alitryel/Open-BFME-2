@@ -834,7 +834,7 @@ Code/GameEngine/Source/GameLogic/Object/Upgrade/InheritUpgradeCreatePoolKey.cpp	
 Code/GameEngine/Source/GameLogic/Object/Upgrade/LockWeaponCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8C57@LockWeaponCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F6C
 Code/GameEngine/Source/GameLogic/Object/Upgrade/ObjectCreationUpgradeVslot8.cpp	wrong-name	?$S1@?5??rva004B463C@ObjectCreationUpgrade@@QAEXXZ@4IA	0x00A03E10
 Code/GameEngine/Source/GameLogic/Object/Upgrade/PreorderCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B92A0@PreorderCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F94
-Code/GameEngine/Source/GameLogic/Object/Upgrade/SpecialPowerCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B938E@SpecialPowerCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F9C
+Code/GameEngine/Source/GameLogic/Object/Create/SpecialPowerCreate.cpp	wrong-name	?$S1@?1??rva004B938E@SpecialPowerCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F9C
 Code/GameEngine/Source/GameLogic/Object/Upgrade/StatusBitsUpgradeIfEldestKindofSlot2.cpp	wrong-name	?$S1@?1??rva004CE2B0@StatusBitsUpgradeIfEldestKindof@@UAE_NPAVRva00406F9C@@@Z@4IA	0x00A03E38
 Code/GameEngine/Source/GameLogic/Object/Upgrade/SupplyCenterCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8DCA@SupplyCenterCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F74
 Code/GameEngine/Source/GameLogic/Object/Upgrade/SupplyWarehouseCreatePoolKey.cpp	wrong-name	?$S1@?1??rva004B8EC1@SupplyWarehouseCreate@@SA?AW4NameKeyType@@XZ@4IA	0x00A03F7C
