@@ -1236,6 +1236,20 @@ confirmation remain pending.
   owner `vector<Drawable*>::resize` (`DrawableVectorResize.cpp`) through a cast.
   `link_check.py` with `Rva007B6880Thunks.cpp` and `DrawableVectorResize.cpp`:
   0 -> 314 B.
+- **Audio overlap reconciled (2026-10-26, base `e12e2545d9`):** the table above
+  records the earlier independent repair. The retained audio implementation
+  uses the verified 12-byte array owner in KeyList; sixteen native zero bytes
+  did not establish a 16-byte tree layout. AddKey's native resize and insert
+  calls are already repaired, as recorded in
+  [the storage follow-up](../reverse/attempt_support/largegroup-keylist-storage-link-20261026.md).
+  [Removing the now-unused pair-tree erase instantiation](../reverse/attempt_support/largegroup-unused-erase-provider-20261026.md)
+  prevents its divergent pair destructor from overriding AddKey's cleanup.
+  All 20 affected function rows, two data rows and two EH graphs pass; current
+  consumer objects contain no reference to that alternative erase. The bounded
+  seven-object preview restores AddKey's 314 bytes and passes 7/7 at
+  10,874 -> 11,379 against index `763dc8759f`. No new census gain is claimed.
+  These preview results overlap the independent resize repair above;
+  they are not additive linked-byte gains.
 - **Remaining / next check:** Many `U` entries in the 763dc8759f index are stale: check
   with the defining unit's current object before working one (e.g.
   `~SpecialPowerModule` already resolves).
