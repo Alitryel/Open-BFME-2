@@ -62,7 +62,24 @@ struct BfmeCtxSZA
 	BfmeRecSZA *m_bfmeRec;
 };
 
-class DebugStackwalk { public: class Signature { public: static void __cdecl GetSymbol(unsigned a, char *buf, unsigned n); }; };
+// The exception-filter donor uses this existing stack-signature operand view.
+class DebugStackwalk
+{
+public:
+	struct Signature
+	{
+	private:
+		unsigned m_numAddr;
+		unsigned m_addr[256];
+
+	public:
+		unsigned Size() const { return m_numAddr; }
+		unsigned GetAddress(int n) const;
+		static void GetSymbol(unsigned addr, char *buf, unsigned bufSize);
+	};
+
+	static int StackWalk(Signature &sig, _CONTEXT *context, bool fullWalk);
+};
 
 class Rva008830D0Class
 {
