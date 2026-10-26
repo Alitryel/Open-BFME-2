@@ -130,3 +130,15 @@ audit still contains no moved or deleted source, protected-register change,
 or new consumer; the before/after and composition receipts remain applicable.
 The new census is repository-wide evidence, not an attributable gain for this
 prerequisite. Retain the five listed file scopes if final publication defers.
+
+## Recovery verification, next session
+
+Recovered clean pending commits 3d51de24e0 and 22f0ed403a before selecting any
+new work. Fresh pull/check_csv pass; both source files pass the frozen check
+and build 9/9 exact. Repeated the retained composition proof: thirteen external
+providers and their COMDAT policies, internally resolved undefined references
+and data facts still agree exactly. Repeated paired consumer scan: eleven
+facts, no additions or removals. Complete origin/master..HEAD path audit has
+no moves; active header searches still find only the two verified consumers.
+This recovery adds no source change or attributable progress. Five scope
+claims remain held until publication is confirmed.
