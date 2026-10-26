@@ -99,3 +99,66 @@ other worker's claim or cross-family donor was touched.
 `link_check.py --new-variants --paths-from
 build/codex-specialpower-sources.txt` also exits zero. No census, link cycle,
 nightly builder or smoke test was run.
+
+## Session close and publication handoff
+
+The prerequisite is committed as `f1831265b0`. Its header-dependent gate passes
+30/30 rows in three sources including Eva.cpp; the final scoped gate passes
+3/3 rows plus one EXACT EH graph. Code identity reports zero new findings.
+The two existing pool wrong-name findings are at 0x00A03F98 and 0x00A03F9C,
+outside the historical-name baseline; complete object/data equality proves
+they predate this repair. The baseline key and both ledger entries remain.
+
+At session close the source commits and inherited documentation are local:
+`92faf73b14`, `240fd4de66`, `a3b9a2d300`, `f1831265b0`. The last two publish
+attempts both returned immediately because another agent was pushing. No
+pre-push selected-provider/lost-byte/input-freshness batch audit has yet run
+for this outgoing batch; inspect its report at actual publication and carry
+inconclusive freshness findings into the next census/obstacle handoff. No
+maintainer-only measurements are authorized or run. These are pre-rebase
+commit IDs; the runner can rewrite them while publishing.
+
+The compatibility audit covers merge-base `73ffc391c4` through these four
+pending commits and this final documentation update. Existing source paths
+are unchanged; the only added Code paths are the two scoped headers, with the
+five intended consumers verified together. Relevant moves/consumers did not
+change after the combined audit above. No protected register or generated map
+changes are pending.
+
+Keep these **14 file claims** until actual publication is confirmed, then
+release file scopes and run `claims.py release --landed`:
+
+- `docs/linking_obstacles.md`
+- `reverse/attempt_support/consolidation-sol-prerequisites-20261026-codex.md`
+- `reverse/attempt_support/consolidation-sway-receiver-20261026-codex.md`
+- `Code/GameEngine/Source/GameClient/Drawable/Update/SwayClientUpdate.cpp`
+- `Code/GameEngine/Source/GameClient/Drawable/Update/SwayClientUpdatePoolKey.cpp`
+- `Code/GameEngine/Source/GameClient/Drawable/Update/SwayClientUpdateView.h`
+- `Code/GameEngine/Source/GameLogic/Object/Update/SwayClientUpdate_xfer.cpp`
+- `Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp` (verification only)
+- `Code/GameEngine/Source/GameLogic/Object/Create/SpecialPowerCreate.cpp` (trial destination)
+- `Code/GameEngine/Source/GameLogic/Object/Create/SpecialPowerCreateConstructor.cpp` (unchanged)
+- `Code/GameEngine/Source/GameLogic/Object/Create/SpecialPowerCreateOnBuildComplete.cpp`
+- `Code/GameEngine/Source/GameLogic/Object/Upgrade/SpecialPowerCreatePoolKey.cpp`
+- `Code/GameEngine/Source/GameLogic/Object/Create/SpecialPowerCreateView.h`
+- `reverse/attempt_support/consolidation-specialpowercreate-view-20261026-codex.md`
+
+Results: two receiver prerequisites demonstrate future composition of Sway's
+six rows / 1,218 bytes and SpecialPowerCreate's three rows / 136 bytes. No Luna
+landing is confirmed. The separate Sway cleanup removes one divergent helper
+copy, leaving its same strict-current selected GameLogicInit provider. File
+reduction, recovered bytes and registered debt retirement are each zero.
+Remaining work is constructor/virtual-table contracts, mixed donors and the
+existing pool data names. AssaultTransportAIUpdate and SupplyWarehouse plans
+retain their previously recorded structural blockers; GameMemory has mixed
+and cross-family allocator prerequisites. No unchanged blocker was repeatedly
+built, and no unrelated lane was used.
+
+Final `python3 tools/progress.py origin/master` passes: BYTE-MATCHED
+7,978,500 bytes / 100%, authored C++ and exact covered bytes each delta +0.
+The local checkout still carries census f995f30157 while origin has a newer
+history; its printed LINKING/LINKED negative comparison is between those
+census records, not a measured loss from these source changes. No current
+linked-byte gain/loss or NOT OURS change is claimed. Raw local output:
+`build/codex-progress-final-20261026.txt`. Publication status after this final
+handoff commit is recorded by the runner's session-close metadata.
