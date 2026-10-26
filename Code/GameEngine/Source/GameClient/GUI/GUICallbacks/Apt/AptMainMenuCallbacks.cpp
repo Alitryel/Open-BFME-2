@@ -918,7 +918,6 @@ public:
 	virtual ~GameInfo();
 };
 extern GameInfo *TheGameInfo;
-extern GameInfo *TheSkirmishGameInfo;
 
 // TheGameText's vslot 15 fetch (Rva00515C64's view).
 class GameTextInterface

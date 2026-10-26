@@ -551,6 +551,17 @@ authored-byte previews or commit-title gains into a projected headline.
   and three EH graphs pass, with no new data findings. The five consumers
   recover their 818 already-censused bytes in the ordinary current-object
   preview; ww3d.cpp's separate blockers remain. No new census gain is claimed.
+- **Skirmish pointer owner repaired (2026-10-26, base `c63ad61ed9`):**
+  [The verified four-byte owner](../reverse/attempt_support/skirmish-game-info-data-owner-20261026.md)
+  reconciles 24 declarations in 23 consumers with the existing menu definition.
+  The cohort passes 729 functions, 13 data rows and 100 EXACT EH graphs; one
+  unused declaration's removal preserves another 39 rows and four EH graphs.
+  Full non-debug COFF comparison proves no code/exception change beyond the
+  intended data-symbol binding. The 24-unit ordinary preview improves from
+  0/24 to 22/24, restoring 64,163 already-censused authored bytes against
+  `763dc8759f`. Recorder's consolidation diagnostics and the menu owner's
+  other dependencies remain. Existing shadow data/identity findings are
+  retained and qualified in the handoff. No new census or full-image claim.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and
@@ -878,6 +889,14 @@ authored-byte previews or commit-title gains into a projected headline.
   prerequisite. The audit completes with 89 retired objects, 287 provisional
   disappeared-provider reports and 30 possible-loss lines against the older
   `763dc8759f` index. No aggregate loss, global clearance or census gain follows.
+- **Following publication (`fa28e8f779`, 2026-10-26):**
+  [The next bounded push](../reverse/attempt_support/ini-publication-current-provider-audit-20261026.md#publication-at-fa28e8f779)
+  passes 691 functions, 13 data rows and 78 EXACT EH graphs over 84 sources.
+  All 82 explicitly prepared providers have strict receipts, but two additional
+  objects do not (first reported: Rva003ED498Count.cpp). Its audit stops before
+  a provider-change/lost-byte verdict and retains the older-index qualification.
+  This is a separate input-proof prerequisite, not proof of a source regression
+  or clearance of Eva's inventory issue.
 
 ### LINK-009: split-identity destructors; the alias route needs an admission path
 

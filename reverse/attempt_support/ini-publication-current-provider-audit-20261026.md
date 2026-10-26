@@ -97,3 +97,25 @@ exact 7,984,346 (+0), BYTE-MATCHED 100%, and unchanged official census figures.
 Receipts: `iteration23-prepare-{0,28,56}.log`, `iteration23-progress.log`,
 `iteration23-final-path-consumers.log`, `iteration23-rebase-streak-retire.log`
 and `iteration23-ms-rebase-{12,13,8,5,2,0}.log` in the same local evidence folder.
+
+## Publication at fa28e8f779
+
+The normal push completed successfully at 2026-10-26 07:12 UTC. Its final
+bounded gate verifies **691 functions, 13 data rows and 78 EXACT EH graphs
+over 84 changed/dependent sources**. Converged-data enforcement reports no
+second names or unjudged rows in those 84 sources. This is not a new full
+98,252-row run; the preceding full-gate receipt remains separately dated above.
+
+The shadow audit remains **INCONCLUSIVE**: two additional objects lack strict
+current receipts (first reported: Rva003ED498Count.cpp), and index `763dc8759f`
+predates outgoing base `f8aefae21a`. It stops before a new selected-provider or
+lost-byte verdict. The earlier 287/30 provisional reports are not results of
+this later audit. Carry the missing input proofs and comparison-baseline
+prerequisite forward; this is neither a new failure nor a global clearance.
+
+The required post-push pull rebases onto `3f8f6eb0b5`. No upstream file in that
+increment overlaps this branch's source edits or the subsequent Skirmish cohort.
+Scoped owning refreshes again preserve all unrelated Microsoft-header queue
+entries. The edited AGENTS.md was reread; this is the main checkout, not a linked
+worktree. PR 115 records these actual results and limitations. Local receipts
+are `iteration23-push.log` and `iteration23-postpush-pull.log` in the same folder.
