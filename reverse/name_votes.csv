@@ -7495,3 +7495,6 @@ Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C8ERef|p,1070
 Code/GameEngine/Source/Common/BfmeConv1361.cpp|class||BfmeMsgVHE,80cb8a9da9af7aae3b82e0f9,gpt-6.1-sol,w1-10260630-13,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/BfmeConv1361.cpp|member|BfmeMsgVHE|m_bfme1c,e9f3e015eabab02470105c4a,gpt-6.1-sol,w1-10260630-13,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/BfmeConv1361.cpp|function|0x00675680|bfmeCopyVHE,373a737e8766f61e18e9e775,gpt-6.1-sol,w1-10260630-13,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Rva0049A64BRva0049A8FA.cpp|param|Rva0049A64B::getEnterPosition|a,d74983f6b6094aa67fc67feb,gpt-6.1-sol,w4-10260653-1,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva00274176|p,5170af72047b96fa1559dcf1,gpt-6.1-sol,w4-10260653-10,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/GameClient/Drawable_rva00274176.cpp|local|Drawable::rva0027434D|p,f33cfcb64d2cf5855ccfb2fb,gpt-6.1-sol,w4-10260653-10,w-eb83eac9adc1,2026-10-26

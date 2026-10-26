@@ -96,15 +96,15 @@ class Rva0049A64B : public B00, public B0C, public B10, public B20, public B24, 
 public:
 	virtual bool isClearToApproach(int a);
 	virtual bool reserveApproachPosition(int a, Coord3D *pos, int *out);
-	virtual void getEnterPosition(int a, Coord3D *out);
+	virtual void getEnterPosition(int docker, Coord3D *out);
 };
-void Rva0049A64B::getEnterPosition(int a, Coord3D *out)
+void Rva0049A64B::getEnterPosition(int docker, Coord3D *out)
 {
 	int extra;
 	Rva0049A8FAProvider *provider = m_object->m_250->rva7C();
 	if (provider && out)
 	{
-		*out = provider->rva1C(a, &extra);
+		*out = provider->rva1C(docker, &extra);
 	}
 }
 
