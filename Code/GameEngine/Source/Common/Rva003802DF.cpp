@@ -39,8 +39,8 @@ public:
 struct Rva003802DFPayload
 {
     char m_pad[8];
-    int m_08;
-    int m_0C;
+    int m_maxLevelMP;
+    int m_maxLevelSP;
 };
 class Rva00380200 : public Rva00380200Base
 {
@@ -55,8 +55,8 @@ int Rva00380200::rva003802DF()
     {
         int maxRank = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
         int b = ((Rva002B2AFD *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic))->rva002B2AFD();
-        const int &r = b < maxRank ? b : maxRank;
-        return r;
+        const int &rankLimit = b < maxRank ? b : maxRank;
+        return rankLimit;
     }
     else if (m_04)
     {
@@ -64,16 +64,16 @@ int Rva00380200::rva003802DF()
         if (logic->m_gameMode == 2 || logic->isInMultiplayerGame())
         {
             int maxRank = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
-            int b = m_04->m_08;
-            const int &r = b < maxRank ? b : maxRank;
-            return r;
+            int b = m_04->m_maxLevelMP;
+            const int &rankLimit = b < maxRank ? b : maxRank;
+            return rankLimit;
         }
         else
         {
             int maxRank = ((Rva003B0FC6SarAvgField *)TheRankInfoStore)->get();
-            int b = m_04->m_0C;
-            const int &r = b < maxRank ? b : maxRank;
-            return r;
+            int b = m_04->m_maxLevelSP;
+            const int &rankLimit = b < maxRank ? b : maxRank;
+            return rankLimit;
         }
     }
     else

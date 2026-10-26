@@ -8048,3 +8048,13 @@ Code/GameEngine/Source/Common/WeaponGetStatus.cpp|local|Weapon::setClipPercentFu
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBufferAddTree.cpp|member|Rva000ECF79Tree|fieldd8,8030861c026ccc78ea74f82c,gpt-6.1-sol,w4-10261316-7,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/Common/Rva004DF4B5.cpp|param|Rva004DF4B5::rva004DF4B5|p,0414c12665c06da58b25982e,gpt-6.1-sol,w4-10261316-11,w-eb83eac9adc1,2026-10-26
 Code/GameEngine/Source/Common/Rva00437EDCFinish.cpp|member|Rva0054D222Prompt|m_callback20,bc5bdf7aee677cf92cf496e2,gpt-6.1-sol,w4-10261316-12,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva00201DC4LODDefaults.cpp|member|Rva00201DC4LODInfo|flag30,5269c6f8c8bf50542584558a,gpt-6.1-sol,w2-10261323-5,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva002E0D66Method.cpp|class||Rva002E0D66Node,c88f163672fb178687142db1,gpt-6.1-sol,w2-10261323-6,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva003802DF.cpp|member|Rva003802DFPayload|m_08,931194339467dbdc9162aa61,gpt-6.1-sol,w2-10261323-7,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva003802DF.cpp|member|Rva003802DFPayload|m_0C,d96e6fce41c781e34eb3977a,gpt-6.1-sol,w2-10261323-7,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva003802DF.cpp|local|Rva00380200::rva003802DF|r,dd32fb4ece86f1fe2f65a407,gpt-6.1-sol,w2-10261323-7,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp|class||Rva007F35D0Cursor,02c4923b49893f7c9f9395c8,gpt-6.1-sol,w2-10261323-8,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.cpp|class||Rva0020F3E8Marker,ddadbc14c64e3e6617dbff77,gpt-6.1-sol,w2-10261323-9,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,d4ff841dc2e1f40b8b7a5066,gpt-6.1-sol,w2-10261323-10,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|local|Rva004958AE::update|m_command14,e720e78ecb9b96ae66fb5319,gpt-6.1-sol,w2-10261323-12,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|member|Rva004BDB37|m_24,3d2f3e9cd2496e0c50f2c6c5,gpt-6.1-sol,w2-10261323-13,w-dce04682aaeb,2026-10-26

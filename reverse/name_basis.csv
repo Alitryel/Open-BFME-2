@@ -2543,3 +2543,6 @@ param,famgenDelete#16::p,famgenDelete#16::selectionUI,inferred,agree:nl-d1f52ff3
 param,famgenDelete#17::p,famgenDelete#17::panelFrame,inferred,agree:nl-b48ba0e27b40,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
 param,Rva00136794::Rva00136794::s2,Rva00136794::Rva00136794::baseName,inferred,agree:nl-936067c8124a,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
 param,Rva00136794::Rva00136794::v2,Rva00136794::Rva00136794::replacementTextures,inferred,agree:nl-540917e6f01d,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
+member,Rva003802DFPayload::m_08,Rva003802DFPayload::m_maxLevelMP,inferred,agree:nl-82f865ab8ffc,Code/GameEngine/Source/Common/Rva003802DF.cpp,
+member,Rva003802DFPayload::m_0C,Rva003802DFPayload::m_maxLevelSP,inferred,agree:nl-446db14ab9bc,Code/GameEngine/Source/Common/Rva003802DF.cpp,
+local,Rva00380200::rva003802DF::r,Rva00380200::rva003802DF::rankLimit,inferred,agree:nl-a7ed10681fcf,Code/GameEngine/Source/Common/Rva003802DF.cpp,0x003802DF
