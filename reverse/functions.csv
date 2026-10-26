@@ -24871,7 +24871,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ??0Rva003AE1CD@@QAE@ABV0@@Z,,0x003AE1CD,64,Code/GameEngine/Source/Common/Rva003AE1CDCopyCtor.cpp,matched,derived V3-inline copy via rowed bases 0x3ADFDB 0x3AE20D plus null-guarded plus0x0C plus three vftables
 ??0Rva003AE1A7@@QAE@ABV0@@Z,,0x003AE1A7,38,Code/GameEngine/Source/Common/Rva003AE1A7CopyCtor.cpp,matched,derived V3-inline copy via rowed base 0x3AE1CD plus three vftables plus caller 0x3AE19C
 ??1Rva003A97E0@@UAE@XZ,,0x003A97E0,5,Code/GameEngine/Source/GameClient/System/FXParticleSystem/ParticleModuleInfoDtor.cpp,matched,thunk jmp to rowed 3A983C called by AE73C and Unwinds
-?upgradeMuxXfer@UpgradeMux@@MAEXPAVXfer@@@Z,,0x004CE397,34,Code/GameEngine/Source/GameLogic/Object/Update/UpgradeMuxXfer.cpp,matched,UpgradeMux member vtable slot 16 plus 12 derived xfer callers plus ZH donor
+?upgradeMuxXfer@UpgradeMux@@MAEXPAVXfer@@@Z,,0x004CE397,34,Code/GameEngine/Source/GameLogic/Object/Upgrade/UpgradeModule.cpp,matched,UpgradeMux member vtable slot 16 plus 12 derived xfer callers plus ZH donor
 ?clone@Rva003AE1A7@@QBEPAV1@XZ,,0x003AE18A,29,Code/GameEngine/Source/Common/Rva003AE18AClone.cpp,matched,vslot 2 of vtable 0x81CA40 via new 0x44 plus rowed copy 0x3AE1A7 plus throw to drop EH
 ??1GpuDrawModuleInfo@FXParticleSystem@@UAE@XZ,0x003A9D43,0x003A9D43,48,Code/GameEngine/Source/GameClient/System/FXParticleSystem/GpuDrawModuleInfoDtor.cpp,matched,string at C via 36410 and base BBB554
 ??0Rva003AE03D@@QAE@ABV0@@Z,,0x003AE03D,64,Code/GameEngine/Source/Common/Rva003AE03DCopyCtor.cpp,matched,derived V3-inline copy via rowed bases 0x3ADEBF 0x3AE07D plus null-guarded plus0x0C plus three vftables
@@ -26649,7 +26649,7 @@ _FilterBlockBil_8_wmt,,0x001D7C80,204,Code/Libraries/Source/VP6/FilterBlockBil8W
 ??0Rva004CEEE8@@QAE@XZ,,0x004CEEE8,25,Code/GameEngine/Source/GameNetwork/Rva004CEEE8Ctor.cpp,matched,NetCommandMsg derived ctor type 0x17 vtable 0x860244 ICF with KeepAlive
 ?Rva004CE245@@YAXPAX@Z,,0x004CE245,34,Code/GameEngine/Source/Common/Rva004CE245.cpp,matched,free helper cond step finish via slots 0x1C 0x20 0x24 2 callers
 ??0NetFrameCommandMsg@@QAE@XZ,,0x004CEEC3,37,Code/GameEngine/Source/GameNetwork/NetFrameCommandMsg.cpp,matched,NetCommandMsg derived ctor type 3 vtable 0x860140 members 0 0 minus1; NetFrameCommandMsg: type 3 is ZH NETCOMMANDTYPE_FRAMEINFO set by its ctor (donor) and the +0x1C/+0x20/+0x24 dwords are what NetPacket 0x0058DCEB reads into the new message (target); BFME 1 donor placement calls it here; formerly rowed as Rva004CEEC3
-?rva004CE3B9@Rva004CE3B9@@QAEABVAsciiString@@XZ,,0x004CE3B9,64,Code/GameEngine/Source/GameLogic/Object/Update/Rva004CE3B9UpgradeName.cpp,matched,first set upgrade name via UpgradeCenter mask walk empty if none
+?rva004CE3B9@Rva004CE3B9@@QAEABVAsciiString@@XZ,,0x004CE3B9,64,Code/GameEngine/Source/GameLogic/Object/Upgrade/UpgradeModule.cpp,matched,first set upgrade name via UpgradeCenter mask walk empty if none
 ?rva005C45D2@Rva005C45D2@@QAEXPAVXfer@@@Z,,0x005C45D2,44,Code/GameEngine/Source/Common/Rva005C45D2Xfer.cpp,matched,chain Version11 plus Rva004CE6E4 with this
 ?rva005C4469@Rva005C4469@@QAEXPAVXfer@@@Z,,0x005C4469,58,Code/GameEngine/Source/Common/Rva005C4469Xfer.cpp,matched,chain Version11 plus Rva004CE6E4 plus bool at plus0xC
 ?rva005C4808@Rva005C4808@@QAEXPAVXfer@@@Z,,0x005C4808,61,Code/GameEngine/Source/Common/Rva005C4808Xfer.cpp,matched,chain Version12 gated helper plus int at plus0x20
