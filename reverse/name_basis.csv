@@ -2356,3 +2356,6 @@ member,Rva000ECF79Tree::fielde4,Rva000ECF79Tree::m_targetAlpha,inferred,agree:nl
 param,Rva002F1DDCIter::p,Rva002F1DDCIter::treeNode,inferred,agree:nl-116424f4d842,Code/Libraries/Source/WWVegas/WWLib/Rva002F0DD6Worker.cpp,
 local,BFME2Encoding1MotionChannel::rva001B230A::fi0,BFME2Encoding1MotionChannel::rva001B230A::startFrame,inferred,agree:nl-3323ae2ad234,Code/Libraries/Source/WWVegas/WW3D2/BFME2Encoding1MotionChannelDecoders.cpp,0x001B230A
 param,Rva00141D60::createNode::arg,Rva00141D60::createNode::valueSource,inferred,agree:nl-a523ac97daab,Code/Libraries/Source/WWVegas/WW3D2/Rva00141DC0CreateNode.cpp,0x00141D60
+param,OpenAudioFile::setFileReady::a1,OpenAudioFile::setFileReady::fileData,inferred,agree:nl-ccdcb7c69587,Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp,0x0010EC4D
+param,OpenAudioFile::setFileReady::a3,OpenAudioFile::setFileReady::fileSize,inferred,agree:nl-90d177e82d2f,Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp,0x0010EC4D
+local,Rva0031F89E::rva0031F89E::n,Rva0031F89E::rva0031F89E::listsRemaining,inferred,agree:nl-c995a44c0125,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E

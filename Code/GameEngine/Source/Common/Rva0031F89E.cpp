@@ -40,7 +40,7 @@ private:
 void Rva0031F89E::rva0031F89E(float scaleX, float scaleY, int m_offsetX, int offsetY)
 {
 	Node **node = &m_lists[2];
-	int n = 3;
+	int listsRemaining = 3;
 	do
 	{
 		Node *cur = (*node)->m_next;
@@ -56,6 +56,6 @@ void Rva0031F89E::rva0031F89E(float scaleX, float scaleY, int m_offsetX, int off
 			cur = cur->m_next;
 		}
 		--node;
-		--n;
-	} while (n != 0);
+		--listsRemaining;
+	} while (listsRemaining != 0);
 }
