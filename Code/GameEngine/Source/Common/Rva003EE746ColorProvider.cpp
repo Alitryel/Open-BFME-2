@@ -21,7 +21,7 @@ class Rva003EE746ColorProvider:public Rva003EE711 {public:Rva003EE746ColorProvid
 Rva003EE746Color Rva003EE746ColorProvider::color(const Rva003EE746Region*region) {
  int id;
  switch(*selector){case 0:id=region->id0;break;case 1:id=region->id1;break;default:id=-1;break;}
- if(id==-1){Rva003EEAFBColourView*c=((Rva00DFE1C8Host*)TheLivingWorldManager)->effects;return *(const Rva003EE746Color*)((char*)c+0x20);}
+ if(id==-1){Rva003EEAFBColourView*regionEffectsManager=((Rva00DFE1C8Host*)TheLivingWorldManager)->effects;return *(const Rva003EE746Color*)((char*)regionEffectsManager+0x20);}
  Rva002E2903Player*player=((Rva002BA8F1Logic*)TheLivingWorldLogic)->find(id,0);
  if(player)return player->color;
  return Rva003EE746Color(1.0f,1.0f,1.0f);

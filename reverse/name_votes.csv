@@ -8090,3 +8090,8 @@ Code/GameEngine/Source/Common/BfmeThreeHundredFiftyOne.cpp|class||BfmeListTL,e21
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationField2,ffc1593c86b6a8295431ba76,gpt-6.1-sol,w3-10261329-8,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp|class||BfmeSubA1034,fb9b5f32b413782cbd1450f2,gpt-6.1-sol,w3-10261329-9,w-46dfa4623b23,2026-10-26
 Code/GameEngine/Source/Common/BfmeConv1034_bfmeGo1034A_YGXHH_Z.cpp|function|0x0040DAF0|bfmeGo1034A,206ca341860fe2fd25fc1c99,gpt-6.1-sol,w3-10261329-9,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp|local|Team::rva0039DDC2|b3,2a4cabcdbb5efc9647f8da95,gpt-6.1-sol,w4-10261355-4,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/RTS/TeamRva0039DDC2.cpp|local|Team::rva0039DDC2|b4,d1fb7ba0d04938ada9169394,gpt-6.1-sol,w4-10261355-4,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva0010F42AFinish.cpp|local|Rva0010F42A::execute|m_scale0C,7d707f2b48b0bb800f843e91,gpt-6.1-sol,w4-10261355-5,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,5cffd0e6e60341ec95c5e279,gpt-6.1-sol,w4-10261355-8,w-eb83eac9adc1,2026-10-26
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|class||Bfme5Obj18,69ee764a522adee712ec7122,gpt-6.1-sol,w4-10261355-9,w-eb83eac9adc1,2026-10-26

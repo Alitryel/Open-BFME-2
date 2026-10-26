@@ -2553,3 +2553,4 @@ param,Rva005ED15DCreateAutoResolve::b,Rva005ED15DCreateAutoResolve::livingWorldB
 member,ArmyIconMapNode::m_key10,ArmyIconMapNode::m_key,inferred,agree:nl-ec63b058f42a,Code/GameEngine/Source/Common/Rva005E4E1BIter.cpp,
 global,?g_00C36EE0@@3QBUFieldParse@@B,?buildingRestrictionFieldParse@@3QBUFieldParse@@B,inferred,agree:nl-a764191197be,Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp,0x00836EE0
 global,?BfmeAnimationField2@@3QBDB,?g_animationDistanceField@@3QBDB,inferred,agree:nl-485e49ed98f4,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007CA530
+local,Rva003EE746ColorProvider::color::c,Rva003EE746ColorProvider::color::regionEffectsManager,inferred,agree:nl-e35d04ffb07d,Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp,0x003EE746
