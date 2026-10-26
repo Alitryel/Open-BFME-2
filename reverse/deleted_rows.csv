@@ -2664,3 +2664,4 @@ __ehhandler$?rva0042C936@Rva0042C936@@QAEPAV1@UHolder0042C936@@@Z,0x00787763,"Re
 ?Rva007F2A50@@YGXPAVRva007E8810Message@@PBURva007F2A50Owner@@PBQBDHHH@Z,0x0065F540,"Renamed to ?Rva007F2A50@@YGXPAVRva007E8810Message@@PBUFeslOwner@@PBQBDHHH@Z by tools/rename.py (inferred)"
 ??1?$DynamicVectorClass@PAVRender2DClass@@@@UAE@XZ,0x001A3AB0,"Re-rowed as ??1?$DynamicVectorClass@PAVRenderObjClass@@@@UAE@XZ in AggregateDefBuildSubobjectList.cpp: the Build_Subobject_List unwind funclets destroy that vector here, and that unit emits the whole 45 B body (masked equal); render2dsentence.cpp emits the out-of-line-Clear shape instead"
 ??_G?$DynamicVectorClass@PAVRender2DClass@@@@UAEPAXI@Z,0x001A3EB0,"Re-rowed as ??_G?$DynamicVectorClass@PAVRenderObjClass@@@@UAEPAXI@Z in AggregateDefBuildSubobjectList.cpp (vtable 0x00BD6C54 slot0; masked equal 30 B)"
+_Rva00020AC0,0x00020AC0,"Renamed to __Locale_wchar_toupper by tools/rename.py (inferred)"

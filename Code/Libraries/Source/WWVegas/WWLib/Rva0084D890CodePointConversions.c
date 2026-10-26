@@ -39,7 +39,7 @@ int _Locale_wctob(Rva0084D890CodePage *locale, unsigned short character)
 // ICF-folded across two BFME1 addresses, so its symbol is not target identity.
 // Target bytes read the first dword of the input as LCMapStringW's LCID,
 // apply flags 0x200 to the one-WCHAR source, and return the output word.
-unsigned short Rva00020AC0(Rva0084D890CodePage *owner, int character)
+unsigned short _Locale_wchar_toupper(Rva0084D890CodePage *owner, int character)
 {
     unsigned short converted;
     LCMapStringW(owner->locale, 0x200,

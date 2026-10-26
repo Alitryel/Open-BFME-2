@@ -96,13 +96,13 @@ void Rva007FA2C0::walk(unsigned arg)
 void Rva007FA2C0::scan(void *key)
 {
 	int i;
-	char *p;
+	char *requestSlot;
 	char *slot;
-	for (i = 0, p = (char *)this + 0x28; i < 0x20; ++i, p += 0x1C)
+	for (i = 0, requestSlot = (char *)this + 0x28; i < 0x20; ++i, requestSlot += 0x1C)
 	{
-		if (*(void **)p == key)
+		if (*(void **)requestSlot == key)
 		{
-			slot = p;
+			slot = requestSlot;
 			goto found;
 		}
 	}

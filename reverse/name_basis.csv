@@ -2488,3 +2488,5 @@ param,bfmeAnchorRva00340BDCDtor::p,bfmeAnchorRva00340BDCDtor::state,inferred,agr
 param,hasListeners::p,hasListeners::listeners,inferred,agree:nl-612d42b42516,Code/GameEngine/Source/Common/Rva005CD841Visit.cpp,0x005CD841
 class,Rva599825Node,DozerListNode,inferred,agree:nl-b1f2a2bf4961,Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp,
 class,Rva007F2A50Owner,FeslOwner,inferred,agree:nl-b14e17ba3a15,Code/GameEngine/Source/GameNetwork/V2FeslResultCursors.cpp,
+local,Rva007FA2C0::scan::p,Rva007FA2C0::scan::requestSlot,inferred,agree:nl-8ea9e3015af9,Code/GameEngine/Source/GameNetwork/Rva007FA240Walk.cpp,0x00666860
+function,_Rva00020AC0,__Locale_wchar_toupper,inferred,agree:nl-9e71c9fd509e,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodePointConversions.c,0x00020AC0
