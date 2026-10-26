@@ -162,40 +162,40 @@ class W3DShrubBuffer
 protected:
 	void updateTexture();
 private:
-	unsigned char m_pad00[0x38];
-	Rva00132D0FHolder m_texture;		// +0x38
-	Rva00132D0FHolder m_shadowTexture;	// +0x3C
-	TexturePacker m_packer;			// +0x40
-	TexturePacker m_shadowPacker;		// +0x68
-	unsigned char m_pad90[0x4FB90 - 0x90];
-	ShrubType m_types[63];			// +0x4FB90
-	unsigned char m_pad51290[0x51270 - (0x4FB90 + 63 * 0x5C)];
-	Int m_numTypes;				// +0x51270
+	// Same opaque base storage and type array as the retail seed. The texture
+	// view starts 0x20 bytes into each 0x5C type record.
+	void *m_baseVtable;
+	unsigned char m_storage[0x5BC - 4];
+	Real m_pushRateScale;
+	unsigned char m_pad5c0[0x4FB70 - 0x5C0];
+	unsigned char m_types[64 * 0x5C];
+	Int m_numTypes;
+
 };
 
 void W3DShrubBuffer::updateTexture()
 {
-	m_packer.clearView()->rva00170EBC(false);
-	m_shadowPacker.clearView()->rva00170EBC(true);
+	(*reinterpret_cast<TexturePacker *>(m_storage + 0x3C)).clearView()->rva00170EBC(false);
+	(*reinterpret_cast<TexturePacker *>(m_storage + 0x64)).clearView()->rva00170EBC(true);
 	Int i;
 	for (i = 0; i < m_numTypes; i++)
 	{
-		m_packer.rva00171067(TextureAsset::Get(m_types[i].m_data->m_textureName.str(), 0, 0));
-		if (m_types[i].m_doShadow)
-			m_shadowPacker.rva00171067(TextureAsset::Get(m_types[i].m_shadowTextureName.str(), 0, 0));
+		(*reinterpret_cast<TexturePacker *>(m_storage + 0x3C)).rva00171067(TextureAsset::Get(reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_data->m_textureName.str(), 0, 0));
+		if (reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_doShadow)
+			(*reinterpret_cast<TexturePacker *>(m_storage + 0x64)).rva00171067(TextureAsset::Get(reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_shadowTextureName.str(), 0, 0));
 	}
 	for (i = 0; i < m_numTypes; i++)
 	{
-		m_packer.lookupView()->rva00171583((const unsigned int &)TextureAsset::Get(m_types[i].m_data->m_textureName.str(), 0, 0),
-			&m_types[i].m_topLeft, &m_types[i].m_bottomRight);
-		if (m_types[i].m_doShadow)
-			m_shadowPacker.lookupView()->rva00171583((const unsigned int &)TextureAsset::Get(m_types[i].m_shadowTextureName.str(), 0, 0),
-				&m_types[i].m_shadowTopLeft, &m_types[i].m_shadowBottomRight);
+		(*reinterpret_cast<TexturePacker *>(m_storage + 0x3C)).lookupView()->rva00171583((const unsigned int &)TextureAsset::Get(reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_data->m_textureName.str(), 0, 0),
+			&reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_topLeft, &reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_bottomRight);
+		if (reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_doShadow)
+			(*reinterpret_cast<TexturePacker *>(m_storage + 0x64)).lookupView()->rva00171583((const unsigned int &)TextureAsset::Get(reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_shadowTextureName.str(), 0, 0),
+				&reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_shadowTopLeft, &reinterpret_cast<ShrubType *>(reinterpret_cast<unsigned char *>(m_types) + 0x20)[i].m_shadowBottomRight);
 	}
-	m_texture = m_packer.resultView()->rva00171625();
-	m_shadowTexture = m_shadowPacker.resultView()->rva00171625();
-	if (m_texture.texture()->rva0013275A() > 1024U || m_texture.texture()->rva00132784() > 1024U)
+	(*reinterpret_cast<Rva00132D0FHolder *>(m_storage + 0x34)) = (*reinterpret_cast<TexturePacker *>(m_storage + 0x3C)).resultView()->rva00171625();
+	(*reinterpret_cast<Rva00132D0FHolder *>(m_storage + 0x38)) = (*reinterpret_cast<TexturePacker *>(m_storage + 0x64)).resultView()->rva00171625();
+	if ((*reinterpret_cast<Rva00132D0FHolder *>(m_storage + 0x34)).texture()->rva0013275A() > 1024U || (*reinterpret_cast<Rva00132D0FHolder *>(m_storage + 0x34)).texture()->rva00132784() > 1024U)
 		DEBUG_CRASH_REPORT("Combined shrub texture is bigger than 1024x1024. This will cause errors and significant slowdown on most graphics cards and has to be fixed!");
-	if (m_shadowTexture.texture()->rva0013275A() > 1024U || m_shadowTexture.texture()->rva00132784() > 1024U)
+	if ((*reinterpret_cast<Rva00132D0FHolder *>(m_storage + 0x38)).texture()->rva0013275A() > 1024U || (*reinterpret_cast<Rva00132D0FHolder *>(m_storage + 0x38)).texture()->rva00132784() > 1024U)
 		DEBUG_CRASH_REPORT("Combined shrub shadow texture is bigger than 1024x1024. This will cause errors and significant slowdown on most graphics cards and has to be fixed!");
 }
