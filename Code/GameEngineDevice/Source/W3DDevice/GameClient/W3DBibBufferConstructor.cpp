@@ -18,7 +18,8 @@ public:
 class ShroudFilter { public: char pad[12]; int u,v; };
 class ShroudTexture { public: ShroudFilter *getFilter(); };
 class Vector3 { public: Vector3() {} float X, Y, Z; };
-struct TBib { Vector3 corners[4]; bool highlight; int color; unsigned objectID, drawableID; bool unused; };
+// Match the owning header's typedef form so composition can diagnose a duplicate.
+typedef struct { Vector3 corners[4]; bool highlight; int color; unsigned objectID, drawableID; bool unused; } TBib;
 // ZH W3DBibBuffer.cpp (BF1 donor 575ba2b04) supplies the constructor purpose,
 // texture names and clamp operations. BFME2 parent allocation at 0x6CC5C calls
 // this body for its +385C bib owner and allocates 109D0 bytes. Native +10/+14
