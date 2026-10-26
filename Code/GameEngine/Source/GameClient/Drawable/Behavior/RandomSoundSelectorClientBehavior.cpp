@@ -3,6 +3,7 @@
 #include "RandomSoundSelectorClientBehaviorView.h"
 #pragma inline_depth(0)
 #pragma inline_depth()
+#define TheRva00DFE77C (*(Rva00DFE77CHolder **)&TheGameClient)
 
 struct Rva004CAB3DSoundState
 {
@@ -602,6 +603,29 @@ public:
 	static void buildFieldParse(MultiIniFieldParse &parse);
 };
 
+class ClientFrameSubsystem;
+
+ extern class GameClient *TheGameClient;
+
+typedef float Real;
+
+Real GetGameClientRandomValueReal(Real lo, Real hi, char *file, int line);
+
+class Rva00DFE77CHolder
+{
+public:
+	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
+	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
+	virtual void slot08(); virtual void slot09(); virtual void slot0A(); virtual void slot0B();
+	virtual void slot0C(); virtual void slot0D(); virtual void slot0E(); virtual void slot0F();
+	virtual void slot10(); virtual void slot11(); virtual void slot12(); virtual void slot13();
+	virtual void slot14(); virtual void slot15(); virtual void slot16(); virtual void slot17();
+	virtual void slot18(); virtual void slot19(); virtual void slot1A(); virtual void slot1B();
+	virtual void slot1C(); virtual void slot1D(); virtual void slot1E(); virtual int slot1F();
+};
+
+// ---- from Code/GameEngine/Source/GameClient/Drawable/Behavior/RandomSoundSelectorClientBehavior.cpp
+
 // ---- from Code/GameEngine/Source/GameClient/Drawable/Behavior/RandomSoundSelectorClientBehavior.cpp
 
 // ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/SoundSelectorVoicePriorityParsers.cpp
@@ -638,8 +662,6 @@ bool RandomSoundSelectorClientBehavior::getSelectedValue(unsigned int *value)
 	return moduleData->m_selectedFlag;
 }
 
-// tu-skeleton: 0x004CBBF4 21B ?rva004CBBF4@Rva004CBBF4@@QBE_NPAH@Z -- matched in Code/GameEngine/Source/Common/GapBodiesGE24.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/GameLogic/Object/Update/ModuleDataBuildFieldParseChained.cpp
 
 void RandomSoundSelectorClientBehaviorModuleData::buildFieldParse(MultiIniFieldParse &parse)
@@ -655,12 +677,49 @@ void RandomSoundSelectorClientBehaviorModuleData::buildFieldParse(MultiIniFieldP
 // collided with select-any copies. The anchor keeps this unit's row copies;
 // it is not retail code.
 
+// tu-skeleton: 0x004CBBF4 21B ?rva004CBBF4@Rva004CBBF4@@QBE_NPAH@Z -- matched in Code/GameEngine/Source/Common/GapBodiesGE24.cpp (not merged yet)
+
 // tu-skeleton: 0x004CBC2B 124B ??0RandomSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/RandomSoundSelectorClientBehaviorCtor.cpp (not merged yet)
 
 // tu-skeleton: 0x004CBCA7 6B ?Rva004CBCA7Get@@YAHXZ -- matched in Code/GameEngine/Source/Common/ConstIntGetters4.cpp (not merged yet)
 
 // tu-skeleton: 0x004CBCAD 69B ?getModuleNameKey@RandomSoundSelectorClientBehavior@@UBE?AW4NameKeyType@@XZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/RandomSoundSelectorClientBehaviorPoolKey.cpp (not merged yet)
 
-// tu-skeleton: 0x004CBCF2 82B ?reroll@RandomSoundSelectorClientBehavior@@AAEXXZ -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/RandomSoundSelectorClientBehaviorXfer.cpp (not merged yet)
+// ---- from Code/GameEngine/Source/GameLogic/Object/Behavior/RandomSoundSelectorClientBehaviorXfer.cpp
 
-// tu-skeleton: 0x004CBD7C 48B ?xfer@RandomSoundSelectorClientBehavior@@MAEXPAVXfer@@@Z -- matched in Code/GameEngine/Source/GameLogic/Object/Behavior/RandomSoundSelectorClientBehaviorXfer.cpp (not merged yet)
+//
+// ?xfer@RandomSoundSelectorClientBehavior@@MAEXPAVXfer@@@Z, retail 0x004CBD7C, 48 bytes.
+// Slot 3 (offset 0x0C) of vtable 0x0085F378 (same primary as rowed ctor 0x004CBC2B):
+// base ObjectModule xfer via rowed 0x00560AE1, then Version1 via rowed 0x000053EE,
+// then float at +0x10 via Xfer slot 0x70 plus uint at +0x14 via Xfer slot 0x78.
+// Layout is the rowed 0x18-byte class (opaque Rva00252B68 base 0x0C plus secondary
+// vptr at +0x0C giving +0x10 start; factory 0x00252D2A news 0x18 is sole caller of
+// the ctor); donor is BFME1 RandomSoundSelectorClientBehavior (float m_randomSelection
+// plus uint m_lastFrame) which reroll 0x004CBCF2 and getSelectedValue 0x004CBD44 prove.
+
+void RandomSoundSelectorClientBehavior::xfer(Xfer *xfer)
+{
+	ObjectModule::xfer(xfer);
+	xfer->Version1();
+	*xfer == m_randomSelection;
+	*xfer == m_lastFrame;
+}
+
+void RandomSoundSelectorClientBehavior::reroll()
+{
+	RandomSoundSelectorClientBehaviorModuleDataView *moduleData =
+		(RandomSoundSelectorClientBehaviorModuleDataView *)m_moduleData;
+	if (!moduleData->m_rerollOnEveryFrame)
+		return;
+	Rva00DFE77CHolder *holder = TheRva00DFE77C;
+	if (holder == 0)
+		return;
+	if (holder->slot1F() == (int)m_lastFrame)
+		return;
+	m_randomSelection = GetGameClientRandomValueReal(
+		0.0f,
+		1.0f,
+		"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\Drawable\\Behavior\\RandomSoundSelectorClientBehavior.cpp",
+		0x74);
+	m_lastFrame = TheRva00DFE77C->slot1F();
+}
