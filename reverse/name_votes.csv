@@ -8058,3 +8058,10 @@ Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldCampaignManager.c
 Code/GameEngine/Source/Common/System/LivingWorldRegionBuildingRestrictionParseINI.cpp|global||g_00C36EE0,d4ff841dc2e1f40b8b7a5066,gpt-6.1-sol,w2-10261323-10,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/GameLogic/Object/Update/Rva004958AEUpdate.cpp|local|Rva004958AE::update|m_command14,e720e78ecb9b96ae66fb5319,gpt-6.1-sol,w2-10261323-12,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/GameClient/Rva004BDB37Finish.cpp|member|Rva004BDB37|m_24,3d2f3e9cd2496e0c50f2c6c5,gpt-6.1-sol,w2-10261323-13,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|class||Rva003EE746ColorProvider,1280865352f6ceb393760e55,gpt-6.1-sol,w6-10261334-6,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp|local|Rva003EE746ColorProvider::color|c,5cffd0e6e60341ec95c5e279,gpt-6.1-sol,w6-10261334-6,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva0040C985Init.cpp|global||g_00DBA4F4,0e09beab0d8ff14095127bd7,gpt-6.1-sol,w6-10261334-10,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|p,eff621d6c0d6ba2888960696,gpt-6.1-sol,w6-10261334-11,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva003EE980Forward.cpp|local|Rva003EE980::rva003EE980|f,d350dd311609ed250c00cc0d,gpt-6.1-sol,w6-10261334-11,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva005CD841Visit.cpp|class||Rva005CD841Visitor,4081e70548a1b87c2446f3ae,gpt-6.1-sol,w6-10261334-12,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/Rva002B280CCheck.cpp|function|0x002B280C|rva002B280C,426de61fe0fb7e4703f88b47,gpt-6.1-sol,w6-10261334-13,w-06f458dbecf5,2026-10-26

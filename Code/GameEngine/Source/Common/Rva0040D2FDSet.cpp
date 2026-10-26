@@ -15,7 +15,7 @@ struct Rva0040D2FDVec
 	float x;
 	float y;
 };
-extern float g_00DBA4F4;
+extern float LOGICFRAMES_PER_SECONDS_REAL;
 class ArmySummarySystem
 {
 public:
@@ -29,7 +29,7 @@ void ArmySummarySystem::rva0040D2FD(int a, int b, Rva0040D2FDVec *v)
 	if (y == 0)
 		return;
 	y->m_2c &= 0;
-	y->m_30 = (int)((float)b * g_00DBA4F4);
+	y->m_30 = (int)((float)b * LOGICFRAMES_PER_SECONDS_REAL);
 	f[0] = v->x;
 	f[1] = v->y;
 	y->m_58 = *(int *)&f[0];

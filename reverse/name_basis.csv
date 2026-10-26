@@ -2546,3 +2546,4 @@ param,Rva00136794::Rva00136794::v2,Rva00136794::Rva00136794::replacementTextures
 member,Rva003802DFPayload::m_08,Rva003802DFPayload::m_maxLevelMP,inferred,agree:nl-82f865ab8ffc,Code/GameEngine/Source/Common/Rva003802DF.cpp,
 member,Rva003802DFPayload::m_0C,Rva003802DFPayload::m_maxLevelSP,inferred,agree:nl-446db14ab9bc,Code/GameEngine/Source/Common/Rva003802DF.cpp,
 local,Rva00380200::rva003802DF::r,Rva00380200::rva003802DF::rankLimit,inferred,agree:nl-a7ed10681fcf,Code/GameEngine/Source/Common/Rva003802DF.cpp,0x003802DF
+global,?g_00DBA4F4@@3MA,?LOGICFRAMES_PER_SECONDS_REAL@@3MA,inferred,agree:nl-919d114ad611,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,0x009BA4F4

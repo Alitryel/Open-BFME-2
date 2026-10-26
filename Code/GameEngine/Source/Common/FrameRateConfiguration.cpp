@@ -4,7 +4,7 @@
 // BF1 a7c38d3b GameCommonConvertThunk.cpp and ZH Common/GameCommon.h supply
 // the semantic units. BFME2 permits a configurable logic/client rate pair.
 extern int BfmeLogicFramesPerSecond, BfmeClientFramesPerSecond;
-extern float g_parseDurationMsecScale, g_00DBA4F0, g_00DBA4F4;
+extern float g_parseDurationMsecScale, g_00DBA4F0, LOGICFRAMES_PER_SECONDS_REAL;
 extern float g_secondsPerLogicFrame, g_00DBA4FC, BfmeClientFramesPerMillisecond;
 extern float opacityLogicStepSeconds;
 // Retail9BA504 initial30.0f is the real-valued client rate between the
@@ -21,8 +21,8 @@ void Rva00238895SetFrameRates(int logic, int client)
     BfmeClientFramesPerSecond = client;
     g_parseDurationMsecScale = logic * 0.001f;
     g_00DBA4F0 = 1000.0f / logic;
-    g_00DBA4F4 = (float)logic;
-    g_secondsPerLogicFrame = 1.0f / g_00DBA4F4;
+    LOGICFRAMES_PER_SECONDS_REAL = (float)logic;
+    g_secondsPerLogicFrame = 1.0f / LOGICFRAMES_PER_SECONDS_REAL;
     g_00DBA4FC = 1000.0f / client;
     BfmeClientFramesPerMillisecond = client * 0.001f;
     BfmeClientFrameRateReal = (float)client;

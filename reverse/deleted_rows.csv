@@ -2682,3 +2682,4 @@ _Rva00020AC0,0x00020AC0,"Renamed to __Locale_wchar_toupper by tools/rename.py (i
 ??0Rva00168040@@QAE@ABV0@@Z,0x00168040,"Retracted address-named duplicate: 0x00168040 is the rowed ??0?$SimpleDynVecClass@M@@QAE@ABV0@@Z (StreakVectorConstructorsBFME2.cpp); vtables 0xBD41AC/0xBD41B8 are SimpleVecClass<float>/SimpleDynVecClass<float> (data_ledger)"
 ?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,0x0030C2CE,"Renamed to ?saveRiverAreas@@YAXPAVRiverAreaSet@@PAVDataChunkOutput@@@Z by tools/rename.py (inferred)"
 __ehhandler$?saveRiverAreas@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z,0x0077A099,"Renamed to __ehhandler$?saveRiverAreas@@YAXPAVRiverAreaSet@@PAVDataChunkOutput@@@Z by tools/rename.py (inferred)"
+?g_00DBA4F4@@3MA,0x009BA4F4,"Renamed to ?LOGICFRAMES_PER_SECONDS_REAL@@3MA by tools/rename.py (inferred)"

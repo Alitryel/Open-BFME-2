@@ -70,12 +70,12 @@ int ArmySummary::rva0040CA24()
 	return m_24;
 }
 
-extern float g_00DBA4F4;
+extern float LOGICFRAMES_PER_SECONDS_REAL;
 // g_00DBA4F4: matched references place it at VA 0xdba4f4 (retail .data initial value 5.0f).
-float g_00DBA4F4 = 5.0f;
+float LOGICFRAMES_PER_SECONDS_REAL = 5.0f;
 
 void ArmySummary::rva0040CA3A(int delaySeconds)
 {
 	m_2C &= 0;
-	m_30 = (int)((float)delaySeconds * g_00DBA4F4);
+	m_30 = (int)((float)delaySeconds * LOGICFRAMES_PER_SECONDS_REAL);
 }

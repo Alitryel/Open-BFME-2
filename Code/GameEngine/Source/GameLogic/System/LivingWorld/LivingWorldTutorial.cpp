@@ -340,10 +340,10 @@ void LivingWorldTutorial::PhaseSession::rva003F8F94()
 // initialized to 5.0f by Rva0040C985Init.cpp. Widening the duration before the
 // compound multiplication preserves retail's x87 precision and _ftol2 truncation
 // without promoting the measured float operand to a double literal.
-extern float g_00DBA4F4;
+extern float LOGICFRAMES_PER_SECONDS_REAL;
 static __forceinline double scaledTutorialDuration(float duration) {
 	double product=duration;
-	product*=g_00DBA4F4;
+	product*=LOGICFRAMES_PER_SECONDS_REAL;
 	return product;
 }
 void LivingWorldTutorial::SessionTask::create()
