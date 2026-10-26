@@ -101,7 +101,7 @@ template<> __declspec(noinline) inline _List_base<Object*,Rva001EB984PoolAllocat
 class FormationObjectList:public _STL::_List_base<Object*,Rva001EB984PoolAllocator<Object*> > {public:
  FormationObjectList(const Rva001EB984PoolAllocator<Object*>&alloc=Rva001EB984PoolAllocator<Object*>()):_STL::_List_base<Object*,Rva001EB984PoolAllocator<Object*> >(alloc){}
  ~FormationObjectList(){((Rva001EB769*)this)->rva001EB769();}
- void push_back(Object *const&o){_STL::list<Object*> *p=(_STL::list<Object*>*)this;p->insert(_STL::list<Object*>::iterator(p->head),o);}
+ void push_back(Object *const&objectToAdd){_STL::list<Object*> *p=(_STL::list<Object*>*)this;p->insert(_STL::list<Object*>::iterator(p->head),objectToAdd);}
  FormationObjectNode*begin(){return (FormationObjectNode*)head->next;}
  FormationObjectNode*end(){return (FormationObjectNode*)head;}
 };
