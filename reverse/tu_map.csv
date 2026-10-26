@@ -51588,15 +51588,15 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x006891A0,6,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689180..0x006891B0,Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp
 0x006891B0,36,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/VideoPlayer.cpp S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x006891E0,72,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,U,N=Code/GameEngine/Source/Common/BfmeSubUC.cpp,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyFour.cpp
-0x00689230,38,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689260,Code/GameEngine/Source/Common/BfmeConv1668.cpp
+0x00689230,38,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689260,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x00689260,29,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689280,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
-0x00689280,14,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689290,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
+0x00689280,14,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689290,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x00689290,30,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x006892B0,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x006892B0,18,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x006892D0,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string_insert_aux.cpp
 0x006892D0,18,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x006892F0,Code/Libraries/Source/WWVegas/WWLib/Rva00180E40Siblings.cpp
 0x006892F0,11,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689300,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived2.cpp
 0x00689300,30,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689320,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived2.cpp
-0x00689320,41,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689350,Code/GameEngine/Source/Common/Rva00689320Cluster.cpp
+0x00689320,41,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006891E0..0x00689350,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x00689350,35,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/VideoPlayer.cpp S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayerDestructorThunk.cpp
 0x00689380,69,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689350..0x006893D0,Code/GameEngine/Source/Common/Rva000C3380Copy.cpp
 0x006893D0,34,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689350..0x00689400,Code/GameEngine/Source/Common/U2FixedSlotSearches.cpp
@@ -51607,22 +51607,22 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00689500,119,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x006894E0..0x00689580,Code/Libraries/Source/WWVegas/WWLib/Rva001D28F0ElementDtor.cpp
 0x00689580,114,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,S,S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayerInit.cpp
 0x00689600,37,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689580..0x00689630,Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_string.cpp
-0x00689630,32,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689580..0x00689650,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
+0x00689630,32,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689580..0x00689650,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x00689650,122,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,U,N=Code/GameEngine/Source/Common/Open2Rec81C6B0.cpp,Code/GameEngine/Source/Common/Open2Records.cpp
-0x006896D0,30,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689650..0x006896F0,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
+0x006896D0,30,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689650..0x006896F0,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x006896F0,66,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689650..0x00689750,Code/GameEngine/Source/GameClient/InGameUI.cpp
 0x00689750,45,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689650..0x00689780,Code/GameEngine/Source/Common/ElementStrideWalks.cpp
-0x00689780,41,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689650..0x006897B0,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
+0x00689780,41,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689650..0x006897B0,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x006897B0,280,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,S,S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp
 0x006898D0,574,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/VideoPlayer.cpp S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayerInit.cpp
 0x00689B10,338,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/VideoPlayer.cpp S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayerGetVideo.cpp
-0x00689C70,59,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689B10..0x00689CB0,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
-0x00689CB0,33,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689B10..0x00689CE0,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
+0x00689C70,59,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689B10..0x00689CB0,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
+0x00689CB0,33,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689B10..0x00689CE0,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x00689CE0,195,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/VideoPlayer.cpp S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayerRemoveVideo.cpp
 0x00689DB0,103,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689CE0..0x00689E20,Code/Libraries/Source/WWVegas/WWLib/Rva00689DB0Finish.cpp
-0x00689E20,49,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689CE0..0x00689E60,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
-0x00689E60,300,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689CE0..0x00689F90,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
-0x00689F90,62,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689CE0..0x00689FD0,Code/Libraries/Source/WWVegas/WWLib/Rva001D25F0VectorInsertOverflow.cpp
+0x00689E20,49,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689CE0..0x00689E60,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
+0x00689E60,300,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689CE0..0x00689F90,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
+0x00689F90,62,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,C,C=0x00689CE0..0x00689FD0,Code/GameEngine/Source/GameClient/VideoPlayer.cpp
 0x00689FD0,270,code,Code/GameEngine/Source/GameClient/VideoPlayer.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/VideoPlayer.cpp S=Code/GameEngine/Source/GameClient/VideoPlayer.cpp N=Code/GameEngine/Source/GameClient/VideoPlayer.cpp,Code/GameEngine/Source/GameClient/VideoPlayerAddVideo.cpp
 0x0068A0E0,33,code,,,-,,Code/GameEngine/Source/Common/Bfme5ThirtyTwo.cpp
 0x0068A110,22,code,Code/GameEngine/Source/Common/BfmeThingUC.cpp,proposed,N,N=Code/GameEngine/Source/Common/BfmeThingUC.cpp,Code/GameEngine/Source/Common/BfmeThreeHundredFiftyFour.cpp

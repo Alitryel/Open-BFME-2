@@ -20,7 +20,6 @@ address_global	Code/GameEngine/Source/Common/BfmeConv1137InstallMaterials.cpp	g_
 address_global	Code/GameEngine/Source/Common/BfmeConv1292.cpp	g_Va00E03020	2
 address_global	Code/GameEngine/Source/Common/BfmeConv1292DeferredWalkers.cpp	g_Va00E02FF8	2
 address_global	Code/GameEngine/Source/Common/BfmeConv1292DeferredWalkers.cpp	g_Va00E0300C	2
-address_global	Code/GameEngine/Source/Common/BfmeConv1668.cpp	g_Va00E0ABB0	1
 address_global	Code/GameEngine/Source/Common/BfmeConv1871.cpp	g_Va00E0A198	2
 address_global	Code/GameEngine/Source/Common/BfmeConv1871.cpp	g_Va00E0A1BC	2
 address_global	Code/GameEngine/Source/Common/BfmeConv982.cpp	g_Rva00F06914Transform	1
@@ -985,7 +984,6 @@ address_global	Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp	g_Va0087A290	1
 address_global	Code/GameEngine/Source/Common/Rva005FFCCBAppend.cpp	g_Rva0107301CEmptyString	3
 address_global	Code/GameEngine/Source/Common/Rva0060147B.cpp	g_Va00E06E60	2
 address_global	Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp	g_Va00DBB710	2
-address_global	Code/GameEngine/Source/Common/Rva00689320Cluster.cpp	g_Va00CE4918	3
 address_global	Code/GameEngine/Source/Common/Rva006E97A0Cluster.cpp	g_pRva006E97A0Object	4
 address_global	Code/GameEngine/Source/Common/Rva00740A45Create.cpp	g_Rva00789900Table	1
 address_global	Code/GameEngine/Source/Common/Rva00740A60Get.cpp	g_Rva00740A60Table	3
@@ -1815,6 +1813,8 @@ address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Particl
 address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003A5572Update.cpp	g_Va007C26F0	3
 address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AFB2A.cpp	g_Va007C26F0	4
 address_global	Code/GameEngine/Source/GameClient/System/FXParticleSystem/Rva003AFB2A.cpp	g_Va00BBB8D8	4
+address_global	Code/GameEngine/Source/GameClient/VideoPlayer.cpp	g_Va00CE4918	3
+address_global	Code/GameEngine/Source/GameClient/VideoPlayer.cpp	g_Va00E0ABB0	1
 address_global	Code/GameEngine/Source/GameClient/VideoPlayerRva009111BOpen.cpp	g_Va00DE2098	3
 address_global	Code/GameEngine/Source/GameClient/VideoPlayerRva009111BOpen.cpp	g_Va00DE2498	3
 address_global	Code/GameEngine/Source/GameClient/VideoPlayerRva009111BOpen.cpp	g_Va00DE2898	3
@@ -2472,7 +2472,6 @@ alternatename	Code/GameEngine/Source/Common/BfmeConv1483.cpp	?bfmeDoPG@BfmeThing
 alternatename	Code/GameEngine/Source/Common/BfmeConv1496.cpp	?bfmeInsertV52@BfmeStrV52@@QAEXPAD0000@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1497.cpp	?bfmeInsertV53@BfmeStrV53@@QAEXPAD0000@Z	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1503.cpp	?bfmeFreeVNC@Rva00800E50Owner@@QAEXPAVRva007E8810Message@@@Z	1
-alternatename	Code/GameEngine/Source/Common/BfmeConv1668.cpp	_g_bfmeHeadEQB	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1766.cpp	??0BfmeTmpCF@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1766.cpp	??1BfmeTmpCF@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/BfmeConv1766.cpp	?bfmeRunCF@BfmeTmpCF@@QAEXPAX0@Z	1
@@ -3522,7 +3521,6 @@ alternatename	Code/GameEngine/Source/Common/Rva00601B30StringIndexedRecords.cpp	
 alternatename	Code/GameEngine/Source/Common/Rva00601B30StringIndexedRecords.cpp	?erase@?$vector@URva00601A3AElement@@V?$allocator@URva00601A3AElement@@@_STL@@@_STL@@QAEPAURva00601A3AElement@@PAU3@0@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva00604465Dtor.cpp	??1Rva0060263EBase@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva00604465Dtor.cpp	??1Rva00604396TreeView@@QAE@XZ	1
-alternatename	Code/GameEngine/Source/Common/Rva00689320Cluster.cpp	?g_Va00CE4918@@3DA	1
 alternatename	Code/GameEngine/Source/Common/Rva006BE840Construction.cpp	??0BfmeTailBE@@QAE@ABU0@@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva006BF5E0Overflow.cpp	?releaseBuffer@BfmeTailBE@@QAEXXZ	1
 alternatename	Code/GameEngine/Source/Common/Rva006D94A0AptCluster.cpp	?g_aptValueStackAtE182E0@@3VAptBasePtrStack@@A	1
@@ -4059,6 +4057,8 @@ alternatename	Code/GameEngine/Source/GameClient/System/Rva00204316.cpp	?slot08@R
 alternatename	Code/GameEngine/Source/GameClient/System/Rva00204316.cpp	?slot0C@Rva00203EFD@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/System/Rva00204316.cpp	?slot10@Rva00203EFD@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameClient/System/SmudgeManagerDtor.cpp	?m_freeSmudgeList@SmudgeSet@@2V?$DLListClass@USmudge@@@@A	1
+alternatename	Code/GameEngine/Source/GameClient/VideoPlayer.cpp	?g_Va00CE4918@@3DA	1
+alternatename	Code/GameEngine/Source/GameClient/VideoPlayer.cpp	_g_bfmeHeadEQB	1
 alternatename	Code/GameEngine/Source/GameClient/VideoPlayerAddVideo.cpp	??1Video@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/VideoPlayerRemoveVideo.cpp	??1Video@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/View.cpp	?setDesiredSpeed@AIUpdateInterface@@QAEXM@Z	1
