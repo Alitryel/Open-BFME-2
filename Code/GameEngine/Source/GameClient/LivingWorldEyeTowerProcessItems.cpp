@@ -14,12 +14,6 @@ int GetGameLogicRandomValue(int low, int high, char *file, int line);
 extern int BfmeClientFramesPerSecond;
 // BfmeClientFramesPerSecond: matched references place it at VA 0xdba4e8 (retail .data initial value 30).
 int BfmeClientFramesPerSecond = 30;
-struct EyeTowerPair {
-  EyeTowerPair(float x, float y) : first(x), second(y) {}
-  ~EyeTowerPair() {}
-  float first;
-  float second;
-};
 // Donor type and interface from BFME1 LivingWorldEyeTowerState.cpp.
 struct Gen0060CBB0Pair { float first; float second; };
 class BfmeStateDF {
@@ -33,27 +27,8 @@ public:
 };
 class Rva002D3627Host;
 class LivingWorld; extern LivingWorld *TheLivingWorld;
-class LivingWorldEyeTower {
-  char m_head[0x3C];
-  EyeTowerPair *m_begin;
-  EyeTowerPair *m_end;
-  EyeTowerPair *m_capacity;
-  void *getPair();
-  void processItems();
-  void beginState();
-  void processFrame();
-  void updateState();
-public:
-  void rva003F9B5A();
-  unsigned int m_state;
-  EyeTowerPair m_to;
-  EyeTowerPair m_from;
-  EyeTowerPair m_current;
-  float m_rate64;
-  float m_progress68;
-  float m_rate6C;
-  float m_progress70;
-};
+#include "LivingWorld/LivingWorldEyeTowerView.h"
+
 void LivingWorldEyeTower::processItems() {
   m_from = m_current;
   int frames = (GetGameLogicRandomValue(0, 2, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\LivingWorld\\LivingWorldEyeTower.cpp", 366) + 4) * BfmeClientFramesPerSecond;

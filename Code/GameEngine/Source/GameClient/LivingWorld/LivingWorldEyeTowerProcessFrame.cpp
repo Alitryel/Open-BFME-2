@@ -11,7 +11,6 @@
 // exact original field qualifiers remain unknown. Both native pair-helper calls
 // explicitly reload ECX=this even though the helper at3F936E does not read it.
 struct Rva003F99DCVec3 { float x, y, z; };
-struct Rva003F99DCPair { float x, y; };
 class Rva003F99DCView
 {
 public:
@@ -27,18 +26,7 @@ public:
 class Rva002D3627Host;
 class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva003F936EHost;
-class LivingWorldEyeTower
-{
-private:
-    void processFrame();
-    void rva003F962F();
-    void rva003F936E(Rva003F936EHost *, float *);
-    char prefix00[0x1C];
-    Rva003F936EHost *first, *second;
-    float currentX, currentY;
-    char prefix2C[0x5C - 0x2C];
-    Rva003F99DCPair start;
-};
+#include "LivingWorldEyeTowerView.h"
 
 // ?processFrame@LivingWorldEyeTower@@AAEXXZ
 void LivingWorldEyeTower::processFrame()
@@ -49,11 +37,11 @@ void LivingWorldEyeTower::processFrame()
     // Retail copies the two words as raw float representations, preserving
     // NaNs and signed zeros. The separate destination fields reproduce its
     // receiver-relative Y store while the X address remains live for both calls.
-    *reinterpret_cast<unsigned int *>(&currentX) =
-        *reinterpret_cast<const unsigned int *>(&start.x);
-    *reinterpret_cast<unsigned int *>(&currentY) =
-        *reinterpret_cast<const unsigned int *>(&start.y);
+    *reinterpret_cast<unsigned int *>(&m_eye.x) =
+        *reinterpret_cast<const unsigned int *>(&m_current.first);
+    *reinterpret_cast<unsigned int *>(&m_eye.y) =
+        *reinterpret_cast<const unsigned int *>(&m_current.second);
     rva003F962F();
-    rva003F936E(first, &currentX);
-    rva003F936E(second, &currentX);
+    rva003F936E(m_frameFirstHost, &m_eye.x);
+    rva003F936E(reinterpret_cast<Rva003F936EHost *>(m_secondHost), &m_eye.x);
 }

@@ -99,20 +99,7 @@ protected:
 	Rva003F962FVector3 Row[3];
 };
 
-class U4Target0060C2C0;
-
-class LivingWorldEyeTower
-{
-private:
-	void rva003F962F();
-	void rva003F935A(U4Target0060C2C0 *target, void *payload);
-	char m_pad00[0x18];
-	U4Target0060C2C0 *m_firstHost;
-	char m_pad1C[4];
-	U4Target0060C2C0 *m_secondHost;
-	Coord3D m_eye;
-	Coord3D m_target;
-};
+#include "LivingWorldEyeTowerView.h"
 
 // ?rva003F9DDA@Rva003F9DDA@@QAEXABUBfmeE8@@@Z @ 0x003F9DDA 8B: inline vector push_back forwarder via plus0x3c to rowed push_back 0x00539A2E. Evidence: add ecx 0x3c plus jmp plus caller 0x00210ECF ret4.
 struct BfmeE8 { unsigned int a; unsigned int b; };
