@@ -1007,3 +1007,35 @@ separate strict receipt limitation encountered there.
   selected-provider changes and affected consumers.
 - **Clearance:** none; no provider or consumer change is claimed verified.
 - **Census confirmation:** awaiting a current index and next census.
+
+### LINK-018: canonical `Coord3D` member growth blocks header-adoption until dependents are recomputed
+
+**Status: Open. Updated: 2026-10-26; inspected revision: 5dcf22e436c (2026-10-25 trials).**
+
+- **Evidence / scope:** retiring coord3d_crossproduct.cpp's private
+  class Coord3D : Coord3DBase view for the canonical Lib/Coord3D.h +
+  Lib/Coord3DBase.h pair byte-matches the 97B body (1/1) once CrossProduct
+  is declared in the canonical header, but the declaration alone regresses the
+  unrelated dependent Player::initFromDict 0x002AFCDF (2,762 B): without it
+  the unit is 31/31, with it uild.py's funclet identity check reports
+  $L10490 does not hold this funclet while $L10524 and $L10523 match
+  equally. An unrelated probe member (int ProbeMember0001(int) const) fails
+  identically and deterministically with BFME_OBJSTORE=off, so ANY member
+  growth of the canonical class perturbs that dependent's compiled EH funclet
+  layout. The trial reverted
+  (everse/re_attempts.log, 2026-10-26 retraction and blocked entries); the
+  ledger row keeps the V class-key spelling of its private-view unit and
+  everse/header_queue.tsv keeps the row.
+- **Remaining / next check:** member additions to Coord3D.h ship only
+  together with a dependent recompute (the precedent header extensions
+  24ef6a5e83 and 505f43a1c73 landed with their own dependent work). For
+  the Coord3D queue (13 private-body units and 42 view users in
+  everse/header_queue.tsv), inventory a dependent set that reproduces
+  PlayerInitFromDict.cpp 31/31 with the grown header before publishing any
+  new member; the coord3d_crossproduct.cpp adoption resumes then. Related
+  view-shape blocks: TeamPrototypeMoveTeamTo.cpp (inlined user copy-ctor
+  by-value staging) and AISpecialPowerPickers.cpp (array-of-Coord3D EH
+  unwind registration) are recorded in everse/re_attempts.log.
+- **Clearance:** none; no header or dependent change is claimed verified.
+- **Census confirmation:** n/a (adoption lane; surfaced via the scoped header
+  gate, not the link census).
