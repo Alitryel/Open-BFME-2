@@ -19940,7 +19940,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva00328E96WaterRecord.cpp	Rva00
 present_unmatched	Code/GameEngine/Source/Common/Rva0033D142Permuted.cpp	BitFlags::BitFlags	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0033D142Permuted.cpp	MapHelper::operator()	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0033D142Permuted.cpp	allocator::allocate	1
-present_unmatched	Code/GameEngine/Source/Common/Rva0035615DCtor.cpp	1Rva0035615D@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00359D42.cpp	TheGameLogic@@3PAVGameLogic@@A	1
 present_unmatched	Code/GameEngine/Source/Common/Rva0035A18DVectorDeletingDtor.cpp	Rva0035A18DDeleteArray@@YAXPAVRva0035A18D@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva00381F04Assign.cpp	1Rva00381F04@@UAE@XZ	1
@@ -20455,6 +20454,7 @@ present_unmatched	Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/Palantir
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCommandInterface.cpp	PalantirToggleHolder::~PalantirToggleHolder	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCommandInterface.cpp	Rva000AD6F4::Rva000AD6F4	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCommandInterface.cpp	Rva00528FE6::Rva00528FE6	1
+present_unmatched	Code/GameEngine/Source/GameClient/GUI/LoadScreen.cpp	1Rva0035615D@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	initReverseAnimateWindow@ProcessAnimateWindowSlideFromBottom@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	initReverseAnimateWindow@ProcessAnimateWindowSlideFromLeft@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	initReverseAnimateWindow@ProcessAnimateWindowSlideFromTop@@	1

@@ -4,6 +4,7 @@
 #include "../../Common/GameLogicObjectLookupView.h"
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"
+#include "ascii_string.h"
 
 class GameWindow;
 
@@ -244,6 +245,30 @@ private:
 	int m_20;
 };
 
+class Rva0036CA00Str
+{
+	void *m_item;
+public:
+	__declspec(nothrow) Rva0036CA00Str(const Rva0036CA00Str &other);
+	~Rva0036CA00Str();
+};
+
+class Rva0035615D : public Rva00355D66
+{
+public:
+	Rva0035615D(const AsciiString &a, const Rva0036CA00Str &b, const Rva0036CA00Str &c, bool d);
+	virtual ~Rva0035615D();
+private:
+	AsciiString m_s10;
+	Rva0036CA00Str m_s14;
+	Rva0036CA00Str m_s18;
+	int m_1c;
+	int m_20;
+	bool m_24;
+};
+
+// ---- from Code/GameEngine/Source/GameClient/GUI/LoadScreen.cpp
+
 // ---- from Code/GameEngine/Source/GameClient/GUI/LoadScreen.cpp
 
 // ---- from Code/GameEngine/Source/GameClient/GUI/LoadScreenUpdates.cpp
@@ -293,8 +318,6 @@ void LoadScreen::update(int)
 	setFPMode();
 }
 
-// tu-skeleton: 0x00356066 28B ??_GRva00355DC5@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva00355D66Dtor.cpp (not merged yet)
-
 // ---- from Code/GameEngine/Source/Common/BfmeTwoStringVX.cpp
 
 			// retail 0x012F3350
@@ -305,12 +328,6 @@ Rva003560ED::Rva003560ED(const AsciiString &first,
 	: m_bfmeFirst(first), m_bfmeSecond(second)
 {
 }
-
-// tu-skeleton: 0x003560ED 112B ??1Rva003560ED@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva003560EDDtor.cpp (not merged yet)
-
-// tu-skeleton: 0x0035615D 97B ??0Rva0035615D@@QAE@ABVAsciiString@@ABVRva0036CA00Str@@1_N@Z -- matched in Code/GameEngine/Source/Common/Rva0035615DCtor.cpp (not merged yet)
-
-// tu-skeleton: 0x003561BE 198B ??1Rva003561BE@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva003561BEDtor.cpp (not merged yet)
 
 // ---- from Code/GameEngine/Source/Common/Rva00356284Audio.cpp
 
@@ -340,6 +357,26 @@ void Rva00356284::rva00356284()
 	if (touched)
 		TheAudio->slot28();
 }
+
+// tu-skeleton: 0x00356066 28B ??_GRva00355DC5@@UAEPAXI@Z -- matched in Code/GameEngine/Source/Common/Rva00355D66Dtor.cpp (not merged yet)
+
+// tu-skeleton: 0x003560ED 112B ??1Rva003560ED@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva003560EDDtor.cpp (not merged yet)
+
+// ---- from Code/GameEngine/Source/Common/Rva0035615DCtor.cpp
+
+// ??0Rva0035615D@@QAE@ABVAsciiString@@ABVRva0036CA00Str@@1_N@Z @0x0035615D 97B. Unlock lane: ctor storing vtable 0x00814EBC, base Rva00355D66 then StringBase at +0x10 plus two Rva0036CA00Str at +0x14/+0x18 plus ints 1/1 and bool at +0x24; callers at 0x0023DE2C etc; unblocks 0x0023DD48.
+
+Rva0035615D::Rva0035615D(const AsciiString &asciiString, const Rva0036CA00Str &b, const Rva0036CA00Str &c, bool d)
+	: m_s10(asciiString), m_s14(b), m_s18(c), m_1c(1), m_20(1), m_24(d)
+{
+}
+
+// ??1Rva0035615D@@UAE@XZ present-unmatched
+Rva0035615D::~Rva0035615D()
+{
+}
+
+// tu-skeleton: 0x003561BE 198B ??1Rva003561BE@@UAE@XZ -- matched in Code/GameEngine/Source/Common/Rva003561BEDtor.cpp (not merged yet)
 
 // tu-skeleton: 0x00356367 64B ??0Rva003563A7@@QAE@ABV?$StringBase@D@@@Z -- matched in Code/GameEngine/Source/Common/Rva00355D66Dtor.cpp (not merged yet)
 
