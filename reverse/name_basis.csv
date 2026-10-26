@@ -2359,3 +2359,6 @@ param,Rva00141D60::createNode::arg,Rva00141D60::createNode::valueSource,inferred
 param,OpenAudioFile::setFileReady::a1,OpenAudioFile::setFileReady::fileData,inferred,agree:nl-ccdcb7c69587,Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp,0x0010EC4D
 param,OpenAudioFile::setFileReady::a3,OpenAudioFile::setFileReady::fileSize,inferred,agree:nl-90d177e82d2f,Code/GameEngine/Source/Common/OpenAudioFile_setFileReady.cpp,0x0010EC4D
 local,Rva0031F89E::rva0031F89E::n,Rva0031F89E::rva0031F89E::listsRemaining,inferred,agree:nl-c995a44c0125,Code/GameEngine/Source/Common/Rva0031F89E.cpp,0x0031F89E
+param,ArmySummary::rva0040C985::x,ArmySummary::rva0040C985::startFrame,inferred,agree:nl-3d2edc1aed79,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,0x0040C985
+param,rva002CE280_float2long::f,rva002CE280_float2long::floatValue,inferred,agree:nl-69ed9a83fb1c,Code/GameEngine/Source/Common/WeaponGetStatus.cpp,
+param,Rva00136794::Rva00136794::v1,Rva00136794::Rva00136794::textures,inferred,agree:nl-40096314c010,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794

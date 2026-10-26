@@ -22,7 +22,7 @@ extern GlobalData *TheWritableGlobalData;
 class ArmySummary
 {
 public:
-	void rva0040C985(int x);
+	void rva0040C985(int startFrame);
 	int rva0040C9F4();
 	void rva0040CA09();
 	int rva0040CA24();
@@ -38,12 +38,12 @@ private:
 	int m_38;
 };
 
-void ArmySummary::rva0040C985(int x)
+void ArmySummary::rva0040C985(int startFrame)
 {
 	if (m_2C == 0) {
 		m_2C = 2;
-		m_38 = x;
-		m_34 = m_30 + x;
+		m_38 = startFrame;
+		m_34 = m_30 + startFrame;
 	}
 }
 int ArmySummary::rva0040C9F4()

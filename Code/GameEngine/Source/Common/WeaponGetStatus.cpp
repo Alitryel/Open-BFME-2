@@ -101,11 +101,11 @@ void Weapon::cacheStatus(WeaponStatus status) const
 // same visible noinline worker for VC7.1 register-preservation analysis.
 // Upstream basetype.h x87 conversion, mirroring rowed sibling 0x002C937C:
 // (int) on the float must stay inline fld/fistp, never __ftol2.
-__forceinline long rva002CE280_float2long(float f)
+__forceinline long rva002CE280_float2long(float floatValue)
 {
 	long i;
 	__asm {
-		fld [f]
+		fld [floatValue]
 		fistp [i]
 	}
 	return i;
