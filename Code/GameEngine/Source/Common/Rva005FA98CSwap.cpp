@@ -62,14 +62,14 @@ void __fastcall swapEntries(Rva005FA98C *o, int fwd, int unused, int sideIndex, 
 {
 	if (firstKey == secondKey)
 		return;
-	BattlePromptLocalPlayerPage *m = o->m_04;
-	if (sideIndex != m->m_sideIndex)
+	BattlePromptLocalPlayerPage *page = o->m_04;
+	if (sideIndex != page->m_sideIndex)
 		return;
-	if (playerIndex != m->m_playerIndex)
+	if (playerIndex != page->m_playerIndex)
 		return;
 	Rva005FA8F5Entry *firstEntry = ((Rva005FA8F5 *)o)->findEntry(firstKey);
 	Rva005FA8F5Entry *secondEntry = ((Rva005FA8F5 *)o)->findEntry(secondKey);
-	((Rva00600062SwapForward *)&m->m_movieClip)->forward(firstEntry->m_04, secondEntry->m_04);
+	((Rva00600062SwapForward *)&page->m_movieClip)->forward(firstEntry->m_04, secondEntry->m_04);
 	int t = firstEntry->m_04;
 	firstEntry->m_04 = secondEntry->m_04;
 	secondEntry->m_04 = t;

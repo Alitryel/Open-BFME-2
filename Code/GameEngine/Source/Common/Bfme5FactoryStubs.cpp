@@ -27,11 +27,11 @@ struct Bfme5Obj18
 
 Bfme5Obj18 * __cdecl bfme5MakeObj18(void)
 {
-	void *q = Gen007F0130::operator new(0x18);
+	void *memory = Gen007F0130::operator new(0x18);
 	Bfme5Obj18 *p;
 
-	if (q) {
-		p = (Bfme5Obj18 *)q;
+	if (memory) {
+		p = (Bfme5Obj18 *)memory;
 		*(void *volatile *)&p->m_listenerVtable = __identifier("??_7Rva006613E0@@6B@");
 		*(void *volatile *)&p->m_ownerVtable = __identifier("??_7Gen007F4D00@@6BGen007F4D00Owner@@@");
 		*(void *volatile *)&p->m_listenerVtable = __identifier("??_7Gen007F4D00@@6BGen007F4D00Listener@@@");

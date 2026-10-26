@@ -134,7 +134,7 @@ public:
 	char m_bfme35;
 	char m_pad36[0x2a6];
 	char m_messageBuffer[0x400];
-	int m_bfme6dc;
+	int m_requestTimeout;
 };
 
 void BfmeThingVJQ::bfmeGoVJQ(int a) throw()
@@ -143,7 +143,7 @@ void BfmeThingVJQ::bfmeGoVJQ(int a) throw()
 	if (m_bfme34 && m_state >= 3)
 	{
 		m_bfme10->sendOne(&msg, a);
-		m_bfme14->send(&msg, BfmeGameBrowserVJQCallback, this, m_bfme6dc);
+		m_bfme14->send(&msg, BfmeGameBrowserVJQCallback, this, m_requestTimeout);
 		return;
 	}
 	if (m_bfme35)

@@ -2450,3 +2450,6 @@ carry,Rva005FD8E5Entry::m_maxCommandPoints,ArmyUnitSwapperSlot::m_maxCommandPoin
 local,Rva005C4B56::rva005C4BC8::v44,Rva005C4B56::rva005C4BC8::fadeInTime,inferred,agree:nl-aa4b4f5066a5,Code/GameEngine/Source/Common/Rva005C4B56.cpp,0x005C4BC8
 local,Rva005C4B56::rva005C4BC8::v48,Rva005C4B56::rva005C4BC8::fadeOutTime,inferred,agree:nl-88540e912bf2,Code/GameEngine/Source/Common/Rva005C4B56.cpp,0x005C4BC8
 global,?BfmeAnimationRecordFields@@3QBUFieldParse@@B,?animationRecordFields@@3QBUFieldParse@@B,inferred,agree:nl-29a9880fe54e,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp,0x007CA560
+local,bfme5MakeObj18::q,bfme5MakeObj18::memory,inferred,agree:nl-db0876b726db,Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp,0x006617F0
+local,swapEntries::m,swapEntries::page,inferred,agree:nl-23621d6609c7,Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,0x005FA98C
+member,BfmeThingVJQ::m_bfme6dc,BfmeThingVJQ::m_requestTimeout,inferred,agree:nl-e07ab19e5b73,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,

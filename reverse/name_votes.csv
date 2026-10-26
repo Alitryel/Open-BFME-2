@@ -7685,3 +7685,15 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationReco
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DAnimationRecordParse.cpp|global||BfmeAnimationRecordFields,cec65d814a79bd0f5697f30f,gpt-6.1-sol,w1-10260915-8,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp|param|Rva005D3CA6::rva005D3DD5|v,04c557e83eaf41b84408ee8c,gpt-6.1-sol,w1-10260915-9,w-6d5d2b593eca,2026-10-26
 Code/GameEngine/Source/Common/Rva005D3CA6Setters.cpp|local|Rva005D3CA6::rva005D3DD5|m_32,ad68f9eb55a0b499d4e480b9,gpt-6.1-sol,w1-10260915-9,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp|class||Rva003598A5Obj,13572a7de97de65b8df79d37,gpt-6.1-sol,w3-10260924-3,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Bfme5FactoryStubs.cpp|local|bfme5MakeObj18|q,db0876b726db28aafb386a2f,gpt-6.1-sol,w3-10260924-5,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp|member|ShadowChild|m_20,1b563284351149d694fadcf9,gpt-6.1-sol,w3-10260924-10,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|param|swapEntries|o,9ae5c98345c660a54d93678c,gpt-6.1-sol,w3-10260924-14,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|m,23621d6609c7d09df61a82e4,gpt-6.1-sol,w3-10260924-14,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|t,d17abd9ecd145ddbd0b2644d,gpt-6.1-sol,w3-10260924-14,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameLogic/Map/Rva0027F4F8Find.cpp|function|0x0027F4F8|rva0027F4F8,31e2902834af075cffb07c28,gpt-6.1-sol,w3-10260924-15,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp|class||Rva005FContextView,d24b1a32c1a1d109f82dc290,gpt-6.1-sol,w3-10260924-16,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme14,a8b4b3b6db54884299fb768e,gpt-6.1-sol,w3-10260924-18,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme34,b72f8777922cb1134dbe11e0,gpt-6.1-sol,w3-10260924-18,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme35,a341e8ca3d545d6bb0090cb1,gpt-6.1-sol,w3-10260924-18,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp|member|BfmeThingVJQ|m_bfme6dc,48f24249df9415fae6dc071b,gpt-6.1-sol,w3-10260924-18,w-46dfa4623b23,2026-10-26
