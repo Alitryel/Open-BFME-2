@@ -2561,3 +2561,5 @@ param,QuadStrip2D::addStrip::x,QuadStrip2D::addStrip::strip,inferred,agree:nl-48
 class,Rva005F52C0,ArmyMemberTransferCallback,inferred,agree:nl-bff386803d29,Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,
 carry,?moveSelectedMembersToTarget@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToTarget@ArmyMemberTransferCallback@@QAEXXZ,inferred,scope renamed by Rename Rva005F52C0 to ArmyMemberTransferCallback (inferred),Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F52C0
 carry,?moveSelectedMembersToSource@Rva005F52C0@@QAEXXZ,?moveSelectedMembersToSource@ArmyMemberTransferCallback@@QAEXXZ,inferred,scope renamed by Rename Rva005F52C0 to ArmyMemberTransferCallback (inferred),Code/GameEngine/Source/GameClient/GUI/StrategicUiArmyDragDrop.cpp,0x005F5331
+member,Rva0049355E::m_18,Rva0049355E::m_blocked,inferred,agree:nl-2cb1b3f422a4,Code/GameEngine/Source/Common/Rva0049355ERatio.cpp,
+param,Rva0040B0D0::isContributor::arg,Rva0040B0D0::isContributor::contributor,inferred,agree:nl-8598767e22c7,Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp,0x0040B0D0

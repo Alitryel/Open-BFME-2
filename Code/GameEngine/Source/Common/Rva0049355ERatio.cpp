@@ -56,12 +56,12 @@ public:
 	int m_c;
 	char m_gap[4];
 	float m_14;
-	unsigned char m_18;
+	unsigned char m_blocked;
 };
 
 float Rva0049355E::rva0049355E()
 {
-	if (m_18 != 0)
+	if (m_blocked != 0)
 		return 0.0f;
 	if (s1())
 		return 1.0f;

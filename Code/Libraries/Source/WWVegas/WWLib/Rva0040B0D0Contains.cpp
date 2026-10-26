@@ -32,16 +32,16 @@ struct Rva0040B0D0Arg
 class Rva0040B0D0
 {
 public:
-	bool isContributor(const void *arg);
+	bool isContributor(const void *contributor);
 private:
 	char _pad00[0x1C];
 	BitFlags<218> m_1C;
 	BitFlags<218> m_38;
 };
 
-bool Rva0040B0D0::isContributor(const void *arg)
+bool Rva0040B0D0::isContributor(const void *contributor)
 {
-	const Rva0040B0D0Arg *objectView = (const Rva0040B0D0Arg *)arg;
+	const Rva0040B0D0Arg *objectView = (const Rva0040B0D0Arg *)contributor;
 	if (objectView == 0)
 		return false;
 	void *esi = objectView->m_template;

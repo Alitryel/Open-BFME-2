@@ -8110,3 +8110,10 @@ Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|function|0x006CBC50|rva006CB
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|global||g_00E177E2,02aef7a08aae168f2e36dd7d,gpt-6.1-sol,w6-10261410-16,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva006D2D90Finish.cpp|global||g_00E177E8,1118103215e08fd5cadd010c,gpt-6.1-sol,w6-10261410-16,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva005C436EDispatch.cpp|function|0x005C436E|rva005C436E,e42fe5da8d3df053a7af1524,gpt-6.1-sol,w6-10261410-18,w-06f458dbecf5,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva004EAC8CSetFloat.cpp|local|Rva004EAC8C::rva004EAC8C|e,6fe94502e1172f57cf71e829,gpt-6.1-sol,w1-10261425-5,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva004EAC8CSetFloat.cpp|local|Rva004EAC8C::rva004EAC8C|p,b96337b31b600ae205058347,gpt-6.1-sol,w1-10261425-5,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva0049355ERatio.cpp|member|Rva0049355E|m_18,2f1b4bf23a2211302a051e81,gpt-6.1-sol,w1-10261425-7,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva0040B0D0Contains.cpp|param|Rva0040B0D0::isContributor|arg,8598767e22c708dcf58b30d4,gpt-6.1-sol,w1-10261425-10,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/GameLogic/Object/Update/ToggleDeploySpecialAbilityUpdateSlot24.cpp|local|ToggleDeploySpecialAbilityUpdate::rva004AE6D7|arg,1c8977bf29a9691115e5d9c7,gpt-6.1-sol,w1-10261425-11,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva000B6498Free.cpp|class||Rva000B6498Node,50bf1f71cdc8cc6d44de1756,gpt-6.1-sol,w1-10261425-12,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva000B6498Free.cpp|class||Rva000B6498Head,e0df43f032fb235db6c78887,gpt-6.1-sol,w1-10261425-12,w-6d5d2b593eca,2026-10-26
