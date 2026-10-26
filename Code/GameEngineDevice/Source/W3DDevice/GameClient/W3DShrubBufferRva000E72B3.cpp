@@ -64,12 +64,12 @@ private:
 	unsigned char m_pad0000[0x5bc];
 	Real m_pushRateScale;
 	unsigned char m_pad5c0[0x1958 - 0x5c0];
-	Rva000E72B3Tree m_trees[2000];
-	Int m_numTrees;
-	unsigned char m_anythingChanged;
-	unsigned char m_anyPushChanged;
+	Rva000E72B3Tree m_records[2000];
+	Int m_count;
+	unsigned char m_4fb5c;
+	unsigned char m_4fb5d;
 	unsigned char m_pad4fb5e[0x4fb70 - 0x4fb5e];
-	Rva000E72B3Type m_treeTypes[64];
+	Rva000E72B3Type m_types[64];
 };
 
 void W3DShrubBuffer::rva000E72B3(UnsignedInt id, const Coord3D *pusherPos, const Coord3D *pusherDirection, UnsignedInt pusherID)
@@ -77,8 +77,8 @@ void W3DShrubBuffer::rva000E72B3(UnsignedInt id, const Coord3D *pusherPos, const
 	if (!((const Rva000E72B3GlobalData *)TheWritableGlobalData)->m_flag1c)
 		return;
 
-	for (Int i = 0; i < m_numTrees; ++i) {
-		Rva000E72B3Tree *tree = &m_trees[i];
+	for (Int i = 0; i < m_count; ++i) {
+		Rva000E72B3Tree *tree = &reinterpret_cast<Rva000E72B3Tree *>(m_records)[i];
 		if (tree->m_drawableID == id) {
 			UnsignedInt lastFrame = tree->m_lastFrameUpdated;
 			tree->m_lastFrameUpdated = TheGameLogic->getFrame();
@@ -106,9 +106,9 @@ void W3DShrubBuffer::rva000E72B3(UnsignedInt id, const Coord3D *pusherPos, const
 				tree->m_pushAsideSin = -pusherDirection->x;
 			}
 
-			m_anyPushChanged = true;
+			m_4fb5d = true;
 			tree->m_pushAsideDelta = 1.0f /
-				((Real)m_treeTypes[tree->m_treeType].m_data->m_framesToMoveOutward * m_pushRateScale);
+				((Real)reinterpret_cast<Rva000E72B3Type *>(m_types)[tree->m_treeType].m_data->m_framesToMoveOutward * m_pushRateScale);
 		}
 	}
 }

@@ -122,12 +122,13 @@ public:
 
 private:
 	char m_pad00[0x5c0];
-	Short m_areaPartition[(0x1948 - 0x5c0) / 2];
-	Rva000E7734Region m_bounds;
-	Rva000E7734Tree m_trees[2000];
-	Int m_numTrees;
+	// Same partition/bounds prefix and record/type storage as the retail seed.
+	char m_pad5c0[0x1958 - 0x5c0];
+	Rva000E7734Tree m_records[2000];
+	Int m_count;
 	char m_pad4fb5c[0x4fb70 - 0x4fb5c];
-	Rva000E7734Type m_treeTypes[64];
+	Rva000E7734Type m_types[64];
+
 };
 
 void W3DShrubBuffer::rva000E7734(Thing *unit)
@@ -146,51 +147,51 @@ void W3DShrubBuffer::rva000E7734(Thing *unit)
 	pos.z = unit->m_z;
 	Real x = pos.x - radius;
 	Real y = pos.y - radius;
-	if (x < m_bounds.lox) x = m_bounds.lox;
-	if (y < m_bounds.loy) y = m_bounds.loy;
-	if (x > m_bounds.hix) x = m_bounds.hix;
-	if (y > m_bounds.hiy) y = m_bounds.hiy;
-	Real xRatio = x / (m_bounds.hix - m_bounds.lox);
+	if (x < reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->lox) x = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->lox;
+	if (y < reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->loy) y = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->loy;
+	if (x > reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hix) x = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hix;
+	if (y > reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hiy) y = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hiy;
+	Real xRatio = x / (reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hix - reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->lox);
 	Int xIndex = REAL_TO_INT_FLOOR(xRatio * 49.9f);
-	Real yRatio = y / (m_bounds.hiy - m_bounds.loy);
+	Real yRatio = y / (reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hiy - reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->loy);
 	Int yIndex = REAL_TO_INT_FLOOR(yRatio * 49.9f);
 
 	x = pos.x + radius;
 	y = pos.y + radius;
-	if (x < m_bounds.lox) x = m_bounds.lox;
-	if (y < m_bounds.loy) y = m_bounds.loy;
-	if (x > m_bounds.hix) x = m_bounds.hix;
-	if (y > m_bounds.hiy) y = m_bounds.hiy;
-	Real xMaxRatio = x / (m_bounds.hix - m_bounds.lox);
+	if (x < reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->lox) x = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->lox;
+	if (y < reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->loy) y = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->loy;
+	if (x > reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hix) x = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hix;
+	if (y > reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hiy) y = reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hiy;
+	Real xMaxRatio = x / (reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hix - reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->lox);
 	Int xMax = REAL_TO_INT_CEIL(xMaxRatio * 49.9f);
-	Real yMaxRatio = y / (m_bounds.hiy - m_bounds.loy);
+	Real yMaxRatio = y / (reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->hiy - reinterpret_cast<Rva000E7734Region *>(m_pad5c0 + 0x1948 - 0x5c0)->loy);
 	Int yMax = REAL_TO_INT_CEIL(yMaxRatio * 49.9f);
 
 	Int i, j;
 	for (i = xIndex; i < xMax; i++) {
 		for (j = yIndex; j < yMax; j++) {
-			Int treeNdx = m_areaPartition[i + 50 * j];
+			Int treeNdx = reinterpret_cast<Short *>(m_pad5c0)[i + 50 * j];
 			while (treeNdx != -1) {
-				if (treeNdx < 0 || treeNdx >= m_numTrees)
+				if (treeNdx < 0 || treeNdx >= m_count)
 					break;
-				if (m_trees[treeNdx].m_treeType < 0) {
-					treeNdx = m_trees[treeNdx].m_nextInPartition;
+				if (reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_treeType < 0) {
+					treeNdx = reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_nextInPartition;
 					continue;
 				}
 				Coord3D delta;
-				delta.x = m_trees[treeNdx].m_location.x;
-				delta.y = m_trees[treeNdx].m_location.y;
-				delta.z = m_trees[treeNdx].m_location.z;
+				delta.x = reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_location.x;
+				delta.y = reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_location.y;
+				delta.z = reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_location.z;
 				delta.x -= pos.x;
 				delta.y -= pos.y;
 				delta.z -= pos.z;
 				if (radius * radius > delta.x * delta.x + delta.y * delta.y + delta.z * delta.z) {
-					Rva000E7734TreeData *data = m_treeTypes[m_trees[treeNdx].m_treeType].m_data;
+					Rva000E7734TreeData *data = reinterpret_cast<Rva000E7734Type *>(m_types)[reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_treeType].m_data;
 					if (data != 0 && data->m_framesToMoveOutward > 0) {
-						rva000E72B3(m_trees[treeNdx].m_drawableID, (const Coord3D *)&pos, unit->getUnitDirectionVector2D(), unit->m_id);
+						rva000E72B3(reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_drawableID, (const Coord3D *)&pos, unit->getUnitDirectionVector2D(), unit->m_id);
 					}
 				}
-				treeNdx = m_trees[treeNdx].m_nextInPartition;
+				treeNdx = reinterpret_cast<Rva000E7734Tree *>(m_records)[treeNdx].m_nextInPartition;
 			}
 		}
 	}

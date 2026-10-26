@@ -26,7 +26,10 @@ public:
 	Rva000E6AC0();
 	virtual ~Rva000E6AC0();
 private:
-	unsigned char m_storage[0x5C0 - 4];
+	unsigned char m_storage[0x5BC - 4];
+protected:
+	// Push-aside donor's retail float at +0x5BC; base extent stays 0x5C0.
+	float m_pushRateScale;
 };
 
 class Rva0052413E
