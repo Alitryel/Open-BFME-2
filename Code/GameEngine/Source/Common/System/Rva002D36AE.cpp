@@ -13,7 +13,7 @@ public:
 struct PalantirImpl
 {
 	char m_pad[0xC4];
-	Rva005260FC *m_c4;
+	Rva005260FC *m_heroSelect;
 };
 
 class Rva002D36AEHost
@@ -27,7 +27,7 @@ private:
 
 void Rva002D36AEHost::rva002D36AE(int name, int frames)
 {
-	Rva005260FC *inner = m_mid->m_c4;
+	Rva005260FC *inner = m_mid->m_heroSelect;
 	if (inner != 0)
 		inner->rva005260FC((const AsciiString *)name, frames);
 }

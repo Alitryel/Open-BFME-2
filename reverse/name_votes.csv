@@ -8001,3 +8001,11 @@ Code/GameEngine/Source/Common/Rva001F51DC.cpp|local|Rva001F51DC::rva001F51DC|b,e
 Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|param|swapEntries|o,81936cf35a05f00a819abd53,gpt-6.1-sol,w2-10261239-10,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp|local|swapEntries|t,0422c8d4660e81af373399d8,gpt-6.1-sol,w2-10261239-10,w-dce04682aaeb,2026-10-26
 Code/GameEngine/Source/Common/Rva000D3A17.cpp|local|Rva000D3A17::rva000D3A17|p,4678e1f8eda620af0ea6e8fc,gpt-6.1-sol,w2-10261239-12,w-dce04682aaeb,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp|param|famgenDelete#9|p,35fcf568ca0dc148680afefb,gpt-6.1-sol,w3-10261246-5,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors2.cpp|param|famgenDelete#11|p,0f1527219633359625a31d2f,gpt-6.1-sol,w3-10261246-5,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|a,774e5f20ca21fbf9bfe59199,gpt-6.1-sol,w3-10261246-7,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva001F526E.cpp|local|Rva001F526E::rva001F526E|b,d553003ad54d219feab5b67d,gpt-6.1-sol,w3-10261246-7,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/System/Rva002D36AE.cpp|member|PalantirImpl|m_c4,3b7d303326f46329f184e4f7,gpt-6.1-sol,w3-10261246-12,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva000347A0Realloc.cpp|local|EA::Allocator::GeneralAllocator::realloc|d,566f03316da10f81de41b784,gpt-6.1-sol,w3-10261246-13,w-46dfa4623b23,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva001F696EPut.cpp|function|0x001F696E|Rva001F696EPut,5d30068ba4c1f3b975f61519,gpt-6.1-sol,w3-10261246-14,w-46dfa4623b23,2026-10-26
+Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp|global||g_00C078DC,72accee5ca39a359b375c65d,gpt-6.1-sol,w3-10261246-15,w-46dfa4623b23,2026-10-26
