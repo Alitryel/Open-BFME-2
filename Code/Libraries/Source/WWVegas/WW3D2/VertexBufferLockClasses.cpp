@@ -82,6 +82,8 @@ class VertexBufferClass
 {
 public:
 	virtual void Delete_This();
+	void Add_Engine_Ref() const;
+	void Release_Engine_Ref() const;
 
 	void Add_Ref() { ++NumRefs; }
 	void Release_Ref()
@@ -119,7 +121,7 @@ protected:
 	int NumRefs;
 	unsigned type;
 	unsigned short VertexCount;
-	int engine_refs;
+	mutable int engine_refs;
 	Rva001394A0FvfInfo *fvf_info;
 	bool unexamined18;
 };
