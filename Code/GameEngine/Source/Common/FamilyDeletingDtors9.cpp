@@ -18,7 +18,7 @@ void famgenDelete(InGameNotificationBoxMovieClip *inGameNotificationBoxMovieClip
 
 // ??_GRva004FA2E2@@QAEPAXI@Z @0x002B2F21 28B: calls pinned ~Rva004FA2E2 0x004FA2E2
 class Rva004FA2E2 { public: ~Rva004FA2E2(); };
-void famgenDelete(Rva004FA2E2 *p) { delete p; }
+void famgenDelete(Rva004FA2E2 *autoResolveBattle) { delete autoResolveBattle; }
 
 // ??_GRva002B74DE@@QAEPAXI@Z @0x002B813F 28B: calls pinned ~Rva002B74DE 0x002B74DE
 class Rva002B74DE { public: ~Rva002B74DE(); };
@@ -26,15 +26,15 @@ void famgenDelete(Rva002B74DE *autoBattleResolver) { delete autoBattleResolver; 
 
 // ??_GRva00527CCE@@QAEPAXI@Z @0x002D33BB 28B: calls pinned ~Rva00527CCE 0x00527CCE
 class Rva00527CCE { public: ~Rva00527CCE(); };
-void famgenDelete(Rva00527CCE *p) { delete p; }
+void famgenDelete(Rva00527CCE *helpBox) { delete helpBox; }
 
 // ??_GRva00527FA2@@QAEPAXI@Z @0x002D33D7 28B: calls pinned ~Rva00527FA2 0x00527FA2
 class Rva00527FA2 { public: ~Rva00527FA2(); };
-void famgenDelete(Rva00527FA2 *p) { delete p; }
+void famgenDelete(Rva00527FA2 *planningModeUI) { delete planningModeUI; }
 
 // ??_GRva0057417E@@QAEPAXI@Z @0x0042C0BF 28B: calls pinned ~Rva0057417E 0x0057417E
 class Rva0057417E { public: ~Rva0057417E(); };
-void famgenDelete(Rva0057417E *p) { delete p; }
+void famgenDelete(Rva0057417E *waitMessage) { delete waitMessage; }
 
 // ??_GRva00578C43@@QAEPAXI@Z @0x0042D4CF 28B: calls pinned ~Rva00578C43 0x00578C43
 class Rva00578C43 { public: ~Rva00578C43(); };
@@ -66,15 +66,15 @@ void famgenDelete(Rva005282BA *sideCommandBarImpl) { delete sideCommandBarImpl; 
 
 // ??_GRva005D32D4@@QAEPAXI@Z @0x0057854E 28B: calls pinned ~Rva005D32D4 0x005D32D4
 class Rva005D32D4 { public: ~Rva005D32D4(); };
-void famgenDelete(Rva005D32D4 *p) { delete p; }
+void famgenDelete(Rva005D32D4 *regionStatsTray) { delete regionStatsTray; }
 
 // ??_GRva005D3C2B@@QAEPAXI@Z @0x00578586 28B: calls pinned ~Rva005D3C2B 0x005D3C2B
 class Rva005D3C2B { public: ~Rva005D3C2B(); };
-void famgenDelete(Rva005D3C2B *p) { delete p; }
+void famgenDelete(Rva005D3C2B *selectionUI) { delete selectionUI; }
 
 // ??_GRva005D4FFC@@QAEPAXI@Z @0x0057B960 28B: calls pinned ~Rva005D4FFC 0x005D4FFC
 class Rva005D4FFC { public: ~Rva005D4FFC(); };
-void famgenDelete(Rva005D4FFC *p) { delete p; }
+void famgenDelete(Rva005D4FFC *panelFrame) { delete panelFrame; }
 
 // ??_GRva005E893E@@QAEPAXI@Z @0x005CE156 28B: calls pinned ~Rva005E893E 0x005E893E
 class Rva005E893E { public: ~Rva005E893E(); };

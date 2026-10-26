@@ -97,11 +97,11 @@ private:
 	struct RefM54 *m_54;
 };
 
-Rva00136794::Rva00136794(const char *mangledName, const char *s2, float scale, const Rva0013101E *options, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &textures, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &v2, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &excludedSubObjects)
+Rva00136794::Rva00136794(const char *mangledName, const char *baseName, float scale, const Rva0013101E *options, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &textures, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &replacementTextures, const _STL::vector<AsciiString, _STL::allocator<AsciiString> > &excludedSubObjects)
 	: m_s1(mangledName)
-	, m_s2(s2)
+	, m_s2(baseName)
 	, m_v1(textures)
-	, m_v2(v2)
+	, m_v2(replacementTextures)
 	, m_v3(excludedSubObjects)
 {
 	m_f40 = scale;

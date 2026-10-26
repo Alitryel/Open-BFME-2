@@ -8019,3 +8019,17 @@ Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_b
 Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme14,e5b028aafa88610bc5af0816,gpt-6.1-sol,w6-10261254-12,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJP.cpp|member|GameBrowser|m_bfme6dc,bc6c52b2361cc2756ac12f1a,gpt-6.1-sol,w6-10261254-12,w-06f458dbecf5,2026-10-26
 Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp|param|Rva005F4C8ERef|p,10701ed01f2031e90720a962,gpt-6.1-sol,w6-10261254-14,w-06f458dbecf5,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete|p,ac386ce5c4429fd42563ce76,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#3|p,3f49c8d1dfe48558b270ab89,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#5|p,c198451df9287513d0562f5a,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#6|p,4cc651a85d9848963d0a660f,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#7|p,db49c50154b0514f302c6ac5,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#10|p,68d61dc78728a3cf470e1b8d,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#11|p,98ed7e5ea1692f2a53667958,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#15|p,b4edcbf70eb86bbf84de857b,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#16|p,c72d4d0acf07fd66b5c48e36,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp|param|famgenDelete#17|p,0d0514126875cdddc8816411,gpt-6.1-sol,w1-10261301-7,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|s2,9ae67640b3ab71bee7e384af,gpt-6.1-sol,w1-10261301-9,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|param|Rva00136794::Rva00136794|v2,dc4275beab4fc26ec4ed9d9c,gpt-6.1-sol,w1-10261301-9,w-6d5d2b593eca,2026-10-26
+Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp|local|Rva00136794::rva00135E6D|p,3f2123789d357bf9ab0a3dde,gpt-6.1-sol,w1-10261301-9,w-6d5d2b593eca,2026-10-26
+Code/GameEngine/Source/Common/Rva005A8666Box.cpp|param|NAT::gotTargetMangledPort|a,3f8914ea1304dde200bd7d56,gpt-6.1-sol,w1-10261301-10,w-6d5d2b593eca,2026-10-26

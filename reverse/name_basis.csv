@@ -2534,3 +2534,12 @@ local,Rva001F5496::rva001F5496::p,Rva001F5496::rva001F5496::m_slaveSystem,inferr
 param,Rva005F4C8ERef::p,Rva005F4C8ERef::pointer,inferred,agree:nl-10701ed01f20,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,
 param,Rva00509DF8::rva00509DF8::b,Rva00509DF8::rva00509DF8::m_targetObject,inferred,agree:nl-aea7080f560a,Code/GameEngine/Source/Common/VslotSmallBodiesSseA.cpp,0x00509DF8
 local,SpecialAbilityUpdate::rva0044EDA6::b,SpecialAbilityUpdate::rva0044EDA6::m_containMax,inferred,agree:nl-2342fbb249c3,Code/GameEngine/Source/GameLogic/Object/Update/SpecialAbilityUpdateSlot8.cpp,0x0044EDA6
+param,famgenDelete#3::p,famgenDelete#3::autoResolveBattle,inferred,agree:nl-c9580739eead,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,famgenDelete#5::p,famgenDelete#5::helpBox,inferred,agree:nl-d99d4baf0ac4,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,famgenDelete#6::p,famgenDelete#6::planningModeUI,inferred,agree:nl-223c6744bf4f,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,famgenDelete#7::p,famgenDelete#7::waitMessage,inferred,agree:nl-ae4094236f48,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,famgenDelete#15::p,famgenDelete#15::regionStatsTray,inferred,agree:nl-1e413c47809c,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,famgenDelete#16::p,famgenDelete#16::selectionUI,inferred,agree:nl-d1f52ff30fe6,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,famgenDelete#17::p,famgenDelete#17::panelFrame,inferred,agree:nl-b48ba0e27b40,Code/GameEngine/Source/Common/FamilyDeletingDtors9.cpp,
+param,Rva00136794::Rva00136794::s2,Rva00136794::Rva00136794::baseName,inferred,agree:nl-936067c8124a,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
+param,Rva00136794::Rva00136794::v2,Rva00136794::Rva00136794::replacementTextures,inferred,agree:nl-540917e6f01d,Code/Libraries/Source/WWVegas/WWLib/Rva00136794Ctor.cpp,0x00136794
