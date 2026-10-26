@@ -2315,3 +2315,6 @@ param,Team::rva0039DDC2::f1,Team::rva0039DDC2::kindOfFilter,inferred,agree:nl-52
 local,Pathfinder::FindBrokenBridge::r1,Pathfinder::FindBrokenBridge::startZone,inferred,agree:nl-c72afd8fb53c,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
 local,Pathfinder::FindBrokenBridge::r2,Pathfinder::FindBrokenBridge::endZone,inferred,agree:nl-a1c08763fec7,Code/GameEngine/Source/GameLogic/AI/PathfinderRva002E99F9.cpp,0x002E99F9
 local,Rva002EDE5B::tmpC,Rva002EDE5B::cellPos,inferred,agree:nl-c81b0551ac55,Code/GameEngine/Source/Common/Rva002E8C23.cpp,0x002EDE5B
+local,find::r,find::node,inferred,agree:nl-a2810369da3f,Code/GameEngine/Source/Common/Audio/AudioManagerAdjustPriorityAndVolume.cpp,
+param,Rva006FE400::rva006FE400::a1,Rva006FE400::rva006FE400::context,inferred,agree:nl-15adf7e98f2d,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,0x006FE400
+local,Rva006FE400::rva006FE400::r,Rva006FE400::rva006FE400::memberValue,inferred,agree:nl-0fae9e73a2b6,Code/Libraries/Source/Apt/Rva006FE400Chain.cpp,0x006FE400

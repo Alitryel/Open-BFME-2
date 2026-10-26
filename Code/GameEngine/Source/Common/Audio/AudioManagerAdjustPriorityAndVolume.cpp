@@ -78,11 +78,11 @@ public:
 			int *(AudioManagerBfmeFindPECallView::*asMember)(int);
 		} call;
 		call.asVoid = reinterpret_cast<void *>(j_00025cca);
-		int *r = (reinterpret_cast<AudioManagerBfmeFindPECallView *>(
+		int *node = (reinterpret_cast<AudioManagerBfmeFindPECallView *>(
 			&m_map)->*call.asMember)(key);
-		if (r == m_map.m_bfmeFirst)
+		if (node == m_map.m_bfmeFirst)
 			return 0;
-		return (Rva006AD590Slot *)((char *)r + 0x14);
+		return (Rva006AD590Slot *)((char *)node + 0x14);
 	}
 
 	char m_pad[0x1b8];
