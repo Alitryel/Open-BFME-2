@@ -8,7 +8,7 @@
 // ?bfmeResetUB). Called from deleting dtor 0x00151717. Layout mirrors the
 // twins: vtable + pad 0x10 + link + String. EH via /GX like the twins.
 
-class Rva00151632Link
+class FXShaderAssetImpl
 {
 public:
 	virtual void *get(int x);
@@ -29,7 +29,7 @@ public:
 
 private:
 	char m_pad04[0x10];
-	Rva00151632Link *m_link;
+	FXShaderAssetImpl *m_link;
 	AsciiString m_name;
 };
 
