@@ -113,3 +113,53 @@ relocations, COMDAT selections and undefined references retain the previously
 recorded equivalence and explicit SDK library-directive differences.
 All six inherited file claims are renewed pending publication. No new trial
 is part of this recovery commit; the runner publisher handles the batch.
+
+## Qualified persistence-header prerequisite (same seat, recovered batch)
+
+The next scoped pass saves all five standalone objects/sources before editing
+(`build/sol-smudge-persist-before.json` and before/). All fifteen rows verify
+beforehand. In SDK composition the SDK search directories precede the seed's
+WWVegas directories, so rendobj.h's unqualified persist.h resolves to Microsoft's
+unrelated header. The seed now explicitly includes WWSaveLoad/persist.h before
+its game headers. This selects the existing game declaration without changing
+a shared header, type definition, flags, body or ownership.
+
+Afterwards ./build.sh W3DSmudge.cpp verifies 7/7, including its EH funclet;
+find_declared_unmatched passes the seed and copyRect, class_gate passes the
+seed, and data_check reports zero findings for both. The scoped identity gate
+reports shadow, eight rows, ten findings and zero new problems. A larger
+five-file scope reports the existing divergent BFMEDX8DeviceLock constructor
+provided by ReAcquireResources; that unchanged donor and its findings remain.
+No identity debt is retired. link_check --new-variants --staged-peers --shadow
+for the seed exits zero with its cached object current.
+
+Supported Obj/body and COMDAT readers compare every provider, raw body/data,
+relocation referent, section characteristic, selection rule and undefined set
+across all five before/current objects: identical (546/1/3/3/4 providers).
+The complete-section proof also passes all 558 seed and three copyRect sections,
+including EH data and relocations, with the previously documented normalization.
+Thus the in-place qualification changes no selected-provider candidate or
+caller binding. Receipts: build/sol-smudge-persist-{after-build,proof,sections,
+variants}.txt and proof.py; the build still uses the ordinary supported driver.
+
+The ordinary --merge W3DSmudge.cpp --dry-run clears PersistClass C2504 and next
+fails at IDirect3DSurface9, with the same seed/constructor/ReleaseResources ten
+rows accepted. SDK d3d8.h defines DIRECT3D_VERSION=0x0800 before d3d9.h, which
+suppresses the latter's declarations. A read-only Verifier trial enabling
+0x0900 instead produces C2011 duplicate D3DLIGHTTYPE/D3DSHADEMODE/etc from the
+coexisting SDK versions. No version override, SDK edit or private interface was
+landed. Reconciling the DX8-named engine headers with its D3D9 consumer remains
+a prerequisite; ReAcquireResources remains byte-rejected. No new donor is
+accepted and no later Luna landing is claimed. Before/after ordinary reports
+are build/sol-smudge-persist-{before,after}.txt; targeted compile diagnostics
+are build/sol-smudge-{pair,version}-trial.txt. The attempt log records the block.
+
+Immediately before this commit/publication attempt, the complete pending
+origin/master..HEAD plus staged edit was audited with git diff --name-status.
+It contains only in-place Smudge/Vector3 edits, queue retirement and evidence;
+there are no moved/deleted production paths. Active tools, hooks, workflows,
+includes, build inputs and registries therefore need no path repointing.
+Existing historical paths and all code/data/hatch registers are preserved.
+This follow-up retires no additional queue entry, reduces no files, recovers
+zero C++ bytes and makes no linked-byte or ownership claim. Keep inherited
+file claims until publication is confirmed.

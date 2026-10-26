@@ -41,6 +41,8 @@
 // Author: Mark Wilczynski, June 2003
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Qualify the game header: SDK-enabled composition also sees Microsoft persist.h.
+#include "WWSaveLoad/persist.h"
 #include "Lib/Basetype.h"
 #include "always.h"
 #include "W3DDevice/GameClient/W3DSmudge.h"
