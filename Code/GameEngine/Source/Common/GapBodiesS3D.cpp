@@ -16,15 +16,15 @@ public:
 class Rva0035A97E
 {
 public:
-	virtual void rva0035A97E(void *a, void *b);
+	virtual void rva0035A97E(void *cellX, void *cellY);
 private:
 	Rva0035A8D7 *m_target;									// +0x04
 	void *m_08;												// +0x08
 };
 
-void Rva0035A97E::rva0035A97E(void *a, void *b)
+void Rva0035A97E::rva0035A97E(void *cellX, void *cellY)
 {
-	m_target->rva0035A8D7(a, b, m_08);
+	m_target->rva0035A8D7(cellX, cellY, m_08);
 }
 
 // --- 0x004E81DE (33B): when the flag is set, pass the +0x08 word, the first

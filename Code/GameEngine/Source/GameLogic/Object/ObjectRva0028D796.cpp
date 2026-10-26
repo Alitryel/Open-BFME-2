@@ -71,10 +71,10 @@ Int Rva0028D796::rva0028D796()
 			const void *found = (reinterpret_cast<Rva00288CFA *>(TheExperienceLevelSystem)->*find.memberCall)(list);
 			if (found != 0) {
 				Int currentRank = m_tracker->m_24;
-				Int c = *(const Int *)((const char *)found + 0xFC);
+				Int levelRank = *(const Int *)((const char *)found + 0xFC);
 				double db = (double)currentRank;
 				double da = (double)base;
-				double bountyValue = db / c;
+				double bountyValue = db / levelRank;
 				bountyValue *= da;
 				bountyValue += da;
 				return (Int)bountyValue;

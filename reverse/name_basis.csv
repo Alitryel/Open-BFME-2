@@ -2454,3 +2454,6 @@ local,bfme5MakeObj18::q,bfme5MakeObj18::memory,inferred,agree:nl-db0876b726db,Co
 local,swapEntries::m,swapEntries::page,inferred,agree:nl-23621d6609c7,Code/GameEngine/Source/Common/Rva005FA98CSwap.cpp,0x005FA98C
 member,BfmeThingVJQ::m_bfme6dc,BfmeThingVJQ::m_requestTimeout,inferred,agree:nl-e07ab19e5b73,Code/GameEngine/Source/GameNetwork/BfmeGameBrowserVJQ.cpp,
 class,Rva003598A5Obj,TerrainResourceCellVisitor,inferred,agree:nl-f08bd697a238,Code/GameEngine/Source/GameLogic/System/TerrainResourceManager.cpp,
+param,Rva0035A97E::rva0035A97E::a,Rva0035A97E::rva0035A97E::cellX,inferred,agree:nl-7191da2d0d1f,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x0035A97E
+param,Rva0035A97E::rva0035A97E::b,Rva0035A97E::rva0035A97E::cellY,inferred,agree:nl-3009c5834616,Code/GameEngine/Source/Common/GapBodiesS3D.cpp,0x0035A97E
+local,Rva0028D796::rva0028D796::c,Rva0028D796::rva0028D796::levelRank,inferred,agree:nl-0edc03b7dac4,Code/GameEngine/Source/GameLogic/Object/ObjectRva0028D796.cpp,0x0028D796
