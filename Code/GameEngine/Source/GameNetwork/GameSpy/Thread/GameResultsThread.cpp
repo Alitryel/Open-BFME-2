@@ -14,6 +14,9 @@
 // parks the block end 4 elements (0x70 bytes) past the start.
 
 // Use the shared STLport declaration so the queue donors compose with this iterator.
+// GameMemory.h supplies the placement-array overloads used by the workers.
+// Establish their existing guard before STLport brings in the VC7.1 <new>.
+#define __PLACEMENT_VEC_NEW_INLINE
 #include <deque>
 
 class GameResultsRequest

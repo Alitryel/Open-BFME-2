@@ -1,106 +1,94 @@
-# GameResultsThread seed placement-new guard trial, 2026-10-26
+# GameResultsThread seed placement guard continuation, 2026-10-26
 
-Seat codexb, allocated family B shard 0. This destination is listed unheld in
-the runner queue. The fresh scoped Thread/ planner was generated and its
-currency check passed before editing. Its original-path and donor alternatives
-are hints. Current tu_skeleton --plan rebuilds the map in memory: 40 approved
-rows in ten complete donor files, five mixed donors, no protected refusals.
-No merge, manual split, ledger move or TU-map regeneration is applied.
+Inherited commits 659ca277eb, a2ec1c2358 and 17c85e197c are confirmed on
+origin/master. Their TreeDraw and earlier deque-handoff file scopes were
+released. The three GameResults source scopes and this guard handoff scope
+were renewed before restoring the exact preserved patch. No inherited work
+or preparation backup was discarded.
 
-The previously banked donor-flag trial did not establish the placement-array
-guard under the selected POD flags. This distinct trial adds the existing
-__PLACEMENT_VEC_NEW_INLINE guard in the seed before its <deque> include. Thus
-the guard precedes VC7.1 <new> and the hoisted worker includes regardless of
-which donor's flags win. GameMemory.h keeps its existing placement-array
-overloads. No shared header, donor source, compiler flags or function body is
-edited. The three affected source scopes were claimed before the trial.
+Fresh allocated queue: codexb, family B shard 0, GameResultsThread.cpp unheld.
+Thread/ planner and currency check passed before the trial; current plan
+rebuilds the stale map in memory. No TU map is written. Frozen-file check
+passed before applying the three-line seed guard. No row, body, flags, donor,
+shared header or path is changed.
 
-The initial ./build.sh baseline verifies all 34 rows across the ten complete
-donors. Their current source blobs are unchanged since the published seed
-repair fce2c6327a; the existing ordinary dry-run receipt remains the baseline:
-13 accepted rows across five files, both workers rejected at GameMemory.h
-895/896 with C2084, record/deque destructors rejected for bytes, Startup rejected
-for private deque/queue template definitions. No unchanged blocked full trial
-was rerun. Prior attempt entries and handoff were read.
+Standalone acceptance: ./build.sh on the seed, sendGameResults and
+ThreadFunction verifies 8/8 rows, three funclet pins and 13 named import
+references. Frozen and class checks pass for all three. EH EXACT 1 with no
+other findings or missing objects. data_check: zero findings, zero outside
+baseline. code_identity_gate: shadow, eight rows, zero new problems/notes.
+link_check --new-variants --staged-peers exits zero, with current cached
+objects and no refusal. No census, ownership or debt improvement is inferred.
 
-With the seed guard, ./build.sh on the seed and both workers verifies 8/8 rows,
-all three worker funclets and all 13 named import references. Both the frozen
-file and class gates pass. EH: EXACT 1, no other findings or missing objects.
-data_check: three sources, zero findings. Scoped code_identity_gate: eight
-rows, zero new problems or notes, shadow mode. Every external code/data body,
-size, relocation referent, section flag, COMDAT choice and external reference
-is unchanged in all ten standalone objects relative to the saved baseline.
-This establishes standalone equivalence, not successful composition.
+All ten complete-donor baseline objects remain identical to current standalone
+objects for every external code/data body, relocation referent, section flag,
+COMDAT selection and external reference. The seed Microsoft-header scan has
+zero locally declared Microsoft names and zero failed files. The unchanged
+ThreadFunction Winsock/free analysis debt remains; no protected key is retired.
 
-Microsoft-header scan: the changed seed and send worker pass; the unchanged
-ThreadFunction worker has a failed/config analysis. Its existing MS-header
-queue key is conflicting/abi with unresolved Winsock declarations and
-free:unverified. No queue key is dropped or claimed retired. Detailed analysis
-is retained in build/sol-results-guard-header-worker-20261026.txt.
+The older 13-row composition proof needs a data qualification: its code-provider
+union is exact, while it additionally emits the unreferenced STLport narrow
+string npos datum. The four FF bytes, section flags, relocation-free shape and
+ANY COMDAT selection match unchanged worker/destructor/startup baseline
+objects. It introduces no variant in the complete ten-source context. The
+new comparison includes data explicitly and checks any added provider against
+that unchanged context. Normalized local relocation targets in the baseline
+are exclusively EH handlers; exact EH/funclet verification covers them.
 
-The ordinary full --merge --dry-run was interrupted at session closeout after
-roughly 76 minutes, exit 130 (KeyboardInterrupt in subprocess.communicate).
-The compiler was still advancing through new trial objects. There is no final
-accepted set, byte-failure verdict or completed composition provider/EH check.
-Do not describe the guard as a demonstrated composition unblock. The existing
-13-row receipt remains the baseline only. No duplicate trial was launched.
+The ordinary --merge --dry-run completed after about 35 minutes. Its best
+verified subset is 14 rows in six files, versus 13 rows in five before the
+guard. sendGameResults (0x0041A047, 197 bytes) is newly accepted alongside the
+seed, both POD base donors and the Common delete/pop donors. This demonstrates
+one newly compatible donor/row; it is not a recovered body, linked byte count,
+or confirmed Luna landing. Leave the actual merge for Luna.
 
-The emitted trial source confirmed the guard precedes <deque> (lines 4/5),
-independently of selected flags. This tests a distinct hypothesis from the
-previously reverted donor-flag guard. It does not establish acceptance.
+The final trial object is build/tu_skeleton/a59165dbe0049d13.obj. Its complete
+external code/data definition set, bytes, relocation referents, sizes, section
+flags, COMDAT selections and undefined reference set exactly equal the union
+of the six accepted baseline objects. There are no missing, added, changed or
+multi-variant providers, no changed references and no normalized local targets.
+The accepted parents contain no EH graph. The excluded ThreadFunction retains
+its separately verified standalone EXACT EH graph and three funclets; that is
+not evidence that it composes.
 
-The three-line guard edit is parked, not published. The seed was restored to
-HEAD; the exact guarded source and patch are preserved under
-build/sol-results-guard-source-20261026.cpp and .patch. The original trial
-receipt ends in KeyboardInterrupt; the temporary Code/ source was removed by
-the tool's finally block. The restored seed's build and frozen-file receipts
-are build/sol-results-guard-parked-{build,frozen}-20261026.txt.
-The restored seed verifies 1/1 rows and has no unrowed defined functions.
+Remaining blockers: Thread_Function (0x0041A843, current extent 298 bytes) now
+reaches a byte mismatch instead of the placement-array C2084. No byte-shape or
+allocator repair is attempted here. Both record/deque destructors still fail
+bytes. Startup now reports an AsciiString class redefinition and duplicate
+function definitions in the bfme2_ascii shim environment when composed with
+the newly accepted worker. Its prior private deque/queue issue is not claimed
+fixed. Five mixed donors remain. Common-source prerequisites belong to family
+A; no such source is edited or claimed. Do not repeat the unchanged failures.
 
-Receipts: build/sol-results-guard-{build,bindings,eh,data,identity,headers,
-trial}-20261026.txt; the initial ten-source baseline build and object snapshots
-are build/sol-results-before-build-20261026.txt and
-build/sol-results-20261026-before.json. The comparison script uses the supported
-allowed_symbols Obj parser and census COMDAT metadata. No full-link, smoke or
-nightly run is performed, and no census improvement is inferred.
+The inherited run was interrupted after 76 minutes without a final verdict;
+its guarded source was parked and restored cleanly. This continuation restored
+that exact patch once and completed the ordinary search. It supersedes the
+incomplete verdict in 17c85e197c. Preparation backups remain under build/.
+The final scoped planner was regenerated after the temporary source vanished,
+and its currency and three-source frozen-file checks passed.
 
-Publication audit: the pending batch contains the inherited GameResults trial
-handoff, the TreeDraw source prerequisite and its handoff, and this trial's
-result. It introduces no source path moves, deletions, absorbed donors, new
-headers or include-path changes. Active tools, hooks, workflows, includes,
-build inputs and registries need no repointing; historical EA paths and debt
-registers remain intact. The guard adds no function bodies, file reduction,
-recovered C++ bytes or debt retirement.
+Receipts: build/sol-results-resume-{build,data,identity,headers,seed-headers,
+link,trial,composition-proof}-20261026.txt; EH receipt
+build/sol-results-guard-eh-20261026.txt (unchanged standalone objects); original ten-source snapshots in
+build/sol-results-20261026-before.json. Scoped comparison script:
+build/sol-composition-proof-20261026.py. No maintainer-only runner is invoked.
 
-Audit range: fetched origin/master a673cd483c versus local b5732e014d, plus
-this evidence-only handoff. The double-dot diff includes incoming changes in
-reverse; the merge-base-to-HEAD diff identifies this seat's actual outgoing
-paths. There are no outgoing source path moves or affected path consumers.
-The earlier inherited handoff and verified TreeDraw prerequisite remain in
-the pending batch until the publisher confirms a push.
+Publication audit: origin/master 73ffc391c4 versus local HEAD 17c85e197c,
+plus this source edit, handoff and re_log verdicts. The double-dot diff includes
+incoming changes; merge-base..HEAD has no unpublished inherited commits.
+There are no outgoing source path moves, renames, deletions, new headers or
+include-path changes. Active tools, hooks, workflows, includes, build inputs
+and registries need no repointing. Historical EA paths and all protected
+registers, ownership rows and the TU map remain intact. C++ body bytes added:
+zero. File reduction: zero. Identity/data/header debt retired: zero.
 
-Concrete unfinished task: finish the GameResults seed-guard composition and
-provider/EH verification. Before editing, check allocation and claim ownership,
-run the frozen-file check, then restore the preserved patch. Refresh the
-Thread/ scoped planner and its currency check. Resume the ordinary dry-run
-once, using the prepared successful object-store receipts; the interrupted
-process has exited, so never launch a duplicate. If it accepts a new set,
-compare all external code/data providers, COMDAT choices and references to the
-saved baseline, and verify every accepted parent's EH graph and funclet
-locations. A standalone byte build is not composition evidence. Do not repeat
-the donor-flag trial or unchanged destructor/startup blockers. Reassess the
-verification cost before another long run; bank/release this target if it
-cannot be completed within the lane's checks.
+Until publication is confirmed, retain file claims for the seed, both workers
+and this handoff. Release them after the push, settling landed RVA claims
+through claims.py release --landed. The runner metadata records actual push
+and release status. This is a demonstrated consolidation prerequisite only;
+no nightly, link cycle, boot/game smoke, census or ownership receipt is run.
 
-Retained ongoing file claims (owner yasinschroeder-codexb):
-
-- Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread.cpp
-- Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThreadClassThreadFunction.cpp
-- Code/GameEngine/Source/GameNetwork/GameSpy/Thread/GameResultsThread_GameResultsThreadClass_sendGameResults.cpp
-- reverse/attempt_support/consolidation-sol-results-guard-20261026.md
-
-Keep these for continuation, renewing/reclaiming if required. Separately,
-release the TreeDraw seed/name-key/handoff scopes and the inherited
-consolidation-sol-results-deque-20261025.md scope after their publication is
-confirmed. The final session metadata records publication and release status.
-No recovered bytes, file reduction or debt retirement are claimed here.
+Fresh upstream instructions were read before commit: the new pre-push batch
+audit must be reviewed after the publisher rebases. The source edit introduces
+no path changes; remaining inconclusive audit findings belong in the shared
+obstacle register and next census, not in a fabricated link improvement.
