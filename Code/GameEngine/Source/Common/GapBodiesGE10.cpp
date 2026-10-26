@@ -46,13 +46,13 @@ public:
 class Rva004A2BF0
 {
 public:
-	bool rva004A2BF0(Object *obj);
+	bool allow(Object *obj);
 private:
 	char m_pad[8];
 	const Player *m_player;									// +0x08
 };
 
-bool Rva004A2BF0::rva004A2BF0(Object *obj)
+bool Rva004A2BF0::allow(Object *obj)
 {
 	if (obj->rva002943B2(m_player))
 		return true;
