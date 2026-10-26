@@ -2396,3 +2396,9 @@ carry,Rva0055D686Compute::normalizedDirection,computeCylinderEmissionPosition::n
 carry,Rva0055D686Compute::scaledDirection,computeCylinderEmissionPosition::scaledDirection,inferred,scope renamed by Rename Rva0055D686Compute to computeCylinderEmissionPosition (inferred),Code/GameEngine/Source/GameClient/Rva0055D686Scale.cpp,0x0055D686
 local,aptMathAtan2::x,aptMathAtan2::xCoordinate,inferred,agree:nl-59816ae96741,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp,0x006E85D0
 local,aptMathAtan2::y,aptMathAtan2::yCoordinate,inferred,agree:nl-a6038059f4b3,Code/Libraries/Source/Apt/AptMathCallbacksBFME2.cpp,0x006E85D0
+function,?bfmeCopyVHE@@YGXPAVBfmeMsgVHE@@0@Z,?copyMessageHeader@@YGXPAVBfmeMsgVHE@@0@Z,inferred,agree:nl-0b56c155df97,Code/GameEngine/Source/Common/BfmeConv1361.cpp,0x00675680
+carry,bfmeCopyVHE::transactionId,copyMessageHeader::transactionId,inferred,scope renamed by Rename bfmeCopyVHE to copyMessageHeader (inferred),Code/GameEngine/Source/Common/BfmeConv1361.cpp,0x00675680
+function,?rva0052A287@Rva0052A287@@QAEXPAUObj0052A22C@@@Z,?setObject@Rva0052A287@@QAEXPAUObj0052A22C@@@Z,inferred,agree:nl-73626543f258,Code/GameEngine/Source/Common/Rva0052A22CForwarders.cpp,0x0052A287
+function,?rva005F4CF8@Rva005F4C52@@QAE?AV?$Rva005F4C8ERef@VRva005E5590Iface@@@@HH@Z,?createArmyDetailsPanel@Rva005F4C52@@QAE?AV?$Rva005F4C8ERef@VRva005E5590Iface@@@@HH@Z,inferred,agree:nl-69e2acd01690,Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4CF8
+carry,Rva005F4C52::rva005F4CF8::level,Rva005F4C52::createArmyDetailsPanel::level,inferred,scope renamed by Rename rva005F4CF8 to createArmyDetailsPanel (inferred),Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4CF8
+carry,Rva005F4C52::rva005F4CF8::name,Rva005F4C52::createArmyDetailsPanel::name,inferred,scope renamed by Rename rva005F4CF8 to createArmyDetailsPanel (inferred),Code/GameEngine/Source/Common/Rva005F4C8EFactory.cpp,0x005F4CF8

@@ -53,7 +53,7 @@ int Rva005243FA(int a, int b, int c)
 	return (int)Rva0052408BFind((const Rva00523DB7 *)a, (const Rva00523DB7 *)b, (const Rva00523DB7 *)c, (int)&tag);
 }
 
-// ?rva0052A287@Rva0052A287@@QAEXPAUObj0052A22C@@@Z @0x0052A287 7B
+// ?setObject@Rva0052A287@@QAEXPAUObj0052A22C@@@Z @0x0052A287 7B
 // Tail-forwarding wrapper holding Holder0052A22C* at +0: loads it and jmps
 // to rowed 0x0052A22C with the incoming Obj* arg preserved on the stack.
 // Evidence: unlock lane all callees rowed; caller at 0x002D3651 in 0x002D363E
@@ -61,10 +61,10 @@ int Rva005243FA(int a, int b, int c)
 struct Rva0052A287
 {
 	Holder0052A22C *m_holder;
-	void rva0052A287(Obj0052A22C *obj);
+	void setObject(Obj0052A22C *obj);
 };
 
-void Rva0052A287::rva0052A287(Obj0052A22C *obj)
+void Rva0052A287::setObject(Obj0052A22C *obj)
 {
 	m_holder->rva0052A22C(obj);
 }

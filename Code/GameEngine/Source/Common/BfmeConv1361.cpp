@@ -18,7 +18,7 @@ public:
 };
 
 
-void __stdcall bfmeCopyVHE(BfmeMsgVHE *dst, BfmeMsgVHE *src)
+void __stdcall copyMessageHeader(BfmeMsgVHE *dst, BfmeMsgVHE *src)
 {
 	dst->m_bfme1c = src->m_bfme1c;
 	int transactionId = src->bfmeGetVHE((int *)"TID", -1);

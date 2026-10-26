@@ -119,7 +119,7 @@ class Rva005F4C52
 {
 public:
 	virtual Rva005F4C8ERef<Rva005E6ED6Third> rva005F4C8E(int level, int name);
-	Rva005F4C8ERef<Rva005E5590Iface> rva005F4CF8(int level, int name);
+	Rva005F4C8ERef<Rva005E5590Iface> createArmyDetailsPanel(int level, int name);
 private:
 	unsigned char m_pad04[0x08 - 4];
 	int m_08;
@@ -184,7 +184,7 @@ private:
 	Rva005CDCEELink *link24;
 };
 
-Rva005F4C8ERef<Rva005E5590Iface> Rva005F4C52::rva005F4CF8(int level, int name)
+Rva005F4C8ERef<Rva005E5590Iface> Rva005F4C52::createArmyDetailsPanel(int level, int name)
 {
 	// The existing return view reaches the same counted base through its
     // vbptr; the provider's real third interface is Rva005E3AE1 at +10.

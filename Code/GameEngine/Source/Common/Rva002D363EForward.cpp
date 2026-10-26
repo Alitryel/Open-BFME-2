@@ -17,7 +17,7 @@ public:
 // 0x00529FBE PalantirCommandInterface::rva00529FBE(), 0x0052854C Rva0052854C::rva0052854C(Rva0052854CArg*).
 struct Obj0052A22C;
 struct Rva0052854CArg;
-struct Rva0052A287 { void rva0052A287(Obj0052A22C *x); };
+struct Rva0052A287 { void setObject(Obj0052A22C *x); };
 struct PalantirCommandInterface { void rva00529FBE(); };
 struct Rva0052854C { void rva0052854C(Rva0052854CArg *x); };
 
@@ -38,7 +38,7 @@ private:
 // ?rva002D363E@Rva002D363EOwner@@QAEXH@Z
 void Rva002D363EOwner::rva002D363E(int x)
 {
-	((Rva0052A287 *)((char *)m_p10 + 0x8C))->rva0052A287((Obj0052A22C *)x);
+	((Rva0052A287 *)((char *)m_p10 + 0x8C))->setObject((Obj0052A22C *)x);
 	((Rva0052854C *)((char *)m_p10 + 0x90))->rva0052854C((Rva0052854CArg *)x);
 	if (((RadarWindowOverrideSource *)this)->hasOverrideWindow()) {
 		((PalantirCommandInterface *)((char *)m_p10 + 0x8C))->rva00529FBE();
