@@ -34,39 +34,15 @@ struct sockaddr_in
 	char sin_zero[8];
 };
 
-struct HOSTENT
-{
-	char *h_name;
-	char **h_aliases;
-	short h_addrtype;
-	short h_length;
-	char **h_addr_list;
-};
-
-#define h_addr h_addr_list[0]
-
 extern "C" void *__cdecl memset(void *destination, int value, unsigned int count);
 #pragma intrinsic(memset)
-extern "C" __declspec(dllimport) void *__cdecl memcpy(void *destination, const void *source, unsigned int count);
-extern "C" __declspec(dllimport) unsigned int __cdecl strlen(const char *string);
-extern "C" __declspec(dllimport) HOSTENT *__stdcall gethostbyname(const char *name);
 extern "C" __declspec(dllimport) void *__stdcall CreateThread(void *threadAttributes, unsigned long stackSize, DWORD (__stdcall *startAddress)(void *), void *parameter, unsigned long creationFlags, unsigned long *threadId);
 
 struct sockaddr_in gThreadAddress;
-static int gThreadFlag;
-
-DWORD __stdcall gethostbynameA(void *szName)
-{
-	HOSTENT *hostEntry = gethostbyname((const char *)szName);
-
-	if (hostEntry)
-		memcpy((char *)&(gThreadAddress.sin_addr), hostEntry->h_addr, hostEntry->h_length);
-	else
-		memcpy((char *)&(gThreadAddress.sin_addr), "", strlen("") + 1);
-
-	gThreadFlag = 1;
-	return 0;
-}
+// Retail's worker at 0x006C9F40 and its completion flag already have owners
+// in Common/SmallGaps/resolveHostAddress.cpp. Use those providers directly.
+int __stdcall resolveHostAddress(const char *name);
+extern int Rva00885430Resolved;
 
 class Cftp
 {
@@ -81,10 +57,10 @@ int Cftp::AsyncGetHostByName(char *name, sockaddr_in &address)
 
 	if (stat == 0)
 	{
-		gThreadFlag = 0;
+		Rva00885430Resolved = 0;
 		memset(&gThreadAddress, 0, sizeof(gThreadAddress));
 
-		if (CreateThread(NULL, 0, gethostbynameA, name, 0, &threadId) == NULL)
+		if (CreateThread(NULL, 0, (DWORD (__stdcall *)(void *))resolveHostAddress, name, 0, &threadId) == NULL)
 		{
 			return FTP_FAILED;
 		}
@@ -92,7 +68,7 @@ int Cftp::AsyncGetHostByName(char *name, sockaddr_in &address)
 	}
 	if (stat == 1)
 	{
-		if (gThreadFlag)
+		if (Rva00885430Resolved)
 		{
 			address = gThreadAddress;
 			address.sin_family = AF_INET;
