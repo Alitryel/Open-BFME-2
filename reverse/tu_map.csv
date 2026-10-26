@@ -15332,8 +15332,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00235D3C,310,code,,,-,,Code/GameEngine/Source/Common/MultiPlayOtherMultParsers.cpp
 0x00235E72,310,code,,,-,,Code/GameEngine/Source/Common/MultiPlayOtherMultParsers.cpp
 0x00235FA8,310,code,,,-,,Code/GameEngine/Source/Common/MultiPlayOtherMultParsers.cpp
-0x002360DE,30,code,Code/GameEngine/Source/Common/GlobalData.cpp,approved,S,S=Code/GameEngine/Source/Common/GlobalData.cpp N=Code/GameEngine/Source/Common/System/GlobalData.cpp,Code/GameEngine/Source/Common/System/GlobalDataRva002360DE.cpp
-0x002360FC,30,code,Code/GameEngine/Source/Common/GlobalData.cpp,approved,S,S=Code/GameEngine/Source/Common/GlobalData.cpp N=Code/GameEngine/Source/Common/System/GlobalData.cpp,Code/GameEngine/Source/Common/System/GlobalDataRva002360DE.cpp
+0x002360DE,30,code,Code/GameEngine/Source/Common/GlobalData.cpp,approved,S,S=Code/GameEngine/Source/Common/GlobalData.cpp N=Code/GameEngine/Source/Common/System/GlobalData.cpp,Code/GameEngine/Source/Common/GlobalData.cpp
+0x002360FC,30,code,Code/GameEngine/Source/Common/GlobalData.cpp,approved,S,S=Code/GameEngine/Source/Common/GlobalData.cpp N=Code/GameEngine/Source/Common/System/GlobalData.cpp,Code/GameEngine/Source/Common/GlobalData.cpp
 0x0023611A,304,code,Code/GameEngine/Source/Common/GlobalData.cpp,approved,S,S=Code/GameEngine/Source/Common/GlobalData.cpp N=Code/GameEngine/Source/Common/GlobalData.cpp,Code/GameEngine/Source/Common/GlobalData.cpp
 0x0023624A,59,code,Code/GameEngine/Source/Common/GlobalData.cpp,approved,S,S=Code/GameEngine/Source/Common/GlobalData.cpp N=Code/GameEngine/Source/Common/GlobalData.cpp,Code/GameEngine/Source/Common/GlobalData.cpp
 0x00236285,47,code,Code/GameEngine/Source/Common/GlobalData.cpp,approved,C,C=0x0023624A..0x002362B4,Code/GameEngine/Source/Common/System/Rva00236285Ctor.cpp

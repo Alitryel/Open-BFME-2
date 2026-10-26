@@ -8672,9 +8672,9 @@ _GetProcessorFlags,,0x001C4390,169,Code/Libraries/Source/VP6/GetProcessorFlags.c
 ?set@Rva0039D495ByteSlot@@QAEXE@Z,,0x0039D495,13,Code/GameEngine/Source/Common/DispByteFieldSetters.cpp,matched,
 ?set@Rva00426306ByteSlot@@QAEXE@Z,,0x00426306,13,Code/GameEngine/Source/Common/DispByteFieldSetters.cpp,matched,
 ?set@Rva0042F9B9ByteSlot@@QAEXE@Z,,0x0042F9B9,13,Code/GameEngine/Source/Common/DispByteFieldSetters.cpp,matched,
-?rva002360DE@GlobalData@@QBE?AVAsciiString@@XZ,,0x002360DE,30,Code/GameEngine/Source/Common/System/GlobalDataRva002360DE.cpp,matched,
+?rva002360DE@GlobalData@@QBE?AVAsciiString@@XZ,,0x002360DE,30,Code/GameEngine/Source/Common/GlobalData.cpp,matched,
 ?set@Rva0044E5C0ByteSlot@@QAEXE@Z,,0x0044E5C0,13,Code/GameEngine/Source/Common/DispByteFieldSetters.cpp,matched,
-?rva002360FC@GlobalData@@QBE?AVUnicodeString@@XZ,,0x002360FC,30,Code/GameEngine/Source/Common/System/GlobalDataRva002360DE.cpp,matched,
+?rva002360FC@GlobalData@@QBE?AVUnicodeString@@XZ,,0x002360FC,30,Code/GameEngine/Source/Common/GlobalData.cpp,matched,
 ?Clear_Pending_Delete_Lists@DX8MeshRendererClass@@QAEXXZ,,0x00144580,91,Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererClearPendingDeleteLists.cpp,matched,BFME1 dx8renderer verbatim with member lists at +0x1C/+0x34 and global-scope delete
 ?Shutdown@DX8MeshRendererClass@@QAEXXZ,,0x00148010,18,Code/Libraries/Source/WWVegas/WW3D2/DX8MeshRendererClearPendingDeleteLists.cpp,matched,BFME1 Shutdown verbatim minus TempVertexBuffer TempNormalBuffer clears
 ?Request_Log_Statistics@DX8MeshRendererClass@@SAXXZ,,0x00143D00,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,static frame-count snapshot; globals proven by matched Log_Statistics_String head
