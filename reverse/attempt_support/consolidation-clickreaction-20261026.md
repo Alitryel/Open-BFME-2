@@ -1,0 +1,17 @@
+# ClickReactionBehavior consolidation handoff (2026-10-26)
+
+Allocated TU: `Code/GameEngine/Source/GameLogic/Object/Behavior/ClickReactionBehavior.cpp` (consolidation shard 2/5). The accepted merge moved three unchanged matched rows from `ClickReactionBehaviorXfer.cpp`, `Rva0045969F.cpp`, and `ClickReactionBehaviorRva004596F9.cpp`. The local build and declaration scan passed; all three rows remain matched. This does not establish a link census change or retire code-identity debt.
+
+Rejected donors for a later Sol pass:
+
+- `Rva0024A797Grandchildren.cpp`: split trial for this TU refused with `blocked: no row of that file is approved for that TU`.
+- `BehaviorModuleDataBuildFieldParse.cpp`: the split tool accepted row `0x0045960C`, but the required build gate reported a shadow `duplicate-def` for `?m_fieldParse@ClickReactionBehaviorModuleData@@2QBUFieldParse@@B` at `0x008412F8`. `rg` confirmed definitions in both the proposed TU and residual donor. The split was reverted; no duplicate provider remains in the accepted merge.
+- `ClickReactionBehaviorCtorThunk.cpp`, `ClickReactionBehaviorModuleDataCtor.cpp`, and `ClickReactionBehaviorPoolKey.cpp`: merge planner refused each as `keyed in a protected path-keyed register (needs a Verifier-Change commit)`.
+
+No rejected donor was repaired or moved. The accepted merge leaves these prerequisites for the appropriate source/register owner.
+
+## Batch audit
+
+Outgoing source paths are `ClickReactionBehaviorXfer.cpp` and `Update/AIUpdate/Rva0045969F.cpp` absorbed into `ClickReactionBehavior.cpp`; the third donor is a rename of `ClickReactionBehaviorRva004596F9.cpp` to the same destination. The tooling compatibility search found no active `tools/`, hook, workflow, include, or build-input consumer requiring a path edit. Remaining matches are the destination's generated provenance comments, the retail `string_xrefs.tsv`/`retail_paths.csv` evidence, and the prior census snapshot in `reverse/link_status.csv`; that snapshot remains census-owned and was not rewritten.
+
+Scoped checks after composition: `./build.sh ClickReactionBehavior.cpp` passed 3/3 matched; `find_declared_unmatched.py` passed; staged `code_identity_gate.py` reported 3 rows and 0 new findings; staged `data_check.py` reported 0 findings and converged data reported 10 addresses with no second names or unjudged rows; `tu_ownership.py --staged --shadow` passed; `link_check.py --staged --new-variants --shadow` exited 0 with the destination object current. This checks for duplicate COMDAT variants against the census index; it does not refresh the maintainer-owned selected-COMDAT census. No data rows or providers moved, and the moved function rows retain their verified bytes. The latest consolidation planner snapshot passes `--check`.
