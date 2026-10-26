@@ -1330,23 +1330,6 @@ public:
 	static void parseVoicePriority(INI *, void *, void *, const void *);
 };
 
-// Retail VA 0x00C5F318: four fields and the complete zero sentinel.
-// Registration establishes the owner family; retail supplies tokens, offsets
-// and callbacks. The descriptive data name does not assert original spelling.
-extern const FieldParse BfmeRandomSoundSelectorClientBehaviorFields[] = {
-	{ "Chance", &INI::parsePercentToReal, 0, 0x1D4 },
-	{ "RerollOnEveryFrame", &INI::parseBool, 0, 0x1DD },
-	{ "UnitSpecificSounds", &Rva0033DC9CParse, 0, 0x1C8 },
-	{ "VoicePriority", &RandomSoundSelectorClientBehaviorModuleData::parseVoicePriority, 0, 0x1D8 },
-	{ 0, 0, 0, 0 }
-};
-
-void RandomSoundSelectorClientBehaviorModuleData::buildFieldParse(MultiIniFieldParse &parse)
-{
-	parse.add(BfmeRandomSoundSelectorClientBehaviorFields, 0);
-	parse.add(reinterpret_cast<const FieldParse *>(Rva0033A495Get()), 8);
-}
-
 // Retail VA 0x00C511A0: 4 fields and the zero sentinel.
 // Class identity comes from this unit's matched registration function;
 // tokens, callbacks and offsets are read from that retail table.
