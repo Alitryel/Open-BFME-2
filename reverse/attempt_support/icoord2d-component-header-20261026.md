@@ -53,3 +53,37 @@ Local receipts under `build/codex-cleanup-20261025/`:
 `iteration26-before-build.log`, `iteration26-ctor-mode-build.log`,
 `iteration26-header-accept.log`, `iteration26-eh.log`,
 `iteration26-coff-parity.log`, and the normal `iteration26-commit.log`.
+
+## Completed gate and second whole-file adoption
+
+Commit `a37e665064` passed the normal dependent-source gate on the final
+header: 252 sources, 1,927 function rows, 25 data rows, two STLport folds,
+536 literals plus 61 empty-string references, 778 float references and
+229 imports. Converged-data enforcement found no second names or unjudged
+rows across that scope. The separately repeated changed-consumer check
+passes 31/31 rows and eight EXACT EH graphs; it is not added to the totals.
+
+The same class claim covers
+StrategicInGameUIPlanningPhaseBuildingSelectionCtor.cpp. Its whole file has
+17 matched rows, including the 496-byte selection constructor at 0x005CE5B3
+and ControlBar::populateCommand at 0x0053D355 (1,790 bytes). Both construct
+two-integer temporaries through the same native 0x0007E523 owner. Replacing
+the identical private declaration with the component-constructor header
+selection preserves both calls. The only earlier include is
+LivingWorldObservers.h, which does not include a coordinate header; the
+selection therefore precedes every ICoord2D include in the TU.
+
+Before and after normal builds pass all 17 rows. Both EH graphs are EXACT,
+the frozen-file check passes, and `header_adopt_lane.py accept` retires this
+file's one queue row. Independent COFF review, reproduced locally, preserves
+all 121 non-debug sections, 5,162 bytes, 214 relocations and 205 external
+symbols. Fourteen local-label references are renumbered but retain their
+physical targets; external names are not normalized.
+No source move or constructor implementation is added.
+The two component-constructor consumers now share the canonical declaration;
+the remaining seven ICoord2D queue items need separate default-constructor,
+base or method evidence.
+
+Local receipts: `iteration27-before-build.log`, `iteration27-after-build.log`,
+`iteration27-accept.log`, `iteration27-eh.log`, `iteration27-coff-parity.log`,
+and `iteration27-commit.log`.

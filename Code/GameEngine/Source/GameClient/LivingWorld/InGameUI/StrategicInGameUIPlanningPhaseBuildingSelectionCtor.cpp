@@ -92,11 +92,9 @@ public:
 Rva005CE2A1 Rva005CE2A1Create(const Rva005CE259::Payload *src);	// 0x005CE2A1
 Rva005CE3F9 Rva005CE3F9Create(const Rva005CE327::Payload *src);	// 0x005CE3F9
 
-struct ICoord2D
-{
-	ICoord2D(int ax, int ay);
-	int x, y;
-};
+#define ICOORD2D_VIEW_COMPONENT_CTOR
+#include "Lib/ICoord2D.h"
+#undef ICOORD2D_VIEW_COMPONENT_CTOR
 
 struct Rva005E8C54Source;
 class Rva005E8CB0
@@ -257,8 +255,8 @@ StrategicInGameUI::PlanningPhaseBuildingSelection::PlanningPhaseBuildingSelectio
 // ---------------------------------------------------------------------------
 // ControlBar::populateCommand (retail 0x0053D355, 1790 B; WB 1117000 ControlBar::populateCommand).
 // Hosted here because it builds its range payload with the rowed ICoord2D(int,int)
-// ctor (0x0007E523), and this unit already carries the one ICoord2D view that
-// declares it (class_gate refuses a second private ICoord2D body in a new unit).
+// ctor (0x0007E523). This whole unit selects the canonical component-constructor
+// view before any coordinate header is included.
 // U1 r8 levers: every for loop in its own scope (WB debug locals), !sciences.empty(),
 // min(entryCount,range.count) through a reference, if/else overlay tail, named
 // per-element ScienceType + barrier, ZH's two getScienceVec() calls.

@@ -362,7 +362,11 @@ authored-byte previews or commit-title gains into a projected headline.
   The owning acceptance retires one header-queue row. The default aggregate
   view remains selected elsewhere. Constructor mode must precede the first
   header inclusion and lasts for the whole TU; that remains a composition
-  prerequisite. Other coordinate-header items and census status stay open.
+  prerequisite. The final dependent gate passes 1,927 functions and 25 data
+  rows across 252 sources. The second whole-file adoption in
+  StrategicInGameUIPlanningPhaseBuildingSelectionCtor.cpp preserves all 17
+  rows and two exact EH graphs, retiring its own queue item. Seven remaining
+  ICoord2D items and census status stay open.
 - **Science purchase-cost header prerequisite (2026-10-26):**
   [canonical GameLogic adoption](../reverse/attempt_support/consolidation-science-cost-prerequisite-20261026-codex.md)
   preserves the 86-byte cost donor and retires one header-queue row through
