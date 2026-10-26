@@ -74,3 +74,45 @@ queued header and Microsoft-header items for icoord.cpp are now drained;
 its two existing emission anchors remain a distinct cleanup concern.
 Receipts: `iteration39-after-build.log`, `iteration39-accept.log`, and the
 normal `iteration39-commit.log` under the same local receipt directory.
+
+The normal ICoord3D commit gate completes in `ecfe0c5a6b`: 348 functions and
+five data rows across 32 dependent sources, 142 literals plus nine empty
+references, 57 floats and four imports. Converged-data enforcement again
+finds zero second names and zero unjudged rows. Independent review preserves
+all 27 external symbols and 25 auxiliary records, including COMDAT; neither
+the old nor the new owner object emits the empty default constructor.
+
+## Publication preparation on d0aba6dd78
+
+The rebase preserves both coordinate headers, their contracts, icoord.cpp
+and the complete GameClient/SubsystemInterface change byte for byte. The
+three final code commits are `aea99c6a01`, `1b07d6bbad` and `d1f11a6f03`.
+The upstream Skirmish-pointer repair overlaps the earlier PR work; its
+three declaration conflicts differ only in whitespace, and the upstream
+format is retained. The owning Microsoft-header scanner resolves six
+historical INI queue conflicts while retaining all unrelated upstream rows.
+
+A normal build of 48 rebased sources and replacement providers passes
+513 functions, ten data rows, two STLport folds, 172 literals plus nineteen
+empty references, 57 floats and 27 imports. All ledger objects now exist
+and the INI provider is current. `check_csv.py` passes 98,271 function rows,
+15,658 symbols and 2,217 data rows. Receipts are `iteration39-rebase-build.log`,
+`iteration39-rebase-build-sources.txt` and `iteration39-preflight.log`.
+
+The required PR-local path audit covers all seven absorbed INI sources:
+61 references remain comments or historical evidence, with no active
+consumer. The supplementary audit from published `9839a436af` also covers
+32 paths removed by upstream, with 213 references. It identifies pre-existing
+active stale entries outside this PR's moves: the Microsoft-header queue's
+Rva0048B256AnimateGridDecals.cpp entry, two absent StlSweepW5 sources still in
+tu_map.csv, and the StlSweepW5Rva005FE3C1.cpp linking-target row. These require
+their owning maintenance lanes; they are recorded, not silently erased or
+counted as retired debt. Other matches are comments, naming history or paths
+in the separate BFME 1 namespace. Receipts are `iteration39-pr-path-audit.log`
+and `iteration39-outgoing-path-audit.log`.
+
+Fresh `progress.py origin/master` retains BYTE-MATCHED 100% and C++ exact
+7,984,346 bytes (+0). The now-current census is d1f046749a at 13:18:
+LINKING 7,322,361 and LINKED 7,567,229 bytes. Its decline predates the
+independent Skirmish repair; neither local previews nor these header
+adoptions update the census. No runtime or ownership result is asserted.

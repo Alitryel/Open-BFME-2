@@ -638,6 +638,11 @@ authored-byte previews or commit-title gains into a projected headline.
   `763dc8759f`. Recorder's consolidation diagnostics and the menu owner's
   other dependencies remain. Existing shadow data/identity findings are
   retained and qualified in the handoff. No new census or full-image claim.
+  Upstream f598ec4226 independently restores the same consumer types
+  (LINK-041). Rebase to d0aba6dd78 preserves that repair; the historical
+  64,163-byte preview is overlapping evidence, not an additional PR gain.
+  The three whitespace-only declaration conflicts pass a normal 48-source
+  rebase build with 513 functions and ten data rows.
 - **Remaining / next check:** resolve the real existing owner, parameter types,
   ABI and data ownership from native references; reconcile canonical headers
   with implementations and consumers as a batch. Verify all affected rows and

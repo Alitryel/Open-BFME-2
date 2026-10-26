@@ -108,3 +108,16 @@ The frozen-file check passes. The owning scoped Microsoft-header refresh
 removes exactly this one queue item and preserves every unrelated queue byte.
 No function body, pointer binding or ledger extent changes, and no C++ coverage
 or census increase is claimed. Receipts: `iteration25-map-{build,eh,ms-refresh}.log`.
+
+## Independent upstream repair reconciled
+
+Upstream `f598ec4226` independently restores the same SkirmishGameInfo-pointer
+declarations in 23 consumers (LINK-041). The rebase onto `d0aba6dd78` retains
+its formatting in three whitespace-only declaration conflicts. The earlier
+64,163-byte preview is historical and overlaps this upstream repair; it is
+not an additional PR gain against the new base. The PR still supplies the
+verified four-byte row in data_rows.csv. The derived data_ledger.csv retains
+its provisional eight-byte entry with both spellings; its regeneration,
+already requested by LINK-041, remains open. A normal
+48-source rebase build, including all three resolved files, passes 513
+functions and ten data rows (`iteration39-rebase-build.log`).
