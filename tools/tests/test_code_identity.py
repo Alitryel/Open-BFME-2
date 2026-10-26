@@ -1,6 +1,8 @@
 """Code identity: allowed-symbol classes, duplicate removal spans, alias and
 register rules (tools/allowed_symbols.py, dup_defs.py, code_identity_gate.py)."""
 import sys
+import subprocess
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -19,6 +21,65 @@ OTHER = 0x2000      # no row, Ghidra function of 0x10 bytes
 class FakeObj:
     path = Path("a.obj")
     by_name = {}
+
+
+@pytest.mark.parametrize("entrypoint", ["stdin", "file"])
+@pytest.mark.parametrize("malformed", [False, True], ids=["definitions", "strict-refusal"])
+def test_definitions_from_spawn_entrypoints(tmp_path, entrypoint, malformed):
+    """Historical hook scripts run via stdin; scan real COFF without a shared cache."""
+    from test_gate_exploits import TEXT, coff
+
+    raw = coff([(".text", TEXT, b"\xe8\0\0\0\0\xc3", [(1, 1, allowed.REL32)])],
+               [("owner", 0, 1, 0x20, allowed.EXTERNAL, 0),
+                ("callee", 0, 0, 0x20, allowed.EXTERNAL, 0)])
+    for index in range(65):
+        (tmp_path / f"{index:02}.obj").write_bytes(raw)
+    if malformed:
+        (tmp_path / "bad.obj").write_bytes(b"not a COFF object")
+    script = textwrap.dedent(f"""
+        import multiprocessing
+        import sys
+        from pathlib import Path
+        sys.path.insert(0, {str(Path(allowed.__file__).parent)!r})
+        import allowed_symbols as allowed
+
+        def main():
+            multiprocessing.set_start_method("spawn", force=True)
+            root = Path(sys.argv[1])
+            allowed.OUT = root / "isolated-cache"
+            allowed.build._pool_size = lambda: 2
+            objects = sorted(root.glob("*.obj"))
+            malformed = sys.argv[2] == "True"
+            try:
+                found = allowed.definitions(objects, strict=True)
+            except allowed.Unreadable as exc:
+                assert malformed and "bad.obj" in str(exc), str(exc)
+                print("strictly refused malformed COFF")
+                return
+            assert not malformed, "strict scan accepted a malformed object"
+            assert list(found) == ["owner"], list(found)
+            assert [row[0] for row in found["owner"]] == [str(p) for p in objects]
+            assert all(row[2:] == (6, True) for row in found["owner"])
+            assert len({{row[1] for row in found["owner"]}}) == 1
+            assert found.referrers == {{"callee": {{str(p) for p in objects}}}}
+            cached = allowed.definitions(objects, strict=True)
+            assert cached == found and cached.referrers == found.referrers
+            print("65 definitions and referrers preserved in link order")
+
+        if __name__ == "__main__":
+            main()
+    """)
+    if entrypoint == "file":
+        runner = tmp_path / "scan.py"
+        runner.write_text(script, encoding="utf-8")
+        command, stdin = [sys.executable, str(runner)], None
+    else:
+        command, stdin = [sys.executable, "-"], script
+    result = subprocess.run(command + [str(tmp_path), str(malformed)], input=stdin,
+                            text=True, capture_output=True, timeout=45)
+    assert result.returncode == 0, result.stdout + result.stderr
+    expected = "strictly refused malformed COFF" if malformed else "65 definitions and referrers preserved"
+    assert expected in result.stdout
 
 
 class FakeIdentity(allowed.Identity):

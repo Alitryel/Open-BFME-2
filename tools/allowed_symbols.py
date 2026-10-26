@@ -204,7 +204,13 @@ def definitions(objs, strict=False):
     if todo:
         workers = build._pool_size()
         if workers > 1 and len(todo) > 64:
-            with concurrent.futures.ProcessPoolExecutor(workers) as pool:
+            # Hooks execute historical checkers through stdin. Spawn workers
+            # cannot import that __main__; threads run the same strict parser
+            # without requiring a script file. Ordinary CLI scans keep processes.
+            main_file = getattr(sys.modules.get("__main__"), "__file__", None)
+            executor = (concurrent.futures.ProcessPoolExecutor if main_file and Path(main_file).is_file()
+                        else concurrent.futures.ThreadPoolExecutor)
+            with executor(workers) as pool:
                 found = list(pool.map(_object_defs, todo, chunksize=64))
         else:
             found = [_object_defs(p) for p in todo]
