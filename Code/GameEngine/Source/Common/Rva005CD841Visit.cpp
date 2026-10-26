@@ -33,10 +33,10 @@ public:
 Rva005CD841Visitor::Rva005CD841Visitor()
 {
 }
-bool __cdecl hasListeners(void *p)
+bool __cdecl hasListeners(void *listeners)
 {
 	Rva005CD841Visitor visitor;
 	visitor.m_found = false;
-	((Rva005CCD36 *)p)->rva005CCD36(&visitor);
+	((Rva005CCD36 *)listeners)->rva005CCD36(&visitor);
 	return visitor.m_found;
 }

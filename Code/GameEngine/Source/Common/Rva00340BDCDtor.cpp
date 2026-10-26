@@ -79,7 +79,7 @@ __declspec(noinline) inline Rva00340BDC::~Rva00340BDC()
 }
 
 // ?bfmeAnchorRva00340BDCDtor absent-from-retail
-void bfmeAnchorRva00340BDCDtor(Rva00340BDC *p)
+void bfmeAnchorRva00340BDCDtor(Rva00340BDC *state)
 {
-	p->Rva00340BDC::~Rva00340BDC();
+	state->Rva00340BDC::~Rva00340BDC();
 }
