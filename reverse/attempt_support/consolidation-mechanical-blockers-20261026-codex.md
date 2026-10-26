@@ -178,3 +178,14 @@ carved three rows but fails on `PlayerTemplateVector::operator[]`; and
 were no definition spells the row name, unsupported namespace/extern-C carve,
 residual loss of `0x000589BE`, or vendored source. No source change or claim was
 made. The initial parallel attempt left no scratch files under `Code/`.
+
+## Version merge trial, 2026-10-26 (Shard 2/5)
+
+`version.cpp` passed scoped planner and allocator checks. The dry run accepted no
+unchanged donor: `Rva002384C8.cpp`, `Rva0023851CFormat.cpp`, and
+`VersionInitGlobals.cpp` collide with the existing `StringBase` template. The
+four mixed-file split plans were inspected. `DestroyInstances.cpp` and
+`Rva0042818FSwap.cpp` do not spell their approved row names;
+`RvaMemberDtorForwarders.cpp` is flag-bound and does not match under the TU's
+flags; `VersionDestructor.cpp` would leave a residual losing four matched rows
+(including two shared helper rows). No source change or claim was made.
