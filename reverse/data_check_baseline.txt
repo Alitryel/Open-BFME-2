@@ -454,7 +454,6 @@ Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp	wrong-name	?$S1@?7??checkForSup
 Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp	wrong-name	?$S2@?N@??findSupplyCenter@AIPlayer@@IAEPAVObject@@H@Z@4IA	0x00A044C0
 Code/GameEngine/Source/GameLogic/AI/AIPlayerIsLocationSafe.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
 Code/GameEngine/Source/GameLogic/AI/AIStatesBfmeComputePath.cpp	wrong-name	?g_00DFEFF0@@3PAXA	0x009FEFF0
-Code/GameEngine/Source/GameLogic/AI/AIStatesBfmeOnExit.cpp	wrong-name	?g_00DFEFF0@@3PAXA	0x009FEFF0
 Code/GameEngine/Source/GameLogic/AI/AIStatesMoreExits.cpp	wrong-name	?g_00DFEFF0@@3PAXA	0x009FEFF0
 Code/GameEngine/Source/GameLogic/AI/AIStatesSmallUpdates.cpp	wrong-name	?g_00DFEFF0@@3PAXA	0x009FEFF0
 Code/GameEngine/Source/GameLogic/AI/AIWanderStateMethods.cpp	wrong-name	?g_00DFEFF0@@3PAXA	0x009FEFF0
