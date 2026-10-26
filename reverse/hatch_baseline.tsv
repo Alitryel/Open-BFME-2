@@ -3169,7 +3169,6 @@ alternatename	Code/GameEngine/Source/Common/Rva002D76C6Remove.cpp	?rva002D76C6@R
 alternatename	Code/GameEngine/Source/Common/Rva002E0427Dtor.cpp	??1Rva0022C0CDSubsystem@@UAE@XZ	1
 alternatename	Code/GameEngine/Source/Common/Rva002E15E6Method.cpp	?Rva002E17A0Copy@@YAPAVRva002E0D93@@PAV1@00PADH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva002E3EB8Permuted.cpp	??1PolygonTrigger@@UAE@XZ	1
-alternatename	Code/GameEngine/Source/Common/Rva002E6329Forward.cpp	?rva002E6184@Rva002E6329Owner@@SAXPAX0000H@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva002E8B9B.cpp	?g_00A049D0@@3PAVMixFileInfoBuffer@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva002F1C5FSelfLink.cpp	?helper@Rva002F1C5F@@AAEXH@Z	1
 alternatename	Code/GameEngine/Source/Common/Rva002F1C5FSelfLink.cpp	?helper@Rva002F1CB3@@AAEXH@Z	1
@@ -3941,8 +3940,9 @@ alternatename	Code/GameEngine/Source/GameClient/GUI/window_layout.cpp	?winSetLay
 alternatename	Code/GameEngine/Source/GameClient/GUI/window_layout.cpp	?winSetNextInLayout@GameWindow@@QAEHPAV1@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GUI/window_layout.cpp	?winSetPrevInLayout@GameWindow@@QAEHPAV1@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/GameClientDestroyDrawable.cpp	?rva00270234@Drawable@@QAEXXZ	1
-alternatename	Code/GameEngine/Source/GameClient/GameTextStringLookUpBound.cpp	??RRva002E5C15Comp@@QBE_NPBUStringLookUp@@PBD@Z	1
-alternatename	Code/GameEngine/Source/GameClient/GameTextStringLookUpBound.cpp	??RRva002E5C61Comp@@QBE_NPBDPBUStringLookUp@@@Z	1
+alternatename	Code/GameEngine/Source/GameClient/GameText.cpp	??RRva002E5C15Comp@@QBE_NPBUStringLookUp@@PBD@Z	1
+alternatename	Code/GameEngine/Source/GameClient/GameText.cpp	??RRva002E5C61Comp@@QBE_NPBDPBUStringLookUp@@@Z	1
+alternatename	Code/GameEngine/Source/GameClient/GameText.cpp	?rva002E6184@Rva002E6329Owner@@SAXPAX0000H@Z	1
 alternatename	Code/GameEngine/Source/GameClient/InGameUI.cpp	?gen006896F0@@YAXPAUElem28@@PBU1@@Z	1
 alternatename	Code/GameEngine/Source/GameClient/InGameUICtor.cpp	??0Rva0029B63A@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameClient/InGameUIResourceEntries.cpp	??1Rva0023DAA5List@@QAE@XZ	1
