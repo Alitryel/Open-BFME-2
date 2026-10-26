@@ -2298,3 +2298,4 @@ param,store_row::a,store_row::xComponent,inferred,agree:nl-fb47d9620ecc,Code/Lib
 param,store_row::b,store_row::yComponent,inferred,agree:nl-73a24ca45d7a,Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp,
 param,store_row::c,store_row::zComponent,inferred,agree:nl-cb5e07f85ca3,Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp,
 param,store_row::d,store_row::wComponent,inferred,agree:nl-0fdc9fdba0f8,Code/Libraries/Source/WWVegas/WWMath/Matrix3DVectorRowsCtor.cpp,
+member,Rva0052DB11Head::m_14,Rva0052DB11Head::m_goalList,inferred,agree:nl-88ed7a3a4bce,Code/GameEngine/Source/Common/Rva0052DB11.cpp,

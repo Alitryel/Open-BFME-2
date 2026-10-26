@@ -25,7 +25,7 @@ struct Rva0052DB11Outer
 struct Rva0052DB11Head
 {
 	char _pad00[0x14];
-	Rva0052DB11Inner *m_14;
+	Rva0052DB11Inner *m_goalList;
 	char _pad18[8];
 	Rva0052DB11Outer *m_presentList;
 };
@@ -48,7 +48,7 @@ bool Rva0052DB11::rva0052DB11(int excludedId)
 		void *s = o->m_8;
 		if (((Rva0052DB11Obj *)s)->m_id == excludedId)
 			continue;
-		for (Rva0052DB11Inner *in = head->m_14; in; in = in->m_next)
+		for (Rva0052DB11Inner *in = head->m_goalList; in; in = in->m_next)
 		{
 			if (in->m_8 == s)
 				return true;
