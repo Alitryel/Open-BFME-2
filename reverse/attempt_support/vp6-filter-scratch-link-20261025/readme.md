@@ -76,3 +76,13 @@ __except_handler3 through GetProcessorFlags and CpuProbe_VendorSse2, as retained
 in remaining-witnesses.json. Their former scratch witness is cleared. The whole
 game's no-FORCE/no-stubs/runtime exit test remains open; final_link still records
 five forced duplicate symbols (ten diagnostics). No runtime pass is claimed.
+
+Publication lands the source as cc68e92bcd and the measurement as b3bd2d6351.
+The normal pre-push gate passes 32/32 rows across both repaired files and Eva,
+the complete data owner, four exact EH graphs and converged-data enforcement.
+publication-audit.json and publication-push-gate.txt retain the actual result.
+The batch audit against current master remains inconclusive because its index
+predates the outgoing base and Eva lacks a current strict reusable receipt.
+That limitation is carried under LINK-008 for the next normal census; it does
+not change the independently reproduced immutable comparison or claim a new
+current-master headline. No verifier was relaxed and no extra census was run.

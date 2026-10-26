@@ -666,7 +666,7 @@ authored-byte previews or commit-title gains into a projected headline.
 
 ### LINK-008: include inventories prevent strict reusable graphics receipts
 
-**Status: Blocked on complete include inventories. Updated: 2026-10-25.**
+**Status: Blocked on complete include inventories. Updated: 2026-10-26.**
 
 - **Evidence / scope:** [graphics verification at `91fe970939`](../reverse/attempt_support/weightinfo-verification-20261025/readme.md)
   ran the normal gates successfully for 34 units, but its initial 17-unit
@@ -678,6 +678,18 @@ authored-byte previews or commit-title gains into a projected headline.
   path; no claim is made that all of them are uncacheable. The refusal is retained
   in the evidence, and no gate was relaxed. LINK-001's destructor preview result
   does not establish strict closure.
+- **Non-graphics publication control (2026-10-26, source `cc68e92bcd`,
+  evidence `b3bd2d6351`):** the
+  [VP6 scratch publication audit](../reverse/attempt_support/vp6-filter-scratch-link-20261025/publication-audit.json)
+  passes all 32 ordinary rows across the two repaired units and the conservatively
+  included `Eva.cpp` control, one complete data owner, four exact EH graphs and
+  converged-data enforcement. The mandatory batch audit is nevertheless
+  inconclusive: index `47e030bafc` predates outgoing base `6e852991684`, and
+  `Eva.cpp` lacks a current strict reusable receipt. No selected-provider or
+  lost-byte verdict against current master follows from that audit. The separate
+  immutable fixed comparison proves the scoped 2,747-byte gain with zero losses;
+  it does not supply a current-master census. Carry this cohort to the next
+  normal census and inventory Eva's include graph before strict reuse.
 - **Remaining / next check:** prove and make the actual include graph
   inventoryable under the existing gates, then repeat bounded strict preparation
   for all affected providers/consumers. A needed verifier repair follows the
