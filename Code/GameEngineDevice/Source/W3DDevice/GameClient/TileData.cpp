@@ -66,6 +66,7 @@ private:
 	RefCountClass *m_ref;
 public:
 	bool hasRGBDataForWidth(int width);
+	void rva0011178B(TileData *value);
 };
 
 // ---- from Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataDtor.cpp

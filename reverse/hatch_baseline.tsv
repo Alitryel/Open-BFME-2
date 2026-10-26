@@ -22241,9 +22241,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DPr
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	updateRenderTargetTextures@W3DProjectedShadowManager@@QAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp	W3DShadowGeometryManager::~W3DShadowGeometryManager	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DVolumetricShadow.cpp	W3DVolumetricShadowManager::~W3DVolumetricShadowManager	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataReplaceCompanionRef.cpp	Rva0011178BRetained::release	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataReplaceCompanionRef.cpp	Rva0011178BRetained::retain	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/TileDataReplaceCompanionRef.cpp	TileData::rva0011178B	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeGetModelVerticesFixed.cpp	W3DBridge::getModelVertices	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayDrawImageBFME2.cpp	the	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DGameClient.cpp	0W3DGameClient@@QAE@XZ	1
