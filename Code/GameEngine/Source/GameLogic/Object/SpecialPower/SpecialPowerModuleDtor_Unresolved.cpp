@@ -150,10 +150,13 @@ public:
 	virtual unsigned int behaviorAnchor();
 };
 
-class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
+// Local layout-only view. Naming it BehaviorModule would emit the canonical
+// ??_7BehaviorModule@@6B... COMDATs from this minimal view, where they differ
+// from the real class's owners and block this unit's dtor.
+class BehaviorModuleView : public ObjectModule, public BehaviorModuleInterface
 {
 public:
-	virtual ~BehaviorModule() {}
+	virtual ~BehaviorModuleView() {}
 };
 
 class SpecialPowerModuleInterface
@@ -171,7 +174,7 @@ public:
 	virtual void startPowerRecharge(float percent) = 0;
 };
 
-class SpecialPowerModule : public BehaviorModule, public SpecialPowerModuleInterface
+class SpecialPowerModule : public BehaviorModuleView, public SpecialPowerModuleInterface
 {
 public:
 	virtual ~SpecialPowerModule();

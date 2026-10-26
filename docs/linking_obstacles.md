@@ -599,11 +599,19 @@ Updated: 2026-10-25; inspected revision: `4f111811802`.**
   the dtor's pure slots 9/15. `./build.sh` passes 7/7 rows across the two
   sources; `tools/link_check.py` against the 763dc8759f check index now links
   `SpecialPowerModuleCtor.cpp` for its 340 bytes (0 -> 340 B).
-- **Remaining / next check:** `SpecialPowerModuleDtor_Unresolved.cpp` still does
-  not link because its two `??_7BehaviorModule@@6B...` copies differ from the
-  first copies in link order. Those are separate BehaviorModule table conflicts,
-  not the SpecialPowerModule vtable this repair reconciled.
-- **Clearance:** preview scope only (the units listed above).
+- **Dtor unit and 14 ports reconciled (2026-10-26):** the minimal
+  `BehaviorModule` view in `SpecialPowerModuleDtor_Unresolved.cpp` shared the
+  canonical class name, so it emitted two non-retail
+  `??_7BehaviorModule@@6B...` COMDATs. Renaming that local, layout-only view
+  `BehaviorModuleView` stops those false table owners without changing the
+  `SpecialPowerModule` vtable or dtor bytes. `./build.sh` passes 5/5 rows;
+  `tools/link_check.py` links the dtor unit for 222 B and all 14
+  `??1SpecialPowerModule@@UAE@XZ` consumers for 1,212 B (0 -> 1,434 B).
+- **Remaining / next check:** `OCLSpecialPower.cpp` still fails on its private
+  protected dtor spelling, an unresolved `PartitionManager::findPositionAround`
+  and a `FindPositionOptions` constructor copy. It was not one of the 14
+  public-spelling ports.
+- **Clearance:** preview scope only (the units listed above and the 14 ports).
 - **Census confirmation:** awaiting the next census.
 
 ## Investigation-specific validation limitation
