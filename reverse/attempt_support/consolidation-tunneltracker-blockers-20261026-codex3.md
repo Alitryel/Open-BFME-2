@@ -45,3 +45,13 @@ receipt. Do not treat this as link clearance; carry the unit into the next
 census. `docs/linking_obstacles.md` is currently claimed by
 `yasinschroeder-codex`, so this seat left that shared register untouched and
 hands off the audit evidence for its owner to record.
+
+Follow-up verification at `90b3f47535`: `./build.sh
+Code/GameEngine/Source/Common/RTS/TunnelTracker.cpp` passes (6/6 rows),
+`find_declared_unmatched.py` reports no unmatched definitions, and
+`link_check.py --new-variants` exits successfully. A fresh path-consumer search
+found only the absorbed source names in provenance comments and history; no
+active consumer needs a path repair. Re-running `link_batch_audit.py` remains
+inconclusive: the index is still at `763dc8759f` and the TU has no current
+link-audit receipt. Selected providers and consumer bytes therefore remain
+unverified pending a later census.
